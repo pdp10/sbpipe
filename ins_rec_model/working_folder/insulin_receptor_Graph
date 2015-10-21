@@ -1,0 +1,22 @@
+// Dot graph file
+//
+// Automatically generated dot graph for model 'insulin_receptor'.
+// Date: 2012-08-02 17:14:27.
+// www.wotterswheel.de
+
+digraph G {
+	node [fillcolor=lightblue, style=filled, fontsize=15];
+	"Insulin" [shape=octagon, fillcolor=yellow];
+	"IR_beta" -> "Reaction1__IR_beta___IR_beta_pY1146___Insulin___IR_beta_phosphorylation_by_Insulin"[arrowhead=none, fontsize=12];
+	"Reaction1__IR_beta___IR_beta_pY1146___Insulin___IR_beta_phosphorylation_by_Insulin" [shape=point, fontsize=12];
+	"Reaction1__IR_beta___IR_beta_pY1146___Insulin___IR_beta_phosphorylation_by_Insulin" -> "IR_beta_pY1146" [label="1", fontsize=12];
+	"Insulin" -> "Reaction1__IR_beta___IR_beta_pY1146___Insulin___IR_beta_phosphorylation_by_Insulin" [color=red, style=dashed, fontsize=12];
+	"IR_beta_pY1146" -> "IR_beta_refractory" [label="2", color=blue, fontsize=12];
+	"IR_beta_refractory" -> "IR_beta" [label="3", color=blue, fontsize=12];
+	"unknown_species" -> "Reaction4__unknown_species___unknown_species_p___IR_beta_pY1146___unknown_species_phosphorylation"[arrowhead=none, fontsize=12];
+	"Reaction4__unknown_species___unknown_species_p___IR_beta_pY1146___unknown_species_phosphorylation" [shape=point, fontsize=12];
+	"Reaction4__unknown_species___unknown_species_p___IR_beta_pY1146___unknown_species_phosphorylation" -> "unknown_species_p" [label="4", fontsize=12];
+	"IR_beta_pY1146" -> "Reaction4__unknown_species___unknown_species_p___IR_beta_pY1146___unknown_species_phosphorylation" [color=red, style=dashed, fontsize=12];
+	"unknown_species_p" -> "unknown_species" [label="5", color=blue, fontsize=12];
+	"insulin_receptor\\nPottersWheel 2.2.0\\n2012" [shape=box, fillcolor=white, peripheries=1, fontsize=12];
+}

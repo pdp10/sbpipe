@@ -1,0 +1,17 @@
+TIME COURSE TASK:
+-----------------
+
+- In the model, check the flag "executable" is set in the Time Course Task.
+- Time must be [0,1440] minutes (the same as experiments).
+- Reports must be activated and stored in /home/ariel/tmp/mtor_model_results.csv.
+- Simulation type should be stochastic.
+ 
+
+PARAMETER SCAN TASK:
+--------------------
+- Time must be [0,1440] minutes (the same as experiments).
+- In the model, check the flag "executable" is set in the Parameter Scan Task.
+- Reports must be activated and stored in /home/ariel/tmp/mtor_model_results.csv (REPORT - Name: Parameter Scan Report, Task: Scan).
+- Simulation type should be stochastic.
+- Define the species/reaction rates to scan.
+
