@@ -1,0 +1,34 @@
+#
+# openlava main configuration file lsf.conf
+# This file is designed as Bourne Shell rc file 
+# and it is sourced by all openlava components.
+#
+LSF_SERVERDIR=/usr/local/openlava-2.0/sbin
+LSF_BINDIR=/usr/local/openlava-2.0/bin
+LSB_SHAREDIR=/usr/local/openlava-2.0/work
+LSF_ENVDIR=/usr/local/openlava-2.0/etc
+
+# Configuration directories
+LSF_CONFDIR=/usr/local/openlava-2.0/etc
+LSB_CONFDIR=/usr/local/openlava-2.0/etc
+
+# Daemon log messages
+LSF_LOGDIR=/usr/local/openlava-2.0/log
+LSF_LOG_MASK=LOG_WARNING
+
+# Daemons listening ports must not
+# be in use by other programs.
+LSF_LIM_PORT=6322
+LSF_RES_PORT=6323
+LSB_MBD_PORT=6324
+LSB_SBD_PORT=6325
+#
+# Use eauth authentication.
+LSF_AUTH=eauth
+
+# Batch mail message handling
+LSB_MAILTO=!U
+
+# MEMORY LIMITS
+#LSB_JOB_MEMLIMIT=y
+

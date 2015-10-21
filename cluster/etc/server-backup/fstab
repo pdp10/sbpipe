@@ -1,0 +1,61 @@
+# /etc/fstab: static file system information.                                                                                                                                                                                                
+#                                                                                                                                                                                                                                            
+# Use 'blkid' to print the universally unique identifier for a                                                                                                                                                                               
+# device; this may be used with UUID= as a more robust way to name devices                                                                                                                                                                   
+# that works even if disks are added and removed. See fstab(5).                                                                                                                                                                              
+#                                                                                                                                                                                                                                            
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>                                                                                                                                                                       
+proc            /proc           proc    nodev,noexec,nosuid 0       0
+# / was on /dev/sda2 during installation                                                                                                                                                                                                     
+UUID=c1b255a9-5aa3-4f1d-915e-24ef156e283e /               ext4    errors=remount-ro 0       1
+# /boot was on /dev/sda1 during installation                                                                                                                                                                                                 
+UUID=0a8b6ef3-6203-423f-9fd8-74d2bda5d7aa /boot           ext4    defaults        0       2
+# /home was on /dev/sdb1 during installation                                                                                                                                                                                                 
+UUID=ad390aaf-8d83-4b15-bad2-82bdcc243aad /home           ext4    defaults        0       2
+# /opt was on /dev/sda8 during installation                                                                                                                                                                                                  
+UUID=9defe63b-41b9-42fe-a2dc-fa804633d1a6 /opt            ext4    defaults        0       2
+# /tmp was on /dev/sda7 during installation                                                                                                                                                                                                  
+UUID=3f3194bd-0362-48a3-b676-d2d725bfabc7 /tmp            ext4    defaults        0       2
+# /usr was on /dev/sda5 during installation                                                                                                                                                                                                  
+UUID=b58e87b7-3c52-40a1-ac57-e0718787c1d7 /usr            ext4    defaults        0       2
+# /var was on /dev/sda6 during installation                                                                                                                                                                                                  
+UUID=be55f83d-71f0-4480-9d8b-a581ee5dad7d /var            ext4    defaults        0       2
+# swap was on /dev/sda9 during installation                                                                                                                                                                                                  
+UUID=b13e1576-0138-48ff-a0e7-741c0d9e814d none            swap    sw              0       0
+
+
+
+
+
+
+# import from iah372. Backup through crontab (rsync ... /import/home/* /home/)                                                                                                                                                               
+iah372:/home/modellers  /import/home/modellers  nfs4         _netdev,bg,ro,soft,intr,rsize=32768,wsize=32768,timeo=1000   0     0
+iah372:/opt     /import/opt     nfs4         _netdev,bg,ro,soft,intr,rsize=32768,wsize=32768,timeo=1000   0     0
+
+
+
+
+
+
+# Import folders (NFS)                                                                                                                                                                                                                       
+######################                                                                                                                                                                                                                       
+# Glyn's TeraStation                                                                                                                                                                                                                         
+# cluster's backup on iahtera3.ncl.ac.uk                                                                                                                                                                                                     
+iahtera3:/mnt/array1/clst_modellers   /mnt/iahtera3/clst_modellers  nfs     _netdev,bg,rw,soft,intr,rsize=32768,wsize=32768,timeo=14     0  0
+#iahtera3:/mnt/array1/clst_modellers   /mnt/iahtera3/clst_modellers  nfs     _netdev,bg,rw,hard,intr,rsize=32768,wsize=32768      0       0                                                                                                  
+
+
+# non-automatic mounting                                                                                                                                                                                                                     
+//campus/rdw/iah9/systems_models/nfs_modellers  /mnt/rdw/nfs_modellers cifs rw,noauto,username=npdp2,domain=campus,uid=1010,gid=1010    0       0
+
+
+
+
+
+# Export folders (NFS)                                                                                                                                                                                                                       
+######################                                                                                                                                                                                                                       
+# cluster's home                                                                                                                                                                                                                             
+/home    /export/home   none    bind  0  0
+# cluster's /opt                                                                                                                                                                                                                             
+/opt    /export/opt   none    bind  0  0
+

@@ -1,0 +1,21 @@
+127.0.0.1	localhost
+127.0.1.1	iah372
+
+# don't create this short cache, otherwise, you might risk to create a conflict with the DNS..
+#10.64.50.59	iah372
+#10.64.49.200	iahtera3
+#10.68.32.153	iah526
+#10.68.32.154	iah527
+#10.68.32.155	iah528
+#10.68.32.157	iah529
+#10.68.32.189	iah-huygens
+#128.240.7.135	iah530
+#128.240.7.138	iah531
+
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
