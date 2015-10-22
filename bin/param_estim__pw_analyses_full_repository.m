@@ -175,7 +175,7 @@ fprintf('\n\n');
 
 
 
-PROJ_DIR=getenv('PROJ_DIR');
+SB_PIPE=getenv('SB_PIPE');
 
 % Generate a timestamp
 format shortg;
@@ -184,7 +184,7 @@ timestamp=[num2str(now(1)),num2str(now(2)),num2str(now(3)),'_',num2str(now(4)),n
 
 % the local working directory
 % the dir containing the parameter estimation output
-workdir=[PROJ_DIR,'/',project,'/',work_folder];
+workdir=[SB_PIPE,'/',project,'/',work_folder];
 
 
 [model_path,model_noext,model_ext]=fileparts(model);
@@ -200,7 +200,7 @@ param_estim__pw_mota__outputfile=[param_estim__pw_mota__outputfile_prefix, model
 
 % Switch the diary on
 diary([workdir, '/', summary_folder, '/', analyses_diary]);
-run([PROJ_DIR, '/bin/param_estim__pw_analyses_full_repository_proc.m'])
+run([SB_PIPE, '/bin/param_estim__pw_analyses_full_repository_proc.m'])
 fprintf('\nEnd script (diary closed)\n')
 % Switch the diary off
 diary off;

@@ -36,7 +36,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${PROJ_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/bash/timer.sh
 
 
 
@@ -133,13 +133,13 @@ IFS=$old_IFS
 
 # remove the path in case this was specified.
 #model_configuration=$(basename ${model_configuration})
-#model_configuration_with_path="${PROJ_DIR}/${project}/${work_folder}/${model_configuration}"
+#model_configuration_with_path="${SB_PIPE}/${project}/${work_folder}/${model_configuration}"
 
 
-models_dir="${PROJ_DIR}/${project}/${models_folder}/"
-results_dir="${PROJ_DIR}/${project}/${simulations_folder}/${model%.*}/"
-data_dir="${PROJ_DIR}/${project}/${data_folder}/"
-tmp_dir="${PROJ_DIR}/${project}/${tmp_folder}/"
+models_dir="${SB_PIPE}/${project}/${models_folder}/"
+results_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/"
+data_dir="${SB_PIPE}/${project}/${data_folder}/"
+tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
 
 
 
@@ -183,7 +183,7 @@ printf "######################\n"
 printf "Executing simulations:\n"
 printf "######################\n"
 printf "\n"
-bash ${PROJ_DIR}/bin/simulate__run_copasi.sh ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
+bash ${SB_PIPE}/bin/simulate__run_copasi.sh ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
 
 
 
@@ -193,7 +193,7 @@ printf "Generating plots for one simulation (SKIP):\n"
 printf "####################################\n"
 printf "\n"
 # cp ${results_dir}/${dataset_simulation_dir}/${simulate__copasi_model%.*}__sim_1.csv ${results_dir}/${dataset_short_simulation_dir}/
-# Rscript ${PROJ_DIR}/bin/simulate__plot.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/    
+# Rscript ${SB_PIPE}/bin/simulate__plot.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/    
 
 
 
@@ -202,7 +202,7 @@ printf "#######################################\n"
 printf "Generating statistics from simulations:\n"
 printf "#######################################\n"
 printf "\n"
-Rscript ${PROJ_DIR}/bin/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${team} ${simulate__duration} ${simulate__interval_size}
+Rscript ${SB_PIPE}/bin/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${team} ${simulate__duration} ${simulate__interval_size}
 
 
 
@@ -211,7 +211,7 @@ printf "#######################################\n"
 printf "Generating statistics from experiments (SKIP):\n"
 printf "#######################################\n"
 printf "\n"
-#Rscript ${PROJ_DIR}/bin/simulate__plot_exp_error_bars.R ${data_dir}/${dataset_exp}/ ${results_dir}/${tc_mean_exp}/ ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
+#Rscript ${SB_PIPE}/bin/simulate__plot_exp_error_bars.R ${data_dir}/${dataset_exp}/ ${results_dir}/${tc_mean_exp}/ ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
 
 
 
@@ -220,7 +220,7 @@ printf "#########################################\n"
 printf "Generating overlapping plots (sim + exp) (SKIP):\n"
 printf "#########################################\n"
 printf "\n"
-#Rscript ${PROJ_DIR}/bin/simulate__plot_sim_exp_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_exp_dir}/ ${results_dir}/${tc_mean_with_exp_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
+#Rscript ${SB_PIPE}/bin/simulate__plot_sim_exp_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_exp_dir}/ ${results_dir}/${tc_mean_with_exp_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
 
 
 
@@ -229,7 +229,7 @@ printf "###################\n"
 printf "Generating reports:\n"
 printf "###################\n"
 printf "\n"
-bash ${PROJ_DIR}/bin/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
+bash ${SB_PIPE}/bin/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
 
 
 

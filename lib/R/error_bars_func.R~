@@ -37,11 +37,11 @@ library(gplots)
 # create a multidimensional matrix from matrices
 library(abind)
 
-# Retrieve the environment variable PROJ_LIB
-PROJ_LIB <- Sys.getenv(c("PROJ_LIB"))
+# Retrieve the environment variable SB_PIPE_LIB
+SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
 # Add a collection of R functions
-source( paste(PROJ_LIB, "/R/plot_functions.R", sep="") )
-source( paste(PROJ_LIB, "/R/matrices.R", sep="") )
+source( paste(SB_PIPE_LIB, "/R/plot_functions.R", sep="") )
+source( paste(SB_PIPE_LIB, "/R/matrices.R", sep="") )
 
 
 

@@ -10,7 +10,7 @@
 
 
 # Import the libraries
-. ${PROJ_LIB}/bash/param_estim__pw_func.sh
+. ${SB_PIPE_LIB}/bash/param_estim__pw_func.sh
 
 
 
@@ -73,11 +73,11 @@ main_folder="${model%.*}${folder_pattern_suffix}"
 
 # the local working directory
 # the dir containing the parameter estimation output
-workdir="${PROJ_DIR}/${project}/${work_folder}"
+workdir="${SB_PIPE}/${project}/${work_folder}"
 # the remote working directory
 # \ ahead of ${HOME} avoids the interpretation of the variable $HOME. This 
 # is crucial since the variables $HOME on iah522 and iah372 (cluster) are different.
-remote_workdir="\${PROJ_DIR}/${project}/${remote_work_folder}"
+remote_workdir="\${SB_PIPE}/${project}/${remote_work_folder}"
 
 
 

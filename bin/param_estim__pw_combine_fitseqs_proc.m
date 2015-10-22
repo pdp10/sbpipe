@@ -22,7 +22,7 @@
 
 
 
-PROJ_DIR=getenv('PROJ_DIR');
+SB_PIPE=getenv('SB_PIPE');
 
 
 % PottersWheelToolbox path
@@ -56,7 +56,7 @@ copyfile([workdir, '/', dataset_noext, '*.mat'], [workdir, '/', summary_folder])
 copyfile([workdir, '/', configuration_file], [workdir, '/', summary_folder]);
 delete([workdir, '/', summary_folder, '/', model, '_full_repository.mat']) 
 
-% prevents Matlab from storing temp files in PROJ_DIR/bin/
+% prevents Matlab from storing temp files in SB_PIPE/bin/
 cd(workdir);
 
 

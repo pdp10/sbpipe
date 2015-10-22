@@ -36,7 +36,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${PROJ_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/bash/timer.sh
 
 
 
@@ -131,11 +131,11 @@ IFS=$old_IFS
 
 
 
-models_dir="${PROJ_DIR}/${project}/${models_folder}/"
-tmp_dir="${PROJ_DIR}/${project}/${tmp_folder}/"
+models_dir="${SB_PIPE}/${project}/${models_folder}/"
+tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
 
 # The double perturbation path
-dp_dir="${PROJ_DIR}/${project}/${simulations_folder}/${model%.*}/${double_perturb_dir}/"
+dp_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/${double_perturb_dir}/"
 # The path-directory containing the double perturbation dataset
 dp_datasets_dir="${dp_dir}/${param_scan__double_perturb_copasi_species}${param_scan__double_perturb_suffix_dataset_folder}/"
 # The path-directory containing the double perturbation plots
@@ -188,7 +188,7 @@ elif [ "${param_scan__double_perturb_subtasks_number}" -ge "1" ]; then
     printf "(Results in ${dp_datasets_dir})\n"
     printf "#####################################################\n"
     printf "\n"
-    bash ${PROJ_DIR}/bin/run_generic__copasi_concur_local.sh ${models_dir} ${param_scan__double_perturb_copasi_model%.*}_ 1 ${param_scan__double_perturb_subtasks_number} 5 &
+    bash ${SB_PIPE}/bin/run_generic__copasi_concur_local.sh ${models_dir} ${param_scan__double_perturb_copasi_model%.*}_ 1 ${param_scan__double_perturb_subtasks_number} 5 &
     # Wait until the routine is completed
     copasi_pid=$!
     wait ${copasi_pid}
@@ -199,7 +199,7 @@ elif [ "${param_scan__double_perturb_subtasks_number}" -ge "1" ]; then
     printf "Concatenates the parted files of a double perturbation experiment (${param_scan__double_perturb_subtasks_number} subfiles => 1 merged file):\n"
     printf "##########################################################################################################################################\n"
     printf "\n"
-    bash ${PROJ_DIR}/bin/param_scan__double_perturb_concat_files.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_subtasks_number}
+    bash ${SB_PIPE}/bin/param_scan__double_perturb_concat_files.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_subtasks_number}
 fi
 
 
@@ -209,7 +209,7 @@ printf "########################################################################
 printf "Extract the single timepoints of the double perturbation (1 merged file => ${param_scan__double_perturb_simulation_length} time-point files):\n"
 printf "###########################################################################################################################################\n"
 printf "\n"
-bash ${PROJ_DIR}/bin/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
+bash ${SB_PIPE}/bin/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
 
 
 
@@ -219,7 +219,7 @@ printf "Generate plots for each time points:\n"
 printf "####################################\n"
 printf "\n"
 # "-desktop" opens a matlab GUI ; "-r" passes a command to matlab (by command line).
-matlab -desktop -r "try; PROJ_DIR=getenv('PROJ_DIR'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([PROJ_DIR,'/bin/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
+matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([SB_PIPE,'/bin/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
 
 
 

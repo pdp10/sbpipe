@@ -38,8 +38,8 @@
 
 import sys
 import os
-PROJ_LIB = os.environ["PROJ_LIB"]
-sys.path.append(PROJ_LIB + "/python/")
+SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
+sys.path.append(SB_PIPE_LIB + "/python/")
 
 from ParamEstim_RandomizeStartValue import *
 

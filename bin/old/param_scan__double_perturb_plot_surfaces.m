@@ -23,7 +23,7 @@
 disp('Script for generating 2D and 3D plots');
 fprintf('\n');
 
-% path = 'PROJ_DIR/projXXX/simulations/';
+% path = 'SB_PIPE/projXXX/simulations/';
 % folderin = './perturb_Mitophagy-MFN2_ROS_data/';
 % folderin = './perturb_Akt_JNK_data/';
 % folderin = './perturb_AMPK_mTORC1_data/';

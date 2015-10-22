@@ -169,15 +169,15 @@ fi
 
 # remove the path in case this was specified.
 #model_configuration=$(basename ${model_configuration})
-#model_configuration_with_path="${PROJ_DIR}/${project}/${work_folder}/${model_configuration}"
+#model_configuration_with_path="${SB_PIPE}/${project}/${work_folder}/${model_configuration}"
 
 
 
 
 
-models_dir="${PROJ_DIR}/${project}/${models_folder}/"
-results_dir="${PROJ_DIR}/${project}/${simulations_folder}/${model%.*}/"
-tmp_dir="${PROJ_DIR}/${project}/${tmp_folder}/"
+models_dir="${SB_PIPE}/${project}/${models_folder}/"
+results_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/"
+tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
 
 
 
@@ -218,7 +218,7 @@ do
       printf "Executing simulations:\n"
       printf "######################\n"
       printf "\n"
-      bash ${PROJ_DIR}/bin/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir} ${tmp_dir} 
+      bash ${SB_PIPE}/bin/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir} ${tmp_dir} 
 
 
 
@@ -227,12 +227,12 @@ do
       printf "Generating plots for parameter scan:\n"
       printf "####################################\n"
       printf "\n"
-      Rscript ${PROJ_DIR}/bin/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${team} ${param_scan__single_perturb_simulations_number}
+      Rscript ${SB_PIPE}/bin/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${team} ${param_scan__single_perturb_simulations_number}
       # Prepare the legend
       if [ "${param_scan__single_perturb_knock_down_only}" == "true" ] ; then
-	  Rscript ${PROJ_DIR}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only}
+	  Rscript ${SB_PIPE}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only}
       else
-	  Rscript ${PROJ_DIR}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only}
+	  Rscript ${SB_PIPE}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only}
       fi 
 
 
@@ -242,7 +242,7 @@ do
       printf "Generating reports:\n"
       printf "###################\n"
       printf "\n"
-      bash ${PROJ_DIR}/bin/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
+      bash ${SB_PIPE}/bin/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
 
 
 done

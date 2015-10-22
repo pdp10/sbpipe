@@ -13,8 +13,8 @@
 
 
 # Import the libraries
-. ${PROJ_LIB}/bash/param_estim__pw_func.sh
-. ${PROJ_LIB}/bash/openlava_tasks.sh
+. ${SB_PIPE_LIB}/bash/param_estim__pw_func.sh
+. ${SB_PIPE_LIB}/bash/openlava_tasks.sh
 
 
 
@@ -118,23 +118,23 @@ folder_pattern="${main_folder}/${job_name%.*}"
 
 # the local working directory
 # the dir containing the parameter estimation output
-workdir="${PROJ_DIR}/${project}/${work_folder}"
+workdir="${SB_PIPE}/${project}/${work_folder}"
 # the remote working directory
 # \ ahead of ${HOME} avoids the interpretation of the variable $HOME. This 
 # is crucial since the variables $HOME on iah522 and iah372 (cluster) are different.
-remote_workdir="\${PROJ_DIR}/${project}/${remote_work_folder}"
+remote_workdir="\${SB_PIPE}/${project}/${remote_work_folder}"
 
 # the local Models directory
 # the dir containing the Models
-modelsdir="${PROJ_DIR}/${project}/${models_folder}"
+modelsdir="${SB_PIPE}/${project}/${models_folder}"
 # the remote Models directory
-remote_modelsdir="\${PROJ_DIR}/${project}/${remote_models_folder}"
+remote_modelsdir="\${SB_PIPE}/${project}/${remote_models_folder}"
 
 # the local Data directory
 # the dir containing the Data
-datadir="${PROJ_DIR}/${project}/${data_folder}"
+datadir="${SB_PIPE}/${project}/${data_folder}"
 # the remote Data directory
-remote_datadir="\${PROJ_DIR}/${project}/${remote_data_folder}"
+remote_datadir="\${SB_PIPE}/${project}/${remote_data_folder}"
 
 
 

@@ -36,7 +36,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${PROJ_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/bash/timer.sh
 
 
 
@@ -94,7 +94,7 @@ IFS=$old_IFS
 # remove the path in case this was specified.
 model_configuration=$(basename ${model_configuration})
 
-model_configuration_with_path="${PROJ_DIR}/${project}/${work_folder}/${model_configuration}"
+model_configuration_with_path="${SB_PIPE}/${project}/${work_folder}/${model_configuration}"
 model_configuration_with_path__matlab="'${model_configuration_with_path}'"
 scheduled_jobs=${njobs}
 
@@ -112,7 +112,7 @@ printf "\n\n\n"
 printf "########################################\n"
 printf "Configure and start jobs on the cluster:\n"
 printf "########################################\n"
-${PROJ_DIR}/bin/param_estim__pw_run_jobs_cluster.sh ${model_configuration_with_path}
+${SB_PIPE}/bin/param_estim__pw_run_jobs_cluster.sh ${model_configuration_with_path}
 # Check jobs are running
 while ((scheduled_jobs)); do
       sleep 2m
@@ -128,7 +128,7 @@ printf "######################################\n"
 printf "Retrieve the results from the cluster:\n"
 printf "######################################\n"
 printf "\n"
-${PROJ_DIR}/bin/param_estim__pw_retrieve_results_cluster.sh ${model_configuration_with_path}
+${SB_PIPE}/bin/param_estim__pw_retrieve_results_cluster.sh ${model_configuration_with_path}
 sleep 30s;
 
 
@@ -138,7 +138,7 @@ printf "###############################################\n"
 printf "Combine fits sequences computed on the cluster:\n"
 printf "###############################################\n"
 printf "\n"
-${PROJ_DIR}/bin/param_estim__pw_combine_fitseqs_wrapper.sh ${model_configuration_with_path}
+${SB_PIPE}/bin/param_estim__pw_combine_fitseqs_wrapper.sh ${model_configuration_with_path}
 sleep 30s;
 
 
@@ -149,7 +149,7 @@ printf "Executes model analyses (matlab):\n"
 printf "#################################\n"
 printf "\n"
 # "-desktop" opens a matlab GUI ; "-r" passes a command to matlab (by command line).
-matlab -desktop -r "try; PROJ_DIR=getenv('PROJ_DIR'); model_configuration=${model_configuration_with_path__matlab}; run([PROJ_DIR,'/bin/param_estim__pw_analyses_full_repository.m']); catch; end; quit; " &
+matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); model_configuration=${model_configuration_with_path__matlab}; run([SB_PIPE,'/bin/param_estim__pw_analyses_full_repository.m']); catch; end; quit; " &
 # Wait until analyses are completed
 matlab_pid=$!
 wait ${matlab_pid}
@@ -162,7 +162,7 @@ printf "######################################\n"
 printf "Store the fits sequences in a tarball:\n"
 printf "######################################\n"
 printf "\n"
-${PROJ_DIR}/bin/param_estim__pw_tarball_fitseqs.sh ${model_configuration_with_path} ${round}
+${SB_PIPE}/bin/param_estim__pw_tarball_fitseqs.sh ${model_configuration_with_path} ${round}
 
 
 

@@ -32,7 +32,7 @@ str_null=""
 fileout=""
 
 
-path="${PROJ_DIR}/${project}/simulations/${model}/${dp_dataset_dir}"
+path="${SB_PIPE}/${project}/simulations/${model}/${dp_dataset_dir}"
 
 mkdir -p ${path}
 

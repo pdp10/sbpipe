@@ -20,14 +20,14 @@ sim_length=$5
 
 
 # Concatenates the parted files of a double perturbation experiment (${nfiles} subfiles => 1 merged file)
-${PROJ_DIR}/bin/param_scan__double_perturb_concat_files.sh ${project} ${model} ${nfiles} ${dp_dataset_dir}
+${SB_PIPE}/bin/param_scan__double_perturb_concat_files.sh ${project} ${model} ${nfiles} ${dp_dataset_dir}
 
 # Extract the single timepoints of the double perturbation (1 merged file => ${sim_length} time-point files}
-${PROJ_DIR}/bin/param_scan__double_perturb_extract_timepoints.sh ${project} ${model} ${sim_length} ${dp_dataset_dir}
+${SB_PIPE}/bin/param_scan__double_perturb_extract_timepoints.sh ${project} ${model} ${sim_length} ${dp_dataset_dir}
 
 # Generate plots for each time points 
-path="${PROJ_DIR}/${project}/simulations/"
+path="${SB_PIPE}/${project}/simulations/"
 folderin="dp_dataset_dir"
-matlab -desktop -r "try; path=\'${path}\'; folderin=\'${folderin}\'; run(\'${PROJ_DIR}/bin/param_scan__double_perturb_plot_surfaces.m\'); catch; end; quit"
+matlab -desktop -r "try; path=\'${path}\'; folderin=\'${folderin}\'; run(\'${SB_PIPE}/bin/param_scan__double_perturb_plot_surfaces.m\'); catch; end; quit"
 
 

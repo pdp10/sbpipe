@@ -78,11 +78,11 @@ fprintf('\n\n');
 
 
 
-PROJ_DIR=getenv('PROJ_DIR');
+SB_PIPE=getenv('SB_PIPE');
 
 % the local working directory
 % the dir containing the parameter estimation output
-workdir=[PROJ_DIR,'/',project,'/',work_folder];
+workdir=[SB_PIPE,'/',project,'/',work_folder];
 
 
 [model_path,model_noext,model_ext]=fileparts(model);
@@ -96,7 +96,7 @@ summary_folder=[model_noext, summary_folder_suffix];
 
 
 
-run([PROJ_DIR, '/bin/param_estim__pw_combine_fitseqs_proc.m']);
+run([SB_PIPE, '/bin/param_estim__pw_combine_fitseqs_proc.m']);
 
 
 

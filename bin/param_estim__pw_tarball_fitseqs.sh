@@ -11,7 +11,7 @@
 
 
 # Import the libraries
-. ${PROJ_LIB}/bash/param_estim__pw_func.sh
+. ${SB_PIPE_LIB}/bash/param_estim__pw_func.sh
 
 
 
@@ -75,7 +75,7 @@ IFS=$old_IFS
 
 
 # the local working directory containing the parameter estimation output
-workdir="${PROJ_DIR}/${project}/${work_folder}"
+workdir="${SB_PIPE}/${project}/${work_folder}"
 
 # The folder used for the parallel computation
 main_folder="${model%.*}${folder_pattern_suffix}"

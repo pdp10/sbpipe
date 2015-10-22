@@ -88,8 +88,8 @@ IFS=$old_IFS
 
 
 
-models_dir="${PROJ_DIR}/${project}/${models_folder}/"
-sensitivities_path="${PROJ_DIR}/${project}/${simulations_folder}/${model%.*}/${sensitivities_dir}/"
+models_dir="${SB_PIPE}/${project}/${models_folder}/"
+sensitivities_path="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/${sensitivities_dir}/"
 
 
 
@@ -122,7 +122,7 @@ mkdir -p ${sensitivities_path}
 #printf "Executing sensitivities:\n"
 #printf "########################\n"
 #printf "\n"
-#bash ${PROJ_DIR}/bin/sensitivities__run_copasi.sh ${sp_model} ${models_dir} ${results_dir} ${tmp_dir} 
+#bash ${SB_PIPE}/bin/sensitivities__run_copasi.sh ${sp_model} ${models_dir} ${results_dir} ${tmp_dir} 
 
 
 
@@ -131,7 +131,7 @@ printf "##########################################\n"
 printf "Generating plots for sensitivity analysis:\n"
 printf "##########################################\n"
 printf "\n"
-Rscript ${PROJ_DIR}/bin/sensitivities__copasi_plot.R ${sensitivities_path}
+Rscript ${SB_PIPE}/bin/sensitivities__copasi_plot.R ${sensitivities_path}
 
 
 

@@ -32,7 +32,7 @@
 
 
 # Import the libraries
-. ${PROJ_LIB}/bash/copasi__utils.sh
+. ${SB_PIPE_LIB}/bash/copasi__utils.sh
 
 
 
