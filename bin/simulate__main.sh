@@ -174,7 +174,7 @@ printf "\n"
 # rm -rf ${results_dir}/${tc_mean_dir}/*
 # rm -rf ${results_dir}/${tc_mean_with_exp_dir}/*
 # rm -rf ${results_dir}/${simulate__prefix_results_filename}${model_noext}.* ${results_dir}/${simulate__prefix_stats_filename}${model_noext}.*
-mkdir -p ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_with_exp_dir}
+mkdir -p ${tmp_dir} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_with_exp_dir}
 
 
 

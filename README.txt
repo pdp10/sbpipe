@@ -25,11 +25,11 @@ export PATH=$PATH:${SB_PIPE}/bin
 Requirements
 ==
 Bash (script management)
-R (plot generation)
+R (plot generation), gplots, abind
 Python (report generation)
 Latex (for report generation)
 Matlab with Potterswheel (for parameter estimation)
-Copasi (model simulation)
+Copasi (model simulation) - remember to tick the execution check box on the task to run
 
 
 
