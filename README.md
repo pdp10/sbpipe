@@ -3,19 +3,19 @@ SB_PIPE
 =
 
 Authors
-== 
+=== 
 Piero Dalle Pezze
 
 
 
 Introduction
-==
+===
 This package offers a collection of pipelines for parameter estimation, single parameter perturbation, double parameter perturbation, and sensitivity analysis.
 
 
 
 Environment Variables:
-==
+===
 export SB_PIPE=/path/to/SB_pipe
 export SB_PIPE_LIB=${SB_PIPE}/lib
 export PATH=$PATH:${SB_PIPE}/bin
@@ -23,7 +23,7 @@ export PATH=$PATH:${SB_PIPE}/bin
 
 
 Requirements
-==
+===
 Bash (script management)
 R (plot generation), gplots, abind
 Python (report generation)
@@ -34,7 +34,7 @@ Copasi (model simulation) - remember to tick the execution check box on the task
 
 
 TODO:
-==
+===
 * Specify the x axis label in the configuration file.
 * Add a pipeline for parameter estimation using another software (e.g. ABC-sysbio ?). If this is done using Copasi, a way to assess parameter non-identifiability must be implemented likely using Copasi->ParameterScan
 * In the future, it would be nice to convert the full package written in Python / Latex and generate the plots with matplotlib. This would be easier to maintain.
