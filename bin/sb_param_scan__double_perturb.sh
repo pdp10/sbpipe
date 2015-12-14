@@ -199,7 +199,7 @@ elif [ "${param_scan__double_perturb_subtasks_number}" -ge "1" ]; then
     printf "Concatenates the parted files of a double perturbation experiment (${param_scan__double_perturb_subtasks_number} subfiles => 1 merged file):\n"
     printf "##########################################################################################################################################\n"
     printf "\n"
-    bash ${SB_PIPE}/bin/param_scan__double_perturb_concat_files.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_subtasks_number}
+    bash ${SB_PIPE}/bin/sb_param_scan__double_perturb/param_scan__double_perturb_concat_files.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_subtasks_number}
 fi
 
 
@@ -209,7 +209,7 @@ printf "########################################################################
 printf "Extract the single timepoints of the double perturbation (1 merged file => ${param_scan__double_perturb_simulation_length} time-point files):\n"
 printf "###########################################################################################################################################\n"
 printf "\n"
-bash ${SB_PIPE}/bin/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
+bash ${SB_PIPE}/bin/sb_param_scan__double_perturb/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
 
 
 
@@ -219,7 +219,7 @@ printf "Generate plots for each time points:\n"
 printf "####################################\n"
 printf "\n"
 # "-desktop" opens a matlab GUI ; "-r" passes a command to matlab (by command line).
-matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([SB_PIPE,'/bin/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
+matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([SB_PIPE,'/bin/sb_param_scan__double_perturb/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
 
 
 

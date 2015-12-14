@@ -200,7 +200,7 @@ param_estim__pw_mota__outputfile=[param_estim__pw_mota__outputfile_prefix, model
 
 % Switch the diary on
 diary([workdir, '/', summary_folder, '/', analyses_diary]);
-run([SB_PIPE, '/bin/param_estim__pw_analyses_full_repository_proc.m'])
+run([SB_PIPE, '/bin/sb_param_estim__pw/param_estim__pw_analyses_full_repository_proc.m'])
 fprintf('\nEnd script (diary closed)\n')
 % Switch the diary off
 diary off;

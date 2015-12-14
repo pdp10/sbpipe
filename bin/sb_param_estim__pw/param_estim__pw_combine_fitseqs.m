@@ -96,7 +96,7 @@ summary_folder=[model_noext, summary_folder_suffix];
 
 
 
-run([SB_PIPE, '/bin/param_estim__pw_combine_fitseqs_proc.m']);
+run([SB_PIPE, '/bin/sb_param_estim__pw/param_estim__pw_combine_fitseqs_proc.m']);
 
 
 

@@ -52,6 +52,6 @@ model_configuration_with_path__matlab="'${model_configuration_with_path}'"
 
 # Run command
 # "-desktop" opens a matlab GUI ; "-r" passes a command to matlab (by command line).
-matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); model_configuration=${model_configuration_with_path__matlab}; run([SB_PIPE,'/bin/param_estim__pw_analyses_full_repository.m']); catch; end; "
+matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); model_configuration=${model_configuration_with_path__matlab}; run([SB_PIPE,'/bin/sb_param_estim__pw/param_estim__pw_analyses_full_repository.m']); catch; end; "
 
 

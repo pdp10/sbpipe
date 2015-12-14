@@ -122,7 +122,7 @@ mkdir -p ${sensitivities_path}
 #printf "Executing sensitivities:\n"
 #printf "########################\n"
 #printf "\n"
-#bash ${SB_PIPE}/bin/sensitivities__run_copasi.sh ${sp_model} ${models_dir} ${results_dir} ${tmp_dir} 
+#bash ${SB_PIPE}/bin/sb_sensitivity/sensitivities__run_copasi.sh ${sp_model} ${models_dir} ${results_dir} ${tmp_dir} 
 
 
 
@@ -131,7 +131,7 @@ printf "##########################################\n"
 printf "Generating plots for sensitivity analysis:\n"
 printf "##########################################\n"
 printf "\n"
-Rscript ${SB_PIPE}/bin/sensitivities__copasi_plot.R ${sensitivities_path}
+Rscript ${SB_PIPE}/bin/sb_sensitivity/sensitivities__copasi_plot.R ${sensitivities_path}
 
 
 

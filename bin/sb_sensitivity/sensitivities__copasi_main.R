@@ -218,7 +218,7 @@ do
       printf "Executing simulations:\n"
       printf "######################\n"
       printf "\n"
-      bash ${SB_PIPE}/bin/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir} ${tmp_dir} 
+      bash ${SB_PIPE}/bin/sb_sensitivity/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir} ${tmp_dir} 
 
 
 
@@ -227,12 +227,12 @@ do
       printf "Generating plots for parameter scan:\n"
       printf "####################################\n"
       printf "\n"
-      Rscript ${SB_PIPE}/bin/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${team} ${param_scan__single_perturb_simulations_number}
+      Rscript ${SB_PIPE}/bin/sb_sensitivity/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${team} ${param_scan__single_perturb_simulations_number}
       # Prepare the legend
       if [ "${param_scan__single_perturb_knock_down_only}" == "true" ] ; then
-	  Rscript ${SB_PIPE}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only}
+	  Rscript ${SB_PIPE}/bin/sb_sensitivity/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only}
       else
-	  Rscript ${SB_PIPE}/bin/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only}
+	  Rscript ${SB_PIPE}/bin/sb_sensitivity/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only}
       fi 
 
 
@@ -242,7 +242,7 @@ do
       printf "Generating reports:\n"
       printf "###################\n"
       printf "\n"
-      bash ${SB_PIPE}/bin/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
+      bash ${SB_PIPE}/bin/sb_sensitivity/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
 
 
 done

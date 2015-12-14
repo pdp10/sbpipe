@@ -33,6 +33,24 @@ Copasi (model simulation) - remember to tick the execution check box on the task
 
 
 
+Package Structure
+===
+To write..
+
+
+
+Changelog
+===
+TEST: adjust folder names for double perturbation, sensitivity, pw_param_estim
+
+v0.0.2
+- packaging of sb_modules in /bin
+- added test folder with test scripts
+v0.0.1
+- First commit
+
+
+
 Example of Configuration file (this might undergo some changes):
 ===
 user=npdp
