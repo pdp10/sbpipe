@@ -33,16 +33,8 @@ Copasi (model simulation) - remember to tick the execution check box on the task
 
 
 
-TODO:
-===
-* Specify the x axis label in the configuration file.
-* Add a pipeline for parameter estimation using another software (e.g. ABC-sysbio ?). If this is done using Copasi, a way to assess parameter non-identifiability must be implemented likely using Copasi->ParameterScan
-* In the future, it would be nice to convert the full package written in Python / Latex and generate the plots with matplotlib. This would be easier to maintain.
-
-
-
-
 Example of Configuration file (this might undergo some changes):
+===
 user=npdp
 hosts=iah372.ncl.ac.uk
 team=glyn                     <<---- this must be replaced with the x axis
