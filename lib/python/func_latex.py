@@ -85,22 +85,24 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 	   "\\usepackage[T1]{fontenc}\n" \
 	   "\\usepackage[a4paper,top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n" \
 	   "\\usepackage{graphicx}\n" \
-	   "\\usepackage[plainpages=false,pdfauthor={Piero Dalle Pezze},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n" \
+	   "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n" \
 	   "\\hypersetup{colorlinks=false,linkcolor=blue}\n" \
 	   "\\usepackage{url}\n" \
 	   "\\usepackage{makeidx}\n" \
 	   "\\title{" + title + "}\n" \
-	   "\\author{Piero Dalle Pezze \\\ \n" \
-	   "\\small Institute for Ageing and Health\\\[-0.8ex] \n" \
-	   "\\small Newcastle University\\\[-0.8ex] \n" \
-	   "\\small Newcastle Upon Tyne, UK\\\ \n" \
-	   "\\small \\texttt{piero.dallepezze@ncl.ac.uk}} \n" \
 	   "\\date{\\today}\n" \
 	   "\\makeindex\n" \
 	   "\\begin{document}\n" \
 	   "\\maketitle\n" \
 	   "\\begin{abstract}\n" + abstract + "\\end{abstract}\n" \
 	   "\\tableofcontents\n"
+
+## This was right above \title
+#	   "\\author{Piero Dalle Pezze \\\ \n" \
+#	   "\\small Institute for Ageing and Health\\\[-0.8ex] \n" \
+#	   "\\small Newcastle University\\\[-0.8ex] \n" \
+#	   "\\small Newcastle Upon Tyne, UK\\\ \n" \
+#	   "\\small \\texttt{piero.dallepezze@ncl.ac.uk}} \n" \
 
 
 
