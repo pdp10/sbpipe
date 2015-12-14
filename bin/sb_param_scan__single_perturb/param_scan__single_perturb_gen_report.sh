@@ -20,8 +20,8 @@ param_scan__single_perturb_prefix_results_filename=${5}
 param_scan__single_perturb_legend=${6}
 
 
-echo "python ${SB_PIPE}/bin/latex_report_par_scan.py"
-python ${SB_PIPE}/bin/param_scan__single_perturb_report.py $model_noext $specie ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
+echo "python ${SB_PIPE}/bin/sb_param_scan__single_perturb/latex_report_par_scan.py"
+python ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_report.py $model_noext $specie ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${tc_parameter_scan_dir} ${param_scan__single_perturb_legend}
 
 cd ${results_dir}
 echo "pdflatex ${param_scan__single_perturb_prefix_results_filename}${model_noext}.tex ... "

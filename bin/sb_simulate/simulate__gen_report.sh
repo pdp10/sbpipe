@@ -12,8 +12,8 @@ simulate__prefix_results_filename=$4
 
 
 
-echo "python ${SB_PIPE}/bin/latex_report.py"
-python ${SB_PIPE}/bin/simulate__report.py ${model_noext} ${results_dir} ${tc_mean_dir} ${simulate__prefix_results_filename}
+echo "python ${SB_PIPE}/bin/sb_simulate/latex_report.py"
+python ${SB_PIPE}/bin/sb_simulate/simulate__report.py ${model_noext} ${results_dir} ${tc_mean_dir} ${simulate__prefix_results_filename}
 
 cd ${results_dir}
 echo "pdflatex ${simulate__prefix_results_filename}${model_noext}.tex ... "

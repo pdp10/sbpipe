@@ -20,13 +20,13 @@ import subprocess
 
 
 
-process = subprocess.Popen(['simulate__main.sh', 'model_ins_rec_v1_det_simul.conf'])
+process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_det_simul.conf'])
 process.wait() 
 
 
-process = subprocess.Popen(['simulate__main.sh', 'model_ins_rec_v1_stoch_simul.conf'])
+process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_stoch_simul.conf'])
 process.wait() 
 
 
-process = subprocess.Popen(['param_scan__single_perturb_main.sh', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
+process = subprocess.Popen(['sb_param_scan__single_perturb.sh', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
 process.wait() 
