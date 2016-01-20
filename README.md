@@ -25,9 +25,9 @@ export PATH=$PATH:${SB_PIPE}/bin
 Requirements
 ===
 Bash (script management)
-R (plot generation), gplots, abind
+R (plot generation), gplots, abind, colorspace
 Python (report generation)
-Latex (for report generation)
+Latex (for report generation) (On GNU/Linux Kubuntu 14.04, install package texlive)
 Matlab with Potterswheel (for parameter estimation)
 Copasi (model simulation) - remember to tick the execution check box on the task to run
 
@@ -38,16 +38,6 @@ Package Structure
 To write..
 
 
-
-Changelog
-===
-TEST: adjust folder names for double perturbation, sensitivity, pw_param_estim
-
-v0.0.2
-- packaging of sb_modules in /bin
-- added test folder with test scripts
-v0.0.1
-- First commit
 
 
 

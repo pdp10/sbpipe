@@ -2,16 +2,22 @@ TIME COURSE TASK:
 -----------------
 
 - In the model, check the flag "executable" is set in the Time Course Task.
-- Time must be [0,1440] minutes (the same as experiments).
-- Reports must be activated and stored in /home/ariel/tmp/mtor_model_results.csv.
-- Simulation type should be stochastic.
+- Time must be [0,120] minutes (the same as my previous experiments). This should be passed as parameter via the configurator file. Not implemented yet. 
  
 
 PARAMETER SCAN TASK:
 --------------------
-- Time must be [0,1440] minutes (the same as experiments).
+- Time must be [0,120] minutes (the same as experiments).
 - In the model, check the flag "executable" is set in the Parameter Scan Task.
-- Reports must be activated and stored in /home/ariel/tmp/mtor_model_results.csv (REPORT - Name: Parameter Scan Report, Task: Scan).
-- Simulation type should be stochastic.
-- Define the species/reaction rates to scan.
+- (REPORT - Name: Parameter Scan Report, Task: Scan).
+
+
+SENSITIVITIES TASK:
+-------------------
+Copasi has changed a few times the format for this report. As Sensitivity analysis is not a repetitive task, right now:
+- Generate a report for sensitivity analysis. Save this report in PROJECT_FOLDER/simulations/MODEL_NAME/sensitivities/MODEL_NAME_sensitivities.csv
+- After running the task, edit the file so that it contains exactly one table.
+- Create a configuration file including: 
+sensitivities_dir=sensitivities
+- The script will generate a plot for each csv file found in the folder `sensitivities`.
 
