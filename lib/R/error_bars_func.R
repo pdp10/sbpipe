@@ -156,7 +156,7 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
     }
     png (filename, height=1000, width=1400, bg="transparent")
     # increase the margin on the right of the plot
-    par(mar=c(15,15,6,0)+0.1)
+    par(mar=c(20,20,12,0))
     plotCI(x=species$mean,
            uiw=uiw_bars,
            col="black", barcol=colours()[288],
@@ -168,6 +168,7 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
 	   #xlab="Time (min)", ylab="Relative Phosphorylation Activity", 
 	   xlab="", ylab="", 
 	   main="",
+	   las=1,
 	   lwd.ticks=12,
 	   cex.main=5.6, cex.lab=5.6, cex.axis=5.6, font.axis=2,bty="n",
 	   cex=5.6,lwd=linewidth,
@@ -185,13 +186,14 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
 	   #xlab="Time (min)", ylab="Relative Phosphorylation Activity", 
 	   xlab="", ylab="", 
 	   main="",
+	   las=1,
 	   lwd.ticks=12,
 	   cex.main=5.6, cex.lab=5.6, cex.axis=5.6, font.axis=2,bty="n",
 	   cex=5.6,lwd=linewidth,
            xaxt='n', gap=0.0, add=TRUE)
     }
  
-    mtext(side=2, text=paste(name, " Level [a.u.]", sep=""), line=8, cex=5.6, font=2) 
+    mtext(side=2, text=paste(name, " Level [a.u.]", sep=""), line=12, cex=5.6, font=2) 
     # SPAN: 0.25 (line is the mean), 0.90 (line approximates the mean)
     #species.mean.loess <- loess(species$mean ~ timepoints, span=0.90, data.frame(x=timepoints, y=species$mean))
     #species.mean.predict <- predict(species.mean.loess, data.frame(x=timepoints))
