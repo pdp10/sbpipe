@@ -89,6 +89,7 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 	   "\\hypersetup{colorlinks=false,linkcolor=blue}\n" \
 	   "\\usepackage{url}\n" \
 	   "\\usepackage{makeidx}\n" \
+	   "\\author{A clever scientist} \n" \
 	   "\\title{" + title + "}\n" \
 	   "\\date{\\today}\n" \
 	   "\\makeindex\n" \
@@ -97,12 +98,6 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 	   "\\begin{abstract}\n" + abstract + "\\end{abstract}\n" \
 	   "\\tableofcontents\n"
 
-## This was right above \title
-#	   "\\author{Piero Dalle Pezze \\\ \n" \
-#	   "\\small Institute for Ageing and Health\\\[-0.8ex] \n" \
-#	   "\\small Newcastle University\\\[-0.8ex] \n" \
-#	   "\\small Newcastle Upon Tyne, UK\\\ \n" \
-#	   "\\small \\texttt{piero.dallepezze@ncl.ac.uk}} \n" \
 
 
 

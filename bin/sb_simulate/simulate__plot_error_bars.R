@@ -16,14 +16,6 @@
 #
 # Object: Plotting of the confidence intervals
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2011-07-7 16:14:32 $
@@ -55,9 +47,10 @@ main <- function(args) {
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    team <- args[5]
-    simulate__duration <- as.numeric(args[6])
+    simulate__start <- as.numeric(args[5])
+    simulate__end <- as.numeric(args[6])
     simulate__interval_size <- as.numeric(args[7])
+    simulate__xaxis_label <- args[8]
     
 
     # create the directory of output
@@ -68,7 +61,7 @@ main <- function(args) {
     print(files)
 
     exp = FALSE
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, team, simulate__duration, simulate__interval_size, exp)
+    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, exp)
 }
 
 

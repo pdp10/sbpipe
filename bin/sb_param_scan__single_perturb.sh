@@ -18,14 +18,6 @@
 #
 #
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2013-05-30 16:14:32 $
@@ -70,14 +62,21 @@ param_scan__single_perturb_copasi_models_list=()
 param_scan__single_perturb_species_list=()   # a list separated by blanks
 # if Y then, plot only kd (blue), otherwise plot kd and overexpression
 param_scan__single_perturb_knock_down_only=""
-# the work team: kathrin or glyn
-team=""
 # The folder containing the models
 models_folder=""
 # The folder containing the models simulations
 simulations_folder=""
 # The folder containing the temporary computations
 tmp_folder=""
+# The starting time point of the simulation (e.g. 0)
+# This is required for plotting
+simulate__start=0
+# The ending time point of the simulation (e.g. 120)
+# This is required for plotting
+simulate__end=10
+# The plot x axis label (e.g. Time[min])
+# This is required for plotting
+simulate__xaxis_label="Time [min]"
 # The legend name for the single perturbation
 param_scan__single_perturb_legend=""
 # Single perturbation minimum inhibition level
@@ -110,10 +109,13 @@ for line in "${lines[@]}"; do
     ("param_scan__single_perturb_copasi_models_list") 		echo "$line"; param_scan__single_perturb_copasi_models_list="${array[1]}" ;;
     ("param_scan__single_perturb_species_list") 		echo "$line"; param_scan__single_perturb_species_list="${array[1]}" ;;
     ("param_scan__single_perturb_knock_down_only") 		echo "$line"; param_scan__single_perturb_knock_down_only="${array[1]}" ;;    
-    ("team") 							echo "$line"; team="${array[1]}" ;;
     ("models_folder") 						echo "$line"; models_folder="${array[1]}" ;;    
     ("simulations_folder") 					echo "$line"; simulations_folder="${array[1]}" ;;
-    ("tmp_folder") 						echo "$line"; tmp_folder="${array[1]}" ;;    
+    ("tmp_folder") 						echo "$line"; tmp_folder="${array[1]}" ;;
+    ("simulate__start") 					echo "$line"; simulate__start="${array[1]}" ;;
+    ("simulate__end")						echo "$line"; simulate__end="${array[1]}" ;;
+    ("simulate__interval_size") 				echo "$line"; simulate__interval_size=${array[1]} ;;    
+    ("simulate__xaxis_label")					echo "$line"; simulate__xaxis_label="${array[1]}" ;;      
     ("param_scan__single_perturb_legend") 			echo "$line"; param_scan__single_perturb_legend="${array[1]}" ;;      
     ("param_scan__single_perturb_min_inhibition_level") 	echo "$line"; param_scan__single_perturb_min_inhibition_level=${array[1]} ;;      
     ("param_scan__single_perturb_max_overexpression_level") 	echo "$line"; param_scan__single_perturb_max_overexpression_level=${array[1]} ;;
@@ -137,7 +139,11 @@ param_scan__single_perturb_copasi_models_list=(${param_scan__single_perturb_copa
 param_scan__single_perturb_species_list=(${param_scan__single_perturb_species_list})
 
    
-
+if [ "$simulate__start" -ge "$simulate__end" ] 
+then
+  printf "\n ERROR: simulate__start must be less than simulate__end \n\n"
+  exit 1
+fi
 
 
 
@@ -193,7 +199,7 @@ do
       
       if [ ! -f "${models_dir}/${sp_model}" ]; then 
 	echo "${models_dir}/${sp_model} does not exist." 
-	continue
+	exit 1
       fi
       
       
@@ -216,7 +222,7 @@ do
       rm -rf ${results_dir}/${tc_parameter_scan_dir}/${sp_model%.*}*
       rm -rf ${results_dir}/${tc_parameter_scan_dir}/${param_scan__single_perturb_legend}_${sp_species}*
       rm -rf ${results_dir}/${param_scan__single_perturb_prefix_results_filename}*${sp_model%.*}*
-      mkdir -p ${results_dir}/${dataset_parameter_scan_dir} ${results_dir}/${tc_parameter_scan_dir}
+      mkdir -p ${tmp_dir} ${results_dir}/${dataset_parameter_scan_dir} ${results_dir}/${tc_parameter_scan_dir}
 
 
 
@@ -246,7 +252,7 @@ do
       printf "Generating plots:\n"
       printf "#################\n"
       printf "\n"
-      Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${team} ${param_scan__single_perturb_simulations_number} ${param_scan__single_perturb_perturbation_in_percent_levels}
+      Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}" ${param_scan__single_perturb_simulations_number} ${param_scan__single_perturb_perturbation_in_percent_levels}
       # Prepare the legend
       if [ "${param_scan__single_perturb_knock_down_only}" == "true" ] ; then
 	  Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend}_${sp_species} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only} ${param_scan__single_perturb_perturbation_in_percent_levels} ${param_scan__single_perturb_levels_number}

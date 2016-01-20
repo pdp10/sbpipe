@@ -16,14 +16,6 @@
 #
 # Object: Plotting of the confidence intervals
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2011-07-7 11:14:32 $
@@ -132,7 +124,7 @@ get_statistics_table <- function(statistics, species, s=2) {
 }
 
 
-plot_error_bars <- function(outputdir, files, version, name, species, time_length, timepoints, team, simulate__duration, linewidth, bar_type="sem") {
+plot_error_bars <- function(outputdir, files, version, name, species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, bar_type="sem") {
     filename = ""
     uiw_bars = c()
     ylimit = c()
@@ -164,7 +156,7 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
     }
     png (filename, height=1000, width=1400, bg="transparent")
     # increase the margin on the right of the plot
-    par(mar=c(10,10,3,0)+0.1)
+    par(mar=c(15,15,6,0)+0.1)
     plotCI(x=species$mean,
            uiw=uiw_bars,
            col="black", barcol=colours()[288],
@@ -198,10 +190,8 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
 	   cex=5.6,lwd=linewidth,
            xaxt='n', gap=0.0, add=TRUE)
     }
-
-
-    #mtext(side=1, text="Time [min]", line=6, cex=5.2, font=2) 
-    mtext(side=2, text=paste(name, " Level [a.u.]", sep=""), line=6, cex=5.6, font=2) 
+ 
+    mtext(side=2, text=paste(name, " Level [a.u.]", sep=""), line=8, cex=5.6, font=2) 
     # SPAN: 0.25 (line is the mean), 0.90 (line approximates the mean)
     #species.mean.loess <- loess(species$mean ~ timepoints, span=0.90, data.frame(x=timepoints, y=species$mean))
     #species.mean.predict <- predict(species.mean.loess, data.frame(x=timepoints))
@@ -212,64 +202,27 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
 
     ## set x axis
     # Set up x axis with tick marks alone
-
-    if (team == 'kathrin') {
-	axis(side=1, labels=FALSE, at=1:length(timepoints), cex.axis=5.6, font.axis=2,lwd.ticks=12)
-	# Plot x axis labels at default tick marks
-	#text(side=1, 10*0:length(timepoints), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=timepoints, cex=4.0, font=2, xpd=TRUE)
-	text(side=1, 1:length(timepoints), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=timepoints, cex=5.6, font=2, xpd=TRUE)
-	# Plot x axis label at line 6 (of 7)
-	mtext(side=1, text="Time [min]", line=6, cex=5.6, font=2, adj=0.5, padj=0.5) 
-	#legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
-	box(bty="l", lwd=14, lty=1)
-	dev.off()
-	
-     } else if (team == 'glyn') {
-        # by=5
-	tp <- seq(from=0, to=timepoints[length(timepoints)], by=simulate__duration/10)
-	# if timepoints has "by=0.1", then set 50*0...otherwise set 10*0.....
-	axis(side=1, labels=FALSE, at=(length(timepoints)/10)*0:length(timepoints), cex.axis=5.6, font.axis=2,lwd.ticks=12)
-	# Plot x axis labels at default tick marks
-	#text(side=1, 10*0:length(timepoints), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=timepoints, cex=4.0, font=2, xpd=TRUE)
-	#text(side=1, 10*0:length(tp), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=tp, cex=4.0, font=2, xpd=TRUE)
-	text(side=1, (length(timepoints)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=tp, cex=5.6, font=2, xpd=TRUE)
-	# Plot x axis label at line 6 (of 7)
-	mtext(side=1, text="Time [days]", line=6, cex=5.6, font=2, adj=0.5, padj=0.5) 
-	#legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
-	box(bty="l", lwd=14, lty=1)
-	dev.off()  
-     } else if (team == 'pdp') {
-        # by=5
-	tp <- seq(from=0, to=timepoints[length(timepoints)], by=simulate__duration/10)
-	# if timepoints has "by=0.1", then set 50*0...otherwise set 10*0.....
-	axis(side=1, labels=FALSE, at=(length(timepoints)/10)*0:length(timepoints), cex.axis=5.6, font.axis=2,lwd.ticks=12)
-	# Plot x axis labels at default tick marks
-	#text(side=1, 10*0:length(timepoints), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=timepoints, cex=4.0, font=2, xpd=TRUE)
-	#text(side=1, 10*0:length(tp), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=tp, cex=4.0, font=2, xpd=TRUE)
-	text(side=1, (length(timepoints)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=tp, cex=5.6, font=2, xpd=TRUE)
-	# Plot x axis label at line 6 (of 7)
-	mtext(side=1, text="Time [a.u.]", line=6, cex=5.6, font=2, adj=0.5, padj=0.5) 
-	#legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
-	box(bty="l", lwd=14, lty=1)
-	dev.off()  
-     }
-     
+    tp <- seq(from=0, to=timepoints[length(timepoints)], by=(simulate__end-simulate__start)/10)
+    
+    ## Plot the axes
+    # if timepoints has "by=0.1", then set 50*0...otherwise set 10*0.....
+    axis(side=1, labels=FALSE, at=(length(timepoints)/10)*0:length(timepoints), cex.axis=5.6, font.axis=2,lwd.ticks=12)
+    # Plot x axis labels at default tick marks
+    #text(side=1, 10*0:length(timepoints), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=timepoints, cex=4.0, font=2, xpd=TRUE)
+    #text(side=1, 10*0:length(tp), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=tp, cex=4.0, font=2, xpd=TRUE)
+    text(side=1, (length(timepoints)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=tp, cex=5.6, font=2, xpd=TRUE)
+    # Plot x axis label at line 6 (of 7)
+    mtext(side=1, text=simulate__xaxis_label, line=8, cex=5.6, font=2, adj=0.5, padj=0.5) 
+    #legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
+    box(bty="l", lwd=14, lty=1)
+    dev.off()  
 }
 
 
 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, team, simulate__duration, simulate__interval_size, exp=TRUE) {
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, exp=TRUE) {
 
-    # the team is required for drawing the plots correctly.
-    if(team == 'kathrin') { 
-        timepoints <- c ( 0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 120 ) 
-        #timepoints <- seq(from=0, to=120, by=0.1)        
-    } else if(team == 'glyn') {
-        timepoints <- seq(from=0, to=simulate__duration, by=simulate__interval_size)
-    } else if(team == 'pdp') {
-        timepoints <- seq(from=0, to=simulate__duration, by=simulate__interval_size)
-    }
-    
+    timepoints <- seq(from=simulate__start, to=simulate__end, by=simulate__interval_size)
     
     # Read species
     timecourses <- read.table ( paste ( inputdir, '/', files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
@@ -281,7 +234,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 		    ") is NOT equal to experiment length (", timepoints[time_length], ")", sep=""))
 	quit()
     }
-					    # statistical table (to export)
+    # statistical table (to export)
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
     statistics[,1] <- timepoints
     s <- 2
@@ -332,10 +285,10 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
   	column.names <- get_column_names_statistics(column.names, column[j])
   	statistics <- get_statistics_table(statistics, species, s)
  	s <- s+13
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, team, simulate__duration, linewidth, "sem")   
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, team, simulate__duration, linewidth, "sd") 
- 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, team, simulate__duration, linewidth, "ci95") 
- 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, team, simulate__duration, linewidth, "sd_n_ci95") 
+  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sem")   
+  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd") 
+ 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "ci95") 
+ 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd_n_ci95") 
 	
       }
     }

@@ -17,14 +17,6 @@
 #
 #
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2013-05-30 16:14:32 $
@@ -68,14 +60,18 @@ simulate__copasi_model=""
 # For stochastic simulations, run 500
 # For testing, run 5
 simulate__model_simulations_number=2
-# The duration of the simulation (e.g. 50)
-# This is required for plotting
-simulate__duration=1
 # The inteval size of each simulation step (e.g. 0.01)
 # This is required for plotting
 simulate__interval_size=0.1
-# the work team: kathrin or glyn
-team=""
+# The starting time point of the simulation (e.g. 0)
+# This is required for plotting
+simulate__start=0
+# The ending time point of the simulation (e.g. 10)
+# This is required for plotting
+simulate__end=10
+# The plot x axis label (e.g. Time[min])
+# This is required for plotting
+simulate__xaxis_label="Time [min]"
 # The folder containing the models
 models_folder=""
 # The folder containing the models simulations
@@ -110,10 +106,11 @@ for line in "${lines[@]}"; do
     ("project") 				echo "$line"; project="${array[1]}" ;; 
     ("model") 					echo "$line"; model="${array[1]}" ;;
     ("simulate__copasi_model") 			echo "$line"; simulate__copasi_model="${array[1]}" ;;
-    ("team") 					echo "$line"; team="${array[1]}" ;;
     ("simulate__model_simulations_number") 	echo "$line"; simulate__model_simulations_number=${array[1]} ;;
-    ("simulate__duration") 			echo "$line"; simulate__duration=${array[1]} ;;
-    ("simulate__interval_size") 		echo "$line"; simulate__interval_size=${array[1]} ;;       
+    ("simulate__start") 			echo "$line"; simulate__start="${array[1]}" ;;
+    ("simulate__end")				echo "$line"; simulate__end="${array[1]}" ;;
+    ("simulate__interval_size") 		echo "$line"; simulate__interval_size=${array[1]} ;;    
+    ("simulate__xaxis_label")			echo "$line"; simulate__xaxis_label="${array[1]}" ;;    
     ("models_folder") 				echo "$line"; models_folder="${array[1]}" ;;
     ("data_folder") 				echo "$line"; data_folder="${array[1]}" ;;
     ("simulations_folder") 			echo "$line"; simulations_folder="${array[1]}" ;;
@@ -122,13 +119,20 @@ for line in "${lines[@]}"; do
     ("dataset_short_simulation_dir") 		echo "$line"; dataset_short_simulation_dir="${array[1]}" ;;
     ("tc_dir") 					echo "$line"; tc_dir="${array[1]}" ;;      
     ("tc_mean_dir") 				echo "$line"; tc_mean_dir="${array[1]}" ;;
-    ("tc_mean_with_exp_dir") 			echo "$line"; tc_mean_with_exp_dir="${array[1]}" ;;      
+    ("tc_mean_with_exp_dir") 			echo "$line"; tc_mean_with_exp_dir="${array[1]}" ;;  
     ("simulate__prefix_results_filename") 	echo "$line"; simulate__prefix_results_filename="${array[1]}" ;;
     ("simulate__prefix_stats_filename") 	echo "$line"; simulate__prefix_stats_filename="${array[1]}" ;;      
     ("simulate__prefix_exp_stats_filename") 	echo "$line"; simulate__prefix_exp_stats_filename="${array[1]}" ;;
   esac
 done
 IFS=$old_IFS
+
+if [ "$simulate__start" -ge "$simulate__end" ] 
+then
+  printf "\n ERROR: simulate__start must be less than simulate__end \n\n"
+  exit 1
+fi
+
 
 
 # remove the path in case this was specified.
@@ -165,7 +169,7 @@ printf "\n\n"
       
 printf "\n\n\n"
 printf "###############################\n"
-printf "Cleaning folder ${results_dir}:\n"
+printf "Preparing folder ${results_dir}:\n"
 printf "###############################\n"
 printf "\n"
 # rm -rf ${results_dir}/${dataset_simulation_dir}/*
@@ -202,7 +206,7 @@ printf "#######################################\n"
 printf "Generating statistics from simulations:\n"
 printf "#######################################\n"
 printf "\n"
-Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${team} ${simulate__duration} ${simulate__interval_size}
+Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}"
 
 
 
@@ -238,5 +242,4 @@ bash ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.sh ${simulate__copasi_model
 # Print the pipeline elapsed time
 printf '\n\n\nPipeline elapsed time: %s\n' $(timer $tmr) 
 printf "\n<END PIPELINE>\n\n\n"
-
 

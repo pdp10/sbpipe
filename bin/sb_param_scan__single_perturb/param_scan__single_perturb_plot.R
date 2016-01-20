@@ -49,10 +49,12 @@ main <- function(args) {
     results_dir <- args[4]
     dataset_parameter_scan_dir <- args[5]
     tc_parameter_scan_dir <- args[6]
-    # Team: kathrin or glyn
-    team <- args[7] 
-    param_scan__single_perturb_simulations_number <- args[8]
-    perturbation_in_percent_levels <- args[9]
+    simulate__start <- as.numeric(args[7])
+    simulate__end <- as.numeric(args[8])
+    simulate__interval_size <- as.numeric(args[9])
+    simulate__xaxis_label <- args[10]
+    param_scan__single_perturb_simulations_number <- args[11]
+    perturbation_in_percent_levels <- args[12]
     
 
     
@@ -105,11 +107,6 @@ main <- function(args) {
 	  timecourses <- read.table ( paste ( inputdir, files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names ( timecourses )
 
-	  timepoints <- c()
-	  time_axis <- c()
-
-	  time_length <- length(timepoints)
-
 	  #writeLines(levels)
 	  #writeLines(levels.index)
 
@@ -125,19 +122,9 @@ main <- function(args) {
 
 	  # points to retrieve
 	  # configuration of the x axis
-	  if(team == 'kathrin') { 
-	      timepoints <- c (0, 1, 3, 5, 10, 15, 20, 30, 45, 60, 120)    # to add 1440
-	      time_axis <- c(0, 20, 40, 60, 80, 100, 120)
-	      xoffset <- c(0,max(dataset[,1,1]) + 3)
-	  } else if(team == 'glyn') {
-	      timepoints <- c (0, 1, 2, 3, 5, 7, 9, 10, 11, 14, 17, 19, 21)
-	      time_axis <- c(0, 3, 6, 9, 12, 15, 18, 21)
-	      xoffset <- c(0,max(dataset[,1,1]) + 1)	      
-	  } else if(team == 'pdp') {
-	      timepoints <- c (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
-	      time_axis <- c(0, 20, 40, 60, 80, 100)
-	      xoffset <- c(0,max(dataset[,1,1]) + 1)
-	  }
+	  time_axis <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
+	  xoffset <- c(0,max(dataset[,1,1]) + 1)
+	  
 
 
 	  colors <- c()
@@ -250,13 +237,7 @@ main <- function(args) {
       #           time_axis, par("usr")[3]-0.0, srt=30, adj=c(1.1,1.2), labels=time_axis, cex=3.4, font=2, xpd=TRUE)
 		time_axis, par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=time_axis, cex=3.4, font=2, xpd=TRUE)
 	    # Plot x axis label at line 6 (of 7)
-	    if(team == 'kathrin') {
-	      mtext(side=1, text="Time [min]", line=5.5, cex=3.4, font=2) 
-	    } else if(team == 'glyn') {
-	      mtext(side=1, text="Time [days]", line=5.5, cex=3.4, font=2) 
-	    } else if(team == 'pdp') {
-	      mtext(side=1, text="Time [a.u.]", line=5.5, cex=3.4, font=2) 
-	    }
+	    mtext(side=1, text=simulate__xaxis_label, line=5.5, cex=3.4, font=2) 
 	    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=7, cex=3.4, font=2) 
 	    for ( m in (length(files)):1 ) {
 		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) # col="red" pch=10+m, 
