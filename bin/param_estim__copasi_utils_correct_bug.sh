@@ -17,14 +17,6 @@
 #
 # Object: compute the ratio of contribution between two pathway of activation
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2011-05-06 10:14:32 $

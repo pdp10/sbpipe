@@ -16,14 +16,6 @@
 #
 # Object: Plotting of the confidence intervals
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2009-01-15 16:14:32 $

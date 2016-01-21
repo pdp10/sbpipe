@@ -40,7 +40,7 @@ The *cluster* folder contains Bash scripts for copying data within a cluster of 
 
 ##### lib
 The *lib* folder contains the routines in Bash, Matlab, Python, and R for running SB_pipe. Currently, Bash is used for linking each pipeline part; Matlab for Potterswheel and model double perturbation; Python for report generation; and R for statistics / plot generation. 
-In the future, it would be nice to re-write the current Bash and Matlab code into Python, so that SB_pipe only depends on Python/R. ABC-sysbio could replace Potterswheel for parameter estimation.
+In the future, it would be nice that the current Bash and Matlab code is written in Python, so that SB_pipe only depends on Python/R. ABC-sysbio could replace Potterswheel for parameter estimation.
 
 ##### tests
 The *tests* folder contains the script *run_tests.py* to run tests on a mini-project called *ins_rec_model*. This script is invoked using the following command: 

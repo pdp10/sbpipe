@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # License (GPLv3):
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -116,7 +115,6 @@ for line in "${lines[@]}"; do
     ("simulations_folder") 			echo "$line"; simulations_folder="${array[1]}" ;;
     ("tmp_folder") 				echo "$line"; tmp_folder="${array[1]}" ;;      
     ("dataset_simulation_dir") 			echo "$line"; dataset_simulation_dir="${array[1]}" ;;      
-    ("dataset_short_simulation_dir") 		echo "$line"; dataset_short_simulation_dir="${array[1]}" ;;
     ("tc_dir") 					echo "$line"; tc_dir="${array[1]}" ;;      
     ("tc_mean_dir") 				echo "$line"; tc_mean_dir="${array[1]}" ;;
     ("tc_mean_with_exp_dir") 			echo "$line"; tc_mean_with_exp_dir="${array[1]}" ;;  
@@ -173,12 +171,11 @@ printf "Preparing folder ${results_dir}:\n"
 printf "###############################\n"
 printf "\n"
 # rm -rf ${results_dir}/${dataset_simulation_dir}/*
-# rm -rf ${results_dir}/${dataset_short_simulation_dir}/*
 # rm -rf ${results_dir}/${tc_dir}/*
 # rm -rf ${results_dir}/${tc_mean_dir}/*
 # rm -rf ${results_dir}/${tc_mean_with_exp_dir}/*
 # rm -rf ${results_dir}/${simulate__prefix_results_filename}${model_noext}.* ${results_dir}/${simulate__prefix_stats_filename}${model_noext}.*
-mkdir -p ${tmp_dir} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_with_exp_dir}
+mkdir -p ${tmp_dir} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_with_exp_dir}
 
 
 
@@ -188,16 +185,6 @@ printf "Executing simulations:\n"
 printf "######################\n"
 printf "\n"
 bash ${SB_PIPE}/bin/sb_simulate/simulate__run_copasi.sh ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
-
-
-
-printf "\n\n\n"
-printf "####################################\n"
-printf "Generating plots for one simulation (SKIP):\n"
-printf "####################################\n"
-printf "\n"
-# cp ${results_dir}/${dataset_simulation_dir}/${simulate__copasi_model%.*}__sim_1.csv ${results_dir}/${dataset_short_simulation_dir}/
-# Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_short_simulation_dir}/ ${results_dir}/${tc_dir}/    
 
 
 

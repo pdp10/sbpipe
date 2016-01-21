@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 # License (GPLv3):
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,13 +16,6 @@
 #
 #
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
 #
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $

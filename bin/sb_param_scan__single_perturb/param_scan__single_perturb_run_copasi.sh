@@ -17,14 +17,6 @@
 #
 # Object: Execute the model several times for stochastical analysis
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2010-09-06 16:14:32 $
