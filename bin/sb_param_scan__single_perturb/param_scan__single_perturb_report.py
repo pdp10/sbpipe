@@ -19,18 +19,11 @@
 #
 # Object: Autogeneration of latex code containing images
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2010-07-13 12:14:32 $
-# $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
+# $Id: param_scan__single_perturb_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
 
 import sys
 import os
@@ -38,13 +31,13 @@ SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/python/")
 import glob
 import csv
-from func_latex import *
+from single_model_latex_reports import latex_report_par_scan
 
 
 
 
 def main(args):
-  print("Tool for autogenerating latex file containing graphs for parameter scan- by Piero Dalle Pezze\n") 
+  print("Generating a LaTeX report containing graphs\n") 
   # INITIALIZATION
   # The model_noext of the model
   model_noext = args[0]
@@ -54,18 +47,6 @@ def main(args):
   param_scan__single_perturb_prefix_results_filename = args[4]
   tc_parameter_scan_dir = args[5]
   param_scan__single_perturb_legend = args[6]
-  #print(model_noext)
-  #print(species)
-  ## A lookup table for computational-experimental comparison
-  #names_table = [ 'IR_beta_pY1146', 'Akt_pT308_PIP3_clx', 'Akt_pT308_pS473_PIP3_clx',
-		  #'mTORC2_pS2481', 'mTORC1_pS2448', 'mTORC1_PRAS40_pT246_clx',
-		  #'mTORC1_PRAS40_pS183_pT246_clx', 'p70S6K_pT389', 
-		  #'IRS1_negative_feedback']
-  ##		'IRS1_pS636']
-  ## Control variable
-  #found = False
-  # initialisation
-
   latex_report_par_scan(results_dir, tc_parameter_scan_dir, param_scan__single_perturb_prefix_results_filename, model_noext, species, param_scan__single_perturb_legend)
 
 

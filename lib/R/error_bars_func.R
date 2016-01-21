@@ -193,7 +193,6 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
            xaxt='n', gap=0.0, add=TRUE)
     }
  
-    mtext(side=2, text=paste(name, " Level [a.u.]", sep=""), line=12, cex=5.6, font=2) 
     # SPAN: 0.25 (line is the mean), 0.90 (line approximates the mean)
     #species.mean.loess <- loess(species$mean ~ timepoints, span=0.90, data.frame(x=timepoints, y=species$mean))
     #species.mean.predict <- predict(species.mean.loess, data.frame(x=timepoints))
@@ -215,6 +214,7 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
     text(side=1, (length(timepoints)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=tp, cex=5.6, font=2, xpd=TRUE)
     # Plot x axis label at line 6 (of 7)
     mtext(side=1, text=simulate__xaxis_label, line=8, cex=5.6, font=2, adj=0.5, padj=0.5) 
+    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2)
     #legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
     box(bty="l", lwd=14, lty=1)
     dev.off()  

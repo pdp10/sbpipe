@@ -482,25 +482,24 @@ make_legend <- function(path, name, min, max, values, inhibition_only, perturbat
       
       scale <- round(scale, digits = 0)
       
-      linewidth <- 8
+      linewidth <- 12
       plotchar <- c()
       plottype <- "l" # "b"
       # increase the margin on the right of the plot
-      par(mar=c(5,6,4,2)+0.1)
-      png ( paste(path, "/", name,".png",sep=""), height=760, width=800, bg="transparent")
-      par(font=2)
+      par(mar=c(20,20,12,0))
+      png ( paste(path, "/", name,".png",sep=""), height=1000, width=1400, bg="transparent")
       plot(x=c(0), 
 	  y=c(0),
 	  type=plottype,
-	  xlab="", ylab="",
-	  main=paste("Legend - ", name, sep=""),
+	  xaxt='n', yaxt='n', ann=FALSE,
+	  main=" ",
 	  xlim=c(0,10),
 	  ylim=c(0,10),
 	  #las=1,
 	  lwd=linewidth,bty="n",
-	  cex.main=3.5, cex.lab=2.5, cex.axis=2.2, font=2,cex=2.2)
+	  cex.main=5.6, cex.lab=5.6, font=2, cex=5.6)
       par(font=2)
-      legend(x="center", legend=paste(rev(scale), " %", sep=""), cex=3.6, lty=rev(linetype), col=rev(colors), pch=rev(plotchar), lwd=linewidth, bty='n')   # pch=11:10+length(values), col=c("blue","red","green","orange") 
+      legend(x="center", legend=paste(rev(scale), " %", sep=""), cex=5.6, lty=rev(linetype), col=rev(colors), pch=rev(plotchar), lwd=linewidth, bty='n')   # pch=11:10+length(values), col=c("blue","red","green","orange") 
       dev.off ( )   
     } else {
 	print ("Error: Introduced wrong parameters. max <= min !")
@@ -511,25 +510,24 @@ make_legend <- function(path, name, min, max, values, inhibition_only, perturbat
 # Create a legend for name with range between min, max of n values.
 make_legend_sim_exp <- function(path, name) {
       linetype <- c()
-      linewidth <- 8
+      linewidth <- 12
       plotchar <- c()
       plottype <- "l" # "b"
       # increase the margin on the right of the plot
-      par(mar=c(5,6,4,2)+0.1)
-      png ( paste(path, "/", name,"_sim_exp.png",sep=""), height=760, width=800, bg="transparent")
-      par(font=2)
+      par(mar=c(20,20,12,0))
+      png ( paste(path, "/", name,"_sim_exp.png",sep=""), height=1000, width=1400, bg="transparent")
       plot(x=c(0), 
 	  y=c(0),
 	  type=plottype,
-	  xlab="", ylab="",
-	  main=paste("Legend - ", name, sep=""),
+	  xaxt='n', yaxt='n', ann=FALSE,
+	  main=" ",
 	  xlim=c(0,10),
 	  ylim=c(0,10),
 	  #las=1,
 	  lwd=linewidth,bty="n",
-	  cex.main=3.5, cex.lab=2.5, cex.axis=2.2, font=2,cex=2.2)
-      par(font=1)
-      legend(x="center", c("Simulation ","Experiments\n(mean\u{00B1}SEM, 4 repeats)"), pch=c('.','o'), cex=3.6, lty=c(1,6), lwd=linewidth, col=c("black","black"), bty="n")
+	  cex.main=5.6, cex.lab=5.6, font=2, cex=5.6)
+      par(font=2)
+      legend(x="center", c("Simulation ","Experiments\n(mean\u{00B1}SEM, 4 repeats)"), pch=c('.','o'), cex=5.6, lty=c(1,6), lwd=linewidth, col=c("black","black"), bty="n")
       dev.off ( )   
 }
 
