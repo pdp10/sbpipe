@@ -18,14 +18,6 @@
 #
 #
 #
-# Institute for Ageing and Health
-# Newcastle University
-# Newcastle upon Tyne
-# NE4 5PL
-# UK
-# Tel: +44 (0)191 248 1106
-# Fax: +44 (0)191 248 1101
-#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2013-05-30 16:14:32 $
