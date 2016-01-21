@@ -110,7 +110,6 @@ def latex_report(results_dir, tc_mean_dir, model_noext, simulate__prefix_results
   file_out.write("\\section{Simulation}\n")
   folder = os.listdir(results_dir + '/' + tc_mean_dir + '/')
   folder.sort()  
-  # 1) this replaces the commented code below
   for infile in folder:
     if infile.find(model_noext) != -1:
       #if (infile.find('_ci95_') != -1):

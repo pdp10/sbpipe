@@ -29,12 +29,12 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 
-#process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_det_simul.conf'])
-#process.wait() 
+process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_det_simul.conf'])
+process.wait() 
 
 
-#process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_stoch_simul.conf'])
-#process.wait() 
+process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_stoch_simul.conf'])
+process.wait() 
 
 
 process = subprocess.Popen(['sb_param_scan__single_perturb.sh', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])

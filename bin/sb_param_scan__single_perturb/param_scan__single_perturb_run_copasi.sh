@@ -59,7 +59,7 @@ tmp_dir=$6
 echo "Simulating Model: ${model}"
 
 model_noext="${model%.*}"
-output_dir="${results_dir}/dataset_parameter_scan/"
+output_dir="${results_dir}"
 
 
 names=[]

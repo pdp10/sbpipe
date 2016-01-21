@@ -231,7 +231,7 @@ do
       printf "Executing simulations:\n"
       printf "######################\n"
       printf "\n"
-      bash ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir} ${tmp_dir} 
+      bash ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir}/${dataset_parameter_scan_dir} ${tmp_dir} 
 
 
 

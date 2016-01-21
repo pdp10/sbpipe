@@ -96,16 +96,7 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  levels <- paste(species, levels, sep=" ")
 	  writeLines(levels)
 
-	  # legend removed and added manually 
-	  #xoffset <- c(0,max(dataset[,1,1]) + max(dataset[,1,1])/3)
-	  xoffset <- c(0,max(dataset[,1,1]))
-
-	  # points to retrieve
-	  # configuration of the x axis
-	  time_axis <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
-	  xoffset <- c(0,max(dataset[,1,1]) + 1)
-	  
-
+          
 
 	  colors <- c()
 	  linetype <- c()
@@ -155,7 +146,10 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  }
 	  
 	  
-	  
+	  # points to retrieve
+	  # configuration of the x axis
+	  time_axis <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
+          xoffset <- c(0,max(time_axis))
 	  
 	  linewidth <- 12
 	  plotchar <- seq(1,length(files),1)
@@ -171,8 +165,6 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    name <- column[j]
 
 	    png ( paste ( outputdir, model_noext, "__eval_", name, "__sim_", k_sim, ".png", sep="" ), height=1000, width=1400, bg="transparent")
-	    #print (paste ( outputdir, model_noext, "__eval_", name, "__sim_", k_sim, ".png", sep=" ))
-	    
 	    
 	    # increase the margin on the right of the plot
 	    par(mar=c(20,20,12,0))
@@ -181,7 +173,6 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    if(max(dataset[,j,1]) >= max(dataset[,j,length(files)])) {
 		plot(x=c(dataset[,1,1]), y=c(dataset[,j,1]),
 		      type=plottype,
-		      #xlab="Time (days)", ylab="Relative Phosphorylation Activity", 
 		      xlab="", ylab="", 
 		      ylim=c(0,max(dataset[,j,1])+max(dataset[,j,1])/4 ),
 		      xlim=xoffset, 
@@ -196,7 +187,6 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    } else {
 		plot(x=c(dataset[,1,1]), y=c(dataset[,j,length(files)]),
 		      type=plottype,
-		      #xlab="Time (days)", ylab="Relative Phosphorylation Activity", 
 		      xlab="", ylab="", 
 		      ylim=c(0,max(dataset[,j,length(files)])+max(dataset[,j,length(files)])/4 ),
 		      xlim=xoffset, 
@@ -211,21 +201,20 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    }
 
 	    for ( m in (length(files)):1 ) {
-## 		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) # col="red" pch=10+m, 
-		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) # col="red" pch=10+m,
+		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) 
 	    }    
-	    
+
 	    ## set x axis
 	    # Set up x axis with tick marks alone
-	    tp <- seq(from=0, to=time_axis[length(time_axis)], by=(simulate__end-simulate__start)/10)
-    
+	    tp <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
+	    time_axis <- seq(from=simulate__start, to=simulate__end-1, by=(simulate__end-simulate__start)/10)
+	    
+	    
 	    ## Plot the axes
 	    # Set up axis with tick marks alone
-##	    axis(side=1, labels=FALSE, at=time_axis, cex.axis=5.6, font.axis=2, lwd.ticks=12)
-	    axis(side=1, labels=FALSE, at=(length(time_axis)/10)*0:length(time_axis), cex.axis=5.6, font.axis=2, lwd.ticks=12)    
+	    axis(side=1, labels=FALSE, at=(length(time_axis)/10)*0:length(time_axis), cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
 	    # Plot x axis labels at default tick marks
-##	    text(time_axis, par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=time_axis, cex=5.6, font=2, xpd=TRUE)
-	    text(side=1, (length(time_axis)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=tp, cex=5.6, font=2, xpd=TRUE)    
+	    text(side=1, (length(time_axis)/10)*0:length(time_axis), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=tp, cex=5.6, font=2, xpd=TRUE)  	    
 	    # Plot x axis label at line 6 (of 7)
 	    mtext(side=1, text=simulate__xaxis_label, line=12, cex=5.6, font=2) 
 	    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2) 

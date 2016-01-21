@@ -129,7 +129,12 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
     uiw_bars = c()
     ylimit = c()
     legend_title = ""
-    if(bar_type == "sem") {
+    if(bar_type == "none") {
+      # standard error configuration
+      filename = paste(outputdir, version, "_none_", name, ".png", sep="" )
+      ylimit = c(0,max(species$mean)+max((species$mean)/4))
+      legend_title = paste("Mean \u{00B1} SEM (", length(files), " Samples)", sep="" )
+    } else if(bar_type == "sem") {
       # standard error configuration
       filename = paste(outputdir, version, "_sem_", name, ".png", sep="" )
       uiw_bars = species$sderr
@@ -154,6 +159,8 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
       ylimit = c(0,max(species$mean + species$ci95)+max((species$mean + species$ci95)/4))
       legend_title = paste("Mean \u{00B1} t-distrib CI 95% (", length(files), " Samples)", sep="")
     }
+    
+    
     png (filename, height=1000, width=1400, bg="transparent")
     # increase the margin on the right of the plot
     par(mar=c(20,20,12,0))
@@ -197,13 +204,16 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
     #species.mean.loess <- loess(species$mean ~ timepoints, span=0.90, data.frame(x=timepoints, y=species$mean))
     #species.mean.predict <- predict(species.mean.loess, data.frame(x=timepoints))
     #lines(spline(species.mean.predict, method="natural", n = 10*length(species$mean)), lwd=linewidth)
-    lines(spline(species$mean, method="natural", n = 10*length(species$mean)),lwd=linewidth)
+    #lines(spline(species$mean, method="natural", n = 10*length(species$mean)),lwd=linewidth)
     #lines(spline(species$mean+species$sderr, method="natural", n = 10*length(species$mean)))
     #lines(spline(species$mean-species$sderr, method="natural", n = 10*length(species$mean)))
 
+    lines(species$mean,lwd=linewidth)
+
+    
     ## set x axis
     # Set up x axis with tick marks alone
-    tp <- seq(from=0, to=timepoints[length(timepoints)], by=(simulate__end-simulate__start)/10)
+    tp <- seq(from=simulate__start, to=timepoints[length(timepoints)], by=(simulate__end-simulate__start)/10)
     
     ## Plot the axes
     # if timepoints has "by=0.1", then set 50*0...otherwise set 10*0.....
@@ -287,6 +297,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
   	column.names <- get_column_names_statistics(column.names, column[j])
   	statistics <- get_statistics_table(statistics, species, s)
  	s <- s+13
+  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "none")   	
   	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sem")   
   	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd") 
  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "ci95") 
