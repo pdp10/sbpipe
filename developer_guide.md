@@ -1,11 +1,13 @@
 
 # Guidelines for the developer
 
-### Introduction
+
+## Introduction
 This guide is meant for developers and aims to fix some common practices for developing this project. 
 
-### Development Model
-This project follows the Feature-Branching model. Briefly, there are two main branches: `master` and `devel`. The former contains the history of stable releases, the latter contains the history of development. The `master` branch only serves as checkout points for production hotfixes or as merge point for release-x.x.x branches. The `devel` branch only serves for feature-bugfix integration and as checkout point. Nobody should directly develop in here. The `develop` branch is versionless (just call it *-devel*)
+
+## Development Model
+This project follows the Feature-Branching model. Briefly, there are two main branches: `master` and `devel`. The former contains the history of stable releases, the latter contains the history of development. The `master` branch only serves as checkout points for production hotfixes or as merge point for release-x.x.x branches. The `devel` branch only serves for feature-bugfix integration and as checkout point. Nobody should directly develop in here. The `devel` branch is versionless (just call it *-devel*)
 Due to the existence of unrelated pipelines, a separate branch for each pipeline was created. These branches resemble the idea of the `devel` branch in the context of single pipelines. These are called `devel_PIPELINE`, where `PIPELINE` is the pipeline name. **[If these branches are not practical, they might be removed in the future]**.
 
 
@@ -35,17 +37,11 @@ $ git push origin feature_10       # sometimes and at the end.
 
 When `feature_10` is completed and tested, merge this branch to `devel` WITHOUT a fast-forward, so that the history of `feature_10` is also recorded (= we know that there was a branch, which is very useful for debugging). 
 ```
-$ git pull origin devel         # update the branch devel in the local repository. NEVER DO THIS on master.
+$ git pull origin devel         # update the branch devel in the local repository. Don't do this on master.
 $ git checkout devel            # switch to devel
 $ git merge --no-ff feature_10  
 ```
 
-**NOTE:** Not sure whether the above is safer than the below.
-```
-$ git checkout devel
-$ git fetch origin devel         # Update your local copy of the remote repository in .git/
-$ git merge --no-ff feature_10   # merge without fast-forward. Note: git pull is equivalent to `git fetch && git merge`. It does fast-forward though.
-```
 
 Alternatively, use a pull request to open a discussion. 
 
@@ -63,17 +59,34 @@ $ git push origin feature_10   # if not done before
 ### New releases:
 When the `devel` branch includes all the desired feature for a release, it is time to checkout this 
 branch in a new one called `release-x.x.x`. It is at this stage that a version is established. Only bug-fixes or hot-fixes are applied to this branch. When this testing/correction phase is completed, the `master` branch will merge with the `release-x.x.x` branch, using the commands above.
-Finally, to record the version by adding a tag:
+To record the release add a tag:
 ```
 git tag -a v1.3 -m "PROGRAM_NAME v1.3"
 ```
+To transfer the tag to the remote server:
+```
+git push origin v1.3   # Note: it goes in a separate 'branch'
+```
+To see all the releases:
+```
+git show
+```
 
+## Project Structure:
+Not written yet!
 
-### Other useful commands:
+## Miscellaneous of Useful Commands:
+### Git
+##### Startup
+$ git clone https://YOURUSERNAME@server/YOURUSERNAME/SB_pipe.git   # to clone the master
+$ git checkout -b devel origin/devel                               # to get the devel branch
+$ for b in `git branch -r | grep -v -- '->'`; do git branch --track ${b##origin/} $b; done     # to get all the other branches
+$ git fetch --all    # to update all the branches with remote
+
 ##### Update
 $ git pull [--rebase] origin BRANCH  # ONLY use --rebase for private branches. Never use it for shared branches otherwise it breaks the history. --rebase moves your commits ahead. I think for shared branches, you should use `git fetch && git merge --no-ff`. FOR NOW, DON'T USE REBASE BEFORE AGREED.
 
-##### File system: 
+##### File system
 $ git rm [--cache] filename 
 $ git add filename
 
@@ -85,3 +98,6 @@ $ git branch       # list the branches
 ##### Maintenance
 $ git fsck      # check errors
 $ git gc        # clean up
+
+##### Reset
+git reset --hard HEAD    # to undo all the local uncommitted changes
