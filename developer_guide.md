@@ -109,7 +109,21 @@ $ git fsck      # check errors
 $ git gc        # clean up
 ```
 
+##### Rename a branch locally and remotely
+```
+git branch -m old_branch new_branch         # Rename branch locally    
+git push origin :old_branch                 # Delete the old branch    
+git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
+```
+
 ##### Reset
 ```
 git reset --hard HEAD    # to undo all the local uncommitted changes
+```
+
+##### Syncing a fork (assumes upstreams are set)
+```
+git fetch upstream
+git checkout devel
+git merge upstream/devel
 ```
