@@ -1,6 +1,8 @@
 
 # Developer guide
 
+Mailing list: sb_pipe AT googlegroups.com
+
 
 ## Introduction
 This guide is meant for developers and aims to fix some common practices for developing this project. 

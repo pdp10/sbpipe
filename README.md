@@ -1,9 +1,7 @@
 
 # SB_pipe
 
-
-### Authors
-Piero Dalle Pezze (The Babraham Institute, Cambridge, UK)
+Mailing list: sb_pipe AT googlegroups.com
 
 
 ### Introduction
