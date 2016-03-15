@@ -110,6 +110,9 @@ main <- function(args) {
     for(k in 1:samples.num) {
       write.table(mat3d[, , k], file = sample_file, append = TRUE, quote = FALSE, sep = "\t",
             na = "", row.names = FALSE, col.names = c(column.export))
+            
+      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = "\t",
+            na = "", row.names = FALSE, col.names = FALSE)            
     }
     
 }
