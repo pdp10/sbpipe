@@ -14,7 +14,10 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 #
-# Object: Time course data generator
+# Object: Generator of sample time courses using experimental mean and standard deviation. 
+# Input and output files are csv files (fields separated by comma, NaN for empty values).
+# This script expects 3 inputs: file_in, file_out, sample number.
+# The output file can be used in Copasi for parameter fitting.
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
@@ -46,7 +49,7 @@ SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
 
 
 main <- function(args) {
-    data_file <- args[1] # a file containing readouts specified as time, mean, sd, mean, sd, ...
+    data_file <- args[1] # a file containing readouts specified as time,mean,sd,mean,sd, ...
     sample_file <- args[2]
     samples.num <- as.numeric(args[3])
     
@@ -72,7 +75,7 @@ main <- function(args) {
     d <- 2
     s.i <- 1
     
-    # parse the columns from the input files (time, mean, sd, mean, sd, ..)
+    # parse the columns from the input files (time,mean,sd,mean,sd, ..)
     while(d <= column.number) {
       print(column.name[d])
       column.export <- c(column.export, column.name[d])
@@ -108,10 +111,10 @@ main <- function(args) {
     
     # save data on file
     for(k in 1:samples.num) {
-      write.table(mat3d[, , k], file = sample_file, append = TRUE, quote = FALSE, sep = "\t",
+      write.table(mat3d[, , k], file = sample_file, append = TRUE, quote = FALSE, sep = ",",
             na = "", row.names = FALSE, col.names = c(column.export))
             
-      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = "\t",
+      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = ",",
             na = "", row.names = FALSE, col.names = FALSE)            
     }
     
