@@ -114,8 +114,8 @@ main <- function(args) {
       write.table(mat3d[, , k], file = sample_file, append = TRUE, quote = FALSE, sep = ",",
             na = "", row.names = FALSE, col.names = c(column.export))
             
-      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = ",",
-            na = "", row.names = FALSE, col.names = FALSE)            
+#      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = ",",
+#            na = "", row.names = FALSE, col.names = FALSE)            
     }
     
 }
