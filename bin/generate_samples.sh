@@ -1,6 +1,5 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-#
+#!/bin/bash
+
 # This file is part of SB pipe.
 #
 # SB pipe is free software: you can redistribute it and/or modify
@@ -16,24 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
-import os, sys
-from os import listdir, chdir
-from os.path import isdir, isfile, join, abspath
-from sys import path
+samples=1000
 
+Rscript ${SB_PIPE_LIB}/R/tc_data_generator.R generate_samples_dataset.csv generate_samples_dataset_output.csv ${samples} true
 
-mypath = './'
-modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
-
-
-origWD = os.getcwd() # remember our original working directory
-
-for file in modelProjects:
-  localpath = join(file, 'Working_Folder')
-  if isdir(localpath):
-    print file
-    os.chdir(os.path.join(os.path.abspath(sys.path[0]), localpath))
-    process = subprocess.Popen(['python', 'run_test.py'])
-    process.wait() 
-    os.chdir(origWD) # get back to our original working directory
