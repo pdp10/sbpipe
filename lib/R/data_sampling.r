@@ -14,48 +14,87 @@
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Generator of sample time courses using experimental mean and standard deviation. 
-# Input and output files are csv files (fields separated by comma, NaN for empty values).
-# This script expects 4 inputs: file_in, file_out, sample number, lognormal (boolean).
-# lognormal is a boolean, true if log normal distribution is used. If this is used 
-# data must be geometric mean and sd.
-#
-# The output file can be used in Copasi for parameter fitting.
+# Object: Generate time courses by extracting original data (using sample()).
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-03-15 09:45:32 $
+# $Date: 2016-05-17 10:43:12 $
 
 
-# To launch the script, type
-# $ R
-# > source("/home/ariel/filename.R")
-#
-# OR type
-# $ R CMD BATCH /home/ariel/filename.R
+library(xlsx)
 
 
-# To include libraries
-#library ( lattice  )
-# library( car ) # scatterplot
+# Sample time courses (samples.num) from the original data. The xlsx file is organised so that each sheet is 
+# a readout. In each sheet, the columns are the time points whereas the rows are the repeats. The first raw is 
+# the header and contains the time points.
+sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.samples, samples.num) {
+
+  samples.rows <- length(timecourse)           
+  samples.cols <- length(xlsxname.sheets) + 1  # add `Time` col
+  mat3d <- array(NA, dim=c(samples.rows, samples.cols, samples.num))
+  #print(mat3d)
+
+  # add column names and update the Time column.
+  colnames(mat3d) <- c('Time', xlsxname.sheets)
+  for(i in 1:samples.num) {
+    mat3d[,1,i] <- timecourse
+  }
+  #print(mat3d)
+  
+  # The worksheet information is reorganised so that 
+  # sheet.name (readout) -> matrix.cols; sheet.cols (timepoints) -> matrix.row (time points). 
+  # The third dimension of the matrix contains the samples.
+  for (i in 1:length(xlsxname.sheets)) {
+
+    # read a sheet in the worksheet
+    readout.data <- read.xlsx(xlsxname.file, sheetName=xlsxname.sheets[i])
+    #print(readout.data)
+    readout.tps <- gsub("X", "", colnames(readout.data))
+    #print(readout.tps)
+     
+    # extract columns from the readout. This corresponds to the repeats for of the time points.
+    for(j in 1:length(readout.data)) {
+
+      readout.tpdata <- readout.data[,j][!is.na(readout.data[,j])]
+      #print(readout.tpdata)
+
+      # extract the index for the corresponding time point (readout.tps[j]) in timecourse
+      tp.idx <- match(readout.tps[j], timecourse)
+      
+      # generate samples for the available time points and store the whole vector directly.
+      mat3d[tp.idx,1+i,] <- sample(readout.tpdata, samples.num, replace=TRUE)  
+    } 
+  }
+  #print(mat3d)
+  
+  # delete a previous file if this exists
+  if (file.exists(file.samples)) file.remove(file.samples)  
+  # save data on file
+  for(k in 1:samples.num) {
+    write.table(mat3d[, , k], file=file.samples, append=TRUE, quote=FALSE, sep=",",
+            na="", row.names=FALSE)
+  }
+  
+}
 
 
-# Retrieve the environment variable SB_PIPE_LIB
-# SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
-# Add a collection of R functions
-#source(paste(SB_PIPE_LIB, "/R/plot_functions.R", sep=""))
 
 
 
-main <- function(args) {
-    data_file <- args[1] # a file containing readouts specified as time,mean,sd,mean,sd, ...
-    sample_file <- args[2]
-    samples.num <- as.numeric(args[3])
-    lognormal <- args[4] # a boolean, true if log normal distribution is used. If this is used 
-                         # data must be geometric mean and sd.
-    resampling <- args[5] # a boolean, true if resampling is desired when a NA or negative value is computed.
+
+
+
+
+# For geometric mean and standard deviation, read this: 
+# http://stats.stackexchange.com/questions/114087/summarizing-a-lognormal-distribution-with-geometric-mean-and-standard-deviation
+
+# datafile - a file containing readouts specified as time,mean,sd,mean,sd, ...
+# lognormal - a boolean, true if log normal distribution is used. If this is used data must be geometric mean and sd.
+# resampling - a boolean, true if resampling is desired when a NA or negative value is computed.
+sample_from_distribution <- function(datafile, samplefile, samples.num, lognormal, resampling) {
+    samples.num <- as.numeric(samples.num)
     
-    data <- read.table(data_file,header=TRUE,na.strings="NaN",dec=".",sep=",")
+    data <- read.table(datafile,header=TRUE,na.strings="NaN",dec=".",sep=",")
 
     column.name <- names(data)
     column.number <- length(column.name)
@@ -144,28 +183,22 @@ main <- function(args) {
     print(column.export)
 
     # delete a previous file if this exists
-    if (file.exists(sample_file)) file.remove(sample_file)
+    if (file.exists(samplefile)) file.remove(samplefile)
     
     # save data on file
     for(k in 1:samples.num) {
       if(samples.rows == 1) {
         # take the transpose to print it as a row and not as a column.
-	write.table(t(mat3d[, , k]), file = sample_file, append = TRUE, quote = FALSE, sep = ",",
+	write.table(t(mat3d[, , k]), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
             na = "", row.names = FALSE, col.names = c(column.export))
       } else {
-	write.table(mat3d[, , k], file = sample_file, append = TRUE, quote = FALSE, sep = ",",
+	write.table(mat3d[, , k], file = samplefile, append = TRUE, quote = FALSE, sep = ",",
             na = "", row.names = FALSE, col.names = c(column.export))      
       }
 # Copasi throws an Error if an empty line is added between repeats. 
 # Weird as the documentation says to add it!            
-#      write.table(array(NA, dim=c(1, samples.cols)), file = sample_file, append = TRUE, quote = FALSE, sep = ",",
+#      write.table(array(NA, dim=c(1, samples.cols)), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
 #            na = "", row.names = FALSE, col.names = FALSE)            
     }
     
 }
-
-
-main(commandArgs(TRUE))
-# Clean the environment
-rm (list=ls())
-
