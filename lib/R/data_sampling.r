@@ -14,8 +14,6 @@
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Generate time courses by extracting original data (using sample()).
-#
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-05-17 10:43:12 $
@@ -24,6 +22,7 @@
 library(xlsx)
 
 
+# Generate time courses by extracting original data (using sample()).
 # Sample time courses (samples.num) from the original data. The xlsx file is organised so that each sheet is 
 # a readout. In each sheet, the columns are the time points whereas the rows are the repeats. The first raw is 
 # the header and contains the time points.
