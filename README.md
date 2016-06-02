@@ -3,6 +3,8 @@
 
 Mailing list: sb_pipe AT googlegroups.com
 
+[![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
+
 
 ### Introduction
 This package contains a collection of pipelines for model simulation, single parameter perturbation, double parameter perturbation, and sensitivity analysis, and parameter estimation. The aims are to automate common processes and speed up productivity.
