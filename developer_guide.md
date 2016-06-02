@@ -35,26 +35,30 @@ $ git commit -am "Summary of the changes (Issue #10). Detailed description of th
 $ git push origin feature10       # sometimes and at the end.
 ```
 
-When `feature10` is completed and tested, merge this branch to `develop` WITHOUT a fast-forward, so that the history of `feature10` is also recorded (= we know that there was a branch, which is very useful for debugging). 
+As of June 2016, the branches `master` and `develop` are protected and a status check using Travis-CI must be performed before merging or pushing into these branches. This automatically forces a merge without fast-forward. 
+In order to merge **any** new feature, bugfix or simple edits into `master` or `develop`, a developer **must** checkout a new branch and, once committed and pushed, **merge** it to `master` or `develop` using a `pull request`. To merge `feature10` to `develop`, the pull request will 
+look like this:
 ```
-$ git pull origin develop         # update the develop branch in the local repository. Don't do this on master.
+base:develop  compare:feature10   Able to merge. These branches can be automatically merged.
+
+```
+A small discussion about feature10 should also be included to allow other users to understand the feature.
+
+
+**OBSOLETE**
+This was used in the past when the branches `master` and `develop` were not protected. At the time a user could push directly into these branches. The procedure worked as follows: `feature10` was merged to `develop` WITHOUT a fast-forward, so that the history of `feature10` was also recorded (= we know that there was a branch, which is very useful for debugging). 
+```
+$ git pull origin develop         # update the branch develop in the local repository. Don't do this on master.
 $ git checkout develop            # switch to develop
-$ git merge --no-ff feature10
+$ git merge --no-ff feature10 
+$ git push origin develop
 ```
 
-
-Alternatively, use a pull request to open a discussion. 
-
-When the integration tests are successful, then: 
+Finally delete the branch: 
 ```
 $ git branch -d feature10      # delete the branch feature10 (locally)
 ```
 
-Finally, push everything to the server:
-```
-$ git push origin develop
-$ git push origin feature10   # if not done before
-```
 
 ### New releases:
 When the `develop` branch includes all the desired feature for a release, it is time to checkout this 
