@@ -4,7 +4,12 @@
 Mailing list: sb_pipe AT googlegroups.com
 
 [![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
-[![Code Climate](https://codeclimate.com/github/pdp10/SB_pipe/badges/gpa.svg?branch=master)](https://codeclimate.com/github/pdp10/SB_pipe)
+
+[![Code Climate](https://codeclimate.com/github/pdp10/SB_pipe/badges/gpa.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
+
+[![Test Coverage](https://codeclimate.com/github/pdp10/SB_pipe/badges/coverage.svg)](https://codeclimate.com/github/pdp10/SB_pipe/coverage)
+
+[![Issue Count](https://codeclimate.com/github/pdp10/SB_pipe/badges/issue_count.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
 
 
 ### Introduction
