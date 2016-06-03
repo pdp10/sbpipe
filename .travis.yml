@@ -3,6 +3,9 @@ python:
   - "2.6"
   - "2.7"
   - "3.2"
+addons:
+    code_climate:
+        repo_token: 72d60e73895e6f04c7495a2c965dc8b1cc215f0406e2672e007d362195edd7db
 # command to install dependencies
 install:
   - pip install -r requirements.txt
