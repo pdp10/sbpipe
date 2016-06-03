@@ -4,6 +4,7 @@
 Mailing list: sb_pipe AT googlegroups.com
 
 [![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
+[![Code Climate](https://codeclimate.com/github/pdp10/SB_pipe/badges/gpa.svg?branch=master)](https://codeclimate.com/github/pdp10/SB_pipe)
 
 
 ### Introduction
