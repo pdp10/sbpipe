@@ -532,7 +532,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim.txt" append="0" confirmOverwrite="1"/>
+      <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim2.csv" append="0" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
         <Parameter name="Randomize Start Values" type="bool" value="1"/>
@@ -545,7 +545,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="7.36479"/>
+            <Parameter name="StartValue" type="float" value="0.62438257267"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -555,7 +555,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="125.2930944281991"/>
+            <Parameter name="StartValue" type="float" value="0.531013155789"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -565,7 +565,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="95867.26948826658"/>
+            <Parameter name="StartValue" type="float" value="0.111049710722"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
         </ParameterGroup>

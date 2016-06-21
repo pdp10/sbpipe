@@ -36,7 +36,7 @@ from ParamEstim_RandomizeStartValue import *
 
 
 def main(args):
-  print("\nTool for generating COPASI files, from a COPASI file configured for parameter estimation task,\nin which the parameters to estimate have random start values - by Piero Dalle Pezze\n") 
+  print("\nReplicate a Copasi file configured for parameter estimation and randomise the initial parameter values\n") 
   # INITIALIZATION
   # 3 input parameters 
   # The path containing COPASI template file configured for parameter estimation task

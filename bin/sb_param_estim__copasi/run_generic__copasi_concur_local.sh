@@ -27,6 +27,8 @@ MAX_NPROC=$5
 
 NUM=0
 QUEUE=""
+# improve this
+copasi="~/local_software/bin/CopasiSE"
 
 USAGE="run_concur_copasi_local.sh [path] [model_pattern] [start_ind] [end_idx] [ncpus]"
 
@@ -70,9 +72,8 @@ function main {
 	# Run the MODELs in parallel
 	for ((i=${START};i<=${END};i+=1))
 	do
-	      echo "CopasiSE --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &"
-	      CopasiSE --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &
-	      #CopasiSE "${MODEL}${i}.cps" &
+	      echo "${copasi} --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &"
+	      eval ${copasi} --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &
 	      PID=$!
 	      queue $PID
 	      while [ $NUM -ge $MAX_NPROC ]; do
