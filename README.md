@@ -25,10 +25,10 @@ This package contains a collection of pipelines for model simulation, single par
 ### Requirements
 - Bash (script management)
 - R (plot generation), gplots, abind, colorspace
-- Python (report generation)
+- Python (report generation), python-pp (for parameter estimation. Install using `apt-get` on Debian/Ubuntu)
 - LaTeX (for report generation) (On GNU/Linux Kubuntu 14.04, install package texlive)
-- Matlab with Potterswheel (for parameter estimation)
 - Copasi (model simulation) - remember to tick the execution check box on the task to run
+- Matlab with Potterswheel (for parameter estimation using Potterswheel)
 
 
 ### Package Structure (in progress)

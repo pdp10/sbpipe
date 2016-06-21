@@ -60,8 +60,9 @@ project=""
 # The working folder (e.g. workinging_folder)
 working_folder=""
 # The number of jobs to be executed
-nfits=0
-
+nfits=10
+# The number of jobs to be executed
+ncpus=2
 # read the copasi model name 
 param_estim__copasi_model=""
 # The folder containing the models
@@ -94,7 +95,7 @@ for line in "${lines[@]}"; do
     ("project") 			echo "$line"; project="${array[1]}" ;; 
     ("working_folder") 			echo "$line"; working_folder="${array[1]}" ;;
     ("nfits")				echo "$line"; nfits=${array[1]} ;;
-    
+    ("ncpus")				echo "$line"; ncpus=${array[1]} ;;
     ("param_estim__copasi_model") 	echo "$line"; param_estim__copasi_model="${array[1]}" ;;
     ("models_folder") 			echo "$line"; models_folder="${array[1]}" ;;
     ("data_folder") 			echo "$line"; data_folder="${array[1]}" ;;
@@ -157,28 +158,32 @@ python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_randomise
 
 
 
+printf "\n\n\n"
+printf "################################\n"
+printf "Concurrent parameter estimation:\n"
+printf "################################\n"
+# for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
+# Let's temporarily copy this folder and then delete it. 
+cp -R ${data_dir} ${models_dir}/
+
+# Check if ppserver is running
+# if pgrep "ppserver" > /dev/null
+# then
+#     echo "ppserver is already running"
+# else
+#     echo "Starting ppserver"
+#     ppserver -p 65000 -i 127.0.0.1 -s -w ${ncpus} "donald_duck" &
+# fi
+python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${models_dir} ${param_estim__copasi_model} ${nfits} ${ncpus}
+# Perform this task directly (no parallel python dependency).
+#bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${ncpus}
+
+# remove the previously copied Data folder
+rm -rf ${models_dir}/${data_folder}
 
 
 
 
-# 
-# 
-# 
-# printf "\n\n\n"
-# printf "########################################\n"
-# printf "Configure and start jobs on the cluster:\n"
-# printf "########################################\n"
-# ${SB_PIPE}/bin/sb_param_estim__pw/param_estim__pw_run_jobs_cluster.sh ${model_configuration_with_path}
-# # Check jobs are running
-# while ((scheduled_jobs)); do
-#       sleep 2m
-#       scheduled_jobs=($(bjobs -u ${user} | wc -l))
-# done
-# # Let NFS transferring all data (in case of delays).
-# sleep 2m;
-# 
-# 
-# 
 # printf "\n\n\n"
 # printf "######################################\n"
 # printf "Retrieve the results from the cluster:\n"

@@ -49,11 +49,12 @@
 
 
 
-# execute: python run_parallel_param_estim.py [path] [model_pattern] [ncalib] [ncpus]
+# execute: python run_parallel_param_estim.py [path] [model_pattern] [nfits] [ncpus]
 
 # On client side, run this program
 
-import math, time
+import math
+import time
 import shutil
 import shlex
 import subprocess
@@ -73,37 +74,37 @@ import pp
 def run_copasi_instance(filename):
   # Command output=`CopasiSE -s filename filename`
   p1 = subprocess.Popen(["CopasiSE", "-s", filename, filename], stdout=subprocess.PIPE) 
-  p1.subprocess.communicate()[0]
+  p1.communicate()[0]
 
 
 # Run parallel instances of Copasi
 def run_parallel_copasi(server, args=("","", 1), callback=SyncCounter()):
-    (path, model, ncalib) = args
+    (path, model, nfits) = args
     callbackargs = ()
     filename = ""
     start_time = time.time()
-    for index in range(0, ncalib):
+    for index in range(0, nfits):
         # Submit a Copasi Job
-        # callback (SyncCounter.add) - callback function
         callbackargs = (int(index + 1),)
         filename = path + "/" + model + str(index + 1) + ".cps"
-        server.submit(run_copasi_instance,(filename,),depfuncs=(Popen,comunicate,),modules=(shlex,subprocess,),callback=callback.add,callbackargs=callbackargs,group="my_processes")
+        server.submit(run_copasi_instance,(filename,),depfuncs=(subprocess.Popen,subprocess.PIPE),modules=(shlex,subprocess,),
+		      callback=callback.add,callbackargs=callbackargs,group="my_processes")
         print("Process P" + str(index) + " started")
 
 
 # The Main Function
 def main(args):
-    print("""Usage: python run_parallel_param_estim.py [path] [model_pattern] [ncalib] [ncpus]
+    print("""Usage: python run_parallel_param_estim.py [path] [model_pattern] [nfits] [ncpus]
 	  [path]   - the path of the models
 	  [model]  - the model name pattern
-	  [ncalib] - the number of calibration to perform
-          [ncpus]  - the number of workers to run in parallel, 
+	  [nfits]  - the number of fits to perform
+          [ncpus]  - the number of CPUs to use in parallel, 
           """)
     ### ppserver configuration
     # tuple of all parallel python servers to connect with
     # server tuple
-    #ppservers=("127.0.0.1:65000",)
-    ppservers=("cisban-node1.ncl.ac.uk:65000","cisban-node2.ncl.ac.uk:65000","cisban-node3.ncl.ac.uk:65000",)
+    ppservers=("127.0.0.1:65000",)
+    #ppservers=("cisban-node1.ncl.ac.uk:65000","cisban-node2.ncl.ac.uk:65000","cisban-node3.ncl.ac.uk:65000",)
     # a passkey
     secret='donald_duck'
     
@@ -112,7 +113,7 @@ def main(args):
     # Them model name pattern
     model = args[2]
     # The number of calibration to perform
-    ncalib = int(args[3])
+    nfits = int(args[3])
     # The number of available cpus
     # number of cpus to use IN THE LOCALHOST!
     # IMPORTANT: set ncpus to 0 if all the processes have to run on a server!
@@ -122,10 +123,10 @@ def main(args):
     callback = SyncCounter()
     # Creates jobserver with ncpus workers
     job_server = pp.Server(ncpus=ncpus, ppservers=ppservers, secret=secret)
-    print("Initialised python_pp with " + str(job_server.get_ncpus()) + " workers.\n")        
+    print("python_pp will use " + str(job_server.get_ncpus()) + " cpus.\n")        
 
     print("\nComputing Parallel Parameter Estimation using Copasi\n")
-    run_parallel_copasi(server=job_server, args=(path, model, ncalib), callback=callback)        
+    run_parallel_copasi(server=job_server, args=(path, model, nfits), callback=callback)        
     # Wait for jobs in all groups to finish 
     job_server.wait(group="my_processes")
 

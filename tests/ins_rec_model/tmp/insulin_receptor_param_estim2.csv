@@ -1,0 +1,97 @@
+Parameter Estimation Task
+
+Problem Description:
+Subtask: 
+Time-Course Task
+
+Problem Description:
+    StepNumber: 1000
+    StepSize: 0.1
+    Duration: 100
+    TimeSeriesRequested: 1
+    OutputStartTime: -60
+    Output Event: 0
+    Continue on Simultaneous Events: 0
+
+Method: Deterministic (LSODA)
+    Integrate Reduced Model: 0
+    Relative Tolerance: 1e-06
+    Absolute Tolerance: 1e-12
+    Max Internal Steps: 10000
+
+
+List of Fitting Items:
+    1e-06 <= Values[k1].InitialValue <= 1e+06; Start Value = 107224
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+    1e-06 <= Values[k2].InitialValue <= 1e+06; Start Value = 0.000557129
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+    1e-06 <= Values[k3].InitialValue <= 1e+06; Start Value = 0.00186449
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+
+Method: Particle Swarm
+    Iteration Limit: 1000
+    Swarm Size: 50
+    Std. Deviation: 1e-06
+    Random Number Generator: 1
+    Seed: 0
+
+[Function Evaluations]	[Best Value]	[Best Parameters]
+1	185.321	(	107224	0.000557129	0.00186449	)
+4	148.556	(	0.109365	0.000105472	8.84817	)
+14	114.003	(	74612.2	17.9402	413990	)
+19	95.5996	(	1905.73	0.000367011	556384	)
+138	95.5991	(	1654.15	0.000211744	660308	)
+168	95.5988	(	63513.1	1e-06	661331	)
+169	95.5983	(	1e-06	1e-06	1e+06	)
+290	95.5983	(	57132.9	1e-06	999974	)
+436	95.5983	(	189238	1e-06	999995	)
+507	95.5983	(	14464.4	1e-06	999997	)
+511	95.5983	(	7123.76	1e-06	999998	)
+563	95.5983	(	221860	1e-06	999999	)
+578	95.5983	(	24404.2	1e-06	999999	)
+608	95.5983	(	11658.8	1e-06	1e+06	)
+654	95.5983	(	79881.7	1e-06	999957	)
+5538	95.5983	(	127201	1e-06	999958	)
+35260	95.5983	(	130602	1e-06	999958	)
+
+Parameter Estimation Result:
+
+Objective Function Value:	95.5983
+Standard Deviation:	3.99162
+Function Evaluations:	50052
+CPU Time [s]:	7.162
+Evaluations/Second [1/s]:	6988.55
+
+	Parameter	Value	Gradient	Standard Deviation
+	Values[k1].InitialValue:	130602	nan	nan
+	Values[k2].InitialValue:	1e-06	nan	nan
+	Values[k3].InitialValue:	999958	nan	nan
+
+File Name:	/home/dallepep/local_software/SB_pipe/tests/ins_rec_model/Models/Data/insulin_receptor.csv
+Experiment:	Experiment
+Mean:	-2.39034
+Objective Value:	95.5983
+Root Mean Square:	3.25915
+Row	Time	[IR_beta_pY1146](Data)	[IR_beta_pY1146](Fit)	[IR_beta_pY1146](Weighted Error)	Objective Value	Root Mean Square
+
+1.	0	1	0	-1	1	1
+2.	1	5	2.43586	-2.56414	6.57479	2.56414
+3.	2	10	2.43587	-7.56413	57.2161	7.56413
+4.	5	7	2.43587	-4.56413	20.8313	4.56413
+5.	10	4	2.43587	-1.56413	2.44652	1.56413
+6.	15	5	2.43587	-2.56413	6.57478	2.56413
+7.	20	3	2.43587	-0.564134	0.318248	0.564134
+8.	30	3	2.43587	-0.564134	0.318248	0.564134
+9.	60	3	2.43587	-0.564134	0.318248	0.564134
+Objective Value				95.5983
+Root Mean Square				3.25915
+Weight				1
+
+
+

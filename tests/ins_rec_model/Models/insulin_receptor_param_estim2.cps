@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-20 15:00:56 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-21 13:19:54 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -30,9 +30,7 @@ Reaction scheme where the products are created from the reactants and the change
   </ListOfFunctions>
   <Model key="Model_3" name="Insulin Receptor" simulationType="time" timeUnit="min" volumeUnit="dimensionless" areaUnit="m²" lengthUnit="m" quantityUnit="dimensionless" type="stochastic" avogadroConstant="6.02214179e+23">
     <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Model_3">
     <dcterms:created>
       <rdf:Description>
@@ -41,7 +39,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
     </MiriamAnnotation>
     <ListOfCompartments>
       <Compartment key="Compartment_1" name="Cell" simulationType="fixed" dimensionality="3">
@@ -169,7 +166,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4396" name="k1" value="7.36479"/>
+          <Constant key="Parameter_133" name="k1" value="7.36479"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -202,7 +199,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4395" name="k1" value="125.293"/>
+          <Constant key="Parameter_134" name="k1" value="125.293"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -234,7 +231,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4394" name="k1" value="95867.3"/>
+          <Constant key="Parameter_135" name="k1" value="95867.3"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -266,7 +263,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4393" name="k1" value="12.8501"/>
+          <Constant key="Parameter_136" name="k1" value="12.8501"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -298,7 +295,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4392" name="k1" value="74.5126"/>
+          <Constant key="Parameter_137" name="k1" value="74.5126"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -330,7 +327,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4391" name="k1" value="5.18191"/>
+          <Constant key="Parameter_138" name="k1" value="5.18191"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -545,7 +542,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.62438257267"/>
+            <Parameter name="StartValue" type="float" value="107224.1900437395"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -555,7 +552,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.531013155789"/>
+            <Parameter name="StartValue" type="float" value="0.0005571288479617214"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -565,7 +562,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.111049710722"/>
+            <Parameter name="StartValue" type="float" value="0.001864489944819727"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
         </ParameterGroup>
@@ -578,7 +575,7 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="Experiment">
             <Parameter name="Data is Row Oriented" type="bool" value="1"/>
             <Parameter name="Experiment Type" type="unsignedInteger" value="1"/>
-            <Parameter name="File Name" type="file" value="../Data/insulin_receptor.csv"/>
+            <Parameter name="File Name" type="file" value="Data/insulin_receptor.csv"/>
             <Parameter name="First Row" type="unsignedInteger" value="1"/>
             <Parameter name="Key" type="key" value="Experiment_0"/>
             <Parameter name="Last Row" type="unsignedInteger" value="10"/>
@@ -902,36 +899,36 @@ Reaction scheme where the products are created from the reactants and the change
       <Parameter name="log Y" type="bool" value="0"/>
       <ListOfPlotItems>
         <PlotItem name="Experiment,[IR_beta_pY1146](Measured Value)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="3"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
+          <Parameter name="Line type" type="unsignedInteger" value="3"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Measured Value"/>
           </ListOfChannels>
         </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Fitted Value)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="0"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="0"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
+          <Parameter name="Line type" type="unsignedInteger" value="0"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="0"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Fitted Value"/>
           </ListOfChannels>
         </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Weighted Error)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="2"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="2"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
+          <Parameter name="Line type" type="unsignedInteger" value="2"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="2"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Weighted Error"/>
@@ -940,6 +937,4 @@ Reaction scheme where the products are created from the reactants and the change
       </ListOfPlotItems>
     </PlotSpecification>
   </ListOfPlots>
-  <GUI>
-  </GUI>
 </COPASI>

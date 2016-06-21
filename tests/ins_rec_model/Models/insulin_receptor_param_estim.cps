@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-20 15:00:56 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-21 12:01:36 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -545,7 +545,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="7.36479"/>
+            <Parameter name="StartValue" type="float" value="0.00422267"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -555,7 +555,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="125.2930944281991"/>
+            <Parameter name="StartValue" type="float" value="2.738093386592617"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -565,7 +565,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="95867.26948826658"/>
+            <Parameter name="StartValue" type="float" value="8177.861315777051"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
         </ParameterGroup>
@@ -902,36 +902,36 @@ Reaction scheme where the products are created from the reactants and the change
       <Parameter name="log Y" type="bool" value="0"/>
       <ListOfPlotItems>
         <PlotItem name="Experiment,[IR_beta_pY1146](Measured Value)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="3"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
+          <Parameter name="Line type" type="unsignedInteger" value="3"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Measured Value"/>
           </ListOfChannels>
         </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Fitted Value)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="0"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="0"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
+          <Parameter name="Line type" type="unsignedInteger" value="0"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="0"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Fitted Value"/>
           </ListOfChannels>
         </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Weighted Error)" type="Curve2D">
-          <Parameter name="Line type" type="unsignedInteger" value="2"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="2"/>
           <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
+          <Parameter name="Line type" type="unsignedInteger" value="2"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
           <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="2"/>
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Weighted Error"/>

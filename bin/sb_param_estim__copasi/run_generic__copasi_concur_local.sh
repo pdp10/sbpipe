@@ -19,45 +19,40 @@
 # $Date: 2011-07-7 16:14:32 $
 
 
-PATH=$1
-MODEL=$2
-START=$3
-END=$4
-MAX_NPROC=$5
-
-NUM=0
-QUEUE=""
-# improve this
-copasi="~/local_software/bin/CopasiSE"
-
-USAGE="run_concur_copasi_local.sh [path] [model_pattern] [start_ind] [end_idx] [ncpus]"
+path=$1
+model_name=$2
+start=$3
+end=$4
+ncpus=$5
 
 
+proc_num=0
+queue=""
 
 
 function queue {
-	QUEUE="$QUEUE $1"
-	NUM=$(($NUM+1))
+	queue="${queue} $1"
+	proc_num=$((${proc_num}+1))
 }
 
 function regeneratequeue {
-	OLDREQUEUE=$QUEUE
-	QUEUE=""
-	NUM=0
-	for PID in $OLDREQUEUE
+	old_queue=${queue}
+	queue=""
+	proc_num=0
+	for PID in ${old_queue}
 	do
-		if [ -d /proc/$PID  ] ; then
-			QUEUE="$QUEUE $PID"
-			NUM=$(($NUM+1))
+		if [ -d /proc/${PID}  ] ; then
+			queue="${queue} ${PID}"
+			proc_num=$((${proc_num}+1))
 		fi
 	done
 }
 
 function checkqueue {
-	OLDCHQUEUE=$QUEUE
-	for PID in $OLDCHQUEUE
+	old_queue=${queue}
+	for PID in ${old_queue}
 	do
-		if [ ! -d /proc/$PID ] ; then
+		if [ ! -d /proc/${PID} ] ; then
 			regeneratequeue # at least one PID has finished
 			break
 		fi
@@ -65,18 +60,20 @@ function checkqueue {
 }
 
 
+
+
 function main {
-	echo "$USAGE"
-	echo "Using $MAX_NPROC parallel threads"
+	echo "run_generic__copasi_concur_local.sh [path] [model_pattern] [start_ind] [end_idx] [ncpus]"
+	echo "Using $ncpus CPUs"
 	sleep="/bin/sleep 2s"
-	# Run the MODELs in parallel
-	for ((i=${START};i<=${END};i+=1))
+	# Run the models in parallel
+	for ((i=${start};i<=${end};i+=1))
 	do
-	      echo "${copasi} --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &"
-	      eval ${copasi} --nologo -s ${PATH}/${MODEL}${i}.cps ${PATH}/${MODEL}${i}.cps &
+	      echo "CopasiSE --nologo -s ${path}/${model_name}${i}.cps ${path}/${model_name}${i}.cps &"
+	      CopasiSE --nologo -s ${path}/${model_name}${i}.cps ${path}/${model_name}${i}.cps &
 	      PID=$!
 	      queue $PID
-	      while [ $NUM -ge $MAX_NPROC ]; do
+	      while [ ${proc_num} -ge ${ncpus} ]; do
 		    checkqueue
 		    `$sleep`
 	      done

@@ -12,6 +12,7 @@ TODO: adjust folder names for double perturbation, pw_param_estim
 
 v0.0.7
 
+- Added param_estim__copasi.sh
 - Improved configuration file.
 - Bug fixes
 - Simulation time start, end, xaxis label and time step now replace the parameter `team`.
