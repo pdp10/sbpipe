@@ -34,7 +34,7 @@ from ParamEstim_CollectResults import *
  
   
 def main(args):
-  print("\nCollect the estimated parameters from the results of a parameter estimation task using Copasi - by Piero Dalle Pezze\n") 
+  print("\nCollect results from multiple parameter estimations\n") 
   # INITIALIZATION
   # 1 input parameters 
   # The path containing COPASI parameter estimation reports

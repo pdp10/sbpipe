@@ -87,8 +87,12 @@ def run_parallel_copasi(server, args=("","", 1), callback=SyncCounter()):
         # Submit a Copasi Job
         callbackargs = (int(index + 1),)
         filename = path + "/" + model + str(index + 1) + ".cps"
-        server.submit(run_copasi_instance,(filename,),depfuncs=(subprocess.Popen,subprocess.PIPE),modules=(shlex,subprocess,),
-		      callback=callback.add,callbackargs=callbackargs,group="my_processes")
+        server.submit(run_copasi_instance,(filename,),
+		      depfuncs=(subprocess.Popen,subprocess.PIPE),
+		      modules=(shlex,subprocess,),
+		      callback=callback.add,
+		      callbackargs=callbackargs,
+		      group="my_processes")
         print("Process P" + str(index) + " started")
 
 

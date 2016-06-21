@@ -166,15 +166,23 @@ printf "################################\n"
 # Let's temporarily copy this folder and then delete it. 
 cp -R ${data_dir} ${models_dir}/
 
+# Perform this task using python-pp (parallel python dependency).
 # Check if ppserver is running
+# pp_running=false
 # if pgrep "ppserver" > /dev/null
 # then
 #     echo "ppserver is already running"
+#     pp_running=true
 # else
 #     echo "Starting ppserver"
 #     ppserver -p 65000 -i 127.0.0.1 -s -w ${ncpus} "donald_duck" &
 # fi
-python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${models_dir} ${param_estim__copasi_model} ${nfits} ${ncpus}
+# python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${models_dir} ${param_estim__copasi_model} ${nfits} ${ncpus}
+# echo "Terminating ppserver"
+# if [ "${pp_running}" == false ] ; then 
+#     pkill ppserver
+# fi
+
 # Perform this task directly (no parallel python dependency).
 #bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${ncpus}
 
@@ -184,51 +192,32 @@ rm -rf ${models_dir}/${data_folder}
 
 
 
-# printf "\n\n\n"
-# printf "######################################\n"
-# printf "Retrieve the results from the cluster:\n"
-# printf "######################################\n"
-# printf "\n"
-# ${SB_PIPE}/bin/sb_param_estim__pw/param_estim__pw_retrieve_results_cluster.sh ${model_configuration_with_path}
-# sleep 30s;
-# 
-# 
-# 
-# printf "\n\n\n"
-# printf "###############################################\n"
-# printf "Combine fits sequences computed on the cluster:\n"
-# printf "###############################################\n"
-# printf "\n"
-# ${SB_PIPE}/bin/sb_param_estim__pw/param_estim__pw_combine_fitseqs_wrapper.sh ${model_configuration_with_path}
-# sleep 30s;
-# 
-# 
-# 
-# printf "\n\n\n"
-# printf "#################################\n"
-# printf "Executes model analyses (matlab):\n"
-# printf "#################################\n"
-# printf "\n"
-# # "-desktop" opens a matlab GUI ; "-r" passes a command to matlab (by command line).
-# matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); model_configuration=${model_configuration_with_path__matlab}; run([SB_PIPE,'/bin/sb_param_estim__pw/param_estim__pw_analyses_full_repository.m']); catch; end; quit; " &
-# # Wait until analyses are completed
-# matlab_pid=$!
-# wait ${matlab_pid}
-# sleep 30s;
-# 
-# 
-# 
-# printf "\n\n\n"
-# printf "######################################\n"
-# printf "Store the fits sequences in a tarball:\n"
-# printf "######################################\n"
-# printf "\n"
-# ${SB_PIPE}/bin/sb_param_estim__pw/param_estim__pw_tarball_fitseqs.sh ${model_configuration_with_path} ${round}
-# 
-# 
-# 
-# # Print the pipeline elapsed time
-# printf '\n\n\nPipeline elapsed time: %s\n' $(timer $tmr) 
-# printf "\n<END PIPELINE>\n\n\n"
-# 
-# 
+printf "\n\n\n"
+printf "################\n"
+printf "Collect results:\n"
+printf "################\n"
+printf "\n"
+python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_collect_results.py ${tmp_dir}
+
+
+
+
+
+printf "\n\n\n"
+printf "######################################\n"
+printf "Store the fits sequences in a tarball:\n"
+printf "######################################\n"
+printf "\n"
+cd ${working_dir}
+mkdir ${param_estim__copasi_model%.*}_${round}
+mv ${tmp_dir}/*.csv ${param_estim__copasi_model%.*}_${round}/
+tar cvzf ${param_estim__copasi_model%.*}_${round}.tgz ${param_estim__copasi_model%.*}_${round}
+cd -
+
+
+
+# Print the pipeline elapsed time
+printf '\n\n\nPipeline elapsed time: %s\n' $(timer $tmr) 
+printf "\n<END PIPELINE>\n\n\n"
+
+
