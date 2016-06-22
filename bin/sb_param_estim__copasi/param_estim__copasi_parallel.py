@@ -24,11 +24,11 @@
 #
 # Desc: This program runs parallel estimation computations with pp module 
 
-
+# For more information, see: http://www.parallelpython.com/content/view/15/30/#QUICKCLUSTERS
 ###############################################################
 # You can put this into a script and run it on server side..
 # on server side (here: 127.0.0.1), start:
-# ppserver.py -p 65000 -i 127.0.0.1 -s -w 5 "donald_duck" &
+# ppserver.py -p 65000 -i 127.0.0.1 -s "donald_duck" -w 5 &
 #
 # NB: -w is the number of core YOU can use. If a server is used by more users, 
 # set the number lower than the number of cpus
@@ -63,7 +63,7 @@ import os
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/python/")
 
-from SyncCounter import *
+from BasicSyncCounter import *
 
 # apt-get install python-pp
 import pp
@@ -72,68 +72,96 @@ import pp
 
 # Run a Copasi instance
 def run_copasi_instance(filename):
+  if os.path.isfile(filename) is not True: 
+    return False
   # Command output=`CopasiSE -s filename filename`
   p1 = subprocess.Popen(["CopasiSE", "-s", filename, filename], stdout=subprocess.PIPE) 
   p1.communicate()[0]
+  return True
 
 
 # Run parallel instances of Copasi
-def run_parallel_copasi(server, args=("","", 1), callback=SyncCounter()):
+def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter()):
     (path, model, nfits) = args
-    callbackargs = ()
-    filename = ""
     start_time = time.time()
     for index in range(0, nfits):
         # Submit a Copasi Job
-        callbackargs = (int(index + 1),)
         filename = path + "/" + model + str(index + 1) + ".cps"
-        server.submit(run_copasi_instance,(filename,),
-		      depfuncs=(subprocess.Popen,subprocess.PIPE),
-		      modules=(shlex,subprocess,),
-		      callback=callback.add,
+
+        callbackargs = (index,)
+        server.submit(run_copasi_instance,
+		      (filename,),
+		      depfuncs=(),
+		      modules=("subprocess","shlex","os.path"),
+		      callback=syncCounter.add,          
 		      callbackargs=callbackargs,
 		      group="my_processes")
-        print("Process P" + str(index) + " started")
+        print("Process P" + str(index) + " started (model: "+ filename +")")
 
 
 # The Main Function
+# Usage: python run_parallel_param_estim.py [server_list] [port_list] [secret] [path] [model_pattern] [nfits] [ncpus]
+#	  [server_list] - the list of servers connect (separated by comma)
+#	  [port_list]   - the list of corresponding ports
+#	  [secret] 	- the secret to use  
+#	  [path]   	- the path of the model
+#	  [model]  	- the model name pattern
+#	  [nfits]  	- the number of fits to perform
+#         [ncpus]  	- the number of CPUs to use in parallel
 def main(args):
-    print("""Usage: python run_parallel_param_estim.py [path] [model_pattern] [nfits] [ncpus]
-	  [path]   - the path of the models
-	  [model]  - the model name pattern
-	  [nfits]  - the number of fits to perform
-          [ncpus]  - the number of CPUs to use in parallel, 
-          """)
+
+    # The servers to connect
+    servers = args[1]
+    # The server ports
+    ports = args[2]
+    # The server secret
+    secret = args[3]    
+    # The path of the models
+    path = args[4]
+    # Them model name pattern
+    model = args[5]
+    # The number of calibration to perform
+    nfits = int(args[6])
+    # The number of available cpus
+    # NOTE: set ncpus to 0 if all the processes have to run on a server!
+    ncpus = int(args[7])    
+        
     ### ppserver configuration
     # tuple of all parallel python servers to connect with
     # server tuple
-    ppservers=("127.0.0.1:65000",)
-    #ppservers=("cisban-node1.ncl.ac.uk:65000","cisban-node2.ncl.ac.uk:65000","cisban-node3.ncl.ac.uk:65000",)
-    # a passkey
-    secret='donald_duck'
-    
-    # The path of the models
-    path = args[1]
-    # Them model name pattern
-    model = args[2]
-    # The number of calibration to perform
-    nfits = int(args[3])
-    # The number of available cpus
-    # number of cpus to use IN THE LOCALHOST!
-    # IMPORTANT: set ncpus to 0 if all the processes have to run on a server!
-    ncpus = int(args[4])
+    server_list = servers.split(',')
+    port_list = ports.split(',')
+    resources = min(len(server_list), len(port_list))
+    ppservers=()
+    for idx in range(0, resources):
+      print("Adding server: " + server_list[idx]+":"+port_list[idx] + "\n")
+      ppservers=ppservers + (server_list[idx]+":"+port_list[idx],)
     
     # Create an instance of callback class
-    callback = SyncCounter()
-    # Creates jobserver with ncpus workers
-    job_server = pp.Server(ncpus=ncpus, ppservers=ppservers, secret=secret)
-    print("python_pp will use " + str(job_server.get_ncpus()) + " cpus.\n")        
+    syncCounter = BasicSyncCounter()
+
+    # Create the Job Server.
+    if ncpus > 0:
+        # Creates jobserver with ncpus workers
+        job_server = pp.Server(ncpus=ncpus, ppservers=ppservers, secret=secret)
+    else:
+        # Creates jobserver with automatically detected number of workers
+        job_server = pp.Server(ppservers=ppservers, secret=secret)        
+            
+        
+    print("ppserver will use " + str(job_server.get_ncpus()) + " cores locally.\n")        
 
     print("\nComputing Parallel Parameter Estimation using Copasi\n")
-    run_parallel_copasi(server=job_server, args=(path, model, nfits), callback=callback)        
+    run_parallel_copasi(server=job_server, args=(path, model, nfits), syncCounter=syncCounter)        
     # Wait for jobs in all groups to finish 
     job_server.wait(group="my_processes")
 
+    # Print the status of the parallel computation. Everything different from 0 means error.
+    if syncCounter.get_value() is False: 
+      print("\nParallel computation finished with status: 1 - Some computation failed. Do all Copasi files exist?\n")
+    else:
+      print("\nParallel computation finished with status: 0 - If errors occur, check whether CopasiSE runs correctly\n")
+    
     # print statistics
     job_server.print_stats()
     job_server.destroy()

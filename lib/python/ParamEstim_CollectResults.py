@@ -297,7 +297,8 @@ class ParamEstim_CollectResults:
     # a list of list [[item, index]..]. This way the final sort function results trivial
     container = []
     item = 0.0
-    for i in range(0, len(self._files)):      
+    for i in range(0, len(self._files)):  
+      print("ERROR " + self._data[1+i][col])
       item = float(self._data[1+i][col])
       # Prevent numerical approximations which can introduce errors. e.g. 3.12345 and 3.1234, it selects 3.1234      
       found = False

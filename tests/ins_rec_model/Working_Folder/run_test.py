@@ -29,7 +29,7 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 
-process = subprocess.Popen(['sb_param_estim__copasi.sh', 'model_ins_rec_v1_param_estim_copasi.conf'])
+process = subprocess.Popen(['sb_param_estim__copasi.sh', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
 process.wait() 
 
 

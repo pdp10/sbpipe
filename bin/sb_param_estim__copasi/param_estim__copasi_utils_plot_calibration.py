@@ -38,7 +38,7 @@ from PlotCalibration import *
 
 
 def main(args):
-  print("\nTool for extending the resulting parameter estimation COPASI files and plot the calibration results as a MSE function - by Piero Dalle Pezze\n") 
+  print("\nPlot the calibration results as an Iteration-MSE function\n") 
   # INITIALIZATION
   #folder = "../results/calibration/"
   #rscript_folder = "../results/"    # "./"
@@ -46,7 +46,7 @@ def main(args):
   rscript_folder = args[1]
   
   #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
-  pools = [ "pi3k_indep_dataset", "pi3k_dep_dataset", "tsc_dep_dataset" ]
+  pools = [ "estimation error" ]
   colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]
   plot_calibration(rscript_folder, folder, pools, colours)
 

@@ -39,7 +39,7 @@ round=$2
 
 
 if ! [[ "$round" =~ ^[0-9]+$ ]] ; then
-   exec >&2; echo "error: round must be a number"; exit 1
+   exec >&2; echo "error: round number not defined. Please, add the round number as parameter"; exit 1
 fi
 
 
@@ -53,34 +53,38 @@ lines=($(cat ${model_configuration}))  # array
 IFS=$old_IFS
 printf "\n\n"
 
-# The user name (e.g. "npdp2")
-user=""
+# The user name
+user="user"
+# The server to connect (e.g. localhost,my-node.abc.ac.uk)
+server_list="localhost"
+# The port to connect for the above server (e.g. 65000,24000)
+port_list="65000"
+# The secret key to communicate for the above server
+secret="donald_duck"
 # read the project name
-project=""
-# The working folder (e.g. workinging_folder)
-working_folder=""
+project="my_project"
 # The number of jobs to be executed
 nfits=10
-# The number of jobs to be executed
-ncpus=2
+# The number of cpus to use locally (if ncpus=0, it should run on a cluster).
+local_cpus=2
 # read the copasi model name 
-param_estim__copasi_model=""
+param_estim__copasi_model="mymodel.cps"
 # The folder containing the models
-models_folder=""
+models_folder="Models"
 # The folder containing the data
-data_folder=""
+data_folder="Data"
 # The folder containing the working results
-working_folder=""
+working_folder="Working_Folder"
 # The folder containing the temporary computations
-tmp_folder=""
+tmp_folder="tmp"
 # The remote folder containing the models
-remote_models_folder=""
+remote_models_folder="Models"
 # The remote folder containing the data
-remote_data_folder=""
+remote_data_folder="Data"
 # The remote folder containing the working results
-remote_working_folder=""
+remote_working_folder="Working_Folder"
 # The remote folder containing the temporary computations
-remote_tmp_folder=""
+remote_tmp_folder="tmp"
 
 
 
@@ -92,10 +96,12 @@ for line in "${lines[@]}"; do
   read -a array <<< "${line}"
   case "${array[0]}" in
     ("user")    			echo "$line"; user="${array[1]}" ;;
+    ("server_list")    			echo "$line"; server_list="${array[1]}" ;;
+    ("port_list")    			echo "$line"; port_list="${array[1]}" ;;    
+    ("secret")    			echo "$line"; secret="${array[1]}" ;;    
     ("project") 			echo "$line"; project="${array[1]}" ;; 
-    ("working_folder") 			echo "$line"; working_folder="${array[1]}" ;;
     ("nfits")				echo "$line"; nfits=${array[1]} ;;
-    ("ncpus")				echo "$line"; ncpus=${array[1]} ;;
+    ("local_cpus")			echo "$line"; local_cpus=${array[1]} ;;
     ("param_estim__copasi_model") 	echo "$line"; param_estim__copasi_model="${array[1]}" ;;
     ("models_folder") 			echo "$line"; models_folder="${array[1]}" ;;
     ("data_folder") 			echo "$line"; data_folder="${array[1]}" ;;
@@ -118,11 +124,12 @@ IFS=$old_IFS
 #model_configuration_with_path="${SB_PIPE}/${project}/${working_folder}/${model_configuration}"
 
 
-models_dir="${SB_PIPE}/${project}/${models_folder}/"
-data_dir="${SB_PIPE}/${project}/${data_folder}/"
-tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
-working_dir="${SB_PIPE}/${project}/${working_folder}/"
+models_dir="${project}/${models_folder}/"
+data_dir="${project}/${data_folder}/"
+tmp_dir="${project}/${tmp_folder}/"
+working_dir="${project}/${working_folder}/"
 
+output_folder=${param_estim__copasi_model%.*}_round${round}
 
 
 
@@ -146,7 +153,9 @@ printf "##################\n"
 printf "Preparing folders:\n"
 printf "##################\n"
 printf "\n"
-mkdir -p ${model_dir} ${data_dir} ${tmp_dir} ${working_dir}
+# remove the folder containing the parameter estimation for this round
+rm -rf ${working_dir}/${output_folder}
+mkdir -p ${model_dir} ${data_dir} ${tmp_dir} ${working_dir} ${working_dir}/${output_folder}
 
 
 printf "\n\n\n"
@@ -166,28 +175,20 @@ printf "################################\n"
 # Let's temporarily copy this folder and then delete it. 
 cp -R ${data_dir} ${models_dir}/
 
-# Perform this task using python-pp (parallel python dependency).
-# Check if ppserver is running
-# pp_running=false
-# if pgrep "ppserver" > /dev/null
-# then
-#     echo "ppserver is already running"
-#     pp_running=true
-# else
-#     echo "Starting ppserver"
-#     ppserver -p 65000 -i 127.0.0.1 -s -w ${ncpus} "donald_duck" &
-# fi
-# python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${models_dir} ${param_estim__copasi_model} ${nfits} ${ncpus}
-# echo "Terminating ppserver"
-# if [ "${pp_running}" == false ] ; then 
-#     pkill ppserver
-# fi
+# Perform this task using python-pp (parallel python dependency). 
+# If this computation is performed on a cluster, start this on each node of the cluster. 
+# The list of servers and ports must be updated in the configuration file
+# (NOTE: It requires the installation of python-pp)
+#ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
+
+# Perform this task using python-pp (parallel python dependency)
+python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${server_list} ${port_list} ${secret} ${models_dir} ${param_estim__copasi_model%.*} ${nfits} ${local_cpus}
 
 # Perform this task directly (no parallel python dependency).
-#bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${ncpus}
+#bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${local_cpus}
 
 # remove the previously copied Data folder
-rm -rf ${models_dir}/${data_folder}
+#rm -rf ${models_dir}/${data_folder}
 
 
 
@@ -197,8 +198,12 @@ printf "################\n"
 printf "Collect results:\n"
 printf "################\n"
 printf "\n"
+# Collect and summarises the parameter estimation results
 python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_collect_results.py ${tmp_dir}
 
+# plot the fitting curve using data from the fit sequence 
+# This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
+#python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_plot_calibration.py ${tmp_dir} ${tmp_dir}
 
 
 
@@ -208,10 +213,9 @@ printf "######################################\n"
 printf "Store the fits sequences in a tarball:\n"
 printf "######################################\n"
 printf "\n"
+mv ${tmp_dir}/*.csv ${working_dir}/${output_folder}
 cd ${working_dir}
-mkdir ${param_estim__copasi_model%.*}_${round}
-mv ${tmp_dir}/*.csv ${param_estim__copasi_model%.*}_${round}/
-tar cvzf ${param_estim__copasi_model%.*}_${round}.tgz ${param_estim__copasi_model%.*}_${round}
+tar cvzf ${output_folder}.tgz ${output_folder}
 cd -
 
 

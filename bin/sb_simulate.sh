@@ -138,10 +138,10 @@ fi
 #model_configuration_with_path="${SB_PIPE}/${project}/${work_folder}/${model_configuration}"
 
 
-models_dir="${SB_PIPE}/${project}/${models_folder}/"
-results_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/"
-data_dir="${SB_PIPE}/${project}/${data_folder}/"
-tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
+models_dir="${project}/${models_folder}/"
+results_dir="${project}/${simulations_folder}/${model%.*}/"
+data_dir="${project}/${data_folder}/"
+tmp_dir="${project}/${tmp_folder}/"
 
 
 

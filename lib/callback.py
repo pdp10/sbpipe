@@ -81,16 +81,15 @@ class Sum:
         self._count = 0
     # the callback function
     # Note: pid is callbackargs passed to submit
-    # value is the return value of the function paralellized by submit, 
+    # value is the return value of the function part_sum (which is parallelised), 
     # so it is the callback value.
     def add(self, pid, value):
         # we must use lock here because += is not atomic
         self.lock.acquire()
         self._count = self._count + 1
         self._value = self._value + value
-        # print() is inside the monitor..  mmh! :(
-        print("Process P" + str(pid) + " completed")
         self.lock.release()
+        print("Process P" + str(pid) + " completed")
     # get methods
     def get_value(self):
         temp = 0.0
@@ -135,6 +134,7 @@ def parallel_part_sum(server, args=(0,0,0), sum_callback=Sum()):
         # part_sum - the function
         # (starti, endi) - tuple with arguments for part_sum
         # callback (sum.add) - callback function
+        # NOTE: the `index` value inside will be used for the parameter `value` in add(), NOT for pid !!
         callbackargs = (int(index + 1),)
         server.submit(part_sum,(starti, endi),callback=sum_callback.add,callbackargs=callbackargs,group="my_processes")
         print("Process P" + str(index) + \
@@ -153,8 +153,8 @@ def main(args):
     ### ppserver configuration
     # tuple of all parallel python servers to connect with
     # server tuple
-    #ppservers=("127.0.0.1:65000",)
-    ppservers=("cisban-node1.ncl.ac.uk:65000",)
+    ppservers=("127.0.0.1:65000",)
+    #ppservers=("cisban-node1.ncl.ac.uk:65000",)
     # number of cpus to use IN THE LOCALHOST!
     # IMPORTANT: set ncpus to 0 if all the processes have to run on a server!
     ncpus = 1
