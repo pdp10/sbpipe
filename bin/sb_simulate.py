@@ -196,7 +196,7 @@ def main(args):
   shutil.rmtree(results_dir, ignore_errors=True) 
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
-  os.mkdir(results_dir)
+  os.makedirs(results_dir)
   os.mkdir(results_dir+"/"+dataset_simulation_dir)
   os.mkdir(results_dir+"/"+tc_dir) 
   os.mkdir(results_dir+"/"+tc_mean_dir)
