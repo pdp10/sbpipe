@@ -27,7 +27,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${SB_PIPE_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/utils/bash/timer.sh
 
 
 
@@ -184,7 +184,7 @@ printf "######################\n"
 printf "Executing simulations:\n"
 printf "######################\n"
 printf "\n"
-python ${SB_PIPE}/bin/sb_simulate/simulate__run_copasi.py ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
+python ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__run_copasi.py ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
 
 
 
@@ -193,7 +193,7 @@ printf "#######################################\n"
 printf "Generating statistics from simulations:\n"
 printf "#######################################\n"
 printf "\n"
-Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}"
+Rscript ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__plot_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${dataset_simulation_dir}/ ${results_dir}/${tc_mean_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}"
 
 
 
@@ -202,7 +202,7 @@ printf "#######################################\n"
 printf "Generating statistics from experiments (SKIP):\n"
 printf "#######################################\n"
 printf "\n"
-#Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot_exp_error_bars.R ${data_dir}/${dataset_exp}/ ${results_dir}/${tc_mean_exp}/ ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
+#Rscript ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__plot_exp_error_bars.R ${data_dir}/${dataset_exp}/ ${results_dir}/${tc_mean_exp}/ ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
 
 
 
@@ -211,7 +211,7 @@ printf "#########################################\n"
 printf "Generating overlapping plots (sim + exp) (SKIP):\n"
 printf "#########################################\n"
 printf "\n"
-#Rscript ${SB_PIPE}/bin/sb_simulate/simulate__plot_sim_exp_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_exp_dir}/ ${results_dir}/${tc_mean_with_exp_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
+#Rscript ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R ${simulate__copasi_model%.*} ${results_dir}/${tc_mean_dir}/ ${results_dir}/${tc_mean_exp_dir}/ ${results_dir}/${tc_mean_with_exp_dir}/ ${results_dir}/${simulate__prefix_stats_filename}${simulate__copasi_model%.*}.csv ${results_dir}/${simulate__prefix_exp_stats_filename}${simulate__copasi_model%.*}.csv
 
 
 
@@ -220,8 +220,8 @@ printf "###################\n"
 printf "Generating reports:\n"
 printf "###################\n"
 printf "\n"
-#bash ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
-python ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.py ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
+#bash ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
+python ${SB_PIPE_LIB}/pipelines/sb_simulate/simulate__gen_report.py ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
 
 
 

@@ -29,34 +29,34 @@ import sys
 import subprocess
 from distutils.dir_util import copy_tree
 
-#SB_PIPE = os.environ["SB_PIPE"]
-#sys.path.append(SB_PIPE + '/bin/')
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + '/bin/')
 #import sb_simulate
 
 
 def main(args):
 
+  # model simulation (simple)
+  process = subprocess.Popen(['python', '/home/dallepep/local_software/SB_pipe/bin/sb_simulate.py', 'model_ins_rec_v1_det_simul.conf'])
+  process.wait()
+  
+  process = subprocess.Popen(['python', '/home/dallepep/local_software/SB_pipe/bin/sb_simulate.py', 'model_ins_rec_v1_stoch_simul.conf'])
+  process.wait()
+  
+
+  # TODO TO CONVERT TO Python
+  # model simulation (perturbation)  
+  #process = subprocess.Popen(['sb_param_scan__single_perturb.sh', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
+  #process.wait() 
+
+  # TODO TO CONVERT TO Python
+  # model parameter estimation    
   #process = subprocess.Popen(['sb_param_estim__copasi.sh', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
   #process.wait() 
 
 
-# TODO sb_simulate is now implemented in Python!!
-  #sb_simulate(['model_ins_rec_v1_det_simul.conf'])
-  #process = subprocess.Popen("python " + SB_PIPE + "/bin/sb_simulate.py model_ins_rec_v1_det_simul.conf")
-  #process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_det_simul.conf'])
-  #process.wait() 
-
-
-  #process = subprocess.Popen(['sb_simulate.sh', 'model_ins_rec_v1_stoch_simul.conf'])
-  #process.wait() 
-
-
-  process = subprocess.Popen(['sb_param_scan__single_perturb.sh', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
-  process.wait() 
-
-
-
-
+  # TODO TO CONVERT TO Python
+  # model sensitivities    
   #print "The script sb_sensitivity.sh does not run Copasi, but generates a plot for each file containing a square matrix in PROJECT/simulation/MODEL/SENSITIVITIES_FOLDER (here: ins_rec_model/simulation/insulin_receptor/sensitivities/)"
   #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"
   #copy_tree("../Data/sb_sensitivity_for_testing", "../simulations/insulin_receptor/sensitivities")
