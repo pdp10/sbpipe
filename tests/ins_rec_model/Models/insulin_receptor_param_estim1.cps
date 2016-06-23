@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-22 14:52:57 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-23 09:24:51 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -542,7 +542,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.1072549127439708"/>
+            <Parameter name="StartValue" type="float" value="0.0002730367293743497"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -552,7 +552,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="35947.5235378867"/>
+            <Parameter name="StartValue" type="float" value="1.509249316973051e-05"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -562,7 +562,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="1245.970082915044"/>
+            <Parameter name="StartValue" type="float" value="14516.00236602322"/>
             <Parameter name="UpperBound" type="cn" value="1e+06"/>
           </ParameterGroup>
         </ParameterGroup>
