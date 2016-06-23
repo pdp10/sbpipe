@@ -245,7 +245,6 @@ def main(args):
   print("###################\n")
   print("\n")
   simulate__gen_report.main(simulate__copasi_model[:-4], results_dir+"/", tc_mean_dir, simulate__prefix_results_filename)
-  process.wait()
 
 
   # Print the pipeline elapsed time
