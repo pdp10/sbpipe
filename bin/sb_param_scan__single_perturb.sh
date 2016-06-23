@@ -265,7 +265,7 @@ do
       printf "Generating reports:\n"
       printf "###################\n"
       printf "\n"
-      bash ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${param_scan__single_perturb_legend}_${sp_species}
+      python ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_gen_report.py ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${param_scan__single_perturb_legend}_${sp_species}
 
 
 done

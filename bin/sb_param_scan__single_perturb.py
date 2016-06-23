@@ -44,6 +44,8 @@ from StringIO import StringIO
 
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/pipelines/sb_param_scan__single_perturb/")
+import param_scan__single_perturb_gen_report
+
 
 
 def main(args):
@@ -73,9 +75,9 @@ def main(args):
   # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m
   model=""
   # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
-  param_scan__single_perturb_copasi_models_list=() # a list separated by ','
+  param_scan__single_perturb_copasi_models_list=[] # a list separated by ','
   # list of species to knock-down (name of the species as in copasi) (e.g. mTORC1)
-  param_scan__single_perturb_species_list=()   # a list separated by ','
+  param_scan__single_perturb_species_list=[]   # a list separated by ','
   # if Y then, plot only kd (blue), otherwise plot kd and overexpression
   param_scan__single_perturb_knock_down_only=""
   # The folder containing the models
@@ -111,7 +113,6 @@ def main(args):
   dataset_parameter_scan_dir=""
   # The name of the folder containing the generated plots of the parameter scanning (e.g. tc_parameter_scan)
   tc_parameter_scan_dir=""
-
 
 
   # Initialises the variables
@@ -160,10 +161,13 @@ def main(args):
     elif line[0] == "tc_parameter_scan_dir": 
       tc_parameter_scan_dir = line[1]
     elif line[0] == "param_scan__single_perturb_copasi_models_list":
-      param_scan__single_perturb_copasi_models_list = line[1].split(',') 
+      param_scan__single_perturb_copasi_models_list = line[1]
     elif line[0] == "param_scan__single_perturb_species_list":
-      param_scan__single_perturb_species_list = line[1].split(',')
+      param_scan__single_perturb_species_list = line[1]
 
+
+  param_scan__single_perturb_copasi_models_list = param_scan__single_perturb_copasi_models_list.split(',')
+  param_scan__single_perturb_species_list = param_scan__single_perturb_species_list.split(',')
 
 
   # some control
@@ -171,8 +175,10 @@ def main(args):
     print("\n ERROR: simulate__start must be less than simulate__end \n\n")
     return
 
-  if len(param_scan__single_perturb_copasi_models_list != len(param_scan__single_perturb_species_list): 
-    print("\n ERROR: One model MUST BE defined for each species to perturb! "+str(len(param_scan__single_perturb_copasi_models_list))+"!="+str(len(param_scan__single_perturb_species_list))+"\n\n")
+  if len(param_scan__single_perturb_copasi_models_list) != len(param_scan__single_perturb_species_list): 
+    print("\n ERROR: One model MUST BE defined for each species to perturb! "+
+	  str(len(param_scan__single_perturb_copasi_models_list))+"!="+
+	  str(len(param_scan__single_perturb_species_list))+"\n\n")
     return
 
   if int(param_scan__single_perturb_min_inhibition_level) < 0: 
@@ -202,7 +208,7 @@ def main(args):
     sp_species=param_scan__single_perturb_species_list[i]
     sp_model=param_scan__single_perturb_copasi_models_list[i]
                
-    if os.path.isfile(models_dir+"/"+sp_model) is false:
+    if not os.path.isfile(models_dir+"/"+sp_model):
       print(models_dir+"/"+sp_model + " does not exist.") 
       return
       
@@ -236,18 +242,17 @@ def main(args):
     print("######################\n")
     print("\n")
     # TODO PORT TO PYTHON
-    process = subprocess.Popen(['bash', SB_PIPE_LIB+"/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh", sp_model, sp_species, param_scan__single_perturb_simulations_number, models_dir, results_dir+"/"+dataset_parameter_scan_dir, tmp_dir])
+    process = subprocess.Popen(['bash', SB_PIPE_LIB+"/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh", sp_model, sp_species, param_scan__single_perturb_simulations_number, models_dir, results_dir+"/"+dataset_parameter_scan_dir, tmp_dir])
     process.wait() 
 
 
     # Comment if you want to have the knockdown. If so, you must edit plot colours in param_scan__single_perturb_plot.R 
-    if param_scan__single_perturb_perturbation_in_percent_levels == true:
+    if param_scan__single_perturb_perturbation_in_percent_levels == "true":
       print("\n\n\n")
       print("########################\n")
       print("Removing knock out data:\n")
       print("########################\n") 
       print("\n")
-      rm -rf ${results_dir}/${dataset_parameter_scan_dir}/${sp_model%.*}*__level_0.csv      
       map(os.remove, glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+sp_model[:-4]+"*__level_0.csv"))    
     
     
@@ -282,11 +287,7 @@ def main(args):
     print("Generating reports:\n")
     print("###################\n")
     print("\n")
-    # TODO PORT TO PYTHON
-    process = subprocess.Popen(['bash', SB_PIPE_LIB+"/sb_param_scan__single_perturb/param_scan__single_perturb_gen_report.sh", 
-	  sp_model[:-4], sp_species, results_dir, tc_parameter_scan_dir, 
-	  param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend+"_"+sp_species])
-    process.wait() 
+    param_scan__single_perturb_gen_report.main(simulate__copasi_model[:-4], results_dir+"/", tc_mean_dir, simulate__prefix_results_filename)
 
 
     # Print the pipeline elapsed time
