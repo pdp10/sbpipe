@@ -20,11 +20,17 @@ from os import listdir
 from os.path import isdir, join
 import shutil
 import os
+import glob
 
 mypath = './'
 modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
 
 for file in modelProjects:
+  modelspath = join(file, 'Models')
+  paramEstimCopasiFiles = glob.glob(modelspath + "/" + "insulin_receptor_param_estim?.cps")
+  for f in paramEstimCopasiFiles:
+    os.remove(f)
+  
   simpath = join(file, 'simulations')
   # print simpath
   shutil.rmtree(simpath) 
