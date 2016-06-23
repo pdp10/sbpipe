@@ -184,7 +184,7 @@ printf "######################\n"
 printf "Executing simulations:\n"
 printf "######################\n"
 printf "\n"
-bash ${SB_PIPE}/bin/sb_simulate/simulate__run_copasi.sh ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
+python ${SB_PIPE}/bin/sb_simulate/simulate__run_copasi.py ${simulate__copasi_model} ${models_dir} ${results_dir}/${dataset_simulation_dir}/ ${tmp_dir}/ ${simulate__model_simulations_number}
 
 
 
@@ -220,9 +220,8 @@ printf "###################\n"
 printf "Generating reports:\n"
 printf "###################\n"
 printf "\n"
-bash ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
-
-
+#bash ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.sh ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
+python ${SB_PIPE}/bin/sb_simulate/simulate__gen_report.py ${simulate__copasi_model%.*} ${results_dir}/ ${tc_mean_dir} ${simulate__prefix_results_filename}
 
 
 
