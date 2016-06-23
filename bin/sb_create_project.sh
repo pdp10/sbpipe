@@ -28,31 +28,31 @@ project=$1
 printf "Create new folder tree for the new project ${project} ... \n"
 
 
-mkdir -p ${SB_PIPE}/${project}
+mkdir -p ${project}
 
-mkdir -p ${SB_PIPE}/${project}/Data
-mkdir -p ${SB_PIPE}/${project}/GENSSI_struct_identif
-mkdir -p ${SB_PIPE}/${project}/Models
-mkdir -p ${SB_PIPE}/${project}/MOTA_identif
-mkdir -p ${SB_PIPE}/${project}/paper
-mkdir -p ${SB_PIPE}/${project}/SBGN_graphic_models
-mkdir -p ${SB_PIPE}/${project}/sbtoolbox2
-mkdir -p ${SB_PIPE}/${project}/simulations
-mkdir -p ${SB_PIPE}/${project}/working_folder
-mkdir -p ${SB_PIPE}/${project}/tmp
-
-
-mkdir -p ${SB_PIPE}/${project}/Models/previous_models
-
-mkdir -p ${SB_PIPE}/${project}/paper/figures
-
-mkdir -p ${SB_PIPE}/${project}/SBGN_graphic_models/previous_models
+mkdir -p ${project}/Data
+mkdir -p ${project}/GENSSI_struct_identif
+mkdir -p ${project}/Models
+mkdir -p ${project}/MOTA_identif
+mkdir -p ${project}/paper
+mkdir -p ${project}/SBGN_graphic_models
+mkdir -p ${project}/sbtoolbox2
+mkdir -p ${project}/simulations
+mkdir -p ${project}/Working_Folder
+mkdir -p ${project}/tmp
 
 
-mkdir -p ${SB_PIPE}/${project}/sbtoolbox2/project
-mkdir -p ${SB_PIPE}/${project}/sbtoolbox2/project/estimations
-mkdir -p ${SB_PIPE}/${project}/sbtoolbox2/project/experiments
-mkdir -p ${SB_PIPE}/${project}/sbtoolbox2/project/models
+mkdir -p ${project}/Models/previous_models
+
+mkdir -p ${project}/paper/figures
+
+mkdir -p ${project}/SBGN_graphic_models/previous_models
+
+
+mkdir -p ${project}/sbtoolbox2/project
+mkdir -p ${project}/sbtoolbox2/project/estimations
+mkdir -p ${project}/sbtoolbox2/project/experiments
+mkdir -p ${project}/sbtoolbox2/project/models
 
 
 printf "DONE!\n"
