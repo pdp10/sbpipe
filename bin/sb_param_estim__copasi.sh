@@ -188,7 +188,7 @@ python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${s
 #bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${local_cpus}
 
 # remove the previously copied Data folder
-#rm -rf ${models_dir}/${data_folder}
+rm -rf ${models_dir}/${data_folder}
 
 
 
