@@ -22,54 +22,42 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2010-07-13 12:14:32 $
 #
-# Desc: A simple callback counter
-
-
-###############################################################
-# You can put this into a script and run it on server side..
-# on server side (here: 127.0.0.1), start:
-# ppserver.py -p 65000 -i 127.0.0.1 -s -w 5 "donald_duck" &
-#
-# NB: -w is the number of core YOU can use. If a server is used by more users, 
-# set the number lower than the number of cpus
-#
-# Command line options, ppserver.py
-# Usage: ppserver.py [-hda] [-i interface] [-b broadcast] [-p port] [-w nworkers] [-s secret] [-t seconds]
-# Options:
-# -h                 : this help message
-# -d                 : debug
-# -a                 : enable auto-discovery service
-# -i interface       : interface to listen
-# -b broadcast       : broadcast address for auto-discovery service
-# -p port            : port to listen
-# -w nworkers        : number of workers to start
-# -s secret          : secret for authentication
-# -t seconds         : timeout to exit if no connections with clients exist
-###############################################################
+# Desc: A basic callback counter
 
 
 # On client side, run this program
 
 import thread, sys
 
-
+# This is a monitor.
 # Callback class for collecting information about finished processes
-class SyncCounter:
+class BasicSyncCounter:
     _count = 0
+    _value = True
     # class constructor
     def __init__(self):
         self.lock = thread.allocate_lock()
         self._count = 0
     # the callback function
     # Note: pid is callbackargs passed to submit
-    def add(self, pid):
+    # value is the return value of the function part_sum (which is parallelised), 
+    # so it is the callback value.
+    def add(self, pid, value):
         # we must use lock here because += is not atomic
         self.lock.acquire()
         self._count = self._count + 1
-        # print() is inside the monitor..  mmh! :(
-        print("Process P" + str(pid) + " completed")
+        # We don't do much with this value, but the idea is that one could combine the values 
+        # with a desired logic. Here we only use it to collect an overall status of the parallel computation.
+        self._value = self._value and value
         self.lock.release()
+        print("Process P" + str(pid) + " completed")
     # get methods
+    def get_value(self):
+        temp = 0.0
+        self.lock.acquire()
+        temp = self._value
+        self.lock.release()
+        return temp
     def get_count(self):
         temp = 0.0
         self.lock.acquire()

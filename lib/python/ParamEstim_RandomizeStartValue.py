@@ -132,11 +132,14 @@ class ParamEstim_RandomizeStartValue:
 
   # Print the values extracted from COPASI template file and the new random start value
   def _print_parameters_to_estimate2(self, new__start_values):
-    print("\t\tLowerBound\t\tStartValue\t\tNEWStartValue\t\tUpperBound\t\tParameterName")
-    print("\t\t==========\t\t==========\t\t=============\t\t==========\t\t=============")
+    print("\t\tParameter\t\tLowerBound\t\tUpperBound\t\tStartValue\t\tNEWStartValue")
+    print("\t\t=========\t\t==========\t\t==========\t\t==========\t\t=============")
     for i in range(0, len(self._param_names)):
-      print("\t\t" + self._lower_bounds[i] + "\t\t" + self._start_values[i] + "\t\t" + 
-      new__start_values[i] + "\t\t" + self._upper_bounds[i] + "\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")])
+      print("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] 
+	    + "\t\t" + self._lower_bounds[i]
+	    + "\t\t" + self._upper_bounds[i]
+	    + "\t\t" + self._start_values[i] 
+	    + "\t\t" + new__start_values[i])
 
 
   # Randomise the start value of the parameters
@@ -164,8 +167,10 @@ class ParamEstim_RandomizeStartValue:
   def _replace_start_value_in_file(self, file_out, report_filename, old_str, new_str):
     # Attention: Popen with shell=True, launches a child process in parallel. This is not good in such a case. 
     # NOTE: .wait() is temporarily added in order to wait for the child to terminate before going on.
-    Popen('sed -i \'s/' + self._report_filename_template + '/' + report_filename + '/g\' ' + file_out, shell=True).wait()
-    #print('sed -i \'s/' + _report_filename_template + '/' + report_filename + '/g\' ' + file_out)  
+    # NOTE: As we are replacing paths (whose folders are delimited by '/', we need to change the sed delimiter to avoid a conflict. 
+    # To do so, we replace / with #. Hense s# and #g, plus the internal delimiter #.
+    Popen('sed -i \'s#' + self._report_filename_template + '#' + report_filename + '#g\' ' + file_out, shell=True).wait()
+    # print('sed -i \'s#' + self._report_filename_template + '#' + report_filename + '#g\' ' + file_out)  
     for i in range(0, len(self._param_names)):
       # Check whether the replacement of the parameter start value is exactly for the parameter estimation task 
       # and for the corresponding parameter name. So, if different parameters have same start values, the algorithm 

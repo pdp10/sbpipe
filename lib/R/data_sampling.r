@@ -19,13 +19,15 @@
 # $Date: 2016-05-17 10:43:12 $
 
 
+# NOTE: xlsx depends on rJava. IF rJava does not work, follow the procedure shown here: 
+# https://orajavasolutions.wordpress.com/2014/06/03/installing-and-loading-xlsx-package-in-r-with-ubuntu/
 library(xlsx)
 
 
 # Generate time courses by extracting original data (using sample()).
 # Sample time courses (samples.num) from the original data. The xlsx file is organised so that each sheet is 
 # a readout. In each sheet, the columns are the time points whereas the rows are the repeats. The first raw is 
-# the header and contains the time points.
+# the header and contains the time points. This works for both CopasiUI and CopasiSE.
 sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.samples, samples.num) {
 
   samples.rows <- length(timecourse)           
@@ -34,7 +36,8 @@ sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.sa
   #print(mat3d)
 
   # add column names and update the Time column.
-  colnames(mat3d) <- c('Time', xlsxname.sheets)
+  columnNames <- c('Time', xlsxname.sheets)  
+  #colnames(mat3d) <- c('Time', xlsxname.sheets)
   for(i in 1:samples.num) {
     mat3d[,1,i] <- timecourse
   }
@@ -69,18 +72,14 @@ sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.sa
   # delete a previous file if this exists
   if (file.exists(file.samples)) file.remove(file.samples)  
   # save data on file
+  write.table(as.data.frame.list(columnNames), file=file.samples, append=FALSE, quote=FALSE, sep=",",
+            na="", row.names=FALSE, col.names=FALSE)   
   for(k in 1:samples.num) {
     write.table(mat3d[, , k], file=file.samples, append=TRUE, quote=FALSE, sep=",",
-            na="", row.names=FALSE)
+            na="", row.names=FALSE, col.names=FALSE)
   }
   
 }
-
-
-
-
-
-
 
 
 

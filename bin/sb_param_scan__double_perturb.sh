@@ -122,11 +122,11 @@ IFS=$old_IFS
 
 
 
-models_dir="${SB_PIPE}/${project}/${models_folder}/"
-tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
+models_dir="${project}/${models_folder}/"
+tmp_dir="${project}/${tmp_folder}/"
 
 # The double perturbation path
-dp_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/${double_perturb_dir}/"
+dp_dir="${project}/${simulations_folder}/${model%.*}/${double_perturb_dir}/"
 # The path-directory containing the double perturbation dataset
 dp_datasets_dir="${dp_dir}/${param_scan__double_perturb_copasi_species}${param_scan__double_perturb_suffix_dataset_folder}/"
 # The path-directory containing the double perturbation plots

@@ -77,8 +77,8 @@ IFS=$old_IFS
 
 
 
-models_dir="${SB_PIPE}/${project}/${models_folder}/"
-sensitivities_path="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/${sensitivities_dir}/"
+models_dir="${project}/${models_folder}/"
+sensitivities_path="${project}/${simulations_folder}/${model%.*}/${sensitivities_dir}/"
 
 
 

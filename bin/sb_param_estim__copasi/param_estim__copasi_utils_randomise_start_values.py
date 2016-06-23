@@ -23,28 +23,34 @@
 # $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
 
 
-# Collect the estimated parameters from the results of a parameter estimation task using Copasi
+# It randomizes the start values of the parameters to estimate from a template Copasi file and saves the new files. 
+# As input, it receives the number of files to generate (multiple calibrations)
+
 
 import sys
 import os
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/python/")
 
-from ParamEstim_CollectResults import *
- 
-  
-def main(args):
-  print("\nCollect the estimated parameters from the results of a parameter estimation task using Copasi - by Piero Dalle Pezze\n") 
-  # INITIALIZATION
-  # 1 input parameters 
-  # The path containing COPASI parameter estimation reports
-  path = args[0]
-  
-  filename_out = "/parameter_estimation_collected_results.csv"
-  post_param_estim = ParamEstim_CollectResults()
-  post_param_estim.collect_results(path, filename_out)
+from ParamEstim_RandomizeStartValue import *
 
+
+def main(args):
+  print("\nReplicate a Copasi file configured for parameter estimation and randomise the initial parameter values\n") 
+  # INITIALIZATION
+  # 3 input parameters 
+  # The path containing COPASI template file configured for parameter estimation task
+  path = args[0]
+  # The name of this COPASI template file
+  filename_in = args[1]
+  # The number of files to generate from the previous COPASI template file
+  num_files = int(args[2])
+  
+  pre_param_estim = ParamEstim_RandomizeStartValue(path, filename_in)
+  pre_param_estim.print_parameters_to_estimate()
+  pre_param_estim.generate_instances_from_template(num_files)
 
 main(sys.argv[1:])
+
 
 

@@ -23,31 +23,28 @@
 # $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
 
 
-
-# command:
-# ./plot_calibration.py folder rscript_folder
+# Collect the estimated parameters from the results of a parameter estimation task using Copasi
 
 import sys
 import os
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/python/")
 
-from PlotCalibration import *
-
-
-
-
-def main(args):
-  print("\nTool for extending the resulting parameter estimation COPASI files and plot the calibration results as a MSE function - by Piero Dalle Pezze\n") 
-  # INITIALIZATION
-  #folder = "../results/calibration/"
-  #rscript_folder = "../results/"    # "./"
-  folder = args[0]
-  rscript_folder = args[1]
+from ParamEstim_CollectResults import *
+ 
   
-  #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
-  pools = [ "pi3k_indep_dataset", "pi3k_dep_dataset", "tsc_dep_dataset" ]
-  colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]
-  plot_calibration(rscript_folder, folder, pools, colours)
+def main(args):
+  print("\nCollect results from multiple parameter estimations\n") 
+  # INITIALIZATION
+  # 1 input parameters 
+  # The path containing COPASI parameter estimation reports
+  path = args[0]
+  
+  filename_out = "/parameter_estimation_collected_results.csv"
+  post_param_estim = ParamEstim_CollectResults()
+  post_param_estim.collect_results(path, filename_out)
 
-main(sys.argv[1:])  
+
+main(sys.argv[1:])
+
+

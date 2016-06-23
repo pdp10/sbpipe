@@ -174,9 +174,9 @@ fi
 
 
 
-models_dir="${SB_PIPE}/${project}/${models_folder}/"
-results_dir="${SB_PIPE}/${project}/${simulations_folder}/${model%.*}/"
-tmp_dir="${SB_PIPE}/${project}/${tmp_folder}/"
+models_dir="${project}/${models_folder}/"
+results_dir="${project}/${simulations_folder}/${model%.*}/"
+tmp_dir="${project}/${tmp_folder}/"
 
 
 
