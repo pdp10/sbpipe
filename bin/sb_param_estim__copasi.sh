@@ -26,7 +26,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${SB_PIPE_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/utils/bash/timer.sh
 
 
 
@@ -162,7 +162,7 @@ printf "\n\n\n"
 printf "#######################\n"
 printf "Configure jobs locally:\n"
 printf "#######################\n"
-python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_randomise_start_values.py ${models_dir} ${param_estim__copasi_model} ${nfits}
+python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_randomise_start_values.py ${models_dir} ${param_estim__copasi_model} ${nfits}
 
 
 
@@ -182,10 +182,10 @@ cp -R ${data_dir} ${models_dir}/
 #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
 
 # Perform this task using python-pp (parallel python dependency)
-python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_parallel.py ${server_list} ${port_list} ${secret} ${models_dir} ${param_estim__copasi_model%.*} ${nfits} ${local_cpus}
+python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_parallel.py ${server_list} ${port_list} ${secret} ${models_dir} ${param_estim__copasi_model%.*} ${nfits} ${local_cpus}
 
 # Perform this task directly (no parallel python dependency).
-#bash ${SB_PIPE}/bin/sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${local_cpus}
+#bash ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${local_cpus}
 
 # remove the previously copied Data folder
 rm -rf ${models_dir}/${data_folder}
@@ -199,11 +199,11 @@ printf "Collect results:\n"
 printf "################\n"
 printf "\n"
 # Collect and summarises the parameter estimation results
-python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_collect_results.py ${tmp_dir}
+python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_collect_results.py ${tmp_dir}
 
 # plot the fitting curve using data from the fit sequence 
 # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
-#python ${SB_PIPE}/bin/sb_param_estim__copasi/param_estim__copasi_utils_plot_calibration.py ${tmp_dir} ${tmp_dir}
+#python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_plot_calibration.py ${tmp_dir} ${tmp_dir}
 
 
 

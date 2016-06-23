@@ -26,7 +26,7 @@
 
 
 # Import the library timer.sh for computing the pipeline elapsed time 
-. ${SB_PIPE_LIB}/bash/timer.sh
+. ${SB_PIPE_LIB}/utils/bash/timer.sh
 
 
 
@@ -229,7 +229,7 @@ do
       printf "Executing simulations:\n"
       printf "######################\n"
       printf "\n"
-      bash ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir}/${dataset_parameter_scan_dir} ${tmp_dir} 
+      bash ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh ${sp_model} ${sp_species} ${param_scan__single_perturb_simulations_number} ${models_dir} ${results_dir}/${dataset_parameter_scan_dir} ${tmp_dir} 
 
 
 
@@ -250,12 +250,12 @@ do
       printf "Generating plots:\n"
       printf "#################\n"
       printf "\n"
-      Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}" ${param_scan__single_perturb_simulations_number} ${param_scan__single_perturb_perturbation_in_percent_levels}
+      Rscript ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R ${sp_model%.*} ${sp_species} ${param_scan__single_perturb_knock_down_only} ${results_dir} ${dataset_parameter_scan_dir} ${tc_parameter_scan_dir} ${simulate__start} ${simulate__end} ${simulate__interval_size} "${simulate__xaxis_label}" ${param_scan__single_perturb_simulations_number} ${param_scan__single_perturb_perturbation_in_percent_levels}
       # Prepare the legend
       if [ "${param_scan__single_perturb_knock_down_only}" == "true" ] ; then
-	  Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend}_${sp_species} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only} ${param_scan__single_perturb_perturbation_in_percent_levels} ${param_scan__single_perturb_levels_number}
+	  Rscript ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend}_${sp_species} ${param_scan__single_perturb_min_inhibition_level} 100 ${param_scan__single_perturb_knock_down_only} ${param_scan__single_perturb_perturbation_in_percent_levels} ${param_scan__single_perturb_levels_number}
       else
-	  Rscript ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend}_${sp_species} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only} ${param_scan__single_perturb_perturbation_in_percent_levels} ${param_scan__single_perturb_levels_number}
+	  Rscript ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R ${results_dir}/${tc_parameter_scan_dir}/ ${param_scan__single_perturb_legend}_${sp_species} ${param_scan__single_perturb_min_inhibition_level} ${param_scan__single_perturb_max_overexpression_level} ${param_scan__single_perturb_knock_down_only} ${param_scan__single_perturb_perturbation_in_percent_levels} ${param_scan__single_perturb_levels_number}
       fi 
 
 
@@ -265,7 +265,7 @@ do
       printf "Generating reports:\n"
       printf "###################\n"
       printf "\n"
-      bash ${SB_PIPE}/bin/sb_param_scan__single_perturb/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${param_scan__single_perturb_legend}_${sp_species}
+      bash ${SB_PIPE_LIB}/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_gen_report.sh ${sp_model%.*} ${sp_species} ${results_dir} ${tc_parameter_scan_dir} ${param_scan__single_perturb_prefix_results_filename} ${param_scan__single_perturb_legend}_${sp_species}
 
 
 done

@@ -33,14 +33,14 @@ for file in modelProjects:
   
   simpath = join(file, 'simulations')
   # print simpath
-  shutil.rmtree(simpath) 
+  shutil.rmtree(simpath, ignore_errors=True) 
   
   tmppath = join(file, 'tmp')
   # print tmppath
-  shutil.rmtree(tmppath)
+  shutil.rmtree(tmppath, ignore_errors=True)
   
   wfpath = join(file, 'Working_Folder')
   wflist = [ f for f in listdir(wfpath) if f.endswith(".tgz") ]
   for f in wflist:
     os.remove(wfpath + "/" + f)
-    shutil.rmtree(wfpath + "/" + f[:-4])
+    shutil.rmtree(wfpath + "/" + f[:-4], ignore_errors=True)
