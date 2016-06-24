@@ -57,10 +57,10 @@ def main(model_noext, species, results_dir, tc_parameter_scan_dir, param_scan__s
   currdir=os.getcwd()
   os.chdir(results_dir)
   print("pdflatex -halt-on-error " + param_scan__single_perturb_prefix_results_filename + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"], stdout=PIPE)  #>/dev/null
-  p1.communicate()[0]
-  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"], stdout=PIPE)  #>/dev/null
-  p1.communicate()[0]
+  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"])  #, stdout=PIPE
+  p1.wait()
+  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"])  #, stdout=PIPE
+  p1.wait()
   
   # remove temporary files
   os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".out")

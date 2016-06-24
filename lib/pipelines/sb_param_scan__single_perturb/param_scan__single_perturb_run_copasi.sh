@@ -23,6 +23,10 @@
 
 
 
+# Import the libraries
+. ${SB_PIPE_LIB}/utils/bash/copasi__utils.sh
+
+
 
 
 
@@ -71,9 +75,7 @@ do
 	break
     fi        
     
-    python -c "SB_PIPE_LIB = os.environ[\"SB_PIPE_LIB\"];
-sys.path.append(SB_PIPE_LIB + \"/utils/python/\"); import CopasiUtils; CopasiUtils.replace_str_copasi_sim_report(${tmp_dir}, ${model})"
-    #`replace_str_copasi_sim_report "${tmp_dir}" "${model}"`
+    `replace_str_copasi_sim_report "${tmp_dir}" "${model}"`
     # THE FOLLOWING CORRECTS A BUG IN COPASI "SCAN PARAMETERS" REPORT..
     # Delete every 2nd line starting from the 1st line (all odd lines).
     # Actually, this is a bug in the report generation. It appears and not.... nice!
@@ -134,4 +136,3 @@ sys.path.append(SB_PIPE_LIB + \"/utils/python/\"); import CopasiUtils; CopasiUti
     rm ${tmp_dir}/${model_noext}.csv
 
 done
-

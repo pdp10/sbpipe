@@ -1,8 +1,0 @@
-Time (min),ProteinA_obs,StdCol-ProteinA_obs,ProteinB_obs,StdCol-ProteinB_obs
-0,1,0.15,1,0.2
-1,NaN,NaN,11.17,4.87
-3,1.38,0.05,1.39,1.09
-5,NaN,NaN,2.19,1.67
-10,1.8,0.13,1.49,1.32
-15,2.27,0.23,3.31,2.43
-30,2.59,0.23,5.81,2.39
