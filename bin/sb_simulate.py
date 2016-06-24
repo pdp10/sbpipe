@@ -33,6 +33,7 @@ import time
 
 import os
 import sys
+import glob
 import shutil
 import subprocess
 
@@ -187,14 +188,39 @@ def main(args):
   print("Preparing folder "+results_dir +":\n")
   print("###############################\n")
   print("\n")
-  shutil.rmtree(results_dir, ignore_errors=True) 
+  # remove the folder the previous results if any
+  filesToDelete = glob.glob(results_dir+"/"+dataset_simulation_dir+"/"+simulate__copasi_model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/"+tc_dir+"/"+simulate__copasi_model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/"+tc_mean_dir+"/"+simulate__copasi_model[:-4]+"*")    
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/"+tc_mean_with_exp_dir+"/"+simulate__copasi_model[:-4]+"*")    
+  for f in filesToDelete:
+    os.remove(f)    
+  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_results_filename+simulate__copasi_model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)    
+  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)    
+
+  
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
-  os.makedirs(results_dir)
-  os.mkdir(results_dir+"/"+dataset_simulation_dir)
-  os.mkdir(results_dir+"/"+tc_dir) 
-  os.mkdir(results_dir+"/"+tc_mean_dir)
-  os.mkdir(results_dir+"/"+tc_mean_with_exp_dir)  
+  if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+  if not os.path.exists(results_dir+"/"+dataset_simulation_dir):  
+    os.mkdir(results_dir+"/"+dataset_simulation_dir)
+  if not os.path.exists(results_dir+"/"+tc_dir):  
+    os.mkdir(results_dir+"/"+tc_dir) 
+  if not os.path.exists(results_dir+"/"+tc_mean_dir):  
+    os.mkdir(results_dir+"/"+tc_mean_dir)
+  if not os.path.exists(results_dir+"/"+tc_mean_with_exp_dir):  
+    os.mkdir(results_dir+"/"+tc_mean_with_exp_dir)  
  
  
 

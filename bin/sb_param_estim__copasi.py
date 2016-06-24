@@ -173,8 +173,7 @@ def main(args):
   print("Preparing folders:\n")
   print("##################\n")
   print("\n")
-  # remove the folder containing the parameter estimation for this round  
-  shutil.rmtree(output_folder, ignore_errors=True) 
+  shutil.rmtree(output_folder, ignore_errors=True)
   if not os.path.exists(models_dir):
     os.mkdir(model_dir)
   if not os.path.exists(data_dir):
