@@ -16,31 +16,38 @@
 # You should have received a copy of the GNU General Public License
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 
-from os import listdir
+
+import sys
+import os
 from os.path import isdir, join
 import shutil
-import os
 import glob
 
-mypath = './'
-modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
 
-for file in modelProjects:
-  modelspath = join(file, 'Models')
-  paramEstimCopasiFiles = glob.glob(modelspath + "/" + "insulin_receptor_param_estim?.cps")
-  for f in paramEstimCopasiFiles:
-    os.remove(f)
-  
-  simpath = join(file, 'simulations')
-  # print simpath
-  shutil.rmtree(simpath, ignore_errors=True) 
-  
-  tmppath = join(file, 'tmp')
-  # print tmppath
-  shutil.rmtree(tmppath, ignore_errors=True)
-  
-  wfpath = join(file, 'Working_Folder')
-  wflist = [ f for f in listdir(wfpath) if f.endswith(".tgz") ]
-  for f in wflist:
-    os.remove(wfpath + "/" + f)
-    shutil.rmtree(wfpath + "/" + f[:-4], ignore_errors=True)
+def main(args):
+
+  mypath = './'
+  modelProjects = [f for f in os.listdir(mypath) if isdir(join(mypath, f))]
+
+  for file in modelProjects:
+    modelspath = join(file, 'Models')
+    paramEstimCopasiFiles = glob.glob(modelspath + "/" + "insulin_receptor_param_estim?.cps")
+    for f in paramEstimCopasiFiles:
+      os.remove(f)
+    
+    simpath = join(file, 'simulations')
+    # print simpath
+    shutil.rmtree(simpath, ignore_errors=True) 
+    
+    tmppath = join(file, 'tmp')
+    # print tmppath
+    shutil.rmtree(tmppath, ignore_errors=True)
+    
+    wfpath = join(file, 'Working_Folder')
+    wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
+    for f in wflist:
+      os.remove(wfpath + "/" + f)
+      shutil.rmtree(wfpath + "/" + f[:-4], ignore_errors=True)
+
+
+main(sys.argv)

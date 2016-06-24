@@ -30,28 +30,27 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
-#sys.path.append(SB_PIPE + '/bin/')
+sys.path.append(SB_PIPE + '/bin/')
 #import sb_simulate
 
 
 def main(args):
 
-  # model simulation (simple)
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_det_simul.conf'])
-  #process.wait()
-  
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_stoch_simul.conf'])
-  #process.wait()
-  
-
-  # TODO TO CONVERT TO Python
-  # model simulation (perturbation)  
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
-  #process.wait() 
-
   # model parameter estimation    
   process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_estim__copasi.py', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
   process.wait() 
+
+  # model simulation (simple)
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_det_simul.conf'])
+  process.wait()
+  
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_stoch_simul.conf'])
+  process.wait()
+  
+  # model simulation (perturbation)  
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
+  process.wait() 
+
 
 
   # TODO TO CONVERT TO Python

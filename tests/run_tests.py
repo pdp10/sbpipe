@@ -23,18 +23,23 @@ from os.path import isdir, isfile, join, abspath
 from sys import path
 
 
-mypath = './'
-modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
+def main(args):
+    
+  mypath = './'
+  modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
 
 
-origWD = os.getcwd() # remember our original working directory
+  origWD = os.getcwd() # remember our original working directory
 
-for file in modelProjects:
-  localpath = join(file, 'Working_Folder')
-  if isdir(localpath):
-    print file
-    os.chdir(os.path.join(os.path.abspath(sys.path[0]), localpath))
-    process = subprocess.Popen(['python', 'run_test.py'])
-    process.wait() 
+  for file in modelProjects:
+    localpath = join(file, 'Working_Folder')
+    if isdir(localpath):
+      print file
+      os.chdir(os.path.join(os.path.abspath(sys.path[0]), localpath))
+      process = subprocess.Popen(['python', 'run_test.py'])
+      process.wait() 
 
-os.chdir(origWD) # get back to our original working directory
+  os.chdir(origWD) # get back to our original working directory
+
+main(sys.argv)
+

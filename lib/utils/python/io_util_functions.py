@@ -35,6 +35,15 @@ import scipy.stats
 
 
 
+# Return all files with a certain pattern in folder+subdirectories
+def files_with_pattern_recur(folder, pattern):
+   for dirname, subdirs, files in os.walk(folder):
+      for f in files:
+         if f.endswith(pattern):
+            yield os.path.join(dirname, f)
+
+
+
 # Print the matrix results stored in data in an output file
 def write_matrix_on_file(path, filename_out, data):
   # Open output file

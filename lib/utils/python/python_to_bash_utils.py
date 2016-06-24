@@ -33,6 +33,7 @@ from subprocess import *
 
 
 
+
 # Return the line number (as string) of the first occurrence of pattern in filename
 def get_pattern_position(pattern, filename):
   # Older function for this was: output=`grep -n ctrl_str file_in | cut -f 1 -d ":"`
