@@ -31,20 +31,15 @@ SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/utils/python/")
 
 from ParamEstim_CollectResults import *
+
+
+
  
-  
-def main(args):
+# INITIALIZATION
+# path : The path containing COPASI parameter estimation reports
+def main(path):
   print("\nCollect results from multiple parameter estimations\n") 
-  # INITIALIZATION
-  # 1 input parameters 
-  # The path containing COPASI parameter estimation reports
-  path = args[0]
-  
   filename_out = "/parameter_estimation_collected_results.csv"
   post_param_estim = ParamEstim_CollectResults()
   post_param_estim.collect_results(path, filename_out)
-
-
-main(sys.argv[1:])
-
 

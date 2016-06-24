@@ -64,7 +64,8 @@ class ParamEstim_RandomizeStartValue:
 
   # Generate num_files files, in which the parameters to estimate have a random 
   # starting value chosen in the determined ammissible range for that parameter.
-  def generate_instances_from_template(self, num_files):  
+  def generate_instances_from_template(self, num_files):
+    num_files = int(num_files)
     for i in range(0, num_files):
       # initialise the names and generate the output file
       filename_out = self._filename_in[:-4] + str(i+1) + ".cps"

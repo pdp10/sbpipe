@@ -298,7 +298,7 @@ class ParamEstim_CollectResults:
     container = []
     item = 0.0
     for i in range(0, len(self._files)):  
-      print("ERROR " + self._data[1+i][col])
+      print("warning - approximating floating number: " + self._data[1+i][col])
       item = float(self._data[1+i][col])
       # Prevent numerical approximations which can introduce errors. e.g. 3.12345 and 3.1234, it selects 3.1234      
       found = False

@@ -36,18 +36,13 @@ from PlotCalibration import *
 
 
 
-
-def main(args):
+# INITIALIZATION
+# folder : the folder containing the data to process
+# rscript_folder : the rscript folder
+def main(folder, rscript_folder):
   print("\nPlot the calibration results as an Iteration-MSE function\n") 
-  # INITIALIZATION
-  #folder = "../results/calibration/"
-  #rscript_folder = "../results/"    # "./"
-  folder = args[0]
-  rscript_folder = args[1]
-  
   #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
   pools = [ "estimation error" ]
   colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]
   plot_calibration(rscript_folder, folder, pools, colours)
 
-main(sys.argv[1:])  

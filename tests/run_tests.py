@@ -36,4 +36,5 @@ for file in modelProjects:
     os.chdir(os.path.join(os.path.abspath(sys.path[0]), localpath))
     process = subprocess.Popen(['python', 'run_test.py'])
     process.wait() 
-    os.chdir(origWD) # get back to our original working directory
+
+os.chdir(origWD) # get back to our original working directory

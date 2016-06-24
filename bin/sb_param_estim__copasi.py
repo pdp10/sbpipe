@@ -34,13 +34,19 @@ import os
 import sys
 import shutil
 import subprocess
+import tarfile
+# for generating a timestamp
+import datetime
 
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/pipelines/sb_param_estim__copasi/")
-
+import param_estim__copasi_parallel
+import param_estim__copasi_utils_randomise_start_values
+import param_estim__copasi_utils_collect_results
+import param_estim__copasi_utils_plot_calibration
 
 
 def main(args):
@@ -134,6 +140,8 @@ def main(args):
       remote_tmp_folder = line[1]
 
 
+  nfits = int(nfits)
+  local_cpus = int(local_cpus)
 
   models_dir=project+"/"+models_folder+"/"
   working_dir=project+"/"+working_folder+"/"
@@ -165,75 +173,80 @@ def main(args):
   print("Preparing folders:\n")
   print("##################\n")
   print("\n")
-  
-  
-  
-
-# remove the folder containing the parameter estimation for this round
-rm -rf ${working_dir}/${output_folder}
-mkdir -p ${model_dir} ${data_dir} ${tmp_dir} ${working_dir} ${working_dir}/${output_folder}
-
-
-print("\n\n\n")
-print("#######################\n")
-print("Configure jobs locally:\n")
-print("#######################\n")
-python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_randomise_start_values.py ${models_dir} ${param_estim__copasi_model} ${nfits}
+  # remove the folder containing the parameter estimation for this round  
+  shutil.rmtree(output_folder, ignore_errors=True) 
+  if not os.path.exists(models_dir):
+    os.mkdir(model_dir)
+  if not os.path.exists(data_dir):
+    os.mkdir(data_dir)    
+  if not os.path.exists(tmp_dir):
+    os.mkdir(tmp_dir)  
+  os.makedirs(working_dir+"/"+output_folder)
 
 
 
-
-print("\n\n\n")
-print("################################\n")
-print("Concurrent parameter estimation:\n")
-print("################################\n")
-# for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
-# Let's temporarily copy this folder and then delete it. 
-cp -R ${data_dir} ${models_dir}/
-
-# Perform this task using python-pp (parallel python dependency). 
-# If this computation is performed on a cluster, start this on each node of the cluster. 
-# The list of servers and ports must be updated in the configuration file
-# (NOTE: It requires the installation of python-pp)
-#ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-
-# Perform this task using python-pp (parallel python dependency)
-python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_parallel.py ${server_list} ${port_list} ${secret} ${models_dir} ${param_estim__copasi_model%.*} ${nfits} ${local_cpus}
-
-# Perform this task directly (no parallel python dependency).
-#bash ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/run_generic__copasi_concur_local.sh ${models_dir} ${param_estim__copasi_model%.*} 1 ${nfits} ${local_cpus}
-
-# remove the previously copied Data folder
-rm -rf ${models_dir}/${data_folder}
+  print("\n\n\n")
+  print("#######################\n")
+  print("Configure jobs locally:\n")
+  print("#######################\n")
+  param_estim__copasi_utils_randomise_start_values.main(models_dir, param_estim__copasi_model, nfits)
 
 
 
 
-print("\n\n\n")
-print("################\n")
-print("Collect results:\n")
-print("################\n")
-print("\n")
-# Collect and summarises the parameter estimation results
-python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_collect_results.py ${tmp_dir}
+  print("\n\n\n")
+  print("################################\n")
+  print("Concurrent parameter estimation:\n")
+  print("################################\n")
+  # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
+  # Let's temporarily copy this folder and then delete it.
+  if os.path.exists(models_dir+"/"+data_folder):
+    os.rename(models_dir+"/"+data_folder, models_dir+"/"+data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now()))
+  shutil.copytree(data_dir, models_dir+"/"+data_folder)
 
-# plot the fitting curve using data from the fit sequence 
-# This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
-#python ${SB_PIPE_LIB}/pipelines//sb_param_estim__copasi/param_estim__copasi_utils_plot_calibration.py ${tmp_dir} ${tmp_dir}
+  # Perform this task using python-pp (parallel python dependency). 
+  # If this computation is performed on a cluster, start this on each node of the cluster. 
+  # The list of servers and ports must be updated in the configuration file
+  # (NOTE: It requires the installation of python-pp)
+  #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
+
+  # Perform this task using python-pp (parallel python dependency)
+  param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, param_estim__copasi_model[:-4], nfits, local_cpus)
+
+  # remove the previously copied Data folder
+  shutil.rmtree(models_dir+"/"+data_folder, ignore_errors=True) 
 
 
 
+  print("\n\n\n")
+  print("################\n")
+  print("Collect results:\n")
+  print("################\n")
+  print("\n")
+  # Collect and summarises the parameter estimation results
+  param_estim__copasi_utils_collect_results.main(tmp_dir)
 
-print("\n\n\n")
-print("######################################\n")
-print("Store the fits sequences in a tarball:\n")
-print("######################################\n")
-print("\n")
-mv ${tmp_dir}/*.csv ${working_dir}/${output_folder}
-cd ${working_dir}
-tar cvzf ${output_folder}.tgz ${output_folder}
-cd -
+  # plot the fitting curve using data from the fit sequence 
+  # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
+  #param_estim__copasi_utils_plot_calibration.main(tmp_dir, tmp_dir)
 
+
+
+  print("\n\n\n")
+  print("######################################\n")
+  print("Store the fits sequences in a tarball:\n")
+  print("######################################\n")
+  print("\n")
+  tmpFiles = os.listdir(tmp_dir)
+  for file in tmpFiles:
+    shutil.move(tmp_dir+"/"+file, working_dir+"/"+output_folder+"/")
+  # Create a gz tarball   
+  origWD = os.getcwd() # remember our original working directory
+  os.chdir(working_dir) # change folder
+  with tarfile.open(output_folder+".tgz", "w:gz") as tar:
+    tar.add(output_folder, arcname=os.path.basename(output_folder))
+  os.chdir(origWD) # get back to our original working directory
+    
 
 
   # Print the pipeline elapsed time
@@ -241,4 +254,6 @@ cd -
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n\n\n")
 
+
+main(sys.argv)
 

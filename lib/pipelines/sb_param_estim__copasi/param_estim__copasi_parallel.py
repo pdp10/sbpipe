@@ -99,32 +99,16 @@ def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter())
         print("Process P" + str(index) + " started (model: "+ filename +")")
 
 
-# The Main Function
-# Usage: python run_parallel_param_estim.py [server_list] [port_list] [secret] [path] [model_pattern] [nfits] [ncpus]
-#	  [server_list] - the list of servers connect (separated by comma)
-#	  [port_list]   - the list of corresponding ports
-#	  [secret] 	- the secret to use  
-#	  [path]   	- the path of the model
-#	  [model]  	- the model name pattern
-#	  [nfits]  	- the number of fits to perform
-#         [ncpus]  	- the number of CPUs to use in parallel
-def main(args):
 
-    # The servers to connect
-    servers = args[1]
-    # The server ports
-    ports = args[2]
-    # The server secret
-    secret = args[3]    
-    # The path of the models
-    path = args[4]
-    # Them model name pattern
-    model = args[5]
-    # The number of calibration to perform
-    nfits = int(args[6])
-    # The number of available cpus
-    # NOTE: set ncpus to 0 if all the processes have to run on a server!
-    ncpus = int(args[7])    
+# Main function
+# servers: The servers to connect
+# ports: The server ports
+# secret: The server secret
+# path: The path of the models
+# model: Them model name pattern
+# nfits: The number of calibration to perform
+# ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
+def main(servers, ports, secret, path, model, nfits, ncpus):
         
     ### ppserver configuration
     # tuple of all parallel python servers to connect with
@@ -166,6 +150,3 @@ def main(args):
     job_server.print_stats()
     job_server.destroy()
 
-
-
-main(sys.argv)

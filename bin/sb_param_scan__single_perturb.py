@@ -27,9 +27,8 @@
 
 
 
-# Import the library timer.sh for computing the pipeline elapsed time 
-# TODO
-#. ${SB_PIPE_LIB}/bash/timer.sh
+# for computing the pipeline elapsed time 
+import time
 
 
 import glob
@@ -199,8 +198,7 @@ def main(args):
 
   print("\n\n\n<START PIPELINE>\n\n\n")
   # Get the pipeline start time
-  # TODO
-  #tmr=$(timer)
+  start = time.clock()
 
 
   for i in range(0, len(param_scan__single_perturb_species_list)):
@@ -291,8 +289,8 @@ def main(args):
 
 
     # Print the pipeline elapsed time
-    # TODO
-    #printf '\n\n\nPipeline elapsed time: %s\n' $(timer $tmr) 
+    end = time.clock()
+    print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
     print("\n<END PIPELINE>\n\n\n")
 
 

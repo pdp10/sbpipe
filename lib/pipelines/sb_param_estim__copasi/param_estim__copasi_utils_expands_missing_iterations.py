@@ -39,14 +39,12 @@
 import sys
 
 
-
-
-def main(args):
-  
-  hearder = args[1]
-  error = args[2]
-  filenamein = args[3]
-  filenameout = args[4]
+# INITIALISATION
+# hearder: the header 
+# error : ?
+# filenamein : the input file
+# filenameout : the output file
+def main(hearder, error, filenamein, filenameout):
   
   fileIN = open(filenamein, "r")
   fileOUT = open(filenameout, "w")
@@ -79,10 +77,5 @@ def main(args):
     fileOUT.write(str(iteration) + "\t" + content[1] + "\n")
     iteration = iteration + 1
 
-
   fileIN.close()
   fileOUT.close()
-
-  
-
-main(sys.argv[1:])

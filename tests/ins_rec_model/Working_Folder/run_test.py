@@ -49,7 +49,6 @@ def main(args):
   #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
   #process.wait() 
 
-  # TODO TO CONVERT TO Python
   # model parameter estimation    
   process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_estim__copasi.py', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
   process.wait() 

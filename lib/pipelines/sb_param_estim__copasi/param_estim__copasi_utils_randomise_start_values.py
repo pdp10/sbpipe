@@ -35,22 +35,14 @@ sys.path.append(SB_PIPE_LIB + "/utils/python/")
 from ParamEstim_RandomizeStartValue import *
 
 
-def main(args):
+
+# INITIALIZATION
+# path: The path containing COPASI template file configured for parameter estimation task
+# filename_in: The name of this COPASI template file
+# num_files: The number of files to generate from the previous COPASI template file
+def main(path, filename_in, num_files):
   print("\nReplicate a Copasi file configured for parameter estimation and randomise the initial parameter values\n") 
-  # INITIALIZATION
-  # 3 input parameters 
-  # The path containing COPASI template file configured for parameter estimation task
-  path = args[0]
-  # The name of this COPASI template file
-  filename_in = args[1]
-  # The number of files to generate from the previous COPASI template file
-  num_files = int(args[2])
-  
   pre_param_estim = ParamEstim_RandomizeStartValue(path, filename_in)
   pre_param_estim.print_parameters_to_estimate()
   pre_param_estim.generate_instances_from_template(num_files)
-
-main(sys.argv[1:])
-
-
 
