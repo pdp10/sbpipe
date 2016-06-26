@@ -26,6 +26,11 @@
 
 import os, sys
 import subprocess
+import shutil
+
+# For reading the first N lines of a file.
+from itertools import islice
+
 
 SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
 sys.path.append(SB_PIPE_LIB + "/utils/python/")
@@ -39,7 +44,8 @@ import CopasiUtils
 # models_dir: Read the models dir
 # results_dir: Read the results dir
 # tmp_dir: Read the tmp dir
-def main(model, species, param_scan__single_perturb_simulations_number, models_dir, results_dir, tmp_dir):
+def main(model, species, param_scan__single_perturb_simulations_number, simulate__intervals, 
+	 param_scan__single_perturb_intervals, models_dir, results_dir, tmp_dir):
 
 
   print("Simulating Model: "+ model)
@@ -49,9 +55,13 @@ def main(model, species, param_scan__single_perturb_simulations_number, models_d
   names=[]
   species_index=-1
   species_level=-1
+  # Set the number of intervals
+  intervals=int(param_scan__single_perturb_intervals)+1
+  # Set the number of timepoints
+  timepoints=int(simulate__intervals)+1
 
 
-  for i in range (int(param_scan__single_perturb_simulations_number)):
+  for i in xrange(0, int(param_scan__single_perturb_simulations_number)):
     
       print("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
@@ -66,56 +76,78 @@ def main(model, species, param_scan__single_perturb_simulations_number, models_d
       # Replace some string in the report file   
       CopasiUtils.replace_str_copasi_sim_report(tmp_dir, model)
       
-      
-      
-      
-      
-      ## BASH CODE TO PORT TO PYTHON
 
-      ## Set the number of intervals
-      #intervals=$[`grep  -c '^$' ${tmp_dir}/${model_noext}.csv`]
-      #echo "Intervals: $intervals"
-      ## Set the number of timepoints
-      #lines=$[`wc -l ${tmp_dir}/${model_noext}.csv | awk '{print $1'}`]
-      #timepoints=$[($lines - 1 - $intervals) / $intervals]
-      #echo "Time points: $timepoints"
 
-      ## Find the index of $species in the header file, so it is possible to read the amount at 
-      ## the second line.
-      #if [[ $i==1 ]] ; then 
-	  #echo "Retrieving column index for species $species from file ${tmp_dir}/${model_noext}.csv"
-	  #names=(`sed -n "1 p" ${tmp_dir}/${model_noext}.csv | tr "\t" "\n"`)
-	  #for (( j=0; j < ${#names[@]} ; j++)) 
-	  #do 
-	    #echo "$j ${names[$j]} $species"
-	    #if [ "${names[$j]}" == "$species" ] ; then species_index=$j ; break; fi; 
-	  #done
-	  #if [ "${species_index}" == "-1" ] ; then echo "Column index for species ${species}: ${species_index}. ERROR: Species not found!!! You must add the species ${species} to the report form in the copasi file (check the report time-course or parameter scan). STOP" ; exit; 
-	  #else echo "Column index for species $species: $species_index"; fi
-      #fi
+
+      # Find the index of species in the header file, so it is possible to read the amount at 
+      # the second line.
+      if i == 0:
+	print("Retrieving column index for species "+species+" from file "+tmp_dir+"/"+model_noext+".csv")
+	# Read the first line of a file.
+	with open(tmp_dir+"/"+model_noext+".csv") as myfile:
+	  # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
+	  header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
+	#print header
+	for j, name in enumerate(header): 
+	  print(str(j) + " " + name + " " + species)
+	  if name == species: 
+	    species_index=j 
+	    break;
+	if species_index == -1: 
+	  print("Column index for species "+species+": "+str(species_index)+". ERROR: Species not found!!! You must add the species "+species+
+	  " to the report form in the copasi file (check the report time-course or parameter scan). STOP")
+	  return
+	else:
+	  print("Column index for species "+species+": "+str(species_index))
+
+
+      # Prepare the Header for the output files
+      # Add a \t at the end of each element of the header
+      header = [h + "\t" for h in header]
+      # Remove the \t for the last element.
+      header[-1] = header[-1].strip()      
+
+
+      # Prepare the table content for the output files
+      for j in xrange(0, intervals):
+	# Read the species level
+	# Read the second line of a file.
+	with open(tmp_dir+"/"+model_noext+".csv") as myfile:
+	  # 2 is the number of lines to read, 1 is the i-th element to extract from the list.	  
+	  initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
+	#print initial_configuration
+	species_level = initial_configuration[species_index]
+	if species_level == -1: 
+	  print("ERROR: species_level not configured!!! STOP")
+	  return 
+	else:
+	  print(species + " level: "+str(species_level)+" (list index: "+str(species_index)+")")
 	
 
-      #for (( j=0; j < $intervals; j++ ))
-      #do
-	## Read the species level
-	#initial_configuration=(`sed -n "2 p" ${tmp_dir}/${model_noext}.csv | tr "\t" "\n"`)
-	#species_level=${initial_configuration[$species_index]}
+	# copy the -th run to a new file: add 1 to timepoints because of the header.
+	round_species_level = species_level
+	# Read the first timepoints+1 lines of a file.
+	with open(tmp_dir+"/"+model_noext+".csv") as file:
+	  table = list(islice(file, timepoints+1))  
 
-	#if [ "${species_level}" == "-1" ] ; then echo "ERROR: species_level not configured!!! STOP" ; exit; 
-	#else echo "$species level: $species_level (list index: $species_index)"; fi
+	# Write the extracted table to a separate file
+	with open(results_dir+"/"+model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv", 'w') as file:
+	  for line in table:
+	    file.write(line)
+
+	with open(tmp_dir+"/"+model_noext+".csv") as file:
+	  # read all lines
+	  lines = file.readlines()
+	  
+
+	with open(tmp_dir+"/"+model_noext+".csv~", 'w') as file:
+	  file.writelines(header)
+	  file.writelines(lines[timepoints+1:])
+
 	
 
-	## copy the -th run to a new file: add 1 to $timepoints because of the header.
-
-	##round_species_level=$(printf %.0f $species_level)
-	#round_species_level=$species_level
-	#head -$[$timepoints+1] ${tmp_dir}/${model_noext}.csv > ${output_dir}/${model_noext}__sim_${i}__level_${round_species_level}.csv
-
-	## delete the first 2-$timepoints+2 lines of a file, leaving the header
-	## 2 because: 1 header, 1 blank line as separator.
-	#sed -i "2,$[$timepoints+2] d" ${tmp_dir}/${model_noext}.csv
-      #done
-      #rm ${tmp_dir}/${model_noext}.csv
-
-  #done
-
+	shutil.move(tmp_dir+"/"+model_noext+".csv~", tmp_dir+"/"+model_noext+".csv")
+	
+	
+      # remove the file
+      os.remove(tmp_dir+"/"+model_noext+".csv")

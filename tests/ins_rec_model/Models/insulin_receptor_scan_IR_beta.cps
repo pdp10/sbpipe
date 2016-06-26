@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-26 12:16:27 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-26 15:35:26 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -321,7 +321,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="false" updateModel="false">
-      <Report reference="Report_18" target="" append="0" confirmOverwrite="1"/>
+      <Report reference="Report_19" target="" append="0" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
         <Parameter name="StepSize" type="float" value="0.1"/>
@@ -339,7 +339,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_16" name="Scan" type="scan" scheduled="true" updateModel="false">
-      <Report reference="Report_19" target="../tmp/insulin_receptor_scan_IR_beta.csv" append="0" confirmOverwrite="1"/>
+      <Report reference="Report_18" target="../tmp/insulin_receptor_scan_IR_beta.csv" append="0" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="Subtask" type="unsignedInteger" value="1"/>
         <ParameterGroup name="ScanItems">
@@ -644,7 +644,7 @@ Reaction scheme where the products are created from the reactants and the change
         <Object cn="CN=Root,Vector=TaskList[Linear Noise Approximation],Object=Result"/>
       </Footer>
     </Report>
-    <Report key="Report_19" name="Scan Parameters, Time, Concentrations, Volumes, and Global Quantity Values" taskType="scan" separator="&#x09;" precision="6">
+    <Report key="Report_18" name="Scan Parameters, Time, Concentrations, Volumes, and Global Quantity Values" taskType="scan" separator="&#x09;" precision="6">
       <Comment>
         A table of scan parameters, time, variable species concentrations, variable compartment volumes, and variable global quantity values.
       </Comment>
@@ -655,7 +655,7 @@ Reaction scheme where the products are created from the reactants and the change
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_ready],Reference=Concentration"/>
       </Table>
     </Report>
-    <Report key="Report_18" name="Time, Concentrations, Volumes, and Global Quantity Values" taskType="timeCourse" separator="&#x09;" precision="6">
+    <Report key="Report_19" name="Time, Concentrations, Volumes, and Global Quantity Values" taskType="timeCourse" separator="&#x09;" precision="6">
       <Comment>
         A table of time, variable species concentrations, variable compartment volumes, and variable global quantity values.
       </Comment>

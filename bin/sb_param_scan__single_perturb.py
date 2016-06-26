@@ -92,9 +92,15 @@ def main(args):
   # The ending time point of the simulation (e.g. 120)
   # This is required for plotting
   simulate__end=10
+  # The size of an interval for the simulation
+  simulate__interval_size=0.1
+  # The number of intervals for one simulation
+  simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
+  # The number of parameter scan intervals
+  param_scan__single_perturb_intervals=10
   # The legend name for the single perturbation
   param_scan__single_perturb_legend=""
   # Single perturbation minimum inhibition level
@@ -139,9 +145,13 @@ def main(args):
     elif line[0] == "simulate__end": 
       simulate__end = line[1]       
     elif line[0] == "simulate__interval_size": 
-      simulate__interval_size = line[1] 
+      simulate__interval_size = line[1]
+    elif line[0] == "simulate__intervals": 
+      simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
-      simulate__xaxis_label = line[1]   
+      simulate__xaxis_label = line[1]      
+    elif line[0] == "param_scan__single_perturb_intervals": 
+      param_scan__single_perturb_intervals = line[1]
     elif line[0] == "param_scan__single_perturb_legend": 
       param_scan__single_perturb_legend = line[1] 
     elif line[0] == "param_scan__single_perturb_min_inhibition_level": 
@@ -255,12 +265,14 @@ def main(args):
     print("Executing simulations:\n")
     print("######################\n")
     print("\n")
-    process = subprocess.Popen(['bash', SB_PIPE_LIB+"/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_run_copasi.sh", 
-				sp_model, sp_species, param_scan__single_perturb_simulations_number, models_dir, results_dir+"/"+dataset_parameter_scan_dir, tmp_dir])
-    process.wait()
-    
-    # TODO Replace with the following function once completed.
-    #param_scan__single_perturb_run_copasi.main(sp_model, sp_species, param_scan__single_perturb_simulations_number, models_dir, results_dir+"/"+dataset_parameter_scan_dir, tmp_dir)
+    param_scan__single_perturb_run_copasi.main(sp_model, 
+					       sp_species, 
+					       param_scan__single_perturb_simulations_number, 
+					       simulate__intervals,
+					       param_scan__single_perturb_intervals,
+					       models_dir, 
+					       results_dir+"/"+dataset_parameter_scan_dir, 
+					       tmp_dir)
 
 
 

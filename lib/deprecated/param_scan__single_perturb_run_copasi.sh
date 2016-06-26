@@ -38,12 +38,16 @@ species=$2
 # Number of times the model should be simulated. For deterministic 
 # simulations, ${param_scan__single_perturb_simulations_number}==1 . For stochastic simulations, ${param_scan__single_perturb_simulations_number}==h. 
 param_scan__single_perturb_simulations_number=$3
+
+simulate__intervals=$4
+param_scan__single_perturb_intervals=$5
+
 # Read the models dir
-models_dir=$4
+models_dir=$6
 # Read the results dir
-results_dir=$5
+results_dir=$7
 # Read the tmp dir
-tmp_dir=$6
+tmp_dir=$8
 
 
 
@@ -92,11 +96,10 @@ do
     
 
     # Set the number of intervals
-    intervals=$[`grep  -c '^$' ${tmp_dir}/${model_noext}.csv`]
+    intervals=$(($param_scan__single_perturb_intervals+1))
     echo "Intervals: $intervals"
     # Set the number of timepoints
-    lines=$[`wc -l ${tmp_dir}/${model_noext}.csv | awk '{print $1'}`]
-    timepoints=$[($lines - 1 - $intervals) / $intervals]
+    timepoints=$(($simulate__intervals + 1))
     echo "Time points: $timepoints"
 
     # Find the index of $species in the header file, so it is possible to read the amount at 
