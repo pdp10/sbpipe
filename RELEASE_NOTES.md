@@ -10,8 +10,9 @@ Website: http://pdp10.github.io/SB_pipe/
 TODO: adjust folder names for double perturbation, pw_param_estim
 
 
-v0.0.7
+v0.0.8
 
+- ported Bash / sed / grep and cut code to Python.
 - Added param_estim__copasi.sh
 - Improved configuration file.
 - Bug fixes
