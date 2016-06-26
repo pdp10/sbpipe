@@ -14,17 +14,16 @@
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of model parameters correlations
+# Object: Plotting of the sensitivities analysis
+#
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2011-07-7 16:14:32 $
 
 
-
 library(colorspace)
 library(gplots)
-
 
 # Retrieve the environment variable SB_PIPE_LIB
 SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
@@ -34,29 +33,23 @@ source(paste(SB_PIPE_LIB, "/utils/R/plot_functions.R", sep=""))
 
 
 main <- function(args) {
-#    # the version of the model
-#    version <- args[1]
-#    # timepoints
-#    inputdir <- paste("./", version, sep="")
-#    # collect all *.csv files in the directory
-#    files <- dir(path=inputdir, pattern="*.csv",full.names=TRUE, ignore.case = TRUE)  
-#    columns <- 1
-#    for(i in 1:length(files)) {
-#      print(files[i])
-#      # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
-#      plot.param_correlations(files[i])      
-#    }
-
-    # Plot MOTA parameter correlation for 1 file
-    file <- args[1]
-    print(file)
-
-    margin <- 24
-    cex <- 1.2
-    
-    # NOTE: the pipe-cut allows to select only the first line of the file [ pipe("cut -f1,5,28 myFile.txt") ]
-    plot.param_correlations(file,valmargin,valcex)      
-
+    # the model_noext of the model
+    sensitivities_dir <- args[1]
+ 
+    # timepoints
+    inputdir <- paste(sensitivities_dir, "/", sep="")
+    # collect all *.csv files in the directory
+    files <- dir(path=inputdir, pattern="*.csv",full.names=TRUE, ignore.case = TRUE)
+    columns <- 1
+    for(i in 1:length(files)) {
+      print(files[i])
+      # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
+      if(length(grep("kin-rates", files[i], value=TRUE)) == 0) {
+	plot.sensitivities(files[i], kinetics=FALSE)
+      } else {
+	plot.sensitivities(files[i], kinetics=TRUE)
+      }
+    }
 }
 
 

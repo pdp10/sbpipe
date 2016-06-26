@@ -13,18 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
-# Object: Plotting of model parameters correlations
-#
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2011-07-7 16:14:32 $
 
-
-
-library(colorspace)
-library(gplots)
-
+# Create a legend
 
 # Retrieve the environment variable SB_PIPE_LIB
 SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
@@ -32,34 +25,27 @@ SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
 source(paste(SB_PIPE_LIB, "/utils/R/plot_functions.R", sep=""))
 
 
-
 main <- function(args) {
-#    # the version of the model
-#    version <- args[1]
-#    # timepoints
-#    inputdir <- paste("./", version, sep="")
-#    # collect all *.csv files in the directory
-#    files <- dir(path=inputdir, pattern="*.csv",full.names=TRUE, ignore.case = TRUE)  
-#    columns <- 1
-#    for(i in 1:length(files)) {
-#      print(files[i])
-#      # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
-#      plot.param_correlations(files[i])      
-#    }
-
-    # Plot MOTA parameter correlation for 1 file
-    file <- args[1]
-    print(file)
-
-    margin <- 24
-    cex <- 1.2
-    
-    # NOTE: the pipe-cut allows to select only the first line of the file [ pipe("cut -f1,5,28 myFile.txt") ]
-    plot.param_correlations(file,valmargin,valcex)      
-
+    # The name of the legend
+    path <- args[1]
+    # The name of the legend
+    name <- args[2]
+    # The minimum value
+    min <- args[3]
+    # the maximum value
+    max <- args[4]
+    # a boolean. Y = KD_only (blue), N = KD (blue) + overexpression (red)
+    inhibition_only <- args[5]
+    # "true" or "false" as string
+    perturbation_in_percent_levels <- args[6]
+    # The number of lines to be drawn
+    values <- args[7]
+    make_legend(path, name, min, max, values, inhibition_only, perturbation_in_percent_levels)
+    make_legend_sim_exp(path, name)
 }
 
 
 main(commandArgs(TRUE))
 # Clean the environment
 rm (list=ls())
+
