@@ -48,8 +48,8 @@ def main(args):
   #process.wait()
   
   ## model simulation (perturbation)  
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
-  #process.wait() 
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])
+  process.wait() 
 
 
 
@@ -59,8 +59,8 @@ def main(args):
   #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"
   #copy_tree("../Data/sb_sensitivity_for_testing", "../simulations/insulin_receptor/sensitivities")
 
-  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_sensitivity.py', 'model_ins_rec_v1_sensitivities.conf'])
-  process.wait() 
+  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_sensitivity.py', 'model_ins_rec_v1_sensitivities.conf'])
+  #process.wait() 
 
 
 main(sys.argv)

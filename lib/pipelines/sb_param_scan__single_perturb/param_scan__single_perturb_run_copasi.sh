@@ -76,18 +76,19 @@ do
     fi        
     
     `replace_str_copasi_sim_report "${tmp_dir}" "${model}"`
-    # THE FOLLOWING CORRECTS A BUG IN COPASI "SCAN PARAMETERS" REPORT..
+    # THE FOLLOWING CORRECTS A BUG IN COPASI "SCAN PARAMETERS" REPORT WHEN USING TIME-COURSES 
+    # AS REPORT. 
     # Delete every 2nd line starting from the 1st line (all odd lines).
     # Actually, this is a bug in the report generation. It appears and not.... nice!
     # Therefore, the following command (Removing the second line) is not suitable!
     # sed '1~2 d' -i ${tmp_dir}/${model_noext}.csv
     # This following command deletes duplicate, consecutive lines from a file (emulates "uniq").
     # First line in a set of duplicate lines is kept, rest are deleted.
-    sed -i '$!N; /^\(.*\)\n\1$/!P; D' ${tmp_dir}/${model_noext}.csv
+    #sed -i '$!N; /^\(.*\)\n\1$/!P; D' ${tmp_dir}/${model_noext}.csv
     # Delete all blank lines.
     # sed -i "/^$/d" ${tmp_dir}/${model_noext}.csv
     # Delete the characters "[" and "]"
-    sed -i 's/\[//g;s/\]//g' ${tmp_dir}/${model_noext}.csv    
+    #sed -i 's/\[//g;s/\]//g' ${tmp_dir}/${model_noext}.csv    
     
 
     # Set the number of intervals
