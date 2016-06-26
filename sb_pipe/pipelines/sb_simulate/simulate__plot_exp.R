@@ -36,10 +36,9 @@
 # library( car ) # scatterplot
 
 
-# Retrieve the environment variable SB_PIPE_LIB
-SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
-# Add a collection of R functions
-source(paste(SB_PIPE_LIB, "/utils/R/plot_functions.R", sep=""))
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.R", sep=""))
 
 
 

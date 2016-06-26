@@ -41,18 +41,15 @@ import subprocess
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/pipelines/sb_param_scan__single_perturb/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_param_scan__single_perturb/")
 import param_scan__single_perturb_run_copasi
 import param_scan__single_perturb_gen_report
 
 
-
-def main(args):
-
-  # Input parameters
-  # The file containing the model configuration, usually in working_folder (e.g. model.conf)
-  model_configuration = args[1]
+# Input parameters
+# The file containing the model configuration, usually in working_folder (e.g. model.conf)
+def main(model_configuration):
 
 
   print("\nReading file " + model_configuration + " : \n")
@@ -292,14 +289,14 @@ def main(args):
     print("Generating plots:\n")
     print("#################\n")
     print("\n")
-    process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
+    process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
 				sp_model[:-4], sp_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, 
 				tc_parameter_scan_dir, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, 
 				param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels])
     process.wait() 
     # Prepare the legend
     if param_scan__single_perturb_knock_down_only == "true":
-      process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R",       
+      process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R",       
 	    results_dir+"/"+tc_parameter_scan_dir+"/", 
 	    param_scan__single_perturb_legend, 
 	    param_scan__single_perturb_min_inhibition_level, 
@@ -309,7 +306,7 @@ def main(args):
 	    str(param_scan__single_perturb_levels_number)])
     else:
       # TODO TEST THIS
-      process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
+      process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
 	    results_dir+"/"+tc_parameter_scan_dir+"/", 
 	    param_scan__single_perturb_legend, 
 	    param_scan__single_perturb_min_inhibition_level, 
@@ -334,7 +331,4 @@ def main(args):
     end = time.clock()
     print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
     print("\n<END PIPELINE>\n\n\n")
-
-
-main(sys.argv)
 

@@ -13,13 +13,15 @@ Mailing list: sb_pipe AT googlegroups.com
 
 
 ### Introduction
-This package contains a collection of pipelines for model simulation, single parameter perturbation, double parameter perturbation, and sensitivity analysis, and parameter estimation. The aims are to automate common processes and speed up productivity.
+This package contains a collection of pipelines for model simulation, 
+single parameter perturbation, double parameter perturbation, sensitivity analysis, 
+and parameter estimation. 
+It aims to automate common processes and speed up productivity.
 
 
 ### Environment Variables
 - export SB_PIPE=/path/to/SB_pipe
-- export SB_PIPE_LIB=${SB_PIPE}/lib
-- export PATH=$PATH:${SB_PIPE}/bin
+- export PATH=$PATH:${SB_PIPE}/sb_pipe
 
 
 ### Requirements
@@ -30,15 +32,28 @@ This package contains a collection of pipelines for model simulation, single par
 - Matlab with Potterswheel (for parameter estimation using Potterswheel), bash, sed, matlab
 
 
+### Installation
+Run the command: 
+```
+python setup.py install
+```
+
+### How to use
+Run:
+```
+python sb_pipe pipeline_name configuration_file
+```
+
+
 ### Package Structure (in progress)
 
 ##### bin
 The *bin* folder contains the following pipelines: 
-- *sb_simulate* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb.py runs Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__double_perturb.py runs Copasi (this must be configured first), generate plots;
-- *sb_param_estim__copasi.py generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
-- *sb_param_estim__pw* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
+- *sb_simulate.py* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__single_perturb.py* runs Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__double_perturb.py* runs Copasi (this must be configured first), generate plots;
+- *sb_param_estim__copasi.py* generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
+- *sb_param_estim__pw.sh* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
 Other scripts are also included although not formalised as a pipeline. These need some work.
 
 ##### cluster

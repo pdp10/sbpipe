@@ -23,26 +23,26 @@
 # $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
 
 
-# It randomizes the start values of the parameters to estimate from a template Copasi file and saves the new files. 
-# As input, it receives the number of files to generate (multiple calibrations)
 
+# command:
+# ./plot_calibration.py folder rscript_folder
 
 import sys
 import os
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/utils/python/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
 
-from ParamEstim_RandomizeStartValue import *
+from PlotCalibration import *
 
 
 
 # INITIALIZATION
-# path: The path containing COPASI template file configured for parameter estimation task
-# filename_in: The name of this COPASI template file
-# num_files: The number of files to generate from the previous COPASI template file
-def main(path, filename_in, num_files):
-  print("\nReplicate a Copasi file configured for parameter estimation and randomise the initial parameter values\n") 
-  pre_param_estim = ParamEstim_RandomizeStartValue(path, filename_in)
-  pre_param_estim.print_parameters_to_estimate()
-  pre_param_estim.generate_instances_from_template(num_files)
+# folder : the folder containing the data to process
+# rscript_folder : the rscript folder
+def main(folder, rscript_folder):
+  print("\nPlot the calibration results as an Iteration-MSE function\n") 
+  #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
+  pools = [ "estimation error" ]
+  colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]
+  plot_calibration(rscript_folder, folder, pools, colours)
 

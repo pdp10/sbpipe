@@ -40,18 +40,17 @@ import subprocess
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/pipelines/sb_simulate/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_simulate/")
 import simulate__run_copasi
 import simulate__gen_report
 
 
-def main(args):
 
-  # Input parameters
-  # The file containing the model configuration, usually in working_folder (e.g. model.conf)
-  model_configuration = args[1]
 
+# Input parameters
+# The file containing the model configuration, usually in working_folder (e.g. model.conf)  
+def main(model_configuration):
 
   print("\nReading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)
@@ -237,7 +236,7 @@ def main(args):
   print("Generating statistics from simulations:\n")
   print("#######################################\n")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label])
   process.wait() 
 
 
@@ -246,7 +245,7 @@ def main(args):
   print("Generating statistics from experiments (SKIP):\n")
   print("#######################################\n")
   print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_simulate/simulate__plot_exp_error_bars.R", data_dir+"/"+dataset_exp+"/", results_dir+"/"+tc_mean_exp}+"/", results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
+  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_exp_error_bars.R", data_dir+"/"+dataset_exp+"/", results_dir+"/"+tc_mean_exp}+"/", results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
   #process.wait() 
 
 
@@ -255,7 +254,7 @@ def main(args):
   print("Generating overlapping plots (sim + exp) (SKIP):\n")
   print("#########################################\n")
   print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv",  results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
+  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv",  results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
   #process.wait() 
 
 
@@ -272,5 +271,3 @@ def main(args):
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n\n\n")
 
-
-main(sys.argv)

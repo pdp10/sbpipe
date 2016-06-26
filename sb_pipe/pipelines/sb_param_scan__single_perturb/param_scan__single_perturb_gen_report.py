@@ -32,8 +32,8 @@ import os
 import sys
 from subprocess import Popen,PIPE
 
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/utils/python/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
 from single_model_latex_reports import latex_report_par_scan
 
 

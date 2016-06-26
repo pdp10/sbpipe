@@ -60,8 +60,8 @@ import shlex
 import subprocess
 import sys
 import os
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/utils/python/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
 
 from BasicSyncCounter import *
 

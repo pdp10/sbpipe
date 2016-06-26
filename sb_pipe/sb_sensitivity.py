@@ -38,18 +38,14 @@ import subprocess
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/pipelines/sb_sensitivity/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_sensitivity/")
 
 
 
 
-
-def main(args):
-
-
-  # The file containing the model configuration, usually in working_folder (e.g. model.conf)
-  model_configuration = args[1]
+# The file containing the model configuration, usually in working_folder (e.g. model.conf)
+def main(model_configuration):
 
 
   print("\nReading file " + model_configuration + " : \n")
@@ -136,7 +132,7 @@ def main(args):
   # print("######################\n")
   # print("\n")
   # TODO 
-  #process = subprocess.Popen(['bash', SB_PIPE_LIB+"/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", sp_model, models_dir, results_dir, tmp_dir])
+  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", sp_model, models_dir, results_dir, tmp_dir])
   #process.wait()   
 
 
@@ -146,7 +142,7 @@ def main(args):
   print("Generating plots:\n")
   print("###################\n")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE_LIB+"/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", sensitivities_path])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", sensitivities_path])
   process.wait()    
 
 
@@ -156,8 +152,4 @@ def main(args):
   end = time.clock()
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n\n\n")
-
-
-main(sys.argv)
-
 

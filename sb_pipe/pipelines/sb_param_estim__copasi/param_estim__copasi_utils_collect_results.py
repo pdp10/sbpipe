@@ -23,26 +23,23 @@
 # $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
 
 
-
-# command:
-# ./plot_calibration.py folder rscript_folder
+# Collect the estimated parameters from the results of a parameter estimation task using Copasi
 
 import sys
 import os
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/utils/python/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
 
-from PlotCalibration import *
+from ParamEstim_CollectResults import *
 
 
 
+ 
 # INITIALIZATION
-# folder : the folder containing the data to process
-# rscript_folder : the rscript folder
-def main(folder, rscript_folder):
-  print("\nPlot the calibration results as an Iteration-MSE function\n") 
-  #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
-  pools = [ "estimation error" ]
-  colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]
-  plot_calibration(rscript_folder, folder, pools, colours)
+# path : The path containing COPASI parameter estimation reports
+def main(path):
+  print("\nCollect results from multiple parameter estimations\n") 
+  filename_out = "/parameter_estimation_collected_results.csv"
+  post_param_estim = ParamEstim_CollectResults()
+  post_param_estim.collect_results(path, filename_out)
 

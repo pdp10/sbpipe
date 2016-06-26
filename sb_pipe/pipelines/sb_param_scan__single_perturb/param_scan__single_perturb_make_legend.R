@@ -19,10 +19,10 @@
 
 # Create a legend
 
-# Retrieve the environment variable SB_PIPE_LIB
-SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(paste(SB_PIPE_LIB, "/utils/R/plot_functions.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.R", sep=""))
 
 
 main <- function(args) {

@@ -41,22 +41,19 @@ import datetime
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + "/pipelines/sb_param_estim__copasi/")
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_param_estim__copasi/")
 import param_estim__copasi_parallel
 import param_estim__copasi_utils_randomise_start_values
 import param_estim__copasi_utils_collect_results
 import param_estim__copasi_utils_plot_calibration
 
 
-def main(args):
 
 
-  # Input parameters
-  # The file containing the model configuration, usually in working_folder (e.g. model.conf)
-  model_configuration = args[1]
-  # The current round number
-  round = args[2]
+# Input parameters
+# The file containing the model configuration, usually in working_folder (e.g. model.conf)
+def main(model_configuration):
 
   print("\nReading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)
@@ -78,6 +75,8 @@ def main(args):
   secret="donald_duck"
   # read the project name
   project="my_project"
+  # The parameter estimation round 
+  round=1
   # The number of jobs to be executed
   nfits=10
   # The number of cpus to use locally (if ncpus=0, it should run on a cluster).
@@ -115,7 +114,9 @@ def main(args):
     elif line[0] == "secret": 
       secret = line[1]
     elif line[0] == "project": 
-      project = line[1] 
+      project = line[1]
+    elif line[0] == "round":
+      round = line[1]       
     elif line[0] == "nfits":
       nfits = line[1] 
     elif line[0] == "local_cpus": 
@@ -253,6 +254,4 @@ def main(args):
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n\n\n")
 
-
-main(sys.argv)
 

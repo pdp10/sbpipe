@@ -22,10 +22,10 @@
 # $Id: param_scan__sim_parameter_scan.R,v 3.0 2010-11-16 19:45:32 Piero Dalle Pezze Exp $
 
 
-# Retrieve the environment variable SB_PIPE_LIB
-SB_PIPE_LIB <- Sys.getenv(c("SB_PIPE_LIB"))
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(paste(SB_PIPE_LIB, "/utils/R/single_perturb_plots_func.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/single_perturb_plots_func.R", sep=""))
 
 
 

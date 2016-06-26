@@ -28,8 +28,7 @@ import sys
 import os
 import subprocess
 SB_PIPE = os.environ["SB_PIPE"]
-SB_PIPE_LIB = os.environ["SB_PIPE_LIB"]
-sys.path.append(SB_PIPE_LIB + '/utils/python/')
+sys.path.append(SB_PIPE + '/sb_pipe/utils/python/')
 import io_util_functions
 
 def main(args):
