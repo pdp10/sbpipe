@@ -36,16 +36,16 @@ sys.path.append(SB_PIPE + '/bin/')
 
 def main(args):
 
-  # model parameter estimation    
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_estim__copasi.py', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
-  #process.wait() 
+  ## model parameter estimation    
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_estim__copasi.py', 'model_ins_rec_v1_param_estim_copasi.conf', '1'])
+  process.wait() 
 
   ## model simulation (simple)
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_det_simul.conf'])
-  #process.wait()
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_det_simul.conf'])
+  process.wait()
   
-  #process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_stoch_simul.conf'])
-  #process.wait()
+  process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_simulate.py', 'model_ins_rec_v1_stoch_simul.conf'])
+  process.wait()
   
   ## model simulation (perturbation)  
   process = subprocess.Popen(['python', SB_PIPE + '/bin/sb_param_scan__single_perturb.py', 'model_ins_rec_v1_single_perturbations_inhibitions.conf'])

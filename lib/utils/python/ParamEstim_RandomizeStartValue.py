@@ -25,7 +25,7 @@
 
 import sys, os, os.path
 from CopasiParser import *
-from python_to_bash_utils import *
+from io_util_functions import *
 import shutil
 import random
 import shlex
@@ -157,8 +157,8 @@ class ParamEstim_RandomizeStartValue:
       else:
 	# The lower and the upper bounds are constants
 	new__start_values.append(str(random.uniform(float(self._lower_bounds[i]), float(self._upper_bounds[i]))))
-      old_str.append('<Parameter name="StartValue" type="float" value="' + self._start_values[i] + '"\/>')
-      new_str.append('<Parameter name="StartValue" type="float" value="' + new__start_values[i] + '"\/>')
+      old_str.append('<Parameter name="StartValue" type="float" value="' + self._start_values[i] + '"/>')
+      new_str.append('<Parameter name="StartValue" type="float" value="' + new__start_values[i] + '"/>')
       #print(old_str[i])
       #print(new_str[i])
     return new__start_values, old_str, new_str
@@ -166,21 +166,17 @@ class ParamEstim_RandomizeStartValue:
 
   # For each parameter to estimate, replace the current start value with the new randomised start value
   def _replace_start_value_in_file(self, file_out, report_filename, old_str, new_str):
-    # Attention: Popen with shell=True, launches a child process in parallel. This is not good in such a case. 
-    # NOTE: .wait() is temporarily added in order to wait for the child to terminate before going on.
-    # NOTE: As we are replacing paths (whose folders are delimited by '/', we need to change the sed delimiter to avoid a conflict. 
-    # To do so, we replace / with #. Hense s# and #g, plus the internal delimiter #.
-    Popen('sed -i \'s#' + self._report_filename_template + '#' + report_filename + '#g\' ' + file_out, shell=True).wait()
-    # print('sed -i \'s#' + self._report_filename_template + '#' + report_filename + '#g\' ' + file_out)  
+
+    replace_string_in_file(file_out, self._report_filename_template, report_filename)
+
     for i in range(0, len(self._param_names)):
       # Check whether the replacement of the parameter start value is exactly for the parameter estimation task 
       # and for the corresponding parameter name. So, if different parameters have same start values, the algorithm 
       # replaces only the value for the corresponding parameter and not to all the instances with equal start value.
       # (A) Retrieve the line number of the current parameter name to edit
       s = self._param_names[i]
-      s = s.replace("[","\[")
-      s = s.replace("]","\]")
-      ctrl_str='<Parameter name="ObjectCN" type="cn" value="' + s + '"\/>'
+      
+      ctrl_str='<Parameter name="ObjectCN" type="cn" value="' + s + '"/>'
       #print(ctrl_str)
       name_line_num = get_pattern_position(ctrl_str, file_out)    
       # (B) Retrieve the line number of the current parameter start value to edit
@@ -188,8 +184,7 @@ class ParamEstim_RandomizeStartValue:
       # Test whether start_value of reference corresponds to the retrieved parameter name or not.
       if int(name_line_num) == int(start_val_line_num)-1:
 	# replace the parameter starting value
-	Popen('sed -i \'s/' + old_str[i] + '/' + new_str[i] + '/g\' ' + file_out, shell=True).wait()
-	#print('sed -i \'s/' + old_str[i] + '/' + new_str[i] + '/g\' ' + file_out)  
+	replace_string_in_file(file_out, old_str[i], new_str[i])
       else:
 	print("Error - Found wrong instance: [" + ctrl_str + "] at line " + name_line_num) 
 

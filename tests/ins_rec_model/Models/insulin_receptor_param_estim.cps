@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-21 12:01:36 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-26 18:15:06 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -169,7 +169,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4396" name="k1" value="7.36479"/>
+          <Constant key="Parameter_4381" name="k1" value="7.36479"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -202,7 +202,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4395" name="k1" value="125.293"/>
+          <Constant key="Parameter_4380" name="k1" value="125.293"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -234,7 +234,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4394" name="k1" value="95867.3"/>
+          <Constant key="Parameter_4379" name="k1" value="95867.3"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -266,7 +266,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4393" name="k1" value="12.8501"/>
+          <Constant key="Parameter_4378" name="k1" value="12.8501"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -298,7 +298,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4392" name="k1" value="74.5126"/>
+          <Constant key="Parameter_4377" name="k1" value="74.5126"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -330,7 +330,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4391" name="k1" value="5.18191"/>
+          <Constant key="Parameter_4376" name="k1" value="5.18191"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -535,7 +535,7 @@ Reaction scheme where the products are created from the reactants and the change
       <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim.txt" append="0" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
-        <Parameter name="Randomize Start Values" type="bool" value="1"/>
+        <Parameter name="Randomize Start Values" type="bool" value="0"/>
         <Parameter name="Calculate Statistics" type="bool" value="0"/>
         <ParameterGroup name="OptimizationItemList">
           <ParameterGroup name="FitItem">

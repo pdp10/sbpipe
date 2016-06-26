@@ -35,6 +35,21 @@ import scipy.stats
 
 
 
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
+# Return the line number (as string) of the first occurrence of pattern in filename
+def get_pattern_position(pattern, filename):
+  with open(filename) as myFile:
+    for num, line in enumerate(myFile, 1):
+      if pattern in line:
+	#print(str(num) + " : " + pattern)
+	return str(num)
+  #print(str(-1) + " : " + pattern)
+  return str(-1)
+
+
+
 # Return all files with a certain pattern in folder+subdirectories
 def files_with_pattern_recur(folder, pattern):
    for dirname, subdirs, files in os.walk(folder):
@@ -55,3 +70,15 @@ def write_matrix_on_file(path, filename_out, data):
   file_out.close()
   
   
+  # replace a string with another in file_out  
+def replace_string_in_file(file_out, old_string, new_string):
+  # Read in the file
+  filedata = None
+  with open(file_out, 'r') as file :
+    filedata = file.read()
+  # Replace the target string
+  filedata = filedata.replace(old_string, new_string)
+  # Write the file out again
+  with open(file_out, 'w') as file:
+    file.write(filedata)
+

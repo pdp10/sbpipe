@@ -23,12 +23,11 @@ This package contains a collection of pipelines for model simulation, single par
 
 
 ### Requirements
-- Bash (script management)
-- R (plot generation), gplots, abind, colorspace
-- Python (report generation), python-pp (for parameter estimation. Install using `apt-get` on Debian/Ubuntu)
-- LaTeX (for report generation) (On GNU/Linux Kubuntu 14.04, install package texlive + recommended)
+- Python (+dependencies: scipy, numpy, python-pp)
+- R (plots + stats) (+dependencies: gplots, abind, colorspace, stringr)
+- LaTeX (for reports) (+dependencies: texlive and recommended fonts)
 - Copasi (model simulation) - remember to tick the execution check box on the task to run
-- Matlab with Potterswheel (for parameter estimation using Potterswheel)
+- Matlab with Potterswheel (for parameter estimation using Potterswheel), bash, sed, matlab
 
 
 ### Package Structure (in progress)
@@ -36,8 +35,9 @@ This package contains a collection of pipelines for model simulation, single par
 ##### bin
 The *bin* folder contains the following pipelines: 
 - *sb_simulate* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb* runs Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__double_perturb* runs Copasi (this must be configured first), generate plots;
+- *sb_param_scan__single_perturb.py runs Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__double_perturb.py runs Copasi (this must be configured first), generate plots;
+- *sb_param_estim__copasi.py generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
 - *sb_param_estim__pw* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
 Other scripts are also included although not formalised as a pipeline. These need some work.
 
@@ -45,8 +45,8 @@ Other scripts are also included although not formalised as a pipeline. These nee
 The *cluster* folder contains Bash scripts for copying data within a cluster of computers. It was written for the pipeline *sb_param_estim__pw* and uses OpenLava as cluster manager. Inside there are Bash scripts and configuration files for minimally managing this cluster.
 
 ##### lib
-The *lib* folder contains the routines in Bash, Matlab, Python, and R for running SB_pipe. Currently, Bash is used for linking each pipeline part; Matlab for Potterswheel and model double perturbation; Python for report generation; and R for statistics / plot generation. 
-In the future, it would be nice that the current Bash and Matlab code is written in Python, so that SB_pipe only depends on Python/R. ABC-sysbio could replace Potterswheel for parameter estimation.
+The *lib* folder contains the routines in Bash, Matlab, Python, and R for running SB_pipe. Currently, Python is used for linking each pipeline part; Matlab for Potterswheel and model double perturbation; and R for statistics / plot generation. 
+In the future, it would be nice if the current Matlab code were written in Python, so that SB_pipe only depends on Python/R. ABC-sysbio could replace Potterswheel for parameter estimation.
 
 ##### tests
 The *tests* folder contains the script *run_tests.py* to run tests on a mini-project called *ins_rec_model*. This script is invoked using the following command: 
