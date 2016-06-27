@@ -8,6 +8,8 @@ addons:
         repo_token: 72d60e73895e6f04c7495a2c965dc8b1cc215f0406e2672e007d362195edd7db
 # command to install dependencies
 install:
+  - export SB_PIPE="./pdp10/SB_pipe"
+  - export PATH=$PATH:${SB_PIPE}
   - python setup.py install
   - pip install -r requirements.txt
 # command to run tests
