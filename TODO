@@ -1,0 +1,16 @@
+SB_pipe (GNU General Public License v3)
+Copyright 2010-2016 Piero Dalle Pezze
+
+Website: http://pdp10.github.io/SB_pipe/
+
+
+### TODO
+
+- add code documentation
+- adjust folder names for the pipelines sb_param_scan__double_perturb_copasi and sb_param_estim__pw
+- port sb_param_scan__double_perturb_copasi pipeline to python
+- port sb_param_estim__pw pipeline to python
+- possibly convert plots from R to python to further reduce the dependencies
+- add a pipeline for identifiability analysis
+- add tests
+
