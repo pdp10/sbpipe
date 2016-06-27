@@ -13,7 +13,8 @@ install:
   - python setup.py install
   - pip install -r requirements.txt
 # command to run tests
-script: 
+script:
+  - echo "Skipping nosetests for now"
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
 #  - nosetests -v tests/ins_rec_model/Working_Folder/test_insulin_receptor.py
 # It would be nicer to run the tests_suite directly..
