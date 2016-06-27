@@ -38,6 +38,7 @@ import sb_param_scan__single_perturb
 import sb_sensitivity
 
 
+
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
@@ -45,45 +46,44 @@ class Usage(Exception):
 
 
 
-# E.g. command: python sb_pipe.py sb_simulate model_ins_rec_v1_det_simul.conf 
+"""
+Main function for sb_pipe.
+Usage: python sb_pipe.py sb_simulate model_ins_rec_v1_det_simul.conf 
+"""   
 
-
-"""Module docstring.
-
-This serves as a long usage message.
-
-Based on http://www.artima.com/weblogs/viewpost.jsp?thread=4829 
-""" 
 def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "h", ["help"])
-            print args[0]
+  """
+  Main function for sb_pipe.
+  """   
+  if argv is None:
+      argv = sys.argv
+  try:
+      try:
+	  opts, args = getopt.getopt(argv[1:], "h", ["help"])
+	  print args[0]
 
-	    if args[0] == "create_project":
-		sb_create_project.main(args[1])            
-            
-	    if args[0] == "simulate":
-		sb_simulate.main(args[1])
-		
-	    if args[0] == "single_perturb":
-		sb_param_scan__single_perturb.main(args[1])
-	    
-	    if args[0] == "param_estim":
-		sb_param_estim__copasi.main(args[1])
-	    
-	    if args[0] == "sensitivity":
-		sb_sensitivity.main(args[1])
-	    
-        except getopt.error, msg:
-             raise Usage(msg)
-        # more code, unchanged
-    except Usage, err:
-        print >>sys.stderr, err.msg
-        print >>sys.stderr, "for help use --help"
-        return 2
+	  if args[0] == "create_project":
+	      sb_create_project.main(args[1])            
+	  
+	  if args[0] == "simulate":
+	      sb_simulate.main(args[1])
+	      
+	  if args[0] == "single_perturb":
+	      sb_param_scan__single_perturb.main(args[1])
+	  
+	  if args[0] == "param_estim":
+	      sb_param_estim__copasi.main(args[1])
+	  
+	  if args[0] == "sensitivity":
+	      sb_sensitivity.main(args[1])
+	  
+      except getopt.error, msg:
+	    raise Usage(msg)
+      # more code, unchanged
+  except Usage, err:
+      print >>sys.stderr, err.msg
+      print >>sys.stderr, "for help use --help"
+      return 2
 
 
 

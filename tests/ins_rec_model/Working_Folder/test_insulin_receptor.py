@@ -35,33 +35,37 @@ import sb_pipe
 import unittest
 
 
+"""Unit test for Insulin Receptor"""
 
 class TestInsulinReceptor(unittest.TestCase):
+  """
+  A collection of tests for this example.
+  """
 
-  ## model deterministic simulation
   def test_det_simulation(self):
+    """model deterministic simulation"""
     sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"])  
 
-  ### model stochastic simulation
   def test_stoch_simulation(self):    
+    """model stochastic simulation"""    
     sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])    
 
-  ### model parameter estimation
   def test_param_estim_copasi(self):        
+    """model parameter estimation"""
     sb_pipe.main(["sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"])
     
-  ### model single perturbation
   def test_param_scan_single_perturb(self):    
+    """model single perturbation"""
     sb_pipe.main(["sb_pipe", "single_perturb", "model_ins_rec_v1_single_perturbations_inhibitions.conf"])  
 
 
   # TODO TO TEST
-  # model sensitivities    
   #print "The script sb_sensitivity.py does not run Copasi, but generates a plot for each file containing a square matrix in PROJECT/simulation/MODEL/SENSITIVITIES_FOLDER (here: ins_rec_model/simulation/insulin_receptor/sensitivities/)"
   #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"
   #copy_tree("../Data/sb_sensitivity_for_testing", "../simulations/insulin_receptor/sensitivities")
 
   #def test_model_sensitivity(self):
+  #  """model sensitivities"""
   #  sb_pipe.main(["sb_pipe", "sensitivity", "model_ins_rec_v1_sensitivities.conf"])  
 
 

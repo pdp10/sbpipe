@@ -25,10 +25,17 @@ import sys
 import os, os.path
 
 
-# This script initialises the folder tree for a new project
-# project :   The project name
-def main(project):
+"""
+This module initialises the folder tree for a new project project.
+"""
 
+def main(project):
+  """
+  Create a project tree.
+  Keyword arguments:
+      project -- the project name
+  """
+  
   print("Create new folder tree for the new project "+project+" ... \n")
 
   if not os.path.exists(project):
@@ -36,33 +43,32 @@ def main(project):
 
   if not os.path.exists(project+"/Data"):
     os.mkdir(project+"/Data")
-  if not os.path.exists(project+"/GENSSI_struct_identif"):
-    os.mkdir(project+"/GENSSI_struct_identif")
   if not os.path.exists(project+"/Models"):
     os.mkdir(project+"/Models")
-  if not os.path.exists(project+"/MOTA_identif"):
-    os.mkdir(project+"/MOTA_identif")
-  if not os.path.exists(project+"/paper"):
-    os.mkdir(project+"/paper")
-  if not os.path.exists(project+"/SBGN_graphic_models"):
-    os.mkdir(project+"/SBGN_graphic_models")
-  if not os.path.exists(project+"/sbtoolbox2"):
-    os.mkdir(project+"/sbtoolbox2")
-
-  if not os.path.exists(project+"/simulations"):
-    os.mkdir(project+"/simulations")
   if not os.path.exists(project+"/Working_Folder"):
     os.mkdir(project+"/Working_Folder")
+  if not os.path.exists(project+"/simulations"):
+    os.mkdir(project+"/simulations")
   if not os.path.exists(project+"/tmp"):
-    os.mkdir(project+"/tmp")    
+    os.mkdir(project+"/tmp")
 
   if not os.path.exists(project+"/Models/previous_models"):
-    os.mkdir(project+"/Models/previous_models")
+    os.mkdir(project+"/Models/previous_models")    
+  if not os.path.exists(project+"/paper"):
+    os.mkdir(project+"/paper")
   if not os.path.exists(project+"/paper/figures"):
-    os.mkdir(project+"/paper/figures")
+    os.mkdir(project+"/paper/figures")    
+  if not os.path.exists(project+"/SBGN_graphic_models"):
+    os.mkdir(project+"/SBGN_graphic_models")
   if not os.path.exists(project+"/SBGN_graphic_models/previous_models"):
     os.mkdir(project+"/SBGN_graphic_models/previous_models")        
 
+  if not os.path.exists(project+"/GENSSI_struct_identif"):
+    os.mkdir(project+"/GENSSI_struct_identif")
+  if not os.path.exists(project+"/MOTA_identif"):
+    os.mkdir(project+"/MOTA_identif")
+  if not os.path.exists(project+"/sbtoolbox2"):
+    os.mkdir(project+"/sbtoolbox2")
   if not os.path.exists(project+"/sbtoolbox2/project"):
     os.mkdir(project+"/sbtoolbox2/project")
   if not os.path.exists(project+"/sbtoolbox2/project/estimations"):
@@ -70,6 +76,7 @@ def main(project):
   if not os.path.exists(project+"/sbtoolbox2/project/experiments"):
     os.mkdir(project+"/sbtoolbox2/project/experiments")        
   if not os.path.exists(project+"/sbtoolbox2/project/models"):
-    os.mkdir(project+"/sbtoolbox2/project/models")        
-
+    os.mkdir(project+"/sbtoolbox2/project/models")
+        
   print("DONE!\n")
+

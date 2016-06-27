@@ -23,12 +23,15 @@
 # $Date: 2016-06-26 23:00:32 $
 
 
+
 def package_name():
-    return ('sb_pipe')
+  """The name of the package"""
+  return ('sb_pipe')
   
   
 def help():
-    return ('See github.com page for sb_pipe')
+  """The help message"""
+  return ('See github.com page for sb_pipe')
   
 
     

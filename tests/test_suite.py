@@ -17,7 +17,6 @@
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: test runner
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
@@ -34,10 +33,14 @@ SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + '/tests/ins_rec_model/Working_Folder/')
 from test_insulin_receptor import TestInsulinReceptor
 
-
-## THEN ADD DOCUMENTATION FOR PYTHON CODE
+"""
+Test runner
+"""
 
 def main(args):
+  """
+  Run a suite of tests
+  """
     
   mypath = './'
   modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]

@@ -22,8 +22,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 21:43:32 $
 
-# This scripts provides the user with a complete pipeline of scripts for computing 
-# a single parameter scan using copasi.
 
 
 
@@ -47,10 +45,17 @@ import param_scan__single_perturb_run_copasi
 import param_scan__single_perturb_gen_report
 
 
-# Input parameters
-# The file containing the model configuration, usually in working_folder (e.g. model.conf)
-def main(model_configuration):
+"""
+This module provides the user with a complete pipeline of scripts for computing 
+a single parameter scan using copasi.
+"""
 
+def main(model_configuration):
+  """
+  Execute and collect results from a parameter scan using Copasi
+  Keyword arguments:
+      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+  """
 
   print("\nReading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)

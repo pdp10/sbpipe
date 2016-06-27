@@ -21,8 +21,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2013-05-30 16:14:32 $
 
-# This scripts provides the user with a complete pipeline of scripts for computing 
-# model sensitivity analysis using Copasi
+
 
 
 
@@ -42,11 +41,17 @@ SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_sensitivity/")
 
 
+"""
+This module provides the user with a complete pipeline of scripts for computing 
+model sensitivity analysis using Copasi
+"""
 
-
-# The file containing the model configuration, usually in working_folder (e.g. model.conf)
 def main(model_configuration):
-
+  """
+  Execute and collect results for model sensitivity using Copasi
+  Keyword arguments:
+      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+  """
 
   print("\nReading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)

@@ -21,9 +21,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 19:14:32 $
 
-# This scripts provides the user with a complete pipeline of scripts comprising the configuration 
-# and execution of jobs on the cluster, results retrieval and concatenation, parameter estimation 
-# analyses and finally results storing. This pipeline uses CopasiSE
+
 
 
 
@@ -50,10 +48,17 @@ import param_estim__copasi_utils_plot_calibration
 
 
 
-
-# Input parameters
-# The file containing the model configuration, usually in working_folder (e.g. model.conf)
+"""
+This module provides the user with a complete pipeline of scripts comprising the configuration 
+and execution of jobs on the cluster, results retrieval and concatenation, parameter estimation 
+analyses and finally results storing. This pipeline uses CopasiSE
+"""
 def main(model_configuration):
+  """
+  Execute and collect results from parameter estimation using Copasi
+  Keyword arguments:
+      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+  """  
 
   print("\nReading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)
