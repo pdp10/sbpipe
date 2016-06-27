@@ -179,21 +179,21 @@ def main(model_configuration):
 
   # some control
   if int(simulate__start) >= int(simulate__end): 
-    print("\n ERROR: simulate__start must be less than simulate__end \n\n")
+    print("\n ERROR: simulate__start must be less than simulate__end ")
     return
 
   if len(param_scan__single_perturb_copasi_models_list) != len(param_scan__single_perturb_species_list): 
     print("\n ERROR: One model MUST BE defined for each species to perturb! "+
 	  str(len(param_scan__single_perturb_copasi_models_list))+"!="+
-	  str(len(param_scan__single_perturb_species_list))+"\n\n")
+	  str(len(param_scan__single_perturb_species_list))+"")
     return
 
   if int(param_scan__single_perturb_min_inhibition_level) < 0: 
-    print("\n ERROR: param_scan__single_perturb_min_inhibition_level MUST BE non negative \n\n")
+    print("\n ERROR: param_scan__single_perturb_min_inhibition_level MUST BE non negative ")
     return
   
   if int(param_scan__single_perturb_max_overexpression_level) < 100: 
-    print("\n ERROR: param_scan__single_perturb_max_overexpression_level MUST BE greater than 100 \n\n")
+    print("\n ERROR: param_scan__single_perturb_max_overexpression_level MUST BE greater than 100 ")
     return  
 
 
@@ -204,7 +204,7 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n<START PIPELINE>\n\n\n")
+  print("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
@@ -219,19 +219,19 @@ def main(model_configuration):
       return
       
     
-    print("\n\n\n")
-    print("##############################################################\n")     
-    print("##############################################################\n")
-    print("### Processing model "+ sp_model+"\n")
-    print("##############################################################\n")
-    print("##############################################################\n")
-    print("\n\n")    
+    print("\n")
+    print("#############################################################")     
+    print("#############################################################")
+    print("### Processing model "+ sp_model)
+    print("#############################################################")
+    print("#############################################################")
+    print("")    
 
 
-    print("\n\n\n")
-    print("###############################\n")
-    print("Preparing folder "+results_dir +":\n")
-    print("###############################\n")
+    print("\n")
+    print("##############################")
+    print("Preparing folder "+results_dir +":")
+    print("##############################")
     print("\n")
     filesToDelete = glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+sp_model[:-4]+"*")
     for f in filesToDelete:
@@ -257,10 +257,10 @@ def main(model_configuration):
 
 
 
-    print("\n\n\n")
-    print("######################\n")
-    print("Executing simulations:\n")
-    print("######################\n")
+    print("\n")
+    print("#####################")
+    print("Executing simulations:")
+    print("#####################")
     print("\n")
     param_scan__single_perturb_run_copasi.main(sp_model, 
 					       sp_species, 
@@ -275,19 +275,19 @@ def main(model_configuration):
 
     # Comment if you want to have the knockdown. If so, you must edit plot colours in param_scan__single_perturb_plot.R 
     if param_scan__single_perturb_perturbation_in_percent_levels == "true":
-      print("\n\n\n")
-      print("########################\n")
-      print("Removing knock out data:\n")
-      print("########################\n") 
+      print("\n")
+      print("#######################")
+      print("Removing knock out data:")
+      print("#######################") 
       print("\n")
       map(os.remove, glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+sp_model[:-4]+"*__level_0.csv"))    
     
     
     
-    print("\n\n\n")
-    print("#################\n")
-    print("Generating plots:\n")
-    print("#################\n")
+    print("\n")
+    print("################")
+    print("Generating plots:")
+    print("################")
     print("\n")
     process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
 				sp_model[:-4], sp_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, 
@@ -318,10 +318,10 @@ def main(model_configuration):
     
     
     
-    print("\n\n\n")
-    print("###################\n")
-    print("Generating reports:\n")
-    print("###################\n")
+    print("\n")
+    print("##################")
+    print("Generating reports:")
+    print("##################")
     print("\n")
     param_scan__single_perturb_gen_report.main(sp_model[:-4], sp_species, results_dir+"/", tc_parameter_scan_dir, 
 					       param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend)
@@ -330,5 +330,5 @@ def main(model_configuration):
     # Print the pipeline elapsed time
     end = time.clock()
     print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-    print("\n<END PIPELINE>\n\n\n")
+    print("\n<END PIPELINE>\n")
 

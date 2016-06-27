@@ -26,11 +26,8 @@ import os, os.path
 
 
 # This script initialises the folder tree for a new project
-
-def main(args):
-
-  # The project name
-  project=args[1]
+# project :   The project name
+def main(project):
 
   print("Create new folder tree for the new project "+project+" ... \n")
 
@@ -76,6 +73,3 @@ def main(args):
     os.mkdir(project+"/sbtoolbox2/project/models")        
 
   print("DONE!\n")
-
-main(sys.argv)
-

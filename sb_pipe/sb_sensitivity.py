@@ -95,26 +95,26 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n<START PIPELINE>\n\n\n")
+  print("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
       
 
-  print("\n\n\n")
-  print("##############################################################\n")     
-  print("##############################################################\n")
-  print("### Processing model "+ sensitivities__copasi_model+"\n")
-  print("##############################################################\n")
-  print("##############################################################\n")
-  print("\n\n")
+  print("\n")
+  print("#############################################################")     
+  print("#############################################################")
+  print("### Processing model "+ sensitivities__copasi_model)
+  print("#############################################################")
+  print("#############################################################")
+  print("")
 
 
 
-  print("\n\n\n")
-  print("###############################\n")
-  print("Preparing folder "+sensitivities_path +":\n")
-  print("###############################\n")
+  print("\n")
+  print("##############################")
+  print("Preparing folder "+sensitivities_path)
+  print("##############################")
   print("\n")
   # remove the folder the previous results if any
 #   filesToDelete = glob.glob(sensitivities_dir+"/*.png")
@@ -126,10 +126,10 @@ def main(model_configuration):
 
 
 
-  # print("\n\n\n")
-  # print("######################\n")
+  # print("\n")
+  # print("#####################")
   # print("Executing sensitivities:\n")
-  # print("######################\n")
+  # print("#####################")
   # print("\n")
   # TODO 
   #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", sp_model, models_dir, results_dir, tmp_dir])
@@ -137,10 +137,10 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n")
-  print("###################\n")
-  print("Generating plots:\n")
-  print("###################\n")
+  print("\n")
+  print("##################")
+  print("Generating plots:")
+  print("##################")
   print("\n")
   process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", sensitivities_path])
   process.wait()    
@@ -151,5 +151,5 @@ def main(model_configuration):
   # Print the pipeline elapsed time
   end = time.clock()
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  print("\n<END PIPELINE>\n\n\n")
+  print("\n<END PIPELINE>\n")
 

@@ -153,7 +153,7 @@ def main(model_configuration):
     
 
   if int(simulate__start) >= int(simulate__end): 
-    print("\n ERROR: simulate__start must be less than simulate__end \n\n")
+    print("\n ERROR: simulate__start must be less than simulate__end ")
     return
 
 
@@ -166,26 +166,26 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n<START PIPELINE>\n\n\n")
+  print("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
 
       
-  print("\n\n\n")
-  print("##############################################################\n")     
-  print("##############################################################\n")
-  print("### Processing model "+ simulate__copasi_model+"\n")
-  print("##############################################################\n")
-  print("##############################################################\n")
-  print("\n\n")
+  print("\n")
+  print("#############################################################")     
+  print("#############################################################")
+  print("### Processing model "+ simulate__copasi_model)
+  print("#############################################################")
+  print("#############################################################")
+  print("")
 	
 
 	
-  print("\n\n\n")
-  print("###############################\n")
-  print("Preparing folder "+results_dir +":\n")
-  print("###############################\n")
+  print("\n")
+  print("##############################")
+  print("Preparing folder "+results_dir)
+  print("##############################")
   print("\n")
   # remove the folder the previous results if any
   filesToDelete = glob.glob(results_dir+"/"+dataset_simulation_dir+"/"+simulate__copasi_model[:-4]+"*")
@@ -223,45 +223,45 @@ def main(model_configuration):
  
  
 
-  print("\n\n\n")
-  print("######################\n")
-  print("Executing simulations:\n")
-  print("######################\n")
+  print("\n")
+  print("#####################")
+  print("Executing simulations:")
+  print("#####################")
   print("\n")
   simulate__run_copasi.main(simulate__copasi_model, models_dir, results_dir+"/"+dataset_simulation_dir+"/", tmp_dir+"/", simulate__model_simulations_number)
 
 
-  print("\n\n\n")
-  print("#######################################\n")
-  print("Generating statistics from simulations:\n")
-  print("#######################################\n")
+  print("\n")
+  print("######################################")
+  print("Generating statistics from simulations:")
+  print("######################################")
   print("\n")
   process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label])
   process.wait() 
 
 
-  print("\n\n\n")
-  print("#######################################\n")
-  print("Generating statistics from experiments (SKIP):\n")
-  print("#######################################\n")
+  print("\n")
+  print("######################################")
+  print("Generating statistics from experiments (SKIP):")
+  print("######################################")
   print("\n")
   #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_exp_error_bars.R", data_dir+"/"+dataset_exp+"/", results_dir+"/"+tc_mean_exp}+"/", results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
   #process.wait() 
 
 
-  print("\n\n\n")
-  print("#########################################\n")
-  print("Generating overlapping plots (sim + exp) (SKIP):\n")
-  print("#########################################\n")
+  print("\n")
+  print("########################################")
+  print("Generating overlapping plots (sim + exp) (SKIP):")
+  print("########################################")
   print("\n")
   #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv",  results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
   #process.wait() 
 
 
-  print("\n\n\n")
-  print("###################\n")
-  print("Generating reports:\n")
-  print("###################\n")
+  print("\n")
+  print("##################")
+  print("Generating reports:")
+  print("##################")
   print("\n")
   simulate__gen_report.main(simulate__copasi_model[:-4], results_dir+"/", tc_mean_dir, simulate__prefix_results_filename)
 
@@ -269,5 +269,5 @@ def main(model_configuration):
   # Print the pipeline elapsed time
   end = time.clock()
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  print("\n<END PIPELINE>\n\n\n")
+  print("\n<END PIPELINE>\n")
 

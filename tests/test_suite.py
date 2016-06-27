@@ -15,13 +15,27 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Object: test runner
+#
+# $Revision: 1.0 $
+# $Author: Piero Dalle Pezze $
+# $Date: 2016-06-27 10:18:32 $
 
-import subprocess
+
 import os, sys
 from os import listdir, chdir
 from os.path import isdir, isfile, join, abspath
-from sys import path
+import unittest
 
+
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE + '/tests/ins_rec_model/Working_Folder/')
+from test_insulin_receptor import TestInsulinReceptor
+
+
+## THEN ADD DOCUMENTATION FOR PYTHON CODE
 
 def main(args):
     
@@ -31,15 +45,14 @@ def main(args):
 
   origWD = os.getcwd() # remember our original working directory
 
-  for file in modelProjects:
-    localpath = join(file, 'Working_Folder')
-    if isdir(localpath):
-      print file
-      os.chdir(os.path.join(os.path.abspath(sys.path[0]), localpath))
-      process = subprocess.Popen(['python', 'run_test.py'])
-      process.wait() 
+  os.chdir(os.path.join(os.path.abspath(sys.path[0]), './ins_rec_model/Working_Folder'))    
+  suite = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
+
+
+  unittest.TextTestRunner(verbosity=2).run(suite)
 
   os.chdir(origWD) # get back to our original working directory
+
 
 main(sys.argv)
 

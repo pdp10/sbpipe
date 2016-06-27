@@ -153,26 +153,26 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n<START PIPELINE>\n\n\n")
+  print("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
     
     
-  print("\n\n\n")
-  print("##############################################################\n")
-  print("##############################################################\n")
-  print("### Parameter estimation for model "+param_estim__copasi_model+" \n")
-  print("##############################################################\n")
-  print("##############################################################\n")
-  print("\n\n")
+  print("\n")
+  print("#############################################################")
+  print("#############################################################")
+  print("### Parameter estimation for model "+param_estim__copasi_model)
+  print("#############################################################")
+  print("#############################################################")
+  print("")
 
 
       
-  print("\n\n\n")
-  print("##################\n")
-  print("Preparing folders:\n")
-  print("##################\n")
+  print("\n")
+  print("#################")
+  print("Preparing folders:")
+  print("#################")
   print("\n")
   shutil.rmtree(output_folder, ignore_errors=True)
   if not os.path.exists(models_dir):
@@ -185,19 +185,19 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n")
-  print("#######################\n")
-  print("Configure jobs locally:\n")
-  print("#######################\n")
+  print("\n")
+  print("######################")
+  print("Configure jobs locally:")
+  print("######################")
   param_estim__copasi_utils_randomise_start_values.main(models_dir, param_estim__copasi_model, nfits)
 
 
 
 
-  print("\n\n\n")
-  print("################################\n")
-  print("Concurrent parameter estimation:\n")
-  print("################################\n")
+  print("\n")
+  print("###############################")
+  print("Concurrent parameter estimation:")
+  print("###############################")
   # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
   # Let's temporarily copy this folder and then delete it.
   if os.path.exists(models_dir+"/"+data_folder):
@@ -218,10 +218,10 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n")
-  print("################\n")
-  print("Collect results:\n")
-  print("################\n")
+  print("\n")
+  print("###############")
+  print("Collect results:")
+  print("###############")
   print("\n")
   # Collect and summarises the parameter estimation results
   param_estim__copasi_utils_collect_results.main(tmp_dir)
@@ -232,10 +232,10 @@ def main(model_configuration):
 
 
 
-  print("\n\n\n")
-  print("######################################\n")
-  print("Store the fits sequences in a tarball:\n")
-  print("######################################\n")
+  print("\n")
+  print("#####################################")
+  print("Store the fits sequences in a tarball:")
+  print("#####################################")
   print("\n")
   tmpFiles = os.listdir(tmp_dir)
   for file in tmpFiles:
@@ -252,6 +252,6 @@ def main(model_configuration):
   # Print the pipeline elapsed time
   end = time.clock()
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  print("\n<END PIPELINE>\n\n\n")
+  print("\n<END PIPELINE>\n")
 
 

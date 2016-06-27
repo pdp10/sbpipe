@@ -8,7 +8,10 @@ addons:
         repo_token: 72d60e73895e6f04c7495a2c965dc8b1cc215f0406e2672e007d362195edd7db
 # command to install dependencies
 install:
+  - python setup.py install
   - pip install -r requirements.txt
 # command to run tests
-script: nosetests
-#python tests/run_tests.py
+script: 
+#  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
+  - nosetests -v tests/ins_rec_model/Working_Folder/test_insulin_receptor.py
+# It would be nicer to run the tests_suite directly..

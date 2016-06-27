@@ -17,7 +17,7 @@
 # along with SB pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests.
+# Object: run a list of tests for the insulin receptor model.
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,27 +26,33 @@
 
 import os
 import sys
-import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + '/sb_pipe/')
-import __init__
+import sb_pipe
+
+import unittest
 
 
 
-def main(args):
+class TestInsulinReceptor(unittest.TestCase):
 
-  ## model simulation (simple)
-  __init__.main(["sb_pipe", "sb_simulate", "model_ins_rec_v1_det_simul.conf"])  
-  __init__.main(["sb_pipe", "sb_simulate", "model_ins_rec_v1_stoch_simul.conf"])    
+  ## model deterministic simulation
+  def test_det_simulation(self):
+    sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"])  
+
+  ### model stochastic simulation
+  def test_stoch_simulation(self):    
+    sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])    
 
   ### model parameter estimation
-  __init__.main(["sb_pipe", "sb_param_estim__copasi", "model_ins_rec_v1_param_estim_copasi.conf"])
-  
-  ### model simulation (perturbation)
-  __init__.main(["sb_pipe", "sb_param_scan__single_perturb", "model_ins_rec_v1_single_perturbations_inhibitions.conf"])  
-
+  def test_param_estim_copasi(self):        
+    sb_pipe.main(["sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"])
+    
+  ### model single perturbation
+  def test_param_scan_single_perturb(self):    
+    sb_pipe.main(["sb_pipe", "single_perturb", "model_ins_rec_v1_single_perturbations_inhibitions.conf"])  
 
 
   # TODO TO TEST
@@ -55,7 +61,12 @@ def main(args):
   #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"
   #copy_tree("../Data/sb_sensitivity_for_testing", "../simulations/insulin_receptor/sensitivities")
 
-  #__init__.main(["sb_pipe", "sb_sensitivity", "model_ins_rec_v1_sensitivities.conf"])  
+  #def test_model_sensitivity(self):
+  #  sb_pipe.main(["sb_pipe", "sensitivity", "model_ins_rec_v1_sensitivities.conf"])  
 
 
-main(sys.argv)
+
+if __name__ == '__main__':
+    unittest.main()
+    
+    
