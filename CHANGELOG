@@ -1,0 +1,20 @@
+SB_pipe (GNU General Public License v3)
+Copyright 2010-2016 Piero Dalle Pezze
+
+Website: http://pdp10.github.io/SB_pipe/
+
+
+### CHANGELOG
+
+v0.0.10
+
+- added unit tests and setup.py.
+- ported Bash / sed / grep and cut code to Python.
+- added param_estim__copasi.sh
+- improved configuration file.
+- bug fixes
+- simulation time start, end, xaxis label and time step now replace the parameter `team`.
+- adjusted sb_simulate.sh, sb_param_scan__single_perturb.sh, sb_sensitivity.sh
+- packaging of sb_modules in /bin
+- added test folder with test scripts
+- first commit

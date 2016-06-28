@@ -13,45 +13,67 @@ Mailing list: sb_pipe AT googlegroups.com
 
 
 ### Introduction
-This package contains a collection of pipelines for model simulation, single parameter perturbation, double parameter perturbation, and sensitivity analysis, and parameter estimation. The aims are to automate common processes and speed up productivity.
+This package contains a collection of pipelines for model simulation, 
+single parameter perturbation, double parameter perturbation, sensitivity analysis, 
+and parameter estimation. It aims to automate common processes and speed up productivity.
 
 
 ### Environment Variables
 - export SB_PIPE=/path/to/SB_pipe
-- export SB_PIPE_LIB=${SB_PIPE}/lib
-- export PATH=$PATH:${SB_PIPE}/bin
+- export PATH=$PATH:${SB_PIPE}/sb_pipe
 
 
 ### Requirements
-- Python (+dependencies: scipy, numpy, python-pp)
+- Python (+dependencies: scipy, numpy, pp)
 - R (plots + stats) (+dependencies: gplots, abind, colorspace, stringr)
 - LaTeX (for reports) (+dependencies: texlive and recommended fonts)
 - Copasi (model simulation) - remember to tick the execution check box on the task to run
 - Matlab with Potterswheel (for parameter estimation using Potterswheel), bash, sed, matlab
 
 
+### Installation
+Run the command: 
+```
+python setup.py install
+```
+
+### Use case
+Run:
+```
+python sb_pipe task configuration_file
+```
+where *task* can be one of the following: 
+- create_project
+- simulate
+- single_perturb 
+- double_perturb 
+- param_estim 
+
+
+
 ### Package Structure (in progress)
 
-##### bin
-The *bin* folder contains the following pipelines: 
-- *sb_simulate* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb.py runs Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__double_perturb.py runs Copasi (this must be configured first), generate plots;
-- *sb_param_estim__copasi.py generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
-- *sb_param_estim__pw* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
-Other scripts are also included although not formalised as a pipeline. These need some work.
+##### sb_pipe
+The *sb_pipe* folder contains the following pipelines:
+
+- *sb_create_project.py* creates a new project
+- *sb_simulate.py* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__single_perturb.py* runs Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__double_perturb.py* runs Copasi (this must be configured first), generate plots;
+- *sb_param_estim__copasi.py* generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
+- *sb_param_estim__pw.sh* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
+
+These pipelines are available as python functions and can be invoked directly via *sb_pipe.py*.
+Other scripts are also included although not formalised as a pipeline. In the future, it would be nice if the current Matlab code were written in Python, so that SB_pipe only depends on Python/R.
 
 ##### cluster
 The *cluster* folder contains Bash scripts for copying data within a cluster of computers. It was written for the pipeline *sb_param_estim__pw* and uses OpenLava as cluster manager. Inside there are Bash scripts and configuration files for minimally managing this cluster.
 
-##### lib
-The *lib* folder contains the routines in Bash, Matlab, Python, and R for running SB_pipe. Currently, Python is used for linking each pipeline part; Matlab for Potterswheel and model double perturbation; and R for statistics / plot generation. 
-In the future, it would be nice if the current Matlab code were written in Python, so that SB_pipe only depends on Python/R. ABC-sysbio could replace Potterswheel for parameter estimation.
-
 ##### tests
 The *tests* folder contains the script *run_tests.py* to run tests on a mini-project called *ins_rec_model*. This script is invoked using the following command: 
 ```
-python run_tests.py
+cd tests
+python test_suite.py
 ```
 This mini-project has the SB_pipe project structure: 
 - *Data* (e.g. training / testing data sets for the model);
