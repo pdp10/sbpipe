@@ -77,15 +77,6 @@ def main(model_configuration):
   # For stochastic simulations, run 500
   # For testing, run 5
   simulate__model_simulations_number=2
-  # The inteval size of each simulation step (e.g. 0.01)
-  # This is required for plotting
-  simulate__interval_size=0.1
-  # The starting time point of the simulation (e.g. 0)
-  # This is required for plotting
-  simulate__start=0
-  # The ending time point of the simulation (e.g. 10)
-  # This is required for plotting
-  simulate__end=10
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
@@ -124,12 +115,6 @@ def main(model_configuration):
       simulate__copasi_model = line[1] 
     elif line[0] == "simulate__model_simulations_number": 
       simulate__model_simulations_number = line[1]
-    elif line[0] == "simulate__start": 
-      simulate__start = line[1] 
-    elif line[0] == "simulate__end":
-      simulate__end = line[1] 
-    elif line[0] == "simulate__interval_size": 
-      simulate__interval_size = line[1]    
     elif line[0] == "simulate__xaxis_label":
       simulate__xaxis_label = line[1]     
     elif line[0] == "models_folder": 
@@ -154,12 +139,6 @@ def main(model_configuration):
       simulate__prefix_stats_filename = line[1]       
     elif line[0] == "simulate__prefix_exp_stats_filename": 
       simulate__prefix_exp_stats_filename = line[1] 
-    
-    
-
-  if int(simulate__start) >= int(simulate__end): 
-    print("\n ERROR: simulate__start must be less than simulate__end ")
-    return
 
 
 
@@ -241,7 +220,7 @@ def main(model_configuration):
   print("Generating statistics from simulations:")
   print("######################################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__xaxis_label])
   process.wait() 
 
 

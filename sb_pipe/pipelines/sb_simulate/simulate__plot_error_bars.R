@@ -46,10 +46,7 @@ main <- function(args) {
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    simulate__start <- as.numeric(args[5])
-    simulate__end <- as.numeric(args[6])
-    simulate__interval_size <- as.numeric(args[7])
-    simulate__xaxis_label <- args[8]
+    simulate__xaxis_label <- args[5]
     
 
     # create the directory of output
@@ -60,7 +57,7 @@ main <- function(args) {
     print(files)
     
     exp = FALSE
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, exp)
+    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__xaxis_label)
 }
 
 

@@ -231,20 +231,21 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
 
 
 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, exp=TRUE) {
-
-    timepoints <- seq(from=simulate__start, to=simulate__end, by=simulate__interval_size)
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__xaxis_label) {
     
     # Read species
     timecourses <- read.table ( paste ( inputdir, '/', files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
-    time_length <- length(timepoints)
+    
     column.names <- c ("Time")
-    if(exp == TRUE && timecourses$Time[length(timecourses$Time)] != timepoints[time_length]) {
-	print(paste("ERROR: Simulated length (", timecourses$Time[length(timecourses$Time)], 
-		    ") is NOT equal to experiment length (", timepoints[time_length], ")", sep=""))
-	quit()
-    }
+    
+    simulate__start <- timecourses$Time[1]
+    simulate__end <- timecourses$Time[length(timecourses$Time)] 
+    timepoints <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/(length(timecourses$Time)-1))
+      
+    time_length <- length(timepoints)
+
+
     # statistical table (to export)
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
     statistics[,1] <- timepoints
