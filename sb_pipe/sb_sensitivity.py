@@ -158,3 +158,10 @@ def main(model_configuration):
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n")
 
+
+  if len(glob.glob(sensitivities_path+"/"+"*.csv")) > 0:
+      return True
+  else:
+      return False
+    
+    

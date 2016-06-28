@@ -30,6 +30,7 @@ import time
 
 import os
 import sys
+import glob
 import shutil
 import subprocess
 import tarfile
@@ -260,3 +261,9 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
+  if len(glob.glob(working_dir+"/"+output_folder+"/"+param_estim__copasi_model[:-4]+"*.csv")) > 0 and os.path.isfile(working_dir+"/"+output_folder+"/parameter_estimation_collected_results.csv"):
+      return True
+  else:
+      return False
+    
+    

@@ -24,7 +24,6 @@
 # $Date: 2016-06-27 10:18:32 $
 
 
-  
 
 import sys
 import getopt
@@ -44,17 +43,19 @@ class Usage(Exception):
         self.msg = msg
 
 
+# NOTE: 
+# don't name this file: __init__.py or sb_pipe.py . 
+# They both cause a conflict when these are invoked from the tests
+
 
 
 """
-Main function for sb_pipe.
+The main launcher for sb_pipe.
 Usage: python sb_pipe.py sb_simulate model_ins_rec_v1_det_simul.conf 
 """   
 
 def main(argv=None):
-  """
-  Main function for sb_pipe.
-  """   
+  """Main function for sb_pipe."""   
   if argv is None:
       argv = sys.argv
   try:
@@ -63,19 +64,19 @@ def main(argv=None):
 	  print args[0]
 
 	  if args[0] == "create_project":
-	      sb_create_project.main(args[1])            
+	      return sb_create_project.main(args[1])            
 	  
 	  if args[0] == "simulate":
-	      sb_simulate.main(args[1])
+	      return sb_simulate.main(args[1])
 	      
 	  if args[0] == "single_perturb":
-	      sb_param_scan__single_perturb.main(args[1])
+	      return sb_param_scan__single_perturb.main(args[1])
 	  
 	  if args[0] == "param_estim":
-	      sb_param_estim__copasi.main(args[1])
+	      return sb_param_estim__copasi.main(args[1])
 	  
 	  if args[0] == "sensitivity":
-	      sb_sensitivity.main(args[1])
+	      return sb_sensitivity.main(args[1])
 	  
       except getopt.error, msg:
 	    raise Usage(msg)

@@ -30,7 +30,8 @@ from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + '/sb_pipe/')
-import sb_pipe
+
+import run_sb_pipe
 
 import unittest
 
@@ -41,22 +42,24 @@ class TestInsulinReceptor(unittest.TestCase):
   """
   A collection of tests for this example.
   """
+  
+  ## Need to add asserts. This mean that the pipelines should return a status value.
 
   def test_det_simulation(self):
     """model deterministic simulation"""
-    sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"])  
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"]))
 
   def test_stoch_simulation(self):    
     """model stochastic simulation"""    
-    sb_pipe.main(["sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])    
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])) 
 
   def test_param_estim_copasi(self):        
     """model parameter estimation"""
-    sb_pipe.main(["sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"])
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"]))
     
   def test_param_scan_single_perturb(self):    
     """model single perturbation"""
-    sb_pipe.main(["sb_pipe", "single_perturb", "model_ins_rec_v1_single_perturbations_inhibitions.conf"])  
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "single_perturb", "model_ins_rec_v1_single_perturbations_inhibitions.conf"])) 
 
 
   # TODO TO TEST
@@ -66,11 +69,11 @@ class TestInsulinReceptor(unittest.TestCase):
 
   #def test_model_sensitivity(self):
   #  """model sensitivities"""
-  #  sb_pipe.main(["sb_pipe", "sensitivity", "model_ins_rec_v1_sensitivities.conf"])  
+  #  self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "sensitivity", "model_ins_rec_v1_sensitivities.conf"]))
 
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
     
     
