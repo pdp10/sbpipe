@@ -88,14 +88,6 @@ def main(model_configuration):
   simulations_folder=""
   # The folder containing the temporary computations
   tmp_folder=""
-  # The starting time point of the simulation (e.g. 0)
-  # This is required for plotting
-  simulate__start=0
-  # The ending time point of the simulation (e.g. 120)
-  # This is required for plotting
-  simulate__end=10
-  # The size of an interval for the simulation
-  simulate__interval_size=0.1
   # The number of intervals for one simulation
   simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
@@ -142,12 +134,6 @@ def main(model_configuration):
       simulations_folder = line[1] 
     elif line[0] == "tmp_folder": 
       tmp_folder = line[1]      
-    elif line[0] == "simulate__start": 
-      simulate__start = line[1]       
-    elif line[0] == "simulate__end": 
-      simulate__end = line[1]       
-    elif line[0] == "simulate__interval_size": 
-      simulate__interval_size = line[1]
     elif line[0] == "simulate__intervals": 
       simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
@@ -183,10 +169,6 @@ def main(model_configuration):
 
 
   # some control
-  if int(simulate__start) >= int(simulate__end): 
-    print("\n ERROR: simulate__start must be less than simulate__end ")
-    return
-
   if len(param_scan__single_perturb_copasi_models_list) != len(param_scan__single_perturb_species_list): 
     print("\n ERROR: One model MUST BE defined for each species to perturb! "+
 	  str(len(param_scan__single_perturb_copasi_models_list))+"!="+
@@ -295,8 +277,7 @@ def main(model_configuration):
     print("################")
     print("\n")
     process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
-				sp_model[:-4], sp_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, 
-				tc_parameter_scan_dir, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, 
+				sp_model[:-4], sp_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
 				param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels])
     process.wait() 
     # Prepare the legend

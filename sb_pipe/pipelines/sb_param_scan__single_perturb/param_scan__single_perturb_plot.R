@@ -38,16 +38,13 @@ main <- function(args) {
     results_dir <- args[4]
     dataset_parameter_scan_dir <- args[5]
     tc_parameter_scan_dir <- args[6]
-    simulate__start <- as.numeric(args[7])
-    simulate__end <- as.numeric(args[8])
-    simulate__interval_size <- as.numeric(args[9])
-    simulate__xaxis_label <- args[10]
-    param_scan__single_perturb_simulations_number <- args[11]
-    perturbation_in_percent_levels <- args[12]
+    simulate__xaxis_label <- args[7]
+    param_scan__single_perturb_simulations_number <- args[8]
+    perturbation_in_percent_levels <- args[9]
 
     # Add controls here if any
     
-    plot_single_perturbation_data(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels)
+    plot_single_perturbation_data(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels)
 }
 
 

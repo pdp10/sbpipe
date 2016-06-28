@@ -34,7 +34,7 @@ source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.R", sep=""))
 
 
 
-plot_single_perturbation_data <- function(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__start, simulate__end, simulate__interval_size, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels) {
+plot_single_perturbation_data <- function(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels) {
     
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
@@ -147,8 +147,10 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  
 	  # points to retrieve
 	  # configuration of the x axis
+	  simulate__start <- min(dataset[,1,1])
+	  simulate__end <- max(dataset[,1,1])
 	  time_axis <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
-          xoffset <- c(0,max(time_axis))
+          xoffset <- c(simulate__start,simulate__end)
 	  
 	  linewidth <- 12
 	  plotchar <- seq(1,length(files),1)
@@ -166,7 +168,7 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    png ( paste ( outputdir, model_noext, "__eval_", name, "__sim_", k_sim, ".png", sep="" ), height=1000, width=1400, bg="transparent")
 	    
 	    # increase the margin on the right of the plot
-	    par(mar=c(20,20,12,0))
+	    par(mar=c(20,20,12,5))
 
 	    # Plot the maximum curve as first
 	    if(max(dataset[,j,1]) >= max(dataset[,j,length(files)])) {
@@ -202,18 +204,13 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    for ( m in (length(files)):1 ) {
 		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) 
 	    }    
-
-	    ## set x axis
-	    # Set up x axis with tick marks alone
-	    tp <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
-	    time_axis <- seq(from=simulate__start, to=simulate__end-1, by=(simulate__end-simulate__start)/10)
-	    
+   
 	    
 	    ## Plot the axes
 	    # Set up axis with tick marks alone
-	    axis(side=1, labels=FALSE, at=(length(time_axis)/10)*0:length(time_axis), cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
+	    axis(side=1, labels=FALSE, at=time_axis, cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
 	    # Plot x axis labels at default tick marks
-	    text(side=1, (length(time_axis)/10)*0:length(time_axis), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=tp, cex=5.6, font=2, xpd=TRUE)  	    
+	    text(side=1, time_axis, par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=time_axis, cex=5.6, font=2, xpd=TRUE)  	    
 	    # Plot x axis label at line 6 (of 7)
 	    mtext(side=1, text=simulate__xaxis_label, line=12, cex=5.6, font=2) 
 	    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2) 
