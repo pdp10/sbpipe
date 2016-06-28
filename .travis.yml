@@ -25,4 +25,6 @@ script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
   - nosetests -v tests/test_suite.py
   - cd tests
-  - python test_suite.py  
+  - python test_suite.py
+  - cd ins_rec_model/Working_Folder/
+  - python test_insulin_receptor.py
