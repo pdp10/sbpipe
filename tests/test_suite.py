@@ -24,38 +24,48 @@
 
 
 import os, sys
-from os import listdir, chdir
-from os.path import isdir, isfile, join, abspath
 import unittest
 
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + '/tests/ins_rec_model/Working_Folder/')
+# folders containing the configuration files and test file
+insulin_receptor_folder = 'ins_rec_model/Working_Folder/'
+
+# import paths to the resource folders
+sys.path.append(SB_PIPE + '/tests/' + insulin_receptor_folder)
+
+# import modules
 from test_insulin_receptor import TestInsulinReceptor
 
+
 """
-Test runner
+Test suite and runner
 """
+
+#def create_suite():
+  #"""A suite of tests to run."""
+  ## Load the tests for these test cases
+  #suite1 = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
+  ##suite2 = unittest.TestLoader().loadTestsFromTestCase("SOMETHING_ELSE")
+  ##alltests = unittest.TestSuite([suite1, suite2])
+  #alltests = unittest.TestSuite([suite1])
+  #return alltests
+
+
 
 def main(args):
-  """
-  Run a suite of tests
-  """
-    
-  mypath = './'
-  modelProjects = [f for f in listdir(mypath) if isdir(join(mypath, f))]
+  """Run a suite of tests."""
+  #suite = create_suite()
+  #unittest.TextTestRunner(verbosity=2).run(suite)
 
-
+  # For each test, we need to change directory.
   origWD = os.getcwd() # remember our original working directory
-
-  os.chdir(os.path.join(os.path.abspath(sys.path[0]), './ins_rec_model/Working_Folder'))    
+  os.chdir(os.path.join(os.path.abspath(sys.path[0]), insulin_receptor_folder))    
   suite = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
-
-
   unittest.TextTestRunner(verbosity=2).run(suite)
-
   os.chdir(origWD) # get back to our original working directory
-
+  
+  
 
 main(sys.argv)
 

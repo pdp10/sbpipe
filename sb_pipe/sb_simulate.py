@@ -255,3 +255,9 @@ def main(model_configuration):
   print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
   print("\n<END PIPELINE>\n")
 
+
+  if os.path.isfile(results_dir+"/"+simulate__prefix_results_filename+model+".pdf") and len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model+"*.png")) > 0:
+       return True
+  else:
+       return False
+

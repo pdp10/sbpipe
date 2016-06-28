@@ -313,8 +313,16 @@ def main(model_configuration):
 					       param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend)
     
 
-    # Print the pipeline elapsed time
-    end = time.clock()
-    print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-    print("\n<END PIPELINE>\n")
 
+  # Print the pipeline elapsed time
+  end = time.clock()
+  print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
+  print("\n<END PIPELINE>\n")
+
+
+  if len(glob.glob(results_dir+"/"+param_scan__single_perturb_prefix_results_filename+model+"*.pdf")) > 0 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model+"*.png")) > 0:
+      return True
+  else:
+      return False
+     
+     
