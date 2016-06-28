@@ -1,15 +1,15 @@
 
-# SB_pipe
+# sb_pipe
 
 Mailing list: sb_pipe AT googlegroups.com
 
-[![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
+[![Build Status](https://travis-ci.org/pdp10/sb_pipe.svg?branch=master)](https://travis-ci.org/pdp10/sb_pipe)
 
-[![Code Climate](https://codeclimate.com/github/pdp10/SB_pipe/badges/gpa.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
+[![Code Climate](https://codeclimate.com/github/pdp10/sb_pipe/badges/gpa.svg)](https://codeclimate.com/github/pdp10/sb_pipe)
 
-[![Test Coverage](https://codeclimate.com/github/pdp10/SB_pipe/badges/coverage.svg)](https://codeclimate.com/github/pdp10/SB_pipe/coverage)
+[![Test Coverage](https://codeclimate.com/github/pdp10/sb_pipe/badges/coverage.svg)](https://codeclimate.com/github/pdp10/sb_pipe/coverage)
 
-[![Issue Count](https://codeclimate.com/github/pdp10/SB_pipe/badges/issue_count.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
+[![Issue Count](https://codeclimate.com/github/pdp10/sb_pipe/badges/issue_count.svg)](https://codeclimate.com/github/pdp10/sb_pipe)
 
 
 ### Introduction
@@ -19,7 +19,7 @@ and parameter estimation. It aims to automate common processes and speed up prod
 
 
 ### Environment Variables
-- export SB_PIPE=/path/to/SB_pipe
+- export SB_PIPE=/path/to/sb_pipe
 - export PATH=$PATH:${SB_PIPE}/sb_pipe
 
 
@@ -64,7 +64,7 @@ The *sb_pipe* folder contains the following pipelines:
 - *sb_param_estim__pw.sh* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
 
 These pipelines are available as python functions and can be invoked directly via *sb_pipe.py*.
-Other scripts are also included although not formalised as a pipeline. In the future, it would be nice if the current Matlab code were written in Python, so that SB_pipe only depends on Python/R.
+Other scripts are also included although not formalised as a pipeline. In the future, it would be nice if the current Matlab code were written in Python, so that sb_pipe only depends on Python/R.
 
 ##### cluster
 The *cluster* folder contains Bash scripts for copying data within a cluster of computers. It was written for the pipeline *sb_param_estim__pw* and uses OpenLava as cluster manager. Inside there are Bash scripts and configuration files for minimally managing this cluster.
@@ -75,13 +75,13 @@ The *tests* folder contains the script *run_tests.py* to run tests on a mini-pro
 cd tests
 python test_suite.py
 ```
-This mini-project has the SB_pipe project structure: 
+This mini-project has the sb_pipe project structure: 
 - *Data* (e.g. training / testing data sets for the model);
 - *Model* (e.g. Copasi or Potterswheel models);
 - *Working_Folder* (e.g. pipelines configurations and parameter estimation results).
-SB_pipe automatically generates other two folders: 
+sb_pipe automatically generates other two folders: 
 - *simulation* (e.g. time course, parameter scan, sensitivity analysis etc);
-- *tmp* (e.g. a temporary folder used for pre-processing by SB_pipe).
+- *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
 
 ### Examples of Configuration file

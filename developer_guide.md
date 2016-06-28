@@ -83,7 +83,7 @@ Not written yet!
 ### Git
 ##### Startup
 ```
-$ git clone https://YOURUSERNAME@server/YOURUSERNAME/SB_pipe.git   # to clone the master
+$ git clone https://YOURUSERNAME@server/YOURUSERNAME/sb_pipe.git   # to clone the master
 $ git checkout -b develop origin/develop                           # to get the develop branch
 $ for b in `git branch -r | grep -v -- '->'`; do git branch --track ${b##origin/} $b; done     # to get all the other branches
 $ git fetch --all    # to update all the branches with remote

@@ -1,2 +1,2 @@
-Rplots.pdf
-.pyc
+tests/**/Rplots.pdf
+sb_pipe/**/*.pyc
