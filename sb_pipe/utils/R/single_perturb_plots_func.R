@@ -166,7 +166,7 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    png ( paste ( outputdir, model_noext, "__eval_", name, "__sim_", k_sim, ".png", sep="" ), height=1000, width=1400, bg="transparent")
 	    
 	    # increase the margin on the right of the plot
-	    par(mar=c(20,20,12,0))
+	    par(mar=c(20,20,12,5))
 
 	    # Plot the maximum curve as first
 	    if(max(dataset[,j,1]) >= max(dataset[,j,length(files)])) {
@@ -205,15 +205,14 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 
 	    ## set x axis
 	    # Set up x axis with tick marks alone
-	    tp <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
-	    time_axis <- seq(from=simulate__start, to=simulate__end-1, by=(simulate__end-simulate__start)/10)
-	    
+	    tp <- seq(from=xoffset[1], to=xoffset[length(xoffset)], by=(xoffset[length(xoffset)]-xoffset[1])/10)
+
 	    
 	    ## Plot the axes
 	    # Set up axis with tick marks alone
-	    axis(side=1, labels=FALSE, at=(length(time_axis)/10)*0:length(time_axis), cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
+	    axis(side=1, labels=FALSE, at=tp, cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
 	    # Plot x axis labels at default tick marks
-	    text(side=1, (length(time_axis)/10)*0:length(time_axis), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=tp, cex=5.6, font=2, xpd=TRUE)  	    
+	    text(side=1, tp, par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=tp, cex=5.6, font=2, xpd=TRUE)  	    
 	    # Plot x axis label at line 6 (of 7)
 	    mtext(side=1, text=simulate__xaxis_label, line=12, cex=5.6, font=2) 
 	    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2) 
