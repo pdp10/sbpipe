@@ -18,11 +18,11 @@ install:
   # install other dependencies
   - pip install -r requirements.txt
   - export SB_PIPE="${HOME}/pdp10/sb_pipe"
-  - export PATH=$PATH:${SB_PIPE}
   - python setup.py install
 # command to run tests
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
+  - export SB_PIPE="${HOME}/pdp10/sb_pipe"
   - nosetests -v tests/test_suite.py
   - cd tests
   - python test_suite.py
