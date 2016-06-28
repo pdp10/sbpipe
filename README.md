@@ -3,13 +3,13 @@
 
 Mailing list: sb_pipe AT googlegroups.com
 
-[![Build Status](https://travis-ci.org/pdp10/sb_pipe.svg?branch=master)](https://travis-ci.org/pdp10/sb_pipe)
+[![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
 
-[![Code Climate](https://codeclimate.com/github/pdp10/sb_pipe/badges/gpa.svg)](https://codeclimate.com/github/pdp10/sb_pipe)
+[![Code Climate](https://codeclimate.com/github/pdp10/SB_pipe/badges/gpa.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
 
-[![Test Coverage](https://codeclimate.com/github/pdp10/sb_pipe/badges/coverage.svg)](https://codeclimate.com/github/pdp10/sb_pipe/coverage)
+[![Test Coverage](https://codeclimate.com/github/pdp10/SB_pipe/badges/coverage.svg)](https://codeclimate.com/github/pdp10/SB_pipe/coverage)
 
-[![Issue Count](https://codeclimate.com/github/pdp10/sb_pipe/badges/issue_count.svg)](https://codeclimate.com/github/pdp10/sb_pipe)
+[![Issue Count](https://codeclimate.com/github/pdp10/SB_pipe/badges/issue_count.svg)](https://codeclimate.com/github/pdp10/SB_pipe)
 
 
 ### Introduction
