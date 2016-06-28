@@ -12,6 +12,7 @@ before_install:
 #  - sudo add-apt-repository ppa:marutter/rrutter -y
 #  - sudo add-apt-repository ppa:texlive-backports/ppa -y  
 #  - sudo apt-get update -q  
+## python dependencies are installed via pip (check requirements.txt)
 #  - sudo apt-get -y --force-yes install python-pip python-pp python-scipy python-numpy
 #  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
 #  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
@@ -24,8 +25,5 @@ install:
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
   - export SB_PIPE="${HOME}/pdp10/sb_pipe"
-  - nosetests -v tests/test_suite.py
-  - cd tests
-  - python test_suite.py
-  - cd ins_rec_model/Working_Folder/
-  - python test_insulin_receptor.py
+#  - nosetests -v tests/test_suite.py
+

@@ -1,2 +1,6 @@
 codeclimate-test-reporter
 coverage
+numpy
+scipy
+pp
+nose
