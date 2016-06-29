@@ -13,9 +13,10 @@ Mailing list: sb_pipe AT googlegroups.com
 
 
 ### Introduction
-This package contains a collection of pipelines for model simulation, 
-single parameter perturbation, double parameter perturbation, sensitivity analysis, 
-and parameter estimation. It aims to automate common processes and speed up productivity.
+This package contains a collection of pipelines for dynamic modelling 
+of biological systems. It aims to automate common processes and speed up
+productivity for tasks such as model simulation, model single and double
+perturbation, sensitivity analysis and parameter estimation. 
 
 
 ### Environment Variables
@@ -25,10 +26,14 @@ and parameter estimation. It aims to automate common processes and speed up prod
 
 ### Requirements
 - Python (+dependencies: scipy, numpy, pp)
-- R (plots + stats) (+dependencies: gplots, abind, colorspace, stringr)
-- LaTeX (for reports) (+dependencies: texlive and recommended fonts)
-- Copasi (model simulation) - remember to tick the execution check box on the task to run
-- Matlab with Potterswheel (for parameter estimation using Potterswheel), bash, sed, matlab
+- R (plots + statistics) (+dependencies: gplot, abind, colorspace, 
+stringr)
+- LaTeX (for report generation) (+dependencies: texlive and recommended 
+fonts)
+- Copasi (model simulation) - remember to tick the execution check box 
+on the task to run
+- **[obsolete]** Matlab-toolbox Potterswheel (for parameter estimation 
+using Potterswheel). This pipeline also requires bash, sed, Matlab.
 
 
 ### Installation
@@ -38,51 +43,82 @@ python setup.py install
 ```
 
 ### Use case
-Run:
+To create a new project: 
 ```
-python sb_pipe task configuration_file
+python run_sb_pipe create_project projectname
 ```
-where *task* can be one of the following: 
-- create_project
+After creating a project, the Copasi files should be placed inside 
+Models/, whereas the configuration files in Working_Folder/. Examples of
+project structures can be found in sb_pipe/tests/. 
+A Copasi file must be configured appropriately before starting a 
+pipeline. For instance, for simulating a model time course, the Copasi 
+Time Course task must be checked as executable (via CopasiUI) and an 
+output report must be specified inside the project folder tmp/. The name
+of the report must be the name of the Copasi model and this name must
+also be included in the configuration file. (See examples in tests/). 
+After this preliminary configuration step, the user should move to the 
+folder containing the configuration file and start one of the pipelines 
+with the command: 
+```
+python run_sb_pipe pipeline configuration_file
+```
+where *pipeline* can be one of the following: 
 - simulate
 - single_perturb 
 - double_perturb 
+- sensitivity
 - param_estim 
 
 
 
-### Package Structure (in progress)
-
-##### sb_pipe
-The *sb_pipe* folder contains the following pipelines:
-
-- *sb_create_project.py* creates a new project
-- *sb_simulate.py* simulates a model deterministically or stochastically using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb.py* runs Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__double_perturb.py* runs Copasi (this must be configured first), generate plots;
-- *sb_param_estim__copasi.py* generate a fits sequence using Copasi (this must be configured first), generate tables for statistics;
-- *sb_param_estim__pw.sh* performs parameter estimation and MOTA identifiability analysis using the Matlab toolbox Potterswheel;
-
-These pipelines are available as python functions and can be invoked directly via *sb_pipe.py*.
-Other scripts are also included although not formalised as a pipeline. In the future, it would be nice if the current Matlab code were written in Python, so that sb_pipe only depends on Python/R.
+### Package Structure
 
 ##### cluster
-The *cluster* folder contains Bash scripts for copying data within a cluster of computers. It was written for the pipeline *sb_param_estim__pw* and uses OpenLava as cluster manager. Inside there are Bash scripts and configuration files for minimally managing this cluster.
+The *cluster/* folder contains Bash scripts and configuration files for 
+setting up a cluster of machines using OpenLava as cluster manager. 
+This only represents an utility for users at this stage. 
+
+
+##### sb_pipe
+The *sb_pipe/* folder contains the following pipelines:
+
+- *sb_create_project.py* creates a new project
+- *sb_simulate.py* simulates a model deterministically or stochastically
+using Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__single_perturb.py* runs Copasi (this must be 
+configured first), generate plots and report;
+- *sb_param_scan__double_perturb.py* runs Copasi (this must be 
+configured first), generate plots;
+- *sb_param_estim__copasi.py* generate a fits sequence using Copasi 
+(this must be configured first), generate tables for statistics;
+- *sb_sensitivity.py* runs Copasi (this must be 
+configured first), generate plots;
+- **[obsolete]** *sb_param_estim__pw.sh* performs parameter estimation 
+and MOTA identifiability analysis using the Matlab toolbox Potterswheel.
+
+These pipelines are available as Python functions and are invoked 
+directly via *run_sb_pipe.py*.
+
 
 ##### tests
-The *tests* folder contains the script *run_tests.py* to run tests on a mini-project called *ins_rec_model*. This script is invoked using the following command: 
+The *tests/* folder contains the script *run_tests.py* to run a test 
+suite. It should be used for testing the correct installation of sb_pipe
+dependencies as well as reference for configuring a project before 
+running any pipeline. The above script is invoked using the 
+following commands: 
 ```
 cd tests
 python test_suite.py
 ```
-This mini-project has the sb_pipe project structure: 
+Projects inside the folder tests/ have the sb_pipe project structure: 
 - *Data* (e.g. training / testing data sets for the model);
 - *Model* (e.g. Copasi or Potterswheel models);
-- *Working_Folder* (e.g. pipelines configurations and parameter estimation results).
+- *Working_Folder* (e.g. pipelines configurations and parameter 
+estimation results).
 sb_pipe automatically generates other two folders: 
-- *simulation* (e.g. time course, parameter scan, sensitivity analysis etc);
+- *simulation* (e.g. time course, parameter scan, sensitivity analysis 
+etc);
 - *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
-
-### Examples of Configuration file
-You can find examples of configuration files (*.conf) in the folder ${SB_PIPE}/tests/ins_rec_model/Working_Folder.
+Examples of configuration files (*.conf) can be found in 
+${SB_PIPE}/tests/ins_rec_model/Working_Folder/.
