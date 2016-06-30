@@ -3,7 +3,7 @@
 
 Mailing list: sb_pipe AT googlegroups.com
 
-[![Build Status](https://travis-ci.org/pdp10/SB_pipe.svg?branch=master)](https://travis-ci.org/pdp10/SB_pipe)
+[![Build Status](https://travis-ci.org/pdp10/sb_pipe.svg?branch=master)](https://travis-ci.org/pdp10/sb_pipe)
 
 
 ### Introduction
