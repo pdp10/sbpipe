@@ -3,9 +3,9 @@ python:
   - "2.6"
   - "2.7"
   - "3.2"
-virtualenv:
-  # necessary for installing Python dependencies
-  system_site_packages: true
+# necessary for installing Python dependencies
+#virtualenv:
+#  system_site_packages: true
 before_install:
 ## NEED TO ADD COPASI TOO..
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
@@ -18,7 +18,7 @@ before_install:
 #  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
 install:
   # install other dependencies
-  - pip install -r requirements.txt
+#  - pip install -r requirements.txt
   - export SB_PIPE="${HOME}/pdp10/sb_pipe"
   - python setup.py install
 # command to run tests
