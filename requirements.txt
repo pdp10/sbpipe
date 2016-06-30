@@ -1,2 +1,3 @@
-codeclimate-test-reporter
-coverage
+scipy
+numpy
+pp

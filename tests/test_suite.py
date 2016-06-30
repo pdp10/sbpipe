@@ -60,12 +60,12 @@ def main(args):
 
   # For each test, we need to change directory.
   origWD = os.getcwd() # remember our original working directory
-  os.chdir(os.path.join(os.path.abspath(sys.path[0]), insulin_receptor_folder))    
+  os.chdir(os.path.join(os.path.abspath(sys.path[0]), insulin_receptor_folder))
   suite = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
   unittest.TextTestRunner(verbosity=2).run(suite)
   os.chdir(origWD) # get back to our original working directory
-  
-  
+
+
 
 main(sys.argv)
 
