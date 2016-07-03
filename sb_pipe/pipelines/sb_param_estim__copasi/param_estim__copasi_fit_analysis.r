@@ -1,0 +1,47 @@
+# This file is part of sb_pipe.
+#
+# sb_pipe is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# sb_pipe is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Object: Plotting of the confidence intervals
+#
+# $Revision: 3.0 $
+# $Author: Piero Dalle Pezze $
+# $Date: 2016-07-01 14:14:32 $
+
+
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/param_estim_utils.r", sep=""))
+
+
+main <- function(args) {
+  
+  filename <- args[1]
+  results_dir <- args[2]
+  plot_filename_prefix <- args[3]
+  plots_folder <- args[4]
+  best_fits_percent <- args[5]
+
+  best_fits_percent <- as.numeric(best_fits_percent)
+  
+  fit_sequence_analysis(filename, results_dir, plots_folder, plot_filename_prefix, best_fits_percent)
+  
+}
+
+
+main(commandArgs(TRUE))
+# Clean the environment
+rm ( list=ls ( ) )
+
