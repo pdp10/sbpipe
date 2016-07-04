@@ -105,6 +105,8 @@ def main(model_configuration):
   remote_working_folder="Working_Folder"
   # The remote folder containing the temporary computations
   remote_tmp_folder="tmp"
+  # The percent of best fits to consider (default=100)
+  best_fits_percent=100
 
 
 
@@ -145,7 +147,9 @@ def main(model_configuration):
       remote_working_folder = line[1] 
     elif line[0] == "remote_tmp_folder": 
       remote_tmp_folder = line[1]
-
+    elif line[0] == "best_fits_percent": 
+      best_fits_percent = line[1]
+      
 
   nfits = int(nfits)
   local_cpus = int(local_cpus)
@@ -156,6 +160,7 @@ def main(model_configuration):
   tmp_dir=project+"/"+tmp_folder+"/"
 
   output_folder=param_estim__copasi_model[:-4]+"_round"+round
+  plots_dir=tmp_dir+"/fits_analysis"
 
 
 
@@ -186,8 +191,13 @@ def main(model_configuration):
   if not os.path.exists(data_dir):
     os.mkdir(data_dir)    
   if not os.path.exists(tmp_dir):
-    os.mkdir(tmp_dir)  
-  os.makedirs(working_dir+"/"+output_folder)
+    os.mkdir(tmp_dir)
+  if not os.path.exists(plots_dir):
+    os.makedirs(plots_dir)
+  if not os.path.exists(working_dir):
+    os.makedirs(working_dir)
+  if not os.path.exists(working_dir+"/"+output_folder):
+    os.makedirs(working_dir+"/"+output_folder)
 
 
 
@@ -236,6 +246,16 @@ def main(model_configuration):
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
   #param_estim__copasi_utils_plot_calibration.main(tmp_dir, tmp_dir)
 
+
+
+  print("\n")
+  print("###################")
+  print("Plot distributions:")
+  print("###################")
+  print("\n")
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", tmp_dir+"/parameter_estimation_collected_results.csv", plots_dir, "fits_", best_fits_percent])
+  process.wait()
+  
 
 
   print("\n")

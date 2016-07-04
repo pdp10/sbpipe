@@ -22,6 +22,7 @@
 
 
 library(ggplot2)
+# library(scales)
 
 
 basic_theme <- function (base_size=12, base_family="") {
@@ -43,6 +44,8 @@ histogramplot <- function(dfCol, fileout) {
   g = ggplot(dfCol, aes_string(x=colnames(dfCol))) +
     # LEAVE THIS ONE AS IT IS THE ONLY ONE WITH CORRECT Y-AXIS values
     geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
+#     scale_x_continuous(labels=scientific) +
+#     scale_y_continuous(labels=scientific)  
     #geom_density(colour="black", fill="blue") +
     #geom_histogram(aes(y = ..density..), binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
     #geom_density(color="red")
@@ -60,6 +63,8 @@ scatterplot <- function(df, colNameX, colNameY, colNameColor, fileout) {
   g = ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
     geom_point() +
     scale_colour_gradientn(colours=rainbow(4)) +
+#     scale_x_continuous(labels=scientific) +
+#     scale_y_continuous(labels=scientific)
     #scale_colour_gradient(low="red", high="darkblue") +
     #scale_colour_gradient(low="magenta", high="blue") +
     #geom_rug(col="darkred",alpha=.1)
@@ -69,40 +74,44 @@ scatterplot <- function(df, colNameX, colNameY, colNameColor, fileout) {
 
 
 
-fit_sequence_analysis <- function(filenamein, results_dir, plots_folder, plot_filename_prefix, best_fits_percent) {
+fit_sequence_analysis <- function(filenamein, plots_dir, plot_filename_prefix, best_fits_percent) {
   
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
     warning("best_fits_percent is not in (0, 100]. Now set to 100")
     best_fits_percent = 100
   }
   
-  dir.create(file.path(results_dir, plots_folder), showWarnings = FALSE)
-  
-  df = read.csv(filenamein)
+  df = read.csv(filenamein, head=TRUE,sep="\t")
   
   # rename columns
   dfCols <- colnames(df)
   dfCols <- gsub("Values.", "", dfCols)
-  dfCols <- gsub("..InitialValue.", "", dfCols)
+  dfCols <- gsub("..InitialValue.", "", dfCols)  
   colnames(df) <- dfCols
+  
+  #print(df)
   
   # sort by Chi^2 and extract threshold row number
   selected_rows <- nrow(df)*best_fits_percent/100
-  df <- df[order(df[2]),][1:selected_rows,]
+  df <- df[order(df[,2]),]
+  df <- df[1:selected_rows,]
+  
+  #print(df)
+  #print(dfCols)
   
   # Set my ggplot theme here
-  theme_set(basic_theme(24))
+  theme_set(basic_theme(22))
+  fileout <- ""
   
   for (i in seq(3,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
-        fileout <- paste(plots_folder, "/", plot_filename_prefix, dfCols[i], ".png", sep="")
-        histogramplot(df[i], fileout)
+        fileout <- paste(plots_dir, "/", plot_filename_prefix, dfCols[i], ".png", sep="")
+        g <- histogramplot(df[i], fileout)
       } else {
-        fileout <- paste(plots_folder, "/", plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep="")
-        scatterplot(df, colnames(df)[i], colnames(df)[j], colnames(df)[2], fileout)
+        fileout <- paste(plots_dir, "/", plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep="")
+        g <- scatterplot(df, colnames(df)[i], colnames(df)[j], colnames(df)[2], fileout)
       }
-      
     }
   }
   

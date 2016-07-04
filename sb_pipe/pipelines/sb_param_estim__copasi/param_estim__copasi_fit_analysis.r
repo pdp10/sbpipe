@@ -29,14 +29,13 @@ source(paste(SB_PIPE, "/sb_pipe/utils/R/param_estim_utils.r", sep=""))
 main <- function(args) {
   
   filename <- args[1]
-  results_dir <- args[2]
+  plots_dir <- args[2]
   plot_filename_prefix <- args[3]
-  plots_folder <- args[4]
-  best_fits_percent <- args[5]
+  best_fits_percent <- args[4]
 
   best_fits_percent <- as.numeric(best_fits_percent)
   
-  fit_sequence_analysis(filename, results_dir, plots_folder, plot_filename_prefix, best_fits_percent)
+  fit_sequence_analysis(filename, plots_dir, plot_filename_prefix, best_fits_percent)
   
 }
 

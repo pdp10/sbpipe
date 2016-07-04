@@ -31,7 +31,7 @@ def main(args):
 
   for file in modelProjects:
     modelspath = join(file, 'Models')
-    paramEstimCopasiFiles = glob.glob(modelspath + "/" + "*_param_estim?.cps")
+    paramEstimCopasiFiles = glob.glob(modelspath + "/" + "*_param_estim?*.cps")
     for f in paramEstimCopasiFiles:
       os.remove(f)
     
