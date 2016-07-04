@@ -43,13 +43,13 @@ class TestInsulinReceptor(unittest.TestCase):
   A collection of tests for this example.
   """
   
-  def test_det_simulation(self):
-    """model deterministic simulation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"]))
+  #def test_det_simulation(self):
+    #"""model deterministic simulation"""
+    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_det_simul.conf"]))
 
-  def test_stoch_simulation(self):    
-    """model stochastic simulation"""    
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])) 
+  #def test_stoch_simulation(self):    
+    #"""model stochastic simulation"""    
+    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "model_ins_rec_v1_stoch_simul.conf"])) 
 
   def test_param_scan_single_perturb(self):    
     """model single perturbation"""
@@ -57,13 +57,13 @@ class TestInsulinReceptor(unittest.TestCase):
 
 
 
-  def test_param_estim_copasi(self):        
-    """model parameter estimation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"]))    
+  #def test_param_estim_copasi(self):        
+    #"""model parameter estimation"""
+    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"]))    
     
-  def test_non_identif_param_estim_copasi(self):        
-    """model parameter estimation with identifiability issues """
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_non_identif_param_estim_copasi.conf"]))    
+  #def test_non_identif_param_estim_copasi(self):        
+    #"""model parameter estimation with identifiability issues """
+    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_non_identif_param_estim_copasi.conf"]))    
 
 
   # TODO TO TEST

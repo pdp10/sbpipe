@@ -246,15 +246,6 @@ plot.sensitivities <- function(filename, kinetics) {
   sens_matrix <- read.table(filename, header=TRUE, row.names=1, na.strings="NA", dec=".", sep="\t")
   #print(sens_matrix)
   model <- ""
-  if(length(grep("pi3k_indep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-indep hypothesis"
-  } else if(length(grep("pi3k_dep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-dep hypothesis"
-  } else if(length(grep("pi3k_iso_dep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-iso-dep hypothesis"
-  } else if(length(grep("tsc_dep", filename, value=TRUE)) > 0) {
-    model <- "TSC-dep hypothesis"
-  }
   
   names.row <- row.names(sens_matrix)
   names.col <- names(sens_matrix)
@@ -319,21 +310,6 @@ plot.param_correlations <- function(filename, valmargin, valcex) {
   corr_matrix <- read.table(filename, header=TRUE, row.names=1, na.strings="NA", dec=".", sep="\t")
   #print(corr_matrix)
   model <- ""
-  if(length(grep("pi3k_indep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-indep hypothesis (phase 6)"
-  } else if(length(grep("pi3k_dep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-dep hypothesis (phase 5)"
-  } else if(length(grep("pi3k_iso_dep", filename, value=TRUE)) > 0) {
-    model <- "PI3K-iso-dep hypothesis (phase 7)"
-  } else if(length(grep("tsc_dep", filename, value=TRUE)) > 0) {
-    model <- "TSC-dep hypothesis (phase 4)"
-  } else if(length(grep("ir_beta", filename, value=TRUE)) > 0) {
-    model <- "IR-Beta (phase 1)"
-  } else if(length(grep("without_pdk2", filename, value=TRUE)) > 0) {
-    model <- "General model (phase 2)"
-  } else if(length(grep("with_pdk2", filename, value=TRUE)) > 0) {
-    model <- "General model with PDK2 (phase 3)"
-  }
   names.row <- row.names(corr_matrix)
   names.col <- names(corr_matrix)
   names.row <- gsub("phosphorylation", "phosp", names.row)

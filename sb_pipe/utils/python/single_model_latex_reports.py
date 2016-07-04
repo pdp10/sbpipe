@@ -85,9 +85,9 @@ def latex_report_par_scan(results_dir, tc_parameter_scan_dir, param_scan__single
       marker = infile.find("__eval_")
       if pos != -1 and pos < marker:
 	print(infile)
-	file_out.write("\\includegraphics[scale=0.08]{" + tc_parameter_scan_dir + "/" + infile + "}\n")
+	file_out.write("\\includegraphics[scale=0.20]{" + tc_parameter_scan_dir + "/" + infile + "}\n")
 	file_out.write("\\hfill\n")
-  file_out.write("\\includegraphics[scale=0.08]{" + tc_parameter_scan_dir + "/" + param_scan__single_perturb_legend + ".png}\n")
+  file_out.write("\\includegraphics[scale=0.20]{" + tc_parameter_scan_dir + "/" + param_scan__single_perturb_legend + ".png}\n")
   file_out.write("\\hfill\n")
   file_out.write("\\end{document}\n")
   file_out.close()

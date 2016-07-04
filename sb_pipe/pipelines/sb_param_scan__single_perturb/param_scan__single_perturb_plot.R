@@ -25,7 +25,7 @@
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(paste(SB_PIPE, "/sb_pipe/utils/R/single_perturb_plots_func.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/single_perturb_plots_func2.R", sep=""))
 
 
 
