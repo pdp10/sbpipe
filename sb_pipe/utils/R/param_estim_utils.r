@@ -22,6 +22,7 @@
 
 
 library(ggplot2)
+# library(scales)
 
 
 basic_theme <- function (base_size=12, base_family="") {
@@ -43,6 +44,8 @@ histogramplot <- function(dfCol, fileout) {
   g = ggplot(dfCol, aes_string(x=colnames(dfCol))) +
     # LEAVE THIS ONE AS IT IS THE ONLY ONE WITH CORRECT Y-AXIS values
     geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
+#     scale_x_continuous(labels=scientific) +
+#     scale_y_continuous(labels=scientific)  
     #geom_density(colour="black", fill="blue") +
     #geom_histogram(aes(y = ..density..), binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
     #geom_density(color="red")
@@ -60,6 +63,8 @@ scatterplot <- function(df, colNameX, colNameY, colNameColor, fileout) {
   g = ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
     geom_point() +
     scale_colour_gradientn(colours=rainbow(4)) +
+#     scale_x_continuous(labels=scientific) +
+#     scale_y_continuous(labels=scientific)
     #scale_colour_gradient(low="red", high="darkblue") +
     #scale_colour_gradient(low="magenta", high="blue") +
     #geom_rug(col="darkred",alpha=.1)
