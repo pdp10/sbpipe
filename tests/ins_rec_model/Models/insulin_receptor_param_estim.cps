@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-26 18:15:06 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-07-04 13:43:06 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -87,7 +87,7 @@ Reaction scheme where the products are created from the reactants and the change
 </rdf:RDF>
         </MiriamAnnotation>
       </Metabolite>
-      <Metabolite key="Metabolite_7" name="Insulin" simulationType="fixed" compartment="Compartment_1">
+      <Metabolite key="Metabolite_7" name="Insulin" simulationType="assignment" compartment="Compartment_1">
         <MiriamAnnotation>
 <rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Metabolite_7">
@@ -99,6 +99,9 @@ Reaction scheme where the products are created from the reactants and the change
   </rdf:Description>
 </rdf:RDF>
         </MiriamAnnotation>
+        <Expression>
+          &lt;CN=Root,Model=Insulin Receptor,Vector=Values[ins_stim],Reference=Value&gt;
+        </Expression>
       </Metabolite>
     </ListOfMetabolites>
     <ListOfModelValues>
@@ -141,11 +144,18 @@ Reaction scheme where the products are created from the reactants and the change
 </rdf:RDF>
         </MiriamAnnotation>
       </ModelValue>
-      <ModelValue key="ModelValue_3" name="k1_basal" simulationType="fixed">
-      </ModelValue>
-      <ModelValue key="ModelValue_4" name="k2_basal" simulationType="fixed">
-      </ModelValue>
-      <ModelValue key="ModelValue_5" name="k3_basal" simulationType="fixed">
+      <ModelValue key="ModelValue_3" name="ins_stim" simulationType="fixed">
+        <MiriamAnnotation>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="#ModelValue_3">
+    <dcterms:created>
+      <rdf:Description>
+        <dcterms:W3CDTF>2016-07-04T14:37:34Z</dcterms:W3CDTF>
+      </rdf:Description>
+    </dcterms:created>
+  </rdf:Description>
+</rdf:RDF>
+        </MiriamAnnotation>
       </ModelValue>
     </ListOfModelValues>
     <ListOfReactions>
@@ -169,7 +179,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4381" name="k1" value="7.36479"/>
+          <Constant key="Parameter_4396" name="k1" value="448833"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -202,7 +212,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4380" name="k1" value="125.293"/>
+          <Constant key="Parameter_4395" name="k1" value="1e-06"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -234,7 +244,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4379" name="k1" value="95867.3"/>
+          <Constant key="Parameter_4394" name="k1" value="999959"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -247,128 +257,7 @@ Reaction scheme where the products are created from the reactants and the change
           </ListOfCallParameters>
         </KineticLaw>
       </Reaction>
-      <Reaction key="Reaction_3" name="IR_beta_phos_basal" reversible="false" fast="false">
-        <MiriamAnnotation>
-<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about="#Reaction_3">
-    <dcterms:created>
-      <rdf:Description>
-        <dcterms:W3CDTF>2015-10-23T15:04:29Z</dcterms:W3CDTF>
-      </rdf:Description>
-    </dcterms:created>
-  </rdf:Description>
-</rdf:RDF>
-        </MiriamAnnotation>
-        <ListOfSubstrates>
-          <Substrate metabolite="Metabolite_1" stoichiometry="1"/>
-        </ListOfSubstrates>
-        <ListOfProducts>
-          <Product metabolite="Metabolite_3" stoichiometry="1"/>
-        </ListOfProducts>
-        <ListOfConstants>
-          <Constant key="Parameter_4378" name="k1" value="12.8501"/>
-        </ListOfConstants>
-        <KineticLaw function="Function_13">
-          <ListOfCallParameters>
-            <CallParameter functionParameter="FunctionParameter_81">
-              <SourceParameter reference="ModelValue_3"/>
-            </CallParameter>
-            <CallParameter functionParameter="FunctionParameter_79">
-              <SourceParameter reference="Metabolite_1"/>
-            </CallParameter>
-          </ListOfCallParameters>
-        </KineticLaw>
-      </Reaction>
-      <Reaction key="Reaction_4" name="IR_beta_pY1146_dephos_basal" reversible="false" fast="false">
-        <MiriamAnnotation>
-<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about="#Reaction_4">
-    <dcterms:created>
-      <rdf:Description>
-        <dcterms:W3CDTF>2015-10-23T15:23:32Z</dcterms:W3CDTF>
-      </rdf:Description>
-    </dcterms:created>
-  </rdf:Description>
-</rdf:RDF>
-        </MiriamAnnotation>
-        <ListOfSubstrates>
-          <Substrate metabolite="Metabolite_3" stoichiometry="1"/>
-        </ListOfSubstrates>
-        <ListOfProducts>
-          <Product metabolite="Metabolite_5" stoichiometry="1"/>
-        </ListOfProducts>
-        <ListOfConstants>
-          <Constant key="Parameter_4377" name="k1" value="74.5126"/>
-        </ListOfConstants>
-        <KineticLaw function="Function_13">
-          <ListOfCallParameters>
-            <CallParameter functionParameter="FunctionParameter_81">
-              <SourceParameter reference="ModelValue_4"/>
-            </CallParameter>
-            <CallParameter functionParameter="FunctionParameter_79">
-              <SourceParameter reference="Metabolite_3"/>
-            </CallParameter>
-          </ListOfCallParameters>
-        </KineticLaw>
-      </Reaction>
-      <Reaction key="Reaction_5" name="IR_beta_refractory_basal" reversible="false" fast="false">
-        <MiriamAnnotation>
-<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about="#Reaction_5">
-    <dcterms:created>
-      <rdf:Description>
-        <dcterms:W3CDTF>2015-10-23T15:24:03Z</dcterms:W3CDTF>
-      </rdf:Description>
-    </dcterms:created>
-  </rdf:Description>
-</rdf:RDF>
-        </MiriamAnnotation>
-        <ListOfSubstrates>
-          <Substrate metabolite="Metabolite_5" stoichiometry="1"/>
-        </ListOfSubstrates>
-        <ListOfProducts>
-          <Product metabolite="Metabolite_1" stoichiometry="1"/>
-        </ListOfProducts>
-        <ListOfConstants>
-          <Constant key="Parameter_4376" name="k1" value="5.18191"/>
-        </ListOfConstants>
-        <KineticLaw function="Function_13">
-          <ListOfCallParameters>
-            <CallParameter functionParameter="FunctionParameter_81">
-              <SourceParameter reference="ModelValue_5"/>
-            </CallParameter>
-            <CallParameter functionParameter="FunctionParameter_79">
-              <SourceParameter reference="Metabolite_5"/>
-            </CallParameter>
-          </ListOfCallParameters>
-        </KineticLaw>
-      </Reaction>
     </ListOfReactions>
-    <ListOfEvents>
-      <Event key="Event_0" name="ins_stimulation" fireAtInitialTime="0" persistentTrigger="0">
-        <MiriamAnnotation>
-<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about="#Event_0">
-    <dcterms:created>
-      <rdf:Description>
-        <dcterms:W3CDTF>2015-10-23T15:06:41Z</dcterms:W3CDTF>
-      </rdf:Description>
-    </dcterms:created>
-  </rdf:Description>
-</rdf:RDF>
-        </MiriamAnnotation>
-        <TriggerExpression>
-          &lt;CN=Root,Model=Insulin Receptor,Reference=Time&gt; == 0
-        </TriggerExpression>
-        <ListOfAssignments>
-          <Assignment targetKey="Metabolite_7">
-            <Expression>
-              10
-            </Expression>
-          </Assignment>
-        </ListOfAssignments>
-      </Event>
-    </ListOfEvents>
     <ListOfModelParameterSets activeSet="ModelParameterSet_1">
       <ModelParameterSet key="ModelParameterSet_1" name="Initial State">
         <ModelParameterGroup cn="String=Initial Time" type="Group">
@@ -381,56 +270,33 @@ Reaction scheme where the products are created from the reactants and the change
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta]" value="16.5607078175" type="Species" simulationType="reactions"/>
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146]" value="0" type="Species" simulationType="reactions"/>
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_ready]" value="0" type="Species" simulationType="reactions"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[Insulin]" value="0" type="Species" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[Insulin]" value="0" type="Species" simulationType="assignment"/>
         </ModelParameterGroup>
         <ModelParameterGroup cn="String=Initial Global Quantities" type="Group">
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1]" value="7.364788036557797" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k2]" value="125.2930944281991" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3]" value="95867.26948826658" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1_basal]" value="12.850062786183" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k2_basal]" value="74.51263684300308" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3_basal]" value="5.181910510515798" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1]" value="448833.072453607" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k2]" value="1e-06" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3]" value="999959.4214499376" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[ins_stim]" value="0" type="ModelValue" simulationType="fixed"/>
         </ModelParameterGroup>
         <ModelParameterGroup cn="String=Kinetic Parameters" type="Group">
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos],ParameterGroup=Parameters,Parameter=k1" value="7.364788036557797" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos],ParameterGroup=Parameters,Parameter=k1" value="448833.072453607" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue&gt;
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos],ParameterGroup=Parameters,Parameter=k1" value="125.2930944281991" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos],ParameterGroup=Parameters,Parameter=k1" value="1e-06" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue&gt;
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory],ParameterGroup=Parameters,Parameter=k1" value="95867.26948826658" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory],ParameterGroup=Parameters,Parameter=k1" value="999959.4214499376" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue&gt;
-              </InitialExpression>
-            </ModelParameter>
-          </ModelParameterGroup>
-          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos_basal]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos_basal],ParameterGroup=Parameters,Parameter=k1" value="12.850062786183" type="ReactionParameter" simulationType="assignment">
-              <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1_basal],Reference=InitialValue&gt;
-              </InitialExpression>
-            </ModelParameter>
-          </ModelParameterGroup>
-          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos_basal]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos_basal],ParameterGroup=Parameters,Parameter=k1" value="74.51263684300308" type="ReactionParameter" simulationType="assignment">
-              <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2_basal],Reference=InitialValue&gt;
-              </InitialExpression>
-            </ModelParameter>
-          </ModelParameterGroup>
-          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory_basal]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory_basal],ParameterGroup=Parameters,Parameter=k1" value="5.181910510515798" type="ReactionParameter" simulationType="assignment">
-              <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k3_basal],Reference=InitialValue&gt;
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
@@ -448,11 +314,9 @@ Reaction scheme where the products are created from the reactants and the change
       <StateTemplateVariable objectReference="ModelValue_1"/>
       <StateTemplateVariable objectReference="ModelValue_2"/>
       <StateTemplateVariable objectReference="ModelValue_3"/>
-      <StateTemplateVariable objectReference="ModelValue_4"/>
-      <StateTemplateVariable objectReference="ModelValue_5"/>
     </StateTemplate>
     <InitialState type="initialState">
-      0 16.5607078175 0 0 0 1 7.364788036557797 125.2930944281991 95867.26948826658 12.850062786183 74.51263684300308 5.181910510515798 
+      0 16.5607078175 0 0 0 1 448833.072453607 1e-06 999959.4214499376 0 
     </InitialState>
   </Model>
   <ListOfTasks>
@@ -477,9 +341,9 @@ Reaction scheme where the products are created from the reactants and the change
     <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="false" updateModel="false">
       <Report reference="Report_18" target="../tmp/insulin_receptor.csv" append="1" confirmOverwrite="1"/>
       <Problem>
-        <Parameter name="StepNumber" type="unsignedInteger" value="1000"/>
+        <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
         <Parameter name="StepSize" type="float" value="0.1"/>
-        <Parameter name="Duration" type="float" value="100"/>
+        <Parameter name="Duration" type="float" value="10"/>
         <Parameter name="TimeSeriesRequested" type="bool" value="1"/>
         <Parameter name="OutputStartTime" type="float" value="-60"/>
         <Parameter name="Output Event" type="bool" value="0"/>
@@ -532,7 +396,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim.txt" append="0" confirmOverwrite="1"/>
+      <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim.txt" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
         <Parameter name="Randomize Start Values" type="bool" value="0"/>
@@ -545,8 +409,8 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.00422267"/>
-            <Parameter name="UpperBound" type="cn" value="1e+06"/>
+            <Parameter name="StartValue" type="float" value="448833"/>
+            <Parameter name="UpperBound" type="cn" value="1e+04"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
             <ParameterGroup name="Affected Cross Validation Experiments">
@@ -555,8 +419,8 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="2.738093386592617"/>
-            <Parameter name="UpperBound" type="cn" value="1e+06"/>
+            <Parameter name="StartValue" type="float" value="1e-06"/>
+            <Parameter name="UpperBound" type="cn" value="1e+04"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
             <ParameterGroup name="Affected Cross Validation Experiments">
@@ -565,8 +429,8 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-06"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="8177.861315777051"/>
-            <Parameter name="UpperBound" type="cn" value="1e+06"/>
+            <Parameter name="StartValue" type="float" value="999959.4214499376"/>
+            <Parameter name="UpperBound" type="cn" value="1e+04"/>
           </ParameterGroup>
         </ParameterGroup>
         <ParameterGroup name="OptimizationConstraintList">
@@ -581,9 +445,9 @@ Reaction scheme where the products are created from the reactants and the change
             <Parameter name="File Name" type="file" value="../Data/insulin_receptor.csv"/>
             <Parameter name="First Row" type="unsignedInteger" value="1"/>
             <Parameter name="Key" type="key" value="Experiment_0"/>
-            <Parameter name="Last Row" type="unsignedInteger" value="10"/>
+            <Parameter name="Last Row" type="unsignedInteger" value="12"/>
             <Parameter name="Normalize Weights per Experiment" type="bool" value="1"/>
-            <Parameter name="Number of Columns" type="unsignedInteger" value="2"/>
+            <Parameter name="Number of Columns" type="unsignedInteger" value="3"/>
             <ParameterGroup name="Object Map">
               <ParameterGroup name="0">
                 <Parameter name="Role" type="unsignedInteger" value="3"/>
@@ -591,6 +455,10 @@ Reaction scheme where the products are created from the reactants and the change
               <ParameterGroup name="1">
                 <Parameter name="Object CN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146],Reference=Concentration"/>
                 <Parameter name="Role" type="unsignedInteger" value="2"/>
+              </ParameterGroup>
+              <ParameterGroup name="2">
+                <Parameter name="Object CN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[ins_stim],Reference=InitialValue"/>
+                <Parameter name="Role" type="unsignedInteger" value="1"/>
               </ParameterGroup>
             </ParameterGroup>
             <Parameter name="Row containing Names" type="unsignedInteger" value="1"/>
@@ -604,7 +472,7 @@ Reaction scheme where the products are created from the reactants and the change
         </ParameterGroup>
       </Problem>
       <Method name="Particle Swarm" type="ParticleSwarm">
-        <Parameter name="Iteration Limit" type="unsignedInteger" value="1000"/>
+        <Parameter name="Iteration Limit" type="unsignedInteger" value="500"/>
         <Parameter name="Swarm Size" type="unsignedInteger" value="50"/>
         <Parameter name="Std. Deviation" type="unsignedFloat" value="1e-06"/>
         <Parameter name="Random Number Generator" type="unsignedInteger" value="1"/>
@@ -901,18 +769,6 @@ Reaction scheme where the products are created from the reactants and the change
       <Parameter name="log X" type="bool" value="0"/>
       <Parameter name="log Y" type="bool" value="0"/>
       <ListOfPlotItems>
-        <PlotItem name="Experiment,[IR_beta_pY1146](Measured Value)" type="Curve2D">
-          <Parameter name="Color" type="string" value="#FF0000"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
-          <Parameter name="Line type" type="unsignedInteger" value="3"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Recording Activity" type="string" value="after"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
-          <ListOfChannels>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Measured Value"/>
-          </ListOfChannels>
-        </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Fitted Value)" type="Curve2D">
           <Parameter name="Color" type="string" value="#FF0000"/>
           <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
@@ -923,6 +779,18 @@ Reaction scheme where the products are created from the reactants and the change
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
             <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Fitted Value"/>
+          </ListOfChannels>
+        </PlotItem>
+        <PlotItem name="Experiment,[IR_beta_pY1146](Measured Value)" type="Curve2D">
+          <Parameter name="Color" type="string" value="#FF0000"/>
+          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
+          <Parameter name="Line type" type="unsignedInteger" value="3"/>
+          <Parameter name="Line width" type="unsignedFloat" value="1"/>
+          <Parameter name="Recording Activity" type="string" value="after"/>
+          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
+          <ListOfChannels>
+            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
+            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Measured Value"/>
           </ListOfChannels>
         </PlotItem>
         <PlotItem name="Experiment,[IR_beta_pY1146](Weighted Error)" type="Curve2D">

@@ -62,19 +62,20 @@ def files_with_pattern_recur(folder, pattern):
 # Print the matrix results stored in data in an output file
 def write_matrix_on_file(path, filename_out, data):
   # Open output file
-  file_out = open(path + "/" + filename_out, "w")
-  for row in data:
-    for item in row:
-      file_out.write(str(item) + "\t")
-    file_out.write("\n")
-  file_out.close()
+  with open(path + "/" + filename_out, 'w') as file:
+    for row in data:
+      # convert a list of strings or numbers into a string with items delimited by a tab.
+      concatStringList = '\t'.join(map(str, row))
+      # write the string above and add a newline.
+      file.write(concatStringList + "\n")
+
   
   
   # replace a string with another in file_out  
 def replace_string_in_file(file_out, old_string, new_string):
   # Read in the file
   filedata = None
-  with open(file_out, 'r') as file :
+  with open(file_out, 'r') as file:
     filedata = file.read()
   # Replace the target string
   filedata = filedata.replace(old_string, new_string)

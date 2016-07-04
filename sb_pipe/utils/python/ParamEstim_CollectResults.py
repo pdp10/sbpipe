@@ -109,9 +109,8 @@ class ParamEstim_CollectResults:
 
   # Return the list of parameter names
   def _get_parameter_names_list(self, filein = ""):
-    fd = open(filein, 'r')
-    if os.path.isfile(filein):
-      lines = fd.readlines()
+    with open(filein, 'r') as file:
+      lines = file.readlines()
       line_num = -1
       for line in lines:
 	line_num = line_num + 1
@@ -126,7 +125,6 @@ class ParamEstim_CollectResults:
 	    self._parameters.append(str(split_result[1]))
 	  # Nothing else to do
 	  break
-    fd.close()
 
 
   # Retrieve input files
@@ -151,10 +149,9 @@ class ParamEstim_CollectResults:
     for filein in self._files:
       completed = False
       file_num = file_num + 1
-      fd = open(filein, 'r')
-      print("\tProcessing file: " + filein)
-      if os.path.isfile(filein):
-	lines = fd.readlines()
+      with open(filein, 'r') as file:      
+	print("\tProcessing file: " + filein)
+	lines = file.readlines()
 	line_num = -1
 	for line in lines:
 	  line_num = line_num + 1
@@ -181,6 +178,5 @@ class ParamEstim_CollectResults:
 		completed = True
 	  if completed:
 	    break
-      fd.close()
 
 
