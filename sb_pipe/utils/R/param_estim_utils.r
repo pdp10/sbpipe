@@ -81,7 +81,7 @@ fit_sequence_analysis <- function(filenamein, plots_dir, plot_filename_prefix, b
   # rename columns
   dfCols <- colnames(df)
   dfCols <- gsub("Values.", "", dfCols)
-  dfCols <- gsub("..InitialValue.", "", dfCols)
+  dfCols <- gsub("..InitialValue.", "", dfCols)  
   colnames(df) <- dfCols
   
   #print(df)
@@ -95,7 +95,7 @@ fit_sequence_analysis <- function(filenamein, plots_dir, plot_filename_prefix, b
   #print(dfCols)
   
   # Set my ggplot theme here
-  theme_set(basic_theme(24))
+  theme_set(basic_theme(22))
   fileout <- ""
   
   for (i in seq(3,length(dfCols))) { 
