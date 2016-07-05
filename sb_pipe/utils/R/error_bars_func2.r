@@ -117,7 +117,7 @@ get_statistics_table <- function(statistics, species, s=2) {
 }
 
 
-plot_error_bars <- function(outputdir, files, version, name, species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, bar_type="sem") {
+plot_error_bars <- function(outputdir, version, name, species, timepoints, simulate__xaxis_label, bar_type="sd") {
     filename = ""
 
     if(bar_type == "none") {
@@ -125,39 +125,36 @@ plot_error_bars <- function(outputdir, files, version, name, species, time_lengt
       filename = paste(outputdir, version, "_none_", name, ".png", sep="" )
       # Let's plot this special case now as it does not require error bars
       df <- data.frame(a=timepoints, b=species$mean)      
-      g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) + 
-           xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
+      g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
+      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
       ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")      
-      return
-     
-    } else if(bar_type == "sd") {
-      # standard deviation configuration
-      filename = paste(outputdir, version, "_sd_", name, ".png", sep="" )
-    } else if(bar_type == "sd_n_ci95") {
-      # standard deviation + confidence interval configuration
-      filename = paste(outputdir, version, "_sd_n_ci95_", name, ".png", sep="" )
-    }      
 
-    
-    df <- data.frame(a=timepoints, b=species$mean, c=species$sd, d=species$ci95)
-    #print(df)
-    g <- ggplot(df, aes(x=a, y=b))
+    } else { 
 
-    # plot the error bars
-    g <- g + geom_errorbar(aes(ymin=b-c, ymax=b+c), colour="blue",  size=1.0, width=0.1)    
-    
-    # plot the C.I.
-    if(bar_type == "sd_n_ci95") { # add ci95
-	g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)
-    }
+      df <- data.frame(a=timepoints, b=species$mean, c=species$sd, d=species$ci95)
+      #print(df)
+      g <- ggplot(df, aes(x=a, y=b))
 
-    # plot the line
-    g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
+      # plot the error bars
+      g <- g + geom_errorbar(aes(ymin=b-c, ymax=b+c), colour="blue",  size=1.0, width=0.1)    
+        
+      if(bar_type == "sd") {
+	# standard deviation configuration
+	filename = paste(outputdir, version, "_sd_", name, ".png", sep="" )
+      } else {
+	# standard deviation + confidence interval configuration
+	filename = paste(outputdir, version, "_sd_n_ci95_", name, ".png", sep="" )
+        # plot the C.I.	
+	g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
+      }
 
-    # decorate
-    g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep="")) + theme(legend.position = "none")
-    ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent") 	 
- 
+      # plot the line
+      g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
+
+      # decorate
+      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep="")) + theme(legend.position = "none")
+      ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")
+   }
 }
 
 
@@ -230,10 +227,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
   	column.names <- get_column_names_statistics(column.names, column[j])
   	statistics <- get_statistics_table(statistics, species, s)
  	s <- s+13
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "none")
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd") 
- 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd_n_ci95") 
-	
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "none")
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd")  
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)
