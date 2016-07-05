@@ -112,12 +112,10 @@ def latex_report(results_dir, tc_mean_dir, model_noext, simulate__prefix_results
   folder.sort()  
   for infile in folder:
     if infile.find(model_noext) != -1:
-      #if (infile.find('_ci95_') != -1):
       if (infile.find('_sd_n_ci95_') != -1):
       #if (infile.find('_sd_') != -1):	
-      #if (infile.find('_sem_') != -1):
 	print(infile)
-	file_out.write("\\includegraphics[scale=0.08]{" + tc_mean_dir + "/" + infile + "}\n")
+	file_out.write("\\includegraphics[scale=0.20]{" + tc_mean_dir + "/" + infile + "}\n")
 	file_out.write("\\hfill\n")
   file_out.write("\\end{document}\n")
   file_out.close()
