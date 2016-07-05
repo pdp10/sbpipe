@@ -29,22 +29,8 @@ library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.R", sep=""))
-
-
-
-
-tc_theme <- function (base_size=12, base_family="") {
-  theme_bw(base_size=base_size, base_family=base_family) %+replace% 
-  theme(aspect.ratio=0.5,
-        axis.line = element_line(colour = "black", size=1.0),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.border = element_blank(),
-        panel.background = element_blank(), 
-        plot.background = element_rect(fill = "transparent",colour = NA))
-}
-
+source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.r", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
 
 
 

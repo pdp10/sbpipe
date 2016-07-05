@@ -38,7 +38,7 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.r", sep=""))
 
 
 
