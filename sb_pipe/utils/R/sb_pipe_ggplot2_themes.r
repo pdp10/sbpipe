@@ -24,6 +24,8 @@
 
 library(ggplot2)
 
+
+# A theme for time courses
 tc_theme <- function (base_size=12, base_family="") {
   theme_bw(base_size=base_size, base_family=base_family) %+replace% 
   theme(aspect.ratio=0.5,
@@ -33,4 +35,16 @@ tc_theme <- function (base_size=12, base_family="") {
         panel.border = element_blank(),
         panel.background = element_blank(), 
         plot.background = element_rect(fill = "transparent",colour = NA))
+}
+
+
+# A basic theme
+basic_theme <- function (base_size=12, base_family="") {
+  theme_bw(base_size=base_size, base_family=base_family) %+replace% 
+  theme(aspect.ratio=1,
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank())
 }
