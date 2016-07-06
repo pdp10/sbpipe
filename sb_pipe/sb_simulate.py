@@ -73,10 +73,9 @@ def main(model_configuration):
   # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
   simulate__copasi_model=""
   # the number of simulation to be run.
-  # minimum 2 (required for plotCI, otherwise, ci95 and sderr are NA -> error in ylim)
-  # For stochastic simulations, run 500
-  # For testing, run 5
-  simulate__model_simulations_number=2
+  # For deterministic simulation, 1
+  # For stochastic simulations, n >=1
+  simulate__model_simulations_number=1
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
@@ -141,12 +140,17 @@ def main(model_configuration):
       simulate__prefix_exp_stats_filename = line[1] 
 
 
+  # Some controls
+  if int(simulate__model_simulations_number) < 1: 
+    print("ERROR: variable `simulate__model_simulations_number` must be greater than 0. Please, check your configuration file.");
+    return False
+
+
 
   models_dir=project+"/"+models_folder+"/"
   results_dir=project+"/"+simulations_folder+"/"+model+"/"
   data_dir=project+"/"+data_folder+"/"
   tmp_dir=project+"/"+tmp_folder
-
 
 
 
@@ -222,15 +226,6 @@ def main(model_configuration):
   print("\n")
   process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__xaxis_label])
   process.wait() 
-
-
-  print("\n")
-  print("######################################")
-  print("Generating statistics from experiments (SKIP):")
-  print("######################################")
-  print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_exp_error_bars.R", data_dir+"/"+dataset_exp+"/", results_dir+"/"+tc_mean_exp}+"/", results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
-  #process.wait() 
 
 
   print("\n")

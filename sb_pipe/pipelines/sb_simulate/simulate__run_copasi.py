@@ -44,7 +44,11 @@ from CopasiUtils import replace_str_copasi_sim_report
 # tmp_dir: read the temp dir
 # simulate__model_simulations_number: the number of simulations to perform
 def main(model, models_dir, output_dir, tmp_dir, simulate__model_simulations_number):
-   
+  
+  if int(simulate__model_simulations_number) < 1: 
+    print("ERROR: variable " + simulate__model_simulations_number + " must be greater than 0. Please, check your configuration file.");
+    return
+  
   model_noext=model[:-4]
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
