@@ -56,7 +56,6 @@ main <- function(args) {
     files <- list.files( path=inputdir, pattern=model_noext )
     print(files)
     
-    exp = FALSE
     plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__xaxis_label)
 }
 
