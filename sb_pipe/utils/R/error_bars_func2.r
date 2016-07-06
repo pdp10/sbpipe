@@ -43,7 +43,6 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, species,
     #y <- timepoint.values - timepoint.mean
     timepoint$skew <- mean(timepoint.values^3, na.rm = TRUE)/mean(timepoint.values^2, na.rm = TRUE)^1.5
     timepoint$kurt <- mean(timepoint.values^4, na.rm = TRUE)/mean(timepoint.values^2, na.rm = TRUE)^2 -3
-    timepoint$sderr <- timepoint$sd/sqrt(nfiles) 
     # 0.95 confidence level 
     #timepoint$ci95 <- qt(0.975, df=nfiles-1)*timepoint$sd/sqrt(nfiles)  # quantile t-distribution (few sample, stddev unknown exactly)
     timepoint$ci95 <- qnorm(0.975)*timepoint$sd/sqrt(nfiles) # quantile normal distribution (lot of samples)
@@ -61,7 +60,6 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, species,
     species$skew <- c ( species$skew, timepoint$skew )
     species$kurt <- c ( species$kurt, timepoint$kurt )
     species$ci95 <- c ( species$ci95, timepoint$ci95 )
-    species$sderr <- c ( species$sderr, timepoint$sderr )
     species$coeffvar <- c ( species$coeffvar, timepoint$coeffvar )
     species$min <- c ( species$min, timepoint$min )
     species$stquantile <- c ( species$stquantile, timepoint$stquantile )
@@ -106,13 +104,12 @@ get_statistics_table <- function(statistics, species, s=2) {
     statistics[,s+3] <- species$skew
     statistics[,s+4] <- species$kurt
     statistics[,s+5] <- species$ci95
-    statistics[,s+6] <- species$sderr
-    statistics[,s+7] <- species$coeffvar
-    statistics[,s+8] <- species$min
-    statistics[,s+9] <- species$stquantile
-    statistics[,s+10] <- species$median
-    statistics[,s+11] <- species$rdquantile
-    statistics[,s+12] <- species$max
+    statistics[,s+6] <- species$coeffvar
+    statistics[,s+7] <- species$min
+    statistics[,s+8] <- species$stquantile
+    statistics[,s+9] <- species$median
+    statistics[,s+10] <- species$rdquantile
+    statistics[,s+11] <- species$max
     return (statistics)
 }
 
@@ -162,11 +159,11 @@ plot_error_bars <- function(outputdir, version, name, species, timepoints, simul
 plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__xaxis_label) {
     
     theme_set(tc_theme(28))  
-    
+
     # Read species
     timecourses <- read.table ( paste ( inputdir, '/', files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
-    
+
     column.names <- c ("Time")
     
     simulate__start <- timecourses$Time[1]
@@ -174,7 +171,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     timepoints <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/(length(timecourses$Time)-1))
       
     time_length <- length(timepoints)
-
+  
 
     # statistical table (to export)
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
@@ -195,9 +192,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 	dataset <- load_files_columns_in_matrix(inputdir, files, cols)
 	#print(dataset)
 	# structures
-	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,"sderr"=0,
+	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
 			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
-	species <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),"sderr"=c(),
+	species <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
 		      "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
 	k <- 1
 	# for each computed timepoint
