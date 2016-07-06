@@ -81,7 +81,7 @@ plot_calibration_mean_ci_multi <- function(folder, filein, fileout, best_pos, be
        		xlim=c(0,max(iteration)),
        		ylim=c(0,max(dataset$Mean) + max(dataset$Mean)/3),
        		labels=FALSE,
-       		xlab="Iteration", ylab="Sum of Square Errors (using Simulated Annealing)",
+       		xlab="Iteration", ylab="Sum of Square Errors",
        		main="Model Calibration by Experimental Data",
        		#las=1,  # always parallel axes
        		cex.main=3.5, cex.lab=3.0, cex.axis=2.2,cex=2.2,lwd=1,
@@ -99,7 +99,7 @@ plot_calibration_mean_ci_multi <- function(folder, filein, fileout, best_pos, be
        		xlim=c(0,max(iteration)),
        		ylim=c(0,max(dataset$Mean) + max(dataset$Mean)/3),
        		labels=FALSE,
-       		xlab="Iteration", ylab="Sum of Square Errors (using Simulated Annealing)",
+       		xlab="Iteration", ylab="Sum of Square Errors",
        		main="Model Calibration by Experimental Data",
        		#las=1,  # always parallel axes
        		cex.main=3.5, cex.lab=3.0, cex.axis=2.2,cex=2.2,lwd=1,
