@@ -22,7 +22,7 @@
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.r", sep=""))
 
 
 main <- function(args) {

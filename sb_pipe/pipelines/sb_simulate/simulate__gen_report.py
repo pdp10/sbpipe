@@ -51,9 +51,9 @@ def main(model_noext, results_dir, tc_mean_dir, simulate__prefix_results_filenam
   currdir=os.getcwd()
   os.chdir(results_dir)
   print("pdflatex -halt-on-error " + simulate__prefix_results_filename + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)  #>/dev/null
+  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)
   p1.communicate()[0]
-  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)  #>/dev/null
+  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)
   p1.communicate()[0]
   
   # remove temporary files
