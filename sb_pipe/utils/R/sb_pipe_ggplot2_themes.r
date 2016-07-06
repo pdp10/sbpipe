@@ -33,7 +33,9 @@ tc_theme <- function (base_size=12, base_family="") {
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
-        panel.background = element_blank(), 
+        panel.background = element_blank(),
+	legend.key = element_rect(fill = "transparent", colour = "transparent"),        
+        legend.background = element_rect(fill = "transparent", colour = "transparent"),
         plot.background = element_rect(fill = "transparent",colour = NA))
 }
 

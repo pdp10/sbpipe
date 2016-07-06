@@ -111,7 +111,7 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	      #colors <- colors()[c(128,129,130,131,132,26,27,28,29,30,24)] 
 	      #linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
 	      # Excluding knockout (10%,20%,..,100%)
-	      colors <- colors()[c(129,130,131,132,26,27,28,29,30,24)]
+	      colors <- c("dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
 	      linetype <- c(1,4,3,2,1,6,4,3,2,1)
 	    } else {
 	      # THIS PALETTE OF COLOURS can be used for gradual inhibition and overexpression (blue [10,250])	  
@@ -132,8 +132,8 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    if(inhibition_only == "true") {
 	      # THIS PALETTE OF COLOURS can be used for gradual inhibition only (blue [10,100])
 	      # First number is 24 is control (black), last number (bright blue))  (100%,90%,80%,..,10%)
-	      # In linetype: 1 is a full line	    
-	      colors <- colors()[c(24,30,29,28,27,26,132,131,130,129)]
+	      # In linetype: 1 is a full line
+	      colors <- c("black", "blue4", "blue3", "blue2", "blue1", "blue", "dodgerblue4", "dodgerblue3", "dodgerblue2", "dodgerblue1")
 	      linetype <- c(1,2,3,4,6,1,2,3,4,1)
 	    } else {
 	      # THIS PALETTE OF COLOURS can be used for gradual overexpression (magenta [100,250])	  
@@ -147,17 +147,24 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  # let's plot now! :)
 	  # NOTE: a legend is not added. To create one, the color (and linetype) must be inside aes. 
 	  # For each line they need to receive 
+	  library(reshape2)
+	  df <- data.frame(time=dataset[,1,1], b=dataset[,1,1])  
+	  # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+	  df <- melt(df, id=c("time"))
 	  for(j in 2:length(column)) {
    	    g <- ggplot()
 	    for(m in 1:length(files)) {
-		df <- data.frame(a=dataset[,1,1], b=dataset[,j,m])
+		df$value <- dataset[,j,m]
+		df$variable <- as.character(m-1) # These need to be indices starting from 0
+		#print(df$variable)
 		g <- g + geom_line(data=df, 
-				   aes(x=a, y=b), color=colors[m], linetype=linetype[m], size=1.0)
-	    }	    
-	    
-	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) 	    
+				   aes(x=time, y=value, color=variable),#, linetype=variable), 
+				   size=1.0)   
+	    }
+	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
+	    scale_colour_manual("", values=colors, labels=rep("", length(colors))) # + scale_linetype_manual(values=linetype)
       	    ggsave(paste(outputdir, model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" ), 
-		   dpi=300,  width=8, height=6, bg = "transparent") 
+		   dpi=300,  width=8, height=6, bg = "transparent")	   
    
 	  }
 	  
