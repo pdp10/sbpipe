@@ -63,41 +63,36 @@ def main(model_configuration):
   lines=parser.items('top')
    
    
-  # The project name (e.g. "p3__mtor_foxo_ros")
-  project=""
-  # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m)
-  model=""
-  # Sensitivity copasi model file (e.g mtor_mito_ros_model_v27_copasi_sens.cps ...)
-  sensitivities__copasi_model=""
-  # The folder containing the sensitivity analysis results
-  sensitivities_dir=""
-  # The folder containing the models (e.g. Models)
-  models_folder=""
-  # The folder containing the models simulations (e.g. simulations)
-  simulations_folder=""
-
+  # The project directory
+  project_dir=".."
+  # The copasi model
+  model="mymodel.cps"
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
 
 
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "project":
-      project = line[1] 
-    elif line[0] == "model":
+    if line[0] == "project_dir":
+      project_dir = line[1] 
+    elif line[0] == "model": 
       model = line[1] 
-    elif line[0] == "sensitivities__copasi_model": 
-      sensitivities__copasi_model = line[1] 
-    elif line[0] == "sensitivities_dir": 
-      sensitivities_dir = line[1]
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "simulations_folder": 
-      simulations_folder = line[1] 
-
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]
       
-  models_dir=project+"/"+models_folder+"/"
-  sensitivities_path=project+"/"+simulations_folder+"/"+model+"/"+sensitivities_dir+"/"
-
+  
+  # INTERNAL VARIABLES
+  # The folder containing the models
+  models_folder="Models"
+  # The working folder containing the results
+  working_folder="Working_Folder"  
+  # The folder containing the sensitivity analysis results
+  sensitivities_dir="sensitivities"
+  
+  models_dir=project_dir+"/"+models_folder+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"+sensitivities_dir+"/"
+  tmp_dir=copasi_reports_path+"/"
 
 
   print("\n<START PIPELINE>\n")
@@ -109,7 +104,7 @@ def main(model_configuration):
   print("\n")
   print("#############################################################")     
   print("#############################################################")
-  print("### Processing model "+ sensitivities__copasi_model)
+  print("### Processing model "+ model)
   print("#############################################################")
   print("#############################################################")
   print("")
@@ -118,7 +113,7 @@ def main(model_configuration):
 
   print("\n")
   print("##############################")
-  print("Preparing folder "+sensitivities_path)
+  print("Preparing folder "+results_dir)
   print("##############################")
   print("\n")
   # remove the folder the previous results if any
@@ -126,8 +121,8 @@ def main(model_configuration):
 #   for f in filesToDelete:
 #     os.remove(f)  
 
-  if not os.path.exists(sensitivities_path):
-    os.mkdir(sensitivities_path)
+  if not os.path.exists(results_dir):
+    os.mkdir(results_dir)
 
 
 
@@ -137,7 +132,7 @@ def main(model_configuration):
   # print("#####################")
   # print("\n")
   # TODO 
-  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", sp_model, models_dir, results_dir, tmp_dir])
+  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", model, models_dir, results_dir, tmp_dir])
   #process.wait()   
 
 
@@ -147,7 +142,7 @@ def main(model_configuration):
   print("Generating plots:")
   print("##################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", sensitivities_path])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", results_dir])
   process.wait()    
 
 
@@ -159,9 +154,8 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(sensitivities_path+"/"+"*.csv")) > 0:
+  if len(glob.glob(results_dir+"/"+"*.csv")) > 0:
       return True
-  else:
-      return False
+  return False
     
     

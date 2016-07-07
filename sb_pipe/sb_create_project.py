@@ -47,8 +47,6 @@ def main(project):
     os.mkdir(project+"/Models")
   if not os.path.exists(project+"/Working_Folder"):
     os.mkdir(project+"/Working_Folder")
-  if not os.path.exists(project+"/simulations"):
-    os.mkdir(project+"/simulations")
   if not os.path.exists(project+"/tmp"):
     os.mkdir(project+"/tmp")
 

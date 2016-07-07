@@ -32,7 +32,7 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
-from single_model_latex_reports import latex_report_simulate
+from single_model_latex_reports import latex_report
 
 
 # INITIALIZATION
@@ -41,10 +41,10 @@ from single_model_latex_reports import latex_report_simulate
 # plots_dir: the directory containing the time courses results combined with experimental data  
 def main(model_noext, results_dir, plots_dir):
     
-  print("Generating a LaTeX report\n")
+  print("Generating LaTeX report\n")
   print(model_noext)
-  filename_prefix="report__simulate_"
-  latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix)
+  filename_prefix="report__param_estim_"
+  latex_report(results_dir, plots_dir, model_noext, filename_prefix)
   
   
   print("Generating PDF report\n")  

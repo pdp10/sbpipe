@@ -23,17 +23,7 @@
 
 library(ggplot2)
 # library(scales)
-
-
-basic_theme <- function (base_size=12, base_family="") {
-  theme_bw(base_size=base_size, base_family=base_family) %+replace% 
-  theme(aspect.ratio=1,
-        axis.line = element_line(colour = "black"),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.border = element_blank(),
-        panel.background = element_blank())
-}
+source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
 
 
 

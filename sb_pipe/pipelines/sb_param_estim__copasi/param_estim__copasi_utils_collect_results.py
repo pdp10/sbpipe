@@ -36,10 +36,11 @@ from ParamEstim_CollectResults import *
 
  
 # INITIALIZATION
-# path : The path containing COPASI parameter estimation reports
-def main(path):
+# path_in : The path containing COPASI parameter estimation reports
+# path_out : The path to store filename_out
+# filename_out : the file name of the collected results
+def main(path_in, path_out, filename_out):
   print("\nCollect results from multiple parameter estimations\n") 
-  filename_out = "/parameter_estimation_collected_results.csv"
   post_param_estim = ParamEstim_CollectResults()
-  post_param_estim.collect_results(path, filename_out)
+  post_param_estim.collect_results(path_in, path_out, filename_out)
 

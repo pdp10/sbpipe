@@ -66,87 +66,63 @@ def main(model_configuration):
     
   lines=parser.items('top')
   
-  # read the project name
-  project=""
-  # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m)
-  model=""
-  # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
-  simulate__copasi_model=""
+  # the project directory
+  project_dir=""
+  # The Copasi model
+  model="mymodel.cps"
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
   # the number of simulation to be run.
-  # minimum 2 (required for plotCI, otherwise, ci95 and sderr are NA -> error in ylim)
-  # For stochastic simulations, run 500
-  # For testing, run 5
-  simulate__model_simulations_number=2
+  # For deterministic simulation, 1
+  # For stochastic simulations, n >=1
+  simulate__model_simulations_number=1
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
-  # The folder containing the models
-  models_folder=""
-  # The folder containing the models simulations
-  simulations_folder=""
-  # The folder containing the temporary computations
-  tmp_folder=""
-  # The dataset simulation dir (e.g. dataset)
-  dataset_simulation_dir=""
-  # The dataset short simulation dir (e.g. dataset_short)
-  dataset_short_simulation_dir=""
-  # The dataset timecourses dir (e.g. tc)
-  tc_dir=""
-  # The dataset mean timecourses dir (e.g. tc_mean)
-  tc_mean_dir=""
-  # The dataset mean timecourses with experimental data dir (e.g. tc_mean_with_exp)
-  tc_mean_with_exp_dir=""
-  # The prefix name of the report of the simulation (e.g. report_simulation__)
-  simulate__prefix_results_filename=""
-  # The prefix name of the statistics report of the simulation (e.g. stats_simulation__)
-  simulate__prefix_stats_filename=""
-  # The prefix name of the statistics report of the simulation (e.g. stats_experiments__)
-  simulate__prefix_exp_stats_filename=""
 
 
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "project":
-      project = line[1] 
-    elif line[0] == "model":
+    if line[0] == "project_dir":
+      project_dir = line[1] 
+    elif line[0] == "model": 
       model = line[1] 
-    elif line[0] == "simulate__copasi_model": 
-      simulate__copasi_model = line[1] 
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]      
     elif line[0] == "simulate__model_simulations_number": 
       simulate__model_simulations_number = line[1]
     elif line[0] == "simulate__xaxis_label":
       simulate__xaxis_label = line[1]     
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "data_folder":
-      data_folder = line[1] 
-    elif line[0] == "simulations_folder": 
-      simulations_folder = line[1] 
-    elif line[0] == "tmp_folder": 
-      tmp_folder = line[1]       
-    elif line[0] == "dataset_simulation_dir": 
-      dataset_simulation_dir = line[1]       
-    elif line[0] == "tc_dir": 
-      tc_dir = line[1]       
-    elif line[0] == "tc_mean_dir": 
-      tc_mean_dir = line[1] 
-    elif line[0] == "tc_mean_with_exp_dir": 
-      tc_mean_with_exp_dir = line[1]   
-    elif line[0] == "simulate__prefix_results_filename": 
-      simulate__prefix_results_filename = line[1] 
-    elif line[0] == "simulate__prefix_stats_filename": 
-      simulate__prefix_stats_filename = line[1]       
-    elif line[0] == "simulate__prefix_exp_stats_filename": 
-      simulate__prefix_exp_stats_filename = line[1] 
 
 
 
-  models_dir=project+"/"+models_folder+"/"
-  results_dir=project+"/"+simulations_folder+"/"+model+"/"
-  data_dir=project+"/"+data_folder+"/"
-  tmp_dir=project+"/"+tmp_folder
+  # Some controls
+  if int(simulate__model_simulations_number) < 1: 
+    print("ERROR: variable `simulate__model_simulations_number` must be greater than 0. Please, check your configuration file.");
+    return False
 
+
+  # INTERNAL VARIABLES
+  # The data folder containing the dataset
+  data_folder="Data"  
+  # The folder containing the models
+  models_folder="Models"
+  # The folder containing the working results
+  working_folder="Working_Folder"
+  # The dataset working folder
+  dataset_working_folder="simul_data"
+  # The dataset timecourses dir
+  tc_dir="tc"
+  # The dataset mean timecourses dir
+  tc_mean_dir="tc_mean"
+  # The dataset mean timecourses with experimental data dir
+  tc_mean_with_exp_dir="tc_mean_w_exp_dir"
+
+  models_dir=project_dir+"/"+models_folder+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"
+  data_dir=project_dir+"/"+data_folder+"/"
+  tmp_dir=copasi_reports_path+"/"
 
 
 
@@ -159,7 +135,7 @@ def main(model_configuration):
   print("\n")
   print("#############################################################")     
   print("#############################################################")
-  print("### Processing model "+ simulate__copasi_model)
+  print("### Processing model "+ model)
   print("#############################################################")
   print("#############################################################")
   print("")
@@ -172,22 +148,19 @@ def main(model_configuration):
   print("##############################")
   print("\n")
   # remove the folder the previous results if any
-  filesToDelete = glob.glob(results_dir+"/"+dataset_simulation_dir+"/"+simulate__copasi_model[:-4]+"*")
+  filesToDelete = glob.glob(results_dir+"/"+dataset_working_folder+"/"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_dir+"/"+simulate__copasi_model[:-4]+"*")
+  filesToDelete = glob.glob(results_dir+"/"+tc_dir+"/"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_mean_dir+"/"+simulate__copasi_model[:-4]+"*")    
+  filesToDelete = glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*")    
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_mean_with_exp_dir+"/"+simulate__copasi_model[:-4]+"*")    
+  filesToDelete = glob.glob(results_dir+"/"+tc_mean_with_exp_dir+"/"+model[:-4]+"*")    
   for f in filesToDelete:
     os.remove(f)    
-  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_results_filename+simulate__copasi_model[:-4]+"*")
-  for f in filesToDelete:
-    os.remove(f)    
-  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+"*")
+  filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)    
 
@@ -196,8 +169,8 @@ def main(model_configuration):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(results_dir+"/"+dataset_simulation_dir):  
-    os.mkdir(results_dir+"/"+dataset_simulation_dir)
+  if not os.path.exists(results_dir+"/"+dataset_working_folder):  
+    os.mkdir(results_dir+"/"+dataset_working_folder)
   if not os.path.exists(results_dir+"/"+tc_dir):  
     os.mkdir(results_dir+"/"+tc_dir) 
   if not os.path.exists(results_dir+"/"+tc_mean_dir):  
@@ -212,7 +185,7 @@ def main(model_configuration):
   print("Executing simulations:")
   print("#####################")
   print("\n")
-  simulate__run_copasi.main(simulate__copasi_model, models_dir, results_dir+"/"+dataset_simulation_dir+"/", tmp_dir+"/", simulate__model_simulations_number)
+  simulate__run_copasi.main(model, models_dir, results_dir+"/"+dataset_working_folder+"/", tmp_dir+"/", simulate__model_simulations_number)
 
 
   print("\n")
@@ -220,17 +193,8 @@ def main(model_configuration):
   print("Generating statistics from simulations:")
   print("######################################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+dataset_simulation_dir+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv", simulate__xaxis_label])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", model[:-4], results_dir+"/"+dataset_working_folder+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv", simulate__xaxis_label])
   process.wait() 
-
-
-  print("\n")
-  print("######################################")
-  print("Generating statistics from experiments (SKIP):")
-  print("######################################")
-  print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_exp_error_bars.R", data_dir+"/"+dataset_exp+"/", results_dir+"/"+tc_mean_exp}+"/", results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
-  #process.wait() 
 
 
   print("\n")
@@ -238,7 +202,7 @@ def main(model_configuration):
   print("Generating overlapping plots (sim + exp) (SKIP):")
   print("########################################")
   print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", simulate__copasi_model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+simulate__copasi_model[:-4]+".csv",  results_dir+"/"+simulate__prefix_exp_stats_filename+simulate__copasi_model[:-4]+".csv"])
+  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv",  results_dir+"/exp_stats_"+model[:-4]+".csv"])
   #process.wait() 
 
 
@@ -247,7 +211,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  simulate__gen_report.main(simulate__copasi_model[:-4], results_dir+"/", tc_mean_dir, simulate__prefix_results_filename)
+  simulate__gen_report.main(model[:-4], results_dir+"/", tc_mean_dir)
 
 
   # Print the pipeline elapsed time
@@ -256,8 +220,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if os.path.isfile(results_dir+"/"+simulate__prefix_results_filename+model+".pdf") and len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model+"*.png")) > 0:
+  if len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0 and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
        return True
-  else:
-       return False
+  return False
 
