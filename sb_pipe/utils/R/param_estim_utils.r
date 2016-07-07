@@ -81,10 +81,14 @@ fit_sequence_analysis <- function(filenamein, plots_dir, plot_filename_prefix, b
   
   #print(df)
   
-  # sort by Chi^2 and extract threshold row number
+  # Calculate the number of rows to extract.
   selected_rows <- nrow(df)*best_fits_percent/100
-  df <- df[order(df[,2]),]
-  df <- df[1:selected_rows,]
+  # sort by Chi^2 (descending) so that the low Chi^2 parameter tuples 
+  # (which are the most important) are plotted in front. 
+  # Then extract the tail from the data frame. 
+  df <- df[order(-df[,2]),]
+  df <- tail(df, selected_rows)
+
   
   #print(df)
   #print(dfCols)
