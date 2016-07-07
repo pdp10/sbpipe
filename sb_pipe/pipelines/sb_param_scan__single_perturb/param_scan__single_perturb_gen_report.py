@@ -43,13 +43,13 @@ from single_model_latex_reports import latex_report_par_scan
 # results_dir: Read the results dir
 # plots_dir: The directory containing the plots of the single perturbation scan
 # legend_noext: The name of the legend
-def main(model_noext, species, results_dir, plots_dir, legend_noext):
+def main(model_noext, species, results_dir, plots_dir):
     
   print("Generating a LaTeX report\n")
   print(model_noext)
   filename_prefix="report__single_param_scan_"
   latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
-			model_noext, species, legend_noext)
+			model_noext, species)
 
   
   print("Generating PDF report\n")  

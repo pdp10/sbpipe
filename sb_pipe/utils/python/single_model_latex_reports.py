@@ -53,7 +53,7 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 
 
 # Create a report for a parameter scanning task (1 model)
-def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, species, legend_noext):
+def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, species):
   with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
     model_ver = model_noext[:].replace("_", " ")
     species_name = species[0:].replace("_", " ")
@@ -75,8 +75,6 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
 	  print(infile)
 	  file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + infile + "}\n")
 	  file_out.write("\\hfill\n")
-    file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + legend_noext + ".png}\n")
-    file_out.write("\\hfill\n")
     file_out.write("\\end{document}\n")
 
 

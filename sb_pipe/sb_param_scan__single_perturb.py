@@ -87,20 +87,17 @@ def main(model_configuration):
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
-  # The number of parameter scan intervals
-  param_scan__single_perturb_intervals=10
-  # The legend name for the single perturbation
-  param_scan__single_perturb_legend=""
-  # Single perturbation minimum inhibition level
-  param_scan__single_perturb_min_inhibition_level=0
-  # Single perturbation maximum overexpression level
-  param_scan__single_perturb_max_overexpression_level=250
-  # The number of single pertubation simulations (e.g. 1 for deterministic simulations, 500 for stochastic simulations)
+  # The number of single pertubation simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
   param_scan__single_perturb_simulations_number=1
   # The perturbation is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-  param_scan__single_perturb_perturbation_in_percent_levels="true"
+  param_scan__single_perturb_perturbation_in_percent_levels="true"  
   # The number of levels of inhibition/over-expression
-  param_scan__single_perturb_levels_number=10
+  levels_number=10  
+  # Single perturbation minimum inhibition level
+  min_level=0
+  # Single perturbation maximum overexpression level
+  max_level=250
+
 
 
 
@@ -120,31 +117,27 @@ def main(model_configuration):
     elif line[0] == "simulate__intervals": 
       simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
-      simulate__xaxis_label = line[1]      
-    elif line[0] == "param_scan__single_perturb_intervals": 
-      param_scan__single_perturb_intervals = line[1]
-    elif line[0] == "param_scan__single_perturb_legend": 
-      param_scan__single_perturb_legend = line[1] 
-    elif line[0] == "param_scan__single_perturb_min_inhibition_level": 
-      param_scan__single_perturb_min_inhibition_level = line[1]       
-    elif line[0] == "param_scan__single_perturb_max_overexpression_level": 
-      param_scan__single_perturb_max_overexpression_level = line[1] 
+      simulate__xaxis_label = line[1]
     elif line[0] == "param_scan__single_perturb_simulations_number": 
       param_scan__single_perturb_simulations_number = line[1] 
     elif line[0] == "param_scan__single_perturb_perturbation_in_percent_levels": 
-      param_scan__single_perturb_perturbation_in_percent_levels = line[1]       
-    elif line[0] == "param_scan__single_perturb_levels_number": 
-      param_scan__single_perturb_levels_number = line[1] 
+      param_scan__single_perturb_perturbation_in_percent_levels = line[1]      
+    elif line[0] == "min_level": 
+      min_level = line[1]       
+    elif line[0] == "max_level": 
+      max_level = line[1]
+    elif line[0] == "levels_number": 
+      levels_number = line[1]          
 
 
 
   # some control
-  if int(param_scan__single_perturb_min_inhibition_level) < 0: 
-    print("\n ERROR: param_scan__single_perturb_min_inhibition_level MUST BE non negative ")
+  if int(min_level) < 0: 
+    print("\n ERROR: min_level MUST BE non negative ")
     return
   
-  if int(param_scan__single_perturb_max_overexpression_level) < 100: 
-    print("\n ERROR: param_scan__single_perturb_max_overexpression_level MUST BE greater than 100 ")
+  if int(max_level) < 100: 
+    print("\n ERROR: max_level MUST BE greater than 100 ")
     return  
 
 
@@ -195,9 +188,6 @@ def main(model_configuration):
   filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+param_scan__single_perturb_legend+"_"+scanned_species+"*")
-  for f in filesToDelete:
-    os.remove(f)
   filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)    
@@ -222,22 +212,10 @@ def main(model_configuration):
 					      scanned_species, 
 					      param_scan__single_perturb_simulations_number, 
 					      simulate__intervals,
-					      param_scan__single_perturb_intervals,
+					      levels_number,
 					      models_dir, 
 					      results_dir+"/"+dataset_parameter_scan_dir, 
 					      tmp_dir)
-
-
-
-  # Comment if you want to have the knockdown. If so, you must edit plot colours in param_scan__single_perturb_plot.R 
-  if param_scan__single_perturb_perturbation_in_percent_levels == "true":
-    print("\n")
-    print("#######################")
-    print("Removing knock out data:")
-    print("#######################") 
-    print("\n")
-    map(os.remove, glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+model[:-4]+"*__level_0.csv"))    
-  
   
   
   print("\n")
@@ -247,29 +225,9 @@ def main(model_configuration):
   print("\n")
   process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
 			      model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels])
-  process.wait() 
-  # Prepare the legend
-  if param_scan__single_perturb_knock_down_only == "true":
-    process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R",       
-	  results_dir+"/"+tc_parameter_scan_dir+"/", 
-	  param_scan__single_perturb_legend, 
-	  param_scan__single_perturb_min_inhibition_level, 
-	  "100", 
-	  param_scan__single_perturb_knock_down_only, 
-	  param_scan__single_perturb_perturbation_in_percent_levels, 
-	  str(param_scan__single_perturb_levels_number)])
-  else:
-    # TODO TEST THIS
-    process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
-	  results_dir+"/"+tc_parameter_scan_dir+"/", 
-	  param_scan__single_perturb_legend, 
-	  param_scan__single_perturb_min_inhibition_level, 
-	  param_scan__single_perturb_max_overexpression_level, 
-	  param_scan__single_perturb_knock_down_only, 
-	  param_scan__single_perturb_perturbation_in_percent_levels,
-	  str(param_scan__single_perturb_levels_number)])
-  process.wait() 
+			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, 
+			      str(min_level), str(max_level), str(levels_number)])    
+  process.wait()
   
   
   
@@ -278,7 +236,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir+"/", tc_parameter_scan_dir, param_scan__single_perturb_legend)
+  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir+"/", tc_parameter_scan_dir)
   
 
 

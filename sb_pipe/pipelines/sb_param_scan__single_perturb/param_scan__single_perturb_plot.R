@@ -40,11 +40,15 @@ main <- function(args) {
     tc_parameter_scan_dir <- args[6]
     simulate__xaxis_label <- args[7]
     param_scan__single_perturb_simulations_number <- args[8]
-    perturbation_in_percent_levels <- args[9]
+    param_scan__single_perturb_perturbation_in_percent_levels <- args[9]    
+    min_level <- args[10]
+    max_level <- args[11]
+    levels_number <- args[12]
 
     # Add controls here if any
     
-    plot_single_perturbation_data(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels)
+    plot_single_perturbation_data(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
+				  param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, min_level, max_level, levels_number)
 }
 
 
