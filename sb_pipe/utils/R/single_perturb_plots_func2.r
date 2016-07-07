@@ -45,33 +45,23 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
     # Set the color and linetype for the plot
     colors <- c()
     linetype <- c()
+    
+    # Add percentages to the labels
     if(perturbation_in_percent_levels == "true") {
       labels <- paste(labels, " %", sep="")
-      # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
-      # The perturbation is therefore done by percent levels and at the beginning.
-      # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
-      if(inhibition_only == "true") {
-	# Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
-	colors <- c("dodgerblue", "dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
-	linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
-      } else {
-	# Including knockout (first number is knock out (bright blue), last number 96 is control (overexpression))  (0%,25%,50%,..,100%,125%,150%,..250%)
-	colors <- colors()[c(28,29,30,24,99,115,95,98,97,96)]
-	linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
-      }
+    }
+    # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
+    # The perturbation is therefore done by percent levels and at the beginning.
+    # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
+    if(inhibition_only == "true") {
+      # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
+      colors <- c("dodgerblue", "dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
+      linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
     } else {
-      # The model is perturbed using a virtual species (A_inhibitor) inhibiting its corresponding real species (A). 
-      # In this case, the perturbation is on the inhibitor or expressor, and NOT on the species. In this case, the perturbation is done all over the time course.
-      if(inhibition_only == "true") {
-	colors <- c("black", "blue4", "blue3", "blue2", "blue1", "blue", "dodgerblue4", "dodgerblue3", "dodgerblue2", "dodgerblue1", "dodgerblue")
-	linetype <- c(1,2,3,4,6,1,2,3,4,6,1)
-      } else {
-	colors <- colors()[c(24,99,115,95,98,97,96,464,463,510)]
-	linetype <- c(1,2,3,4,6,1,2,3,4,6,1)
-      }
-    }    
-
-    
+      # Including knockout (first number is knock out (bright blue), last number 96 is control (overexpression))  (0%,25%,50%,..,100%,125%,150%,..250%)
+      colors <- colors()[c(27,28,29,30,24,99,115,95,98,97,96)]
+      linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
+    }
     
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
