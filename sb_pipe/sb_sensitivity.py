@@ -64,11 +64,11 @@ def main(model_configuration):
    
    
   # The project directory
-  project_dir_dir=""
-  # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m)
+  project_dir=".."
+  # the model class. This represents a group of models. It can also be the version.
+  model_class=""
+  # The copasi model
   model=""
-  # Sensitivity copasi model file (e.g mtor_mito_ros_model_v27_copasi_sens.cps ...)
-  sensitivities__copasi_model=""
   # The folder containing the sensitivity analysis results
   sensitivities_dir=""
   # The folder containing the models (e.g. Models)
@@ -83,10 +83,10 @@ def main(model_configuration):
     print line
     if line[0] == "project_dir":
       project_dir = line[1] 
-    elif line[0] == "model":
+    elif line[0] == "model_class":
+      model_class = line[1] 
+    elif line[0] == "model": 
       model = line[1] 
-    elif line[0] == "sensitivities__copasi_model": 
-      sensitivities__copasi_model = line[1] 
     elif line[0] == "sensitivities_dir": 
       sensitivities_dir = line[1]
     elif line[0] == "models_folder": 
@@ -96,7 +96,7 @@ def main(model_configuration):
 
       
   models_dir=project_dir+"/"+models_folder+"/"
-  sensitivities_path=project_dir+"/"+working_folder+"/"+model+"/"+sensitivities_dir+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model_class+"/"+sensitivities_dir+"/"
 
 
 
@@ -109,7 +109,7 @@ def main(model_configuration):
   print("\n")
   print("#############################################################")     
   print("#############################################################")
-  print("### Processing model "+ sensitivities__copasi_model)
+  print("### Processing model "+ model)
   print("#############################################################")
   print("#############################################################")
   print("")
@@ -118,7 +118,7 @@ def main(model_configuration):
 
   print("\n")
   print("##############################")
-  print("Preparing folder "+sensitivities_path)
+  print("Preparing folder "+results_dir)
   print("##############################")
   print("\n")
   # remove the folder the previous results if any
@@ -126,8 +126,8 @@ def main(model_configuration):
 #   for f in filesToDelete:
 #     os.remove(f)  
 
-  if not os.path.exists(sensitivities_path):
-    os.mkdir(sensitivities_path)
+  if not os.path.exists(results_dir):
+    os.mkdir(results_dir)
 
 
 
@@ -137,7 +137,7 @@ def main(model_configuration):
   # print("#####################")
   # print("\n")
   # TODO 
-  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", sp_model, models_dir, results_dir, tmp_dir])
+  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", model, models_dir, results_dir, tmp_dir])
   #process.wait()   
 
 
@@ -147,7 +147,7 @@ def main(model_configuration):
   print("Generating plots:")
   print("##################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", sensitivities_path])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", results_dir])
   process.wait()    
 
 
@@ -159,7 +159,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(sensitivities_path+"/"+"*.csv")) > 0:
+  if len(glob.glob(results_dir+"/"+"*.csv")) > 0:
       return True
   else:
       return False

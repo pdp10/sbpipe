@@ -88,7 +88,7 @@ def main(model_configuration):
   # The number of cpus to use locally (if ncpus=0, it should run on a cluster).
   local_cpus=2
   # read the copasi model name 
-  param_estim__copasi_model="mymodel.cps"
+  model="mymodel.cps"
   # The folder containing the models
   models_folder="Models"
   # The folder containing the data
@@ -129,8 +129,8 @@ def main(model_configuration):
       nfits = line[1] 
     elif line[0] == "local_cpus": 
       local_cpus = line[1]
-    elif line[0] == "param_estim__copasi_model":
-      param_estim__copasi_model = line[1]     
+    elif line[0] == "model":
+      model = line[1]     
     elif line[0] == "models_folder": 
       models_folder = line[1] 
     elif line[0] == "data_folder":
@@ -159,7 +159,7 @@ def main(model_configuration):
   data_dir=project_dir+"/"+data_folder+"/"
   tmp_dir=project_dir+"/"+tmp_folder+"/"
 
-  output_folder=param_estim__copasi_model[:-4]+"_round"+round
+  output_folder=model[:-4]+"_round"+round
   plots_dir=tmp_dir+"/fits_analysis"
 
 
@@ -173,7 +173,7 @@ def main(model_configuration):
   print("\n")
   print("#############################################################")
   print("#############################################################")
-  print("### Parameter estimation for model "+param_estim__copasi_model)
+  print("### Parameter estimation for model "+model)
   print("#############################################################")
   print("#############################################################")
   print("")
@@ -205,7 +205,7 @@ def main(model_configuration):
   print("######################")
   print("Configure jobs locally:")
   print("######################")
-  param_estim__copasi_utils_randomise_start_values.main(models_dir, param_estim__copasi_model, nfits)
+  param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
 
 
 
@@ -227,7 +227,7 @@ def main(model_configuration):
   #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
 
   # Perform this task using python-pp (parallel python dependency)
-  param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, param_estim__copasi_model[:-4], nfits, local_cpus)
+  param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, model[:-4], nfits, local_cpus)
 
   # remove the previously copied Data folder
   shutil.rmtree(models_dir+"/"+data_folder, ignore_errors=True) 
@@ -281,7 +281,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(working_dir+"/"+output_folder+"/"+param_estim__copasi_model[:-4]+"*.csv")) > 0 and os.path.isfile(working_dir+"/"+output_folder+"/parameter_estimation_collected_results.csv"):
+  if len(glob.glob(working_dir+"/"+output_folder+"/"+model[:-4]+"*.csv")) > 0 and os.path.isfile(working_dir+"/"+output_folder+"/parameter_estimation_collected_results.csv"):
       return True
   else:
       return False

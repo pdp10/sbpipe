@@ -44,6 +44,9 @@ def main(args):
     for f in wflist:
       os.remove(wfpath + "/" + f)
       shutil.rmtree(wfpath + "/" + f[:-4], ignore_errors=True)
+    wflist = [ f for f in os.listdir(wfpath) if f.endswith("_v1") ]
+    for f in wflist:
+      shutil.rmtree(wfpath + "/" + f, ignore_errors=True)
 
 
 main(sys.argv)

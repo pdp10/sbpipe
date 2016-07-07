@@ -57,9 +57,9 @@ class TestInsulinReceptor(unittest.TestCase):
 
 
 
-  def test_param_estim_copasi(self):        
-    """model parameter estimation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"]))    
+  #def test_param_estim_copasi(self):        
+    #"""model parameter estimation"""
+    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "model_ins_rec_v1_param_estim_copasi.conf"]))    
     
   #def test_non_identif_param_estim_copasi(self):        
     #"""model parameter estimation with identifiability issues """

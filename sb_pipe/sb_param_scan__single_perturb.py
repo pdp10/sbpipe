@@ -73,21 +73,21 @@ def main(model_configuration):
 
 
   # the project directory
-  project_dir=""
-  # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m
-  model=""
+  project_dir=".."
+  # the model class. This represents a group of models. It can also be the version.
+  model_class=""
   # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
-  param_scan__single_perturb_copasi_models_list=[] # a list separated by ','
+  models_list=[] # a list separated by ','
   # list of species to knock-down (name of the species as in copasi) (e.g. mTORC1)
-  param_scan__single_perturb_species_list=[]   # a list separated by ','
+  species_list=[]   # a list separated by ','
   # if Y then, plot only kd (blue), otherwise plot kd and overexpression
   param_scan__single_perturb_knock_down_only=""
   # The folder containing the models
-  models_folder=""
+  models_folder="Models"
   # The folder containing the results
-  working_folder=""
+  working_folder="Working_Folder"
   # The folder containing the temporary computations
-  tmp_folder=""
+  tmp_folder="tmp"
   # The number of intervals for one simulation
   simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
@@ -109,10 +109,10 @@ def main(model_configuration):
   param_scan__single_perturb_perturbation_in_percent_levels="true"
   # The number of levels of inhibition/over-expression
   param_scan__single_perturb_levels_number=10
-  # The name of the folder containing the computed dataset of the parameter scanning (e.g. dataset_parameter_scan)
-  dataset_parameter_scan_dir=""
-  # The name of the folder containing the generated plots of the parameter scanning (e.g. tc_parameter_scan)
-  tc_parameter_scan_dir=""
+  # The name of the folder containing the computed dataset of the parameter scanning
+  dataset_parameter_scan_dir="dataset_parameter_scan"
+  # The name of the folder containing the generated plots of the parameter scanning
+  tc_parameter_scan_dir="tc_parameter_scan"
 
 
   # Initialises the variables
@@ -120,12 +120,12 @@ def main(model_configuration):
     print line
     if line[0] == "project_dir":
       project_dir = line[1] 
-    elif line[0] == "model":
-      model = line[1]       
-    elif line[0] == "param_scan__single_perturb_copasi_models_list": 
-      param_scan__single_perturb_copasi_models_list = line[1] 
-    elif line[0] == "param_scan__single_perturb_species_list": 
-      param_scan__single_perturb_species_list = line[1]
+    elif line[0] == "model_class":
+      model_class = line[1]       
+    elif line[0] == "models_list": 
+      models_list = line[1] 
+    elif line[0] == "species_list": 
+      species_list = line[1]
     elif line[0] == "param_scan__single_perturb_knock_down_only": 
       param_scan__single_perturb_knock_down_only = line[1] 
     elif line[0] == "models_folder": 
@@ -158,21 +158,21 @@ def main(model_configuration):
       dataset_parameter_scan_dir = line[1]       
     elif line[0] == "tc_parameter_scan_dir": 
       tc_parameter_scan_dir = line[1]
-    elif line[0] == "param_scan__single_perturb_copasi_models_list":
-      param_scan__single_perturb_copasi_models_list = line[1]
-    elif line[0] == "param_scan__single_perturb_species_list":
-      param_scan__single_perturb_species_list = line[1]
+    elif line[0] == "models_list":
+      models_list = line[1]
+    elif line[0] == "species_list":
+      species_list = line[1]
 
 
-  param_scan__single_perturb_copasi_models_list = param_scan__single_perturb_copasi_models_list.split(',')
-  param_scan__single_perturb_species_list = param_scan__single_perturb_species_list.split(',')
+  models_list = models_list.split(',')
+  species_list = species_list.split(',')
 
 
   # some control
-  if len(param_scan__single_perturb_copasi_models_list) != len(param_scan__single_perturb_species_list): 
+  if len(models_list) != len(species_list): 
     print("\n ERROR: One model MUST BE defined for each species to perturb! "+
-	  str(len(param_scan__single_perturb_copasi_models_list))+"!="+
-	  str(len(param_scan__single_perturb_species_list))+"")
+	  str(len(models_list))+"!="+
+	  str(len(species_list))+"")
     return
 
   if int(param_scan__single_perturb_min_inhibition_level) < 0: 
@@ -185,7 +185,7 @@ def main(model_configuration):
 
 
   models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model_class+"/"
   tmp_dir=project_dir+"/"+tmp_folder
 
 
@@ -195,11 +195,12 @@ def main(model_configuration):
   # Get the pipeline start time
   start = time.clock()
 
+  return_val = True
 
-  for i in range(0, len(param_scan__single_perturb_species_list)):
+  for i in range(0, len(species_list)):
       
-    sp_species=param_scan__single_perturb_species_list[i]
-    sp_model=param_scan__single_perturb_copasi_models_list[i]
+    sp_species=species_list[i]
+    sp_model=models_list[i]
                
     if not os.path.isfile(models_dir+"/"+sp_model):
       print(models_dir+"/"+sp_model + " does not exist.") 
@@ -313,6 +314,8 @@ def main(model_configuration):
 					       param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend)
     
 
+    return_val = return_val and len(glob.glob(results_dir+"/"+param_scan__single_perturb_prefix_results_filename+sp_model[:-4]+"*.pdf")) > 0 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+sp_model[:-4]+"*.png")) > 0
+
 
   # Print the pipeline elapsed time
   end = time.clock()
@@ -320,9 +323,6 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(results_dir+"/"+param_scan__single_perturb_prefix_results_filename+model+"*.pdf")) > 0 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model+"*.png")) > 0:
-      return True
-  else:
-      return False
+  return return_val
      
      
