@@ -20,7 +20,7 @@ perturbation, sensitivity analysis and parameter estimation.
 
 ### Requirements
 - Python (+dependencies: scipy, numpy, pp)
-- R (plots + statistics) (+dependencies: gplot, abind, colorspace, 
+- R (plots + statistics) (+dependencies: ggplot2, gplot, abind, colorspace, 
 stringr)
 - LaTeX (for report generation) (+dependencies: texlive and recommended 
 fonts)
@@ -108,10 +108,8 @@ Projects inside the folder tests/ have the sb_pipe project structure:
 - *Data* (e.g. training / testing data sets for the model);
 - *Model* (e.g. Copasi or Potterswheel models);
 - *Working_Folder* (e.g. pipelines configurations and parameter 
-estimation results).
-sb_pipe automatically generates other two folders: 
-- *simulation* (e.g. time course, parameter scan, sensitivity analysis 
-etc);
+estimation results, time course, parameter scan, sensitivity analysis 
+etc).
 - *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
 Examples of configuration files (*.conf) can be found in 

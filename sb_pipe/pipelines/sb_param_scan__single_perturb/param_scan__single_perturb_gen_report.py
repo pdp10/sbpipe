@@ -41,33 +41,32 @@ from single_model_latex_reports import latex_report_par_scan
 # model_noext: read the model_noext
 # species: Read the species
 # results_dir: Read the results dir
-# tc_parameter_scan_dir: The directory containing the plots of the single perturbation scan
-# param_scan__single_perturb_prefix_results_filename: The prefix for the results filename
-# param_scan__single_perturb_legend: The name of the legend
-def main(model_noext, species, results_dir, tc_parameter_scan_dir, param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend):
+# plots_dir: The directory containing the plots of the single perturbation scan
+# legend_noext: The name of the legend
+def main(model_noext, species, results_dir, plots_dir):
     
-  print("Generating a LaTeX report containing graphs\n")
+  print("Generating a LaTeX report\n")
   print(model_noext)
-  latex_report_par_scan(results_dir, tc_parameter_scan_dir, param_scan__single_perturb_prefix_results_filename, 
-			model_noext, species, param_scan__single_perturb_legend)
+  filename_prefix="report__single_param_scan_"
+  latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
+			model_noext, species)
 
   
-  
-  print("Generating PDF file\n")  
+  print("Generating PDF report\n")  
   currdir=os.getcwd()
   os.chdir(results_dir)
-  print("pdflatex -halt-on-error " + param_scan__single_perturb_prefix_results_filename + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"])  #, stdout=PIPE
-  p1.wait()
-  p1 = Popen(["pdflatex", "-halt-on-error", param_scan__single_perturb_prefix_results_filename + model_noext + ".tex"])  #, stdout=PIPE
-  p1.wait()
+  print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+  p1.communicate()[0]
+  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+  p1.communicate()[0]
   
   # remove temporary files
-  os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".out")
-  os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".log")
-  os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".idx")
-  os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".toc")
-  os.remove(param_scan__single_perturb_prefix_results_filename+model_noext+".aux")
+  os.remove(filename_prefix+model_noext+".out")
+  os.remove(filename_prefix+model_noext+".log")
+  os.remove(filename_prefix+model_noext+".idx")
+  os.remove(filename_prefix+model_noext+".toc")
+  os.remove(filename_prefix+model_noext+".aux")
   
   os.chdir(currdir)
   print("DONE\n")

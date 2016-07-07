@@ -30,13 +30,12 @@ main <- function(args) {
   
   filename <- args[1]
   plots_dir <- args[2]
-  plot_filename_prefix <- args[3]
-  best_fits_percent <- args[4]
+  best_fits_percent <- args[3]
 
   best_fits_percent <- as.numeric(best_fits_percent)
-  
+  plot_filename_prefix <- "fits_"
+
   fit_sequence_analysis(filename, plots_dir, plot_filename_prefix, best_fits_percent)
-  
 }
 
 

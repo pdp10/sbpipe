@@ -1,13 +1,15 @@
 sb_pipe (GNU General Public License v3)
 Copyright 2010-2016 Piero Dalle Pezze
 
-Website: http://pdp10.github.io/sb_pipe/
+Website: https://pdp10.github.io/sb_pipe/
 
 
 ### CHANGELOG
 
-v0.0.10
+v0.0.12
 
+- removed old deprecated code
+- migrated from gplot to ggplot2. This simplified the plots considerably.
 - added unit tests and setup.py.
 - ported Bash / sed / grep and cut code to Python.
 - added param_estim__copasi.sh

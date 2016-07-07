@@ -154,7 +154,7 @@ def compute_statistics(folder, filename, fileout):
   
   fileIN = open(folder + filename, "r")
   fileOUT = open(folder + fileout, "w")
-  fileOUT.write("Iterations\tMean\tCI_95_inf\tCI_95_sup\tSD\tSEM\tBest_Calib\n")
+  fileOUT.write("Iterations\tMean\tCI_95_inf\tCI_95_sup\tSD\tBest_Calib\n")
   # skip the header line
   line = fileIN.readline()
   line = fileIN.readline()
@@ -171,8 +171,7 @@ def compute_statistics(folder, filename, fileout):
       m = mean(row)
       ci_95_inf, ci_95_sup = mean_confidence_interval(row, 0.95)
       sd = std(row)
-      sem = sd/sqrt(len(row))
-      fileOUT.write(str(iteration) + "\t" + str(m) + "\t" + str(ci_95_inf) + "\t" + str(ci_95_sup)  + "\t" + str(sd) + "\t" + str(sem) + "\t" + str(row[index_best_calib]) + "\n")
+      fileOUT.write(str(iteration) + "\t" + str(m) + "\t" + str(ci_95_inf) + "\t" + str(ci_95_sup)  + "\t" + str(sd) + "\t" + str(row[index_best_calib]) + "\n")
     iteration = iteration + 1
     line = fileIN.readline()
   #endwhile
@@ -185,7 +184,7 @@ def plot_mean_and_ci(folder, filein, fileout, best_pos, best_score, nsamples, co
   #from rpy2 import *
   import rpy2.robjects as robjects
   r = robjects.r
-  r.source("plot_functions.R")
+  r.source("plot_functions.r")
   # translate the function
   plot_calib_r_fun = robjects.r['plot_calibration_mean_ci']
   plot_calib_r_fun(folder, filein, fileout, best_pos, best_score, nsamples, colour, identifier)
@@ -216,7 +215,7 @@ def plot_mean_and_ci_multi(rscript_folder, folder, filein, fileout, best_pos, be
   #from rpy2 import *
   import rpy2.robjects as robjects
   r = robjects.r
-  r.source(rscript_folder + "/plot_functions.R")
+  r.source(rscript_folder + "/plot_functions.r")
   # translate the function
   plot_calib_r_fun = robjects.r['plot_calibration_mean_ci_multi']
   plot_calib_r_fun(folder, robjects.StrVector(filein), fileout, best_pos, best_score, robjects.StrVector(nsamples), robjects.StrVector(colour), robjects.StrVector(identifier))
@@ -226,9 +225,9 @@ def plot_mean_and_ci_multi(rscript_folder, folder, filein, fileout, best_pos, be
 def plot_calibration(rscript_folder, folder, pools, colours):
   # Cleaning previous results
   for i in range(0, len(pools)):
-    if(os.path.exists(folder + "summary_" + pools[i] + "_statistics.csv")):
-      print("Cleaning: " + folder + "summary_" + pools[i] + "_statistics.csv" + "\n")
-      os.remove(folder + "summary_" + pools[i] + "_statistics.csv")
+    if(os.path.exists(folder + "/summary_" + pools[i] + "_statistics.csv")):
+      print("Cleaning: " + folder + "/summary_" + pools[i] + "_statistics.csv" + "\n")
+      os.remove(folder + "/summary_" + pools[i] + "_statistics.csv")
   # Initialisation
   files = []
   idf = []

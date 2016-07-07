@@ -36,7 +36,7 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/error_bars_func.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/error_bars_func.r", sep=""))
 
 
 
@@ -56,7 +56,6 @@ main <- function(args) {
     files <- list.files( path=inputdir, pattern=model_noext )
     print(files)
     
-    exp = FALSE
     plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__xaxis_label)
 }
 

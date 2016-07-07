@@ -51,6 +51,7 @@ main <- function(args) {
     exp_stat <- read.table ( paste ( inputdir_exp, file_exp, sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     exp_column <- names(exp_stat)
     # A lookup table for computational-experimental comparison
+    ## TODO THIS SHOULD BE CREATED AUTOMATICALLY
     lookup_table = matrix( 
 	c("IR_beta_pY1146","IR_beta_Y1146",
 	  "Akt_pT308", "Akt_p308",
