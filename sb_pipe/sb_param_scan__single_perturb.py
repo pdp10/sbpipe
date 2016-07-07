@@ -76,7 +76,7 @@ def main(model_configuration):
   project_dir=".."
   # the model class. This represents a group of models. It can also be the version.
   model_class=""
-  # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
+  # Copasi models list (1 model per species to perturb) (e.g mtor_model_scan_mTORC1.cps ...)
   models_list=[] # a list separated by ','
   # list of species to knock-down (name of the species as in copasi) (e.g. mTORC1)
   species_list=[]   # a list separated by ','
