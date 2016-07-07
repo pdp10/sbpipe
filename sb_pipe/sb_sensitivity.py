@@ -65,17 +65,10 @@ def main(model_configuration):
    
   # The project directory
   project_dir=".."
-  # the model class. This represents a group of models. It can also be the version.
-  model_class=""
   # The copasi model
-  model=""
-  # The folder containing the sensitivity analysis results
-  sensitivities_dir=""
-  # The folder containing the models (e.g. Models)
-  models_folder=""
-  # The working folder containing the results
-  working_folder=""
-
+  model="mymodel.cps"
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
 
 
   # Initialises the variables
@@ -83,21 +76,23 @@ def main(model_configuration):
     print line
     if line[0] == "project_dir":
       project_dir = line[1] 
-    elif line[0] == "model_class":
-      model_class = line[1] 
     elif line[0] == "model": 
       model = line[1] 
-    elif line[0] == "sensitivities_dir": 
-      sensitivities_dir = line[1]
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "working_folder": 
-      working_folder = line[1] 
-
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]
       
+  
+  # INTERNAL VARIABLES
+  # The folder containing the models
+  models_folder="Models"
+  # The working folder containing the results
+  working_folder="Working_Folder"  
+  # The folder containing the sensitivity analysis results
+  sensitivities_dir="sensitivities"
+  
   models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model_class+"/"+sensitivities_dir+"/"
-
+  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"+sensitivities_dir+"/"
+  tmp_dir=copasi_reports_path+"/"
 
 
   print("\n<START PIPELINE>\n")
@@ -161,7 +156,6 @@ def main(model_configuration):
 
   if len(glob.glob(results_dir+"/"+"*.csv")) > 0:
       return True
-  else:
-      return False
+  return False
     
     

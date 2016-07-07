@@ -50,15 +50,11 @@ class ParamEstim_CollectResults:
  
  
   # Collect the results in a file filename_out
-  def collect_results(self, path = "", filename_out = ""):
+  def collect_results(self, path_in=".", path_out=".", filename_out="results.csv"):
     self._parameters = []
     self._data = [[]]
-    self._path = path
+    self._path = path_in
     self._files = []
-    # Remove possible old outputfiles to not interfere with the input file retrieval
-    fileout = path + filename_out
-    if os.path.isfile(fileout):
-	os.remove(fileout)
     self._retrieve_input_files()
     # (1) Take the first file and retrieve some information. Basically we need the parameters names  
     self._get_parameter_names_list(self._files[0])
@@ -73,7 +69,7 @@ class ParamEstim_CollectResults:
     self._collect()
     self.print_collected_results()
     # (4) Write the matrix in a csv file as output
-    write_matrix_on_file(path, filename_out, self._data)  
+    write_matrix_on_file(path_out, filename_out, self._data)  
     
 
   # Print the list of parameter names

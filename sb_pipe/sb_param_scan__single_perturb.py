@@ -74,20 +74,14 @@ def main(model_configuration):
 
   # the project directory
   project_dir=".."
-  # the model class. This represents a group of models. It can also be the version.
-  model_class=""
-  # Copasi models list (1 model per species to perturb) (e.g mtor_model_scan_mTORC1.cps ...)
-  models_list=[] # a list separated by ','
-  # list of species to knock-down (name of the species as in copasi) (e.g. mTORC1)
-  species_list=[]   # a list separated by ','
+  # Copasi model (e.g mtor_model_scan_mTORC1.cps ...)
+  model=""
+  # The model species to scan (e.g. mTORC1)
+  scanned_species=""  
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
   # if Y then, plot only kd (blue), otherwise plot kd and overexpression
   param_scan__single_perturb_knock_down_only=""
-  # The folder containing the models
-  models_folder="Models"
-  # The folder containing the results
-  working_folder="Working_Folder"
-  # The folder containing the temporary computations
-  tmp_folder="tmp"
   # The number of intervals for one simulation
   simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
@@ -107,31 +101,22 @@ def main(model_configuration):
   param_scan__single_perturb_perturbation_in_percent_levels="true"
   # The number of levels of inhibition/over-expression
   param_scan__single_perturb_levels_number=10
-  # The name of the folder containing the computed dataset of the parameter scanning
-  dataset_parameter_scan_dir="dataset_parameter_scan"
-  # The name of the folder containing the generated plots of the parameter scanning
-  tc_parameter_scan_dir="tc_parameter_scan"
+
 
 
   # Initialises the variables
   for line in lines:
     print line
     if line[0] == "project_dir":
-      project_dir = line[1] 
-    elif line[0] == "model_class":
-      model_class = line[1]       
-    elif line[0] == "models_list": 
-      models_list = line[1] 
-    elif line[0] == "species_list": 
-      species_list = line[1]
+      project_dir = line[1]   
+    elif line[0] == "model": 
+      model = line[1] 
+    elif line[0] == "scanned_species": 
+      scanned_species = line[1]
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]            
     elif line[0] == "param_scan__single_perturb_knock_down_only": 
       param_scan__single_perturb_knock_down_only = line[1] 
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "working_folder": 
-      working_folder = line[1] 
-    elif line[0] == "tmp_folder": 
-      tmp_folder = line[1]      
     elif line[0] == "simulate__intervals": 
       simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
@@ -150,27 +135,10 @@ def main(model_configuration):
       param_scan__single_perturb_perturbation_in_percent_levels = line[1]       
     elif line[0] == "param_scan__single_perturb_levels_number": 
       param_scan__single_perturb_levels_number = line[1] 
-    elif line[0] == "dataset_parameter_scan_dir": 
-      dataset_parameter_scan_dir = line[1]       
-    elif line[0] == "tc_parameter_scan_dir": 
-      tc_parameter_scan_dir = line[1]
-    elif line[0] == "models_list":
-      models_list = line[1]
-    elif line[0] == "species_list":
-      species_list = line[1]
 
-
-  models_list = models_list.split(',')
-  species_list = species_list.split(',')
 
 
   # some control
-  if len(models_list) != len(species_list): 
-    print("\n ERROR: One model MUST BE defined for each species to perturb! "+
-	  str(len(models_list))+"!="+
-	  str(len(species_list))+"")
-    return
-
   if int(param_scan__single_perturb_min_inhibition_level) < 0: 
     print("\n ERROR: param_scan__single_perturb_min_inhibition_level MUST BE non negative ")
     return
@@ -180,9 +148,19 @@ def main(model_configuration):
     return  
 
 
+  # INTERNAL VARIABLES
+  # The folder containing the models
+  models_folder="Models"
+  # The folder containing the results
+  working_folder="Working_Folder"
+  # The name of the folder containing the computed dataset of the parameter scanning
+  dataset_parameter_scan_dir="param_scan_data"
+  # The name of the folder containing the generated plots of the parameter scanning
+  tc_parameter_scan_dir="tc_param_scan"  
+
   models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model_class+"/"
-  tmp_dir=project_dir+"/"+tmp_folder
+  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"
+  tmp_dir=copasi_reports_path+"/"
 
 
 
@@ -191,125 +169,117 @@ def main(model_configuration):
   # Get the pipeline start time
   start = time.clock()
 
-  return_val = True
-
-  for i in range(0, len(species_list)):
       
-    sp_species=species_list[i]
-    sp_model=models_list[i]
-               
-    if not os.path.isfile(models_dir+"/"+sp_model):
-      print(models_dir+"/"+sp_model + " does not exist.") 
-      return
-      
+  if not os.path.isfile(models_dir+"/"+model):
+    print(models_dir+"/"+model + " does not exist.") 
+    return
     
+  
+  print("\n")
+  print("#############################################################")     
+  print("#############################################################")
+  print("### Processing model "+ model)
+  print("#############################################################")
+  print("#############################################################")
+  print("")    
+
+
+  print("\n")
+  print("##############################")
+  print("Preparing folder "+results_dir +":")
+  print("##############################")
+  print("\n")
+  filesToDelete = glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+param_scan__single_perturb_legend+"_"+scanned_species+"*")
+  for f in filesToDelete:
+    os.remove(f)
+  filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
+  for f in filesToDelete:
+    os.remove(f)    
+  
+  if not os.path.exists(tmp_dir):
+    os.mkdir(tmp_dir)
+  if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+  if not os.path.exists(results_dir+"/"+dataset_parameter_scan_dir):
+    os.mkdir(results_dir+"/"+dataset_parameter_scan_dir)
+  if not os.path.exists(results_dir+"/"+tc_parameter_scan_dir):
+    os.mkdir(results_dir+"/"+tc_parameter_scan_dir) 
+
+
+
+  print("\n")
+  print("#####################")
+  print("Executing simulations:")
+  print("#####################")
+  print("\n")
+  param_scan__single_perturb_run_copasi.main(model, 
+					      scanned_species, 
+					      param_scan__single_perturb_simulations_number, 
+					      simulate__intervals,
+					      param_scan__single_perturb_intervals,
+					      models_dir, 
+					      results_dir+"/"+dataset_parameter_scan_dir, 
+					      tmp_dir)
+
+
+
+  # Comment if you want to have the knockdown. If so, you must edit plot colours in param_scan__single_perturb_plot.R 
+  if param_scan__single_perturb_perturbation_in_percent_levels == "true":
     print("\n")
-    print("#############################################################")     
-    print("#############################################################")
-    print("### Processing model "+ sp_model)
-    print("#############################################################")
-    print("#############################################################")
-    print("")    
-
-
+    print("#######################")
+    print("Removing knock out data:")
+    print("#######################") 
     print("\n")
-    print("##############################")
-    print("Preparing folder "+results_dir +":")
-    print("##############################")
-    print("\n")
-    filesToDelete = glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+sp_model[:-4]+"*")
-    for f in filesToDelete:
-      os.remove(f)
-    filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+sp_model[:-4]+"*")
-    for f in filesToDelete:
-      os.remove(f)
-    filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+param_scan__single_perturb_legend+"_"+sp_species+"*")
-    for f in filesToDelete:
-      os.remove(f)
-    filesToDelete = glob.glob(results_dir+"/*"+sp_model[:-4]+"*")
-    for f in filesToDelete:
-      os.remove(f)    
-   
-    if not os.path.exists(tmp_dir):
-      os.mkdir(tmp_dir)
-    if not os.path.exists(results_dir):
-      os.makedirs(results_dir)
-    if not os.path.exists(results_dir+"/"+dataset_parameter_scan_dir):
-      os.mkdir(results_dir+"/"+dataset_parameter_scan_dir)
-    if not os.path.exists(results_dir+"/"+tc_parameter_scan_dir):
-      os.mkdir(results_dir+"/"+tc_parameter_scan_dir) 
-
-
-
-    print("\n")
-    print("#####################")
-    print("Executing simulations:")
-    print("#####################")
-    print("\n")
-    param_scan__single_perturb_run_copasi.main(sp_model, 
-					       sp_species, 
-					       param_scan__single_perturb_simulations_number, 
-					       simulate__intervals,
-					       param_scan__single_perturb_intervals,
-					       models_dir, 
-					       results_dir+"/"+dataset_parameter_scan_dir, 
-					       tmp_dir)
-
-
-
-    # Comment if you want to have the knockdown. If so, you must edit plot colours in param_scan__single_perturb_plot.R 
-    if param_scan__single_perturb_perturbation_in_percent_levels == "true":
-      print("\n")
-      print("#######################")
-      print("Removing knock out data:")
-      print("#######################") 
-      print("\n")
-      map(os.remove, glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+sp_model[:-4]+"*__level_0.csv"))    
-    
-    
-    
-    print("\n")
-    print("################")
-    print("Generating plots:")
-    print("################")
-    print("\n")
+    map(os.remove, glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+model[:-4]+"*__level_0.csv"))    
+  
+  
+  
+  print("\n")
+  print("################")
+  print("Generating plots:")
+  print("################")
+  print("\n")
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
+			      model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
+			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels])
+  process.wait() 
+  # Prepare the legend
+  if param_scan__single_perturb_knock_down_only == "true":
+    process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R",       
+	  results_dir+"/"+tc_parameter_scan_dir+"/", 
+	  param_scan__single_perturb_legend, 
+	  param_scan__single_perturb_min_inhibition_level, 
+	  "100", 
+	  param_scan__single_perturb_knock_down_only, 
+	  param_scan__single_perturb_perturbation_in_percent_levels, 
+	  str(param_scan__single_perturb_levels_number)])
+  else:
+    # TODO TEST THIS
     process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
-				sp_model[:-4], sp_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
-				param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels])
-    process.wait() 
-    # Prepare the legend
-    if param_scan__single_perturb_knock_down_only == "true":
-      process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_make_legend.R",       
-	    results_dir+"/"+tc_parameter_scan_dir+"/", 
-	    param_scan__single_perturb_legend, 
-	    param_scan__single_perturb_min_inhibition_level, 
-	    "100", 
-	    param_scan__single_perturb_knock_down_only, 
-	    param_scan__single_perturb_perturbation_in_percent_levels, 
-	    str(param_scan__single_perturb_levels_number)])
-    else:
-      # TODO TEST THIS
-      process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
-	    results_dir+"/"+tc_parameter_scan_dir+"/", 
-	    param_scan__single_perturb_legend, 
-	    param_scan__single_perturb_min_inhibition_level, 
-	    param_scan__single_perturb_max_overexpression_level, 
-	    param_scan__single_perturb_knock_down_only, 
-	    param_scan__single_perturb_perturbation_in_percent_levels,
-	    str(param_scan__single_perturb_levels_number)])
-    process.wait() 
-    
-    
-    
-    print("\n")
-    print("##################")
-    print("Generating reports:")
-    print("##################")
-    print("\n")
-    param_scan__single_perturb_gen_report.main(sp_model[:-4], sp_species, results_dir+"/", tc_parameter_scan_dir, param_scan__single_perturb_legend)
-    
-
-    return_val = return_val and len(glob.glob(results_dir+"/*"+sp_model[:-4]+"*.pdf")) == 1 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+sp_model[:-4]+"*.png")) > 0
+	  results_dir+"/"+tc_parameter_scan_dir+"/", 
+	  param_scan__single_perturb_legend, 
+	  param_scan__single_perturb_min_inhibition_level, 
+	  param_scan__single_perturb_max_overexpression_level, 
+	  param_scan__single_perturb_knock_down_only, 
+	  param_scan__single_perturb_perturbation_in_percent_levels,
+	  str(param_scan__single_perturb_levels_number)])
+  process.wait() 
+  
+  
+  
+  print("\n")
+  print("##################")
+  print("Generating reports:")
+  print("##################")
+  print("\n")
+  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir+"/", tc_parameter_scan_dir, param_scan__single_perturb_legend)
+  
 
 
   # Print the pipeline elapsed time
@@ -318,6 +288,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  return return_val
-     
+  if len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*.png")) > 0:
+    return True  
+  return False
      

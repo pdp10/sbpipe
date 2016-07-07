@@ -33,6 +33,7 @@ def main(args):
     modelspath = join(file, 'Models')
     paramEstimCopasiFiles = glob.glob(modelspath + "/" + "*_param_estim?*.cps")
     for f in paramEstimCopasiFiles:
+      print("deleting..." + f)           
       os.remove(f)
         
     tmppath = join(file, 'tmp')
@@ -40,13 +41,15 @@ def main(args):
     shutil.rmtree(tmppath, ignore_errors=True)
     
     wfpath = join(file, 'Working_Folder')
+    # Delete tgz files
     wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
     for f in wflist:
+      print("deleting..." + f)      
       os.remove(wfpath + "/" + f)
-      shutil.rmtree(wfpath + "/" + f[:-4], ignore_errors=True)
-    wflist = [ f for f in os.listdir(wfpath) if f.endswith("_v1") ]
-    for f in wflist:
-      shutil.rmtree(wfpath + "/" + f, ignore_errors=True)
-
+    # delete sub-directories
+    wflist = [d for d in os.listdir(wfpath) if os.path.isdir(os.path.join(wfpath, d))]
+    for d in wflist:
+      print("deleting..." + d)
+      shutil.rmtree(wfpath + "/" + d, ignore_errors=True)
 
 main(sys.argv)

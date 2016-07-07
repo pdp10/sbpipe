@@ -70,42 +70,21 @@ def main(model_configuration):
     
   lines=parser.items('top')
 
-
-  # The user name
-  user="user"
-  # The server to connect (e.g. localhost,my-node.abc.ac.uk)
-  server_list="localhost"
-  # The port to connect for the above server (e.g. 65000,24000)
-  port_list="65000"
-  # The secret key to communicate for the above server
-  secret="donald_duck"
   # The project dir
-  project_dir=".."
+  project_dir=""
+  # read the copasi model name 
+  model="mymodel.cps"
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
+  # The parallel mechanism to use (pp | sge | lsf).
+  cluster="pp"
+  # The number of cpus for pp
+  pp_cpus=1
   # The parameter estimation round 
   round=1
   # The number of jobs to be executed
-  nfits=10
-  # The number of cpus to use locally (if ncpus=0, it should run on a cluster).
-  local_cpus=2
-  # read the copasi model name 
-  model="mymodel.cps"
-  # The folder containing the models
-  models_folder="Models"
-  # The folder containing the data
-  data_folder="Data"
-  # The folder containing the working results
-  working_folder="Working_Folder"
-  # The folder containing the temporary computations
-  tmp_folder="tmp"
-  # The remote folder containing the models
-  remote_models_folder="Models"
-  # The remote folder containing the data
-  remote_data_folder="Data"
-  # The remote folder containing the working results
-  remote_working_folder="Working_Folder"
-  # The remote folder containing the temporary computations
-  remote_tmp_folder="tmp"
-  # The percent of best fits to consider (default=100)
+  nfits=25
+  # The percent of best fits to consider
   best_fits_percent=100
 
 
@@ -113,56 +92,46 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "user":
-      user = line[1] 
-    elif line[0] == "server_list":
-      server_list = line[1] 
-    elif line[0] == "port_list": 
-      port_list = line[1] 
-    elif line[0] == "secret": 
-      secret = line[1]
-    elif line[0] == "project_dir": 
+    if line[0] == "project_dir": 
       project_dir = line[1]
+    elif line[0] == "model":
+      model = line[1]     
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]
+    elif line[0] == "cluster":
+      cluster = line[1]      
     elif line[0] == "round":
       round = line[1]       
     elif line[0] == "nfits":
       nfits = line[1] 
-    elif line[0] == "local_cpus": 
-      local_cpus = line[1]
-    elif line[0] == "model":
-      model = line[1]     
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "data_folder":
-      data_folder = line[1]
-    elif line[0] == "working_folder": 
-      working_folder = line[1] 
-    elif line[0] == "tmp_folder": 
-      tmp_folder = line[1] 
-    elif line[0] == "remote_models_folder": 
-      remote_models_folder = line[1] 
-    elif line[0] == "remote_data_folder":
-      remote_data_folder = line[1]
-    elif line[0] == "remote_working_folder": 
-      remote_working_folder = line[1] 
-    elif line[0] == "remote_tmp_folder": 
-      remote_tmp_folder = line[1]
+    elif line[0] == "pp_cpus": 
+      pp_cpus = line[1]
     elif line[0] == "best_fits_percent": 
       best_fits_percent = line[1]
       
 
   nfits = int(nfits)
-  local_cpus = int(local_cpus)
 
+  # INTERNAL VARIABLES
+  # The folder containing the models
+  models_folder="Models"
+  # The folder containing the data
+  data_folder="Data"
+  # The folder containing the working results
+  working_folder="Working_Folder"
+  # The dataset working folder
+  dataset_working_folder="param_estim_data"  
+  
   models_dir=project_dir+"/"+models_folder+"/"
   working_dir=project_dir+"/"+working_folder+"/"
   data_dir=project_dir+"/"+data_folder+"/"
-  tmp_dir=project_dir+"/"+tmp_folder+"/"
+  tmp_dir=copasi_reports_path+"/"
 
   output_folder=model[:-4]+"_round"+round
   plots_folder="plots"
   results_dir=working_dir+"/"+output_folder
   plots_dir=results_dir+"/"+plots_folder
+  data_summary_file="parameter_estimation_collected_results.csv"
 
 
 
@@ -187,11 +156,11 @@ def main(model_configuration):
   print("Preparing folders:")
   print("#################")
   print("\n")
-  shutil.rmtree(output_folder, ignore_errors=True)
+  shutil.rmtree(output_folder, ignore_errors=True)   
   if not os.path.exists(models_dir):
     os.mkdir(models_dir)
   if not os.path.exists(data_dir):
-    os.mkdir(data_dir)    
+    os.mkdir(data_dir)
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
   if not os.path.exists(plots_dir):
@@ -200,13 +169,15 @@ def main(model_configuration):
     os.makedirs(working_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
+  if not os.path.exists(results_dir+"/"+dataset_working_folder):
+    os.mkdir(results_dir+"/"+dataset_working_folder) 
 
 
 
   print("\n")
-  print("######################")
-  print("Configure jobs locally:")
-  print("######################")
+  print("################")
+  print("Configure Copasi:")
+  print("################")
   param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
 
 
@@ -222,14 +193,35 @@ def main(model_configuration):
     os.rename(models_dir+"/"+data_folder, models_dir+"/"+data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now()))
   shutil.copytree(data_dir, models_dir+"/"+data_folder)
 
-  # Perform this task using python-pp (parallel python dependency). 
-  # If this computation is performed on a cluster, start this on each node of the cluster. 
-  # The list of servers and ports must be updated in the configuration file
-  # (NOTE: It requires the installation of python-pp)
-  #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
 
-  # Perform this task using python-pp (parallel python dependency)
-  param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, model[:-4], nfits, local_cpus)
+  if cluster == "lsf": 
+    pass
+  elif cluster == "sge":
+    pass
+  else: # use pp by default
+    if cluster != "pp":
+      print("Warning - Variable cluster is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+    
+    # Settings for PP
+    # The user name
+    user="sb_pipe"
+    # The server to connect (e.g. localhost,my-node.abc.ac.uk)
+    server_list="localhost"
+    # The port to connect for the above server (e.g. 65000)
+    port_list="65000"
+    # The secret key to communicate for the above server
+    secret="donald_duck"  
+    pp_cpus = int(pp_cpus)    
+
+    # Perform this task using python-pp (parallel python dependency). 
+    # If this computation is performed on a cluster, start this on each node of the cluster. 
+    # The list of servers and ports must be updated in the configuration file
+    # (NOTE: It requires the installation of python-pp)
+    #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
+
+    # Perform this task using python-pp (parallel python dependency)
+    param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, model[:-4], nfits, pp_cpus)
+
 
   # remove the previously copied Data folder
   shutil.rmtree(models_dir+"/"+data_folder, ignore_errors=True) 
@@ -237,7 +229,7 @@ def main(model_configuration):
   # Move the files to the results_dir
   tmpFiles = os.listdir(tmp_dir)
   for file in tmpFiles:
-    shutil.move(tmp_dir+"/"+file, results_dir+"/")
+    shutil.move(tmp_dir+"/"+file, results_dir+"/"+dataset_working_folder+"/")
     
     
 
@@ -248,7 +240,7 @@ def main(model_configuration):
   print("###############")
   print("\n")
   # Collect and summarises the parameter estimation results
-  param_estim__copasi_utils_collect_results.main(results_dir)
+  param_estim__copasi_utils_collect_results.main(results_dir+"/"+dataset_working_folder+"/", results_dir, data_summary_file)
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
@@ -260,7 +252,7 @@ def main(model_configuration):
   print("Plot distributions:")
   print("###################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", results_dir+"/parameter_estimation_collected_results.csv", plots_dir, "fits_", best_fits_percent])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", results_dir+"/"+data_summary_file, plots_dir, best_fits_percent])
   process.wait()
   
 
@@ -294,7 +286,6 @@ def main(model_configuration):
 
   if os.path.isfile(results_dir+"/parameter_estimation_collected_results.csv") and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
       return True
-  else:
-      return False
+  return False
     
     

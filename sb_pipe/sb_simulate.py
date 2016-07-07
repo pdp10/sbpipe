@@ -68,10 +68,10 @@ def main(model_configuration):
   
   # the project directory
   project_dir=""
-  # the model class. This represents a group of models. It can also be the version.
-  model_class=""
   # The Copasi model
   model="mymodel.cps"
+  # The path to Copasi reports
+  copasi_reports_path="tmp"  
   # the number of simulation to be run.
   # For deterministic simulation, 1
   # For stochastic simulations, n >=1
@@ -79,22 +79,6 @@ def main(model_configuration):
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
-  # The data folder containing the dataset
-  data_folder="Data"  
-  # The folder containing the models
-  models_folder="Models"
-  # The folder containing the working results
-  working_folder="Working_Folder"  
-  # The folder containing the temporary computations
-  tmp_folder="tmp"
-  # The dataset working folder (e.g. dataset)
-  dataset_working_folder=""
-  # The dataset timecourses dir (e.g. tc)
-  tc_dir="tc"
-  # The dataset mean timecourses dir (e.g. tc_mean)
-  tc_mean_dir="tc_mean"
-  # The dataset mean timecourses with experimental data dir (e.g. tc_mean_with_exp)
-  tc_mean_with_exp_dir="tc_mean_with_exp_dir"
 
 
   # Initialises the variables
@@ -102,30 +86,15 @@ def main(model_configuration):
     print line
     if line[0] == "project_dir":
       project_dir = line[1] 
-    elif line[0] == "model_class":
-      model_class = line[1] 
     elif line[0] == "model": 
       model = line[1] 
+    elif line[0] == "copasi_reports_path": 
+      copasi_reports_path = line[1]      
     elif line[0] == "simulate__model_simulations_number": 
       simulate__model_simulations_number = line[1]
     elif line[0] == "simulate__xaxis_label":
       simulate__xaxis_label = line[1]     
-    elif line[0] == "models_folder": 
-      models_folder = line[1] 
-    elif line[0] == "data_folder":
-      data_folder = line[1] 
-    elif line[0] == "working_folder": 
-      working_folder = line[1] 
-    elif line[0] == "tmp_folder": 
-      tmp_folder = line[1]       
-    elif line[0] == "dataset_working_folder": 
-      dataset_working_folder = line[1]       
-    elif line[0] == "tc_dir": 
-      tc_dir = line[1]       
-    elif line[0] == "tc_mean_dir": 
-      tc_mean_dir = line[1] 
-    elif line[0] == "tc_mean_with_exp_dir": 
-      tc_mean_with_exp_dir = line[1]
+
 
 
   # Some controls
@@ -134,11 +103,26 @@ def main(model_configuration):
     return False
 
 
+  # INTERNAL VARIABLES
+  # The data folder containing the dataset
+  data_folder="Data"  
+  # The folder containing the models
+  models_folder="Models"
+  # The folder containing the working results
+  working_folder="Working_Folder"
+  # The dataset working folder
+  dataset_working_folder="simul_data"
+  # The dataset timecourses dir
+  tc_dir="tc"
+  # The dataset mean timecourses dir
+  tc_mean_dir="tc_mean"
+  # The dataset mean timecourses with experimental data dir
+  tc_mean_with_exp_dir="tc_mean_w_exp_dir"
 
   models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model_class+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"
   data_dir=project_dir+"/"+data_folder+"/"
-  tmp_dir=project_dir+"/"+tmp_folder
+  tmp_dir=copasi_reports_path+"/"
 
 
 
@@ -238,6 +222,5 @@ def main(model_configuration):
 
   if len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0 and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
        return True
-  else:
-       return False
+  return False
 

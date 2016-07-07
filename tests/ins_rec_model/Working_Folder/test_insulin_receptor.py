@@ -47,13 +47,13 @@ class TestInsulinReceptor(unittest.TestCase):
     """model deterministic simulation"""
     self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "insulin_receptor_det_simul_copasi.conf"]))
 
-  #def test_stoch_simulation(self):    
-    #"""model stochastic simulation"""    
-    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "insulin_receptor_stoch_simul_copasi.conf"])) 
+  def test_stoch_simulation(self):    
+    """model stochastic simulation"""    
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "insulin_receptor_stoch_simul_copasi.conf"])) 
 
-  #def test_param_scan_single_perturb(self):    
-    #"""model single perturbation"""
-    #self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "single_perturb", "insulin_receptor_single_inhibitions_copasi.conf"])) 
+  def test_param_scan_single_perturb(self):    
+    """model single perturbation"""
+    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "single_perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"])) 
 
 
 
