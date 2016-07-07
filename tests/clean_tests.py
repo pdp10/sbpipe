@@ -34,11 +34,7 @@ def main(args):
     paramEstimCopasiFiles = glob.glob(modelspath + "/" + "*_param_estim?*.cps")
     for f in paramEstimCopasiFiles:
       os.remove(f)
-    
-    simpath = join(file, 'simulations')
-    # print simpath
-    shutil.rmtree(simpath, ignore_errors=True) 
-    
+        
     tmppath = join(file, 'tmp')
     # print tmppath
     shutil.rmtree(tmppath, ignore_errors=True)

@@ -63,8 +63,8 @@ def main(model_configuration):
   lines=parser.items('top')
    
    
-  # The project name (e.g. "p3__mtor_foxo_ros")
-  project=""
+  # The project directory
+  project_dir_dir=""
   # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m)
   model=""
   # Sensitivity copasi model file (e.g mtor_mito_ros_model_v27_copasi_sens.cps ...)
@@ -73,16 +73,16 @@ def main(model_configuration):
   sensitivities_dir=""
   # The folder containing the models (e.g. Models)
   models_folder=""
-  # The folder containing the models simulations (e.g. simulations)
-  simulations_folder=""
+  # The working folder containing the results
+  working_folder=""
 
 
 
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "project":
-      project = line[1] 
+    if line[0] == "project_dir":
+      project_dir = line[1] 
     elif line[0] == "model":
       model = line[1] 
     elif line[0] == "sensitivities__copasi_model": 
@@ -91,12 +91,12 @@ def main(model_configuration):
       sensitivities_dir = line[1]
     elif line[0] == "models_folder": 
       models_folder = line[1] 
-    elif line[0] == "simulations_folder": 
-      simulations_folder = line[1] 
+    elif line[0] == "working_folder": 
+      working_folder = line[1] 
 
       
-  models_dir=project+"/"+models_folder+"/"
-  sensitivities_path=project+"/"+simulations_folder+"/"+model+"/"+sensitivities_dir+"/"
+  models_dir=project_dir+"/"+models_folder+"/"
+  sensitivities_path=project_dir+"/"+working_folder+"/"+model+"/"+sensitivities_dir+"/"
 
 
 

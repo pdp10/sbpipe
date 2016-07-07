@@ -72,8 +72,8 @@ def main(model_configuration):
   # (2) model m can be perturbed on n species (in copasi, it is better 1 species per model, since it must be configured in the .cps file)
 
 
-  # read the project name
-  project=""
+  # the project directory
+  project_dir=""
   # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m
   model=""
   # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
@@ -84,8 +84,8 @@ def main(model_configuration):
   param_scan__single_perturb_knock_down_only=""
   # The folder containing the models
   models_folder=""
-  # The folder containing the models simulations
-  simulations_folder=""
+  # The folder containing the results
+  working_folder=""
   # The folder containing the temporary computations
   tmp_folder=""
   # The number of intervals for one simulation
@@ -118,8 +118,8 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "project":
-      project = line[1] 
+    if line[0] == "project_dir":
+      project_dir = line[1] 
     elif line[0] == "model":
       model = line[1]       
     elif line[0] == "param_scan__single_perturb_copasi_models_list": 
@@ -130,8 +130,8 @@ def main(model_configuration):
       param_scan__single_perturb_knock_down_only = line[1] 
     elif line[0] == "models_folder": 
       models_folder = line[1] 
-    elif line[0] == "simulations_folder": 
-      simulations_folder = line[1] 
+    elif line[0] == "working_folder": 
+      working_folder = line[1] 
     elif line[0] == "tmp_folder": 
       tmp_folder = line[1]      
     elif line[0] == "simulate__intervals": 
@@ -184,9 +184,9 @@ def main(model_configuration):
     return  
 
 
-  models_dir=project+"/"+models_folder+"/"
-  results_dir=project+"/"+simulations_folder+"/"+model+"/"
-  tmp_dir=project+"/"+tmp_folder
+  models_dir=project_dir+"/"+models_folder+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model+"/"
+  tmp_dir=project_dir+"/"+tmp_folder
 
 
 

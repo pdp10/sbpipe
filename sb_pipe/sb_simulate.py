@@ -66,11 +66,11 @@ def main(model_configuration):
     
   lines=parser.items('top')
   
-  # read the project name
-  project=""
-  # read the main model name (e.g. mtor_mito_ros_model_v27_pw3.m)
+  # the project directory
+  project_dir=""
+  # name of the project
   model=""
-  # Copasi models list (1 model per species to perturb) (e.g mtor_mito_ros_model_v27_copasi_scan_mTORC1.cps ...)
+  # The Copasi model (e.g mymodel.cps)
   simulate__copasi_model=""
   # the number of simulation to be run.
   # For deterministic simulation, 1
@@ -79,16 +79,16 @@ def main(model_configuration):
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
+  # The data folder containing the dataset
+  data_folder="Data"  
   # The folder containing the models
   models_folder=""
-  # The folder containing the models simulations
-  simulations_folder=""
+  # The folder containing the working results
+  working_folder="Working_Folder"  
   # The folder containing the temporary computations
-  tmp_folder=""
+  tmp_folder="tmp"
   # The dataset simulation dir (e.g. dataset)
   dataset_simulation_dir=""
-  # The dataset short simulation dir (e.g. dataset_short)
-  dataset_short_simulation_dir=""
   # The dataset timecourses dir (e.g. tc)
   tc_dir=""
   # The dataset mean timecourses dir (e.g. tc_mean)
@@ -106,8 +106,8 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
-    if line[0] == "project":
-      project = line[1] 
+    if line[0] == "project_dir":
+      project_dir = line[1] 
     elif line[0] == "model":
       model = line[1] 
     elif line[0] == "simulate__copasi_model": 
@@ -120,8 +120,8 @@ def main(model_configuration):
       models_folder = line[1] 
     elif line[0] == "data_folder":
       data_folder = line[1] 
-    elif line[0] == "simulations_folder": 
-      simulations_folder = line[1] 
+    elif line[0] == "working_folder": 
+      working_folder = line[1] 
     elif line[0] == "tmp_folder": 
       tmp_folder = line[1]       
     elif line[0] == "dataset_simulation_dir": 
@@ -147,10 +147,10 @@ def main(model_configuration):
 
 
 
-  models_dir=project+"/"+models_folder+"/"
-  results_dir=project+"/"+simulations_folder+"/"+model+"/"
-  data_dir=project+"/"+data_folder+"/"
-  tmp_dir=project+"/"+tmp_folder
+  models_dir=project_dir+"/"+models_folder+"/"
+  results_dir=project_dir+"/"+working_folder+"/"+model+"/"
+  data_dir=project_dir+"/"+data_folder+"/"
+  tmp_dir=project_dir+"/"+tmp_folder
 
 
 

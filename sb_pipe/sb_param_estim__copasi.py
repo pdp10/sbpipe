@@ -79,8 +79,8 @@ def main(model_configuration):
   port_list="65000"
   # The secret key to communicate for the above server
   secret="donald_duck"
-  # read the project name
-  project="my_project"
+  # The project dir
+  project_dir=".."
   # The parameter estimation round 
   round=1
   # The number of jobs to be executed
@@ -121,8 +121,8 @@ def main(model_configuration):
       port_list = line[1] 
     elif line[0] == "secret": 
       secret = line[1]
-    elif line[0] == "project": 
-      project = line[1]
+    elif line[0] == "project_dir": 
+      project_dir = line[1]
     elif line[0] == "round":
       round = line[1]       
     elif line[0] == "nfits":
@@ -154,10 +154,10 @@ def main(model_configuration):
   nfits = int(nfits)
   local_cpus = int(local_cpus)
 
-  models_dir=project+"/"+models_folder+"/"
-  working_dir=project+"/"+working_folder+"/"
-  data_dir=project+"/"+data_folder+"/"
-  tmp_dir=project+"/"+tmp_folder+"/"
+  models_dir=project_dir+"/"+models_folder+"/"
+  working_dir=project_dir+"/"+working_folder+"/"
+  data_dir=project_dir+"/"+data_folder+"/"
+  tmp_dir=project_dir+"/"+tmp_folder+"/"
 
   output_folder=param_estim__copasi_model[:-4]+"_round"+round
   plots_dir=tmp_dir+"/fits_analysis"
@@ -187,7 +187,7 @@ def main(model_configuration):
   print("\n")
   shutil.rmtree(output_folder, ignore_errors=True)
   if not os.path.exists(models_dir):
-    os.mkdir(model_dir)
+    os.mkdir(models_dir)
   if not os.path.exists(data_dir):
     os.mkdir(data_dir)    
   if not os.path.exists(tmp_dir):
