@@ -158,11 +158,12 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 		df$variable <- as.character(m-1) # These need to be indices starting from 0
 		#print(df$variable)
 		g <- g + geom_line(data=df, 
-				   aes(x=time, y=value, color=variable),#, linetype=variable), 
+				   aes(x=time, y=value, color=variable, linetype=variable), 
 				   size=1.0)   
 	    }
 	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
-	    scale_colour_manual("", values=colors, labels=rep("", length(colors))) # + scale_linetype_manual(values=linetype)
+	    scale_colour_manual("", values=colors) + 
+	    scale_linetype_manual("", values=linetype)
       	    ggsave(paste(outputdir, model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" ), 
 		   dpi=300,  width=8, height=6, bg = "transparent")	   
    
