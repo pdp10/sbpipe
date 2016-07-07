@@ -22,18 +22,15 @@
 
 
 
-# plotCI
-library(gplots)
-# skewness, kurtosis
-#library(GLDEX)
 # create a multidimensional matrix from matrices
 library(abind)
+library(ggplot2)
+
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source( paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.r", sep="") )
 source( paste(SB_PIPE, "/sb_pipe/utils/R/matrices.r", sep="") )
-
+source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
 
 
 
@@ -46,13 +43,9 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, species,
     #y <- timepoint.values - timepoint.mean
     timepoint$skew <- mean(timepoint.values^3, na.rm = TRUE)/mean(timepoint.values^2, na.rm = TRUE)^1.5
     timepoint$kurt <- mean(timepoint.values^4, na.rm = TRUE)/mean(timepoint.values^2, na.rm = TRUE)^2 -3
-    # use of GLDEX
-    #timepoint$skew <- skewness(timepoint.values, na.rm = TRUE, method = "fisher")
-    #timepoint$kurt <- kurtosis(timepoint.values, na.rm = TRUE, method = "fisher")
-    timepoint$sderr <- timepoint$sd/sqrt(nfiles) 
     # 0.95 confidence level 
-    timepoint$ci95 <- qt(0.975, df=nfiles-1)*timepoint$sd/sqrt(nfiles)  # quantile t-distribution (few sample, stddev unknown exactly)
-    #timepoint$ci95 <- qnorm(0.975)*timepoint$sd/sqrt(nfiles) # quantile normal distribution (lot of samples)
+    #timepoint$ci95 <- qt(0.975, df=nfiles-1)*timepoint$sd/sqrt(nfiles)  # quantile t-distribution (few sample, stddev unknown exactly)
+    timepoint$ci95 <- qnorm(0.975)*timepoint$sd/sqrt(nfiles) # quantile normal distribution (lot of samples)
     timepoint$coeffvar <- timepoint$sd / timepoint$mean
     timepoint$min <- min(timepoint.values, na.rm = TRUE)
     timepoint$stquantile <- quantile(timepoint.values, na.rm = TRUE)[2]  # Q1
@@ -67,7 +60,6 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, species,
     species$skew <- c ( species$skew, timepoint$skew )
     species$kurt <- c ( species$kurt, timepoint$kurt )
     species$ci95 <- c ( species$ci95, timepoint$ci95 )
-    species$sderr <- c ( species$sderr, timepoint$sderr )
     species$coeffvar <- c ( species$coeffvar, timepoint$coeffvar )
     species$min <- c ( species$min, timepoint$min )
     species$stquantile <- c ( species$stquantile, timepoint$stquantile )
@@ -112,131 +104,66 @@ get_statistics_table <- function(statistics, species, s=2) {
     statistics[,s+3] <- species$skew
     statistics[,s+4] <- species$kurt
     statistics[,s+5] <- species$ci95
-    statistics[,s+6] <- species$sderr
-    statistics[,s+7] <- species$coeffvar
-    statistics[,s+8] <- species$min
-    statistics[,s+9] <- species$stquantile
-    statistics[,s+10] <- species$median
-    statistics[,s+11] <- species$rdquantile
-    statistics[,s+12] <- species$max
+    statistics[,s+6] <- species$coeffvar
+    statistics[,s+7] <- species$min
+    statistics[,s+8] <- species$stquantile
+    statistics[,s+9] <- species$median
+    statistics[,s+10] <- species$rdquantile
+    statistics[,s+11] <- species$max
     return (statistics)
 }
 
 
-plot_error_bars <- function(outputdir, files, version, name, species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, bar_type="sem") {
+plot_error_bars <- function(outputdir, version, name, species, timepoints, simulate__xaxis_label, bar_type="sd") {
     filename = ""
-    uiw_bars = c()
-    ylimit = c()
-    legend_title = ""
+
     if(bar_type == "none") {
       # standard error configuration
       filename = paste(outputdir, version, "_none_", name, ".png", sep="" )
-      ylimit = c(0,max(species$mean)+max((species$mean)/4))
-      legend_title = paste("Mean \u{00B1} SEM (", length(files), " Samples)", sep="" )
-    } else if(bar_type == "sem") {
-      # standard error configuration
-      filename = paste(outputdir, version, "_sem_", name, ".png", sep="" )
-      uiw_bars = species$sderr
-      ylimit = c(0,max(species$mean + species$sderr)+max((species$mean + species$sderr)/4))
-      legend_title = paste("Mean \u{00B1} SEM (", length(files), " Samples)", sep="" )
-    } else if(bar_type == "sd") {
-      # standard deviation configuration
-      filename = paste(outputdir, version, "_sd_", name, ".png", sep="" )
-      uiw_bars = species$sd
-      ylimit = c(0,max(species$mean + species$sd)+max((species$mean + species$sd)/3))
-      legend_title = paste("Mean \u{00B1} SD (", length(files), " Samples)", sep="" )
-    } else if(bar_type == "sd_n_ci95") {
-      # standard deviation configuration
-      filename = paste(outputdir, version, "_sd_n_ci95_", name, ".png", sep="" )
-      uiw_bars = species$sd
-      ylimit = c(0,max(species$mean + species$sd)+max((species$mean + species$sd)/3))
-      legend_title = paste("Mean \u{00B1} SD (", length(files), " Samples)", sep="" )
-    } else if(bar_type == "ci95") { 
-      # confidence intervals 95% configuration
-      filename = paste(outputdir, version, "_ci95_", name, ".png", sep="" )
-      uiw_bars = species$ci95
-      ylimit = c(0,max(species$mean + species$ci95)+max((species$mean + species$ci95)/4))
-      legend_title = paste("Mean \u{00B1} t-distrib CI 95% (", length(files), " Samples)", sep="")
-    }
-    
-    
-    png (filename, height=1000, width=1400, bg="transparent")
-    # increase the margin on the right of the plot
-    par(mar=c(20,20,12,0))
-    plotCI(x=species$mean,
-           uiw=uiw_bars,
-           col="black", barcol=colours()[288],
-           type="l", #line
-	    pch=NA, # no circle for the mean point
-           xlim=c(1,time_length), 
-           ylim=ylimit,
-           labels=FALSE,
-	   #xlab="Time (min)", ylab="Relative Phosphorylation Activity", 
-	   xlab="", ylab="", 
-	   main="",
-	   las=1,
-	   lwd.ticks=12,
-	   cex.main=5.6, cex.lab=5.6, cex.axis=5.6, font.axis=2,bty="n",
-	   cex=5.6,lwd=linewidth,
-           xaxt='n', gap=0.0)
+      # Let's plot this special case now as it does not require error bars
+      df <- data.frame(a=timepoints, b=species$mean)      
+      g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
+      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
+      ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")      
 
-    if(bar_type == "sd_n_ci95") { # add ci95
-    	plotCI(x=species$mean,
-           uiw=species$ci95,
-           col="black", barcol=colours()[278],
-           type="l", #line
-	    pch=NA, # no circle for the mean point
-           xlim=c(1,time_length),
-           ylim=ylimit,
-           labels=FALSE,
-	   #xlab="Time (min)", ylab="Relative Phosphorylation Activity", 
-	   xlab="", ylab="", 
-	   main="",
-	   las=1,
-	   lwd.ticks=12,
-	   cex.main=5.6, cex.lab=5.6, cex.axis=5.6, font.axis=2,bty="n",
-	   cex=5.6,lwd=linewidth,
-           xaxt='n', gap=0.0, add=TRUE)
-    }
- 
-    # SPAN: 0.25 (line is the mean), 0.90 (line approximates the mean)
-    #species.mean.loess <- loess(species$mean ~ timepoints, span=0.90, data.frame(x=timepoints, y=species$mean))
-    #species.mean.predict <- predict(species.mean.loess, data.frame(x=timepoints))
-    #lines(spline(species.mean.predict, method="natural", n = 10*length(species$mean)), lwd=linewidth)
-    #lines(spline(species$mean, method="natural", n = 10*length(species$mean)),lwd=linewidth)
-    #lines(spline(species$mean+species$sderr, method="natural", n = 10*length(species$mean)))
-    #lines(spline(species$mean-species$sderr, method="natural", n = 10*length(species$mean)))
+    } else { 
 
-    lines(species$mean,lwd=linewidth)
+      df <- data.frame(a=timepoints, b=species$mean, c=species$sd, d=species$ci95)
+      #print(df)
+      g <- ggplot(df, aes(x=a, y=b))
 
-    
-    ## set x axis
-    # Set up x axis with tick marks alone
-    tp <- seq(from=simulate__start, to=timepoints[length(timepoints)], by=(simulate__end-simulate__start)/10)
-    
-    ## Plot the axes
-    # if timepoints has "by=0.1", then set 50*0...otherwise set 10*0.....
-    axis(side=1, labels=FALSE, at=(length(timepoints)/10)*0:length(timepoints), cex.axis=5.6, font.axis=2,lwd.ticks=12)
-    # Plot x axis labels at default tick marks
-    #text(side=1, 10*0:length(timepoints), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=timepoints, cex=4.0, font=2, xpd=TRUE)
-    #text(side=1, 10*0:length(tp), par("usr")[3]-0.0, srt=45, adj=c(1.2,1.2), labels=tp, cex=4.0, font=2, xpd=TRUE)
-    text(side=1, (length(timepoints)/10)*0:length(tp), par("usr")[3]-0.0, srt=0, adj=c(0.5,1.4), labels=tp, cex=5.6, font=2, xpd=TRUE)
-    # Plot x axis label at line 6 (of 7)
-    mtext(side=1, text=simulate__xaxis_label, line=8, cex=5.6, font=2, adj=0.5, padj=0.5) 
-    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2)
-    #legend("topright", legend_title,cex=4.5, lty=1,lwd=linewidth, bty="n")   # col=c("blue","red","green")
-    box(bty="l", lwd=14, lty=1)
-    dev.off()  
+      # plot the error bars
+      g <- g + geom_errorbar(aes(ymin=b-c, ymax=b+c), colour="blue",  size=1.0, width=0.1)    
+        
+      if(bar_type == "sd") {
+	# standard deviation configuration
+	filename = paste(outputdir, version, "_sd_", name, ".png", sep="" )
+      } else {
+	# standard deviation + confidence interval configuration
+	filename = paste(outputdir, version, "_sd_n_ci95_", name, ".png", sep="" )
+        # plot the C.I.	
+	g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
+      }
+
+      # plot the line
+      g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
+
+      # decorate
+      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep="")) + theme(legend.position = "none")
+      ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")
+   }
 }
 
 
 
 plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__xaxis_label) {
     
+    theme_set(tc_theme(28))  
+
     # Read species
     timecourses <- read.table ( paste ( inputdir, '/', files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
-    
+
     column.names <- c ("Time")
     
     simulate__start <- timecourses$Time[1]
@@ -244,7 +171,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     timepoints <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/(length(timecourses$Time)-1))
       
     time_length <- length(timepoints)
-
+  
 
     # statistical table (to export)
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
@@ -265,9 +192,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 	dataset <- load_files_columns_in_matrix(inputdir, files, cols)
 	#print(dataset)
 	# structures
-	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,"sderr"=0,
+	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
 			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
-	species <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),"sderr"=c(),
+	species <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
 		      "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
 	k <- 1
 	# for each computed timepoint
@@ -297,12 +224,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
   	column.names <- get_column_names_statistics(column.names, column[j])
   	statistics <- get_statistics_table(statistics, species, s)
  	s <- s+13
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "none")   	
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sem")   
-  	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd") 
- 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "ci95") 
- 	plot_error_bars(outputdir, files, version, column[j], species, time_length, timepoints, simulate__start, simulate__end, simulate__xaxis_label, linewidth, "sd_n_ci95") 
-	
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "none")
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd")  
+  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)

@@ -25,28 +25,56 @@
 
 # to use string replace
 library(stringr)     
-
+library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.R", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.r", sep=""))
+source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
 
 
 
 
-plot_single_perturbation_data <- function(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, perturbation_in_percent_levels) {
+plot_single_perturbation_data <- function(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, 
+perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=10) {
+    
+    # Set the labels for the plot legend
+    labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))    
+    labels <- round(labels, digits = 0)
+    
+    # Set the color and linetype for the plot
+    colors <- c()
+    linetype <- c()
+    
+    # Add percentages to the labels
+    if(perturbation_in_percent_levels == "true") {
+      labels <- paste(labels, " %", sep="")
+    }
+    # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
+    # The perturbation is therefore done by percent levels and at the beginning.
+    # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
+    if(inhibition_only == "true") {
+      # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
+      colors <- c("dodgerblue", "dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
+      linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
+    } else {
+      # Including knockout (first number is knock out (bright blue), last number 96 is control (overexpression))  (0%,25%,50%,..,100%,125%,150%,..250%)
+      colors <- colors()[c(27,28,29,30,24,99,115,95,98,97,96)]
+      linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
+    }
     
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
     writeLines(paste("Perturbed species: ", species, sep=""))
     #writeLines(results_dir)
     # variables
-    inputdir <- c ( paste(results_dir, "/", dataset_parameter_scan_dir, "/", sep="" ) )
-    outputdir <- c ( paste(results_dir, "/", tc_parameter_scan_dir, "/", sep="" ) )
+    inputdir <- c(paste(results_dir, "/", dataset_parameter_scan_dir, "/", sep="" ))
+    outputdir <- c(paste(results_dir, "/", tc_parameter_scan_dir, "/", sep="" ))
     #writeLines(inputdir)
     #writeLines(outputdir)
     
 
+    theme_set(tc_theme(28))    
     
     for(k_sim in 1:param_scan__single_perturb_simulations_number) {    
     
@@ -60,9 +88,7 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  
 	  
 	  # the array files MUST be sorted. Required to convert the string into numeric.
-	  # this is important because the legend must present species's knockdown in order.
-	  # It is also important that the order is decreasing because of the size of the plot,
-	  # otherwise some curve could be outside the box of the graph.
+	  # this is important because the legend must represent species's knockdown in order.
 	  for(i in 1:length(files)) {
 	      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
 	      levels <- c(levels, as.numeric(str_replace( strsplit( files[i], "_")[[1]][num_of_underscores + 1], ".csv", "")))
@@ -75,19 +101,11 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	    levels.index <- c(levels.index, min)
 	    levels.temp[min] <- newmax
 	  }
-	  #writeLines(levels)
-	  # sort by decreasing order
-	  #writeLines(files)
-	  #writeLines(levels)
-	  #writeLines(levels.index)
 	  levels <- sort(levels)
 
-						  # Read species
-	  timecourses <- read.table ( paste ( inputdir, files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-	  column <- names ( timecourses )
-
-	  #writeLines(levels)
-	  #writeLines(levels.index)
+	  # Read species
+	  timecourses <- read.table( paste( inputdir, files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+	  column <- names(timecourses)
 
 	  # Load files in memory
 	  dataset <- load_files_in_matrix_wlevels(inputdir, files, levels.index)
@@ -95,133 +113,33 @@ plot_single_perturbation_data <- function(model_noext, species, inhibition_only,
 	  levels <- paste(species, levels, sep=" ")
 	  writeLines(levels)
 
-          
-
-	  colors <- c()
-	  linetype <- c()
 	  
-	  if(perturbation_in_percent_levels == "true") {
-	    # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
-	    # The perturbation is therefore done by percent levels and at the beginning.
-	    # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
-	    if(inhibition_only == "true") {
-	      # THIS PALETTE OF COLOURS can be used for gradual inhibition only (blue [10,100])
-	      # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
-	      # In linetype: 1 is a full line	    
-	      #colors <- colors()[c(128,129,130,131,132,26,27,28,29,30,24)] 
-	      #linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
-	      # Excluding knockout (10%,20%,..,100%)
-	      colors <- colors()[c(129,130,131,132,26,27,28,29,30,24)]
-	      linetype <- c(1,4,3,2,1,6,4,3,2,1)
-	    } else {
-	      # THIS PALETTE OF COLOURS can be used for gradual inhibition and overexpression (blue [10,250])	  
-	      # Including knockout (first number is knock out (bright blue), last number 96 is control (overexpression))  (0%,25%,50%,..,100%,125%,150%,..250%)
-	      # In linetype: 1 is a full line	    
-	      #colors <- colors()[c(27,28,29,30,24,99,115,95,98,97,96)]
-	      #linetype <- c(5,4,3,2,1,6,5,4,3,2,6)
-	      # Excluding knockout (25%,50%,..,100%,125%,150%,..,250%)	    
-	      colors <- colors()[c(28,29,30,24,99,115,95,98,97,96)]
-	      linetype <- c(4,3,2,1,6,5,4,3,2,6)
+	  # let's plot now! :)
+	  # NOTE: a legend is not added. To create one, the color (and linetype) must be inside aes. 
+	  # For each line they need to receive 
+	  library(reshape2)
+	  df <- data.frame(time=dataset[,1,1], b=dataset[,1,1])  
+	  # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+	  df <- melt(df, id=c("time"))
+	  
+	  for(j in 2:length(column)) {
+   	    g <- ggplot()
+	    for(m in 1:length(files)) {
+		df$value <- dataset[,j,m]
+		df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
+		#print(df$variable)
+		g <- g + geom_line(data=df, 
+				   aes(x=time, y=value, color=variable, linetype=variable), 
+				   size=1.0)   
 	    }
-	  } else {
-	    # The model is perturbed using a virtual species (A_inhibitor) inhibiting its corresponding real species (A). 
-	    # In this case, the perturbation is on the inhibitor or expressor, and NOT on the species. In this case, the perturbation is done all over the time course.
-	    # NOTE 1: A_inhibitor=0  ==> A is not perturbed (so 100%)	    
-	    # NOTE 2: This case requires a preliminary approximation of the percentage of inhibited/expressed protein, and assume that this percentage is linear to the inhibitor/expressor.
-	    # NOTE 3: In this case, inhibition and overexpression are two separate perturbation. Although semantically incorrect, the second branch of the if-then-else clausole represents overexpression only.
-	    if(inhibition_only == "true") {
-	      # THIS PALETTE OF COLOURS can be used for gradual inhibition only (blue [10,100])
-	      # First number is 24 is control (black), last number (bright blue))  (100%,90%,80%,..,10%)
-	      # In linetype: 1 is a full line	    
-	      colors <- colors()[c(24,30,29,28,27,26,132,131,130,129)]
-	      linetype <- c(1,2,3,4,6,1,2,3,4,1)
-	    } else {
-	      # THIS PALETTE OF COLOURS can be used for gradual overexpression (magenta [100,250])	  
-	      # First number is control (black), last number 96 is overexpression (magenta) (100%,115%,130%,..250%)
-	      # In linetype: 1 is a full line
-	      colors <- colors()[c(24,99,115,95,98,97,96,464,463,510)]
-	      linetype <- c(1,2,3,4,1,2,3,4,6,1)
-	    }
-	  }
-	  
-	  
-	  # points to retrieve
-	  # configuration of the x axis
-	  simulate__start <- min(dataset[,1,1])
-	  simulate__end <- max(dataset[,1,1])
-	  time_axis <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/10)
-          xoffset <- c(simulate__start,simulate__end)
-	  
-	  linewidth <- 12
-	  plotchar <- seq(1,length(files),1)
-	  plottype <- "l" # "b"
-
-	  if(plottype == "l") {
-	      plotchar <- c()
-	  }
-
-	  for ( j in 2:length ( column ) ) {
-	    # continuous time 
-
-	    name <- column[j]
-
-	    png ( paste ( outputdir, model_noext, "__eval_", name, "__sim_", k_sim, ".png", sep="" ), height=1000, width=1400, bg="transparent")
-	    
-	    # increase the margin on the right of the plot
-	    par(mar=c(20,20,12,5))
-
-	    # Plot the maximum curve as first
-	    if(max(dataset[,j,1]) >= max(dataset[,j,length(files)])) {
-		plot(x=c(dataset[,1,1]), y=c(dataset[,j,1]),
-		      type=plottype,
-		      xlab="", ylab="", 
-		      ylim=c(0,max(dataset[,j,1])+max(dataset[,j,1])/4 ),
-		      xlim=xoffset, 
-		      main="",
-		      las=1,
-		      lwd.ticks=12,
-		      bty="n", xaxt='n', 
-		      lwd=linewidth,
-		      lty=linetype[1], 
-		      col=colors[1], pch=plotchar[1],
-		      cex.main=5.6, cex.lab=5.6, cex.axis=5.6,cex=5.6, font.axis=2 )
-	    } else {
-		plot(x=c(dataset[,1,1]), y=c(dataset[,j,length(files)]),
-		      type=plottype,
-		      xlab="", ylab="", 
-		      ylim=c(0,max(dataset[,j,length(files)])+max(dataset[,j,length(files)])/4 ),
-		      xlim=xoffset, 
-		      main="",
-		      las=1,
-		      lwd.ticks=12,
-		      lwd=linewidth,
-		      bty="n",xaxt='n', 
-		      lty=linetype[length(files)], 
-		      col=colors[length(files)], pch=plotchar[length(files)],
-		      cex.main=5.6, cex.lab=5.6, cex.axis=5.6,cex=5.6, font.axis=2)
-	    }
-
-	    for ( m in (length(files)):1 ) {
-		lines( x=dataset[,1,1], y=dataset[,j,m], type=plottype, lty=linetype[m], col=colors[m], pch=plotchar[m], lwd=linewidth ) 
-	    }    
+	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
+	    scale_colour_manual("Levels", values=colors, labels=labels) + 
+	    scale_linetype_manual("Levels", values=linetype, labels=labels)
+      	    ggsave(paste(outputdir, model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" ), 
+		   dpi=300,  width=8, height=6, bg = "transparent")
    
-	    
-	    ## Plot the axes
-	    # Set up axis with tick marks alone
-	    axis(side=1, labels=FALSE, at=time_axis, cex.axis=5.6, font.axis=2, lwd.ticks=12)    	    
-	    # Plot x axis labels at default tick marks
-	    text(side=1, time_axis, par("usr")[3]-0.0, srt=0, adj=c(0.5,1.5), labels=time_axis, cex=5.6, font=2, xpd=TRUE)  	    
-	    # Plot x axis label at line 6 (of 7)
-	    mtext(side=1, text=simulate__xaxis_label, line=12, cex=5.6, font=2) 
-	    mtext(side=2, text=paste(name, " level [a.u.]", sep=""), line=12, cex=5.6, font=2) 
-
-	    # legend removed and added manually 
-	    #legend(x="topright", legend=rev(levels), cex=3.6, lty=rev(linetype), col=rev(colors), pch=rev(plotchar), lwd=linewidth)   # pch=11:10+length(files), col=c("blue","red","green","orange")
-	    box(bty="l", lwd=14, lty=1)      
-	    dev.off ( )       # empty the device
-
 	  }
-  
+	  
   }
   
 }
