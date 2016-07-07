@@ -20,7 +20,7 @@ perturbation, sensitivity analysis and parameter estimation.
 
 ### Requirements
 - Python (+dependencies: scipy, numpy, pp)
-- R (plots + statistics) (+dependencies: gplot, abind, colorspace, 
+- R (plots + statistics) (+dependencies: ggplot2, gplot, abind, colorspace, 
 stringr)
 - LaTeX (for report generation) (+dependencies: texlive and recommended 
 fonts)
