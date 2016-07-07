@@ -95,12 +95,6 @@ def main(model_configuration):
   tc_mean_dir="tc_mean"
   # The dataset mean timecourses with experimental data dir (e.g. tc_mean_with_exp)
   tc_mean_with_exp_dir="tc_mean_with_exp_dir"
-  # The prefix name of the report of the simulation (e.g. report_simulation__)
-  simulate__prefix_results_filename=""
-  # The prefix name of the statistics report of the simulation (e.g. stats_simulation__)
-  simulate__prefix_stats_filename=""
-  # The prefix name of the statistics report of the simulation (e.g. stats_experiments__)
-  simulate__prefix_exp_stats_filename=""
 
 
   # Initialises the variables
@@ -131,13 +125,7 @@ def main(model_configuration):
     elif line[0] == "tc_mean_dir": 
       tc_mean_dir = line[1] 
     elif line[0] == "tc_mean_with_exp_dir": 
-      tc_mean_with_exp_dir = line[1]   
-    elif line[0] == "simulate__prefix_results_filename": 
-      simulate__prefix_results_filename = line[1] 
-    elif line[0] == "simulate__prefix_stats_filename": 
-      simulate__prefix_stats_filename = line[1]       
-    elif line[0] == "simulate__prefix_exp_stats_filename": 
-      simulate__prefix_exp_stats_filename = line[1] 
+      tc_mean_with_exp_dir = line[1]
 
 
   # Some controls
@@ -188,10 +176,7 @@ def main(model_configuration):
   filesToDelete = glob.glob(results_dir+"/"+tc_mean_with_exp_dir+"/"+model[:-4]+"*")    
   for f in filesToDelete:
     os.remove(f)    
-  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_results_filename+model[:-4]+"*")
-  for f in filesToDelete:
-    os.remove(f)    
-  filesToDelete = glob.glob(results_dir+"/"+simulate__prefix_stats_filename+model[:-4]+"*")
+  filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
   for f in filesToDelete:
     os.remove(f)    
 
@@ -224,7 +209,7 @@ def main(model_configuration):
   print("Generating statistics from simulations:")
   print("######################################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", model[:-4], results_dir+"/"+dataset_working_folder+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+model[:-4]+".csv", simulate__xaxis_label])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", model[:-4], results_dir+"/"+dataset_working_folder+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv", simulate__xaxis_label])
   process.wait() 
 
 
@@ -233,7 +218,7 @@ def main(model_configuration):
   print("Generating overlapping plots (sim + exp) (SKIP):")
   print("########################################")
   print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/"+simulate__prefix_stats_filename+model[:-4]+".csv",  results_dir+"/"+simulate__prefix_exp_stats_filename+model[:-4]+".csv"])
+  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv",  results_dir+"/exp_stats_"+model[:-4]+".csv"])
   #process.wait() 
 
 
@@ -242,7 +227,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  simulate__gen_report.main(model[:-4], results_dir+"/", tc_mean_dir, simulate__prefix_results_filename)
+  simulate__gen_report.main(model[:-4], results_dir+"/", tc_mean_dir)
 
 
   # Print the pipeline elapsed time
@@ -251,7 +236,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if os.path.isfile(results_dir+"/"+simulate__prefix_results_filename+model[:-4]+".pdf") and len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0:
+  if len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0 and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
        return True
   else:
        return False

@@ -19,12 +19,10 @@
 #
 # Object: Autogeneration of latex code containing images
 #
-#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 22:58:32 $
-# $Id: latex_report.py,v 1.0 2016-06-23 22:58:32 Piero Dalle Pezze Exp $
-
+# $Date: 2016-06-23 12:38:32 $
+# $Id: simulate__gen_report.py,v 1.0 2016-06-23 12:45:32 Piero Dalle Pezze Exp $
 
 
 
@@ -34,23 +32,20 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
-from single_model_latex_reports import latex_report_par_scan
+from single_model_latex_reports import latex_report
 
 
 # INITIALIZATION
 # model_noext: read the model_noext
-# species: Read the species
-# results_dir: Read the results dir
-# plots_dir: The directory containing the plots of the single perturbation scan
-# legend_noext: The name of the legend
-def main(model_noext, species, results_dir, plots_dir, legend_noext):
+# results_dir: read the results_dir  
+# plots_dir: the directory containing the time courses results combined with experimental data  
+def main(model_noext, results_dir, plots_dir):
     
-  print("Generating a LaTeX report\n")
+  print("Generating LaTeX report\n")
   print(model_noext)
-  filename_prefix="report__single_param_scan_"
-  latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
-			model_noext, species, legend_noext)
-
+  filename_prefix="report__param_estim_"
+  latex_report(results_dir, plots_dir, model_noext, filename_prefix)
+  
   
   print("Generating PDF report\n")  
   currdir=os.getcwd()
@@ -70,4 +65,3 @@ def main(model_noext, species, results_dir, plots_dir, legend_noext):
   
   os.chdir(currdir)
   print("DONE\n")
-

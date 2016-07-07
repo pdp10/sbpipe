@@ -46,7 +46,7 @@ import param_estim__copasi_parallel
 import param_estim__copasi_utils_randomise_start_values
 import param_estim__copasi_utils_collect_results
 import param_estim__copasi_utils_plot_calibration
-
+import param_estim__gen_report
 
 
 """
@@ -160,7 +160,9 @@ def main(model_configuration):
   tmp_dir=project_dir+"/"+tmp_folder+"/"
 
   output_folder=model[:-4]+"_round"+round
-  plots_dir=tmp_dir+"/fits_analysis"
+  plots_folder="plots"
+  results_dir=working_dir+"/"+output_folder
+  plots_dir=results_dir+"/"+plots_folder
 
 
 
@@ -196,8 +198,8 @@ def main(model_configuration):
     os.makedirs(plots_dir)
   if not os.path.exists(working_dir):
     os.makedirs(working_dir)
-  if not os.path.exists(working_dir+"/"+output_folder):
-    os.makedirs(working_dir+"/"+output_folder)
+  if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
 
 
 
@@ -232,6 +234,12 @@ def main(model_configuration):
   # remove the previously copied Data folder
   shutil.rmtree(models_dir+"/"+data_folder, ignore_errors=True) 
 
+  # Move the files to the results_dir
+  tmpFiles = os.listdir(tmp_dir)
+  for file in tmpFiles:
+    shutil.move(tmp_dir+"/"+file, results_dir+"/")
+    
+    
 
 
   print("\n")
@@ -240,12 +248,11 @@ def main(model_configuration):
   print("###############")
   print("\n")
   # Collect and summarises the parameter estimation results
-  param_estim__copasi_utils_collect_results.main(tmp_dir)
+  param_estim__copasi_utils_collect_results.main(results_dir)
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
-  #param_estim__copasi_utils_plot_calibration.main(tmp_dir, tmp_dir)
-
+  #param_estim__copasi_utils_plot_calibration.main(results_dir, results_dir)
 
 
   print("\n")
@@ -253,9 +260,16 @@ def main(model_configuration):
   print("Plot distributions:")
   print("###################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", tmp_dir+"/parameter_estimation_collected_results.csv", plots_dir, "fits_", best_fits_percent])
+  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", results_dir+"/parameter_estimation_collected_results.csv", plots_dir, "fits_", best_fits_percent])
   process.wait()
   
+
+  print("\n")
+  print("##################")
+  print("Generating reports:")
+  print("##################")
+  print("\n")
+  param_estim__gen_report.main(model[:-4], results_dir+"/", plots_folder)
 
 
   print("\n")
@@ -263,9 +277,6 @@ def main(model_configuration):
   print("Store the fits sequences in a tarball:")
   print("#####################################")
   print("\n")
-  tmpFiles = os.listdir(tmp_dir)
-  for file in tmpFiles:
-    shutil.move(tmp_dir+"/"+file, working_dir+"/"+output_folder+"/")
   # Create a gz tarball   
   origWD = os.getcwd() # remember our original working directory
   os.chdir(working_dir) # change folder
@@ -281,7 +292,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(working_dir+"/"+output_folder+"/"+model[:-4]+"*.csv")) > 0 and os.path.isfile(working_dir+"/"+output_folder+"/parameter_estimation_collected_results.csv"):
+  if os.path.isfile(results_dir+"/parameter_estimation_collected_results.csv") and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
       return True
   else:
       return False

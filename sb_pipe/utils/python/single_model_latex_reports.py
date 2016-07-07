@@ -30,11 +30,6 @@ import os
 
 
 
-######################
-### HEADER BUILDING
-######################
-
-
 # Initialize a Latex header with a title and an abstract
 def get_latex_header(pdftitle = "", title = "", abstract=""):
   return "\\documentclass[10pt,a4paper]{article}\n" \
@@ -57,68 +52,73 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 	   "\\tableofcontents\n"
 
 
-
-
-###############################
-### SINGLE MODEL LATEX REPORT
-###############################
-
 # Create a report for a parameter scanning task (1 model)
-def latex_report_par_scan(results_dir, tc_parameter_scan_dir, param_scan__single_perturb_prefix_results_filename, model_noext, species, param_scan__single_perturb_legend):
-  file_out = open(results_dir + "/" + param_scan__single_perturb_prefix_results_filename + model_noext + ".tex", "w")
-  model_ver = model_noext[:].replace("_", " ")
-  species_name = species[0:].replace("_", " ")
-  print("Model: " + model_ver)
-  print("Perturbation of the species: " + species)
-  # writing on file
-  # Get latex header
-  header = get_latex_header("Report: " + model_ver + " (Parameter Scan)", "Report: " + model_ver, "Parameter Scan Task for " + species_name)
-  file_out.write(header)
-  print("List of files in " + results_dir + '/' + tc_parameter_scan_dir  + '/' + ":\n")
-  print("****************** Time Courses *******************")
-  file_out.write("\\section{Simulations - Perturbation of " + species_name + "}\n")
-  folder = os.listdir(results_dir + '/' + tc_parameter_scan_dir + '/')
-  folder.sort()
-  for infile in folder:
-    if infile.find(model_noext) != -1:
-      pos = infile.find(species)
-      marker = infile.find("__eval_")
-      if pos != -1 and pos < marker:
-	print(infile)
-	file_out.write("\\includegraphics[scale=0.20]{" + tc_parameter_scan_dir + "/" + infile + "}\n")
-	file_out.write("\\hfill\n")
-  file_out.write("\\includegraphics[scale=0.20]{" + tc_parameter_scan_dir + "/" + param_scan__single_perturb_legend + ".png}\n")
-  file_out.write("\\hfill\n")
-  file_out.write("\\end{document}\n")
-  file_out.close()
-  print("***************************************************\n")  
+def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, species, legend_noext):
+  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+    model_ver = model_noext[:].replace("_", " ")
+    species_name = species[0:].replace("_", " ")
+    print("Model: " + model_ver)
+    print("Perturbation of the species: " + species)
+    # writing on file
+    # Get latex header
+    header = get_latex_header("Report: " + model_ver, "Report: " + model_ver, "Parameter Scan Task for " + species_name)
+    file_out.write(header)
+    print("List of files in " + results_dir + '/' + plots_dir  + '/' + ":\n")
+    file_out.write("\\section*{Plots - Perturbation of " + species_name + "}\n")
+    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder.sort()
+    for infile in folder:
+      if infile.find(model_noext) != -1:
+	pos = infile.find(species)
+	marker = infile.find("__eval_")
+	if pos != -1 and pos < marker:
+	  print(infile)
+	  file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + infile + "}\n")
+	  file_out.write("\\hfill\n")
+    file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + legend_noext + ".png}\n")
+    file_out.write("\\hfill\n")
+    file_out.write("\\end{document}\n")
 
 
 # Create a report of a time course task (1 model)
-def latex_report(results_dir, tc_mean_dir, model_noext, simulate__prefix_results_filename):
-  file_out = open(results_dir + "/" + simulate__prefix_results_filename + model_noext + ".tex", "w")
-  # Control variable
-  found = False
-  model_ver = model_noext[:].replace("_", " ")
-  print(model_ver)
-  # writing on file
-  # Get latex header
-  header = get_latex_header("Report: " + model_ver + " (Time Courses Task)", "Report: " + model_ver, "Time Courses Task")
-  file_out.write(header)  
-  print("List of files in " + results_dir + '/' + tc_mean_dir + '/' + ":\n")
-  print("****************** Time Courses *******************")
-  file_out.write("\\section{Simulation}\n")
-  folder = os.listdir(results_dir + '/' + tc_mean_dir + '/')
-  folder.sort()  
-  for infile in folder:
-    if infile.find(model_noext) != -1:
-      if (infile.find('_sd_n_ci95_') != -1):
-      #if (infile.find('_sd_') != -1):	
-	print(infile)
-	file_out.write("\\includegraphics[scale=0.20]{" + tc_mean_dir + "/" + infile + "}\n")
-	file_out.write("\\hfill\n")
-  file_out.write("\\end{document}\n")
-  file_out.close()
-  print("***************************************************\n")    
+def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
+  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+    model_ver = model_noext[:].replace("_", " ")
+    print(model_ver)
+    # writing on file
+    # Get latex header
+    header = get_latex_header("Report: " + model_ver, "Report: " + model_ver)
+    file_out.write(header)  
+    print("List of files in " + results_dir + '/' + plots_dir + '/' + ":\n")
+    file_out.write("\\section*{Plots}\n")
+    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder.sort()  
+    for infile in folder:
+      if infile.find(model_noext) != -1:
+	if (infile.find('_sd_n_ci95_') != -1):
+	  print(infile)
+	  file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + infile + "}\n")
+	  file_out.write("\\hfill\n")
+    file_out.write("\\end{document}\n")
 
+
+
+# Create a generic report
+def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
+  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+    model_ver = model_noext[:].replace("_", " ")
+    print(model_ver)
+    # writing on file
+    # Get latex header
+    header = get_latex_header("Report: " + model_ver, "Report: " + model_ver)
+    file_out.write(header)  
+    print("List of files in " + results_dir + '/' + plots_dir + '/' + ":\n")
+    file_out.write("\\section*{Plots}\n")
+    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder.sort()  
+    for infile in folder:
+      print(infile)
+      file_out.write("\\includegraphics[scale=0.20]{" + plots_dir + "/" + infile + "}\n")
+      file_out.write("\\hfill\n")
+    file_out.write("\\end{document}\n")
 

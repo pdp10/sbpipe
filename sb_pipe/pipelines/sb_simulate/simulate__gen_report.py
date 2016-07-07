@@ -32,36 +32,36 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
-from single_model_latex_reports import latex_report
+from single_model_latex_reports import latex_report_simulate
 
 
 # INITIALIZATION
 # model_noext: read the model_noext
 # results_dir: read the results_dir  
-# tc_mean_dir: the directory containing the time courses results combined with experimental data  
-# simulate__prefix_results_filename: The prefix name for the report  
-def main(model_noext, results_dir, tc_mean_dir, simulate__prefix_results_filename):
+# plots_dir: the directory containing the time courses results combined with experimental data  
+def main(model_noext, results_dir, plots_dir):
     
-  print("Generating a LaTeX report containing graphs\n")
+  print("Generating a LaTeX report\n")
   print(model_noext)
-  latex_report(results_dir, tc_mean_dir, model_noext, simulate__prefix_results_filename)
+  filename_prefix="report__simulate_"
+  latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix)
   
   
-  print("Generating PDF file\n")  
+  print("Generating PDF report\n")  
   currdir=os.getcwd()
   os.chdir(results_dir)
-  print("pdflatex -halt-on-error " + simulate__prefix_results_filename + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)
+  print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
   p1.communicate()[0]
-  p1 = Popen(["pdflatex", "-halt-on-error", simulate__prefix_results_filename + model_noext + ".tex"], stdout=PIPE)
+  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
   p1.communicate()[0]
   
   # remove temporary files
-  os.remove(simulate__prefix_results_filename+model_noext+".out")
-  os.remove(simulate__prefix_results_filename+model_noext+".log")
-  os.remove(simulate__prefix_results_filename+model_noext+".idx")
-  os.remove(simulate__prefix_results_filename+model_noext+".toc")
-  os.remove(simulate__prefix_results_filename+model_noext+".aux")
+  os.remove(filename_prefix+model_noext+".out")
+  os.remove(filename_prefix+model_noext+".log")
+  os.remove(filename_prefix+model_noext+".idx")
+  os.remove(filename_prefix+model_noext+".toc")
+  os.remove(filename_prefix+model_noext+".aux")
   
   os.chdir(currdir)
   print("DONE\n")

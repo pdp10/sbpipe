@@ -101,8 +101,6 @@ def main(model_configuration):
   param_scan__single_perturb_min_inhibition_level=0
   # Single perturbation maximum overexpression level
   param_scan__single_perturb_max_overexpression_level=250
-  # The prefix for the results filename (e.g. "report_single_perturb_")
-  param_scan__single_perturb_prefix_results_filename=""
   # The number of single pertubation simulations (e.g. 1 for deterministic simulations, 500 for stochastic simulations)
   param_scan__single_perturb_simulations_number=1
   # The perturbation is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
@@ -146,8 +144,6 @@ def main(model_configuration):
       param_scan__single_perturb_min_inhibition_level = line[1]       
     elif line[0] == "param_scan__single_perturb_max_overexpression_level": 
       param_scan__single_perturb_max_overexpression_level = line[1] 
-    elif line[0] == "param_scan__single_perturb_prefix_results_filename": 
-      param_scan__single_perturb_prefix_results_filename = line[1]       
     elif line[0] == "param_scan__single_perturb_simulations_number": 
       param_scan__single_perturb_simulations_number = line[1] 
     elif line[0] == "param_scan__single_perturb_perturbation_in_percent_levels": 
@@ -230,7 +226,7 @@ def main(model_configuration):
     filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+param_scan__single_perturb_legend+"_"+sp_species+"*")
     for f in filesToDelete:
       os.remove(f)
-    filesToDelete = glob.glob(results_dir+"/"+param_scan__single_perturb_prefix_results_filename+"*"+sp_model[:-4]+"*")
+    filesToDelete = glob.glob(results_dir+"/*"+sp_model[:-4]+"*")
     for f in filesToDelete:
       os.remove(f)    
    
@@ -310,11 +306,10 @@ def main(model_configuration):
     print("Generating reports:")
     print("##################")
     print("\n")
-    param_scan__single_perturb_gen_report.main(sp_model[:-4], sp_species, results_dir+"/", tc_parameter_scan_dir, 
-					       param_scan__single_perturb_prefix_results_filename, param_scan__single_perturb_legend)
+    param_scan__single_perturb_gen_report.main(sp_model[:-4], sp_species, results_dir+"/", tc_parameter_scan_dir, param_scan__single_perturb_legend)
     
 
-    return_val = return_val and len(glob.glob(results_dir+"/"+param_scan__single_perturb_prefix_results_filename+sp_model[:-4]+"*.pdf")) > 0 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+sp_model[:-4]+"*.png")) > 0
+    return_val = return_val and len(glob.glob(results_dir+"/*"+sp_model[:-4]+"*.pdf")) == 1 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+sp_model[:-4]+"*.png")) > 0
 
 
   # Print the pipeline elapsed time
