@@ -194,10 +194,16 @@ def main(model_configuration):
   shutil.copytree(data_dir, models_dir+"/"+data_folder)
 
 
-  if cluster == "lsf": 
-    pass
+  if cluster == "lsf":
+    for i in xrange(1,nfits):
+      # TODO Correct the following line
+      process = subprocess.Popen(["bsub", "-J", "CopasiSE", "-s", model[:-4]+str(i)+".cps", model[:-4]+str(i)+".cps"])
+    # TODO Check here when these jobs are finished before proceeding
   elif cluster == "sge":
-    pass
+    for i in xrange(1,nfits):
+      # TODO Correct the following line      
+      process = subprocess.Popen(["qsub", "CopasiSE", "-s", model[:-4]+str(i)+".cps", model[:-4]+str(i)+".cps"])
+    # TODO Check here when these jobs are finished before proceeding
   else: # use pp by default
     if cluster != "pp":
       print("Warning - Variable cluster is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
