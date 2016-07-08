@@ -194,17 +194,25 @@ def main(model_configuration):
   shutil.copytree(data_dir, models_dir+"/"+data_folder)
 
 
-  if cluster == "lsf":
+  if cluster == "lsf": # use LSF (Platform Load Sharing Facility)
+    jobs = ""    
     for i in xrange(1,nfits):
-      # TODO Correct the following line
-      process = subprocess.Popen(["bsub", "-J", "CopasiSE", "-s", model[:-4]+str(i)+".cps", model[:-4]+str(i)+".cps"])
-    # TODO Check here when these jobs are finished before proceeding
-  elif cluster == "sge":
+      jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
+      process = subprocess.Popen(["bsub", "-J", "CopasiSE_"+model[:-4]+str(i), "-cwd", "CopasiSE", "-s", models_dir+"/"+model[:-4]+str(i)+".cps", models_dir+"/"+model[:-4]+str(i)+".cps"])
+    # Check here when these jobs are finished before proceeding
+    process = subprocess.Popen(["bsub", "-w", '\"' +jobs[:-2] +'\"', "sleep", "1"])
+    process.wait()    
+  
+  elif cluster == "sge":  # use SGE (Sun Grid Engine) 
+    jobs = ""
     for i in xrange(1,nfits):
-      # TODO Correct the following line      
-      process = subprocess.Popen(["qsub", "CopasiSE", "-s", model[:-4]+str(i)+".cps", model[:-4]+str(i)+".cps"])
-    # TODO Check here when these jobs are finished before proceeding
-  else: # use pp by default
+      jobs = "CopasiSE_"+model[:-4]+str(i)+","+jobs
+      process = subprocess.Popen(["qsub", "-N", "CopasiSE_"+model[:-4]+str(i), "-cwd", "CopasiSE", "-s", models_dir+"/"+model[:-4]+str(i)+".cps", models_dir+"/"+model[:-4]+str(i)+".cps"])
+    # Check here when these jobs are finished before proceeding
+    process = subprocess.Popen(["qsub", "-hold_jid", jobs[:-1], "sleep", "1"])
+    process.wait()
+    
+  else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster != "pp":
       print("Warning - Variable cluster is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
     
