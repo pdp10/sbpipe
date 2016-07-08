@@ -67,11 +67,6 @@ where *pipeline* can be one of the following:
 
 ### Package Structure
 
-##### cluster
-The *cluster/* folder contains Bash scripts and configuration files for 
-setting up a cluster of machines using OpenLava as cluster manager. 
-This only represents an utility for users at this stage. 
-
 
 ##### sb_pipe
 The *sb_pipe/* folder contains the following pipelines:
