@@ -204,13 +204,26 @@ def main(model_configuration):
     process.wait()    
   
   elif cluster == "sge":  # use SGE (Sun Grid Engine) 
+    ## BUG : copasiCMD is not found
+    ## BUG : the final `sleep 1`seems not to wait for the final qsub -hold_jid command..
     jobs = ""
-    for i in xrange(1,nfits):
-      jobs = "CopasiSE_"+model[:-4]+str(i)+","+jobs
-      process = subprocess.Popen(["qsub", "-N", "CopasiSE_"+model[:-4]+str(i), "-cwd", "CopasiSE", "-s", models_dir+"/"+model[:-4]+str(i)+".cps", models_dir+"/"+model[:-4]+str(i)+".cps"])
+    for i in xrange(0,nfits):
+      jobs = "j"+str(i)+","+jobs
+      copasiCMD = "/bi/home/dallepep/copasi/bin/CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"
+      echoCMD = ["echo", "-e", "'%s'" % copasiCMD]
+      qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i)] 
+      echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+      qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout)
+      echoProc.wait()
     # Check here when these jobs are finished before proceeding
-    process = subprocess.Popen(["qsub", "-hold_jid", jobs[:-1], "sleep", "1"])
-    process.wait()
+    echoCMD = ["echo", "-e", "'%s'" % "sleep 1"]
+    qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
+    echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+    qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+    echoProc.stdout.close()
+    out = qsubProc.communicate()[0]
+    echoProc.wait()
+
     
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster != "pp":
