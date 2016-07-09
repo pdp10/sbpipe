@@ -24,10 +24,12 @@
 # $Date: 2016-06-27 10:18:32 $
 
 
-
+import os
 import sys
 import getopt
 
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE)
 
 # pipelines
 import sb_create_project
@@ -37,6 +39,35 @@ import sb_param_scan__single_perturb
 import sb_sensitivity
 
 
+
+
+def help():
+  message = "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"\
+	    "Pipelines for systems modelling of biological networks.\n\n"\
+	    "List of mandatory options:\n"\
+	    "\t-h, --help\n\t\tShows this help.\n"\
+	    "\t-c, --create-project\n\t\tCreate a project structure using the argument as name.\n"\
+	    "\t-s, --simulate\n\t\tSimulate a model.\n"\
+	    "\t-p, --single-perturb\n\t\tSimulate a single parameter perturbation.\n"\
+	    "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"\
+	    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"\
+	    "Exit status:\n"\
+	    " 0  if OK,\n"\
+	    " 1  if minor problems (e.g., a pipeline did not execute correctly.\n"\
+	    "Please check the configuration file and Copasi file before reporting),\n"\
+	    " 2  if serious trouble (e.g., cannot access command-line argument).\n\n"\
+	    "Report sb_pipe bugs to sb_pipe@googlegroups.com\n"\
+	    "sb_pipe home page: <https://pdp10.github.io/sb_pipe>\n"\
+	    "For complete documentation, see README.md .\n"
+  return message
+
+
+def readFileHeader(fname):
+  line = ""
+  with open(os.path.join(SB_PIPE, fname)) as file:
+    line = file.readline().strip() + " "+ file.readline().strip()
+  return line
+  
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -60,27 +91,41 @@ def main(argv=None):
       argv = sys.argv
   try:
       try:
-	  opts, args = getopt.getopt(argv[1:], "h", ["help"])
-	  print args[0]
+	  opts, args = getopt.getopt(argv[1:], "hcspenlv", 
+			      ["help", "create-project", "simulate", "single-perturb", "param-estim", "sensitivity", "license", "version"])
 
-	  if args[0] == "create_project":
-	      return sb_create_project.main(args[1])            
-	  
-	  if args[0] == "simulate":
-	      return sb_simulate.main(args[1])
+	  for opt, arg in opts:
+	    
+	    if opt in ("-h", "--help"):
+	      print(help())
+	      return 0
+	    
+	    if opt in ("-l", "--license"):
+	      print(readFileHeader("LICENSE"))
+	      return 0
+	    
+	    if opt in ("-v", "--version"):
+	      print(readFileHeader("VERSION"))
+	      return 0
 	      
-	  if args[0] == "single_perturb":
-	      return sb_param_scan__single_perturb.main(args[1])
+	    elif opt in ("-c", "--create-project"):
+	      return sb_create_project.main(args[0])
+	      
+	    elif opt in ("-s", "--simulate"):
+	      return sb_simulate.main(args[0])
+
+	    elif opt in ("-p", "--single-perturb"):
+	      return sb_param_scan__single_perturb.main(args[0])
 	  
-	  if args[0] == "param_estim":
-	      return sb_param_estim__copasi.main(args[1])
+	    elif opt in ("-e", "--param-estim"):	  
+	      return sb_param_estim__copasi.main(args[0])
 	  
-	  if args[0] == "sensitivity":
-	      return sb_sensitivity.main(args[1])
+	    elif opt in ("-n", "--sensitivity"):	  
+	      return sb_sensitivity.main(args[0])
 	  
       except getopt.error, msg:
 	    raise Usage(msg)
-      # more code, unchanged
+
   except Usage, err:
       print >>sys.stderr, err.msg
       print >>sys.stderr, "for help use --help"

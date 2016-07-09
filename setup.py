@@ -30,32 +30,29 @@
 # $ sudo python setup.py clean --all
 
 
-
-
 from setuptools import setup
-
 import os
 
 
-
-# Utility function to read the README file.
+# Utility function to read a file.
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 setup(
   name = 'sb_pipe',
   packages = ['sb_pipe'],
-  version = '0.0.7',
+  version = read('VERSION'),
   description = 'Pipelines for systems modelling of biological networks',
   author = 'Dr Piero Dalle Pezze',
   requires=['pp','numpy','scipy'],
   package_data={'sb_pipe': ['doc/*.pdf','doc/*.html','*.tgz']},
   author_email = 'piero.dallepezze@babraham.ac.uk',
   url = 'https://github.com/pdp10/sb_pipe',
-  download_url = 'http://pdp10.github.io/sb_pipe/',
+  download_url = 'http://pdp10.github.io/sb_pipe',
   keywords = ['systems biology','mathematical modelling','copasi','pipeline'],
-  include_package_data=False,
-  license='GNU GPL v3',
-  long_description=read('README.md')
+  include_package_data = False,
+  license = 'GNU GPL v3',
+  long_description = read('README.md')
 )
 

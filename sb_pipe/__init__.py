@@ -24,14 +24,6 @@
 
 
 
-def package_name():
-  """The name of the package"""
-  return ('sb_pipe')
-  
-  
-def help():
-  """The help message"""
-  return ('See github.com page for sb_pipe')
-  
+# Add here what needs to be loaded globally at start
 
     

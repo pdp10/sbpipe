@@ -118,7 +118,7 @@ def merge(folder, files, fileout):
 	  best[1] = float(cache[i])
       fileOUT.write("\n")
       iteration = iteration + 1
-  #endwhile
+  #endwhile  
   fileOUT.close()
   return best[0], best[1]
 
@@ -138,9 +138,8 @@ def compute_statistics(folder, filename, fileout):
   print("Compute statistics - function")
   # read a text file as a list of lines
   # find the last line, change to a file you have
-  fileIN = open (folder + filename, "r")
-  line = fileIN.readlines()
-  fileIN.close()
+  with open (folder + filename, "r") as file:
+    line = file.readlines()
   # print "The last line is:" + line[len(line)-1]
   # skip the iteration number column
   line = line[len(line)-1].split()
@@ -175,6 +174,7 @@ def compute_statistics(folder, filename, fileout):
     iteration = iteration + 1
     line = fileIN.readline()
   #endwhile
+  fileIN.close()
   fileOUT.close()
 
 

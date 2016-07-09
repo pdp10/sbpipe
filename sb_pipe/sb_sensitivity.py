@@ -155,7 +155,7 @@ def main(model_configuration):
 
 
   if len(glob.glob(results_dir+"/"+"*.csv")) > 0:
-      return True
-  return False
+      return 0
+  return 1
     
     

@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.0.12
+v0.0.13
 
+- added support for running parameter estimation on SGE or LSF facilities.
 - removed old deprecated code
 - migrated from gplot to ggplot2. This simplified the plots considerably.
 - added unit tests and setup.py.

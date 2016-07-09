@@ -100,7 +100,7 @@ def main(model_configuration):
   # Some controls
   if int(simulate__model_simulations_number) < 1: 
     print("ERROR: variable `simulate__model_simulations_number` must be greater than 0. Please, check your configuration file.");
-    return False
+    return 1
 
 
   # INTERNAL VARIABLES
@@ -221,6 +221,6 @@ def main(model_configuration):
 
 
   if len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0 and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
-       return True
-  return False
+       return 0
+  return 1
 

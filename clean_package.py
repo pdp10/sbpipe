@@ -53,8 +53,8 @@ def main(args):
   process.wait()
   
   ### delete this silly file
-  if os.path.isfile("ins_rec_model/Working_Folder/Rplots.pdf"):
-    os.remove("ins_rec_model/Working_Folder/Rplots.pdf")
+  if os.path.isfile("insulin_receptor/Working_Folder/Rplots.pdf"):
+    os.remove("insulin_receptor/Working_Folder/Rplots.pdf")
 
   os.chdir(origWD) # get back to our original working directory  
 

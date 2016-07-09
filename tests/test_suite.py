@@ -29,13 +29,16 @@ import unittest
 
 SB_PIPE = os.environ["SB_PIPE"]
 # folders containing the configuration files and test file
-insulin_receptor_folder = 'ins_rec_model/Working_Folder/'
+insulin_receptor_folder = 'insulin_receptor/Working_Folder/'
 
 # import paths to the resource folders
 sys.path.append(SB_PIPE + '/tests/' + insulin_receptor_folder)
 
 # import modules
 from test_insulin_receptor import TestInsulinReceptor
+from test_insulin_receptor_lsf import TestInsulinReceptorLSF
+from test_insulin_receptor_sge import TestInsulinReceptorSGE
+
 
 
 """
@@ -61,7 +64,10 @@ def main(args):
   # For each test, we need to change directory.
   origWD = os.getcwd() # remember our original working directory
   os.chdir(os.path.join(os.path.abspath(sys.path[0]), insulin_receptor_folder))
-  suite = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
+  suiteBasic = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
+  suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorLSF)  
+  suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorSGE)  
+  suite = unittest.TestSuite([suiteBasic, suiteLSF, suiteSGE])
   unittest.TextTestRunner(verbosity=2).run(suite)
   os.chdir(origWD) # get back to our original working directory
 
