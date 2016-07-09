@@ -56,12 +56,12 @@ with the command:
 ```
 python run_sb_pipe pipeline configuration_file
 ```
-where *pipeline* can be one of the following: 
-- simulate
-- single_perturb 
-- double_perturb 
-- sensitivity
-- param_estim 
+where *pipeline* can be one of the following option: 
+- --simulate
+- --single-perturb 
+- --double-perturb 
+- --sensitivity
+- --param-estim 
 
 
 

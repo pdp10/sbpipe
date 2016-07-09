@@ -30,12 +30,8 @@
 # $ sudo python setup.py clean --all
 
 
-
-
 from setuptools import setup
-
 import os
-
 
 
 # Utility function to read the README file.

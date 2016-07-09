@@ -247,6 +247,6 @@ def main(model_configuration):
 
 
   if len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*.png")) > 0:
-    return True  
-  return False
+    return 0
+  return 1
      

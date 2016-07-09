@@ -48,7 +48,7 @@ class TestInsulinReceptorSGE(unittest.TestCase):
     """model parameter estimation using SGE if found"""
     try:
 	subprocess.call(["qstat"])
-	self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "sge_insulin_receptor_param_estim_copasi.conf"]))	
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_insulin_receptor_param_estim_copasi.conf"]), 0)	
     except OSError as e:
 	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 

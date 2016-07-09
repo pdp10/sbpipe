@@ -77,4 +77,4 @@ def main(project):
     os.mkdir(project+"/sbtoolbox2/project/models")
         
   print("DONE!\n")
-
+  return 0

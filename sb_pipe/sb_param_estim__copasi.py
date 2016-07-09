@@ -328,7 +328,7 @@ def main(model_configuration):
 
 
   if os.path.isfile(results_dir+"/parameter_estimation_collected_results.csv") and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
-      return True
-  return False
+      return 0
+  return 1
     
     

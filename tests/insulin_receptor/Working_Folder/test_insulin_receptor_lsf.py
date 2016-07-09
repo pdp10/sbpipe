@@ -48,7 +48,7 @@ class TestInsulinReceptorLSF(unittest.TestCase):
     """model parameter estimation using LSF if found"""
     try:
 	subprocess.call(["bjobs"])    
-	self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "lsf_insulin_receptor_param_estim_copasi.conf"]))        
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "lsf_insulin_receptor_param_estim_copasi.conf"]), 0)        
     except OSError as e:
 	print("Skipping test as no LSF (Load Sharing Facility) was found.")
 

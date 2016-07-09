@@ -45,31 +45,31 @@ class TestInsulinReceptor(unittest.TestCase):
   
   def test_det_simulation(self):
     """model deterministic simulation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "insulin_receptor_det_simul_copasi.conf"]))
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_det_simul_copasi.conf"]), 0)
 
   def test_stoch_simulation(self):    
     """model stochastic simulation"""    
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "simulate", "insulin_receptor_stoch_simul_copasi.conf"])) 
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_stoch_simul_copasi.conf"]), 0) 
 
 
 
   def test_param_scan_single_perturb_inhib(self):    
     """model single perturbation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "single_perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"])) 
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"]), 0) 
 
   def test_param_scan_single_perturb_inhib_overexp(self):    
     """model single perturbation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "single_perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"])) 
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"]), 0) 
 
 
 
   def test_param_estim_copasi(self):        
     """model parameter estimation"""
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "insulin_receptor_param_estim_copasi.conf"]))    
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_param_estim_copasi.conf"]), 0)    
     
   def test_non_identif_param_estim_copasi(self):        
     """model parameter estimation with identifiability issues """
-    self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "param_estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]))    
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]), 0)    
 
 
   # TODO TO TEST
@@ -79,7 +79,7 @@ class TestInsulinReceptor(unittest.TestCase):
 
   #def test_model_sensitivity(self):
   #  """model sensitivities"""
-  #  self.assertTrue(run_sb_pipe.main(["run_sb_pipe", "sensitivity", "insulin_receptor_sensitivities_copasi.conf"]))
+  #  self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--sensitivity", "insulin_receptor_sensitivities_copasi.conf"]), 0)
 
 
 
