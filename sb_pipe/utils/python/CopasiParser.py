@@ -33,32 +33,38 @@ class CopasiParser:
     pass
    
   # Task: PARAMETER ESTIMATION. Parse a Copasi file and retrieve informations about the parameters to estimate
-  def retrieve_param_estim_values(self, file_in, report_filename_template = "", lower_bounds = [], param_names  = [], start_values = [], upper_bounds = []):
+  def retrieve_param_estim_values(self, file_in):
+    report_filename_template = ""
+    lower_bounds = []
+    param_names = []
+    start_values = []
+    upper_bounds = []
     print("\nParsing the xml document")
-    dom = parse(file_in)
-    # select the task tag (note: root->ListOfTaks->Tasks)
-    tasks = dom.getElementsByTagName('ListOfTasks')[0].getElementsByTagName('Task')
-    # iterates tasks list
-    for task in tasks:
-      task_name = task.getAttribute('name')
-      # select Parameter Estimation task
-      if task_name == "Parameter Estimation":
-	print("\nRetrieving information for the task: " + task_name)
-	# retrieve report name for this task
-	report_filename_template = task.getElementsByTagName('Report')[0].getAttribute('target')
-	# retrieve parameter values
-	optim_item_list = task.getElementsByTagName('Problem')[0].getElementsByTagName('ParameterGroup')[0].getElementsByTagName('ParameterGroup')
-	for fit_item in optim_item_list:
-	  parameters = fit_item.getElementsByTagName('Parameter')
-	  # retrieve lowerbound param
-	  if len(parameters) > 0 :
-	    lower_bounds.append(parameters[0].getAttribute('value'))
-	    # retrieve param name
-	    param_names.append(parameters[1].getAttribute('value'))
-	    # retrieve start value param
-	    start_values.append(parameters[2].getAttribute('value'))
-	    # retrieve upperbound param
-	    upper_bounds.append(parameters[3].getAttribute('value'))      
-	break
+    with open(file_in) as file:
+      dom = parse(file)
+      # select the task tag (note: root->ListOfTaks->Tasks)
+      tasks = dom.getElementsByTagName('ListOfTasks')[0].getElementsByTagName('Task')
+      # iterates tasks list
+      for task in tasks:
+	task_name = task.getAttribute('name')
+	# select Parameter Estimation task
+	if task_name == "Parameter Estimation":
+	  print("\nRetrieving information for " + task_name)
+	  # retrieve report name for this task
+	  report_filename_template = task.getElementsByTagName('Report')[0].getAttribute('target')
+	  # retrieve parameter values
+	  optim_item_list = task.getElementsByTagName('Problem')[0].getElementsByTagName('ParameterGroup')[0].getElementsByTagName('ParameterGroup')
+	  for fit_item in optim_item_list:
+	    parameters = fit_item.getElementsByTagName('Parameter')
+	    # retrieve lowerbound param
+	    if len(parameters) > 0 :
+	      lower_bounds.append(parameters[0].getAttribute('value'))
+	      # retrieve param name
+	      param_names.append(parameters[1].getAttribute('value'))
+	      # retrieve start value param
+	      start_values.append(parameters[2].getAttribute('value'))
+	      # retrieve upperbound param
+	      upper_bounds.append(parameters[3].getAttribute('value'))      
+	  break
     return report_filename_template, lower_bounds, param_names, start_values, upper_bounds
 

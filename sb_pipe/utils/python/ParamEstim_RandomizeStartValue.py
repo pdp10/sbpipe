@@ -61,6 +61,7 @@ class ParamEstim_RandomizeStartValue:
     self._path = _path
     self._filename_in = _filename_in
     self._report_filename_template, self._lower_bounds, self._param_names, self._start_values, self._upper_bounds = self._copasi.retrieve_param_estim_values(self._path + "/" + self._filename_in)
+    
 
   # Generate num_files files, in which the parameters to estimate have a random 
   # starting value chosen in the determined ammissible range for that parameter.
@@ -86,18 +87,11 @@ class ParamEstim_RandomizeStartValue:
 
   # Print the values extracted from COPASI template file
   def print_parameters_to_estimate(self):
-    print("\t\tLowerBound\t\tStartValue\t\tUpperBound\t\tParameterName")
-    print("\t\t==========\t\t==========\t\t==========\t\t=============")
+    print("\t\tParameterName\t\tLowerBound\t\tStartValue\t\tUpperBound")
+    print("\t\t=============\t\t==========\t\t==========\t\t==========")
     for i in range(0, len(self._param_names)):
-      print("\t\t" + self._lower_bounds[i] + "\t\t" + self._start_values[i] + "\t\t" + 
-      self._upper_bounds[i] + "\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")])
-
-
-  def update_model(self, _path, _filename_in):
-    self._copasi = CopasiParser()
-    self._path = _path
-    self._filename_in = _filename_in
-    self._report_filename_template, self._lower_bounds, self._param_names, self._start_values, self._upper_bounds = self._copasi.retrieve_param_estim_values(self._path + "/" + self._filename_in)
+      print("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] + 
+	    "\t\t" + self._lower_bounds[i] + "\t\t" + self._start_values[i] + "\t\t" + self._upper_bounds[i])
 
 
   # SET/GET methods
