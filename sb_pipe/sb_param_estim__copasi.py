@@ -193,37 +193,53 @@ def main(model_configuration):
     os.rename(models_dir+"/"+data_folder, models_dir+"/"+data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now()))
   shutil.copytree(data_dir, models_dir+"/"+data_folder)
 
-
-  if cluster == "lsf": # use LSF (Platform Load Sharing Facility)
-    jobs = ""    
-    for i in xrange(1,nfits):
-      jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
-      process = subprocess.Popen(["bsub", "-J", "CopasiSE_"+model[:-4]+str(i), "-cwd", "CopasiSE", "-s", models_dir+"/"+model[:-4]+str(i)+".cps", models_dir+"/"+model[:-4]+str(i)+".cps"])
-    # Check here when these jobs are finished before proceeding
-    process = subprocess.Popen(["bsub", "-w", '\"' +jobs[:-2] +'\"', "sleep", "1"])
-    process.wait()    
   
-  elif cluster == "sge":  # use SGE (Sun Grid Engine) 
-    ## BUG : copasiCMD is not found
-    ## BUG : the final `sleep 1`seems not to wait for the final qsub -hold_jid command..
+  if cluster == "sge" or cluster == "lsf":
+    # Test this with echo "Copasi insulin_receptor.cps" | xargs xargs using Python environment.
+    # The following works:
+    # copasiCMD = "CopasiSE insulin_receptor.cps"      
+    # echoCMD=["echo", copasiCMD]      
+    # xargsCMD=["xargs", "xargs"]
+    # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+    # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)
     jobs = ""
-    for i in xrange(0,nfits):
-      jobs = "j"+str(i)+","+jobs
-      copasiCMD = "/bi/home/dallepep/copasi/bin/CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"
-      echoCMD = ["echo", "-e", "'%s'" % copasiCMD]
-      qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i)] 
-      echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-      qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout)
-      echoProc.wait()
-    # Check here when these jobs are finished before proceeding
-    echoCMD = ["echo", "-e", "'%s'" % "sleep 1"]
-    qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
-    echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-    qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
-    echoProc.stdout.close()
-    out = qsubProc.communicate()[0]
-    echoProc.wait()
+    echoSleep = ["echo", "sleep 1"]
+    outDir=results_dir+"/out"
+    errDir=results_dir+"/err"
+    if not os.path.exists(outDir):
+      os.makedirs(outDir)
+    if not os.path.exists(errDir):
+      os.makedirs(errDir)   
+      
+    if cluster == "sge":  # use SGE (Sun Grid Engine) 
+      for i in xrange(0,nfits):
+	  # Now the same with qsub
+	  jobs = "j"+str(i)+","+jobs
+	  copasiCMD = "CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"	  
+	  echoCMD = ["echo", copasiCMD]
+	  qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", outDir+"/j"+str(i), "-e", errDir+"/j"+str(i)] 
+	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+	  qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      # Check here when these jobs are finished before proceeding
+      qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
+      echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
+      qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      qsubProc.wait()
 
+    elif cluster == "lsf": # use LSF (Platform Load Sharing Facility)
+      for i in xrange(1,nfits):
+	  jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
+	  copasiCMD = "CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"
+	  echoCMD = ["echo", copasiCMD]
+	  bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", outDir+"/j"+str(i), "-e", errDir+"/j"+str(i)] 
+	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+	  bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      # Check here when these jobs are finished before proceeding
+      qsubCMD = ["bsub", "-w", jobs[:-2]]
+      echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
+      bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      bsubProc.wait()    
+    
     
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster != "pp":
