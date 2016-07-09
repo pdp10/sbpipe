@@ -36,9 +36,14 @@ python setup.py install
 ```
 
 ### Use case
-To create a new project: 
+The general structure of a command is: 
 ```
-python run_sb_pipe create_project projectname
+python run_sb_pipe.py [OPTION] [FILE]
+```
+
+In more detail, to create a new project: 
+```
+python run_sb_pipe.py --create-project projectname
 ```
 After creating a project, the Copasi files should be placed inside 
 Models/, whereas the configuration files in Working_Folder/. Examples of
@@ -49,11 +54,12 @@ Time Course task must be checked as executable (via CopasiUI) and an
 output report must be specified inside the project folder tmp/. The name
 of the report must be the name of the Copasi model and this name must
 also be included in the configuration file. (See examples in tests/). 
+
 After this preliminary configuration step, the user should move to the 
 folder containing the configuration file and start one of the pipelines 
 with the command: 
 ```
-python run_sb_pipe pipeline configuration_file
+python run_sb_pipe.py pipeline configuration_file
 ```
 where *pipeline* can be one of the following option: 
 - --simulate
@@ -62,6 +68,10 @@ where *pipeline* can be one of the following option:
 - --sensitivity
 - --param-estim 
 
+For additional options, run
+```
+python run_sb_pipe.py --help
+```
 
 
 ### Package Structure
