@@ -135,7 +135,7 @@ def main(servers, ports, secret, path, model, nfits, ncpus):
         
     print("ppserver will use " + str(job_server.get_ncpus()) + " cores locally.\n")        
 
-    print("\nComputing Parallel Parameter Estimation using Copasi\n")
+    print("Computing parallel parameter estimation using Copasi:")
     run_parallel_copasi(server=job_server, args=(path, model, nfits), syncCounter=syncCounter)        
     # Wait for jobs in all groups to finish 
     job_server.wait(group="my_processes")

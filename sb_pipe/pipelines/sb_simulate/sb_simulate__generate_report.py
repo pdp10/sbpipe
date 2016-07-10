@@ -45,8 +45,7 @@ def main(model_noext, results_dir, plots_dir):
     print("ERROR: input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
     return    
     
-  print("Generating a LaTeX report\n")
-  print(model_noext)
+  print("Generating a LaTeX report")
   filename_prefix="report__simulate_"
   latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix)
   

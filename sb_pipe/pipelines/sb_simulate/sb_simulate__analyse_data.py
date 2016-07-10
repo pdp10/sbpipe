@@ -69,9 +69,7 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
     os.mkdir(os.path.join(results_dir, tc_mean_with_exp_dir))
 
 
-  print("\n")
   print("Generating statistics from simulations:")
-  print("\n")
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','sb_simulate__plot_error_bars.R'), 
 			      model, input_dir, 
 			      os.path.join(results_dir, tc_mean_dir), 
@@ -79,9 +77,7 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
   process.wait() 
 
 
-  print("\n")
-  print("Generating overlapping plots (sim + exp) (SKIP):")
-  print("\n")
+  #print("\nGenerating overlapping plots (sim + exp):")
   #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','sb_simulate__plot_sim_exp_error_bars.R'), model, os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model+'.csv'),  os.path.join(results_dir,'exp_stats_'+model+'.csv')])
   #process.wait() 
 

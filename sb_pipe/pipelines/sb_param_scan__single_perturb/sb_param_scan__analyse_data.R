@@ -28,9 +28,6 @@ SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','single_perturb_plots_func.r'))
 
 
-
-
-
 main <- function(args) {
     model_noext <- args[1]
     species <- args[2]

@@ -145,20 +145,12 @@ def main(model_configuration):
 
       
   print("\n")
-  print("#############################################################")     
   print("#############################################################")
   print("### Processing model "+ model)
   print("#############################################################")
-  print("#############################################################")
   print("")
 	
-
-	
-  print("\n")
-  print("##############################")
-  print("Preparing folder "+results_dir)
-  print("##############################")
-  print("\n")  
+  # preprocessing
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
@@ -167,28 +159,22 @@ def main(model_configuration):
  
   if generate_data == True:
     print("\n")
-    print("##############")
     print("Generate data:")
     print("##############")
-    print("\n") 
     sb_simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, simulate__model_simulations_number)
 
 
   if analyse_data == True:
     print("\n")
-    print("#############")
     print("Analyse data:")
     print("#############")
-    print("\n") 
     sb_simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_raw_data), results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, simulate__xaxis_label)    
 
 
   if generate_report == True:
     print("\n")
-    print("#################")
     print("Generate reports:")
     print("#################")
-    print("\n")
     sb_simulate__generate_report.main(model[:-4], results_dir, tc_mean_dir)
 
 

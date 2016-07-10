@@ -117,25 +117,17 @@ def main(model_configuration):
       
 
   print("\n")
-  print("#############################################################")     
   print("#############################################################")
   print("### Processing model " + model)
-  print("#############################################################")
   print("#############################################################")
   print("")
 
 
-
-  print("\n")
-  print("##############################")
-  print("Preparing folder " + results_dir)
-  print("##############################")
-  print("\n")
+  # preprocessing
   # remove the folder the previous results if any
 #   filesToDelete = glob.glob(os.path.join(sensitivities_dir, "*.png"))
 #   for f in filesToDelete:
-#     os.remove(f)  
-
+#     os.remove(f)
   if not os.path.exists(results_dir):
     os.mkdir(results_dir)
 
@@ -143,31 +135,23 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("##############")
     print("Generate data:")
     print("##############")
-    print("\n")
     sb_sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
-
 
 
   if analyse_data == True:
     print("\n")
-    print("#############")
     print("Analyse data:")
     print("#############")
-    print("\n") 
     sb_sensitivity__analyse_data.main(results_dir)  
 
 
   if generate_report == True:
     print("\n")
-    print("#################")
     print("Generate reports:")
     print("#################")
-    print("\n")
     sb_sensitivity__generate_report.main()     
-
 
 
   # Print the pipeline elapsed time

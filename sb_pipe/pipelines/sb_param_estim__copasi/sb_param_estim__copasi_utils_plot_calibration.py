@@ -40,7 +40,7 @@ from PlotCalibration import *
 # folder : the folder containing the data to process
 # rscript_folder : the rscript folder
 def main(folder, rscript_folder):
-  print("\nPlot the calibration results as an Iteration-MSE function\n") 
+  print("Plot the calibration results as an Iteration-MSE function") 
   #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
   pools = [ "estimation error" ]
   colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]

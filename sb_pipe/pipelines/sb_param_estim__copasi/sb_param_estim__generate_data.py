@@ -120,7 +120,6 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
     os.mkdir(os.path.join(results_dir, output_folder)) 
 
 
-  print("\n")
   print("Configure Copasi:")
   sb_param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
 

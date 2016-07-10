@@ -52,9 +52,7 @@ def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
   if not os.path.exists(plots_dir):
     os.makedirs(plots_dir)
   
-  print("\n")
   print("Collect results:")
-  print("\n")
   # Collect and summarises the parameter estimation results
   sb_param_estim__copasi_utils_collect_results.main(input_dir, results_dir, data_summary_file)
 

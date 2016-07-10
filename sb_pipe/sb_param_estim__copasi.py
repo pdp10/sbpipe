@@ -154,19 +154,11 @@ def main(model_configuration):
     
   print("\n")
   print("#############################################################")
-  print("#############################################################")
   print("### Parameter estimation for model "+model)
-  print("#############################################################")
   print("#############################################################")
   print("")
 
-
-      
-  print("\n")
-  print("#################")
-  print("Preparing folders:")
-  print("#################")
-  print("\n")
+  # preprocessing
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
@@ -175,37 +167,29 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("##############")
     print("Generate data:")
     print("##############")
-    print("\n") 
     sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, nfits, results_dir, sim_raw_data, tmp_dir)
     
 
   if analyse_data == True:
     print("\n")
-    print("#############")
     print("Analyse data:")
     print("#############")
-    print("\n") 
     sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, data_summary_file, plots_dir, best_fits_percent)    
 
 
   if generate_report == True:
     print("\n")
-    print("#################")
     print("Generate reports:")
     print("#################")
-    print("\n")
     sb_param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 
 
   print("\n")
-  print("#####################################")
   print("Store the fits sequences in a tarball:")
   print("#####################################")
-  print("\n")
   # Create a gz tarball   
   origWD = os.getcwd() # remember our original working directory
   os.chdir(working_dir) # change folder

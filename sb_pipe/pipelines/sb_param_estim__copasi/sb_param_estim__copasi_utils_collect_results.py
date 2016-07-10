@@ -40,7 +40,7 @@ from ParamEstim_CollectResults import *
 # path_out : The path to store filename_out
 # filename_out : the file name of the collected results
 def main(path_in, path_out, filename_out):
-  print("\nCollect results from multiple parameter estimations\n") 
+  print("Collect results from multiple parameter estimations") 
   post_param_estim = ParamEstim_CollectResults()
   post_param_estim.collect_results(path_in, path_out, filename_out)
 
