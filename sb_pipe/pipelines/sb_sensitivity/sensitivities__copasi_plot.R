@@ -28,7 +28,7 @@ library(gplots)
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_functions.R", sep=""))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','plot_functions.R'))
 
 
 
@@ -37,7 +37,7 @@ main <- function(args) {
     sensitivities_dir <- args[1]
  
     # timepoints
-    inputdir <- paste(sensitivities_dir, "/", sep="")
+    inputdir <- sensitivities_dir
     # collect all *.csv files in the directory
     files <- dir(path=inputdir, pattern="*.csv",full.names=TRUE, ignore.case = TRUE)
     columns <- 1

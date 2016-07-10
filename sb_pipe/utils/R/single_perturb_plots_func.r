@@ -29,8 +29,8 @@ library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/matrices.r", sep=""))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','matrices.r'))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
@@ -68,8 +68,8 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
     writeLines(paste("Perturbed species: ", species, sep=""))
     #writeLines(results_dir)
     # variables
-    inputdir <- c(paste(results_dir, "/", dataset_parameter_scan_dir, "/", sep="" ))
-    outputdir <- c(paste(results_dir, "/", tc_parameter_scan_dir, "/", sep="" ))
+    inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
+    outputdir <- c(file.path(results_dir, tc_parameter_scan_dir))
     #writeLines(inputdir)
     #writeLines(outputdir)
     
@@ -104,7 +104,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
 	  levels <- sort(levels)
 
 	  # Read species
-	  timecourses <- read.table( paste( inputdir, files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 
 	  # Load files in memory
@@ -135,7 +135,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
 	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
 	    scale_colour_manual("Levels", values=colors, labels=labels) + 
 	    scale_linetype_manual("Levels", values=linetype, labels=labels)
-      	    ggsave(paste(outputdir, model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" ), 
+      	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=6, bg = "transparent")
    
 	  }

@@ -23,7 +23,7 @@
 
 library(ggplot2)
 # library(scales)
-source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
@@ -100,10 +100,10 @@ fit_sequence_analysis <- function(filenamein, plots_dir, plot_filename_prefix, b
   for (i in seq(3,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
-        fileout <- paste(plots_dir, "/", plot_filename_prefix, dfCols[i], ".png", sep="")
+        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
         g <- histogramplot(df[i], fileout)
       } else {
-        fileout <- paste(plots_dir, "/", plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep="")
+        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
         g <- scatterplot(df, colnames(df)[i], colnames(df)[j], colnames(df)[2], fileout)
       }
     }

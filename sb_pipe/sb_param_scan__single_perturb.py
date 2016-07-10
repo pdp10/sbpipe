@@ -40,7 +40,7 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_param_scan__single_perturb/")
+sys.path.append(os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb'))
 import param_scan__single_perturb_run_copasi
 import param_scan__single_perturb_gen_report
 
@@ -151,9 +151,9 @@ def main(model_configuration):
   # The name of the folder containing the generated plots of the parameter scanning
   tc_parameter_scan_dir="tc_param_scan"  
 
-  models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"
-  tmp_dir=copasi_reports_path+"/"
+  models_dir = os.path.join(project_dir, models_folder)
+  results_dir = os.path.join(project_dir, working_folder, model[:-4])
+  tmp_dir = os.path.join(copasi_reports_path)
 
 
 
@@ -163,15 +163,15 @@ def main(model_configuration):
   start = time.clock()
 
       
-  if not os.path.isfile(models_dir+"/"+model):
-    print(models_dir+"/"+model + " does not exist.") 
+  if not os.path.isfile(os.path.join(models_dir,model)):
+    print(os.path.join(models_dir, model) + " does not exist.") 
     return
     
   
   print("\n")
   print("#############################################################")     
   print("#############################################################")
-  print("### Processing model "+ model)
+  print("### Processing model " + model)
   print("#############################################################")
   print("#############################################################")
   print("")    
@@ -179,16 +179,16 @@ def main(model_configuration):
 
   print("\n")
   print("##############################")
-  print("Preparing folder "+results_dir +":")
+  print("Preparing folder " + results_dir +":")
   print("##############################")
   print("\n")
-  filesToDelete = glob.glob(results_dir+"/"+dataset_parameter_scan_dir+"/"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir,dataset_parameter_scan_dir,model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir,tc_parameter_scan_dir,model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir,"*"+model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)    
   
@@ -196,10 +196,10 @@ def main(model_configuration):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(results_dir+"/"+dataset_parameter_scan_dir):
-    os.mkdir(results_dir+"/"+dataset_parameter_scan_dir)
-  if not os.path.exists(results_dir+"/"+tc_parameter_scan_dir):
-    os.mkdir(results_dir+"/"+tc_parameter_scan_dir) 
+  if not os.path.exists(os.path.join(results_dir, dataset_parameter_scan_dir)):
+    os.mkdir(os.path.join(results_dir, dataset_parameter_scan_dir))
+  if not os.path.exists(os.path.join(results_dir, tc_parameter_scan_dir)):
+    os.mkdir(os.path.join(results_dir, tc_parameter_scan_dir)) 
 
 
 
@@ -214,7 +214,7 @@ def main(model_configuration):
 					      simulate__intervals,
 					      levels_number,
 					      models_dir, 
-					      results_dir+"/"+dataset_parameter_scan_dir, 
+					      os.path.join(results_dir, dataset_parameter_scan_dir), 
 					      tmp_dir)
   
   
@@ -223,7 +223,7 @@ def main(model_configuration):
   print("Generating plots:")
   print("################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_scan__single_perturb/param_scan__single_perturb_plot.R", 
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb','param_scan__single_perturb_plot.R'), 
 			      model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
 			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, 
 			      str(min_level), str(max_level), str(levels_number)])    
@@ -236,7 +236,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir+"/", tc_parameter_scan_dir)
+  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 
 
@@ -246,7 +246,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1 and len(glob.glob(results_dir+"/"+tc_parameter_scan_dir+"/"+model[:-4]+"*.png")) > 0:
+  if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, tc_parameter_scan_dir, model[:-4]+"*.png"))) > 0:
     return 0
   return 1
      

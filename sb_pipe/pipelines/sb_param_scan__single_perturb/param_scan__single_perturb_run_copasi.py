@@ -33,7 +33,7 @@ from itertools import islice
 
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import CopasiUtils
 
 
@@ -69,8 +69,8 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
       process.wait()
       
 
-      if not os.path.isfile(tmp_dir+"/"+model_noext+".csv"): 
-	  print("ERROR: " + tmp_dir+"/"+model_noext+".csv does not exist!") 
+      if not os.path.isfile(os.path.join(tmp_dir, model_noext+".csv")): 
+	  print("ERROR: " + os.path.join(tmp_dir, model_noext+".csv") + " does not exist!") 
 	  continue
       
       # Replace some string in the report file   
@@ -82,9 +82,9 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
       # Find the index of species in the header file, so it is possible to read the amount at 
       # the second line.
       if i == 0:
-	print("Retrieving column index for species "+species+" from file "+tmp_dir+"/"+model_noext+".csv")
+	print("Retrieving column index for species "+species+" from file "+ os.path.join(tmp_dir, model_noext+".csv"))
 	# Read the first line of a file.
-	with open(tmp_dir+"/"+model_noext+".csv") as myfile:
+	with open(os.path.join(tmp_dir, model_noext+".csv")) as myfile:
 	  # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
 	  header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
 	#print header
@@ -112,7 +112,7 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
       for j in xrange(0, intervals):
 	# Read the species level
 	# Read the second line of a file.
-	with open(tmp_dir+"/"+model_noext+".csv") as myfile:
+	with open(os.path.join(tmp_dir, model_noext+".csv")) as myfile:
 	  # 2 is the number of lines to read, 1 is the i-th element to extract from the list.	  
 	  initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
 	#print initial_configuration
@@ -127,27 +127,27 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
 	# copy the -th run to a new file: add 1 to timepoints because of the header.
 	round_species_level = species_level
 	# Read the first timepoints+1 lines of a file.
-	with open(tmp_dir+"/"+model_noext+".csv") as file:
+	with open(os.path.join(tmp_dir, model_noext+".csv"), 'r') as file:
 	  table = list(islice(file, timepoints+1))  
 
 	# Write the extracted table to a separate file
-	with open(results_dir+"/"+model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv", 'w') as file:
+	with open(os.path.join(results_dir, model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv"), 'w') as file:
 	  for line in table:
 	    file.write(line)
 
-	with open(tmp_dir+"/"+model_noext+".csv") as file:
+	with open(os.path.join(tmp_dir, model_noext+".csv"), 'r') as file:
 	  # read all lines
 	  lines = file.readlines()
 	  
 
-	with open(tmp_dir+"/"+model_noext+".csv~", 'w') as file:
+	with open(os.path.join(tmp_dir, model_noext+".csv~"), 'w') as file:
 	  file.writelines(header)
 	  file.writelines(lines[timepoints+1:])
 
 	
 
-	shutil.move(tmp_dir+"/"+model_noext+".csv~", tmp_dir+"/"+model_noext+".csv")
+	shutil.move(os.path.join(tmp_dir, model_noext+".csv~"), os.path.join(tmp_dir, model_noext+".csv"))
 	
 	
       # remove the file
-      os.remove(tmp_dir+"/"+model_noext+".csv")
+      os.remove(os.path.join(tmp_dir, model_noext+".csv"))

@@ -29,13 +29,13 @@ library(abind)
 load_files_columns_in_matrix <- function(inputdir, files, col_names) {
 
     # Load files in memory
-    dataset <- read.table(paste(inputdir,files[1],sep=""),header=TRUE,colClasses=col_names,na.strings="NA",dec=".",sep="\t")
+    dataset <- read.table(file.path(inputdir,files[1]),header=TRUE,colClasses=col_names,na.strings="NA",dec=".",sep="\t")
     #print(dataset)
     if(length(files) > 1) {
       for(i in 2:length(files)) {
 	# add a matrix to dataset containing the next table (file)
 	# dataset becomes tridimensional
-	dataset <- abind(dataset, read.table(paste(inputdir,files[i],sep=""),header=TRUE,colClasses=col_names,na.strings="NA",dec=".",sep="\t"), along=3)
+	dataset <- abind(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,colClasses=col_names,na.strings="NA",dec=".",sep="\t"), along=3)
       }
     }
     return (dataset)
@@ -45,12 +45,12 @@ load_files_columns_in_matrix <- function(inputdir, files, col_names) {
 # Load a collection of files in a three dimensional matrix
 load_files_in_matrix <- function(inputdir, files) {
     # Load files in memory
-    dataset <- read.table(paste(inputdir,files[1],sep=""),header=TRUE,na.strings="NA",dec=".",sep="\t")
+    dataset <- read.table(file.path(inputdir,files[1]),header=TRUE,na.strings="NA",dec=".",sep="\t")
     if(length(files) > 1) {
       for(i in 2:length(files)) {
 	# add a matrix to dataset containing the next table (file)
 	# dataset becomes tridimensional
-	dataset <- abind(dataset, read.table(paste(inputdir,files[i],sep=""),header=TRUE,na.strings="NA",dec=".",sep="\t"), along=3)
+	dataset <- abind(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,na.strings="NA",dec=".",sep="\t"), along=3)
       }
     }
     return (dataset)
@@ -59,13 +59,13 @@ load_files_in_matrix <- function(inputdir, files) {
 
 # Load a collection of files in a three dimensional matrix
 load_files_in_matrix_wlevels <- function(inputdir, files, levels) {
-    dataset <- read.table(paste(inputdir,files[levels[1]],sep=""),header=TRUE,
+    dataset <- read.table(file.path(inputdir,files[levels[1]]),header=TRUE,
 		na.strings="NA",dec=".",sep="\t")
     if(length(levels) > 1) {
       for(i in 2:length(levels)) {
 	# add a matrix to dataset containing the next table (file)
 	# dataset becomes tridimensional
-	dataset <- abind(dataset, read.table(paste(inputdir,files[levels[i]],sep=""),header=TRUE,na.strings="NA",
+	dataset <- abind(dataset, read.table(file.path(inputdir,files[levels[i]]),header=TRUE,na.strings="NA",
 		   dec=".",sep="\t"), along=3)
       }
     }

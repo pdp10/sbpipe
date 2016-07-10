@@ -40,7 +40,7 @@ import re
 def replace_str_copasi_sim_report(path, report):
 
   # Replace the previous strings in the following file:
-  report_with_path=path+"/"+report[:-4]+".csv"
+  report_with_path = os.path.join(path, report[:-4]+".csv")
 
   # The with statement ensures that the file is closed correctly, 
   # and re-opening the file in "w" mode empties the file before you write to it. 

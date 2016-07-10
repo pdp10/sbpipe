@@ -54,7 +54,7 @@ def get_latex_header(pdftitle = "", title = "", abstract=""):
 
 # Create a report for a parameter scanning task (1 model)
 def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, species):
-  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+  with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
     model_ver = model_noext[:].replace("_", " ")
     species_name = species[0:].replace("_", " ")
     print("Model: " + model_ver)
@@ -63,9 +63,9 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
     # Get latex header
     header = get_latex_header("Report: " + model_ver, "Report: " + model_ver, "Parameter Scan Task for " + species_name)
     file_out.write(header)
-    print("List of files in " + results_dir + '/' + plots_dir  + '/' + ":\n")
+    print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots - Perturbation of " + species_name + "}\n")
-    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder = os.listdir(os.path.join(results_dir, plots_dir))
     folder.sort()
     for infile in folder:
       if infile.find(model_noext) != -1:
@@ -80,16 +80,16 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
 
 # Create a report of a time course task (1 model)
 def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
-  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+  with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
     model_ver = model_noext[:].replace("_", " ")
     print(model_ver)
     # writing on file
     # Get latex header
     header = get_latex_header("Report: " + model_ver, "Report: " + model_ver)
     file_out.write(header)  
-    print("List of files in " + results_dir + '/' + plots_dir + '/' + ":\n")
+    print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots}\n")
-    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder = os.listdir(os.path.join(results_dir, plots_dir))
     folder.sort()  
     for infile in folder:
       if infile.find(model_noext) != -1:
@@ -103,16 +103,16 @@ def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
 
 # Create a generic report
 def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
-  with open(results_dir + "/" + filename_prefix + model_noext + ".tex", "w") as file_out:
+  with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
     model_ver = model_noext[:].replace("_", " ")
     print(model_ver)
     # writing on file
     # Get latex header
     header = get_latex_header("Report: " + model_ver, "Report: " + model_ver)
     file_out.write(header)  
-    print("List of files in " + results_dir + '/' + plots_dir + '/' + ":\n")
+    print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots}\n")
-    folder = os.listdir(results_dir + '/' + plots_dir + '/')
+    folder = os.listdir(os.path.join(results_dir, plots_dir))
     folder.sort()  
     for infile in folder:
       print(infile)

@@ -142,7 +142,7 @@ sim_exp_error_bars_main <- function(sim_stat, sim_column, exp_stat, exp_column, 
 	print(sim_mean)
 	max_mean_std_err <- max(sim_mean+sim_std_err)
 	# plot mean line with standard error together with experimental data
-	png(paste (outputdir, version, "_sem_", name, ".png", sep="" ), height=600, width=800, bg="transparent") 
+	png(file.path(outputdir, paste(version, "_sem_", name, ".png", sep="" )), height=600, width=800, bg="transparent") 
 	# increase the margin on the right of the plot
 	par(mar=c(7,9.5,4,0)+0.1)
 

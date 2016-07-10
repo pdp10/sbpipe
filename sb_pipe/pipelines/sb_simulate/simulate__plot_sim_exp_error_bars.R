@@ -27,7 +27,7 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/plot_sim_exp_func.R", sep=""))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','plot_sim_exp_func.R'))
 
 
 
@@ -46,9 +46,9 @@ main <- function(args) {
     if (!file.exists(outputdir)){ dir.create(outputdir) }
 
     # Read species
-    sim_stat <- read.table ( paste ( inputdir_sim, file_sim, sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    sim_stat <- read.table ( file.path(inputdir_sim, file_sim), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     sim_column <- names(sim_stat)
-    exp_stat <- read.table ( paste ( inputdir_exp, file_exp, sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    exp_stat <- read.table ( file.path(inputdir_exp, file_exp), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     exp_column <- names(exp_stat)
     # A lookup table for computational-experimental comparison
     ## TODO THIS SHOULD BE CREATED AUTOMATICALLY
@@ -68,7 +68,7 @@ main <- function(args) {
     #results contains the total_chi_square, and the total_timepoints
     results <- sim_exp_error_bars_main(sim_stat, sim_column, exp_stat, exp_column, outputdir, model_noext, lookup_table)
     print(results)
-    write.csv(results, file=paste(results_dir, "/fitting_statistics_", model_noext,".csv",sep=""), sep="\t") 
+    write.csv(results, file=file.path(results_dir, paste("fitting_statistics_", model_noext,".csv",sep="")), sep="\t") 
 }
 
 

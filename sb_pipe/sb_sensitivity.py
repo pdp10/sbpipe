@@ -38,7 +38,7 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_sensitivity/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity'))
 
 
 """
@@ -90,9 +90,9 @@ def main(model_configuration):
   # The folder containing the sensitivity analysis results
   sensitivities_dir="sensitivities"
   
-  models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"+sensitivities_dir+"/"
-  tmp_dir=copasi_reports_path+"/"
+  models_dir = os.path.join(project_dir, models_folder)
+  results_dir = os.path.join(project_dir, working_folder, model[:-4], sensitivities_dir)
+  tmp_dir = os.path.join(copasi_reports_path)
 
 
   print("\n<START PIPELINE>\n")
@@ -104,7 +104,7 @@ def main(model_configuration):
   print("\n")
   print("#############################################################")     
   print("#############################################################")
-  print("### Processing model "+ model)
+  print("### Processing model " + model)
   print("#############################################################")
   print("#############################################################")
   print("")
@@ -113,11 +113,11 @@ def main(model_configuration):
 
   print("\n")
   print("##############################")
-  print("Preparing folder "+results_dir)
+  print("Preparing folder " + results_dir)
   print("##############################")
   print("\n")
   # remove the folder the previous results if any
-#   filesToDelete = glob.glob(sensitivities_dir+"/*.png")
+#   filesToDelete = glob.glob(os.path.join(sensitivities_dir, "*.png"))
 #   for f in filesToDelete:
 #     os.remove(f)  
 
@@ -132,7 +132,7 @@ def main(model_configuration):
   # print("#####################")
   # print("\n")
   # TODO 
-  #process = subprocess.Popen(['bash', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__run_copasi.sh", model, models_dir, results_dir, tmp_dir])
+  #process = subprocess.Popen(['bash', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_sensitivity','sensitivities__run_copasi.sh'), model, models_dir, results_dir, tmp_dir])
   #process.wait()   
 
 
@@ -142,7 +142,7 @@ def main(model_configuration):
   print("Generating plots:")
   print("##################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_sensitivity/sensitivities__copasi_plot.R", results_dir])
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity','sensitivities__copasi_plot.R'), results_dir])
   process.wait()    
 
 
@@ -154,7 +154,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(results_dir+"/"+"*.csv")) > 0:
+  if len(glob.glob(os.path.join(results_dir, '*.csv'))) > 0:
       return 0
   return 1
     

@@ -28,10 +28,10 @@ require(graphics)
 
 plot_calibration_mean_ci <- function(folder, filein, fileout, best_pos, best_score, nsamples, colour, identifier) {
   library(gplots)
-  dataset <- read.table(paste(folder, filein, sep=""), header=TRUE, na.strings="NA", dec=".", sep="\t")
+  dataset <- read.table(file.path(folder, filein), header=TRUE, na.strings="NA", dec=".", sep="\t")
   iteration <- dataset$Iterations
   # plot mean line with 95% CI
-  png ( paste(folder, fileout, sep=""), height=760, width=800, bg="white" ) #bg="transparent")
+  png ( file.path(folder, fileout), height=760, width=800, bg="white" ) #bg="transparent")
   # increase the margin on the right of the plot
   par(mar=c(5,6,4,2)+0.1)
   plotCI(x=iteration,
@@ -61,7 +61,7 @@ plot_calibration_mean_ci <- function(folder, filein, fileout, best_pos, best_sco
 plot_calibration_mean_ci_multi <- function(folder, filein, fileout, best_pos, best_score, nsamples, colour, identifier) {
   library(gplots)
   # plot mean line with 95% CI
-  png ( paste(folder, fileout, sep=""), height=760, width=800, bg="white" ) #bg="transparent")
+  png ( file.path(folder, fileout), height=760, width=800, bg="white" ) #bg="transparent")
   # increase the margin on the right of the plot
   par(mar=c(5,6,4,2)+0.1)
   lege <- c()
@@ -70,7 +70,7 @@ plot_calibration_mean_ci_multi <- function(folder, filein, fileout, best_pos, be
   for(i in 1:length(filein)) {
 	# required one plot before the added others! (see opt: add=TRUE)
       if (i == 1) { 
-	  dataset <- read.table(paste(folder, filein[i], sep=""), header=TRUE, na.strings="NA", dec=".", sep="\t")
+	  dataset <- read.table(file.path(folder, filein[i]), header=TRUE, na.strings="NA", dec=".", sep="\t")
 	  iteration <- dataset$Iterations
 	  plotCI(x=iteration,
        		y=dataset$Mean,
@@ -88,7 +88,7 @@ plot_calibration_mean_ci_multi <- function(folder, filein, fileout, best_pos, be
        		gap=0.0)
 	  lege = c(lege, paste(identifier[i], " - Mean \u{00B1} t-distrib CI 95% (", nsamples[i], " samples)", sep=""))
       } else {
-  	dataset <- read.table(paste(folder, filein[i], sep=""), header=TRUE, na.strings="NA", dec=".", sep="\t")
+  	dataset <- read.table(file.path(folder, filein[i]), header=TRUE, na.strings="NA", dec=".", sep="\t")
   	iteration <- dataset$Iterations
   	plotCI(x=iteration,
        		y=dataset$Mean,

@@ -41,7 +41,7 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_param_estim__copasi/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_param_estim__copasi'))
 import param_estim__copasi_parallel
 import param_estim__copasi_utils_randomise_start_values
 import param_estim__copasi_utils_collect_results
@@ -122,16 +122,16 @@ def main(model_configuration):
   # The dataset working folder
   dataset_working_folder="param_estim_data"  
   
-  models_dir=project_dir+"/"+models_folder+"/"
-  working_dir=project_dir+"/"+working_folder+"/"
-  data_dir=project_dir+"/"+data_folder+"/"
-  tmp_dir=copasi_reports_path+"/"
+  models_dir = os.path.join(project_dir,models_folder)
+  working_dir = os.path.join(project_dir, working_folder)
+  data_dir = os.path.join(project_dir, data_folder)
+  tmp_dir = copasi_reports_path
 
-  output_folder=model[:-4]+"_round"+round
-  plots_folder="plots"
-  results_dir=working_dir+"/"+output_folder
-  plots_dir=results_dir+"/"+plots_folder
-  data_summary_file="parameter_estimation_collected_results.csv"
+  output_folder = model[:-4]+"_round"+round
+  plots_folder = "plots"
+  results_dir = os.path.join(working_dir, output_folder)
+  plots_dir = os.path.join(results_dir, plots_folder)
+  data_summary_file = "parameter_estimation_collected_results.csv"
 
 
 
@@ -169,8 +169,8 @@ def main(model_configuration):
     os.makedirs(working_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(results_dir+"/"+dataset_working_folder):
-    os.mkdir(results_dir+"/"+dataset_working_folder) 
+  if not os.path.exists(os.path.join(results_dir, dataset_working_folder)):
+    os.mkdir(os.path.join(results_dir, dataset_working_folder)) 
 
 
 
@@ -189,9 +189,9 @@ def main(model_configuration):
   print("###############################")
   # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
   # Let's temporarily copy this folder and then delete it.
-  if os.path.exists(models_dir+"/"+data_folder):
-    os.rename(models_dir+"/"+data_folder, models_dir+"/"+data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now()))
-  shutil.copytree(data_dir, models_dir+"/"+data_folder)
+  if os.path.exists(os.path.join(models_dir, data_folder)):
+    os.rename(os.path.join(models_dir, data_folder), os.path.join(models_dir, data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now())))
+  shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
 
   
   if cluster == "sge" or cluster == "lsf":
@@ -204,8 +204,8 @@ def main(model_configuration):
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)
     jobs = ""
     echoSleep = ["echo", "sleep 1"]
-    outDir=results_dir+"/out"
-    errDir=results_dir+"/err"
+    outDir = os.path.join(results_dir, 'out')
+    errDir = os.path.join(results_dir, 'err')
     if not os.path.exists(outDir):
       os.makedirs(outDir)
     if not os.path.exists(errDir):
@@ -215,9 +215,9 @@ def main(model_configuration):
       for i in xrange(0,nfits):
 	  # Now the same with qsub
 	  jobs = "j"+str(i)+","+jobs
-	  copasiCMD = "CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"	  
+	  copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model[:-4]+str(i)+".cps")+" "+os.path.join(models_dir, model[:-4]+str(i)+".cps")
 	  echoCMD = ["echo", copasiCMD]
-	  qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", outDir+"/j"+str(i), "-e", errDir+"/j"+str(i)] 
+	  qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
 	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
 	  qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
       # Check here when these jobs are finished before proceeding
@@ -229,9 +229,9 @@ def main(model_configuration):
     elif cluster == "lsf": # use LSF (Platform Load Sharing Facility)
       for i in xrange(1,nfits):
 	  jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
-	  copasiCMD = "CopasiSE -s "+models_dir+"/"+model[:-4]+str(i)+".cps "+models_dir+"/"+model[:-4]+str(i)+".cps"
+	  copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model[:-4]+str(i)+".cps")+""+os.path.join(models_dir, model[:-4]+str(i)+".cps")
 	  echoCMD = ["echo", copasiCMD]
-	  bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", outDir+"/j"+str(i), "-e", errDir+"/j"+str(i)] 
+	  bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
 	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
 	  bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
       # Check here when these jobs are finished before proceeding
@@ -267,12 +267,12 @@ def main(model_configuration):
 
 
   # remove the previously copied Data folder
-  shutil.rmtree(models_dir+"/"+data_folder, ignore_errors=True) 
+  shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
 
   # Move the files to the results_dir
   tmpFiles = os.listdir(tmp_dir)
   for file in tmpFiles:
-    shutil.move(tmp_dir+"/"+file, results_dir+"/"+dataset_working_folder+"/")
+    shutil.move(os.path.join(tmp_dir, file), os.path.join(results_dir, dataset_working_folder))
     
     
 
@@ -283,7 +283,7 @@ def main(model_configuration):
   print("###############")
   print("\n")
   # Collect and summarises the parameter estimation results
-  param_estim__copasi_utils_collect_results.main(results_dir+"/"+dataset_working_folder+"/", results_dir, data_summary_file)
+  param_estim__copasi_utils_collect_results.main(os.path.join(results_dir, dataset_working_folder), results_dir, data_summary_file)
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
@@ -295,7 +295,8 @@ def main(model_configuration):
   print("Plot distributions:")
   print("###################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_param_estim__copasi/param_estim__copasi_fit_analysis.r", results_dir+"/"+data_summary_file, plots_dir, best_fits_percent])
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','param_estim__copasi_fit_analysis.r'), 
+			      os.path.join(results_dir, data_summary_file), plots_dir, best_fits_percent])
   process.wait()
   
 
@@ -304,7 +305,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  param_estim__gen_report.main(model[:-4], results_dir+"/", plots_folder)
+  param_estim__gen_report.main(model[:-4], results_dir, plots_folder)
 
 
   print("\n")
@@ -327,7 +328,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if os.path.isfile(results_dir+"/parameter_estimation_collected_results.csv") and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
+  if os.path.isfile(os.path.join(results_dir,'parameter_estimation_collected_results.csv')) and len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
       return 0
   return 1
     

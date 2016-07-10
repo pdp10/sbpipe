@@ -30,7 +30,7 @@
 import sys
 import os
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
 from PlotCalibration import *
 

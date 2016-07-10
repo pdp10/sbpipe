@@ -26,12 +26,12 @@ import glob
 
 def main(args):
 
-  mypath = './'
+  mypath = os.getcwd()
   modelProjects = [f for f in os.listdir(mypath) if isdir(join(mypath, f))]
 
   for file in modelProjects:
     modelspath = join(file, 'Models')
-    paramEstimCopasiFiles = glob.glob(modelspath + "/" + "*_param_estim?*.cps")
+    paramEstimCopasiFiles = glob.glob(os.path.join(modelspath, "*_param_estim?*.cps"))
     for f in paramEstimCopasiFiles:
       print("deleting..." + f)           
       os.remove(f)
@@ -45,11 +45,11 @@ def main(args):
     wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
     for f in wflist:
       print("deleting..." + f)      
-      os.remove(wfpath + "/" + f)
+      os.remove(os.path.join(wfpath, f))
     # delete sub-directories
     wflist = [d for d in os.listdir(wfpath) if os.path.isdir(os.path.join(wfpath, d))]
     for d in wflist:
       print("deleting..." + d)
-      shutil.rmtree(wfpath + "/" + d, ignore_errors=True)
+      shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)
 
 main(sys.argv)
