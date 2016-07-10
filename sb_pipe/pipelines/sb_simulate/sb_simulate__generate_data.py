@@ -29,6 +29,7 @@
 
 import os
 import sys
+import glob
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -42,21 +43,26 @@ from CopasiUtils import replace_str_copasi_sim_report
 # models_dir: read the models dir
 # output_dir: The output dir
 # tmp_dir: read the temp dir
-# simulate__model_simulations_number: the number of simulations to perform
-def main(model, models_dir, output_dir, tmp_dir, simulate__model_simulations_number):
+# sim_number: the number of simulations to perform
+def main(model, models_dir, output_dir, tmp_dir, sim_number):
   
-  if int(simulate__model_simulations_number) < 1: 
-    print("ERROR: variable " + simulate__model_simulations_number + " must be greater than 0. Please, check your configuration file.");
+  if int(sim_number) < 1: 
+    print("ERROR: variable " + sim_number + " must be greater than 0. Please, check your configuration file.");
     return
   
   model_noext=model[:-4]
+
+  # folder preparation
+  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
+  for f in filesToDelete:
+    os.remove(f)
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
   print("Simulating Model: " + model)
-  # execute simulate__model_simulations_number simulations. For the plot generation we need more than 1 simulation. 
+  # execute sim_number simulations. For the plot generation we need more than 1 simulation. 
   # This is likely to be a bug. For now, let's do at least two simulations.
-  for idx in range(1, int(simulate__model_simulations_number) + 1):
+  for idx in range(1, int(sim_number) + 1):
     # run CopasiSE. Copasi must generate a (TIME COURSE) report called model_noext +'.csv' in tmp_dir
     p1 = Popen(["CopasiSE", "--nologo", os.path.join(models_dir,model)], stdout=PIPE) 
     p1.communicate()[0]

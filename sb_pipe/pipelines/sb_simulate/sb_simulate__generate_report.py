@@ -41,6 +41,10 @@ from single_model_latex_reports import latex_report_simulate
 # plots_dir: the directory containing the time courses results combined with experimental data  
 def main(model_noext, results_dir, plots_dir):
     
+  if not os.path.exists(os.path.join(results_dir, plots_dir)): 
+    print("ERROR: input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
+    return    
+    
   print("Generating a LaTeX report\n")
   print(model_noext)
   filename_prefix="report__simulate_"
