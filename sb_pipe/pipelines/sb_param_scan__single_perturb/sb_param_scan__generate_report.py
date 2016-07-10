@@ -45,6 +45,12 @@ from single_model_latex_reports import latex_report_par_scan
 # legend_noext: The name of the legend
 def main(model_noext, species, results_dir, plots_dir):
     
+    
+  if not os.path.exists(os.path.join(results_dir,plots_dir)): 
+    print("ERROR: input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
+    return
+  
+    
   print("Generating a LaTeX report\n")
   print(model_noext)
   filename_prefix="report__single_param_scan_"

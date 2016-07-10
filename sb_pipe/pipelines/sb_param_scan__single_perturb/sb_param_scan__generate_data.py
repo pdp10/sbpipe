@@ -25,6 +25,7 @@
 
 
 import os, sys
+import glob
 import subprocess
 import shutil
 
@@ -40,13 +41,24 @@ import CopasiUtils
 # INITIALIZATION
 # model: read the model
 # species: the species to knock-down (name of the species as in copasi)
-# param_scan__single_perturb_simulations_number: Number of times the model should be simulated. For deterministic simulations, ${param_scan__single_perturb_simulations_number}==1 . For stochastic simulations, ${param_scan__single_perturb_simulations_number}==h. 
+# sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
 # models_dir: Read the models dir
-# results_dir: Read the results dir
+# output_dir: the output dir
 # tmp_dir: Read the tmp dir
-def main(model, species, param_scan__single_perturb_simulations_number, simulate__intervals, 
-	 param_scan__single_perturb_intervals, models_dir, results_dir, tmp_dir):
+def main(model, species, sim_number, simulate__intervals, 
+	 param_scan__single_perturb_intervals, models_dir, output_dir, tmp_dir):
 
+
+  if not os.path.isfile(os.path.join(models_dir,model)):
+    print(os.path.join(models_dir, model) + " does not exist.") 
+    return
+  
+  filesToDelete = glob.glob(os.path.join(output_dir,model[:-4]+"*"))
+  for f in filesToDelete:
+    os.remove(f)
+  if not os.path.exists(output_dir):
+    os.mkdir(output_dir) 
+    
 
   print("Simulating Model: "+ model)
 
@@ -61,7 +73,7 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
   timepoints=int(simulate__intervals)+1
 
 
-  for i in xrange(0, int(param_scan__single_perturb_simulations_number)):
+  for i in xrange(0, int(sim_number)):
     
       print("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
@@ -131,7 +143,7 @@ def main(model, species, param_scan__single_perturb_simulations_number, simulate
 	  table = list(islice(file, timepoints+1))  
 
 	# Write the extracted table to a separate file
-	with open(os.path.join(results_dir, model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv"), 'w') as file:
+	with open(os.path.join(output_dir, model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv"), 'w') as file:
 	  for line in table:
 	    file.write(line)
 

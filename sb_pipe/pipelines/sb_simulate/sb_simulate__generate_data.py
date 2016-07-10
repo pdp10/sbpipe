@@ -49,6 +49,10 @@ def main(model, models_dir, output_dir, tmp_dir, sim_number):
   if int(sim_number) < 1: 
     print("ERROR: variable " + sim_number + " must be greater than 0. Please, check your configuration file.");
     return
+
+  if not os.path.isfile(os.path.join(models_dir,model)):
+    print(os.path.join(models_dir, model) + " does not exist.") 
+    return  
   
   model_noext=model[:-4]
 
