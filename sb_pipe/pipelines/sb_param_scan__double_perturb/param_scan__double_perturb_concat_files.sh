@@ -16,7 +16,7 @@
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2013-07-7 16:14:32 $
+# $Date: 2015-07-7 16:14:32 $
 
 # This script was created for combining the results of a partitioned 
 # double parameter scan using copasi. Particularly, the task of 

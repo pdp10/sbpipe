@@ -23,7 +23,6 @@
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 22:58:32 $
-# $Id: latex_report.py,v 1.0 2016-06-23 22:58:32 Piero Dalle Pezze Exp $
 
 
 

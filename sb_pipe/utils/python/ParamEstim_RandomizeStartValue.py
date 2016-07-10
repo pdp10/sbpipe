@@ -19,8 +19,7 @@
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2010-07-13 12:14:32 $
-# $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
+# $Date: 2015-07-13 12:14:32 $
 
 
 import sys, os, os.path
