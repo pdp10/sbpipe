@@ -19,7 +19,7 @@
 #
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2013-05-30 16:14:32 $
+# $Date: 2015-05-30 16:14:32 $
 
 
 
@@ -39,6 +39,9 @@ from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity'))
+import sb_sensitivity__generate_data
+import sb_sensitivity__analyse_data
+import sb_sensitivity__generate_report
 
 
 """
@@ -63,6 +66,12 @@ def main(model_configuration):
   lines=parser.items('top')
    
    
+  # Boolean
+  generate_data=True
+  # Boolean
+  analyse_data=True
+  # Boolean
+  generate_report=True   
   # The project directory
   project_dir=".."
   # The copasi model
@@ -74,6 +83,12 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
+    if line[0] == "generate_data":
+      generate_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "analyse_data":
+      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "generate_report":
+      generate_report = {'True': True, 'False': False}.get(line[1], False)         
     if line[0] == "project_dir":
       project_dir = line[1] 
     elif line[0] == "model": 
@@ -102,50 +117,41 @@ def main(model_configuration):
       
 
   print("\n")
-  print("#############################################################")     
   print("#############################################################")
   print("### Processing model " + model)
-  print("#############################################################")
   print("#############################################################")
   print("")
 
 
-
-  print("\n")
-  print("##############################")
-  print("Preparing folder " + results_dir)
-  print("##############################")
-  print("\n")
+  # preprocessing
   # remove the folder the previous results if any
 #   filesToDelete = glob.glob(os.path.join(sensitivities_dir, "*.png"))
 #   for f in filesToDelete:
-#     os.remove(f)  
-
+#     os.remove(f)
   if not os.path.exists(results_dir):
     os.mkdir(results_dir)
 
 
 
-  # print("\n")
-  # print("#####################")
-  # print("Executing sensitivities:\n")
-  # print("#####################")
-  # print("\n")
-  # TODO 
-  #process = subprocess.Popen(['bash', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_sensitivity','sensitivities__run_copasi.sh'), model, models_dir, results_dir, tmp_dir])
-  #process.wait()   
+  if generate_data == True:
+    print("\n")
+    print("Generate data:")
+    print("##############")
+    sb_sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
 
 
-
-  print("\n")
-  print("##################")
-  print("Generating plots:")
-  print("##################")
-  print("\n")
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity','sensitivities__copasi_plot.R'), results_dir])
-  process.wait()    
+  if analyse_data == True:
+    print("\n")
+    print("Analyse data:")
+    print("#############")
+    sb_sensitivity__analyse_data.main(results_dir)  
 
 
+  if generate_report == True:
+    print("\n")
+    print("Generate reports:")
+    print("#################")
+    sb_sensitivity__generate_report.main()     
 
 
   # Print the pipeline elapsed time

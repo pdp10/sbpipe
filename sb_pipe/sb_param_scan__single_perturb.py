@@ -41,8 +41,9 @@ from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb'))
-import param_scan__single_perturb_run_copasi
-import param_scan__single_perturb_gen_report
+import sb_param_scan__generate_data
+import sb_param_scan__analyse_data
+import sb_param_scan__generate_report
 
 
 """
@@ -72,6 +73,12 @@ def main(model_configuration):
   # (2) model m can be perturbed on n species (in copasi, it is better 1 species per model, since it must be configured in the .cps file)
 
 
+  # Boolean
+  generate_data=True
+  # Boolean
+  analyse_data=True
+  # Boolean
+  generate_report=True
   # the project directory
   project_dir=".."
   # Copasi model (e.g mtor_model_scan_mTORC1.cps ...)
@@ -104,6 +111,12 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
+    if line[0] == "generate_data":
+      generate_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "analyse_data":
+      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "generate_report":
+      generate_report = {'True': True, 'False': False}.get(line[1], False)        
     if line[0] == "project_dir":
       project_dir = line[1]   
     elif line[0] == "model": 
@@ -131,23 +144,13 @@ def main(model_configuration):
 
 
 
-  # some control
-  if int(min_level) < 0: 
-    print("\n ERROR: min_level MUST BE non negative ")
-    return
-  
-  if int(max_level) < 100: 
-    print("\n ERROR: max_level MUST BE greater than 100 ")
-    return  
-
-
   # INTERNAL VARIABLES
   # The folder containing the models
   models_folder="Models"
   # The folder containing the results
   working_folder="Working_Folder"
   # The name of the folder containing the computed dataset of the parameter scanning
-  dataset_parameter_scan_dir="param_scan_data"
+  raw_sim_data="raw_sim_data"
   # The name of the folder containing the generated plots of the parameter scanning
   tc_parameter_scan_dir="tc_param_scan"  
 
@@ -162,81 +165,53 @@ def main(model_configuration):
   # Get the pipeline start time
   start = time.clock()
 
-      
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    print(os.path.join(models_dir, model) + " does not exist.") 
-    return
     
   
   print("\n")
-  print("#############################################################")     
   print("#############################################################")
   print("### Processing model " + model)
-  print("#############################################################")
   print("#############################################################")
   print("")    
 
 
-  print("\n")
-  print("##############################")
-  print("Preparing folder " + results_dir +":")
-  print("##############################")
-  print("\n")
-  filesToDelete = glob.glob(os.path.join(results_dir,dataset_parameter_scan_dir,model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  filesToDelete = glob.glob(os.path.join(results_dir,tc_parameter_scan_dir,model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  filesToDelete = glob.glob(os.path.join(results_dir,"*"+model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)    
-  
+  # preprocessing
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(os.path.join(results_dir, dataset_parameter_scan_dir)):
-    os.mkdir(os.path.join(results_dir, dataset_parameter_scan_dir))
-  if not os.path.exists(os.path.join(results_dir, tc_parameter_scan_dir)):
-    os.mkdir(os.path.join(results_dir, tc_parameter_scan_dir)) 
 
 
-
-  print("\n")
-  print("#####################")
-  print("Executing simulations:")
-  print("#####################")
-  print("\n")
-  param_scan__single_perturb_run_copasi.main(model, 
-					      scanned_species, 
-					      param_scan__single_perturb_simulations_number, 
-					      simulate__intervals,
-					      levels_number,
-					      models_dir, 
-					      os.path.join(results_dir, dataset_parameter_scan_dir), 
-					      tmp_dir)
+  if generate_data == True:
+    print("\n")
+    print("Generate data:")
+    print("##############")
+    sb_param_scan__generate_data.main(model, 
+				      scanned_species, 
+				      param_scan__single_perturb_simulations_number, 
+				      simulate__intervals,
+				      levels_number,
+				      models_dir, 
+				      os.path.join(results_dir, raw_sim_data), 
+				      tmp_dir)
   
   
-  print("\n")
-  print("################")
-  print("Generating plots:")
-  print("################")
-  print("\n")
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb','param_scan__single_perturb_plot.R'), 
-			      model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, 
-			      str(min_level), str(max_level), str(levels_number)])    
-  process.wait()
+  if analyse_data == True:
+    print("\n")
+    print("Analyse data:")
+    print("#############")
+    sb_param_scan__analyse_data.main(model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, 
+				     raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+				     param_scan__single_perturb_simulations_number, 
+				     param_scan__single_perturb_perturbation_in_percent_levels, 
+				     min_level, max_level, levels_number)
   
   
   
-  print("\n")
-  print("##################")
-  print("Generating reports:")
-  print("##################")
-  print("\n")
-  param_scan__single_perturb_gen_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
+  if generate_report == True:
+    print("\n")
+    print("Generate reports:")
+    print("#################")
+    sb_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 
 

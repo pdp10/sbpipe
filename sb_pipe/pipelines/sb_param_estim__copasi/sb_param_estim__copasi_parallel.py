@@ -19,8 +19,7 @@
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2010-07-13 12:14:32 $
-# $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
+# $Date: 2015-07-13 12:14:32 $
 #
 # Desc: This program runs parallel estimation computations with pp module 
 
@@ -135,7 +134,7 @@ def main(servers, ports, secret, path, model, nfits, ncpus):
         
     print("ppserver will use " + str(job_server.get_ncpus()) + " cores locally.\n")        
 
-    print("\nComputing Parallel Parameter Estimation using Copasi\n")
+    print("Computing parallel parameter estimation using Copasi:")
     run_parallel_copasi(server=job_server, args=(path, model, nfits), syncCounter=syncCounter)        
     # Wait for jobs in all groups to finish 
     job_server.wait(group="my_processes")

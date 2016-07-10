@@ -18,17 +18,13 @@
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2010-11-16 12:14:32 $
-# $Id: param_scan__sim_parameter_scan.R,v 3.0 2010-11-16 19:45:32 Piero Dalle Pezze Exp $
+# $Date: 2015-11-16 12:14:32 $
 
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','single_perturb_plots_func.r'))
-
-
-
 
 
 main <- function(args) {

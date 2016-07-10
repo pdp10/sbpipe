@@ -32,15 +32,15 @@ import os
 import sys
 import glob
 import shutil
-import subprocess
 
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate'))
-import simulate__run_copasi
-import simulate__gen_report
+import sb_simulate__generate_data
+import sb_simulate__analyse_data
+import sb_simulate__generate_report
 
 
 
@@ -66,6 +66,12 @@ def main(model_configuration):
     
   lines=parser.items('top')
   
+  # Boolean
+  generate_data=True
+  # Boolean
+  analyse_data=True
+  # Boolean
+  generate_report=True
   # the project directory
   project_dir=""
   # The Copasi model
@@ -84,6 +90,12 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
+    if line[0] == "generate_data":
+      generate_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "analyse_data":
+      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "generate_report":
+      generate_report = {'True': True, 'False': False}.get(line[1], False)           
     if line[0] == "project_dir":
       project_dir = line[1] 
     elif line[0] == "model": 
@@ -111,7 +123,7 @@ def main(model_configuration):
   # The folder containing the working results
   working_folder="Working_Folder"
   # The dataset working folder
-  dataset_working_folder="simul_data"
+  sim_raw_data="sim_raw_data"
   # The dataset timecourses dir
   tc_dir="tc"
   # The dataset mean timecourses dir
@@ -133,88 +145,37 @@ def main(model_configuration):
 
       
   print("\n")
-  print("#############################################################")     
   print("#############################################################")
   print("### Processing model "+ model)
   print("#############################################################")
-  print("#############################################################")
   print("")
 	
-
-	
-  print("\n")
-  print("##############################")
-  print("Preparing folder "+results_dir)
-  print("##############################")
-  print("\n")
-  # remove the folder the previous results if any
-  filesToDelete = glob.glob(os.path.join(results_dir, dataset_working_folder, model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  filesToDelete = glob.glob(os.path.join(results_dir, tc_dir, model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  filesToDelete = glob.glob(os.path.join(results_dir, tc_mean_dir, model[:-4]+"*"))    
-  for f in filesToDelete:
-    os.remove(f)
-  filesToDelete = glob.glob(os.path.join(results_dir, tc_mean_with_exp_dir, model[:-4]+"*")) 
-  for f in filesToDelete:
-    os.remove(f)    
-  filesToDelete = glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)    
-
-  
+  # preprocessing
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
-    os.makedirs(results_dir)
-  if not os.path.exists(os.path.join(results_dir, dataset_working_folder)):  
-    os.mkdir(os.path.join(results_dir, dataset_working_folder))
-  if not os.path.exists(os.path.join(results_dir, tc_dir)):  
-    os.mkdir(os.path.join(results_dir, tc_dir)) 
-  if not os.path.exists(os.path.join(results_dir, tc_mean_dir)):  
-    os.mkdir(os.path.join(results_dir, tc_mean_dir))
-  if not os.path.exists(os.path.join(results_dir, tc_mean_with_exp_dir)):  
-    os.mkdir(os.path.join(results_dir, tc_mean_with_exp_dir))  
+    os.makedirs(results_dir) 
  
  
-
-  print("\n")
-  print("#####################")
-  print("Executing simulations:")
-  print("#####################")
-  print("\n")
-  simulate__run_copasi.main(model, models_dir, os.path.join(results_dir, dataset_working_folder), tmp_dir, simulate__model_simulations_number)
+  if generate_data == True:
+    print("\n")
+    print("Generate data:")
+    print("##############")
+    sb_simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, simulate__model_simulations_number)
 
 
-  print("\n")
-  print("######################################")
-  print("Generating statistics from simulations:")
-  print("######################################")
-  print("\n")
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','simulate__plot_error_bars.R'), 
-			      model[:-4], os.path.join(results_dir, dataset_working_folder), 
-			      os.path.join(results_dir, tc_mean_dir), 
-			      os.path.join(results_dir, 'sim_stats_'+model[:-4]+'.csv'), simulate__xaxis_label])
-  process.wait() 
+  if analyse_data == True:
+    print("\n")
+    print("Analyse data:")
+    print("#############")
+    sb_simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_raw_data), results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, simulate__xaxis_label)    
 
 
-  print("\n")
-  print("########################################")
-  print("Generating overlapping plots (sim + exp) (SKIP):")
-  print("########################################")
-  print("\n")
-  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','simulate__plot_sim_exp_error_bars.R'), model[:-4], os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model[:-4]+'.csv'),  os.path.join(results_dir,'exp_stats_'+model[:-4]+'.csv')])
-  #process.wait() 
-
-
-  print("\n")
-  print("##################")
-  print("Generating reports:")
-  print("##################")
-  print("\n")
-  simulate__gen_report.main(model[:-4], results_dir, tc_mean_dir)
+  if generate_report == True:
+    print("\n")
+    print("Generate reports:")
+    print("#################")
+    sb_simulate__generate_report.main(model[:-4], results_dir, tc_mean_dir)
 
 
   # Print the pipeline elapsed time

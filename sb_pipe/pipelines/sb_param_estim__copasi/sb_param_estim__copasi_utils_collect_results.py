@@ -17,23 +17,29 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
 
-# Regular expressions utils
+# Collect the estimated parameters from the results of a parameter estimation task using Copasi
+
+import sys
+import os
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+
+from ParamEstim_CollectResults import *
 
 
 
+ 
+# INITIALIZATION
+# path_in : The path containing COPASI parameter estimation reports
+# path_out : The path to store filename_out
+# filename_out : the file name of the collected results
+def main(path_in, path_out, filename_out):
+  print("Collect results from multiple parameter estimations") 
+  post_param_estim = ParamEstim_CollectResults()
+  post_param_estim.collect_results(path_in, path_out, filename_out)
 
-import re
-
-
-# Two functions for sorting correctly the list of files of results. They sort 
-# the files as expected, by the numeric value added to the end of the file name.
-def atoi(text):
-    return int(text) if text.isdigit() else text
-def natural_keys(text):
-    return [ atoi(c) for c in re.split('(\d+)', text) ]

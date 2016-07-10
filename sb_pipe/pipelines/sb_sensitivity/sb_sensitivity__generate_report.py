@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
@@ -14,32 +16,29 @@
 # You should have received a copy of the GNU General Public License
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
+# Object: Execute the model several times for deterministic or stochastical analysis
+#
+#
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2015-07-7 16:14:32 $
-
-
-# This script executes CopasiSE ntimes. 
-# The computation is on an openlava cluster
-
-
-# the path of the model
-PATH=$1
-# the model pattern name (e.g. mtor_model_ )
-MODEL=$2
-# the number of models (e.g. 3 if: mtor_model_1.cps, mtor_model_2.cps, mtor_model_3.cps)
-NUM=$3
+# $Date: 2016-06-23 13:45:32 $
 
 
 
-USAGE="run_concur_copasi_cluster.sh [path] [model_pattern] [n_times]"
+
+import os
+import sys
+import glob
+from subprocess import Popen,PIPE
+
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
 
-echo "$USAGE"
-for (( i=1; i<=${NUM}; i+=1 ))
-do
-  # run copasi on openlava on the cluster
-  echo "bsub CopasiSE ${PATH}/${MODEL}${i}.cps"
-  bsub -q npdp2_queue CopasiSE "${PATH}/${MODEL}${i}.cps"  
-done
 
+# Input parameters
+# model, models_dir, results_dir, tmp_dir
+def main():
+  pass
+  # TODO  

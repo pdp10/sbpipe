@@ -19,8 +19,7 @@
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2010-07-13 12:14:32 $
-# $Id: latex_report.py,v 1.0 2010-07-13 12:45:32 Piero Dalle Pezze Exp $
+# $Date: 2015-07-13 12:14:32 $
 
 
 
@@ -40,7 +39,7 @@ from PlotCalibration import *
 # folder : the folder containing the data to process
 # rscript_folder : the rscript folder
 def main(folder, rscript_folder):
-  print("\nPlot the calibration results as an Iteration-MSE function\n") 
+  print("Plot the calibration results as an Iteration-MSE function") 
   #pools = [ "small_values_config", "medium_values_config", "large_values_config" ]
   pools = [ "estimation error" ]
   colours = ["black", "blue", "green", "orange", "brown", "red", "purple"]

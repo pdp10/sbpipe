@@ -42,11 +42,9 @@ from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_param_estim__copasi'))
-import param_estim__copasi_parallel
-import param_estim__copasi_utils_randomise_start_values
-import param_estim__copasi_utils_collect_results
-import param_estim__copasi_utils_plot_calibration
-import param_estim__gen_report
+import sb_param_estim__generate_data
+import sb_param_estim__analyse_data
+import sb_param_estim__generate_report
 
 
 """
@@ -70,6 +68,13 @@ def main(model_configuration):
     
   lines=parser.items('top')
 
+
+  # Boolean
+  generate_data=True
+  # Boolean
+  analyse_data=True
+  # Boolean
+  generate_report=True
   # The project dir
   project_dir=""
   # read the copasi model name 
@@ -92,6 +97,12 @@ def main(model_configuration):
   # Initialises the variables
   for line in lines:
     print line
+    if line[0] == "generate_data":
+      generate_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "analyse_data":
+      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
+    if line[0] == "generate_report":
+      generate_report = {'True': True, 'False': False}.get(line[1], False)        
     if line[0] == "project_dir": 
       project_dir = line[1]
     elif line[0] == "model":
@@ -120,7 +131,7 @@ def main(model_configuration):
   # The folder containing the working results
   working_folder="Working_Folder"
   # The dataset working folder
-  dataset_working_folder="param_estim_data"  
+  sim_raw_data="sim_raw_data"  
   
   models_dir = os.path.join(project_dir,models_folder)
   working_dir = os.path.join(project_dir, working_folder)
@@ -143,176 +154,42 @@ def main(model_configuration):
     
   print("\n")
   print("#############################################################")
-  print("#############################################################")
   print("### Parameter estimation for model "+model)
-  print("#############################################################")
   print("#############################################################")
   print("")
 
-
-      
-  print("\n")
-  print("#################")
-  print("Preparing folders:")
-  print("#################")
-  print("\n")
-  shutil.rmtree(output_folder, ignore_errors=True)   
-  if not os.path.exists(models_dir):
-    os.mkdir(models_dir)
-  if not os.path.exists(data_dir):
-    os.mkdir(data_dir)
+  # preprocessing
   if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
-  if not os.path.exists(plots_dir):
-    os.makedirs(plots_dir)
-  if not os.path.exists(working_dir):
-    os.makedirs(working_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(os.path.join(results_dir, dataset_working_folder)):
-    os.mkdir(os.path.join(results_dir, dataset_working_folder)) 
 
 
-
-  print("\n")
-  print("################")
-  print("Configure Copasi:")
-  print("################")
-  param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
-
-
-
-
-  print("\n")
-  print("###############################")
-  print("Concurrent parameter estimation:")
-  print("###############################")
-  # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
-  # Let's temporarily copy this folder and then delete it.
-  if os.path.exists(os.path.join(models_dir, data_folder)):
-    os.rename(os.path.join(models_dir, data_folder), os.path.join(models_dir, data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now())))
-  shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
-
-  
-  if cluster == "sge" or cluster == "lsf":
-    # Test this with echo "Copasi insulin_receptor.cps" | xargs xargs using Python environment.
-    # The following works:
-    # copasiCMD = "CopasiSE insulin_receptor.cps"      
-    # echoCMD=["echo", copasiCMD]      
-    # xargsCMD=["xargs", "xargs"]
-    # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-    # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)
-    jobs = ""
-    echoSleep = ["echo", "sleep 1"]
-    outDir = os.path.join(results_dir, 'out')
-    errDir = os.path.join(results_dir, 'err')
-    if not os.path.exists(outDir):
-      os.makedirs(outDir)
-    if not os.path.exists(errDir):
-      os.makedirs(errDir)   
-      
-    if cluster == "sge":  # use SGE (Sun Grid Engine) 
-      for i in xrange(0,nfits):
-	  # Now the same with qsub
-	  jobs = "j"+str(i)+","+jobs
-	  copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model[:-4]+str(i)+".cps")+" "+os.path.join(models_dir, model[:-4]+str(i)+".cps")
-	  echoCMD = ["echo", copasiCMD]
-	  qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
-	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-	  qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
-      # Check here when these jobs are finished before proceeding
-      qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
-      echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
-      qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
-      qsubProc.wait()
-
-    elif cluster == "lsf": # use LSF (Platform Load Sharing Facility)
-      for i in xrange(1,nfits):
-	  jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
-	  copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model[:-4]+str(i)+".cps")+""+os.path.join(models_dir, model[:-4]+str(i)+".cps")
-	  echoCMD = ["echo", copasiCMD]
-	  bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
-	  echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-	  bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
-      # Check here when these jobs are finished before proceeding
-      qsubCMD = ["bsub", "-w", jobs[:-2]]
-      echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
-      bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
-      bsubProc.wait()    
-    
-    
-  else: # use pp by default (parallel python). This is configured to work locally using multi-core.
-    if cluster != "pp":
-      print("Warning - Variable cluster is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
-    
-    # Settings for PP
-    # The user name
-    user="sb_pipe"
-    # The server to connect (e.g. localhost,my-node.abc.ac.uk)
-    server_list="localhost"
-    # The port to connect for the above server (e.g. 65000)
-    port_list="65000"
-    # The secret key to communicate for the above server
-    secret="donald_duck"  
-    pp_cpus = int(pp_cpus)    
-
-    # Perform this task using python-pp (parallel python dependency). 
-    # If this computation is performed on a cluster, start this on each node of the cluster. 
-    # The list of servers and ports must be updated in the configuration file
-    # (NOTE: It requires the installation of python-pp)
-    #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-
-    # Perform this task using python-pp (parallel python dependency)
-    param_estim__copasi_parallel.main(server_list, port_list, secret, models_dir, model[:-4], nfits, pp_cpus)
-
-
-  # remove the previously copied Data folder
-  shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
-
-  # Move the files to the results_dir
-  tmpFiles = os.listdir(tmp_dir)
-  for file in tmpFiles:
-    shutil.move(os.path.join(tmp_dir, file), os.path.join(results_dir, dataset_working_folder))
-    
+  if generate_data == True:
+    print("\n")
+    print("Generate data:")
+    print("##############")
+    sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, nfits, results_dir, sim_raw_data, tmp_dir)
     
 
-
-  print("\n")
-  print("###############")
-  print("Collect results:")
-  print("###############")
-  print("\n")
-  # Collect and summarises the parameter estimation results
-  param_estim__copasi_utils_collect_results.main(os.path.join(results_dir, dataset_working_folder), results_dir, data_summary_file)
-
-  # plot the fitting curve using data from the fit sequence 
-  # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
-  #param_estim__copasi_utils_plot_calibration.main(results_dir, results_dir)
+  if analyse_data == True:
+    print("\n")
+    print("Analyse data:")
+    print("#############")
+    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, data_summary_file, plots_dir, best_fits_percent)    
 
 
-  print("\n")
-  print("###################")
-  print("Plot distributions:")
-  print("###################")
-  print("\n")
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','param_estim__copasi_fit_analysis.r'), 
-			      os.path.join(results_dir, data_summary_file), plots_dir, best_fits_percent])
-  process.wait()
+  if generate_report == True:
+    print("\n")
+    print("Generate reports:")
+    print("#################")
+    sb_param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 
-  print("\n")
-  print("##################")
-  print("Generating reports:")
-  print("##################")
-  print("\n")
-  param_estim__gen_report.main(model[:-4], results_dir, plots_folder)
-
 
   print("\n")
-  print("#####################################")
   print("Store the fits sequences in a tarball:")
   print("#####################################")
-  print("\n")
   # Create a gz tarball   
   origWD = os.getcwd() # remember our original working directory
   os.chdir(working_dir) # change folder

@@ -18,8 +18,7 @@
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2010-11-16 12:14:32 $
-# $Id: param_scan__sim_parameter_scan.R,v 3.0 2010-11-16 19:45:32 Piero Dalle Pezze Exp $
+# $Date: 2016-7-6 12:14:32 $
 
 
 library(ggplot2)

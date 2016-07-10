@@ -17,7 +17,7 @@
 #
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2013-05-30 16:14:32 $
+# $Date: 2015-05-30 16:14:32 $
 
 # This scripts provides the user with a complete pipeline of scripts comprising the configuration 
 # and execution of jobs on the cluster, results retrieval and concatenation, parameter estimation 

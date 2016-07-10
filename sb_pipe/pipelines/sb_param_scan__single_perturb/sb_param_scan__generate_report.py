@@ -23,7 +23,6 @@
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 22:58:32 $
-# $Id: latex_report.py,v 1.0 2016-06-23 22:58:32 Piero Dalle Pezze Exp $
 
 
 
@@ -44,6 +43,12 @@ from single_model_latex_reports import latex_report_par_scan
 # plots_dir: The directory containing the plots of the single perturbation scan
 # legend_noext: The name of the legend
 def main(model_noext, species, results_dir, plots_dir):
+    
+    
+  if not os.path.exists(os.path.join(results_dir,plots_dir)): 
+    print("ERROR: input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
+    return
+  
     
   print("Generating a LaTeX report\n")
   print(model_noext)
