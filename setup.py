@@ -49,7 +49,7 @@ setup(
   package_data={'sb_pipe': ['doc/*.pdf','doc/*.html','*.tgz']},
   author_email = 'piero.dallepezze@babraham.ac.uk',
   url = 'https://github.com/pdp10/sb_pipe',
-  download_url = 'http://pdp10.github.io/sb_pipe',
+  download_url = 'https://pdp10.github.io/sb_pipe',
   keywords = ['systems biology','mathematical modelling','copasi','pipeline'],
   include_package_data = False,
   license = 'GNU GPL v3',
