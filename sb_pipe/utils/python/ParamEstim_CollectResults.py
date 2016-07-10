@@ -125,7 +125,7 @@ class ParamEstim_CollectResults:
 
   # Retrieve input files
   def _retrieve_input_files(self):
-    self._files = glob.glob(self._path + "/*.csv")
+    self._files = glob.glob(os.path.join(self._path, "*.csv"))
     self._files.sort(key=natural_keys)
 
 

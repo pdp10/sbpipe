@@ -61,7 +61,7 @@ import subprocess
 import sys
 import os
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
 from BasicSyncCounter import *
 
@@ -86,7 +86,7 @@ def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter())
     start_time = time.time()
     for index in range(0, nfits):
         # Submit a Copasi Job
-        filename = path + "/" + model + str(index + 1) + ".cps"
+        filename = os.path.join(path, model + str(index + 1) + ".cps")
 
         callbackargs = (index,)
         server.submit(run_copasi_instance,

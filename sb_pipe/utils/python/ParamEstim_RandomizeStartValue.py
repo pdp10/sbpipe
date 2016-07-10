@@ -60,7 +60,7 @@ class ParamEstim_RandomizeStartValue:
     self._copasi = CopasiParser()
     self._path = _path
     self._filename_in = _filename_in
-    self._report_filename_template, self._lower_bounds, self._param_names, self._start_values, self._upper_bounds = self._copasi.retrieve_param_estim_values(self._path + "/" + self._filename_in)
+    self._report_filename_template, self._lower_bounds, self._param_names, self._start_values, self._upper_bounds = self._copasi.retrieve_param_estim_values(os.path.join(self._path, self._filename_in))
     
 
   # Generate num_files files, in which the parameters to estimate have a random 
@@ -71,8 +71,8 @@ class ParamEstim_RandomizeStartValue:
       # initialise the names and generate the output file
       filename_out = self._filename_in[:-4] + str(i+1) + ".cps"
       report_filename = self._report_filename_template[:-4] + str(i+1) + ".csv"
-      file_out = self._path + filename_out
-      file_in = self._path + self._filename_in
+      file_out = os.path.join(self._path, filename_out)
+      file_in = os.path.join(self._path, self._filename_in)
       if os.path.isfile(file_out):
 	os.remove(file_out)
       shutil.copy2(file_in, file_out)      

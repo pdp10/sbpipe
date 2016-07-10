@@ -32,7 +32,7 @@ import sys
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/utils/python/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from CopasiUtils import replace_str_copasi_sim_report
 
 
@@ -58,11 +58,11 @@ def main(model, models_dir, output_dir, tmp_dir, simulate__model_simulations_num
   # This is likely to be a bug. For now, let's do at least two simulations.
   for idx in range(1, int(simulate__model_simulations_number) + 1):
     # run CopasiSE. Copasi must generate a (TIME COURSE) report called model_noext +'.csv' in tmp_dir
-    p1 = Popen(["CopasiSE", "--nologo", models_dir+'/'+model], stdout=PIPE) 
+    p1 = Popen(["CopasiSE", "--nologo", os.path.join(models_dir,model)], stdout=PIPE) 
     p1.communicate()[0]
 
     # Replace some string in the report file
     print("Simulation No.: " + str(idx))
     replace_str_copasi_sim_report(tmp_dir, model)
-    os.rename(tmp_dir+"/"+model_noext+".csv", output_dir+"/"+model_noext+"__sim_"+str(idx)+".csv")
+    os.rename(os.path.join(tmp_dir,model_noext+".csv"), os.path.join(output_dir, model_noext+"__sim_"+str(idx)+".csv"))
 

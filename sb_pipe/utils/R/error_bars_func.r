@@ -29,8 +29,8 @@ library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source( paste(SB_PIPE, "/sb_pipe/utils/R/matrices.r", sep="") )
-source(paste(SB_PIPE, "/sb_pipe/utils/R/sb_pipe_ggplot2_themes.r", sep=""))
+source(file.path(SB_PIPE,'sb_pipe','utils','R','matrices.r'))
+source(file.path(SB_PIPE,'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
@@ -119,7 +119,7 @@ plot_error_bars <- function(outputdir, version, name, species, timepoints, simul
 
     if(bar_type == "none") {
       # standard error configuration
-      filename = paste(outputdir, version, "_none_", name, ".png", sep="" )
+      filename = file.path(outputdir, paste(version, "_none_", name, ".png", sep=""))
       # Let's plot this special case now as it does not require error bars
       df <- data.frame(a=timepoints, b=species$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
@@ -137,10 +137,10 @@ plot_error_bars <- function(outputdir, version, name, species, timepoints, simul
         
       if(bar_type == "sd") {
 	# standard deviation configuration
-	filename = paste(outputdir, version, "_sd_", name, ".png", sep="" )
+	filename = file.path(outputdir, paste(version, "_sd_", name, ".png", sep=""))
       } else {
 	# standard deviation + confidence interval configuration
-	filename = paste(outputdir, version, "_sd_n_ci95_", name, ".png", sep="" )
+	filename = file.path(outputdir, paste(version, "_sd_n_ci95_", name, ".png", sep=""))
         # plot the C.I.	
 	g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
       }
@@ -161,7 +161,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     theme_set(tc_theme(28))  
 
     # Read species
-    timecourses <- read.table ( paste ( inputdir, '/', files[1], sep="" ), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
 
     column.names <- c ("Time")

@@ -29,10 +29,10 @@ import unittest
 
 SB_PIPE = os.environ["SB_PIPE"]
 # folders containing the configuration files and test file
-insulin_receptor_folder = 'insulin_receptor/Working_Folder/'
+insulin_receptor_folder = os.path.join('insulin_receptor','Working_Folder')
 
 # import paths to the resource folders
-sys.path.append(SB_PIPE + '/tests/' + insulin_receptor_folder)
+sys.path.append(os.path.join(SB_PIPE, 'tests', insulin_receptor_folder))
 
 # import modules
 from test_insulin_receptor import TestInsulinReceptor

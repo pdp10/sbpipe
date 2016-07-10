@@ -47,8 +47,8 @@ def extend(folder, files):
   print("Extend files - function")
   for file in files:
     print("\t" + file)
-    fileIN = open(folder + file, "r")
-    fileOUT = open(folder + file[0:-4] + "_ext.csv", "w")
+    fileIN = open(os.path.join(folder, file), "r")
+    fileOUT = open(os.path.join(folder, file[0:-4] + "_ext.csv"), "w")
     line = fileIN.readline().split()
     fileOUT.write("Iterations\t" + line[1] + "\n")
     line = fileIN.readline()
@@ -85,9 +85,9 @@ def merge(folder, files, fileout):
   fileIN = []
   # contain the best configuration [file, value]
   best = [0, float(sys.maxint)]
-  fileOUT = open(folder + fileout, "w")
+  fileOUT = open(os.path.join(folder, fileout), "w")
   for file in files:
-    fileIN.append(open(folder + file, "r"))
+    fileIN.append(open(os.path.join(folder, file), "r"))
     completed.append(False)
   # Initialisation
   fileOUT.write("Iterations")
@@ -138,7 +138,7 @@ def compute_statistics(folder, filename, fileout):
   print("Compute statistics - function")
   # read a text file as a list of lines
   # find the last line, change to a file you have
-  with open (folder + filename, "r") as file:
+  with open (os.path.join(folder, filename), "r") as file:
     line = file.readlines()
   # print "The last line is:" + line[len(line)-1]
   # skip the iteration number column
@@ -151,8 +151,8 @@ def compute_statistics(folder, filename, fileout):
   index_best_calib = lastrow.index(min(lastrow)) 
   print "The best calibration is Calibration_" + str(index_best_calib)
   
-  fileIN = open(folder + filename, "r")
-  fileOUT = open(folder + fileout, "w")
+  fileIN = open(os.path.join(folder, filename), "r")
+  fileOUT = open(os.path.join(folder, fileout), "w")
   fileOUT.write("Iterations\tMean\tCI_95_inf\tCI_95_sup\tSD\tBest_Calib\n")
   # skip the header line
   line = fileIN.readline()
@@ -215,7 +215,7 @@ def plot_mean_and_ci_multi(rscript_folder, folder, filein, fileout, best_pos, be
   #from rpy2 import *
   import rpy2.robjects as robjects
   r = robjects.r
-  r.source(rscript_folder + "/plot_functions.r")
+  r.source(os.path.join(rscript_folder,'plot_functions.r'))
   # translate the function
   plot_calib_r_fun = robjects.r['plot_calibration_mean_ci_multi']
   plot_calib_r_fun(folder, robjects.StrVector(filein), fileout, best_pos, best_score, robjects.StrVector(nsamples), robjects.StrVector(colour), robjects.StrVector(identifier))
@@ -225,9 +225,9 @@ def plot_mean_and_ci_multi(rscript_folder, folder, filein, fileout, best_pos, be
 def plot_calibration(rscript_folder, folder, pools, colours):
   # Cleaning previous results
   for i in range(0, len(pools)):
-    if(os.path.exists(folder + "/summary_" + pools[i] + "_statistics.csv")):
-      print("Cleaning: " + folder + "/summary_" + pools[i] + "_statistics.csv" + "\n")
-      os.remove(folder + "/summary_" + pools[i] + "_statistics.csv")
+    if(os.path.exists(os.path.join(folder,"summary_" + pools[i] + "_statistics.csv"))):
+      print("Cleaning: " + os.path.join(folder,"summary_" + pools[i] + "_statistics.csv") + "\n")
+      os.remove(os.path.join(folder,"summary_" + pools[i] + "_statistics.csv"))
   # Initialisation
   files = []
   idf = []
@@ -235,7 +235,7 @@ def plot_calibration(rscript_folder, folder, pools, colours):
   nsa = []
   best_best = [0, float(sys.maxint)]
   for i in range(0,len(pools)):
-    files.append(glob.glob(folder + "*" + pools[i] + "*.csv"))
+    files.append(glob.glob(os.path.join(folder, "*" + pools[i] + "*.csv")))
     files[i].sort(cmp=locale.strcoll)
     print(files[i])
     for j in range(0,len(files[i])):
@@ -253,7 +253,7 @@ def plot_calibration(rscript_folder, folder, pools, colours):
   plot_mean_and_ci_multi(rscript_folder, folder, filestat, "plot_calib_complete.png", best_best[0], best_best[1], nsa, colours, pools)
   # Removing *_ext.csv files to free hd space (these files can be huge!)
   for i in range(0, len(pools)):
-    files_to_delete = glob.glob(folder + "*" + pools[i] + "*_ext.csv")
+    files_to_delete = glob.glob(os.path.join(folder, "*" + pools[i] + "*_ext.csv"))
     print("Cleaning *" + pools[i] + " *_ext.csv files from " + folder + "\n")
     for j in range(0, len(files_to_delete)):
       os.remove(folder + os.path.basename(files_to_delete[j]))

@@ -28,7 +28,7 @@ import sys
 import os
 import subprocess
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + '/sb_pipe/utils/python/')
+sys.path.append(os.path.join(SB_PIPE, 'sb_pipe', 'utils', 'python'))
 import io_util_functions
 
 def main(args):
@@ -46,15 +46,15 @@ def main(args):
   origWD = os.getcwd() # remember our original working directory
 
   os.chdir("tests")    # change folder
-  process = subprocess.Popen(['python', SB_PIPE+'/tests/clean_tests.py'])
+  process = subprocess.Popen(['python', os.path.join(SB_PIPE,'tests','clean_tests.py')])
   process.wait() 
   
   process = subprocess.Popen(['pyclean', '.'])
   process.wait()
   
   ### delete this silly file
-  if os.path.isfile("insulin_receptor/Working_Folder/Rplots.pdf"):
-    os.remove("insulin_receptor/Working_Folder/Rplots.pdf")
+  if os.path.isfile(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf')):
+    os.remove(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf'))
 
   os.chdir(origWD) # get back to our original working directory  
 

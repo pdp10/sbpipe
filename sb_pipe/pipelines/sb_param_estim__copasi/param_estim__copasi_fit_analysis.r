@@ -23,7 +23,7 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(paste(SB_PIPE, "/sb_pipe/utils/R/param_estim_utils.r", sep=""))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','param_estim_utils.r'))
 
 
 main <- function(args) {

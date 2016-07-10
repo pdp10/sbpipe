@@ -30,7 +30,7 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + '/sb_pipe/')
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe'))
 
 import run_sb_pipe
 

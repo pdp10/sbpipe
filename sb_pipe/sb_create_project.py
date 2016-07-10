@@ -22,7 +22,7 @@
 
 
 import sys
-import os, os.path
+import os
 
 
 """
@@ -41,40 +41,40 @@ def main(project):
   if not os.path.exists(project):
     os.mkdir(project)
 
-  if not os.path.exists(project+"/Data"):
-    os.mkdir(project+"/Data")
-  if not os.path.exists(project+"/Models"):
-    os.mkdir(project+"/Models")
-  if not os.path.exists(project+"/Working_Folder"):
-    os.mkdir(project+"/Working_Folder")
-  if not os.path.exists(project+"/tmp"):
-    os.mkdir(project+"/tmp")
+  if not os.path.exists(os.path.join(project,'Data')):
+    os.mkdir(os.path.join(project,'Data'))
+  if not os.path.exists(os.path.join(project,'Models')):
+    os.mkdir(os.path.join(project,'Models'))
+  if not os.path.exists(os.path.join(project,'Working_Folder')):
+    os.mkdir(os.path.join(project,'Working_Folder'))
+  if not os.path.exists(os.path.join(project,'tmp')):
+    os.mkdir(os.path.join(project,'tmp'))
 
-  if not os.path.exists(project+"/Models/previous_models"):
-    os.mkdir(project+"/Models/previous_models")    
-  if not os.path.exists(project+"/paper"):
-    os.mkdir(project+"/paper")
-  if not os.path.exists(project+"/paper/figures"):
-    os.mkdir(project+"/paper/figures")    
-  if not os.path.exists(project+"/SBGN_graphic_models"):
-    os.mkdir(project+"/SBGN_graphic_models")
-  if not os.path.exists(project+"/SBGN_graphic_models/previous_models"):
-    os.mkdir(project+"/SBGN_graphic_models/previous_models")        
+  if not os.path.exists(os.path.join(project,'Models','previous_models')):
+    os.mkdir(os.path.join(project,'Models','previous_models'))    
+  if not os.path.exists(os.path.join(project,'paper')):
+    os.mkdir(os.path.join(project,'paper'))
+  if not os.path.exists(os.path.join(project,'paper','figures')):
+    os.mkdir(os.path.join(project,'paper','figures'))    
+  if not os.path.exists(os.path.join(project,'SBGN_graphic_models')):
+    os.mkdir(os.path.join(project,'SBGN_graphic_models'))
+  if not os.path.exists(os.path.join(project,'SBGN_graphic_models','previous_models')):
+    os.mkdir(os.path.join(project,'SBGN_graphic_models','previous_models'))        
 
-  if not os.path.exists(project+"/GENSSI_struct_identif"):
-    os.mkdir(project+"/GENSSI_struct_identif")
-  if not os.path.exists(project+"/MOTA_identif"):
-    os.mkdir(project+"/MOTA_identif")
-  if not os.path.exists(project+"/sbtoolbox2"):
-    os.mkdir(project+"/sbtoolbox2")
-  if not os.path.exists(project+"/sbtoolbox2/project"):
-    os.mkdir(project+"/sbtoolbox2/project")
-  if not os.path.exists(project+"/sbtoolbox2/project/estimations"):
-    os.mkdir(project+"/sbtoolbox2/project/estimations")
-  if not os.path.exists(project+"/sbtoolbox2/project/experiments"):
-    os.mkdir(project+"/sbtoolbox2/project/experiments")        
-  if not os.path.exists(project+"/sbtoolbox2/project/models"):
-    os.mkdir(project+"/sbtoolbox2/project/models")
+  if not os.path.exists(os.path.join(project,'GENSSI_struct_identif')):
+    os.mkdir(os.path.join(project,'GENSSI_struct_identif'))
+  if not os.path.exists(os.path.join(project,'MOTA_identif')):
+    os.mkdir(os.path.join(project,'MOTA_identif'))
+  if not os.path.exists(os.path.join(project,'sbtoolbox2')):
+    os.mkdir(os.path.join(project,'sbtoolbox2'))
+  if not os.path.exists(os.path.join(project,'sbtoolbox2','project')):
+    os.mkdir(os.path.join(project,'sbtoolbox2','project'))
+  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','estimations')):
+    os.mkdir(os.path.join(project,'sbtoolbox2','project','estimations'))
+  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','experiments')):
+    os.mkdir(os.path.join(project,'sbtoolbox2','project','experiments'))        
+  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','models')):
+    os.mkdir(os.path.join(project,'sbtoolbox2','project','models'))
         
   print("DONE!\n")
   return 0

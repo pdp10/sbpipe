@@ -38,7 +38,7 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE + "/sb_pipe/pipelines/sb_simulate/")
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate'))
 import simulate__run_copasi
 import simulate__gen_report
 
@@ -119,10 +119,10 @@ def main(model_configuration):
   # The dataset mean timecourses with experimental data dir
   tc_mean_with_exp_dir="tc_mean_w_exp_dir"
 
-  models_dir=project_dir+"/"+models_folder+"/"
-  results_dir=project_dir+"/"+working_folder+"/"+model[:-4]+"/"
-  data_dir=project_dir+"/"+data_folder+"/"
-  tmp_dir=copasi_reports_path+"/"
+  models_dir = os.path.join(project_dir, models_folder)
+  results_dir = os.path.join(project_dir, working_folder, model[:-4])
+  data_dir = os.path.join(project_dir, data_folder)
+  tmp_dir = copasi_reports_path
 
 
 
@@ -148,19 +148,19 @@ def main(model_configuration):
   print("##############################")
   print("\n")
   # remove the folder the previous results if any
-  filesToDelete = glob.glob(results_dir+"/"+dataset_working_folder+"/"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir, dataset_working_folder, model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_dir+"/"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir, tc_dir, model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*")    
+  filesToDelete = glob.glob(os.path.join(results_dir, tc_mean_dir, model[:-4]+"*"))    
   for f in filesToDelete:
     os.remove(f)
-  filesToDelete = glob.glob(results_dir+"/"+tc_mean_with_exp_dir+"/"+model[:-4]+"*")    
+  filesToDelete = glob.glob(os.path.join(results_dir, tc_mean_with_exp_dir, model[:-4]+"*")) 
   for f in filesToDelete:
     os.remove(f)    
-  filesToDelete = glob.glob(results_dir+"/*"+model[:-4]+"*")
+  filesToDelete = glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*"))
   for f in filesToDelete:
     os.remove(f)    
 
@@ -169,14 +169,14 @@ def main(model_configuration):
     os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
-  if not os.path.exists(results_dir+"/"+dataset_working_folder):  
-    os.mkdir(results_dir+"/"+dataset_working_folder)
-  if not os.path.exists(results_dir+"/"+tc_dir):  
-    os.mkdir(results_dir+"/"+tc_dir) 
-  if not os.path.exists(results_dir+"/"+tc_mean_dir):  
-    os.mkdir(results_dir+"/"+tc_mean_dir)
-  if not os.path.exists(results_dir+"/"+tc_mean_with_exp_dir):  
-    os.mkdir(results_dir+"/"+tc_mean_with_exp_dir)  
+  if not os.path.exists(os.path.join(results_dir, dataset_working_folder)):  
+    os.mkdir(os.path.join(results_dir, dataset_working_folder))
+  if not os.path.exists(os.path.join(results_dir, tc_dir)):  
+    os.mkdir(os.path.join(results_dir, tc_dir)) 
+  if not os.path.exists(os.path.join(results_dir, tc_mean_dir)):  
+    os.mkdir(os.path.join(results_dir, tc_mean_dir))
+  if not os.path.exists(os.path.join(results_dir, tc_mean_with_exp_dir)):  
+    os.mkdir(os.path.join(results_dir, tc_mean_with_exp_dir))  
  
  
 
@@ -185,7 +185,7 @@ def main(model_configuration):
   print("Executing simulations:")
   print("#####################")
   print("\n")
-  simulate__run_copasi.main(model, models_dir, results_dir+"/"+dataset_working_folder+"/", tmp_dir+"/", simulate__model_simulations_number)
+  simulate__run_copasi.main(model, models_dir, os.path.join(results_dir, dataset_working_folder), tmp_dir, simulate__model_simulations_number)
 
 
   print("\n")
@@ -193,7 +193,10 @@ def main(model_configuration):
   print("Generating statistics from simulations:")
   print("######################################")
   print("\n")
-  process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_error_bars.R", model[:-4], results_dir+"/"+dataset_working_folder+"/", results_dir+"/"+tc_mean_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv", simulate__xaxis_label])
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','simulate__plot_error_bars.R'), 
+			      model[:-4], os.path.join(results_dir, dataset_working_folder), 
+			      os.path.join(results_dir, tc_mean_dir), 
+			      os.path.join(results_dir, 'sim_stats_'+model[:-4]+'.csv'), simulate__xaxis_label])
   process.wait() 
 
 
@@ -202,7 +205,7 @@ def main(model_configuration):
   print("Generating overlapping plots (sim + exp) (SKIP):")
   print("########################################")
   print("\n")
-  #process = subprocess.Popen(['Rscript', SB_PIPE+"/sb_pipe/pipelines/sb_simulate/simulate__plot_sim_exp_error_bars.R", model[:-4], results_dir+"/"+tc_mean_dir+"/", results_dir+"/"+tc_mean_exp_dir+"/", results_dir+"/"+tc_mean_with_exp_dir+"/", results_dir+"/sim_stats_"+model[:-4]+".csv",  results_dir+"/exp_stats_"+model[:-4]+".csv"])
+  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','simulate__plot_sim_exp_error_bars.R'), model[:-4], os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model[:-4]+'.csv'),  os.path.join(results_dir,'exp_stats_'+model[:-4]+'.csv')])
   #process.wait() 
 
 
@@ -211,7 +214,7 @@ def main(model_configuration):
   print("Generating reports:")
   print("##################")
   print("\n")
-  simulate__gen_report.main(model[:-4], results_dir+"/", tc_mean_dir)
+  simulate__gen_report.main(model[:-4], results_dir, tc_mean_dir)
 
 
   # Print the pipeline elapsed time
@@ -220,7 +223,7 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if len(glob.glob(results_dir+"/"+tc_mean_dir+"/"+model[:-4]+"*.png")) > 0 and len(glob.glob(results_dir+"/*"+model[:-4]+"*.pdf")) == 1:
+  if len(glob.glob(os.path.join(results_dir, tc_mean_dir, model[:-4]+'*.png'))) > 0 and len(glob.glob(os.path.join(results_dir, '*'+model[:-4]+'*.pdf'))) == 1:
        return 0
   return 1
 

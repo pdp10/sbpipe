@@ -62,7 +62,7 @@ def files_with_pattern_recur(folder, pattern):
 # Print the matrix results stored in data in an output file
 def write_matrix_on_file(path, filename_out, data):
   # Open output file
-  with open(path + "/" + filename_out, 'w') as file:
+  with open(os.path.join(path, filename_out), 'w') as file:
     for row in data:
       # convert a list of strings or numbers into a string with items delimited by a tab.
       concatStringList = '\t'.join(map(str, row))
