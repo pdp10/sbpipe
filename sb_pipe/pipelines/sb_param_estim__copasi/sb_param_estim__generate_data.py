@@ -51,12 +51,12 @@ def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
       copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
       echoCMD = ["echo", copasiCMD]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
-      echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-      qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      echoProc = Popen(echoCMD, stdout=PIPE)
+      qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
   qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
-  echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
-  qsubProc = subprocess.Popen(qsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+  echoProc = Popen(echoSleep, stdout=PIPE)
+  qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   qsubProc.wait()
 
 
@@ -68,12 +68,12 @@ def runCopasiLSF(models_dir, model, outDir, errDir, nfits):
       copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
       echoCMD = ["echo", copasiCMD]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
-      echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-      bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+      echoProc = Popen(echoCMD, stdout=PIPE)
+      bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
   qsubCMD = ["bsub", "-w", jobs[:-2]]
-  echoProc = subprocess.Popen(echoSleep, stdout=subprocess.PIPE)
-  bsubProc = subprocess.Popen(bsubCMD, stdin=echoProc.stdout, stdout=subprocess.PIPE)
+  echoProc = Popen(echoSleep, stdout=PIPE)
+  bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   bsubProc.wait()    
 
 
