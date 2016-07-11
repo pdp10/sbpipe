@@ -25,6 +25,8 @@ library(ggplot2)
 # library(scales)
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
+suppressPackageStartupMessages(suppressWarnings(library(tcltk)))
+library(qvalue)
 
 
 # Plot a histogram
