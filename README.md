@@ -117,4 +117,4 @@ etc).
 - *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
 Examples of configuration files (*.conf) can be found in 
-${SB_PIPE}/tests/ins_rec_model/Working_Folder/.
+${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
