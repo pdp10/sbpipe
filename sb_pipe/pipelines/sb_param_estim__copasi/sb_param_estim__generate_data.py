@@ -41,6 +41,8 @@ import sb_param_estim__copasi_parallel
 
 
 def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
+  jobs = ""
+  echoSleep = ["echo", "sleep 1"]  
   for i in xrange(0,nfits):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
@@ -57,6 +59,8 @@ def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
 
 
 def runCopasiLSF(models_dir, model, outDir, errDir, nfits):
+  jobs = ""
+  echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,nfits):
       jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
       copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
@@ -140,8 +144,6 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
     # xargsCMD=["xargs", "xargs"]
     # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)
-    jobs = ""
-    echoSleep = ["echo", "sleep 1"]
     outDir = os.path.join(results_dir, 'out')
     errDir = os.path.join(results_dir, 'err')
     if not os.path.exists(outDir):
