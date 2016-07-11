@@ -60,7 +60,7 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
   #qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
-  qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
+  qsubCMD = ["qsub", "-N", "pippo", "-hold_jid", jobs[:-1]]
   echoProc = Popen(echoSleep, stdout=PIPE)
   qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   qsubProc.communicate()[0]
@@ -71,7 +71,7 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
   output = myPoll.communicate()[0]
   found = True
   while found:
-    if not jobName in output:
+    if not pippo in output:
       found = False  
   
 
