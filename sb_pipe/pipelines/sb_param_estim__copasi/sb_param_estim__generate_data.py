@@ -40,7 +40,9 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import sb_param_estim__copasi_utils_randomise_start_values
 import sb_param_estim__copasi_parallel
 
-
+# TODO: IT REQUIRES THE FULL PATH FOR COPASI. IT WOULD BE BETTER
+# IF THE COPASI COMMAND WERE READ FROM A SB_CONFIGURATION_FILE.
+# MAYBE __init__.py could be used for this purpose
 
 def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
   jobs = ""
