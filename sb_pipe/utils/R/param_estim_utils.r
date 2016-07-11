@@ -33,7 +33,7 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 histogramplot <- function(dfCol, fileout) {
   g = ggplot(dfCol, aes_string(x=colnames(dfCol))) +
     # LEAVE THIS ONE AS IT IS THE ONLY ONE WITH CORRECT Y-AXIS values
-    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
+    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue")
 #     scale_x_continuous(labels=scientific) +
 #     scale_y_continuous(labels=scientific)  
     #geom_density(colour="black", fill="blue") +
@@ -50,9 +50,10 @@ histogramplot <- function(dfCol, fileout) {
 # colNameColor : the name of the column whose values are used as 3rd dimension
 # fileout : the output file name
 scatterplot <- function(df, colNameX, colNameY, colNameColor, fileout) {
+  # IMPORTANT: guide=FALSE is needed to prevent error messages when the script is executed on a displayless cluster.
   g = ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
     geom_point() +
-    scale_colour_gradientn(colours=rainbow(4)) +
+    scale_colour_gradientn(colours=rainbow(4), guide=FALSE)
 #     scale_x_continuous(labels=scientific) +
 #     scale_y_continuous(labels=scientific)
     #scale_colour_gradient(low="red", high="darkblue") +
