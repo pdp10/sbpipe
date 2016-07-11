@@ -32,6 +32,8 @@ import sys
 import glob
 import shutil
 from subprocess import Popen,PIPE
+# for generating a timestamp
+import datetime
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
