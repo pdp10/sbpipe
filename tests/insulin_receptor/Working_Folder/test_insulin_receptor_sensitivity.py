@@ -38,40 +38,10 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptor(unittest.TestCase):
+class TestInsulinReceptorSensitivity(unittest.TestCase):
   """
   A collection of tests for this example.
   """
-  
-  def test_det_simulation(self):
-    """model deterministic simulation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_det_simul_copasi.conf"]), 0)
-
-  def test_stoch_simulation(self):    
-    """model stochastic simulation"""    
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_stoch_simul_copasi.conf"]), 0) 
-
-
-
-  def test_param_scan_single_perturb_inhib(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"]), 0) 
-
-  def test_param_scan_single_perturb_inhib_overexp(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"]), 0) 
-
-
-
-  def test_param_estim_copasi(self):        
-    """model parameter estimation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_param_estim_copasi.conf"]), 0)    
-    
-  def test_non_identif_param_estim_copasi(self):        
-    """model parameter estimation with identifiability issues """
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]), 0)    
-
-
   # TODO TO TEST
   #print "The script sb_sensitivity.py does not run Copasi, but generates a plot for each file containing a square matrix in PROJECT/simulation/MODEL/SENSITIVITIES_FOLDER (here: ins_rec_model/simulation/insulin_receptor/sensitivities/)"
   #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"

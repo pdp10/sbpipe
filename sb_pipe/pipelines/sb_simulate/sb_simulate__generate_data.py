@@ -33,6 +33,9 @@ import glob
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE)
+from sb_config import getCopasi
+
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from CopasiUtils import replace_str_copasi_sim_report
 
@@ -66,9 +69,10 @@ def main(model, models_dir, output_dir, tmp_dir, sim_number):
   print("Simulating Model: " + model)
   # execute sim_number simulations. For the plot generation we need more than 1 simulation. 
   # This is likely to be a bug. For now, let's do at least two simulations.
+  copasi=getCopasi()
   for idx in range(1, int(sim_number) + 1):
     # run CopasiSE. Copasi must generate a (TIME COURSE) report called model_noext +'.csv' in tmp_dir
-    p1 = Popen(["CopasiSE", "--nologo", os.path.join(models_dir,model)], stdout=PIPE) 
+    p1 = Popen([copasi, "--nologo", os.path.join(models_dir,model)], stdout=PIPE) 
     p1.communicate()[0]
 
     # Replace some string in the report file

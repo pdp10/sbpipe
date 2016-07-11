@@ -34,8 +34,6 @@ import glob
 import shutil
 import subprocess
 import tarfile
-# for generating a timestamp
-import datetime
 
 from ConfigParser import ConfigParser
 from StringIO import StringIO
