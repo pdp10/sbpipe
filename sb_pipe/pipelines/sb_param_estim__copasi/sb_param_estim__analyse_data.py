@@ -45,8 +45,8 @@ import sb_param_estim__copasi_utils_plot_calibration
 # input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
 def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent):
 
-  if not os.path.exists(input_dir): 
-    print("ERROR: input_dir " + input_dir + " does not exist. Generate some data first.");
+  if not os.path.exists(input_dir) or not os.listdir(input_dir): 
+    print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
     return
   
   if not os.path.exists(plots_dir):
