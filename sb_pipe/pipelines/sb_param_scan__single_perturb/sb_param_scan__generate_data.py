@@ -34,6 +34,9 @@ from itertools import islice
 
 
 SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(SB_PIPE)
+from sb_config import getCopasi
+
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import CopasiUtils
 
@@ -72,12 +75,12 @@ def main(model, species, sim_number, simulate__intervals,
   # Set the number of timepoints
   timepoints=int(simulate__intervals)+1
 
-
+  copasi=getCopasi()
   for i in xrange(0, int(sim_number)):
     
       print("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
-      process = subprocess.Popen(['CopasiSE', '--nologo', models_dir+"/"+model])
+      process = subprocess.Popen([copasi, '--nologo', models_dir+"/"+model])
       process.wait()
       
 

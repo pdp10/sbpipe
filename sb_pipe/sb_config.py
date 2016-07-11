@@ -20,12 +20,19 @@
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-26 23:00:32 $
+# $Date: 2016-07-11 11:14:32 $
 
 
 import os
 
+def which(file):
+    for path in os.environ["PATH"].split(os.pathsep):
+        if os.path.exists(os.path.join(path, file)):
+                return os.path.join(path, file)
 
-# Add here what needs to be loaded globally at start
+    return None
 
+
+def getCopasi():
+  return which("CopasiSE")
 

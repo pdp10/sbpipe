@@ -60,8 +60,8 @@ import subprocess
 import sys
 import os
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from BasicSyncCounter import *
 
 # apt-get install python-pp
@@ -70,17 +70,17 @@ import pp
 
 
 # Run a Copasi instance
-def run_copasi_instance(filename):
+def run_copasi_instance(copasi,filename):
   if os.path.isfile(filename) is not True: 
     return False
   # Command output=`CopasiSE -s filename filename`
-  p1 = subprocess.Popen(["CopasiSE", "-s", filename, filename], stdout=subprocess.PIPE) 
+  p1 = subprocess.Popen([copasi, "-s", filename, filename], stdout=subprocess.PIPE) 
   p1.communicate()[0]
   return True
 
 
 # Run parallel instances of Copasi
-def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter()):
+def run_parallel_copasi(copasi, server, args=("","", 1), syncCounter=BasicSyncCounter()):
     (path, model, nfits) = args
     start_time = time.time()
     for index in range(0, nfits):
@@ -89,7 +89,7 @@ def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter())
 
         callbackargs = (index,)
         server.submit(run_copasi_instance,
-		      (filename,),
+		      (copasi,filename),
 		      depfuncs=(),
 		      modules=("subprocess","shlex","os.path"),
 		      callback=syncCounter.add,          
@@ -100,6 +100,7 @@ def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter())
 
 
 # Main function
+# copasi: the CopasiSE command with its absolute path
 # servers: The servers to connect
 # ports: The server ports
 # secret: The server secret
@@ -107,7 +108,7 @@ def run_parallel_copasi(server, args=("","", 1), syncCounter=BasicSyncCounter())
 # model: Them model name pattern
 # nfits: The number of calibration to perform
 # ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
-def main(servers, ports, secret, path, model, nfits, ncpus):
+def main(copasi, servers, ports, secret, path, model, nfits, ncpus):
         
     ### ppserver configuration
     # tuple of all parallel python servers to connect with
@@ -135,7 +136,7 @@ def main(servers, ports, secret, path, model, nfits, ncpus):
     print("ppserver will use " + str(job_server.get_ncpus()) + " cores locally.\n")        
 
     print("Computing parallel parameter estimation using Copasi:")
-    run_parallel_copasi(server=job_server, args=(path, model, nfits), syncCounter=syncCounter)        
+    run_parallel_copasi(copasi, server=job_server, args=(path, model, nfits), syncCounter=syncCounter)        
     # Wait for jobs in all groups to finish 
     job_server.wait(group="my_processes")
 
