@@ -66,7 +66,8 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
   qsubProc.communicate()[0]
 
   # Something better than the following would be highly desirable
-  myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+  #myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+  myPoll = Popen(["qstat"], stdout=PIPE)
   output = myPoll.communicate()[0]
   found = True
   while found:
