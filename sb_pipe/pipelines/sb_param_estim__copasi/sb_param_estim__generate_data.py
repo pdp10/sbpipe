@@ -58,7 +58,7 @@ def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
   # Check here when these jobs are finished before proceeding
   qsubCMD = ["qsub", "-hold_jid", jobs[:-1]]
   echoProc = Popen(echoSleep, stdout=PIPE)
-  qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
+  qsubProc = Popen(qsubCMD, stdin=echoProc.stdout)
   qsubProc.wait()
 
 
