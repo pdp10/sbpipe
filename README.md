@@ -74,6 +74,43 @@ python run_sb_pipe.py --help
 ```
 
 
+### Instructions before running sb_pipe
+
+#### Pipelines using Copasi
+
+##### simulate 
+Using CopasiUI:
+- Tick the flag _executable_ in the Time Course Task.
+- Select a report template for the Time Course Task.
+- Save the report with the model name replacing the extension .cps with .csv.
+
+##### single-perturb
+Using CopasiUI:
+- Tick the flag _executable_ in the Parameter Scan Task.
+- Select a report template for the Paramete Scan Task.
+- Save the report with the model name replacing the extension .cps with .csv.
+
+##### param-estim
+Using CopasiUI:
+- Tick the flag _executable_ in the Parameter Estimation Task.
+- Select the report template for the Parameter Estimation Task.
+- Save the report with the model name replacing the extension .cps with .csv.
+
+##### sensitivity
+Using CopasiUI:
+- Tick the flag _executable_ in the Sensitivities Task.
+- Select the report template for the Sensitivities Task.
+- Save the report with the model name replacing the extension .cps with .csv.
+
+Copasi has changed a few times the format for this report. As Sensitivity analysis is not a repetitive task, right now:
+- Generate a report for sensitivity analysis. Save this report in PROJECT_FOLDER/simulations/MODEL_NAME/sensitivities/MODEL_NAME_sensitivities.csv
+- After running the task, edit the file so that it contains exactly one table.
+- Create a configuration file including: 
+sensitivities_dir=sensitivities
+- The script will generate a plot for each csv file found in the folder `sensitivity`.
+
+
+
 ### Package Structure
 
 
@@ -117,4 +154,5 @@ etc).
 - *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
 Examples of configuration files (*.conf) can be found in 
-${SB_PIPE}/tests/ins_rec_model/Working_Folder/.
+${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
+
