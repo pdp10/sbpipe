@@ -71,7 +71,7 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
   output = myPoll.communicate()[0]
   found = True
   while found:
-    if not pippo in output:
+    if not "pippo" in output:
       found = False  
   
 
