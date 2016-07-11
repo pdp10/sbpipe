@@ -63,6 +63,11 @@ def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
 
 
 def runCopasiLSF(models_dir, model, outDir, errDir, nfits):
+  print("WARNING - runCopasiLSF() is untested. Some problem can occur.\n"\
+    "The function should compute the estimations but the following analysis may be compromised.\n"\
+    "In particular, the function might complete before the estimations are finished.\n"\
+    "Possibly retrieve the estimations and compute the analysis from your machine instead of from here.\n"\
+    "Sorry for the inconvenient. We are working on it. To report additional bugs: https://github.com/pdp10/sb_pipe/issues .")
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,nfits):
@@ -76,7 +81,7 @@ def runCopasiLSF(models_dir, model, outDir, errDir, nfits):
   qsubCMD = ["bsub", "-w", jobs[:-2]]
   echoProc = Popen(echoSleep, stdout=PIPE)
   bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  bsubProc.wait()    
+  bsubProc.communicate()[0]
 
 
 def runCopasiPP(models_dir, model, nfits, pp_cpus):
