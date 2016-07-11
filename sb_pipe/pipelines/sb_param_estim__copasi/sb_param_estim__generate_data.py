@@ -43,9 +43,7 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import sb_param_estim__copasi_utils_randomise_start_values
 import sb_param_estim__copasi_parallel
 
-# TODO: IT REQUIRES THE FULL PATH FOR COPASI. IT WOULD BE BETTER
-# IF THE COPASI COMMAND WERE READ FROM A SB_CONFIGURATION_FILE.
-# MAYBE __init__.py could be used for this purpose
+
 
 def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
   jobs = ""
@@ -59,33 +57,41 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
-  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]
+  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
   echoProc = Popen(echoSleep, stdout=PIPE)
   qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   qsubProc.communicate()[0]
 
 
+
 def runCopasiLSF(copasi, models_dir, model, outDir, errDir, nfits):
-  print("WARNING - runCopasiLSF() is untested. Some problem can occur.\n"\
-    "The function should compute the estimations but the following analysis may be compromised.\n"\
-    "In particular, the function might complete before the estimations are finished.\n"\
-    "Possibly retrieve the estimations and compute the analysis from your machine instead of from here.\n"\
-    "Sorry for the inconvenient. We are working on it. To report additional bugs: https://github.com/pdp10/sb_pipe/issues .")
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,nfits):
-      jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
+      jobs = "done(j"+str(i)+")&&"+jobs
       copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
       echoCMD = ["echo", copasiCMD]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
-  qsubCMD = ["bsub", "-w", jobs[:-2]]
+  import random 
+  import string
+  jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
+  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]]
   echoProc = Popen(echoSleep, stdout=PIPE)
   bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   bsubProc.communicate()[0]
-
+  # Something better than the following would be highly desirable
+  import time
+  found = True
+  while found:
+    time.sleep(2)
+    myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+    output = myPoll.communicate()[0]    
+    if not jobName in output:
+      found = False
+  
 
 def runCopasiPP(copasi, models_dir, model, nfits, pp_cpus):
   # Settings for PP
