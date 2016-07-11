@@ -66,14 +66,15 @@ def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
   qsubProc.communicate()[0]
 
   # Something better than the following would be highly desirable
-  #myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
-  myPoll = Popen(["qstat"], stdout=PIPE)
-  output = myPoll.communicate()[0]
+  import time
   found = True
   while found:
+    time.sleep(2)      
+    #myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+    myPoll = Popen(["qstat"], stdout=PIPE)
+    output = myPoll.communicate()[0]    
     if not "pippo" in output:
-      found = False  
-  
+      found = False    
 
 
 def runCopasiLSF(copasi, models_dir, model, outDir, errDir, nfits):
@@ -100,13 +101,14 @@ def runCopasiLSF(copasi, models_dir, model, outDir, errDir, nfits):
   bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   bsubProc.communicate()[0]
   # Something better than the following would be highly desirable
-  myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
-  output = myPoll.communicate()[0]
+  import time
   found = True
   while found:
+    time.sleep(2)
+    myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+    output = myPoll.communicate()[0]    
     if not jobName in output:
       found = False
-  
   
 
 def runCopasiPP(copasi, models_dir, model, nfits, pp_cpus):
