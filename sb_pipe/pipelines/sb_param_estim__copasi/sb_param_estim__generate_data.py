@@ -48,7 +48,7 @@ def runCopasiSGE(models_dir, model, outDir, errDir, nfits):
   for i in xrange(0,nfits):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
-      copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
+      copasiCMD = "/bi/home/dallepep/copasi/bin/CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
       echoCMD = ["echo", copasiCMD]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
@@ -65,7 +65,7 @@ def runCopasiLSF(models_dir, model, outDir, errDir, nfits):
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,nfits):
       jobs = "done(CopasiSE_"+model[:-4]+str(i)+")&&"+jobs
-      copasiCMD = "CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
+      copasiCMD = "/bi/home/dallepep/copasi/bin/CopasiSE -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
       echoCMD = ["echo", copasiCMD]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
