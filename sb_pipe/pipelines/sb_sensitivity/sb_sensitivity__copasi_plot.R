@@ -22,7 +22,6 @@
 # $Date: 2016-07-7 16:14:32 $
 
 
-library(colorspace)
 library(gplots)
 
 # Retrieve the environment variable SB_PIPE

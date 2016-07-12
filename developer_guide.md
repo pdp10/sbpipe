@@ -1,5 +1,5 @@
 
-# Developer guide
+# Developer guide for the sb_pipe package
 
 Mailing list: sb_pipe AT googlegroups.com
 
@@ -9,7 +9,7 @@ This guide is meant for developers and aims to fix some common practices
 for developing this project. 
 
 
-## Development Model
+## Development model
 This project follows the Feature-Branching model. Briefly, there are two
 main branches: `master` and `develop`. The former contains the history 
 of stable releases, the latter contains the history of development. The 
@@ -33,7 +33,7 @@ bugfixNUMBER.
 hotfixNUMBER.
 
 
-### Work Flow
+### Work flow
 - Each new feature is checked out from the `develop` branch.
 - Same for new generic bug fixes.
 - Each new hot-fix is checked out from the `master` branch.
@@ -97,7 +97,49 @@ git show
 ```
 
 
-## Miscellaneous of Useful Commands:
+## Package structure
+
+##### sb_pipe
+The *sb_pipe/* folder contains the following pipelines:
+
+- *sb_create_project.py* creates a new project
+- *sb_simulate.py* simulates a model deterministically or stochastically
+using Copasi (this must be configured first), generate plots and report;
+- *sb_param_scan__single_perturb.py* runs Copasi (this must be 
+configured first), generate plots and report;
+- *sb_param_scan__double_perturb.py* runs Copasi (this must be 
+configured first), generate plots and report;
+- *sb_param_estim__copasi.py* generate a fits sequence using Copasi 
+(this must be configured first), generate tables for statistics;
+- *sb_sensitivity.py* runs Copasi (this must be 
+configured first), generate plots and report;
+- **[obsolete]** *sb_param_estim__pw.sh* performs parameter estimation 
+and MOTA identifiability analysis using the Matlab toolbox Potterswheel.
+
+These pipelines are available as Python functions and are invoked 
+directly via *run_sb_pipe.py*.
+
+
+##### tests
+The *tests/* folder contains the script *run_tests.py* to run a test 
+suite. It should be used for testing the correct installation of sb_pipe
+dependencies as well as reference for configuring a project before 
+running any pipeline. 
+Projects inside the folder tests/ have the sb_pipe project structure: 
+- *Data* (e.g. training / testing data sets for the model);
+- *Model* (e.g. Copasi or Potterswheel models);
+- *Working_Folder* (e.g. pipelines configurations and parameter 
+estimation results, time course, parameter scan, sensitivity analysis 
+etc).
+- *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
+
+Examples of configuration files (*.conf) can be found in 
+${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
+
+
+
+
+## Miscellaneous of useful commands:
 ### Git
 ##### Startup
 ```
@@ -119,7 +161,7 @@ branches, you should use `git fetch && git merge --no-ff`.
 **[FOR NOW, DON'T USE REBASE BEFORE AGREED]**.
 ```
 
-##### File System
+##### File system
 ```
 $ git rm [--cache] filename 
 $ git add filename

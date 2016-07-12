@@ -32,7 +32,7 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-from single_model_latex_reports import latex_report_simulate
+from latex_reports import latex_report_simulate
 
 
 # INITIALIZATION
@@ -62,8 +62,6 @@ def main(model_noext, results_dir, plots_dir):
   # remove temporary files
   os.remove(filename_prefix+model_noext+".out")
   os.remove(filename_prefix+model_noext+".log")
-  os.remove(filename_prefix+model_noext+".idx")
-  os.remove(filename_prefix+model_noext+".toc")
   os.remove(filename_prefix+model_noext+".aux")
   
   os.chdir(currdir)
