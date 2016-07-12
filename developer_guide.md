@@ -1,5 +1,5 @@
 
-# Developer Guide for the sb_pipe package
+# Developer guide for the sb_pipe package
 
 Mailing list: sb_pipe AT googlegroups.com
 
@@ -9,7 +9,7 @@ This guide is meant for developers and aims to fix some common practices
 for developing this project. 
 
 
-## Development Model
+## Development model
 This project follows the Feature-Branching model. Briefly, there are two
 main branches: `master` and `develop`. The former contains the history 
 of stable releases, the latter contains the history of development. The 
@@ -33,7 +33,7 @@ bugfixNUMBER.
 hotfixNUMBER.
 
 
-### Work Flow
+### Work flow
 - Each new feature is checked out from the `develop` branch.
 - Same for new generic bug fixes.
 - Each new hot-fix is checked out from the `master` branch.
@@ -97,7 +97,7 @@ git show
 ```
 
 
-## Package Structure
+## Package structure
 
 ##### sb_pipe
 The *sb_pipe/* folder contains the following pipelines:
@@ -139,7 +139,7 @@ ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
 
 
 
-## Miscellaneous of Useful Commands:
+## Miscellaneous of useful commands:
 ### Git
 ##### Startup
 ```
@@ -161,7 +161,7 @@ branches, you should use `git fetch && git merge --no-ff`.
 **[FOR NOW, DON'T USE REBASE BEFORE AGREED]**.
 ```
 
-##### File System
+##### File system
 ```
 $ git rm [--cache] filename 
 $ git add filename
