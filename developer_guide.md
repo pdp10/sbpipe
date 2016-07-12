@@ -1,5 +1,5 @@
 
-# Developer guide
+# Developer Guide for the sb_pipe package
 
 Mailing list: sb_pipe AT googlegroups.com
 
