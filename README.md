@@ -18,13 +18,11 @@ perturbation, sensitivity analysis and parameter estimation.
 
 
 ### Requirements
-- Python (+dependencies: scipy, numpy, pp)
-- R (plots + statistics) (+dependencies: ggplot2, gplot, abind, colorspace, 
-stringr)
-- LaTeX (for report generation) (+dependencies: texlive and recommended 
-fonts)
-- Copasi (model simulation) - remember to tick the execution check box 
-on the task to run
+- Copasi 4.16 (model parameter estimation, simulation, analyses)
+- Python 2.7.3+ (+dependencies: scipy 0.13.3, numpy 1.8.2, pp 1.6.4)
+- R (plots + statistics) (+dependencies: ggplot2 0.9.3.1, gplots 2.11.3, 
+abind 1.4, colorspace 1.2)
+- LaTeX (for report generation) (texlive-latex-base 2013)
 - **[obsolete]** Matlab-toolbox Potterswheel (for parameter estimation 
 using Potterswheel). This pipeline also requires bash, sed, Matlab.
 
