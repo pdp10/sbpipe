@@ -1,23 +1,19 @@
-# sb_pipe
+# The sb_pipe package
 
 Mailing list: sb_pipe AT googlegroups.com
 
 [![Build Status](https://travis-ci.org/pdp10/sb_pipe.svg?branch=master)](https://travis-ci.org/pdp10/sb_pipe)
 
 
-### Introduction
+## Introduction
 This package contains a collection of pipelines for dynamic modelling 
 of biological systems. It aims to automate common processes and speed up
 productivity for tasks such as model simulation, model single and double
 perturbation, sensitivity analysis and parameter estimation. 
 
 
-### Environment Variables
-- export SB_PIPE=/path/to/sb_pipe
-- export PATH=$PATH:${SB_PIPE}/sb_pipe
-
-
 ### Requirements
+In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
 - Python 2.7.3+ (+dependencies: scipy 0.13.3, numpy 1.8.2, pp 1.6.4)
 - R (plots + statistics) (+dependencies: ggplot2 0.9.3.1, gplots 2.11.3, abind 1.4)
@@ -26,54 +22,30 @@ perturbation, sensitivity analysis and parameter estimation.
 using Potterswheel). This pipeline also requires bash, sed, Matlab.
 
 
+### Environment variables for sb_pipe
+The following environmental variables need to be set up:
+- export SB_PIPE=/path/to/sb_pipe
+- export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+
 ### Installation
-Run the command: 
+Run the command inside the sb_pipe folder: 
 ```
 python setup.py install
 ```
-
-### Use case
-The general structure of a command is: 
+The correct installation of sb_pipe and its dependencies can be checked by 
+running the following commands inside the sb_pipe folder: 
 ```
-python run_sb_pipe.py [OPTION] [FILE]
-```
-
-In more detail, to create a new project: 
-```
-python run_sb_pipe.py --create-project projectname
-```
-After creating a project, the Copasi files should be placed inside 
-Models/, whereas the configuration files in Working_Folder/. Examples of
-project structures can be found in sb_pipe/tests/. 
-A Copasi file must be configured appropriately before starting a 
-pipeline. For instance, for simulating a model time course, the Copasi 
-Time Course task must be checked as executable (via CopasiUI) and an 
-output report must be specified inside the project folder tmp/. The name
-of the report must be the name of the Copasi model and this name must
-also be included in the configuration file. (See examples in tests/). 
-
-After this preliminary configuration step, the user should move to the 
-folder containing the configuration file and start one of the pipelines 
-with the command: 
-```
-python run_sb_pipe.py pipeline configuration_file
-```
-where *pipeline* can be one of the following option: 
-- --simulate
-- --single-perturb 
-- --double-perturb 
-- --sensitivity
-- --param-estim 
-
-For additional options, run
-```
-python run_sb_pipe.py --help
+cd tests
+python test_suite.py
 ```
 
+## How to use sb_pipe
 
-### Instructions before running sb_pipe
+### Preliminary configuration steps
 
 #### Pipelines using Copasi
+Before using these pipelines, a Copasi model must be configured as follows:
 
 ##### simulate 
 Using CopasiUI:
@@ -81,7 +53,7 @@ Using CopasiUI:
 - Select a report template for the Time Course Task.
 - Save the report with the model name replacing the extension .cps with .csv.
 
-##### single-perturb
+##### single-perturb or double-perturb
 Using CopasiUI:
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Paramete Scan Task.
@@ -107,49 +79,31 @@ sensitivities_dir=sensitivities
 - The script will generate a plot for each csv file found in the folder `sensitivity`.
 
 
-
-### Package Structure
-
-
-##### sb_pipe
-The *sb_pipe/* folder contains the following pipelines:
-
-- *sb_create_project.py* creates a new project
-- *sb_simulate.py* simulates a model deterministically or stochastically
-using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb.py* runs Copasi (this must be 
-configured first), generate plots and report;
-- *sb_param_scan__double_perturb.py* runs Copasi (this must be 
-configured first), generate plots;
-- *sb_param_estim__copasi.py* generate a fits sequence using Copasi 
-(this must be configured first), generate tables for statistics;
-- *sb_sensitivity.py* runs Copasi (this must be 
-configured first), generate plots;
-- **[obsolete]** *sb_param_estim__pw.sh* performs parameter estimation 
-and MOTA identifiability analysis using the Matlab toolbox Potterswheel.
-
-These pipelines are available as Python functions and are invoked 
-directly via *run_sb_pipe.py*.
-
-
-##### tests
-The *tests/* folder contains the script *run_tests.py* to run a test 
-suite. It should be used for testing the correct installation of sb_pipe
-dependencies as well as reference for configuring a project before 
-running any pipeline. The above script is invoked using the 
-following commands: 
+### Running sb_pipe
+The first step is to create a new project. This can be done with 
+the command:
 ```
-cd tests
-python test_suite.py
+python run_sb_pipe.py --create-project projectname
 ```
-Projects inside the folder tests/ have the sb_pipe project structure: 
-- *Data* (e.g. training / testing data sets for the model);
-- *Model* (e.g. Copasi or Potterswheel models);
-- *Working_Folder* (e.g. pipelines configurations and parameter 
-estimation results, time course, parameter scan, sensitivity analysis 
-etc).
-- *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
-
-Examples of configuration files (*.conf) can be found in 
+After creating a project, users need to create a configuration file 
+for each task they intend to run. Examples of configuration files can be found in:
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
+Users should place their configuration files in the Working_Folder/ of their 
+project. Models must be stored in the Models/ folder, while the any data used 
+by the model must be placed in Data/ folder.
+Finally, a pipeline for a certain configuration file can be executed as follows:
+```
+cd Working_Folder
+python run_sb_pipe.py pipeline configuration_file
+```
+where *pipeline* can be one of the following option: 
+- --simulate (-s)
+- --single-perturb (-p) 
+- --double-perturb (-d)
+- --sensitivity (-n)
+- --param-estim (-e)
 
+For additional options, run
+```
+python run_sb_pipe.py --help
+```
