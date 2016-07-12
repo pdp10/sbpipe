@@ -21,9 +21,7 @@
 # $Date: 2016-07-6 12:14:32 $
 
 
-
-# to use string replace
-library(stringr)     
+ 
 library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
@@ -90,7 +88,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
 	  # this is important because the legend must represent species's knockdown in order.
 	  for(i in 1:length(files)) {
 	      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
-	      levels <- c(levels, as.numeric(str_replace( strsplit( files[i], "_")[[1]][num_of_underscores + 1], ".csv", "")))
+	      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
 	  }
 	  levels.temp <- c(levels)
 	  newmax <- max(levels)+1
