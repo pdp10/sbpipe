@@ -66,6 +66,7 @@ class ParamEstim_RandomizeStartValue:
   # starting value chosen in the determined ammissible range for that parameter.
   def generate_instances_from_template(self, num_files):
     num_files = int(num_files)
+    print("Randomising parameters for:")
     for i in range(0, num_files):
       # initialise the names and generate the output file
       filename_out = self._filename_in[:-4] + str(i+1) + ".cps"
@@ -76,6 +77,7 @@ class ParamEstim_RandomizeStartValue:
 	os.remove(file_out)
       shutil.copy2(file_in, file_out)      
       # 1) RANDOMIZATION
+      print(filename_out)      
       new__start_values, old_str, new_str = self._randomise_start_value()
       # 2) PRINT NEW VALUES
       #print("\nInitial parameters for the output file: " + file_out)      
@@ -138,7 +140,6 @@ class ParamEstim_RandomizeStartValue:
 
   # Randomise the start value of the parameters
   def _randomise_start_value(self):
-    print("\nRandomize parameter starting values and generate new COPASI files")
     new__start_values = []
     old_str = []
     new_str = []
