@@ -77,11 +77,13 @@ def main(model_configuration):
   # The Copasi model
   model="mymodel.cps"
   # The path to Copasi reports
-  copasi_reports_path="tmp"  
-  # the number of simulation to be run.
-  # For deterministic simulation, 1
-  # For stochastic simulations, n >=1
-  simulate__model_simulations_number=1
+  copasi_reports_path="tmp"
+  # The parallel mechanism to use (pp | sge | lsf).
+  cluster="pp"
+  # The number of cpus for pp
+  pp_cpus=1
+  # The number of jobs to be executed
+  runs=1  
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
@@ -101,17 +103,23 @@ def main(model_configuration):
     elif line[0] == "model": 
       model = line[1] 
     elif line[0] == "copasi_reports_path": 
-      copasi_reports_path = line[1]      
-    elif line[0] == "simulate__model_simulations_number": 
-      simulate__model_simulations_number = line[1]
+      copasi_reports_path = line[1]
+    elif line[0] == "cluster": 
+      cluster = line[1] 
+    elif line[0] == "pp_cpus": 
+      pp_cpus = line[1] 
+    elif line[0] == "runs": 
+      runs = line[1]      
     elif line[0] == "simulate__xaxis_label":
       simulate__xaxis_label = line[1]     
 
 
+  runs = int(runs)
+  pp_cpus = int(pp_cpus)
 
   # Some controls
-  if int(simulate__model_simulations_number) < 1: 
-    print("ERROR: variable `simulate__model_simulations_number` must be greater than 0. Please, check your configuration file.");
+  if runs < 1: 
+    print("ERROR: variable `runs` must be greater than 0. Please, check your configuration file.");
     return 1
 
 
@@ -161,7 +169,7 @@ def main(model_configuration):
     print("\n")
     print("Generate data:")
     print("##############")
-    sb_simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, simulate__model_simulations_number)
+    sb_simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, cluster, pp_cpus, runs)
 
 
   if analyse_data == True:

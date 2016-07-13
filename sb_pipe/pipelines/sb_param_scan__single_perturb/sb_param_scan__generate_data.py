@@ -89,7 +89,7 @@ def main(model, species, sim_number, simulate__intervals,
 	  continue
       
       # Replace some string in the report file   
-      CopasiUtils.replace_str_copasi_sim_report(tmp_dir, model)
+      CopasiUtils.replace_str_copasi_sim_report(os.path.join(tmp_dir, model[:-4]+".csv"))
       
 
 

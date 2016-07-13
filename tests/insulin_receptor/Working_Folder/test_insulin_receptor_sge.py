@@ -44,6 +44,15 @@ class TestInsulinReceptorSGE(unittest.TestCase):
   A collection of tests for this example using SGE
   """
 
+  def test_stoch_simul_copasi_sge(self):        
+    """model simulation using SGE if found"""
+    try:
+	subprocess.call(["qstat"])
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "sge_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
+    except OSError as e:
+	print("Skipping test as no SGE (Sun Grid Engine) was found.")
+
+
   def test_param_estim_copasi_sge(self):        
     """model parameter estimation using SGE if found"""
     try:

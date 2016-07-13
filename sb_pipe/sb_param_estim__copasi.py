@@ -86,7 +86,7 @@ def main(model_configuration):
   # The parameter estimation round 
   round=1
   # The number of jobs to be executed
-  nfits=25
+  runs=25
   # The percent of best fits to consider
   best_fits_percent=100
 
@@ -111,15 +111,15 @@ def main(model_configuration):
       cluster = line[1]      
     elif line[0] == "round":
       round = line[1]       
-    elif line[0] == "nfits":
-      nfits = line[1] 
+    elif line[0] == "runs":
+      runs = line[1] 
     elif line[0] == "pp_cpus": 
       pp_cpus = line[1]
     elif line[0] == "best_fits_percent": 
       best_fits_percent = line[1]
       
 
-  nfits = int(nfits)
+  runs = int(runs)
   pp_cpus = int(pp_cpus)  
 
   # INTERNAL VARIABLES
@@ -168,7 +168,7 @@ def main(model_configuration):
     print("\n")
     print("Generate data:")
     print("##############")
-    sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, nfits, results_dir, sim_raw_data, tmp_dir)
+    sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, runs, results_dir, sim_raw_data, tmp_dir)
     
 
   if analyse_data == True:
