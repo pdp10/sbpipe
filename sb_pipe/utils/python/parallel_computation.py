@@ -64,10 +64,10 @@ import pp
 
 
 
-def parallel_computation(command, timestamp, cluster_type, runs, servers="localhost:65000", secret="sb_pipe", pp_cpus=1):
+def parallel_computation(command, timestamp, cluster_type, runs, output_dir, servers="localhost:65000", secret="sb_pipe", pp_cpus=1):
   if cluster_type == "sge" or cluster_type == "lsf":
-    outDir = os.path.join(results_dir, 'out')
-    errDir = os.path.join(results_dir, 'err')
+    outDir = os.path.join(output_dir, 'out')
+    errDir = os.path.join(output_dir, 'err')
     if not os.path.exists(outDir):
       os.makedirs(outDir)
     if not os.path.exists(errDir):

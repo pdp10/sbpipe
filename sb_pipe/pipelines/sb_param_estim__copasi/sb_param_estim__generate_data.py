@@ -85,7 +85,7 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
   command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
   servers="localhost:65000"
   secret="sb_pipe"
-  parallel_computation(command, timestamp, cluster_type, nfits, servers, secret, pp_cpus)
+  parallel_computation(command, timestamp, cluster_type, nfits, results_dir, servers, secret, pp_cpus)
 
   # remove the previously copied Data folder
   shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
