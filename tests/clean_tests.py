@@ -29,8 +29,6 @@ def main(args):
   mypath = os.getcwd()
   modelProjects = [f for f in os.listdir(mypath) if isdir(join(mypath, f))]
 
-
-
   for file in modelProjects:
     modelspath = join(file, 'Models')
     print("cleaning parameter estimation files...")        
@@ -38,17 +36,19 @@ def main(args):
     for f in paramEstimCopasiFiles:       
       os.remove(f)
 
-
     print("cleaning simulation copasi files...")      
     simulFiles = glob.glob(os.path.join(modelspath, "*_stoch?*.cps"))
     for f in simulFiles:
       os.remove(f)
-    os.remove(os.path.join(modelspath, "insulin_receptor1.cps"))
+    if os.path.isfile(os.path.join(modelspath, "insulin_receptor1.cps")):
+      os.remove(os.path.join(modelspath, "insulin_receptor1.cps"))
     
-    print("cleaning output files...")       
+    print("cleaning tmp folder...")       
     # print tmppath
+    tmppath = join(file, 'tmp')    
     shutil.rmtree(tmppath, ignore_errors=True)
-    tmppath = join(file, 'tmp')
+    
+    print("cleaning output files...")           
     wfpath = join(file, 'Working_Folder')    
   
     # Delete tgz files
@@ -61,3 +61,4 @@ def main(args):
       shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)
 
 main(sys.argv)
+
