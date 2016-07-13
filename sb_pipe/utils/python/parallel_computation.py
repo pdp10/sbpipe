@@ -181,7 +181,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
-  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
+  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1], "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]  
   echoProc = Popen(echoSleep, stdout=PIPE)
   qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   qsubProc.communicate()[0]
@@ -210,7 +210,7 @@ def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
   import random 
   import string
   jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]]
+  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2], "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]
   echoProc = Popen(echoSleep, stdout=PIPE)
   bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   bsubProc.communicate()[0]

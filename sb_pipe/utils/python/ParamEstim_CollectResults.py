@@ -57,14 +57,13 @@ class ParamEstim_CollectResults:
     self._retrieve_input_files()
     # (1) Take the first file and retrieve some information. Basically we need the parameters names  
     self._get_parameter_names_list(self._files[0])
-    self.print_parameter_names()
+    #self.print_parameter_names()
     # Insert the header and tail
     self._parameters.insert(0,'Estimation')
     self._parameters.insert(1,'ObjectiveValue')
     # (2) Create a matrix
     self._create_matrix()
     # (3) Read all files in files
-    print("\nCollecting results:")
     self._collect()
     self.print_collected_results()
     # (4) Write the matrix in a csv file as output
@@ -141,11 +140,12 @@ class ParamEstim_CollectResults:
   def _collect(self):
     file_num = -1
     names = ['Objective Function Value:']
+    #print("\nCollecting results:")
     for filein in self._files:
       completed = False
       file_num = file_num + 1
       with open(filein, 'r') as file:      
-	print("\tProcessing file: " + filein)
+	#print(os.path.basename(filein))
 	lines = file.readlines()
 	line_num = -1
 	for line in lines:
