@@ -28,21 +28,14 @@
 
 
 import os, sys
-import time
-import shlex
 from subprocess import Popen,PIPE
-
 
 SB_PIPE = os.environ["SB_PIPE"]
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from BasicSyncCounter import *
 
-# apt-get install python-pp
 import pp
-
-
-
 
 # Desc: This program runs parallel estimation computations with pp module 
 
@@ -71,77 +64,68 @@ import pp
 
 
 
+def parallel_computation(command, timestamp, cluster_type, runs, servers="localhost:65000", secret="sb_pipe", pp_cpus=1):
+  if cluster_type == "sge" or cluster_type == "lsf":
+    outDir = os.path.join(results_dir, 'out')
+    errDir = os.path.join(results_dir, 'err')
+    if not os.path.exists(outDir):
+      os.makedirs(outDir)
+    if not os.path.exists(errDir):
+      os.makedirs(errDir)   
+    
+    if cluster_type == "sge":  # use SGE (Sun Grid Engine)
+      runJobsSGE(command, timestamp, outDir, errDir, runs)
+
+    elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
+      runJobsLSF(command, timestamp, outDir, errDir, runs)      
+        
+  else: # use pp by default (parallel python). This is configured to work locally using multi-core.
+    if cluster_type != "pp":
+      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+    runJobsPP(command, timestamp, runs, pp_cpus, servers, secret)
 
 
-# Run a Copasi instance
-def runCopasiInstance(copasi,filename):
-  if os.path.isfile(filename) is not True: 
-    return False
-  # Command output=`CopasiSE -s filename filename`
-  p1 = subprocess.Popen([copasi, "-s", filename, filename], stdout=subprocess.PIPE) 
+
+
+def runCommandInstance(command):
+  """ Run a command instance"""
+  p1 = subprocess.Popen(command, stdout=subprocess.PIPE) 
   p1.communicate()[0]
-  return True
+
+
+def runCommandPP(command, commandIterSubStr, runs, server, syncCounter=BasicSyncCounter()):  
+  """ Run parallel instances of a command """
+  for i in xrange(1, runs+1):
+    commandList = command.replace(commandIterSubStr, str(i)).split(" ")
+    callbackargs = (i,)
+    server.submit(runCommandInstance,
+		  (commandList,),
+		  depfuncs=(),
+		  modules=("subprocess",),
+		  callback=syncCounter.add,          
+		  callbackargs=callbackargs,
+		  group="my_processes")
+    print("Process P" + str(i) + " started")
 
 
 
-# Run parallel instances of Copasi
-def runParallelCopasi(copasi, server, args=("","", 1), syncCounter=BasicSyncCounter()):
-    (path, model, nfits) = args
-    start_time = time.time()
-    for index in range(0, nfits):
-        # Submit a Copasi Job
-        filename = os.path.join(path, model + str(index + 1) + ".cps")
-
-        callbackargs = (index,)
-        server.submit(runCopasiInstance,
-		      (copasi,filename),
-		      depfuncs=(),
-		      modules=("subprocess","shlex","os.path"),
-		      callback=syncCounter.add,          
-		      callbackargs=callbackargs,
-		      group="my_processes")
-        print("Process P" + str(index) + " started (model: "+ filename +")")
-
-
-
-# Main function
-# copasi: the CopasiSE command with its absolute path
-# models_dir: The path of the models
-# model: Them model name pattern
-# runs: The number of runs to perform
-# ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
-def runJobsPP(copasi, models_dir, model, runs, pp_cpus):
-  # Settings for PP
-  # The user name
-  user="sb_pipe"
-  # The server to connect (e.g. localhost,my-node.abc.ac.uk)
-  servers="localhost"
-  # The port to connect for the above server (e.g. 65000)
-  ports="65000"
-  # The secret key to communicate for the above server
-  secret="donald_duck"  
-  pp_cpus = int(pp_cpus)    
-
-  # Perform this task using python-pp (parallel python dependency). 
-  # If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
-  # The list of servers and ports must be updated in the configuration file
-  # (NOTE: It requires the installation of python-pp)
-  #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-
+# Perform this task using python-pp (parallel python dependency). 
+# If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
+# The list of servers and ports must be updated in the configuration file
+# (NOTE: It requires the installation of python-pp)
+#ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
+def runJobsPP(command, commandIterSubStr, runs, pp_cpus, servers, secret):
+  """
+  command : the full command to run as a job
+  iterSubStr : the substring in command to be replaced with a number 
+  runs: The number of runs to perform
+  ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
+  servers: A string containing a list of servers:ports to connect (e.g. "localhost:65000,my-node.abc.ac.uk:65000")
+  secret: The secret key to communicate for the above server  
+  """
   ### ppserver configuration
-  # tuple of all parallel python servers to connect with
-  # server tuple
-  server_list = servers.split(',')
-  port_list = ports.split(',')
-  resources = min(len(server_list), len(port_list))
-  ppservers=()
-  for idx in range(0, resources):
-    print("Adding server: " + server_list[idx]+":"+port_list[idx] + "\n")
-    ppservers=ppservers + (server_list[idx]+":"+port_list[idx],)
+  ppservers=tuple(servers.split(','))  
   
-  # Create an instance of callback class
-  syncCounter = BasicSyncCounter()
-
   # Create the Job Server.
   if pp_cpus > 0:
       # Creates jobserver with ncpus workers
@@ -149,20 +133,21 @@ def runJobsPP(copasi, models_dir, model, runs, pp_cpus):
   else:
       # Creates jobserver with automatically detected number of workers
       job_server = pp.Server(ppservers=ppservers, secret=secret)        
-	  
-      
-  print("ppserver will use " + str(job_server.get_ncpus()) + " cores locally.\n")        
+  print("ppserver will use " + str(job_server.get_ncpus()) + " cpus on these nodes:\n" + str(job_server.get_active_nodes()) + "\n")
 
-  print("Running parallel computation using Copasi:")
-  runParallelCopasi(copasi, server=job_server, args=(models_dir, model, runs), syncCounter=syncCounter)        
+  # Create an instance of callback class
+  syncCounter = BasicSyncCounter()
+  
+  print("Starting parallel computation:")
+  runCommandPP(command, commandIterSubStr, runs, server=job_server, syncCounter=syncCounter)        
   # Wait for jobs in all groups to finish 
   job_server.wait(group="my_processes")
 
   # Print the status of the parallel computation. Everything different from 0 means error.
   if syncCounter.get_value() is False: 
-    print("\nParallel computation finished with status: 1 - Some computation failed. Do all Copasi files exist?\n")
+    print("\nParallel computation finished with status: 1 - Some computation failed. Do all output files exist?\n")
   else:
-    print("\nParallel computation finished with status: 0 - If errors occur, check whether CopasiSE runs correctly\n")
+    print("\nParallel computation finished with status: 0 - If errors occur, check whether your command runs correctly.\n")
   
   # print statistics
   job_server.print_stats()
@@ -171,70 +156,13 @@ def runJobsPP(copasi, models_dir, model, runs, pp_cpus):
 
 
 
-
-
-
-#def runJobsSGE(copasi, models_dir, model, outDir, errDir, runs):
-  ## Test this with echo "CopasiSE insulin_receptor.cps" | xargs xargs using Python environment.
-  ## The following works:
-  ## copasiCMD = "CopasiSE insulin_receptor.cps"      
-  ## echoCMD=["echo", copasiCMD]      
-  ## xargsCMD=["xargs", "xargs"]
-  ## echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-  ## xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
-  #jobs = ""
-  #echoSleep = ["echo", "sleep 1"]  
-  #for i in xrange(0,runs):
-      ## Now the same with qsub
-      #jobs = "j"+str(i)+","+jobs
-      #copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
-      #echoCMD = ["echo", copasiCMD]
-      #qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
-      #echoProc = Popen(echoCMD, stdout=PIPE)
-      #qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  ## Check here when these jobs are finished before proceeding
-  #qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
-  #echoProc = Popen(echoSleep, stdout=PIPE)
-  #qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  #qsubProc.communicate()[0]
-
-
-
-#def runJobsLSF(copasi, models_dir, model, outDir, errDir, runs):
-  #jobs = ""
-  #echoSleep = ["echo", "sleep 1"]  
-  #for i in xrange(0,runs):
-      #jobs = "done(j"+str(i)+")&&"+jobs
-      #copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
-      #echoCMD = ["echo", copasiCMD]
-      #bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
-      #echoProc = Popen(echoCMD, stdout=PIPE)
-      #bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  ## Check here when these jobs are finished before proceeding
-  #import random 
-  #import string
-  #jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-  #bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]]
-  #echoProc = Popen(echoSleep, stdout=PIPE)
-  #bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  #bsubProc.communicate()[0]
-  ## Something better than the following would be highly desirable
-  #import time
-  #found = True
-  #while found:
-    #time.sleep(2)
-    #myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
-    #output = myPoll.communicate()[0]    
-    #if not jobName in output:
-      #found = False
-
-
-
-
 def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
   """
   command : the full command to run as a job
   iterSubStr : the substring in command to be replaced with a number 
+  outDir : the directory containing the standard output from qsub
+  errDir : the directory containing the standard error from qsub
+  runs : the number of runs to execute
   """
   # Test this with echo "ls -la" | xargs xargs using Python environment.
   # The following works:
@@ -244,13 +172,11 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
   # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
   # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
   jobs = ""
-  echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(0,runs):
+  echoSleep = ["echo", "sleep 1"]
+  for i in xrange(1,runs+1):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
-      command = command.replace(commandIterSubStr, str(i))
-      print(command)
-      echoCMD = ["echo", command]
+      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
@@ -264,15 +190,19 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
 
 
 
-
-
 def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
+  """
+  command : the full command to run as a job
+  iterSubStr : the substring in command to be replaced with a number 
+  outDir : the directory containing the standard output from bsub
+  errDir : the directory containing the standard error from bsub
+  runs : the number of runs to execute
+  """  
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(0,runs):
+  for i in xrange(1,runs+1):
       jobs = "done(j"+str(i)+")&&"+jobs
-      command = command.replace(commandIterSubStr, str(i))
-      echoCMD = ["echo", command]
+      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)

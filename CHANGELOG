@@ -9,7 +9,7 @@ Website: https://pdp10.github.io/sb_pipe/
 v0.26.0
 
 - bug fixes
-- separation of code to be executed in parallel from param_estim__copasi pipeline
+- separation of parallel code from param_estim__copasi pipeline. It is generic now.
 - sb_pipe should now be platform independent (untested yet)
 - removed unused dependencies
 - better separation of test cases
