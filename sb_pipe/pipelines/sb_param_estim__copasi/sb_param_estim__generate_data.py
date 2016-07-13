@@ -80,28 +80,23 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
     os.rename(os.path.join(models_dir, data_folder), os.path.join(models_dir, data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now())))
   shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
 
-  copasi=getCopasi()
+  copasi = getCopasi()
+  timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   
   if cluster_type == "sge" or cluster_type == "lsf":
-    # Test this with echo "Copasi insulin_receptor.cps" | xargs xargs using Python environment.
-    # The following works:
-    # copasiCMD = "CopasiSE insulin_receptor.cps"      
-    # echoCMD=["echo", copasiCMD]      
-    # xargsCMD=["xargs", "xargs"]
-    # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
-    # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)
     outDir = os.path.join(results_dir, 'out')
     errDir = os.path.join(results_dir, 'err')
     if not os.path.exists(outDir):
       os.makedirs(outDir)
     if not os.path.exists(errDir):
       os.makedirs(errDir)   
-      
+    
+    command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      runJobsSGE(copasi, models_dir, model[:-4], outDir, errDir, nfits)
+      runJobsSGE(command, timestamp, outDir, errDir, nfits)
 
     elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      runJobsLSF(copasi, models_dir, model[:-4], outDir, errDir, nfits)      
+      runJobsLSF(command, timestamp, outDir, errDir, nfits)      
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":

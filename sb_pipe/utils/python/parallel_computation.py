@@ -174,14 +174,82 @@ def runJobsPP(copasi, models_dir, model, runs, pp_cpus):
 
 
 
-def runJobsSGE(copasi, models_dir, model, outDir, errDir, runs):
+#def runJobsSGE(copasi, models_dir, model, outDir, errDir, runs):
+  ## Test this with echo "CopasiSE insulin_receptor.cps" | xargs xargs using Python environment.
+  ## The following works:
+  ## copasiCMD = "CopasiSE insulin_receptor.cps"      
+  ## echoCMD=["echo", copasiCMD]      
+  ## xargsCMD=["xargs", "xargs"]
+  ## echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+  ## xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
+  #jobs = ""
+  #echoSleep = ["echo", "sleep 1"]  
+  #for i in xrange(0,runs):
+      ## Now the same with qsub
+      #jobs = "j"+str(i)+","+jobs
+      #copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
+      #echoCMD = ["echo", copasiCMD]
+      #qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
+      #echoProc = Popen(echoCMD, stdout=PIPE)
+      #qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
+  ## Check here when these jobs are finished before proceeding
+  #qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
+  #echoProc = Popen(echoSleep, stdout=PIPE)
+  #qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
+  #qsubProc.communicate()[0]
+
+
+
+#def runJobsLSF(copasi, models_dir, model, outDir, errDir, runs):
+  #jobs = ""
+  #echoSleep = ["echo", "sleep 1"]  
+  #for i in xrange(0,runs):
+      #jobs = "done(j"+str(i)+")&&"+jobs
+      #copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
+      #echoCMD = ["echo", copasiCMD]
+      #bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
+      #echoProc = Popen(echoCMD, stdout=PIPE)
+      #bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
+  ## Check here when these jobs are finished before proceeding
+  #import random 
+  #import string
+  #jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
+  #bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]]
+  #echoProc = Popen(echoSleep, stdout=PIPE)
+  #bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
+  #bsubProc.communicate()[0]
+  ## Something better than the following would be highly desirable
+  #import time
+  #found = True
+  #while found:
+    #time.sleep(2)
+    #myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
+    #output = myPoll.communicate()[0]    
+    #if not jobName in output:
+      #found = False
+
+
+
+
+def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
+  """
+  command : the full command to run as a job
+  iterSubStr : the substring in command to be replaced with a number 
+  """
+  # Test this with echo "ls -la" | xargs xargs using Python environment.
+  # The following works:
+  # lsCMD = "ls -la"      
+  # echoCMD=["echo", lsCMD]      
+  # xargsCMD=["xargs", "xargs"]
+  # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
+  # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(0,runs):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
-      copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
-      echoCMD = ["echo", copasiCMD]
+      command = command.replace(commandIterSubStr, str(i))
+      echoCMD = ["echo", command]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
@@ -195,13 +263,15 @@ def runJobsSGE(copasi, models_dir, model, outDir, errDir, runs):
 
 
 
-def runJobsLSF(copasi, models_dir, model, outDir, errDir, runs):
+
+
+def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(0,runs):
       jobs = "done(j"+str(i)+")&&"+jobs
-      copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
-      echoCMD = ["echo", copasiCMD]
+      command = command.replace(commandIterSubStr, str(i))
+      echoCMD = ["echo", command]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
