@@ -6,16 +6,17 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.26.0
+v0.27.0
 
 - bug fixes
+- models can now be simulated in parallel using PP, SGE, or LSF.
 - separation of parallel code from param_estim__copasi pipeline. It is generic now.
 - sb_pipe should now be platform independent (untested yet)
 - removed unused dependencies
 - better separation of test cases
 - pipeline steps can be executed separately
 - pipeline restructuring (separation of the steps: generate data, analyse data, and generate report)
-- added support for running parameter estimation on SGE or LSF facilities.
+- model parameters can now be estimated in parallel using PP, SGE, or LSF.
 - removed old deprecated code
 - restructuring source code in the lib/ folder (now sb_pipe/pipelines and sb_pipe/utils).
 - finalised skeleton for sb_param_estim pipeline
