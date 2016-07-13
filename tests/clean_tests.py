@@ -31,25 +31,34 @@ def main(args):
 
   for file in modelProjects:
     modelspath = join(file, 'Models')
+    print("cleaning parameter estimation files...")        
     paramEstimCopasiFiles = glob.glob(os.path.join(modelspath, "*_param_estim?*.cps"))
-    for f in paramEstimCopasiFiles:
-      print("deleting..." + f)           
+    for f in paramEstimCopasiFiles:       
       os.remove(f)
-        
-    tmppath = join(file, 'tmp')
+
+    print("cleaning simulation copasi files...")      
+    simulFiles = glob.glob(os.path.join(modelspath, "*_stoch?*.cps"))
+    for f in simulFiles:
+      os.remove(f)
+    if os.path.isfile(os.path.join(modelspath, "insulin_receptor1.cps")):
+      os.remove(os.path.join(modelspath, "insulin_receptor1.cps"))
+    
+    print("cleaning tmp folder...")       
     # print tmppath
+    tmppath = join(file, 'tmp')    
     shutil.rmtree(tmppath, ignore_errors=True)
     
-    wfpath = join(file, 'Working_Folder')
+    print("cleaning output files...")           
+    wfpath = join(file, 'Working_Folder')    
+  
     # Delete tgz files
     wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
     for f in wflist:
-      print("deleting..." + f)      
       os.remove(os.path.join(wfpath, f))
     # delete sub-directories
     wflist = [d for d in os.listdir(wfpath) if os.path.isdir(os.path.join(wfpath, d))]
     for d in wflist:
-      print("deleting..." + d)
       shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)
 
 main(sys.argv)
+

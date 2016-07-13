@@ -30,6 +30,8 @@
 import os
 import sys
 import glob
+from shutil import copyfile, move
+import datetime
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -38,7 +40,8 @@ from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from CopasiUtils import replace_str_copasi_sim_report
-
+from io_util_functions import replace_string_in_file
+from parallel_computation import parallel_computation
 
 
 # Input parameters
@@ -46,18 +49,16 @@ from CopasiUtils import replace_str_copasi_sim_report
 # models_dir: read the models dir
 # output_dir: The output dir
 # tmp_dir: read the temp dir
-# sim_number: the number of simulations to perform
-def main(model, models_dir, output_dir, tmp_dir, sim_number):
+# runs: the number of simulations to perform
+def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, runs=1):
   
-  if int(sim_number) < 1: 
-    print("ERROR: variable " + sim_number + " must be greater than 0. Please, check your configuration file.");
+  if runs < 1: 
+    print("ERROR: variable " + str(runs) + " must be greater than 0. Please, check your configuration file.");
     return
 
   if not os.path.isfile(os.path.join(models_dir,model)):
     print(os.path.join(models_dir, model) + " does not exist.") 
     return  
-  
-  model_noext=model[:-4]
 
   # folder preparation
   filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
@@ -66,16 +67,27 @@ def main(model, models_dir, output_dir, tmp_dir, sim_number):
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-  # execute sim_number simulations.
-  print("Simulating Model: " + model)
-  copasi=getCopasi()
-  for idx in range(1, int(sim_number) + 1):
-    # run CopasiSE. Copasi must generate a (TIME COURSE) report called model_noext +'.csv' in tmp_dir
-    p1 = Popen([copasi, "--nologo", os.path.join(models_dir,model)], stdout=PIPE) 
-    p1.communicate()[0]
-
+  # execute runs simulations.
+  print("Simulating model " + model + " for " + str(runs) + " time(s)")
+  # Replicate the copasi file and rename its report file
+  for i in xrange(1, runs + 1):
+    copyfile(os.path.join(models_dir,model), os.path.join(models_dir,model[:-4])+str(i)+".cps") 
+    replace_string_in_file(os.path.join(models_dir,model[:-4])+str(i)+".cps", 
+			   model[:-4]+".csv", 
+			   model[:-4]+str(i)+".csv")
+  
+  # run copasi in parallel
+  copasi = getCopasi()
+  timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
+  command = copasi + " " + os.path.join(models_dir, model[:-4]+timestamp+".cps")
+  servers="localhost:65000"
+  secret="sb_pipe"
+  parallel_computation(command, timestamp, cluster_type, runs, output_dir, servers, secret, pp_cpus)
+  
+ 
+  for file in glob.glob(os.path.join(tmp_dir, model[:-4]+"*.csv")):
     # Replace some string in the report file
-    print("Simulation No.: " + str(idx))
-    replace_str_copasi_sim_report(tmp_dir, model)
-    os.rename(os.path.join(tmp_dir,model_noext+".csv"), os.path.join(output_dir, model_noext+"__sim_"+str(idx)+".csv"))
+    replace_str_copasi_sim_report(file)
+    # rename and move the output file
+    move(file, os.path.join(output_dir, model[:-4]+"__sim_" + file.replace(os.path.join(tmp_dir, model[:-4]), "")[:-4] + ".csv"))
     
