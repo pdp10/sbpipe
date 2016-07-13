@@ -120,6 +120,7 @@ def main(model_configuration):
       
 
   nfits = int(nfits)
+  pp_cpus = int(pp_cpus)  
 
   # INTERNAL VARIABLES
   # The folder containing the models

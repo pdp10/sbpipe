@@ -6,18 +6,31 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.0.13
+v0.26.0
 
+- bug fixes
+- separation of parallel code from param_estim__copasi pipeline. It is generic now.
+- sb_pipe should now be platform independent (untested yet)
+- removed unused dependencies
+- better separation of test cases
+- pipeline steps can be executed separately
+- pipeline restructuring (separation of the steps: generate data, analyse data, and generate report)
 - added support for running parameter estimation on SGE or LSF facilities.
 - removed old deprecated code
-- migrated from gplot to ggplot2. This simplified the plots considerably.
-- added unit tests and setup.py.
-- ported Bash / sed / grep and cut code to Python.
+- restructuring source code in the lib/ folder (now sb_pipe/pipelines and sb_pipe/utils).
+- finalised skeleton for sb_param_estim pipeline
+- added parameter correlation plots for sb_param_estim pipeline.
+- ported R gplots code to ggplot in sb_param_scan__single_perturb pipeline.
+- ported R gplots code to ggplot in sb_simulate pipeline.
+- sb_pipe is now a Python package.
+- added documentation (readme, developer_guide)
+- added unit tests and setup.py. 
+- ported Bash / sed / grep and cut code to Python in sb_param_estim pipeline.
+- ported Bash / sed / grep and cut code to Python in sb_param_scan__single_perturb pipeline.
+- ported Bash / sed / grep and cut code to Python in sb_simulate pipeline.
 - added param_estim__copasi.sh
 - improved configuration file.
-- bug fixes
 - simulation time start, end, xaxis label and time step now replace the parameter `team`.
 - adjusted sb_simulate.sh, sb_param_scan__single_perturb.sh, sb_sensitivity.sh
 - packaging of sb_modules in /bin
-- added test folder with test scripts
-- first commit
+- added test scripts
