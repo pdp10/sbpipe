@@ -100,8 +100,16 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
-      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")    
-    runJobsPP(copasi, models_dir, model[:-4], nfits, pp_cpus)
+      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+    # Perform this task using python-pp (parallel python dependency). 
+    # If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
+    # The list of servers and ports must be updated in the configuration file
+    # (NOTE: It requires the installation of python-pp)
+    #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
+    # Settings for PP
+    servers="localhost:65000"
+    secret="donald_duck"
+    runJobsPP(command, timestamp, nfits, pp_cpus, servers, secret)
 
   # remove the previously copied Data folder
   shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
