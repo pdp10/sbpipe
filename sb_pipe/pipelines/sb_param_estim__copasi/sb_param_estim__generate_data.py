@@ -41,80 +41,7 @@ from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import sb_param_estim__copasi_utils_randomise_start_values
-import sb_param_estim__copasi_parallel
-
-
-
-def runCopasiSGE(copasi, models_dir, model, outDir, errDir, nfits):
-  jobs = ""
-  echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(0,nfits):
-      # Now the same with qsub
-      jobs = "j"+str(i)+","+jobs
-      copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+" "+os.path.join(models_dir, model+str(i)+".cps")
-      echoCMD = ["echo", copasiCMD]
-      qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
-      echoProc = Popen(echoCMD, stdout=PIPE)
-      qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  # Check here when these jobs are finished before proceeding
-  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]]  
-  echoProc = Popen(echoSleep, stdout=PIPE)
-  qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  qsubProc.communicate()[0]
-
-
-
-def runCopasiLSF(copasi, models_dir, model, outDir, errDir, nfits):
-  jobs = ""
-  echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(1,nfits):
-      jobs = "done(j"+str(i)+")&&"+jobs
-      copasiCMD = copasi + " -s "+os.path.join(models_dir, model+str(i)+".cps")+""+os.path.join(models_dir, model+str(i)+".cps")
-      echoCMD = ["echo", copasiCMD]
-      bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
-      echoProc = Popen(echoCMD, stdout=PIPE)
-      bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  # Check here when these jobs are finished before proceeding
-  import random 
-  import string
-  jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]]
-  echoProc = Popen(echoSleep, stdout=PIPE)
-  bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
-  bsubProc.communicate()[0]
-  # Something better than the following would be highly desirable
-  import time
-  found = True
-  while found:
-    time.sleep(2)
-    myPoll = Popen(["bjobs", "-psr"], stdout=PIPE)
-    output = myPoll.communicate()[0]    
-    if not jobName in output:
-      found = False
-  
-
-def runCopasiPP(copasi, models_dir, model, nfits, pp_cpus):
-  # Settings for PP
-  # The user name
-  user="sb_pipe"
-  # The server to connect (e.g. localhost,my-node.abc.ac.uk)
-  server_list="localhost"
-  # The port to connect for the above server (e.g. 65000)
-  port_list="65000"
-  # The secret key to communicate for the above server
-  secret="donald_duck"  
-  pp_cpus = int(pp_cpus)    
-
-  # Perform this task using python-pp (parallel python dependency). 
-  # If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
-  # The list of servers and ports must be updated in the configuration file
-  # (NOTE: It requires the installation of python-pp)
-  #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-
-  # Perform this task using python-pp (parallel python dependency)
-  sb_param_estim__copasi_parallel.main(copasi, server_list, port_list, secret, models_dir, model, nfits, pp_cpus)
-
-
+from parallel_computation import runJobsSGE, runJobsLSF, runJobsPP
 
 
 
@@ -171,15 +98,15 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
       os.makedirs(errDir)   
       
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      runCopasiSGE(copasi, models_dir, model[:-4], outDir, errDir, nfits)
+      runJobsSGE(copasi, models_dir, model[:-4], outDir, errDir, nfits)
 
     elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      runCopasiLSF(copasi, models_dir, model[:-4], outDir, errDir, nfits)      
+      runJobsLSF(copasi, models_dir, model[:-4], outDir, errDir, nfits)      
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
       print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")    
-    runCopasiPP(copasi, models_dir, model[:-4], nfits, pp_cpus)
+    runJobsPP(copasi, models_dir, model[:-4], nfits, pp_cpus)
 
   # remove the previously copied Data folder
   shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
