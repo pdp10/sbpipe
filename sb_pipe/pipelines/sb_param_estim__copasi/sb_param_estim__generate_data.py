@@ -82,7 +82,8 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
 
   copasi = getCopasi()
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
-  
+  command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
+    
   if cluster_type == "sge" or cluster_type == "lsf":
     outDir = os.path.join(results_dir, 'out')
     errDir = os.path.join(results_dir, 'err')
@@ -91,7 +92,6 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
     if not os.path.exists(errDir):
       os.makedirs(errDir)   
     
-    command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
       runJobsSGE(command, timestamp, outDir, errDir, nfits)
 

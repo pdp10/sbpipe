@@ -249,6 +249,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
       command = command.replace(commandIterSubStr, str(i))
+      print(command)
       echoCMD = ["echo", command]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
