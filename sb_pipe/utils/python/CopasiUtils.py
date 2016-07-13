@@ -34,19 +34,15 @@ import re
 
 # Replaces a group of annotation strings from a generated copasi report file
 # Input parameters
-# path:		The path of the copasi report
-# report_name:	The name of the report
-def replace_str_copasi_sim_report(path, report):
-
-  # Replace the previous strings in the following file:
-  report_with_path = os.path.join(path, report[:-4]+".csv")
+# report: The file (with path) of the report with extension
+def replace_str_copasi_sim_report(report):
 
   # The with statement ensures that the file is closed correctly, 
   # and re-opening the file in "w" mode empties the file before you write to it. 
   # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
-  with open(report_with_path, "r") as sources:
-    lines = sources.readlines()
-  with open(report_with_path, "w") as sources:
+  with open(report, "r") as file:
+    lines = file.readlines()
+  with open(report, "w") as file:
     #for idx, line in lines:
     for i in range(len(lines)):
 	if i < 1:
@@ -54,8 +50,8 @@ def replace_str_copasi_sim_report(path, report):
 	  # Then replaces whites with TAB.
 	  # Finally use rstrip to remove the TAB at the end.
 	  # [^\w] matches anything that is not alphanumeric or underscore
-	  sources.write(
+	  file.write(
 	    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
 	else:
-	  sources.write(lines[i].rstrip('\t'))  
+	  file.write(lines[i].rstrip('\t'))  
 

@@ -44,6 +44,15 @@ class TestInsulinReceptorLSF(unittest.TestCase):
   A collection of tests for this example using LSF
   """
 
+  def test_stoch_simul_copasi_lsf(self):        
+    """model simulation using LSF if found"""
+    try:
+	subprocess.call(["qstat"])
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "lsf_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
+    except OSError as e:
+	print("Skipping test as no LSF (Load Sharing Facility) was found.")
+
+
   def test_param_estim_copasi_lsf(self):        
     """model parameter estimation using LSF if found"""
     try:
