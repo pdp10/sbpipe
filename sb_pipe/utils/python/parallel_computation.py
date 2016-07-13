@@ -88,9 +88,9 @@ def runCopasiInstance(copasi,filename):
 def runParallelCopasi(copasi, server, args=("","", 1), syncCounter=BasicSyncCounter()):
     (path, model, nfits) = args
     start_time = time.time()
-    for index in range(0, nfits):
+    for index in xrange(1, nfits+1):
         # Submit a Copasi Job
-        filename = os.path.join(path, model + str(index + 1) + ".cps")
+        filename = os.path.join(path, model + str(index) + ".cps")
 
         callbackargs = (index,)
         server.submit(runCopasiInstance,
@@ -245,7 +245,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
   # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(0,runs):
+  for i in xrange(1,runs+1):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
       command = command.replace(commandIterSubStr, str(i))
@@ -269,7 +269,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
 def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
-  for i in xrange(0,runs):
+  for i in xrange(1,runs+1):
       jobs = "done(j"+str(i)+")&&"+jobs
       command = command.replace(commandIterSubStr, str(i))
       echoCMD = ["echo", command]

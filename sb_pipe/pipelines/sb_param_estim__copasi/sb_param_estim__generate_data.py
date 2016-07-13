@@ -73,7 +73,7 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
   sb_param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
 
   print("\n")
-  print("Concurrent parameter estimation:")
+  print("Parallel parameter estimation:")
   # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
   # Let's temporarily copy this folder and then delete it.
   if os.path.exists(os.path.join(models_dir, data_folder)):
