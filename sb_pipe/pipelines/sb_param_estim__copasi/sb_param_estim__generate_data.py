@@ -41,7 +41,7 @@ from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 import sb_param_estim__copasi_utils_randomise_start_values
-from parallel_computation import runJobsSGE, runJobsLSF, runJobsPP
+from parallel_computation import parallel_computation
 
 
 
@@ -83,33 +83,9 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
   copasi = getCopasi()
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
-    
-  if cluster_type == "sge" or cluster_type == "lsf":
-    outDir = os.path.join(results_dir, 'out')
-    errDir = os.path.join(results_dir, 'err')
-    if not os.path.exists(outDir):
-      os.makedirs(outDir)
-    if not os.path.exists(errDir):
-      os.makedirs(errDir)   
-    
-    if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      runJobsSGE(command, timestamp, outDir, errDir, nfits)
-
-    elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      runJobsLSF(command, timestamp, outDir, errDir, nfits)      
-        
-  else: # use pp by default (parallel python). This is configured to work locally using multi-core.
-    if cluster_type != "pp":
-      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
-    # Perform this task using python-pp (parallel python dependency). 
-    # If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
-    # The list of servers and ports must be updated in the configuration file
-    # (NOTE: It requires the installation of python-pp)
-    #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-    # Settings for PP
-    servers="localhost:65000"
-    secret="donald_duck"
-    runJobsPP(command, timestamp, nfits, pp_cpus, servers, secret)
+  servers="localhost:65000"
+  secret="sb_pipe"
+  parallel_computation(command, timestamp, cluster_type, nfits, servers, secret, pp_cpus)
 
   # remove the previously copied Data folder
   shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 

@@ -66,9 +66,8 @@ def main(model, models_dir, output_dir, tmp_dir, sim_number):
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
+  # execute sim_number simulations.
   print("Simulating Model: " + model)
-  # execute sim_number simulations. For the plot generation we need more than 1 simulation. 
-  # This is likely to be a bug. For now, let's do at least two simulations.
   copasi=getCopasi()
   for idx in range(1, int(sim_number) + 1):
     # run CopasiSE. Copasi must generate a (TIME COURSE) report called model_noext +'.csv' in tmp_dir
@@ -79,4 +78,4 @@ def main(model, models_dir, output_dir, tmp_dir, sim_number):
     print("Simulation No.: " + str(idx))
     replace_str_copasi_sim_report(tmp_dir, model)
     os.rename(os.path.join(tmp_dir,model_noext+".csv"), os.path.join(output_dir, model_noext+"__sim_"+str(idx)+".csv"))
-
+    

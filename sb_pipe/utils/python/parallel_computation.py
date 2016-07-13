@@ -37,7 +37,6 @@ from BasicSyncCounter import *
 
 import pp
 
-
 # Desc: This program runs parallel estimation computations with pp module 
 
 # For more information, see: http://www.parallelpython.com/content/view/15/30/#QUICKCLUSTERS
@@ -65,6 +64,29 @@ import pp
 
 
 
+def parallel_computation(command, timestamp, cluster_type, runs, servers="localhost:65000", secret="sb_pipe", pp_cpus=1):
+  if cluster_type == "sge" or cluster_type == "lsf":
+    outDir = os.path.join(results_dir, 'out')
+    errDir = os.path.join(results_dir, 'err')
+    if not os.path.exists(outDir):
+      os.makedirs(outDir)
+    if not os.path.exists(errDir):
+      os.makedirs(errDir)   
+    
+    if cluster_type == "sge":  # use SGE (Sun Grid Engine)
+      runJobsSGE(command, timestamp, outDir, errDir, runs)
+
+    elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
+      runJobsLSF(command, timestamp, outDir, errDir, runs)      
+        
+  else: # use pp by default (parallel python). This is configured to work locally using multi-core.
+    if cluster_type != "pp":
+      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+    runJobsPP(command, timestamp, runs, pp_cpus, servers, secret)
+
+
+
+
 def runCommandInstance(command):
   """ Run a command instance"""
   p1 = subprocess.Popen(command, stdout=subprocess.PIPE) 
@@ -87,6 +109,11 @@ def runCommandPP(command, commandIterSubStr, runs, server, syncCounter=BasicSync
 
 
 
+# Perform this task using python-pp (parallel python dependency). 
+# If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
+# The list of servers and ports must be updated in the configuration file
+# (NOTE: It requires the installation of python-pp)
+#ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
 def runJobsPP(command, commandIterSubStr, runs, pp_cpus, servers, secret):
   """
   command : the full command to run as a job
