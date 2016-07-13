@@ -78,8 +78,8 @@ class ParamEstim_RandomizeStartValue:
       # 1) RANDOMIZATION
       new__start_values, old_str, new_str = self._randomise_start_value()
       # 2) PRINT NEW VALUES
-      print("\nInitial parameters for the output file: " + file_out)      
-      self._print_parameters_to_estimate2(new__start_values)
+      #print("\nInitial parameters for the output file: " + file_out)      
+      #self._print_parameters_to_estimate2(new__start_values)
       # 3) REPLACE VALUES IN THE NEW FILE
       self._replace_start_value_in_file(file_out, report_filename, old_str, new_str)
 
