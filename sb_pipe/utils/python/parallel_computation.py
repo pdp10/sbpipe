@@ -244,13 +244,11 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
   # echoProc = subprocess.Popen(echoCMD, stdout=subprocess.PIPE)
   # xargsProc = subprocess.Popen(xargsCMD, stdin=echoProc.stdout)  
   jobs = ""
-  echoSleep = ["echo", "sleep 1"]  
+  echoSleep = ["echo", "sleep 1"]
   for i in xrange(1,runs+1):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
-      command = command.replace(commandIterSubStr, str(i))
-      print(command)
-      echoCMD = ["echo", command]
+      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
@@ -271,8 +269,7 @@ def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,runs+1):
       jobs = "done(j"+str(i)+")&&"+jobs
-      command = command.replace(commandIterSubStr, str(i))
-      echoCMD = ["echo", command]
+      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
