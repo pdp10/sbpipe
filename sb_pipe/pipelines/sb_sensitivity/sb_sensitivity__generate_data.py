@@ -38,9 +38,31 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
 
 # Input parameters
-# model, models_dir, results_dir, tmp_dir
-def main(model, models_dir, results_dir, tmp_dir):
-  pass
-  # TODO convert the following
-  #process = subprocess.Popen(['bash', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_sensitivity','sensitivities__run_copasi.sh'), model, models_dir, results_dir, tmp_dir])
-  #process.wait()  
+# model, models_dir, output_dir, tmp_dir
+def main(model, models_dir, output_dir, tmp_dir):
+
+  if not os.path.isfile(os.path.join(models_dir,model)):
+    print(os.path.join(models_dir, model) + " does not exist.") 
+    return  
+
+  # folder preparation
+  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
+  for f in filesToDelete:
+    os.remove(f)
+  if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+  # execute runs simulations.
+  print("Sensitivity analysis for " + model)
+  
+  # run copasi
+  copasi = getCopasi()  
+  command = [copasi, os.path.join(models_dir, model[:-4]+".cps")]
+
+  p = Popen(command)
+  p.wait()
+ 
+  # move the output file
+  move(os.path.join(tmp_dir, model[:-4]+".csv"), output_dir)
+
+    
