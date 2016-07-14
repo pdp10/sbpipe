@@ -150,7 +150,7 @@ plot_error_bars <- function(outputdir, version, name, species, timepoints, simul
 
       # decorate
       g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep="")) + theme(legend.position = "none")
-      ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")
+      ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
    }
 }
 

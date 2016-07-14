@@ -133,7 +133,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
 	    scale_colour_manual("Levels", values=colors, labels=labels) + 
 	    scale_linetype_manual("Levels", values=linetype, labels=labels)
       	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
-		   dpi=300,  width=8, height=6, bg = "transparent")
+		   dpi=300,  width=8, height=6)#, bg = "transparent")
    
 	  }
 	  
