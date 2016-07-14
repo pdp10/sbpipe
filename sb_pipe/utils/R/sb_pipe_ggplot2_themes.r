@@ -31,11 +31,12 @@ tc_theme <- function (base_size=12, base_family="") {
         axis.line = element_line(colour = "black", size=1.0),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        panel.border = element_blank(),
+	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
         panel.background = element_blank(),
 	legend.key = element_rect(fill = "transparent", colour = "transparent"),        
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
-        plot.background = element_rect(fill = "transparent",colour = NA))
+        plot.background = element_rect(fill = "transparent",colour = NA)
+        )
 }
 
 
@@ -46,6 +47,10 @@ basic_theme <- function (base_size=12, base_family="") {
         axis.line = element_line(colour = "black"),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        panel.border = element_blank(),
-        panel.background = element_blank())
+	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
+        panel.background = element_blank(),
+	legend.key = element_rect(fill = "transparent", colour = "transparent"),        
+        legend.background = element_rect(fill = "transparent", colour = "transparent"),
+        plot.background = element_rect(fill = "transparent", colour = NA)        
+        )
 }
