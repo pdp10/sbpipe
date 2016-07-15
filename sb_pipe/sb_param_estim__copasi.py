@@ -166,22 +166,22 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("Generate data:")
-    print("##############")
+    print("Data generation:")
+    print("################")
     sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, runs, results_dir, sim_raw_data, tmp_dir)
     
 
   if analyse_data == True:
     print("\n")
-    print("Analyse data:")
-    print("#############")
+    print("Data analysis:")
+    print("##############")
     sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, data_summary_file, plots_dir, best_fits_percent)    
 
 
   if generate_report == True:
     print("\n")
-    print("Generate reports:")
-    print("#################")
+    print("Report generation:")
+    print("##################")
     sb_param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 

@@ -183,8 +183,8 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("Generate data:")
-    print("##############")
+    print("Data generation:")
+    print("################")
     sb_param_scan__generate_data.main(model, 
 				      scanned_species, 
 				      param_scan__single_perturb_simulations_number, 
@@ -197,8 +197,8 @@ def main(model_configuration):
   
   if analyse_data == True:
     print("\n")
-    print("Analyse data:")
-    print("#############")
+    print("Data analysis:")
+    print("##############")
     sb_param_scan__analyse_data.main(model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, 
 				     raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 				     param_scan__single_perturb_simulations_number, 
@@ -209,8 +209,8 @@ def main(model_configuration):
   
   if generate_report == True:
     print("\n")
-    print("Generate reports:")
-    print("#################")
+    print("Report generation:")
+    print("##################")
     sb_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 

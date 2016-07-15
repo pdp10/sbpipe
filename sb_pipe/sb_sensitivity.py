@@ -135,22 +135,22 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("Generate data:")
-    print("##############")
+    print("Data generation:")
+    print("################")
     sb_sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
 
 
   if analyse_data == True:
     print("\n")
-    print("Analyse data:")
-    print("#############")
+    print("Data analysis:")
+    print("##############")
     sb_sensitivity__analyse_data.main(results_dir)  
 
 
   if generate_report == True:
     print("\n")
-    print("Generate reports:")
-    print("#################")
+    print("Report generation:")
+    print("##################")
     sb_sensitivity__generate_report.main()     
 
 
