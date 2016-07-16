@@ -34,7 +34,9 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import sb_param_estim__copasi_utils_collect_results
+from ParamEstim_CollectResults import retrieve_final_estimates
+from ParamEstim_CollectResults import retrieve_all_estimates
+
 import sb_param_estim__copasi_utils_plot_calibration
 
 
@@ -54,7 +56,8 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots
   
   print("Collect results:")
   # Collect and summarises the parameter estimation results
-  sb_param_estim__copasi_utils_collect_results.main(input_dir, results_dir, fileout_final_estims, fileout_all_estims)
+  retrieve_final_estimates(path_in, path_out, fileout_final_estims)
+  retrieve_all_estimates(path_in, path_out, fileout_all_estims)  
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
