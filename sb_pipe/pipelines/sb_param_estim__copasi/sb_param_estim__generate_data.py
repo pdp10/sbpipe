@@ -40,7 +40,7 @@ sys.path.append(SB_PIPE)
 from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import sb_param_estim__copasi_utils_randomise_start_values
+from ParamEstim_RandomizeStartValue import *
 from parallel_computation import parallel_computation
 
 
@@ -70,7 +70,11 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
 
 
   print("Configure Copasi:")
-  sb_param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
+  print("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
+  pre_param_estim = ParamEstim_RandomizeStartValue(path, filename_in)
+  pre_param_estim.print_parameters_to_estimate()
+  pre_param_estim.generate_instances_from_template(num_files)
+  
 
   print("\n")
   print("Parallel parameter estimation:")
