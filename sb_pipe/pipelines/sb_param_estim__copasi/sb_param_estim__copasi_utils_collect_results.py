@@ -28,18 +28,18 @@ import sys
 import os
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-
-from ParamEstim_CollectResults import *
-
+from ParamEstim_CollectResults import retrieve_final_estimates
+from ParamEstim_CollectResults import retrieve_all_estimates
 
 
  
 # INITIALIZATION
 # path_in : The path containing COPASI parameter estimation reports
 # path_out : The path to store filename_out
-# filename_out : the file name of the collected results
-def main(path_in, path_out, filename_out):
+# fileout_final_estims : the file name of the final estimations
+# fileout_all_estims : the file name of all estimations
+def main(path_in, path_out, fileout_final_estims, fileout_all_estims):
   print("Collect results from multiple parameter estimations") 
-  post_param_estim = ParamEstim_CollectResults()
-  post_param_estim.collect_results(path_in, path_out, filename_out)
+  retrieve_final_estimates(path_in, path_out, fileout_final_estims)
+  retrieve_all_estimates(path_in, path_out, fileout_all_estims)
 

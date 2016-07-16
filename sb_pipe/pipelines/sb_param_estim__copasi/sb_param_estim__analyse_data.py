@@ -42,8 +42,8 @@ import sb_param_estim__copasi_utils_plot_calibration
 
 
 # Input parameters
-# input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
-def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent):
+# input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent
+def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent):
 
   if not os.path.exists(input_dir) or not os.listdir(input_dir): 
     print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
@@ -54,7 +54,7 @@ def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
   
   print("Collect results:")
   # Collect and summarises the parameter estimation results
-  sb_param_estim__copasi_utils_collect_results.main(input_dir, results_dir, data_summary_file)
+  sb_param_estim__copasi_utils_collect_results.main(input_dir, results_dir, fileout_final_estims, fileout_all_estims)
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
@@ -65,5 +65,5 @@ def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
   print("Plot distributions:")
   print("\n")
   process = Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','sb_param_estim__copasi_fit_analysis.r'), 
-			      os.path.join(results_dir, data_summary_file), plots_dir, best_fits_percent])
+			      os.path.join(results_dir, fileout_final_estims), plots_dir, best_fits_percent])
   process.wait()  

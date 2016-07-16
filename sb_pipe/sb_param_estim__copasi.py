@@ -141,9 +141,8 @@ def main(model_configuration):
   plots_folder = "plots"
   results_dir = os.path.join(working_dir, output_folder)
   plots_dir = os.path.join(results_dir, plots_folder)
-  data_summary_file = "parameter_estimation_collected_results.csv"
-
-
+  fileout_final_estims = "final_estim_collection.csv"
+  fileout_all_estims = "all_estim_collection.csv"
 
   print("\n<START PIPELINE>\n")
   # Get the pipeline start time
@@ -175,7 +174,7 @@ def main(model_configuration):
     print("\n")
     print("Analyse data:")
     print("#############")
-    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, data_summary_file, plots_dir, best_fits_percent)    
+    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent)    
 
 
   if generate_report == True:
