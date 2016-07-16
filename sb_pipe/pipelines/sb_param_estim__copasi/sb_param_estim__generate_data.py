@@ -71,9 +71,9 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
 
   print("Configure Copasi:")
   print("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
-  pre_param_estim = ParamEstim_RandomizeStartValue(path, filename_in)
+  pre_param_estim = ParamEstim_RandomizeStartValue(models_dir, model)
   pre_param_estim.print_parameters_to_estimate()
-  pre_param_estim.generate_instances_from_template(num_files)
+  pre_param_estim.generate_instances_from_template(nfits)
   
 
   print("\n")

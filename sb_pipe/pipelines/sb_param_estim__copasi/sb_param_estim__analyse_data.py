@@ -44,8 +44,8 @@ import sb_param_estim__copasi_utils_plot_calibration
 
 
 # Input parameters
-# input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent
-def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent):
+# input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent, data_point_num
+def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent, data_point_num):
 
   if not os.path.exists(input_dir) or not os.listdir(input_dir): 
     print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
@@ -56,8 +56,8 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots
   
   print("Collect results:")
   # Collect and summarises the parameter estimation results
-  retrieve_final_estimates(path_in, path_out, fileout_final_estims)
-  retrieve_all_estimates(path_in, path_out, fileout_all_estims)  
+  retrieve_final_estimates(input_dir, results_dir, fileout_final_estims)
+  retrieve_all_estimates(input_dir, results_dir, fileout_all_estims)  
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
@@ -67,6 +67,13 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots
   print("\n")
   print("Plot distributions:")
   print("\n")
-  process = Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','sb_param_estim__copasi_fit_analysis.r'), 
-			      os.path.join(results_dir, fileout_final_estims), plots_dir, best_fits_percent])
+  process = Popen(['Rscript',
+		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_final_fits_analysis.r'),
+		   os.path.join(results_dir, fileout_final_estims),
+		   plots_dir,
+		   str(best_fits_percent)])
   process.wait()  
+  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_all_fits_analysis.r'), 
+		   os.path.join(results_dir, fileout_all_estims), plots_dir, str(data_point_num)])
+  process.wait()  
+  

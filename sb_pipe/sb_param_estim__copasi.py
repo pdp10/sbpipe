@@ -89,6 +89,8 @@ def main(model_configuration):
   runs=25
   # The percent of best fits to consider
   best_fits_percent=100
+  # The number of available data points
+  data_point_num=10
 
 
 
@@ -117,10 +119,14 @@ def main(model_configuration):
       pp_cpus = line[1]
     elif line[0] == "best_fits_percent": 
       best_fits_percent = line[1]
+    elif line[0] == "data_point_num": 
+      data_point_num = line[1]
       
 
   runs = int(runs)
-  pp_cpus = int(pp_cpus)  
+  pp_cpus = int(pp_cpus)
+  best_fits_percent = int(best_fits_percent)
+  data_point_num = int(data_point_num)
 
   # INTERNAL VARIABLES
   # The folder containing the models
@@ -167,14 +173,29 @@ def main(model_configuration):
     print("\n")
     print("Generate data:")
     print("##############")
-    sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, runs, results_dir, sim_raw_data, tmp_dir)
+    sb_param_estim__generate_data.main(model, 
+				       models_dir, 
+				       data_dir, 
+				       data_folder, 
+				       cluster, 
+				       pp_cpus, 
+				       runs, 
+				       results_dir, 
+				       sim_raw_data, 
+				       tmp_dir)
     
 
   if analyse_data == True:
     print("\n")
     print("Analyse data:")
     print("#############")
-    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent)    
+    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
+				      results_dir, 
+				      fileout_final_estims, 
+				      fileout_all_estims, 
+				      plots_dir, 
+				      best_fits_percent,
+				      data_point_num)    
 
 
   if generate_report == True:
@@ -203,7 +224,9 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if os.path.isfile(os.path.join(results_dir,'parameter_estimation_collected_results.csv')) and len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
+  if os.path.isfile(os.path.join(results_dir,fileout_final_estims)) and \
+     os.path.isfile(os.path.join(results_dir,fileout_all_estims)) and \
+     len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
       return 0
   return 1
     
