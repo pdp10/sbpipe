@@ -34,7 +34,9 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import sb_param_estim__copasi_utils_collect_results
+from ParamEstim_CollectResults import retrieve_final_estimates
+from ParamEstim_CollectResults import retrieve_all_estimates
+
 import sb_param_estim__copasi_utils_plot_calibration
 
 
@@ -42,8 +44,8 @@ import sb_param_estim__copasi_utils_plot_calibration
 
 
 # Input parameters
-# input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
-def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent):
+# input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent, data_point_num
+def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, plots_dir, best_fits_percent, data_point_num):
 
   if not os.path.exists(input_dir) or not os.listdir(input_dir): 
     print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
@@ -54,7 +56,8 @@ def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
   
   print("Collect results:")
   # Collect and summarises the parameter estimation results
-  sb_param_estim__copasi_utils_collect_results.main(input_dir, results_dir, data_summary_file)
+  retrieve_final_estimates(input_dir, results_dir, fileout_final_estims)
+  retrieve_all_estimates(input_dir, results_dir, fileout_all_estims)  
 
   # plot the fitting curve using data from the fit sequence 
   # This requires extraction of a couple of fields from the Copasi output file for parameter estimation.
@@ -64,6 +67,13 @@ def main(input_dir, results_dir, data_summary_file, plots_dir, best_fits_percent
   print("\n")
   print("Plot distributions:")
   print("\n")
-  process = Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','sb_param_estim__copasi_fit_analysis.r'), 
-			      os.path.join(results_dir, data_summary_file), plots_dir, best_fits_percent])
+  process = Popen(['Rscript',
+		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_final_fits_analysis.r'),
+		   os.path.join(results_dir, fileout_final_estims),
+		   plots_dir,
+		   str(best_fits_percent)])
   process.wait()  
+  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_all_fits_analysis.r'), 
+		   os.path.join(results_dir, fileout_all_estims), plots_dir, str(data_point_num)])
+  process.wait()  
+  
