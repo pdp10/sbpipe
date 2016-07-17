@@ -1,19 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
+# it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # sb_pipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Lesser General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Lesser General Public License
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
@@ -40,7 +40,7 @@ sys.path.append(SB_PIPE)
 from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import sb_param_estim__copasi_utils_randomise_start_values
+from ParamEstim_RandomizeStartValue import *
 from parallel_computation import parallel_computation
 
 
@@ -70,7 +70,11 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
 
 
   print("Configure Copasi:")
-  sb_param_estim__copasi_utils_randomise_start_values.main(models_dir, model, nfits)
+  print("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
+  pre_param_estim = ParamEstim_RandomizeStartValue(models_dir, model)
+  pre_param_estim.print_parameters_to_estimate()
+  pre_param_estim.generate_instances_from_template(nfits)
+  
 
   print("\n")
   print("Parallel parameter estimation:")

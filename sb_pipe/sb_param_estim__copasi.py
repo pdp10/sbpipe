@@ -1,19 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
+# it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # sb_pipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Lesser General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Lesser General Public License
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
@@ -89,6 +89,8 @@ def main(model_configuration):
   runs=25
   # The percent of best fits to consider
   best_fits_percent=100
+  # The number of available data points
+  data_point_num=10
 
 
 
@@ -117,10 +119,14 @@ def main(model_configuration):
       pp_cpus = line[1]
     elif line[0] == "best_fits_percent": 
       best_fits_percent = line[1]
+    elif line[0] == "data_point_num": 
+      data_point_num = line[1]
       
 
   runs = int(runs)
-  pp_cpus = int(pp_cpus)  
+  pp_cpus = int(pp_cpus)
+  best_fits_percent = int(best_fits_percent)
+  data_point_num = int(data_point_num)
 
   # INTERNAL VARIABLES
   # The folder containing the models
@@ -141,9 +147,8 @@ def main(model_configuration):
   plots_folder = "plots"
   results_dir = os.path.join(working_dir, output_folder)
   plots_dir = os.path.join(results_dir, plots_folder)
-  data_summary_file = "parameter_estimation_collected_results.csv"
-
-
+  fileout_final_estims = "final_estim_collection.csv"
+  fileout_all_estims = "all_estim_collection.csv"
 
   print("\n<START PIPELINE>\n")
   # Get the pipeline start time
@@ -168,20 +173,35 @@ def main(model_configuration):
     print("\n")
     print("Generate data:")
     print("##############")
-    sb_param_estim__generate_data.main(model, models_dir, data_dir, data_folder, cluster, pp_cpus, runs, results_dir, sim_raw_data, tmp_dir)
+    sb_param_estim__generate_data.main(model, 
+				       models_dir, 
+				       data_dir, 
+				       data_folder, 
+				       cluster, 
+				       pp_cpus, 
+				       runs, 
+				       results_dir, 
+				       sim_raw_data, 
+				       tmp_dir)
     
 
   if analyse_data == True:
     print("\n")
     print("Analyse data:")
     print("#############")
-    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), results_dir, data_summary_file, plots_dir, best_fits_percent)    
+    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
+				      results_dir, 
+				      fileout_final_estims, 
+				      fileout_all_estims, 
+				      plots_dir, 
+				      best_fits_percent,
+				      data_point_num)
 
 
   if generate_report == True:
     print("\n")
-    print("Generate reports:")
-    print("#################")
+    print("Report generation:")
+    print("##################")
     sb_param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 
@@ -204,7 +224,9 @@ def main(model_configuration):
   print("\n<END PIPELINE>\n")
 
 
-  if os.path.isfile(os.path.join(results_dir,'parameter_estimation_collected_results.csv')) and len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
+  if os.path.isfile(os.path.join(results_dir,fileout_final_estims)) and \
+     os.path.isfile(os.path.join(results_dir,fileout_all_estims)) and \
+     len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
       return 0
   return 1
     

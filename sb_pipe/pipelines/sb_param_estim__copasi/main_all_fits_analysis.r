@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
@@ -17,28 +14,30 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Execute the model several times for deterministic or stochastical analysis
-#
+# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 13:45:32 $
+# $Date: 2016-07-01 14:14:32 $
 
 
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','param_estim_utils.r'))
 
 
-import os
-import sys
-import glob
-from subprocess import Popen,PIPE
+main <- function(args) {
+  
+  filename <- args[1]
+  plots_dir <- args[2]
+  data_point_num <- args[3]
+  plot_filename_prefix <- "approx_ple_"
 
-SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+  all_fits_analysis(filename, plots_dir, plot_filename_prefix, data_point_num)
+}
 
 
+main(commandArgs(TRUE))
+# Clean the environment
+rm ( list=ls ( ) )
 
-# Input parameters
-# results_dir
-def main(results_dir):
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity','sb_sensitivity__copasi_plot.R'), results_dir])
-  process.wait()   

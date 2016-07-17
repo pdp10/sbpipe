@@ -1,19 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
+# it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # sb_pipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# GNU Lesser General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Lesser General Public License
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
@@ -183,8 +183,8 @@ def main(model_configuration):
 
   if generate_data == True:
     print("\n")
-    print("Generate data:")
-    print("##############")
+    print("Data generation:")
+    print("################")
     sb_param_scan__generate_data.main(model, 
 				      scanned_species, 
 				      param_scan__single_perturb_simulations_number, 
@@ -197,8 +197,8 @@ def main(model_configuration):
   
   if analyse_data == True:
     print("\n")
-    print("Analyse data:")
-    print("#############")
+    print("Data analysis:")
+    print("##############")
     sb_param_scan__analyse_data.main(model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, 
 				     raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 				     param_scan__single_perturb_simulations_number, 
@@ -209,8 +209,8 @@ def main(model_configuration):
   
   if generate_report == True:
     print("\n")
-    print("Generate reports:")
-    print("#################")
+    print("Report generation:")
+    print("##################")
     sb_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 
