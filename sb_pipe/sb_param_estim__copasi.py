@@ -73,6 +73,8 @@ def main(model_configuration):
   analyse_data=True
   # Boolean
   generate_report=True
+  # Boolean
+  generate_tarball=True  
   # The project dir
   project_dir=""
   # read the copasi model name 
@@ -103,6 +105,8 @@ def main(model_configuration):
       analyse_data = {'True': True, 'False': False}.get(line[1], False)     
     if line[0] == "generate_report":
       generate_report = {'True': True, 'False': False}.get(line[1], False)        
+    if line[0] == "generate_tarball":
+      generate_tarball = {'True': True, 'False': False}.get(line[1], False)        
     if line[0] == "project_dir": 
       project_dir = line[1]
     elif line[0] == "model":
@@ -149,6 +153,8 @@ def main(model_configuration):
   plots_dir = os.path.join(results_dir, plots_folder)
   fileout_final_estims = "final_estim_collection.csv"
   fileout_all_estims = "all_estim_collection.csv"
+  fileout_approx_ple_stats = "approx_ple_stats.csv"
+
 
   print("\n<START PIPELINE>\n")
   # Get the pipeline start time
@@ -192,7 +198,8 @@ def main(model_configuration):
     sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
 				      results_dir, 
 				      fileout_final_estims, 
-				      fileout_all_estims, 
+				      fileout_all_estims,
+				      fileout_approx_ple_stats,
 				      plots_dir, 
 				      best_fits_percent,
 				      data_point_num)
@@ -206,15 +213,16 @@ def main(model_configuration):
   
 
 
-  print("\n")
-  print("Store the fits sequences in a tarball:")
-  print("#####################################")
-  # Create a gz tarball   
-  origWD = os.getcwd() # remember our original working directory
-  os.chdir(working_dir) # change folder
-  with tarfile.open(output_folder+".tgz", "w:gz") as tar:
-    tar.add(output_folder, arcname=os.path.basename(output_folder))
-  os.chdir(origWD) # get back to our original working directory
+  if generate_tarball == True:
+    print("\n")
+    print("Store the fits sequences in a tarball:")
+    print("#####################################")
+    # Create a gz tarball   
+    origWD = os.getcwd() # remember our original working directory
+    os.chdir(working_dir) # change folder
+    with tarfile.open(output_folder+".tgz", "w:gz") as tar:
+      tar.add(output_folder, arcname=os.path.basename(output_folder))
+    os.chdir(origWD) # get back to our original working directory
     
 
 
