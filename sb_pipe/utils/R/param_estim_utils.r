@@ -72,8 +72,8 @@ scatterplot_ple <- function(df, colNameX, colNameY, fileout,
 conf_level_66, conf_level_95) {
   g = ggplot(df, aes_string(x=colNameX, y=colNameY)) +
       geom_point() + 
-      geom_hline(yintercept=conf_level_66, show_guide=TRUE, size=1, color="red", linetype=2) +      
-      geom_hline(yintercept=conf_level_95, show_guide=TRUE, size=1, color="blue", linetype=1) +      
+      geom_hline(yintercept=conf_level_66, size=1, color="red", linetype=2, show.legend=TRUE) +
+      geom_hline(yintercept=conf_level_95, size=1, color="blue", linetype=1, show.legend=TRUE) +      
       #scale_linetype_manual(name="", values=c("blue","red"), labels=c("PLE C.I. 95%", "PLE C.I. 66%"))
   ggsave(fileout, dpi=300)
   return(g)
