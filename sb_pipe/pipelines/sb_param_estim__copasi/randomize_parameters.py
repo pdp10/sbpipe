@@ -33,7 +33,7 @@ from subprocess import *
 
 # It reads a copasi file configured for parameter estimation task, and randomize the starting values of the parameters to estimate. 
 # Then, it saves the new file. As input, it receives the number of files to generate (multiple calibrations)
-class ParamEstim_RandomizeStartValue:
+class RandomizeParameters:
   
   # A Copasi Object
   _copasi = None

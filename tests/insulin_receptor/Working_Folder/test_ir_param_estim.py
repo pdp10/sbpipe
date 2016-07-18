@@ -17,7 +17,7 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
+# Object: run a list of tests for the insulin receptor model.
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,7 +26,6 @@
 
 import os
 import sys
-import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -39,27 +38,18 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptorLSF(unittest.TestCase):
+class TestIRParamEstim(unittest.TestCase):
   """
-  A collection of tests for this example using LSF
+  A collection of tests for this example.
   """
+  def test_param_estim_copasi(self):        
+    """model parameter estimation"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_param_estim_copasi.conf"]), 0)    
+    
+  def test_non_identif_param_estim_copasi(self):        
+    """model parameter estimation with identifiability issues """
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]), 0)    
 
-  def test_stoch_simul_copasi_lsf(self):        
-    """model simulation using LSF if found"""
-    try:
-	subprocess.call(["qstat"])
-	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "lsf_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
-    except OSError as e:
-	print("Skipping test as no LSF (Load Sharing Facility) was found.")
-
-
-  def test_param_estim_copasi_lsf(self):        
-    """model parameter estimation using LSF if found"""
-    try:
-	subprocess.call(["bjobs"])    
-	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "lsf_insulin_receptor_param_estim_copasi.conf"]), 0)        
-    except OSError as e:
-	print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

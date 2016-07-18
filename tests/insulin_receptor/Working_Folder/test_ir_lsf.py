@@ -17,7 +17,7 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model.
+# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,6 +26,7 @@
 
 import os
 import sys
+import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -38,20 +39,27 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptorSensitivity(unittest.TestCase):
+class TestIRLSF(unittest.TestCase):
   """
-  A collection of tests for this example.
+  A collection of tests for this example using LSF
   """
-  # TODO TO TEST
-  #print "The script sb_sensitivity.py does not run Copasi, but generates a plot for each file containing a square matrix in PROJECT/simulation/MODEL/SENSITIVITIES_FOLDER (here: ins_rec_model/simulation/insulin_receptor/sensitivities/)"
-  #print "Let's copy some files containing sensitivity matrices into the folder SENSITIVITIES_FOLDER (here: sensitivities)"
-  #copy_tree("../Data/sb_sensitivity_for_testing", "../simulations/insulin_receptor/sensitivities")
 
-  #def test_model_sensitivity(self):
-  #  """model sensitivities"""
-  #  self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--sensitivity", "insulin_receptor_sensitivities_copasi.conf"]), 0)
+  def test_stoch_simul_copasi_lsf(self):        
+    """model simulation using LSF if found"""
+    try:
+	subprocess.call(["qstat"])
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "lsf_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
+    except OSError as e:
+	print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 
+  def test_param_estim_copasi_lsf(self):        
+    """model parameter estimation using LSF if found"""
+    try:
+	subprocess.call(["bjobs"])    
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "lsf_insulin_receptor_param_estim_copasi.conf"]), 0)        
+    except OSError as e:
+	print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -38,18 +38,18 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptorParamEstim(unittest.TestCase):
+class TestIRParamScan(unittest.TestCase):
   """
   A collection of tests for this example.
   """
-  def test_param_estim_copasi(self):        
-    """model parameter estimation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_param_estim_copasi.conf"]), 0)    
-    
-  def test_non_identif_param_estim_copasi(self):        
-    """model parameter estimation with identifiability issues """
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]), 0)    
+  def test_param_scan_single_perturb_inhib(self):    
+    """model single perturbation"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"]), 0) 
 
+  def test_param_scan_single_perturb_inhib_overexp(self):    
+    """model single perturbation"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"]), 0) 
+    
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -29,18 +29,18 @@ import unittest
 
 SB_PIPE = os.environ["SB_PIPE"]
 # folders containing the configuration files and test file
-insulin_receptor_folder = os.path.join('insulin_receptor','Working_Folder')
+ir_folder = os.path.join('insulin_receptor','Working_Folder')
 
 # import paths to the resource folders
-sys.path.append(os.path.join(SB_PIPE, 'tests', insulin_receptor_folder))
+sys.path.append(os.path.join(SB_PIPE, 'tests', ir_folder))
 
 # import modules
-from test_insulin_receptor_simulate import TestInsulinReceptorSimulate
-from test_insulin_receptor_param_scan import TestInsulinReceptorParamScan
-from test_insulin_receptor_param_estim import TestInsulinReceptorParamEstim
-from test_insulin_receptor_sensitivity import TestInsulinReceptorSensitivity
-from test_insulin_receptor_lsf import TestInsulinReceptorLSF
-from test_insulin_receptor_sge import TestInsulinReceptorSGE
+from test_ir_simulate import TestIRSimulate
+from test_ir_param_scan import TestIRParamScan
+from test_ir_param_estim import TestIRParamEstim
+from test_ir_sensitivity import TestIRSensitivity
+from test_ir_lsf import TestIRLSF
+from test_ir_sge import TestIRSGE
 
 
 
@@ -51,7 +51,7 @@ Test suite and runner
 #def create_suite():
   #"""A suite of tests to run."""
   ## Load the tests for these test cases
-  #suite1 = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptor)
+  #suite1 = unittest.TestLoader().loadTestsFromTestCase(TestIR)
   ##suite2 = unittest.TestLoader().loadTestsFromTestCase("SOMETHING_ELSE")
   ##alltests = unittest.TestSuite([suite1, suite2])
   #alltests = unittest.TestSuite([suite1])
@@ -66,13 +66,13 @@ def main(args):
 
   # For each test, we need to change directory.
   origWD = os.getcwd() # remember our original working directory
-  os.chdir(os.path.join(os.path.abspath(sys.path[0]), insulin_receptor_folder))
-  suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorSimulate)
-  suiteParamScan = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorParamScan)
-  suiteParamEstim = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorParamEstim)
-  suiteSensitivity = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorSensitivity)  
-  suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorLSF)  
-  suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestInsulinReceptorSGE)  
+  os.chdir(os.path.join(os.path.abspath(sys.path[0]), ir_folder))
+  suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
+  suiteParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRParamScan)
+  suiteParamEstim = unittest.TestLoader().loadTestsFromTestCase(TestIRParamEstim)
+  suiteSensitivity = unittest.TestLoader().loadTestsFromTestCase(TestIRSensitivity)  
+  suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestIRLSF)  
+  suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestIRSGE)  
   suite = unittest.TestSuite([suiteSimulate, suiteParamScan, suiteParamEstim, suiteSensitivity, suiteLSF, suiteSGE])
   unittest.TextTestRunner(verbosity=2).run(suite)
   os.chdir(origWD) # get back to our original working directory

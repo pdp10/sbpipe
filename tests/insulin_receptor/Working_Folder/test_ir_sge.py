@@ -17,7 +17,7 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model.
+# Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,6 +26,7 @@
 
 import os
 import sys
+import subprocess
 from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -38,18 +39,27 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptorSimulate(unittest.TestCase):
+class TestIRSGE(unittest.TestCase):
   """
-  A collection of tests for this example.
+  A collection of tests for this example using SGE
   """
-  def test_det_simulation(self):
-    """model deterministic simulation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_det_simul_copasi.conf"]), 0)
 
-  def test_stoch_simulation(self):    
-    """model stochastic simulation"""    
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_stoch_simul_copasi.conf"]), 0) 
+  def test_stoch_simul_copasi_sge(self):        
+    """model simulation using SGE if found"""
+    try:
+	subprocess.call(["qstat"])
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "sge_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
+    except OSError as e:
+	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
+
+  def test_param_estim_copasi_sge(self):        
+    """model parameter estimation using SGE if found"""
+    try:
+	subprocess.call(["qstat"])
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_insulin_receptor_param_estim_copasi.conf"]), 0)	
+    except OSError as e:
+	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

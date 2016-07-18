@@ -38,18 +38,18 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestInsulinReceptorParamScan(unittest.TestCase):
+class TestIRSimulate(unittest.TestCase):
   """
   A collection of tests for this example.
   """
-  def test_param_scan_single_perturb_inhib(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"]), 0) 
+  def test_det_simulation(self):
+    """model deterministic simulation"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_det_simul_copasi.conf"]), 0)
 
-  def test_param_scan_single_perturb_inhib_overexp(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"]), 0) 
-    
+  def test_stoch_simulation(self):    
+    """model stochastic simulation"""    
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_stoch_simul_copasi.conf"]), 0) 
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

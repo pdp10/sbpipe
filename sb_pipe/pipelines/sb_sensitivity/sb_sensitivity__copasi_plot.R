@@ -27,7 +27,7 @@ library(gplots)
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(file.path(SB_PIPE, 'sb_pipe','utils','R','plot_functions.R'))
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
 
@@ -44,9 +44,9 @@ main <- function(args) {
       print(files[i])
       # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
       if(length(grep("kin-rates", files[i], value=TRUE)) == 0) {
-	plot.sensitivities(files[i], kinetics=FALSE)
+	plot_sensitivities(files[i], kinetics=FALSE)
       } else {
-	plot.sensitivities(files[i], kinetics=TRUE)
+	plot_sensitivities(files[i], kinetics=TRUE)
       }
     }
 }

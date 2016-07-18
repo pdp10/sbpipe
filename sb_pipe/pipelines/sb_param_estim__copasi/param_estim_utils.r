@@ -66,6 +66,23 @@ rightCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx,
 }
 
 
+plot_fits <- function(my_array) {
+  iters <- c()
+  j <- 0
+  k <- 0
+  for(i in 1:length(my_array)) {
+    if(k < my_array[i]) {
+      j <- 0
+    }
+    iters <- c(iters, j)
+    j <- j+1    
+    k <- my_array[i]   
+  }
+  df <- data.frame(Iter.Num.=iters, Chi.Sq.=my_array)
+  scatterplot_log10(df, "Iter.Num.", "Chi.Sq.")
+}
+
+
 
 all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_point_num, fileout_approx_ple_stats) {
   
@@ -76,7 +93,7 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
     return
   }
   
-  df = read.csv(filenamein, head=TRUE,sep="\t")
+  df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
   
   # rename columns
   dfCols <- colnames(df)
@@ -108,17 +125,12 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
   
   # Set my ggplot theme here
   theme_set(basic_theme(24))
-  fileout <- ""
 
-  # plot
-  for (i in seq(2,length(dfCols))) { 
-    fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
-			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
-    ggsave(fileout, dpi=300)
-  }
- 
-  # extract statistics
+  # save the chisquare vs iteration
+  g <- plot_fits(df[,1])
+  ggsave(file.path(plots_dir, "fits_by_iteration.png"), dpi=300)
+  
+  
   min_chisquare <- min(df95[[1]])
   fileoutPLE <- sink(fileout_approx_ple_stats)
   
@@ -127,6 +139,12 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
   cat("\n\n", append=TRUE)
   cat(paste("Parameter", "Value", "CI_95_left", "CI_95_right", "CI_66_left", "CI_66_right\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
+    # extract statistics  
+    fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
+			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
+    ggsave(fileout, dpi=300)
+  
     # retrieve a parameter value associated to the minimum Chi^2
     par_value <- sample(df95[df95[,1] <= min_chisquare, i], 1)    
     # retrieve the confidence intervals
