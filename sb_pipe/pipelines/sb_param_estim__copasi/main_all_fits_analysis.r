@@ -31,9 +31,10 @@ main <- function(args) {
   filename <- args[1]
   plots_dir <- args[2]
   data_point_num <- args[3]
+  fileout_approx_ple_stats <- args[4]
   plot_filename_prefix <- "approx_ple_"
 
-  all_fits_analysis(filename, plots_dir, plot_filename_prefix, data_point_num)
+  all_fits_analysis(filename, plots_dir, plot_filename_prefix, data_point_num, fileout_approx_ple_stats)
 }
 
 

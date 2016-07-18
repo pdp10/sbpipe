@@ -24,60 +24,7 @@
 library(ggplot2)
 # library(scales)
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
-
-
-
-# Plot a histogram
-# dfCol : a data frame with exactly one column.
-# fileout : the output file name
-histogramplot <- function(dfCol, fileout) {
-  g = ggplot(dfCol, aes_string(x=colnames(dfCol))) +
-    # LEAVE THIS ONE AS IT IS THE ONLY ONE WITH CORRECT Y-AXIS values
-    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue")
-#     scale_x_continuous(labels=scientific) +
-#     scale_y_continuous(labels=scientific)  
-    #geom_density(colour="black", fill="blue") +
-    #geom_histogram(aes(y = ..density..), binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
-    #geom_density(color="red")
-  ggsave(fileout, dpi=300)
-  return(g)
-}
-
-# Plot a scatter plot
-# df : a data frame
-# colNameX : the name of the column for the X axis
-# colNameY : the name of the column for the Y axis
-# colNameColor : the name of the column whose values are used as 3rd dimension
-# fileout : the output file name
-scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout) {
-  g = ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
-    geom_point() +
-    scale_colour_gradientn(colours=rainbow(4))
-#     scale_x_continuous(labels=scientific) +
-#     scale_y_continuous(labels=scientific)
-    #scale_colour_gradient(low="red", high="darkblue") +
-    #scale_colour_gradient(low="magenta", high="blue") +
-    #geom_rug(col="darkred",alpha=.1)
-  ggsave(fileout, dpi=300)
-  return(g)
-}
-
-# Plot a scatter plot
-# df : a data frame
-# colNameX : the name of the column for the X axis
-# colNameY : the name of the column for the Y axis
-# fileout : the output file name
-# conf_level_66 : horizontal line to plot
-scatterplot_ple <- function(df, colNameX, colNameY, fileout, 
-conf_level_66, conf_level_95) {
-  g = ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-      geom_point() + 
-      geom_hline(yintercept=conf_level_66, size=1, color="red", linetype=2, show.legend=TRUE) +
-      geom_hline(yintercept=conf_level_95, size=1, color="blue", linetype=1, show.legend=TRUE) +      
-      #scale_linetype_manual(name="", values=c("blue","red"), labels=c("PLE C.I. 95%", "PLE C.I. 66%"))
-  ggsave(fileout, dpi=300)
-  return(g)
-}
+source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
 
@@ -138,9 +85,32 @@ compute_fratio_threshold <- function(m, n, p=0.05) {
   1 + (m/(n-m)) * qf(1.0-p, df1=m, df2=n-m)
 }
 
+# return the left value confidence interval
+leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
+   # retrieve the minimum parameter value for cut_dataset
+    min_ci <- min(cut_dataset[[param_col_idx]])    
+    # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
+    # ...[min95, )  (we are retrieving those ...)
+    lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx] 
+    if(min(lt_min_chisquares) < chisquare_conf_level) 
+      min_ci <- "inf"
+    min_ci
+}
+
+# return the right value confidence interval
+rightCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
+   # retrieve the minimum parameter value for cut_dataset
+    max_ci <- max(cut_dataset[[param_col_idx]])    
+    # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
+    # (, max95]...  (we are retrieving those ...)
+    gt_max_chisquares <- full_dataset[full_dataset[,param_col_idx] > max_ci, chisquare_col_idx] 
+    if(min(gt_max_chisquares) < chisquare_conf_level) 
+      max_ci <- "inf"
+    max_ci
+}
 
 
-all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_point_num) {
+all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_point_num, fileout_approx_ple_stats) {
   
   data_point_num <- as.numeric(data_point_num)
   
@@ -160,34 +130,64 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
   #print(df)
   
   parameter_num = length(colnames(df)) - 1
+  conf_level_99 = compute_fratio_threshold(parameter_num, data_point_num, .01)
+  conf_level_95 = compute_fratio_threshold(parameter_num, data_point_num, .05)  
   conf_level_66 = compute_fratio_threshold(parameter_num, data_point_num, .33)
-  conf_level_95 = compute_fratio_threshold(parameter_num, data_point_num, .05)
   
+  chisquare_at_conf_level_99 <- 0  
+  chisquare_at_conf_level_95 <- 0    
   chisquare_at_conf_level_66 <- 0   
-  chisquare_at_conf_level_95 <- 0
   if(length(dfCols) > 1) {
-    chisquare_at_conf_level_66 <- min(df[,1]) * conf_level_66
-    chisquare_at_conf_level_95 <- min(df[,1]) * conf_level_95    
+    chisquare_at_conf_level_99 <- min(df[,1]) * conf_level_99  
+    chisquare_at_conf_level_95 <- min(df[,1]) * conf_level_95
+    chisquare_at_conf_level_66 <- min(df[,1]) * conf_level_66    
   }
 
   # select the rows with chi^2 smaller than our max threshold
-  df <- df[df[,1] <= chisquare_at_conf_level_95, ]
+  df99 <- df[df[,1] <= chisquare_at_conf_level_99, ]  
+  df95 <- df[df[,1] <= chisquare_at_conf_level_95, ]
+  df66 <- df95[df95[,1] <= chisquare_at_conf_level_66, ]  
   
-  # Add the 66% and 95% as factors
-  df[, "ci66"] <- rep(chisquare_at_conf_level_66, nrow(df))
-  df[, "ci95"] <- rep(chisquare_at_conf_level_95, nrow(df)) 
-  
-  #print(df)
+  #print(df95)
   #print(dfCols)
   
   # Set my ggplot theme here
   theme_set(basic_theme(22))
   fileout <- ""
-  
+
+  # plot
   for (i in seq(2,length(dfCols))) { 
     fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-    g <- scatterplot_ple(df, colnames(df)[i], colnames(df)[1], fileout, 
+    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
 			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
   }
+ 
+ 
+  # extract statistics
+  min_chisquare <- min(df95[[1]])
+  print(fileout_approx_ple_stats)
+  #file.remove(fileout_approx_ple_stats, showWarnings=FALSE)
+  fileoutPLE <- sink(fileout_approx_ple_stats)
   
+  #file.remove("cancel.txt", showWarnings=FALSE)
+  #fileoutPLE <- sink("cancel.txt")
+  
+  cat(paste("Conf_Level_95", "Conf_Level_66\n", sep="\t"))
+  cat(paste(conf_level_95, conf_level_66, sep="\t"), append=TRUE)
+  cat("\n\n", append=TRUE)
+  cat(paste("Parameter", "Value", "CI_95_left", "CI_95_right", "CI_66_left", "CI_66_right\n", sep="\t"), append=TRUE)      
+  for (i in seq(2,length(dfCols))) {
+    # retrieve a parameter value associated to the minimum Chi^2
+    par_value <- sample(df95[df95[,1] <= min_chisquare, i], 1)    
+    # retrieve the confidence intervals
+    min_ci_95 <- leftCI(df95, df99, 1, i, chisquare_at_conf_level_95)
+    max_ci_95 <- rightCI(df95, df99, 1, i, chisquare_at_conf_level_95)    
+    min_ci_66 <- leftCI(df66, df95, 1, i, chisquare_at_conf_level_66)
+    max_ci_66 <- rightCI(df66, df95, 1, i, chisquare_at_conf_level_66)
+    # save the result
+    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
+    cat("\n", append=TRUE)    
+  }
+  sink()    
 }
+
