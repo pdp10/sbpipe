@@ -56,7 +56,7 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
     file_out.write(header)
     print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots - Perturbation of " + species_name + "}\n")
-    folder = os.listdir(os.path.join(results_dir, plots_dir))
+    folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
     folder.sort()
     for infile in folder:
       if infile.find(model_noext) != -1:
@@ -80,7 +80,7 @@ def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
     file_out.write(header)  
     print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots}\n")
-    folder = os.listdir(os.path.join(results_dir, plots_dir))
+    folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
     folder.sort()  
     for infile in folder:
       if infile.find(model_noext) != -1:
@@ -103,7 +103,7 @@ def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
     file_out.write(header)  
     print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
     file_out.write("\\section*{Plots}\n")
-    folder = os.listdir(os.path.join(results_dir, plots_dir))
+    folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
     folder.sort()  
     for infile in folder:
       print(infile)
