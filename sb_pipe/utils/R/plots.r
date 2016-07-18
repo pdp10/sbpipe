@@ -85,8 +85,8 @@ scatterplot <-function(df, colNameX, colNameY) {
 
 scatterplot_log10 <-function(df, colNameX, colNameY) {
   scatterplot(df, colNameX, colNameY) + 
-       scale_x_continuous(trans=log10_trans(), breaks=c(1,10,100,1000,10000,100000,1000000)) +
-       scale_y_continuous(trans=log10_trans(), breaks=c(1,10,100,1000,10000,100000,1000000)) +
+       scale_x_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
+       scale_y_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
        xlab(paste("log10(", colNameX, ")", sep="")) +       
        ylab(paste("log10(", colNameY, ")", sep=""))
 }
