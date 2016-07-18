@@ -34,8 +34,6 @@ from itertools import islice
 
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import CopasiUtils
 
 
 # INITIALIZATION

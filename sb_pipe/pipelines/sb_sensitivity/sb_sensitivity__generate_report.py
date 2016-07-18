@@ -34,6 +34,7 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+from latex_reports import latex_report_simulate
 
 
 

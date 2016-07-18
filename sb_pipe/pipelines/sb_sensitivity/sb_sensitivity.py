@@ -38,7 +38,6 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_sensitivity'))
 import sb_sensitivity__generate_data
 import sb_sensitivity__analyse_data
 import sb_sensitivity__generate_report
