@@ -38,8 +38,6 @@ import tarfile
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_param_estim__copasi'))
 import sb_param_estim__generate_data
 import sb_param_estim__analyse_data
 import sb_param_estim__generate_report

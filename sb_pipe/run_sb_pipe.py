@@ -29,7 +29,12 @@ import sys
 import getopt
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(SB_PIPE)
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_create_project"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_simulate"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_param_estim__copasi"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_param_scan__single_perturb"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_sensitivity"))
+
 
 # pipelines
 import sb_create_project

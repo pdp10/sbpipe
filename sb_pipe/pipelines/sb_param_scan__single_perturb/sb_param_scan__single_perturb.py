@@ -39,8 +39,6 @@ import subprocess
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb'))
 import sb_param_scan__generate_data
 import sb_param_scan__analyse_data
 import sb_param_scan__generate_report
