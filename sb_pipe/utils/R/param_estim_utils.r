@@ -165,7 +165,6 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
  
   # extract statistics
   min_chisquare <- min(df95[[1]])
-  print(fileout_approx_ple_stats)
   #file.remove(fileout_approx_ple_stats, showWarnings=FALSE)
   fileoutPLE <- sink(fileout_approx_ple_stats)
   
