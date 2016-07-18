@@ -36,8 +36,7 @@ import shutil
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate'))
+
 import sb_simulate__generate_data
 import sb_simulate__analyse_data
 import sb_simulate__generate_report
