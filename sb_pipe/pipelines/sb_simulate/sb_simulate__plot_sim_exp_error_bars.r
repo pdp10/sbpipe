@@ -27,7 +27,7 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(file.path(SB_PIPE, 'sb_pipe','utils','R','plot_sim_exp_func.R'))
+source(file.path(SB_PIPE, 'sb_pipe','pipelines','sb_simulate','plot_sim_exp_func.r'))
 
 
 

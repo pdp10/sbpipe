@@ -124,7 +124,7 @@ plot_error_bars <- function(outputdir, version, name, species, timepoints, simul
       df <- data.frame(a=timepoints, b=species$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
       g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
-      ggsave(filename, dpi=300,  width=8, height=6, bg = "transparent")      
+      ggsave(filename, dpi=300,  width=8, height=6) #, bg = "transparent")      
 
     } else { 
 
