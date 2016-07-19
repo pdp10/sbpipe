@@ -44,16 +44,16 @@ histogramplot <- function(dfCol, fileout) {
 # colNameY : the name of the column for the Y axis
 # colNameColor : the name of the column whose values are used as 3rd dimension
 # fileout : the output file name
-scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout) {
+scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout, dot_size=1.0) {
   ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
-    geom_point() +
+    geom_point(size=dot_size) +
     scale_colour_gradientn(colours=rainbow(4))+
     #scale_x_continuous(labels=scientific) +
     #scale_y_continuous(labels=scientific)
     #scale_colour_gradient(low="red", high="darkblue") +
     #scale_colour_gradient(low="magenta", high="blue") +
     #geom_rug(col="darkblue",alpha=.1) +    
-    theme(axis.text.x=element_text(angle = -45, hjust = 0))
+    theme(axis.text.x=element_text(angle=-45, hjust=0))
   # #add marginal histograms
   #ggExtra::ggMarginal(g, type = "histogram")    
 }
@@ -65,26 +65,27 @@ scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout) {
 # colNameY : the name of the column for the Y axis
 # fileout : the output file name
 # conf_level_66 : horizontal line to plot
-scatterplot_ple <- function(df, colNameX, colNameY, fileout, conf_level_66, conf_level_95) {
+# conf_level_95 : horizontal line to plot
+scatterplot_ple <- function(df, colNameX, colNameY, fileout, conf_level_66, conf_level_95, dot_size=0.1) {
   ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-      geom_point(size=0.1) + 
+      geom_point(size=dot_size) + 
       geom_hline(aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
       geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) + 
       scale_colour_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="blue","_66"="red")) +
       scale_linetype_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="dashed", "_66"="dotted")) +
-      theme(axis.text.x=element_text(angle = -45, hjust = 0))      
+      theme(axis.text.x=element_text(angle=-45, hjust=0))
 }
 
 
-scatterplot <-function(df, colNameX, colNameY) {
+scatterplot <-function(df, colNameX, colNameY, dot_size=0.5) {
   ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-       geom_point(size=0.1) +
-       theme(axis.text.x=element_text(angle = -45, hjust = 0))
+       geom_point(size=dot_size) +
+       theme(axis.text.x=element_text(angle=-45, hjust=0))
 }
 
 
-scatterplot_log10 <-function(df, colNameX, colNameY) {
-  scatterplot(df, colNameX, colNameY) + 
+scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
+  scatterplot(df, colNameX, colNameY, dot_size) + 
        scale_x_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
        scale_y_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
        xlab(paste("log10(", colNameX, ")", sep="")) +       
@@ -104,10 +105,6 @@ plot.sensitivities <- function(filename, kinetics) {
   if(kinetics==FALSE) {
     names.row <- substr(names.row,2, nchar(names.row)-1)
     names.col <- substr(names.col,3, nchar(names.col)-3)
-    #names.col <- gsub("unknown", "x", names.col)
-    #names.row <- gsub("unknown", "x", names.row)
-    #print(names.row)
-    #print(names.col)
     png(paste(substr(filename,0, nchar(filename)-4), ".png", sep="" ), height=1000, width=1000, bg="transparent") 
     heatmap.2(as.matrix(sens_matrix), 
 	   key=TRUE, keysize=0.6, symkey=TRUE, 
@@ -129,10 +126,6 @@ plot.sensitivities <- function(filename, kinetics) {
     names.row <- substr(names.row,2, nchar(names.row)-1)
     names.col <- substr(names.col,3, nchar(names.col)-4)
     names.col <- gsub("phosphorylation", "phosp", names.col)
-    #names.col <- gsub("unknown", "x", names.col)
-    #names.row <- gsub("unknown", "x", names.row)
-    #print(names.row)
-    #print(names.col)
     png(paste(substr(filename,0, nchar(filename)-4), ".png", sep="" ), height=1200, width=1200, bg="transparent") 
     heatmap.2(as.matrix(sens_matrix), 
 	   key=TRUE, keysize=0.6, symkey=TRUE, 
@@ -166,12 +159,6 @@ plot.param_correlations <- function(filename, valmargin, valcex) {
   names.col <- names(corr_matrix)
   names.row <- gsub("phosphorylation", "phosp", names.row)
   names.col <- gsub("phosphorylation", "phosp", names.col)
-  #names.row <- substr(names.row,2, nchar(names.row)-5)
-  #names.col <- substr(names.col,3, nchar(names.col)-5)
-  #names.col <- gsub("unknown", "x", names.col)
-  #names.row <- gsub("unknown", "x", names.row)
-  #print(names.row)
-  #print(names.col)
   abs_matrix <- abs(as.matrix(corr_matrix))
   if(model=="General model (phase 2)") {
     png(paste(substr(filename,0, nchar(filename)-4), ".png", sep="" ), height=1800, width=1800, bg="white") 

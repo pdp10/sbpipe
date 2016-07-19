@@ -91,6 +91,9 @@ def main(model_configuration):
   best_fits_percent=100
   # The number of available data points
   data_point_num=10
+  # Plot 2D correlations using data from 66% or 95% confidence levels
+  # This can be very time/memory consuming
+  plot_2d_66_95cl_corr=False
 
 
 
@@ -123,6 +126,8 @@ def main(model_configuration):
       best_fits_percent = line[1]
     elif line[0] == "data_point_num": 
       data_point_num = line[1]
+    elif line[0] == "plot_2d_66_95cl_corr":
+      plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
       
 
   runs = int(runs)
@@ -152,7 +157,8 @@ def main(model_configuration):
   fileout_final_estims = "final_estim_collection.csv"
   fileout_all_estims = "all_estim_collection.csv"
   fileout_approx_ple_stats = "approx_ple_stats.csv"
-
+  fileout_conf_levels = "conf_levels.csv"
+  
 
   print("\n<START PIPELINE>\n")
   # Get the pipeline start time
@@ -198,9 +204,11 @@ def main(model_configuration):
 				      fileout_final_estims, 
 				      fileout_all_estims,
 				      fileout_approx_ple_stats,
+				      fileout_conf_levels,
 				      plots_dir, 
 				      best_fits_percent,
-				      data_point_num)
+				      data_point_num,
+				      plot_2d_66_95cl_corr)
 
 
   if generate_report == True:
