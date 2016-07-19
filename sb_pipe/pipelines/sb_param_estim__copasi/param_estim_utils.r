@@ -178,8 +178,8 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
   
   # plot parameter correlations using the 66% and 95% confidence level data sets
   if(plot_2d_66_95cl_corr) {
-    plot_parameter_correlations(df66, dfCols, plots_dir, "ci66_fits_", 1)
-    plot_parameter_correlations(df95, dfCols, plots_dir, "ci95_fits_", 1)
+    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, "ci66_fits_", 1)
+    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, "ci95_fits_", 1)
     #plot_parameter_correlations(df, dfCols, plots_dir, "all_fits_", 1)
   }
   
