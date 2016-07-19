@@ -1,15 +1,14 @@
-# The sb_pipe package
+# sb_pipe package
 
 Mailing list: sb_pipe AT googlegroups.com
 
 [![Build Status](https://travis-ci.org/pdp10/sb_pipe.svg?branch=master)](https://travis-ci.org/pdp10/sb_pipe)
 
+[![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
+
 
 ## Introduction
-This package contains a collection of pipelines for dynamic modelling 
-of biological systems. It aims to automate common processes and speed up
-productivity for tasks such as model simulation, model single and double
-perturbation, sensitivity analysis and parameter estimation. 
+This package contains a collection of pipelines for dynamic modelling of biological systems. It aims to automate common processes and speed up productivity for tasks such as model simulation, model single and double perturbation, sensitivity analysis and parameter estimation. 
 
 
 ### Requirements
@@ -17,7 +16,7 @@ In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
 - Python 2.7.3+ (+dependencies: scipy 0.13.3, numpy 1.8.2, pp 1.6.4)
 - R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3, abind 1.4)
-- LaTeX 2013 (for report generation) (texlive-latex-base)
+- LaTeX 2013 (optional for report generation) (texlive-latex-base)
 - **[obsolete]** Matlab-toolbox Potterswheel (for parameter estimation 
 using Potterswheel). This pipeline also requires bash, sed, Matlab.
 
@@ -87,10 +86,10 @@ python run_sb_pipe.py --create-project projectname
 ```
 After creating a project, users need to create a configuration file 
 for each task they intend to run. Examples of configuration files can be found in:
-${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
-Users should place their configuration files in the Working_Folder/ of their 
-project. Models must be stored in the Models/ folder, while the any data used 
-by the model must be placed in Data/ folder.
+```
+${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+```
+Users should place their configuration files in the Working_Folder/ of their project. Models must be stored in the Models/ folder, while the any data used by the model must be placed in Data/ folder.
 Finally, a pipeline for a certain configuration file can be executed as follows:
 ```
 cd Working_Folder

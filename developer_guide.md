@@ -100,24 +100,24 @@ git show
 ## Package structure
 
 ##### sb_pipe
-The *sb_pipe/* folder contains the following pipelines:
+The *sb_pipe/pipelines/* folder contains the following pipelines:
 
-- *sb_create_project.py* creates a new project
-- *sb_simulate.py* simulates a model deterministically or stochastically
+- *sb_create_project* creates a new project
+- *sb_simulate* simulates a model deterministically or stochastically
 using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb.py* runs Copasi (this must be 
+- *sb_param_scan__single_perturb* runs Copasi (this must be 
 configured first), generate plots and report;
-- *sb_param_scan__double_perturb.py* runs Copasi (this must be 
+- *sb_param_scan__double_perturb* runs Copasi (this must be 
 configured first), generate plots and report;
-- *sb_param_estim__copasi.py* generate a fits sequence using Copasi 
+- *sb_param_estim__copasi* generate a fits sequence using Copasi 
 (this must be configured first), generate tables for statistics;
-- *sb_sensitivity.py* runs Copasi (this must be 
+- *sb_sensitivity* runs Copasi (this must be 
 configured first), generate plots and report;
-- **[obsolete]** *sb_param_estim__pw.sh* performs parameter estimation 
+- **[obsolete]** *sb_param_estim__pw* performs parameter estimation 
 and MOTA identifiability analysis using the Matlab toolbox Potterswheel.
 
 These pipelines are available as Python functions and are invoked 
-directly via *run_sb_pipe.py*.
+directly via *sb_pipe/run_sb_pipe.py*.
 
 
 ##### tests
