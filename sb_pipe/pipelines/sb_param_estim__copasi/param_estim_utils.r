@@ -112,7 +112,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 
 
-all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels) {
+all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE) {
   
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
@@ -146,16 +146,11 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
   # save the chisquare vs iteration
   g <- plot_fits(df[,1])
   ggsave(file.path(plots_dir, "chi2_vs_iters.png"), dpi=300)
-  
-  # plot parameter correlations using the 66% and 95% confidence level data sets
-  plot_parameter_correlations(df66, dfCols, plots_dir, "ci66_fits_", 1)
-  plot_parameter_correlations(df95, dfCols, plots_dir, "ci95_fits_", 1)
-  #plot_parameter_correlations(df, dfCols, plots_dir, "all_fits_", 1)
-  
+    
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
-  cat(paste("Min_ChiSq", "Param_Num", "Data_Points_Num", "ChiSq_Conf_Level_95", "ChiSq_Conf_Level_66\n", sep="\t"))
-  cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, chisquare_at_conf_level_66, sep="\t"), append=TRUE)
+  cat(paste("Min_ChiSq", "Param_Num", "Data_Points_Num", "ChiSq_Conf_Level_95", "Fits_Num_95", "ChiSq_Conf_Level_66", "Fits_Num_95\n", sep="\t"))
+  cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, nrow(df95), chisquare_at_conf_level_66, nrow(df66), sep="\t"), append=TRUE)
   sink() 
 
   fileoutPLE <- sink(fileout_approx_ple_stats)
@@ -178,7 +173,16 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
     cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
     cat("\n", append=TRUE)    
   }
-  sink()    
+  sink()
+  
+  
+  # plot parameter correlations using the 66% and 95% confidence level data sets
+  if(plot_2d_66_95cl_corr) {
+    plot_parameter_correlations(df66, dfCols, plots_dir, "ci66_fits_", 1)
+    plot_parameter_correlations(df95, dfCols, plots_dir, "ci95_fits_", 1)
+    #plot_parameter_correlations(df, dfCols, plots_dir, "all_fits_", 1)
+  }
+  
 }
 
 

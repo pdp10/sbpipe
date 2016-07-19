@@ -40,7 +40,7 @@ from collect_results import retrieve_all_estimates
 
 # Input parameters
 # input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num
-def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num):
+def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False):
 
   if not os.path.exists(input_dir) or not os.listdir(input_dir): 
     print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
@@ -54,7 +54,6 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileo
   retrieve_final_estimates(input_dir, results_dir, fileout_final_estims)
   retrieve_all_estimates(input_dir, results_dir, fileout_all_estims)  
 
-
   print("\n")
   print("Plot results:")
   print("\n")
@@ -66,6 +65,6 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileo
   process.wait()
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_all_fits_analysis.r'), 
 		   os.path.join(results_dir, fileout_all_estims), plots_dir, str(data_point_num), 
-		   os.path.join(results_dir, fileout_approx_ple_stats), os.path.join(results_dir, fileout_conf_levels)])
+		   os.path.join(results_dir, fileout_approx_ple_stats), os.path.join(results_dir, fileout_conf_levels), str(plot_2d_66_95cl_corr)])
   process.wait()  
   
