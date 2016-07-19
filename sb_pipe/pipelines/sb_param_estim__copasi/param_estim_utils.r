@@ -38,7 +38,6 @@ compute_fratio_threshold <- function(m, n, p=0.05) {
 }
 
 
-
 # return the left value confidence interval
 leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
    # retrieve the minimum parameter value for cut_dataset
@@ -50,7 +49,6 @@ leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, 
       min_ci <- "inf"
     min_ci
 }
-
 
 
 # return the right value confidence interval
@@ -83,39 +81,58 @@ plot_fits <- function(my_array) {
 }
 
 
+# rename columns
+replace_colnames <- function(dfCols) {
+  dfCols <- gsub("ObjectiveValue", "Chi.Sq.", dfCols)
+  dfCols <- gsub("Values.", "", dfCols)
+  dfCols <- gsub("..InitialValue.", "", dfCols)
+}
 
-all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_point_num, fileout_approx_ple_stats) {
+
+
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx) {
+  fileout <- ""
+  for (i in seq(chi2_col_idx+1,length(dfCols))) { 
+    for (j in seq(i, length(dfCols))) {
+      if(i==j) {
+	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+	g <- histogramplot(df[i], fileout)
+      } else {
+	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
+	g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx], fileout)
+      }
+      ggsave(fileout, dpi=300)
+    }    
+  }
+}
+
+
+
+
+
+
+
+all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels) {
   
   data_point_num <- as.numeric(data_point_num)
-  
   if(data_point_num <= 0.0) {
-    error("data_point_num is negative.")
+    error("data_point_num is non positive.")
     return
   }
   
   df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
   
-  # rename columns
-  dfCols <- colnames(df)
-  dfCols <- gsub("ObjectiveValue", "Chi.Sq.", dfCols)
-  dfCols <- gsub("Values.", "", dfCols)
-  dfCols <- gsub("..InitialValue.", "", dfCols)
+  dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   
-  #print(df)
-  
   parameter_num = length(colnames(df)) - 1
-  conf_level_99 = compute_fratio_threshold(parameter_num, data_point_num, .01)
-  conf_level_95 = compute_fratio_threshold(parameter_num, data_point_num, .05)  
-  conf_level_66 = compute_fratio_threshold(parameter_num, data_point_num, .33)
-  
   chisquare_at_conf_level_99 <- 0  
   chisquare_at_conf_level_95 <- 0    
   chisquare_at_conf_level_66 <- 0   
   if(length(dfCols) > 1) {
-    chisquare_at_conf_level_99 <- min(df[,1]) * conf_level_99  
-    chisquare_at_conf_level_95 <- min(df[,1]) * conf_level_95
-    chisquare_at_conf_level_66 <- min(df[,1]) * conf_level_66    
+    chisquare_at_conf_level_99 <- min(df[,1]) * compute_fratio_threshold(parameter_num, data_point_num, .01) 
+    chisquare_at_conf_level_95 <- min(df[,1]) * compute_fratio_threshold(parameter_num, data_point_num, .05) 
+    chisquare_at_conf_level_66 <- min(df[,1]) * compute_fratio_threshold(parameter_num, data_point_num, .33)   
   }
 
   # select the rows with chi^2 smaller than our max threshold
@@ -124,23 +141,28 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
   df66 <- df95[df95[,1] <= chisquare_at_conf_level_66, ]  
   
   # Set my ggplot theme here
-  theme_set(basic_theme(24))
-
+  theme_set(basic_theme(26))
+ 
   # save the chisquare vs iteration
   g <- plot_fits(df[,1])
-  ggsave(file.path(plots_dir, "fits_by_iteration.png"), dpi=300)
+  ggsave(file.path(plots_dir, "chi2_vs_iters.png"), dpi=300)
   
+  # plot parameter correlations using the 66% and 95% confidence level data sets
+  plot_parameter_correlations(df66, dfCols, plots_dir, "ci66_fits_", 1)
+  plot_parameter_correlations(df95, dfCols, plots_dir, "ci95_fits_", 1)
+  #plot_parameter_correlations(df, dfCols, plots_dir, "all_fits_", 1)
   
-  min_chisquare <- min(df95[[1]])
+  min_chisquare <- min(df95[[1]])  
+  fileoutPLE <- sink(fileout_conf_levels)
+  cat(paste("Min_ChiSq", "Param_Num", "Data_Points_Num", "ChiSq_Conf_Level_95", "ChiSq_Conf_Level_66\n", sep="\t"))
+  cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, chisquare_at_conf_level_66, sep="\t"), append=TRUE)
+  sink() 
+
   fileoutPLE <- sink(fileout_approx_ple_stats)
-  
-  cat(paste("ChiSq_Conf_Level_95", "ChiSq_Conf_Level_66\n", sep="\t"))
-  cat(paste(chisquare_at_conf_level_95, chisquare_at_conf_level_66, sep="\t"), append=TRUE)
-  cat("\n\n", append=TRUE)
   cat(paste("Parameter", "Value", "CI_95_left", "CI_95_right", "CI_66_left", "CI_66_right\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
-    fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+    fileout <- file.path(plots_dir, paste("approx_ple_", dfCols[i], ".png", sep=""))
     g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
 			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
     ggsave(fileout, dpi=300)
@@ -161,10 +183,11 @@ all_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, data_
 
 
 
-final_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, best_fits_percent) {
+
+
+final_fits_analysis <- function(filenamein, plots_dir, best_fits_percent) {
   
   best_fits_percent <- as.numeric(best_fits_percent)
-  
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
     warning("best_fits_percent is not in (0, 100]. Now set to 100")
     best_fits_percent = 100
@@ -172,11 +195,7 @@ final_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, bes
   
   df = read.csv(filenamein, head=TRUE,sep="\t")
   
-  # rename columns
-  dfCols <- colnames(df)
-  dfCols <- gsub("ObjectiveValue", "Chi.Sq.", dfCols)  
-  dfCols <- gsub("Values.", "", dfCols)
-  dfCols <- gsub("..InitialValue.", "", dfCols)  
+  dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   
   # Calculate the number of rows to extract.
@@ -188,21 +207,9 @@ final_fits_analysis <- function(filenamein, plots_dir, plot_filename_prefix, bes
   df <- tail(df, selected_rows)
   
   # Set my ggplot theme here
-  theme_set(basic_theme(24))
-  fileout <- ""
+  theme_set(basic_theme(26))
   
-  for (i in seq(3,length(dfCols))) { 
-    for (j in seq(i, length(dfCols))) {
-      if(i==j) {
-        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-        g <- histogramplot(df[i], fileout)
-      } else {
-        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-        g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[2], fileout)
-      }
-      ggsave(fileout, dpi=300)
-    }
-  }
+  plot_parameter_correlations(df, dfCols, plots_dir, "best_fits_", 2)
   
 }
 
