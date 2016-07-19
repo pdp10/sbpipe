@@ -1,4 +1,4 @@
-sb_pipe (GNU General Public License v3)
+sb_pipe (GNU Lesser General Public License v3)
 Copyright 2010-2016 Piero Dalle Pezze
 
 Website: https://pdp10.github.io/sb_pipe/
@@ -6,32 +6,40 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.27.0
+v0.35.0
 
-- bug fixes
+- added computation for parameter confidence intervals.
+- added plot for fit history.
+- added 2D parameter correlations using 66% or 95% confidence levels from calculated PLE.
+- added profile likelihood estimation based on intermediate estimations.
+- cleaned pipeline output.
+- added documentation for configuring Copasi.
+- removed part of the deprecated code.
+- internalised code for each pipeline; run_sb_pipe.py is the main executor for sb_pipe.
+- bug fixes.
 - models can now be simulated in parallel using PP, SGE, or LSF.
 - separation of parallel code from param_estim__copasi pipeline. It is generic now.
-- sb_pipe should now be platform independent (untested yet)
-- removed unused dependencies
-- better separation of test cases
-- pipeline steps can be executed separately
-- pipeline restructuring (separation of the steps: generate data, analyse data, and generate report)
+- sb_pipe should now be platform independent (untested yet).
+- removed unused dependencies.
+- better separation of test cases.
+- pipeline steps can be executed separately.
+- pipeline restructuring (separation of the steps: generate data, analyse data, and generate report).
 - model parameters can now be estimated in parallel using PP, SGE, or LSF.
-- removed old deprecated code
+- removed old deprecated code.
 - restructuring source code in the lib/ folder (now sb_pipe/pipelines and sb_pipe/utils).
-- finalised skeleton for sb_param_estim pipeline
+- finalised skeleton for sb_param_estim pipeline.
 - added parameter correlation plots for sb_param_estim pipeline.
 - ported R gplots code to ggplot in sb_param_scan__single_perturb pipeline.
 - ported R gplots code to ggplot in sb_simulate pipeline.
 - sb_pipe is now a Python package.
-- added documentation (readme, developer_guide)
+- added documentation (readme, developer_guide).
 - added unit tests and setup.py. 
 - ported Bash / sed / grep and cut code to Python in sb_param_estim pipeline.
 - ported Bash / sed / grep and cut code to Python in sb_param_scan__single_perturb pipeline.
 - ported Bash / sed / grep and cut code to Python in sb_simulate pipeline.
-- added param_estim__copasi.sh
+- added param_estim__copasi.sh.
 - improved configuration file.
 - simulation time start, end, xaxis label and time step now replace the parameter `team`.
-- adjusted sb_simulate.sh, sb_param_scan__single_perturb.sh, sb_sensitivity.sh
-- packaging of sb_modules in /bin
-- added test scripts
+- adjusted sb_simulate.sh, sb_param_scan__single_perturb.sh, sb_sensitivity.sh.
+- packaging of sb_modules in /bin.
+- added test scripts.
