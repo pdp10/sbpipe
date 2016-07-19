@@ -31,9 +31,8 @@ main <- function(args) {
   filename <- args[1]
   plots_dir <- args[2]
   best_fits_percent <- args[3]
-  plot_filename_prefix <- "final_fits_"
 
-  final_fits_analysis(filename, plots_dir, plot_filename_prefix, best_fits_percent)
+  final_fits_analysis(filename, plots_dir, best_fits_percent)
 }
 
 

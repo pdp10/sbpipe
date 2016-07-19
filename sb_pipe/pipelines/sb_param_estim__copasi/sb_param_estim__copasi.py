@@ -152,7 +152,8 @@ def main(model_configuration):
   fileout_final_estims = "final_estim_collection.csv"
   fileout_all_estims = "all_estim_collection.csv"
   fileout_approx_ple_stats = "approx_ple_stats.csv"
-
+  fileout_conf_levels = "conf_levels.csv"
+  
 
   print("\n<START PIPELINE>\n")
   # Get the pipeline start time
@@ -198,6 +199,7 @@ def main(model_configuration):
 				      fileout_final_estims, 
 				      fileout_all_estims,
 				      fileout_approx_ple_stats,
+				      fileout_conf_levels,
 				      plots_dir, 
 				      best_fits_percent,
 				      data_point_num)
