@@ -113,8 +113,6 @@ configured first), generate plots and report;
 (this must be configured first), generate tables for statistics;
 - *sb_sensitivity* runs Copasi (this must be 
 configured first), generate plots and report;
-- **[obsolete]** *sb_param_estim__pw* performs parameter estimation 
-and MOTA identifiability analysis using the Matlab toolbox Potterswheel.
 
 These pipelines are available as Python functions and are invoked 
 directly via *sb_pipe/run_sb_pipe.py*.

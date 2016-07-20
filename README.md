@@ -17,8 +17,6 @@ In order to use sb_pipe, the following software must be installed:
 - Python 2.7.3+ (+dependencies: scipy 0.13.3, numpy 1.8.2, pp 1.6.4)
 - R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3, abind 1.4)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
-- **[obsolete]** Matlab-toolbox Potterswheel (for parameter estimation 
-using Potterswheel). This pipeline also requires bash, sed, Matlab.
 
 
 ### Environment variables for sb_pipe
