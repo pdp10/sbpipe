@@ -6,8 +6,11 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.35.0
+v0.38.0
 
+- tested parameter estimation using Gillespie algorithm for model simulation.
+- configured Travis-CI for continous integration tests.
+- pipeline renaming.
 - added computation for parameter confidence intervals.
 - added plot for fit history.
 - added 2D parameter correlations using 66% or 95% confidence levels from calculated PLE.

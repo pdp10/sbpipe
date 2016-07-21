@@ -8,13 +8,15 @@ Mailing list: sb_pipe AT googlegroups.com
 
 
 ## Introduction
-This package contains a collection of pipelines for dynamic modelling of biological systems. It aims to automate common processes and speed up productivity for tasks such as model simulation, model single and double perturbation, sensitivity analysis and parameter estimation. 
+This package contains a collection of pipelines for dynamic modelling of biological systems. 
+It aims to automate common processes and speed up productivity for tasks such as model simulation, 
+model single and double parameter scan, sensitivity analysis and parameter estimation. 
 
 
 ### Requirements
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
-- Python 2.7.3+ (+dependencies: pp 1.6.4)
+- Python 2.7+ (+dependencies: pp 1.6.4)
 - R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3, abind 1.4)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
 
@@ -53,7 +55,7 @@ Using CopasiUI:
 - Select a report template for the Time Course Task.
 - Save the report with the model name replacing the extension .cps with .csv.
 
-##### single-perturb or double-perturb
+##### single or double parameter scan
 Using CopasiUI:
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Paramete Scan Task.
@@ -98,8 +100,8 @@ python run_sb_pipe.py pipeline configuration_file
 ```
 where *pipeline* can be one of the following option: 
 - --simulate (-s)
-- --single-perturb (-p) 
-- --double-perturb (-d)
+- --single-param-scan (-p) 
+- --double-param-scan (-d)
 - --sensitivity (-n)
 - --param-estim (-e)
 

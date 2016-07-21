@@ -51,8 +51,8 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
-    # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
-    # The perturbation is therefore done by percent levels and at the beginning.
+    # Scanning using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
+    # The scanninig is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
     if(inhibition_only) {
       # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)

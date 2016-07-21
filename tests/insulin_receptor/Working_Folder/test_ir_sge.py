@@ -31,6 +31,7 @@ from distutils.dir_util import copy_tree
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe'))
+config_dir = os.path.join(SB_PIPE, "tests", "insulin_receptor", "Working_Folder")
 
 import run_sb_pipe
 
