@@ -11,15 +11,15 @@ env:
 # necessary for installing Python dependencies
 #virtualenv:
 #  system_site_packages: true
-#before_install:
-  #- wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
-  #- tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
-  #- sudo add-apt-repository ppa:marutter/rrutter -y
-  #- sudo add-apt-repository ppa:texlive-backports/ppa -y
-  #- sudo apt-get update -q
-  ##- sudo apt-get -y --force-yes install python-pp
-  #- sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
-  #- sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
+before_install:
+  - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
+  - sudo add-apt-repository ppa:marutter/rrutter -y
+  - sudo add-apt-repository ppa:texlive-backports/ppa -y
+  - sudo apt-get update -q
+  #- sudo apt-get -y --force-yes install python-pp
+  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
+  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
 install:
   # install other dependencies
   - pip install -r requirements.txt
@@ -28,5 +28,5 @@ install:
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
 #  The following works locally, but eventually there is an error message reporting that the configuration files don't exist
-#  - nosetests --tests=tests/test_suite.py
+  - nosetests --tests=tests/test_suite.py
 #  - python tests/test_suite.py
