@@ -3,6 +3,9 @@ python:
   - "2.6"
   - "2.7"
   - "3.2"
+env:
+#  - SB_PIPE="${HOME}/sb_pipe"
+  - SB_PIPE=$(pwd)    
 # necessary for installing Python dependencies
 #virtualenv:
 #  system_site_packages: true
@@ -22,14 +25,21 @@ before_install:
 install:
   # install other dependencies
   - pip install -r requirements.txt
-  - export SB_PIPE="${HOME}/pdp10/sb_pipe"
   - python setup.py install
 # command to run tests
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
-  - export SB_PIPE="${HOME}/pdp10/sb_pipe"
 #  The following works locally, but eventually there is an error message reporting that the configuration files don't exist
 #  - nosetests --tests=tests/test_suite.py
 #  The following works locally with no error message
+#  In Travis-CI: 
+#File "tests/test_suite.py", line 38, in <module>
+#    from test_ir_simulate import TestIRSimulate
+#ImportError: No module named test_ir_simulate
   - python tests/test_suite.py
-
+#  - python tests/insulin_receptor/Working_Folder/test_ir_lsf.py
+#  - python tests/insulin_receptor/Working_Folder/test_ir_param_estim.py
+#  - python tests/insulin_receptor/Working_Folder/test_ir_param_scan.py
+#  - python tests/insulin_receptor/Working_Folder/test_ir_sensitivity.py
+#  - python tests/insulin_receptor/Working_Folder/test_ir_sge.py
+#  - python tests/insulin_receptor/Working_Folder/test_ir_simulate.py
