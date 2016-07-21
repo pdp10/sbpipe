@@ -102,16 +102,16 @@ git show
 ##### sb_pipe
 The *sb_pipe/pipelines/* folder contains the following pipelines:
 
-- *sb_create_project* creates a new project
-- *sb_simulate* simulates a model deterministically or stochastically
+- *create_project* creates a new project
+- *simulate* simulates a model deterministically or stochastically
 using Copasi (this must be configured first), generate plots and report;
-- *sb_param_scan__single_perturb* runs Copasi (this must be 
+- *single_param_scan* runs Copasi (this must be 
 configured first), generate plots and report;
-- *sb_param_scan__double_perturb* runs Copasi (this must be 
+- *double_param_scan* runs Copasi (this must be 
 configured first), generate plots and report;
-- *sb_param_estim__copasi* generate a fits sequence using Copasi 
+- *param_estim* generate a fits sequence using Copasi 
 (this must be configured first), generate tables for statistics;
-- *sb_sensitivity* runs Copasi (this must be 
+- *sensitivity* runs Copasi (this must be 
 configured first), generate plots and report;
 
 These pipelines are available as Python functions and are invoked 
@@ -134,7 +134,8 @@ etc).
 Examples of configuration files (*.conf) can be found in 
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
 
-
+Travis-CI runs sb_pipe tests using `nosetests`. Please see .travis.yml 
+for detail.
 
 
 ## Miscellaneous of useful commands:
