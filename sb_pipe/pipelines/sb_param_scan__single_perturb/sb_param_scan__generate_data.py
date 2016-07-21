@@ -38,7 +38,7 @@ sys.path.append(SB_PIPE)
 from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-import CopasiUtils
+from copasi_utils import replace_str_copasi_sim_report
 
 
 # INITIALIZATION
@@ -89,7 +89,7 @@ def main(model, species, sim_number, simulate__intervals,
 	  continue
       
       # Replace some string in the report file   
-      CopasiUtils.replace_str_copasi_sim_report(os.path.join(tmp_dir, model[:-4]+".csv"))
+      replace_str_copasi_sim_report(os.path.join(tmp_dir, model[:-4]+".csv"))
       
 
 

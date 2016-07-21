@@ -39,7 +39,7 @@ sys.path.append(SB_PIPE)
 from sb_config import getCopasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-from CopasiUtils import replace_str_copasi_sim_report
+from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import replace_string_in_file
 from parallel_computation import parallel_computation
 

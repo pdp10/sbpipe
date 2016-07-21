@@ -35,5 +35,6 @@ import re
 # the files as expected, by the numeric value added to the end of the file name.
 def atoi(text):
     return int(text) if text.isdigit() else text
+  
 def natural_keys(text):
     return [ atoi(c) for c in re.split('(\d+)', text) ]

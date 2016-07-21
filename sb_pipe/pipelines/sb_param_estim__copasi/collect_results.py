@@ -22,7 +22,9 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-16 12:14:32 $
 
-import sys, os, glob
+import sys
+import os
+import glob
 from re_utils import *
 
 

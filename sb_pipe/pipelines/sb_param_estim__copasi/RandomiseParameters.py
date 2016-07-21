@@ -31,9 +31,9 @@ import shlex
 from subprocess import * 
 
 
-# It reads a copasi file configured for parameter estimation task, and randomize the starting values of the parameters to estimate. 
+# It reads a copasi file configured for parameter estimation task, and randomise the starting values of the parameters to estimate. 
 # Then, it saves the new file. As input, it receives the number of files to generate (multiple calibrations)
-class RandomizeParameters:
+class RandomiseParameters:
   
   # A Copasi Object
   _copasi = None
@@ -99,24 +99,31 @@ class RandomizeParameters:
   # Return the Copasi Object
   def get_copasi_obj():
     return self._copasi
+  
   # Return the path containing the template Copasi file
   def get_path():
     return self._path
+  
   # Return the name of the template Copasi file
   def get_template_copasi_file():
     return self._filename_in
+  
   # Return the name of the template parameter estimation report
   def get_report_filename_template_str():
     return self._report_filename_template
+  
   # Return the list of lower bounds of the parameters
   def get_lower_bounds_list():
     return self._lower_bounds 
+  
   # Return the list of names of the parameters  
   def get_param_names_list():
     return self._param_names 
+  
   # Return the list of start values of the parameters  
   def get_start_values_list():
     return self._start_values
+  
   # Return the list of upper bounds of the parameters  
   def get_upper_bounds_list():
     return self._upper_bounds

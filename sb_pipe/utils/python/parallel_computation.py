@@ -27,7 +27,8 @@
 
 
 
-import os, sys
+import os
+import sys
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
@@ -74,31 +75,31 @@ def parallel_computation(command, timestamp, cluster_type, runs, output_dir, ser
       os.makedirs(errDir)   
     
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      runJobsSGE(command, timestamp, outDir, errDir, runs)
+      run_jobs_sge(command, timestamp, outDir, errDir, runs)
 
     elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      runJobsLSF(command, timestamp, outDir, errDir, runs)      
+      run_jobs_lsf(command, timestamp, outDir, errDir, runs)      
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
       print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
-    runJobsPP(command, timestamp, runs, pp_cpus, servers, secret)
+    run_jobs_pp(command, timestamp, runs, pp_cpus, servers, secret)
 
 
 
 
-def runCommandInstance(command):
+def run_command_instance(command):
   """ Run a command instance"""
   p1 = subprocess.Popen(command, stdout=subprocess.PIPE) 
   p1.communicate()[0]
 
 
-def runCommandPP(command, commandIterSubStr, runs, server, syncCounter=BasicSyncCounter()):  
+def run_command_pp(command, command_iter_substr, runs, server, syncCounter=BasicSyncCounter()):  
   """ Run parallel instances of a command """
   for i in xrange(1, runs+1):
-    commandList = command.replace(commandIterSubStr, str(i)).split(" ")
+    commandList = command.replace(command_iter_substr, str(i)).split(" ")
     callbackargs = (i,)
-    server.submit(runCommandInstance,
+    server.submit(run_command_instance,
 		  (commandList,),
 		  depfuncs=(),
 		  modules=("subprocess",),
@@ -114,7 +115,7 @@ def runCommandPP(command, commandIterSubStr, runs, server, syncCounter=BasicSync
 # The list of servers and ports must be updated in the configuration file
 # (NOTE: It requires the installation of python-pp)
 #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-def runJobsPP(command, commandIterSubStr, runs, pp_cpus, servers, secret):
+def run_jobs_pp(command, command_iter_substr, runs, pp_cpus, servers, secret):
   """
   command : the full command to run as a job
   iterSubStr : the substring in command to be replaced with a number 
@@ -139,7 +140,7 @@ def runJobsPP(command, commandIterSubStr, runs, pp_cpus, servers, secret):
   syncCounter = BasicSyncCounter()
   
   print("Starting parallel computation:")
-  runCommandPP(command, commandIterSubStr, runs, server=job_server, syncCounter=syncCounter)        
+  run_command_pp(command, command_iter_substr, runs, server=job_server, syncCounter=syncCounter)        
   # Wait for jobs in all groups to finish 
   job_server.wait(group="my_processes")
 
@@ -156,7 +157,7 @@ def runJobsPP(command, commandIterSubStr, runs, pp_cpus, servers, secret):
 
 
 
-def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
+def run_jobs_sge(command, command_iter_substr, outDir, errDir, runs):
   """
   command : the full command to run as a job
   iterSubStr : the substring in command to be replaced with a number 
@@ -176,7 +177,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
   for i in xrange(1,runs+1):
       # Now the same with qsub
       jobs = "j"+str(i)+","+jobs
-      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
+      echoCMD = ["echo", command.replace(command_iter_substr, str(i))]
       qsubCMD = ["qsub", "-cwd", "-N", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir,"j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
@@ -190,7 +191,7 @@ def runJobsSGE(command, commandIterSubStr, outDir, errDir, runs):
 
 
 
-def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
+def run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs):
   """
   command : the full command to run as a job
   iterSubStr : the substring in command to be replaced with a number 
@@ -202,7 +203,7 @@ def runJobsLSF(command, commandIterSubStr, outDir, errDir, runs):
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,runs+1):
       jobs = "done(j"+str(i)+")&&"+jobs
-      echoCMD = ["echo", command.replace(commandIterSubStr, str(i))]
+      echoCMD = ["echo", command.replace(command_iter_substr, str(i))]
       bsubCMD = ["bsub", "-cwd", "-J", "j"+str(i), "-o", os.path.join(outDir, "j"+str(i)), "-e", os.path.join(errDir, "j"+str(i))] 
       echoProc = Popen(echoCMD, stdout=PIPE)
       bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
