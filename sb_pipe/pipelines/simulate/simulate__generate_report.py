@@ -22,7 +22,6 @@
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 12:38:32 $
-# $Id: simulate__gen_report.py,v 1.0 2016-06-23 12:45:32 Piero Dalle Pezze Exp $
 
 
 

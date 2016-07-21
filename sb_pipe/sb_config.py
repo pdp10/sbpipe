@@ -33,6 +33,6 @@ def which(file):
     return None
 
 
-def getCopasi():
+def get_copasi():
   return which("CopasiSE")
 

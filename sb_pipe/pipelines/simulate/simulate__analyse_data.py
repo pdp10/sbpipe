@@ -42,7 +42,7 @@ SB_PIPE = os.environ["SB_PIPE"]
 # tc_dir: the time course dir
 # tc_mean_dir: the mean time course dir
 # tc_mean_with_exp_dir: the mean time course with experimental data dir
-# simulate__xaxis_label : the x axis label
+# xaxis_label : the x axis label
 def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, xaxis_label):   
   
   if not os.path.exists(input_dir): 
@@ -69,7 +69,7 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
 
 
   print("Generating statistics from simulations:")
-  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','sb_simulate__plot_error_bars.r'), 
+  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_error_bars.r'), 
 			      model, input_dir, 
 			      os.path.join(results_dir, tc_mean_dir), 
 			      os.path.join(results_dir, 'sim_stats_'+model+'.csv'), xaxis_label])
@@ -77,6 +77,6 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
 
 
   #print("\nGenerating overlapping plots (sim + exp):")
-  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sb_simulate','sb_simulate__plot_sim_exp_error_bars.r'), model, os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model+'.csv'),  os.path.join(results_dir,'exp_stats_'+model+'.csv')])
+  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_sim_exp_error_bars.r'), model, os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model+'.csv'),  os.path.join(results_dir,'exp_stats_'+model+'.csv')])
   #process.wait() 
 

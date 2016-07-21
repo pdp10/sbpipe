@@ -39,9 +39,9 @@ import subprocess
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-import sb_param_scan__generate_data
-import sb_param_scan__analyse_data
-import sb_param_scan__generate_report
+import single_param_scan__generate_data
+import single_param_scan__analyse_data
+import single_param_scan__generate_report
 
 
 """
@@ -85,17 +85,17 @@ def main(model_configuration):
   scanned_species=""  
   # The path to Copasi reports
   copasi_reports_path="tmp"  
-  # if Y then, plot only kd (blue), otherwise plot kd and overexpression
-  param_scan__single_perturb_knock_down_only=""
   # The number of intervals for one simulation
   simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
   # The number of single pertubation simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
-  param_scan__single_perturb_simulations_number=1
+  single_param_scan_simulations_number=1
   # The perturbation is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-  param_scan__single_perturb_perturbation_in_percent_levels="true"  
+  single_param_scan_perturbation_in_percent_levels=True
+  # if True then, plot only kd (blue), otherwise plot kd and overexpression
+  single_param_scan_knock_down_only=True
   # The number of levels of inhibition/over-expression
   levels_number=10  
   # Single perturbation minimum inhibition level
@@ -122,17 +122,17 @@ def main(model_configuration):
     elif line[0] == "scanned_species": 
       scanned_species = line[1]
     elif line[0] == "copasi_reports_path": 
-      copasi_reports_path = line[1]            
-    elif line[0] == "param_scan__single_perturb_knock_down_only": 
-      param_scan__single_perturb_knock_down_only = line[1] 
+      copasi_reports_path = line[1]
     elif line[0] == "simulate__intervals": 
       simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
       simulate__xaxis_label = line[1]
-    elif line[0] == "param_scan__single_perturb_simulations_number": 
-      param_scan__single_perturb_simulations_number = line[1] 
-    elif line[0] == "param_scan__single_perturb_perturbation_in_percent_levels": 
-      param_scan__single_perturb_perturbation_in_percent_levels = line[1]      
+    elif line[0] == "single_param_scan_simulations_number": 
+      single_param_scan_simulations_number = line[1] 
+    elif line[0] == "single_param_scan_perturbation_in_percent_levels": 
+      single_param_scan_perturbation_in_percent_levels = {'True': True, 'False': False}.get(line[1], False)
+    elif line[0] == "single_param_scan_knock_down_only": 
+      single_param_scan_knock_down_only = {'True': True, 'False': False}.get(line[1], False)      
     elif line[0] == "min_level": 
       min_level = line[1]       
     elif line[0] == "max_level": 
@@ -183,25 +183,25 @@ def main(model_configuration):
     print("\n")
     print("Data generation:")
     print("################")
-    sb_param_scan__generate_data.main(model, 
-				      scanned_species, 
-				      param_scan__single_perturb_simulations_number, 
-				      simulate__intervals,
-				      levels_number,
-				      models_dir, 
-				      os.path.join(results_dir, raw_sim_data), 
-				      tmp_dir)
+    single_param_scan__generate_data.main(model, 
+					  scanned_species, 
+					  single_param_scan_simulations_number, 
+					  simulate__intervals,
+					  levels_number,
+					  models_dir, 
+					  os.path.join(results_dir, raw_sim_data), 
+					  tmp_dir)
   
   
   if analyse_data == True:
     print("\n")
     print("Data analysis:")
     print("##############")
-    sb_param_scan__analyse_data.main(model[:-4], scanned_species, param_scan__single_perturb_knock_down_only, results_dir, 
-				     raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-				     param_scan__single_perturb_simulations_number, 
-				     param_scan__single_perturb_perturbation_in_percent_levels, 
-				     min_level, max_level, levels_number)
+    single_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
+					 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+					 single_param_scan_simulations_number, 
+					 single_param_scan_perturbation_in_percent_levels, 
+					 min_level, max_level, levels_number)
   
   
   
@@ -209,7 +209,7 @@ def main(model_configuration):
     print("\n")
     print("Report generation:")
     print("##################")
-    sb_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
+    single_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 
 

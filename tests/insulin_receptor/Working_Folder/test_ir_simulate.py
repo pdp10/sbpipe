@@ -44,11 +44,11 @@ class TestIRSimulate(unittest.TestCase):
   """
   def test_det_simulation(self):
     """model deterministic simulation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_det_simul_copasi.conf"]), 0)
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "ir_model_det_simul.conf"]), 0)
 
   def test_stoch_simulation(self):    
     """model stochastic simulation"""    
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "insulin_receptor_stoch_simul_copasi.conf"]), 0) 
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "ir_model_stoch_simul.conf"]), 0) 
 
 
 if __name__ == '__main__':

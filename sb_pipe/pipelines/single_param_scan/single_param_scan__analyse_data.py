@@ -40,21 +40,20 @@ SB_PIPE = os.environ["SB_PIPE"]
 # INITIALIZATION
 # model
 # scanned_species 
-# param_scan__single_perturb_knock_down_only
+# knock_down_only
 # results_dir
 # raw_sim_data
 # tc_parameter_scan_dir
 # simulate__xaxis_label
-# param_scan__single_perturb_simulations_number
-# param_scan__single_perturb_perturbation_in_percent_levels
+# simulations_number
+# percent_levels
 # min_level
 # max_level
 # levels_number
-def main(model, scanned_species, param_scan__single_perturb_knock_down_only, results_dir, 
+def main(model, scanned_species, knock_down_only, results_dir, 
 	 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-	 param_scan__single_perturb_simulations_number, 
-	 param_scan__single_perturb_perturbation_in_percent_levels, 
-	 min_level, max_level, levels_number):
+	 simulations_number, 
+	 percent_levels, min_level, max_level, levels_number):
 
 
   if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
@@ -79,9 +78,8 @@ def main(model, scanned_species, param_scan__single_perturb_knock_down_only, res
     os.mkdir(os.path.join(results_dir, tc_parameter_scan_dir)) 
 
 
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb','sb_param_scan__analyse_data.r'), 
-			      model, scanned_species, param_scan__single_perturb_knock_down_only, results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, 
-			      str(min_level), str(max_level), str(levels_number)])    
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__analyse_data.r'), 
+			      model, scanned_species, str(knock_down_only), results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number)])    
   process.wait()
 

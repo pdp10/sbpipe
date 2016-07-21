@@ -1,32 +1,34 @@
 language: python
+# use 14.04 as default instead of 12.04, otherwise ggplot2 is 0.9.3 instead of 2.1.0
+sudo: required
+dist: trusty
 python:
-  - "2.6"
   - "2.7"
-  - "3.2"
+  # The following seems to have a problem with pip..
+  #- "3.2"
+env:
+  - SB_PIPE=$(pwd)
 # necessary for installing Python dependencies
 #virtualenv:
 #  system_site_packages: true
 before_install:
-## NEED TO ADD COPASI TOO..
-  - export PYTHONPATH=$PYTHONPATH:$(pwd)
-#okay! :-)
-#  - sudo add-apt-repository ppa:marutter/rrutter -y
+  - sudo add-apt-repository ppa:marutter/rrutter -y
 #  - sudo add-apt-repository ppa:texlive-backports/ppa -y
-#  - sudo apt-get update -q
-#  - sudo apt-get -y --force-yes install python-pp python-scipy python-numpy
-#  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
-#  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
+  - sudo apt-get update -q
+  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-ggplot2
+  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
 install:
   # install other dependencies
-#  - pip install -r requirements.txt
-  - export SB_PIPE="${HOME}/pdp10/sb_pipe"
+  - pip install -r requirements.txt
   - python setup.py install
 # command to run tests
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
-  - export SB_PIPE="${HOME}/pdp10/sb_pipe"
-#  The following works locally, but eventually there is an error message reporting that the configuration files don't exist
+  - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
+  - PATH=$PATH:$(pwd)/COPASI-4.16.104-Linux-64bit/bin/
+# Test copasi installation 
+# - CopasiSE
+#  Use nosetests so that travis output depends on the return value from the test_suite 
 #  - nosetests --tests=tests/test_suite.py
-#  The following works locally with no error message
-# - python tests/test_suite.py
-
+  - python tests/test_suite.py

@@ -38,9 +38,9 @@ import tarfile
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
-import sb_param_estim__generate_data
-import sb_param_estim__analyse_data
-import sb_param_estim__generate_report
+import param_estim__generate_data
+import param_estim__analyse_data
+import param_estim__generate_report
 
 
 """
@@ -183,39 +183,39 @@ def main(model_configuration):
     print("\n")
     print("Generate data:")
     print("##############")
-    sb_param_estim__generate_data.main(model, 
-				       models_dir, 
-				       data_dir, 
-				       data_folder, 
-				       cluster, 
-				       pp_cpus, 
-				       runs, 
-				       results_dir, 
-				       sim_raw_data, 
-				       tmp_dir)
+    param_estim__generate_data.main(model, 
+				    models_dir, 
+				    data_dir, 
+				    data_folder, 
+				    cluster, 
+				    pp_cpus, 
+				    runs, 
+				    results_dir, 
+				    sim_raw_data, 
+				    tmp_dir)
     
 
   if analyse_data == True:
     print("\n")
     print("Analyse data:")
     print("#############")
-    sb_param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
-				      results_dir, 
-				      fileout_final_estims, 
-				      fileout_all_estims,
-				      fileout_approx_ple_stats,
-				      fileout_conf_levels,
-				      plots_dir, 
-				      best_fits_percent,
-				      data_point_num,
-				      plot_2d_66_95cl_corr)
+    param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
+				   results_dir, 
+				   fileout_final_estims, 
+				   fileout_all_estims,
+				   fileout_approx_ple_stats,
+				   fileout_conf_levels,
+				   plots_dir, 
+				   best_fits_percent,
+				   data_point_num,
+				   plot_2d_66_95cl_corr)
 
 
   if generate_report == True:
     print("\n")
     print("Report generation:")
     print("##################")
-    sb_param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
+    param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 
 

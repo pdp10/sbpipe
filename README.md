@@ -14,7 +14,7 @@ This package contains a collection of pipelines for dynamic modelling of biologi
 ### Requirements
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
-- Python 2.7.3+ (+dependencies: scipy 0.13.3, numpy 1.8.2, pp 1.6.4)
+- Python 2.7.3+ (+dependencies: pp 1.6.4)
 - R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3, abind 1.4)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
 
@@ -23,6 +23,9 @@ In order to use sb_pipe, the following software must be installed:
 The following environmental variables need to be set up:
 - export SB_PIPE=/path/to/sb_pipe
 - export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+The path to CopasiSE must be added to the PATH environmental variable
+- export PATH=$PATH:/path/to/CopasiSE
 
 
 ### Installation

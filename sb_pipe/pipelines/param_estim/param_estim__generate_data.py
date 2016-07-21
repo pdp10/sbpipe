@@ -37,7 +37,7 @@ import datetime
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE)
-from sb_config import getCopasi
+from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from RandomiseParameters import *
@@ -84,7 +84,11 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
     os.rename(os.path.join(models_dir, data_folder), os.path.join(models_dir, data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now())))
   shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
 
-  copasi = getCopasi()
+  copasi = get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return
+  
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
   servers="localhost:65000"

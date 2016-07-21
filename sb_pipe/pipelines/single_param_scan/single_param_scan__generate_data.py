@@ -24,7 +24,8 @@
 # $Date: 2016-06-24 13:14:32 $
 
 
-import os, sys
+import os
+import sys
 import glob
 import subprocess
 import shutil
@@ -35,7 +36,7 @@ from itertools import islice
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE)
-from sb_config import getCopasi
+from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
@@ -49,7 +50,7 @@ from copasi_utils import replace_str_copasi_sim_report
 # output_dir: the output dir
 # tmp_dir: Read the tmp dir
 def main(model, species, sim_number, simulate__intervals, 
-	 param_scan__single_perturb_intervals, models_dir, output_dir, tmp_dir):
+	 single_param_scan_intervals, models_dir, output_dir, tmp_dir):
 
 
   if not os.path.isfile(os.path.join(models_dir,model)):
@@ -71,16 +72,20 @@ def main(model, species, sim_number, simulate__intervals,
   species_index=-1
   species_level=-1
   # Set the number of intervals
-  intervals=int(param_scan__single_perturb_intervals)+1
+  intervals=int(single_param_scan_intervals)+1
   # Set the number of timepoints
   timepoints=int(simulate__intervals)+1
 
-  copasi=getCopasi()
+  copasi=get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return  
+  
   for i in xrange(0, int(sim_number)):
     
       print("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
-      process = subprocess.Popen([copasi, '--nologo', models_dir+"/"+model])
+      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir,model)])
       process.wait()
       
 
@@ -158,8 +163,6 @@ def main(model, species, sim_number, simulate__intervals,
 	with open(os.path.join(tmp_dir, model_noext+".csv~"), 'w') as file:
 	  file.writelines(header)
 	  file.writelines(lines[timepoints+1:])
-
-	
 
 	shutil.move(os.path.join(tmp_dir, model_noext+".csv~"), os.path.join(tmp_dir, model_noext+".csv"))
 	

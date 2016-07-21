@@ -29,41 +29,46 @@ import sys
 import getopt
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_create_project"))
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_simulate"))
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_param_estim__copasi"))
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_param_scan__single_perturb"))
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sb_sensitivity"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "create_project"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "simulate"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "param_estim"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "single_param_scan"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "double_param_scan"))
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sensitivity"))
 
 
 # pipelines
-import sb_create_project
-import sb_simulate
-import sb_param_estim__copasi
-import sb_param_scan__single_perturb
-import sb_sensitivity
+import create_project
+import simulate
+import param_estim
+import single_param_scan
+#import double_param_scan
+import sensitivity
 
 
 
 
 def help():
-  message = "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"\
-	    "Pipelines for systems modelling of biological networks.\n\n"\
-	    "List of mandatory options:\n"\
-	    "\t-h, --help\n\t\tShows this help.\n"\
-	    "\t-c, --create-project\n\t\tCreate a project structure using the argument as name.\n"\
-	    "\t-s, --simulate\n\t\tSimulate a model.\n"\
-	    "\t-p, --single-perturb\n\t\tSimulate a single parameter perturbation.\n"\
-	    "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"\
-	    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"\
-	    "Exit status:\n"\
-	    " 0  if OK,\n"\
-	    " 1  if minor problems (e.g., a pipeline did not execute correctly.\n"\
-	    "Please check the configuration file and Copasi file before reporting),\n"\
-	    " 2  if serious trouble (e.g., cannot access command-line argument).\n\n"\
-	    "Report sb_pipe bugs to sb_pipe@googlegroups.com\n"\
-	    "sb_pipe home page: <https://pdp10.github.io/sb_pipe>\n"\
-	    "For complete documentation, see README.md .\n"
+  message = (
+    "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"
+    "Pipelines for systems modelling of biological networks.\n\n"
+    "List of mandatory options:\n"
+    "\t-h, --help\n\t\tShows this help.\n"
+    "\t-c, --create-project\n\t\tCreate a project structure using the argument as name.\n"
+    "\t-s, --simulate\n\t\tSimulate a model.\n"
+    "\t-p, --single-param-scan\n\t\tSimulate a single parameter scan.\n"
+    "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
+    "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
+    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"
+    "Exit status:\n"
+    " 0  if OK,\n"
+    " 1  if minor problems (e.g., a pipeline did not execute correctly.\n"
+    "Please check the configuration file and Copasi file before reporting),\n"
+    " 2  if serious trouble (e.g., cannot access command-line argument).\n\n"
+    "Report sb_pipe bugs to sb_pipe@googlegroups.com\n"
+    "sb_pipe home page: <https://pdp10.github.io/sb_pipe>\n"
+    "For complete documentation, see README.md .\n"
+  )
   return message
 
 
@@ -97,7 +102,7 @@ def main(argv=None):
   try:
       try:
 	  opts, args = getopt.getopt(argv[1:], "hcspenlv", 
-			      ["help", "create-project", "simulate", "single-perturb", "param-estim", "sensitivity", "license", "version"])
+			      ["help", "create-project", "simulate", "single-param-scan", "double-param-scan", "param-estim", "sensitivity", "license", "version"])
 
 	  for opt, arg in opts:
 	    
@@ -114,19 +119,24 @@ def main(argv=None):
 	      return 0
 	      
 	    elif opt in ("-c", "--create-project"):
-	      return sb_create_project.main(args[0])
+	      return create_project.main(args[0])
 	      
 	    elif opt in ("-s", "--simulate"):
-	      return sb_simulate.main(args[0])
+	      return simulate.main(args[0])
 
-	    elif opt in ("-p", "--single-perturb"):
-	      return sb_param_scan__single_perturb.main(args[0])
+	    elif opt in ("-p", "--single-param-scan"):
+	      return single_param_scan.main(args[0])
+
+	    elif opt in ("-d", "--double-param-scan"):
+	      #return double_param_scan.main(args[0])
+	      print("double parameter scan is not yet available! Apologise!")
+	      return True
 	  
-	    elif opt in ("-e", "--param-estim"):	  
-	      return sb_param_estim__copasi.main(args[0])
+	    elif opt in ("-e", "--param-estim"): 
+	      return param_estim.main(args[0])
 	  
-	    elif opt in ("-n", "--sensitivity"):	  
-	      return sb_sensitivity.main(args[0])
+	    elif opt in ("-n", "--sensitivity"):
+	      return sensitivity.main(args[0])
 	  
       except getopt.error, msg:
 	    raise Usage(msg)

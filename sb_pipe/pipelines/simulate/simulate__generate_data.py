@@ -36,7 +36,7 @@ from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE)
-from sb_config import getCopasi
+from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
@@ -77,7 +77,11 @@ def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, r
 			   model[:-4]+str(i)+".csv")
   
   # run copasi in parallel
-  copasi = getCopasi()
+  copasi = get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return
+  
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " " + os.path.join(models_dir, model[:-4]+timestamp+".cps")
   servers="localhost:65000"

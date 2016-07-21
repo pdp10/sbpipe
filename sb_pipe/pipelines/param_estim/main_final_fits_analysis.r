@@ -23,22 +23,16 @@
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(file.path(SB_PIPE, 'sb_pipe','pipelines','sb_param_estim__copasi','param_estim_utils.r'))
+source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils.r'))
 
 
 main <- function(args) {
   
   filename <- args[1]
   plots_dir <- args[2]
-  data_point_num <- args[3]
-  fileout_approx_ple_stats <- args[4]
-  fileout_conf_levels <- args[5]
-  plot_2d_66_95cl_corr <- args[6]
-  
-  if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') plot_2d_66_95cl_corr = TRUE
-  else plot_2d_66_95cl_corr = FALSE
+  best_fits_percent <- args[3]
 
-  all_fits_analysis(filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr)
+  final_fits_analysis(filename, plots_dir, best_fits_percent)
 }
 
 

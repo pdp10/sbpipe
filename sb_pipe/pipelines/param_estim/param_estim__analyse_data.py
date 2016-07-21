@@ -57,12 +57,12 @@ def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileo
   print("Plot results:")
   print("\n")
   process = Popen(['Rscript',
-		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_final_fits_analysis.r'),
+		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_final_fits_analysis.r'),
 		   os.path.join(results_dir, fileout_final_estims),
 		   plots_dir,
 		   str(best_fits_percent)])
   process.wait()
-  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'sb_param_estim__copasi', 'main_all_fits_analysis.r'), 
+  process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_all_fits_analysis.r'), 
 		   os.path.join(results_dir, fileout_all_estims), plots_dir, str(data_point_num), 
 		   os.path.join(results_dir, fileout_approx_ple_stats), os.path.join(results_dir, fileout_conf_levels), str(plot_2d_66_95cl_corr)])
   process.wait()  
