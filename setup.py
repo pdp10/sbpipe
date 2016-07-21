@@ -45,7 +45,7 @@ setup(
   version = read('VERSION'),
   description = 'Pipelines for systems modelling of biological networks',
   author = 'Dr Piero Dalle Pezze',
-  requires=['pp','numpy','scipy'],
+  requires=['pp'],
   package_data={'sb_pipe': ['doc/*.pdf','doc/*.html','*.tgz']},
   author_email = 'piero.dallepezze@babraham.ac.uk',
   url = 'https://github.com/pdp10/sb_pipe',
