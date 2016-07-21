@@ -30,5 +30,5 @@ script:
 # Test copasi installation 
 # - CopasiSE
 #  Use nosetests so that travis output depends on the return value from the test_suite 
-#  - nosetests --tests=tests/test_suite.py
-  - python tests/test_suite.py
+  - nosetests --tests=tests/test_suite.py
+#  - python tests/test_suite.py
