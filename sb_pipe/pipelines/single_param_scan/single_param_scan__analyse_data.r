@@ -24,7 +24,7 @@
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 # Add a collection of R functions
-source(file.path(SB_PIPE, 'sb_pipe','pipelines','sb_param_scan__single_perturb','single_perturb_plots_func.r'))
+source(file.path(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__plots_func.r'))
 
 
 main <- function(args) {
@@ -35,16 +35,19 @@ main <- function(args) {
     dataset_parameter_scan_dir <- args[5]
     tc_parameter_scan_dir <- args[6]
     simulate__xaxis_label <- args[7]
-    param_scan__single_perturb_simulations_number <- args[8]
-    param_scan__single_perturb_perturbation_in_percent_levels <- args[9]    
+    simulations_number <- args[8]
+    percent_levels <- args[9]    
     min_level <- args[10]
     max_level <- args[11]
     levels_number <- args[12]
 
     # Add controls here if any
     
-    plot_single_perturbation_data(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, 
-				  param_scan__single_perturb_simulations_number, param_scan__single_perturb_perturbation_in_percent_levels, min_level, max_level, levels_number)
+    plot_single_param_scan_data(model_noext, species, inhibition_only, 
+			        results_dir, dataset_parameter_scan_dir, 
+				tc_parameter_scan_dir, simulate__xaxis_label, 
+				simulations_number, percent_levels, min_level, 
+				max_level, levels_number)
 }
 
 

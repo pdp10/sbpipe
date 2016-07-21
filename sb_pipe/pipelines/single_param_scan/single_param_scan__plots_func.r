@@ -32,8 +32,12 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-plot_single_perturbation_data <- function(model_noext, species, inhibition_only, results_dir, dataset_parameter_scan_dir, tc_parameter_scan_dir, simulate__xaxis_label, param_scan__single_perturb_simulations_number, 
-perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=10) {
+plot_single_param_scan_data <- function(model_noext, species, inhibition_only, 
+					results_dir, dataset_parameter_scan_dir, 
+					tc_parameter_scan_dir, simulate__xaxis_label, 
+					simulations_number, 
+					percent_levels=true, min_level=0, 
+					max_level=100, levels_number=10) {
     
     # Set the labels for the plot legend
     labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))    
@@ -44,7 +48,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
     linetype <- c()
     
     # Add percentages to the labels
-    if(perturbation_in_percent_levels == "true") {
+    if(percent_levels == "true") {
       labels <- paste(labels, " %", sep="")
     }
     # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
@@ -73,7 +77,7 @@ perturbation_in_percent_levels=true, min_level=0, max_level=100, levels_number=1
 
     theme_set(tc_theme(28))    
     
-    for(k_sim in 1:param_scan__single_perturb_simulations_number) {    
+    for(k_sim in 1:simulations_number) {    
     
 	  
 	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))
