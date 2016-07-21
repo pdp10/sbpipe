@@ -1,4 +1,7 @@
 language: python
+# use 14.04 as default instead of 12.04, otherwise ggplot2 is 0.9.3 instead of 2.1.0
+sudo: required
+dist: trusty
 python:
   - "2.7"
   # The following seems to have a problem with pip..
@@ -24,7 +27,8 @@ script:
   - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
   - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
   - PATH=$PATH:$(pwd)/COPASI-4.16.104-Linux-64bit/bin/
-  - CopasiSE
+# Test copasi installation
+# - CopasiSE
 #  Use nosetests so that travis output depends on the return value from the test_suite 
 #  - nosetests --tests=tests/test_suite.py
   - python tests/test_suite.py
