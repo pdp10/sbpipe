@@ -37,9 +37,9 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 
-import sb_simulate__generate_data
-import sb_simulate__analyse_data
-import sb_simulate__generate_report
+import simulate__generate_data
+import simulate__analyse_data
+import simulate__generate_report
 
 
 
@@ -168,21 +168,21 @@ def main(model_configuration):
     print("\n")
     print("Data generation:")
     print("################")
-    sb_simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, cluster, pp_cpus, runs)
+    simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, cluster, pp_cpus, runs)
 
 
   if analyse_data == True:
     print("\n")
     print("Data analysis:")
     print("##############")
-    sb_simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_raw_data), results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, simulate__xaxis_label)    
+    simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_raw_data), results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, simulate__xaxis_label)    
 
 
   if generate_report == True:
     print("\n")
     print("Report generation:")
     print("##################")
-    sb_simulate__generate_report.main(model[:-4], results_dir, tc_mean_dir)
+    simulate__generate_report.main(model[:-4], results_dir, tc_mean_dir)
 
 
   # Print the pipeline elapsed time
