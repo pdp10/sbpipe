@@ -24,6 +24,9 @@ The following environmental variables need to be set up:
 - export SB_PIPE=/path/to/sb_pipe
 - export PATH=$PATH:${SB_PIPE}/sb_pipe
 
+The path to CopasiSE must be added to the PATH environmental variable
+- export PATH=$PATH:/path/to/CopasiSE
+
 
 ### Installation
 Run the command inside the sb_pipe folder: 
