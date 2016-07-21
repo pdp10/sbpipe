@@ -24,7 +24,7 @@ script:
   - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
   - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
   - PATH=$PATH:COPASI-4.16.104-Linux-64bit/bin/
-  - CopasiSE
+  #- CopasiSE
 #  Use nosetests so that travis output depends on the return value from the test_suite 
 #  - nosetests --tests=tests/test_suite.py
   - python tests/test_suite.py

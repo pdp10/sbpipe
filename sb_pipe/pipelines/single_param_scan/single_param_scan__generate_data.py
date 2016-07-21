@@ -24,7 +24,8 @@
 # $Date: 2016-06-24 13:14:32 $
 
 
-import os, sys
+import os
+import sys
 import glob
 import subprocess
 import shutil
@@ -76,11 +77,15 @@ def main(model, species, sim_number, simulate__intervals,
   timepoints=int(simulate__intervals)+1
 
   copasi=get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return  
+  
   for i in xrange(0, int(sim_number)):
     
       print("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
-      process = subprocess.Popen([copasi, '--nologo', models_dir+"/"+model])
+      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir,model)])
       process.wait()
       
 

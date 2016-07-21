@@ -35,6 +35,7 @@ from subprocess import Popen,PIPE
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 
+from sb_config import get_copasi
 
 
 # Input parameters
@@ -56,7 +57,11 @@ def main(model, models_dir, output_dir, tmp_dir):
   print("Sensitivity analysis for " + model)
   
   # run copasi
-  copasi = get_copasi()  
+  copasi = get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return  
+  
   command = [copasi, os.path.join(models_dir, model[:-4]+".cps")]
 
   p = Popen(command)

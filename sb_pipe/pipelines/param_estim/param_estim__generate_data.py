@@ -85,6 +85,10 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
   shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
 
   copasi = get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return
+  
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
   servers="localhost:65000"

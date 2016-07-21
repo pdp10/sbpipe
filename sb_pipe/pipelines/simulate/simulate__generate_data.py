@@ -78,6 +78,10 @@ def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, r
   
   # run copasi in parallel
   copasi = get_copasi()
+  if copasi == None:
+    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    return
+  
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " " + os.path.join(models_dir, model[:-4]+timestamp+".cps")
   servers="localhost:65000"
