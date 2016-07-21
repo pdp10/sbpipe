@@ -24,7 +24,8 @@
 # $Date: 2016-06-24 13:14:32 $
 
 
-import os, sys
+import os
+import sys
 import glob
 import subprocess
 import shutil

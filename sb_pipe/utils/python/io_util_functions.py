@@ -26,11 +26,8 @@
 
 # Personal I/O utilities
 
-
 import sys
-import os, glob
-from numpy import *
-import scipy.stats
+import os
 
 
 

@@ -29,7 +29,6 @@
 
 import os
 import sys
-import glob
 from subprocess import Popen,PIPE
 
 SB_PIPE = os.environ["SB_PIPE"]

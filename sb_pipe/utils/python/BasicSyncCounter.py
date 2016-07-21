@@ -27,17 +27,20 @@
 
 # On client side, run this program
 
-import thread, sys
+import thread
+import sys
 
 # This is a monitor.
 # Callback class for collecting information about finished processes
 class BasicSyncCounter:
-    _count = 0
-    _value = True
+    __count = 0
+    __value = True
+    
     # class constructor
     def __init__(self):
         self.lock = thread.allocate_lock()
-        self._count = 0
+        self.__count = 0
+    
     # the callback function
     # Note: pid is callbackargs passed to submit
     # value is the return value of the function part_sum (which is parallelised), 
@@ -45,22 +48,24 @@ class BasicSyncCounter:
     def add(self, pid, value):
         # we must use lock here because += is not atomic
         self.lock.acquire()
-        self._count = self._count + 1
+        self.__count = self.__count + 1
         # We don't do much with this value, but the idea is that one could combine the values 
         # with a desired logic. Here we only use it to collect an overall status of the parallel computation.
-        self._value = self._value and value
+        self.__value = self.__value and value
         self.lock.release()
         print("Process P" + str(pid) + " completed")
+    
     # get methods
     def get_value(self):
         temp = 0.0
         self.lock.acquire()
-        temp = self._value
+        temp = self.__value
         self.lock.release()
         return temp
+    
     def get_count(self):
         temp = 0.0
         self.lock.acquire()
-        temp = self._count
+        temp = self.__count
         self.lock.release()
         return temp

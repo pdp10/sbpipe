@@ -29,18 +29,20 @@ import os
 
 
 # Initialize a Latex header with a title and an abstract
-def get_latex_header(pdftitle = "", title = "", abstract=""):
-  return "\\documentclass[10pt]{article}\n" \
-	   "\\usepackage[english]{babel}\n" \
-	   "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n" \
-	   "\\usepackage{graphicx}\n" \
-	   "\\usepackage[plainpages=false,pdfauthor={Generated with sb_pipe},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n" \
-	   "\\author{A clever scientist} \n" \
-	   "\\title{" + title + "}\n" \
-	   "\\date{\\today}\n" \
-	   "\\begin{document}\n" \
-	   "\\maketitle\n" \
-	   "\\begin{abstract}\n" + abstract + " (Generated with sb\_pipe)\\end{abstract}\n"
+def get_latex_header(pdftitle="", title="", abstract=""):
+  return (
+    "\\documentclass[10pt]{article}\n"
+    "\\usepackage[english]{babel}\n"
+    "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
+    "\\usepackage{graphicx}\n"
+    "\\usepackage[plainpages=false,pdfauthor={Generated with sb_pipe},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n"
+    #"\\author{A clever scientist} \n"
+    "\\title{" + title + "}\n"
+    "\\date{\\today}\n"
+    "\\begin{document}\n"
+    "\\maketitle\n"
+    "\\begin{abstract}\n" + abstract + " (Generated with sb\_pipe)\\end{abstract}\n"
+  )
 
 
 # Create a report for a parameter scanning task (1 model)

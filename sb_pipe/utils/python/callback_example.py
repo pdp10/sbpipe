@@ -55,7 +55,10 @@
 
 # On client side, run this program
 
-import math, time, thread, sys
+import math
+import time
+import thread
+import sys
 
 # apt-get install python-pp
 import pp
@@ -71,13 +74,16 @@ import pp
 # Class for collecting temporary results of the partial sums. 
 # This class is used for callbacks by the parallel algorithm.
 class Sum:
+  
     _value = 0.0
     _count = 0
+    
     # class constructor
     def __init__(self):
         self._value = 0.0
         self.lock = thread.allocate_lock()
         self._count = 0
+    
     # the callback function
     # Note: pid is callbackargs passed to submit
     # value is the return value of the function part_sum (which is parallelised), 
@@ -89,6 +95,7 @@ class Sum:
         self._value = self._value + value
         self.lock.release()
         print("Process P" + str(pid) + " completed")
+    
     # get methods
     def get_value(self):
         temp = 0.0
@@ -96,7 +103,8 @@ class Sum:
         temp = self._value
         self.lock.release()
         return temp
-    def get_count(self):
+   
+   def get_count(self):
         temp = 0.0
         self.lock.acquire()
         temp = self._count
