@@ -66,11 +66,6 @@ def main(model_configuration):
   lines=parser.items('top')
 
 
-  # NOTE: The idea is that 
-  # (1) the parameters of model m are estimated 
-  # (2) model m can be perturbed on n species (in copasi, it is better 1 species per model, since it must be configured in the .cps file)
-
-
   # Boolean
   generate_data=True
   # Boolean
@@ -90,17 +85,17 @@ def main(model_configuration):
   # The plot x axis label (e.g. Time[min])
   # This is required for plotting
   simulate__xaxis_label="Time [min]"
-  # The number of single pertubation simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
+  # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
   single_param_scan_simulations_number=1
-  # The perturbation is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-  single_param_scan_perturbation_in_percent_levels=True
+  # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
+  single_param_scan_percent_levels=True
   # if True then, plot only kd (blue), otherwise plot kd and overexpression
   single_param_scan_knock_down_only=True
   # The number of levels of inhibition/over-expression
   levels_number=10  
-  # Single perturbation minimum inhibition level
+  # minimum inhibition level
   min_level=0
-  # Single perturbation maximum overexpression level
+  # maximum overexpression level
   max_level=250
 
 
@@ -129,8 +124,8 @@ def main(model_configuration):
       simulate__xaxis_label = line[1]
     elif line[0] == "single_param_scan_simulations_number": 
       single_param_scan_simulations_number = line[1] 
-    elif line[0] == "single_param_scan_perturbation_in_percent_levels": 
-      single_param_scan_perturbation_in_percent_levels = {'True': True, 'False': False}.get(line[1], False)
+    elif line[0] == "single_param_scan_percent_levels": 
+      single_param_scan_percent_levels = {'True': True, 'False': False}.get(line[1], False)
     elif line[0] == "single_param_scan_knock_down_only": 
       single_param_scan_knock_down_only = {'True': True, 'False': False}.get(line[1], False)      
     elif line[0] == "min_level": 
@@ -200,7 +195,7 @@ def main(model_configuration):
     single_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
 					 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 					 single_param_scan_simulations_number, 
-					 single_param_scan_perturbation_in_percent_levels, 
+					 single_param_scan_percent_levels, 
 					 min_level, max_level, levels_number)
   
   

@@ -40,7 +40,7 @@ from latex_reports import latex_report_par_scan
 # model_noext: read the model_noext
 # species: Read the species
 # results_dir: Read the results dir
-# plots_dir: The directory containing the plots of the single perturbation scan
+# plots_dir: The directory containing the plots of the single parameter scan
 # legend_noext: The name of the legend
 def main(model_noext, species, results_dir, plots_dir):
     
