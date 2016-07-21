@@ -31,17 +31,10 @@ def main(args):
 
   for file in modelProjects:
     modelspath = join(file, 'Models')
-    print("cleaning parameter estimation files...")        
-    paramEstimCopasiFiles = glob.glob(os.path.join(modelspath, "*_param_estim?*.cps"))
-    for f in paramEstimCopasiFiles:       
+    print("cleaning replicated copasi files...")        
+    replicatedCopasiFiles = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
+    for f in replicatedCopasiFiles:       
       os.remove(f)
-
-    print("cleaning simulation copasi files...")      
-    simulFiles = glob.glob(os.path.join(modelspath, "*_stoch?*.cps"))
-    for f in simulFiles:
-      os.remove(f)
-    if os.path.isfile(os.path.join(modelspath, "insulin_receptor1.cps")):
-      os.remove(os.path.join(modelspath, "insulin_receptor1.cps"))
     
     print("cleaning tmp folder...")       
     # print tmppath
