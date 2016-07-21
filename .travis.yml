@@ -7,18 +7,21 @@ python:
 #virtualenv:
 #  system_site_packages: true
 before_install:
-## NEED TO ADD COPASI TOO..
+  ## Install Copasi
+  - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
+  - export PATH=$PATH:/COPASI-4.16.104-Linux-64bit/bin/
+  # Not sure if the following is needed
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-#okay! :-)
-#  - sudo add-apt-repository ppa:marutter/rrutter -y
-#  - sudo add-apt-repository ppa:texlive-backports/ppa -y
-#  - sudo apt-get update -q
-#  - sudo apt-get -y --force-yes install python-pp
-#  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
-#  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
+  - sudo add-apt-repository ppa:marutter/rrutter -y
+  - sudo add-apt-repository ppa:texlive-backports/ppa -y
+  - sudo apt-get update -q
+  #- sudo apt-get -y --force-yes install python-pp
+  - sudo apt-get -y --force-yes install r-base r-base-dev r-cran-abind r-cran-stringr 
+  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
 install:
   # install other dependencies
-#  - pip install -r requirements.txt
+  - pip install -r requirements.txt
   - export SB_PIPE="${HOME}/pdp10/sb_pipe"
   - python setup.py install
 # command to run tests
@@ -28,5 +31,5 @@ script:
 #  The following works locally, but eventually there is an error message reporting that the configuration files don't exist
 #  - nosetests --tests=tests/test_suite.py
 #  The following works locally with no error message
-# - python tests/test_suite.py
+  - python tests/test_suite.py
 
