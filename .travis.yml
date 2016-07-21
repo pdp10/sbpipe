@@ -4,17 +4,16 @@ python:
   - "2.7"
   - "3.2"
 env:
-  - SB_PIPE=$(pwd)    
+  - SB_PIPE=$(pwd)
+  # Not sure if the following is needed  
+  - PYTHONPATH=$PYTHONPATH:$(pwd)
+  - PATH=$PATH:/COPASI-4.16.104-Linux-64bit/bin/
 # necessary for installing Python dependencies
 #virtualenv:
 #  system_site_packages: true
 before_install:
-  ## Install Copasi
   - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
   - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
-  - export PATH=$PATH:/COPASI-4.16.104-Linux-64bit/bin/
-  # Not sure if the following is needed
-  - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - sudo add-apt-repository ppa:marutter/rrutter -y
   - sudo add-apt-repository ppa:texlive-backports/ppa -y
   - sudo apt-get update -q
@@ -29,5 +28,5 @@ install:
 script:
 #  - nosetests -v --with-coverage --cover-tests --cover-package=noseselecttests noseselecttests/tests.py
 #  The following works locally, but eventually there is an error message reporting that the configuration files don't exist
-#  - nosetests --tests=tests/test_suite.py
-  - python tests/test_suite.py
+  - nosetests --tests=tests/test_suite.py
+#  - python tests/test_suite.py
