@@ -38,9 +38,9 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 SB_PIPE = os.environ["SB_PIPE"]
-import sb_sensitivity__generate_data
-import sb_sensitivity__analyse_data
-import sb_sensitivity__generate_report
+import sensitivity__generate_data
+import sensitivity__analyse_data
+import sensitivity__generate_report
 
 
 """
@@ -136,21 +136,21 @@ def main(model_configuration):
     print("\n")
     print("Data generation:")
     print("################")
-    sb_sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
+    sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
 
 
   if analyse_data == True:
     print("\n")
     print("Data analysis:")
     print("##############")
-    sb_sensitivity__analyse_data.main(results_dir)  
+    sensitivity__analyse_data.main(results_dir)  
 
 
   if generate_report == True:
     print("\n")
     print("Report generation:")
     print("##################")
-    sb_sensitivity__generate_report.main()     
+    sensitivity__generate_report.main()     
 
 
   # Print the pipeline elapsed time

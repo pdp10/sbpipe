@@ -56,7 +56,7 @@ def main(model, models_dir, output_dir, tmp_dir):
   print("Sensitivity analysis for " + model)
   
   # run copasi
-  copasi = getCopasi()  
+  copasi = get_copasi()  
   command = [copasi, os.path.join(models_dir, model[:-4]+".cps")]
 
   p = Popen(command)
