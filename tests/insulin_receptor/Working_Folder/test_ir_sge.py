@@ -48,7 +48,7 @@ class TestIRSGE(unittest.TestCase):
     """model simulation using SGE if found"""
     try:
 	subprocess.call(["qstat"])
-	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "sge_insulin_receptor_stoch_simul_copasi.conf"]), 0)	
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--simulate", "sge_ir_model_stoch_simul.conf"]), 0)	
     except OSError as e:
 	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
@@ -57,7 +57,7 @@ class TestIRSGE(unittest.TestCase):
     """model parameter estimation using SGE if found"""
     try:
 	subprocess.call(["qstat"])
-	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_insulin_receptor_param_estim_copasi.conf"]), 0)	
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_ir_model_param_estim.conf"]), 0)	
     except OSError as e:
 	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
@@ -65,7 +65,7 @@ class TestIRSGE(unittest.TestCase):
     """model stochastic parameter estimation using SGE if found"""
     try:
 	subprocess.call(["qstat"])
-	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_insulin_receptor_stoch_param_estim_copasi.conf"]), 0)	
+	self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "sge_ir_model_stoch_param_estim.conf"]), 0)	
     except OSError as e:
 	print("Skipping test as no SGE (Sun Grid Engine) was found.")
 	

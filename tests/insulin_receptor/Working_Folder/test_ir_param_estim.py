@@ -44,11 +44,11 @@ class TestIRParamEstim(unittest.TestCase):
   """
   def test_param_estim_copasi(self):        
     """model parameter estimation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_param_estim_copasi.conf"]), 0)    
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "ir_model_param_estim.conf"]), 0)    
     
   def test_non_identif_param_estim_copasi(self):        
     """model parameter estimation with identifiability issues """
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "insulin_receptor_non_identif_param_estim_copasi.conf"]), 0)    
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--param-estim", "ir_model_non_identif_param_estim.conf"]), 0)    
 
 
 if __name__ == '__main__':

@@ -36,7 +36,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
 					results_dir, dataset_parameter_scan_dir, 
 					tc_parameter_scan_dir, simulate__xaxis_label, 
 					simulations_number, 
-					percent_levels=true, min_level=0, 
+					percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10) {
     
     # Set the labels for the plot legend
@@ -48,13 +48,13 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     linetype <- c()
     
     # Add percentages to the labels
-    if(percent_levels == "true") {
+    if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
     # The model is perturbed using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
     # The perturbation is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
-    if(inhibition_only == "true") {
+    if(inhibition_only) {
       # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
       colors <- c("dodgerblue", "dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
       linetype <- c(1,6,4,3,2,1,6,4,3,2,1)

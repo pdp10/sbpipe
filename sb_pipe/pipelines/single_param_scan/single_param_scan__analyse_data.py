@@ -79,7 +79,7 @@ def main(model, scanned_species, knock_down_only, results_dir,
 
 
   process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__analyse_data.r'), 
-			      model, scanned_species, knock_down_only, results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      simulations_number, percent_levels, str(min_level), str(max_level), str(levels_number)])    
+			      model, scanned_species, str(knock_down_only), results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number)])    
   process.wait()
 

@@ -38,17 +38,17 @@ import unittest
 
 """Unit test for Insulin Receptor"""
 
-class TestIRParamScan(unittest.TestCase):
+class TestIRSingleParamScan(unittest.TestCase):
   """
   A collection of tests for this example.
   """
-  def test_param_scan_single_perturb_inhib(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_copasi.conf"]), 0) 
+  def test_single_param_scan_inhib_only(self):    
+    """model single param scan"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0) 
 
-  def test_param_scan_single_perturb_inhib_overexp(self):    
-    """model single perturbation"""
-    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-perturb", "insulin_receptor_ir_beta_inhib_overexp_copasi.conf"]), 0) 
+  def test_single_param_scan_inhib_overexp(self):    
+    """model single param scan"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]), 0) 
     
 
 if __name__ == '__main__':

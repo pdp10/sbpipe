@@ -49,7 +49,7 @@ class TestIRSensitivity(unittest.TestCase):
 
   #def test_model_sensitivity(self):
   #  """model sensitivities"""
-  #  self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--sensitivity", "insulin_receptor_sensitivities_copasi.conf"]), 0)
+  #  self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--sensitivity", "ir_model_sensitivities.conf"]), 0)
 
 
 
