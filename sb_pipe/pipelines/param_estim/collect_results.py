@@ -26,6 +26,8 @@ import sys
 import os
 import glob
 from re_utils import *
+import logging
+logger = logging.getLogger('sbpipe')
 
 
 
@@ -105,13 +107,13 @@ def write_parameter_names(colNames, path_out, filename_out):
 
 def write_final_estimates(files, path_out, filename_out):
   file_num = -1
-  print("\nCollecting results:")
+  logger.info("\nCollecting results:")
   with open(os.path.join(path_out, filename_out), 'a') as fileout:      
     for filein in files:
       completed = False
       file_num = file_num + 1
       with open(filein, 'r') as file:      
-	print(os.path.basename(filein))
+	logger.info(os.path.basename(filein))
 	lines = file.readlines()
 	entry = []
 	line_num = -1	
@@ -144,12 +146,12 @@ def write_final_estimates(files, path_out, filename_out):
 
 def write_all_estimates(files, path_out, filename_out):
   file_num = -1
-  #print("\nCollecting results:")
+  #logger.info("\nCollecting results:")
   with open(os.path.join(path_out, filename_out), 'a') as fileout:      
     for file in files:
       file_num = file_num + 1
       with open(file, 'r') as filein:      
-	#print(os.path.basename(file))
+	#logger.info(os.path.basename(file))
 	lines = filein.readlines()
 	line_num = -1
 	for line in lines:

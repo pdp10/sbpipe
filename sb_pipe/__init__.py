@@ -23,9 +23,18 @@
 # $Date: 2016-06-26 23:00:32 $
 
 
+# Add here what needs to be loaded globally at start
 import os
 
+# Set default logging handler to avoid "No handler found" warnings.
+import logging
+try:  # Python 2.7+
+    from logging import NullHandler
+except ImportError:
+    class NullHandler(logging.Handler):
+        def emit(self, record):
+            pass
 
-# Add here what needs to be loaded globally at start
+logging.getLogger(__name__).addHandler(NullHandler())
 
 

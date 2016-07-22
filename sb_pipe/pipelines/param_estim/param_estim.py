@@ -34,6 +34,8 @@ import glob
 import shutil
 import subprocess
 import tarfile
+import logging
+logger = logging.getLogger('sbpipe')
 
 from ConfigParser import ConfigParser
 from StringIO import StringIO
@@ -55,7 +57,7 @@ def main(model_configuration):
       model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """  
 
-  print("\nReading file " + model_configuration + " : \n")
+  logger.info("Reading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)
   parser = ConfigParser()
   with open(model_configuration) as stream:
@@ -99,7 +101,7 @@ def main(model_configuration):
 
   # Initialises the variables
   for line in lines:
-    print line
+    logger.info(line)
     if line[0] == "generate_data":
       generate_data = {'True': True, 'False': False}.get(line[1], False)     
     if line[0] == "analyse_data":
@@ -160,17 +162,17 @@ def main(model_configuration):
   fileout_conf_levels = "conf_levels.csv"
   
 
-  print("\n<START PIPELINE>\n")
+  logger.info("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
     
     
-  print("\n")
-  print("#############################################################")
-  print("### Parameter estimation for model "+model)
-  print("#############################################################")
-  print("")
+  logger.info("\n")
+  logger.info("#############################################################")
+  logger.info("### Parameter estimation for model "+model)
+  logger.info("#############################################################")
+  logger.info("")
 
   # preprocessing
   if not os.path.exists(tmp_dir):
@@ -180,9 +182,9 @@ def main(model_configuration):
 
 
   if generate_data == True:
-    print("\n")
-    print("Generate data:")
-    print("##############")
+    logger.info("\n")
+    logger.info("Generate data:")
+    logger.info("##############")
     param_estim__generate_data.main(model, 
 				    models_dir, 
 				    data_dir, 
@@ -196,9 +198,9 @@ def main(model_configuration):
     
 
   if analyse_data == True:
-    print("\n")
-    print("Analyse data:")
-    print("#############")
+    logger.info("\n")
+    logger.info("Analyse data:")
+    logger.info("#############")
     param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
 				   results_dir, 
 				   fileout_final_estims, 
@@ -212,17 +214,17 @@ def main(model_configuration):
 
 
   if generate_report == True:
-    print("\n")
-    print("Report generation:")
-    print("##################")
+    logger.info("\n")
+    logger.info("Report generation:")
+    logger.info("##################")
     param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
   
 
 
   if generate_tarball == True:
-    print("\n")
-    print("Store the fits sequences in a tarball:")
-    print("#####################################")
+    logger.info("\n")
+    logger.info("Store the fits sequences in a tarball:")
+    logger.info("#####################################")
     # Create a gz tarball   
     origWD = os.getcwd() # remember our original working directory
     os.chdir(working_dir) # change folder
@@ -234,8 +236,8 @@ def main(model_configuration):
 
   # Print the pipeline elapsed time
   end = time.clock()
-  print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  print("\n<END PIPELINE>\n")
+  logger.info("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
+  logger.info("\n<END PIPELINE>\n")
 
 
   if os.path.isfile(os.path.join(results_dir,fileout_final_estims)) and \

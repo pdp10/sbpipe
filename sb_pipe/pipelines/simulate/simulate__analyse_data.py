@@ -31,6 +31,8 @@ import os
 import sys
 import glob
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 
@@ -46,7 +48,7 @@ SB_PIPE = os.environ["SB_PIPE"]
 def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, xaxis_label):   
   
   if not os.path.exists(input_dir): 
-    print("ERROR: input_dir " + input_dir + " does not exist. Generate some data first.");
+    logger.error("input_dir " + input_dir + " does not exist. Generate some data first.");
     return
 
   # folder preparation
@@ -68,7 +70,7 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
     os.mkdir(os.path.join(results_dir, tc_mean_with_exp_dir))
 
 
-  print("Generating statistics from simulations:")
+  logger.info("Generating statistics from simulations:")
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_error_bars.r'), 
 			      model, input_dir, 
 			      os.path.join(results_dir, tc_mean_dir), 
@@ -76,7 +78,7 @@ def main(model, input_dir, results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_di
   process.wait() 
 
 
-  #print("\nGenerating overlapping plots (sim + exp):")
+  #logger.info("\nGenerating overlapping plots (sim + exp):")
   #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_sim_exp_error_bars.r'), model, os.path.join(results_dir,tc_mean_dir), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model+'.csv'),  os.path.join(results_dir,'exp_stats_'+model+'.csv')])
   #process.wait() 
 

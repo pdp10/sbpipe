@@ -31,6 +31,8 @@ import os
 import sys
 import glob
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
@@ -43,7 +45,7 @@ from sb_config import get_copasi
 def main(model, models_dir, output_dir, tmp_dir):
 
   if not os.path.isfile(os.path.join(models_dir,model)):
-    print(os.path.join(models_dir, model) + " does not exist.") 
+    logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return  
 
   # folder preparation
@@ -54,12 +56,12 @@ def main(model, models_dir, output_dir, tmp_dir):
     os.makedirs(output_dir)
 
   # execute runs simulations.
-  print("Sensitivity analysis for " + model)
+  logger.info("Sensitivity analysis for " + model)
   
   # run copasi
   copasi = get_copasi()
   if copasi == None:
-    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return  
   
   command = [copasi, os.path.join(models_dir, model[:-4]+".cps")]

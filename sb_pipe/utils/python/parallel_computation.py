@@ -30,6 +30,8 @@
 import os
 import sys
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 
@@ -65,7 +67,7 @@ import pp
 
 
 
-def parallel_computation(command, timestamp, cluster_type, runs, output_dir, servers="localhost:65000", secret="sb_pipe", pp_cpus=1):
+def parallel_computation(command, timestamp, cluster_type, runs, output_dir, pp_cpus=1):
   if cluster_type == "sge" or cluster_type == "lsf":
     outDir = os.path.join(output_dir, 'out')
     errDir = os.path.join(output_dir, 'err')
@@ -82,8 +84,8 @@ def parallel_computation(command, timestamp, cluster_type, runs, output_dir, ser
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
-      print("Warning - Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
-    run_jobs_pp(command, timestamp, runs, pp_cpus, servers, secret)
+      logger.warn("Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+    run_jobs_pp(command, timestamp, runs, pp_cpus)
 
 
 
@@ -106,7 +108,6 @@ def run_command_pp(command, command_iter_substr, runs, server, syncCounter=Basic
 		  callback=syncCounter.add,          
 		  callbackargs=callbackargs,
 		  group="my_processes")
-    print("Process P" + str(i) + " started")
 
 
 
@@ -115,17 +116,21 @@ def run_command_pp(command, command_iter_substr, runs, server, syncCounter=Basic
 # The list of servers and ports must be updated in the configuration file
 # (NOTE: It requires the installation of python-pp)
 #ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-def run_jobs_pp(command, command_iter_substr, runs, pp_cpus, servers, secret):
+def run_jobs_pp(command, command_iter_substr, runs, pp_cpus):
   """
   command : the full command to run as a job
   iterSubStr : the substring in command to be replaced with a number 
   runs: The number of runs to perform
   ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
-  servers: A string containing a list of servers:ports to connect (e.g. "localhost:65000,my-node.abc.ac.uk:65000")
-  secret: The secret key to communicate for the above server  
   """
+  
   ### ppserver configuration
-  ppservers=tuple(servers.split(','))  
+  #servers: A string containing a list of servers:ports to connect (e.g. "localhost:65000,my-node.abc.ac.uk:65000")
+  #secret: The secret key to communicate for the above server    
+  servers = ""  # we run this locally and we didn't start ppserver process. so no need for this.
+  secret = ""
+  #ppservers=tuple(servers.split(','))  
+  ppservers=()
   
   # Create the Job Server.
   if pp_cpus > 0:
@@ -134,21 +139,21 @@ def run_jobs_pp(command, command_iter_substr, runs, pp_cpus, servers, secret):
   else:
       # Creates jobserver with automatically detected number of workers
       job_server = pp.Server(ppservers=ppservers, secret=secret)        
-  print("ppserver will use " + str(job_server.get_ncpus()) + " cpus on these nodes:\n" + str(job_server.get_active_nodes()) + "\n")
+  logger.info("ppserver will use " + str(job_server.get_ncpus()) + " cpus on these nodes: " + str(job_server.get_active_nodes()) + "\n")
 
   # Create an instance of callback class
   syncCounter = BasicSyncCounter()
   
-  print("Starting parallel computation:")
+  logger.info("Starting parallel computation:")
   run_command_pp(command, command_iter_substr, runs, server=job_server, syncCounter=syncCounter)        
   # Wait for jobs in all groups to finish 
   job_server.wait(group="my_processes")
 
   # Print the status of the parallel computation. Everything different from 0 means error.
   if syncCounter.get_value() is False: 
-    print("\nParallel computation finished with status: 1 - Some computation failed. Do all output files exist?\n")
+    logger.error("Some computation failed. Do all output files exist?")
   else:
-    print("\nParallel computation finished with status: 0 - If errors occur, check whether your command runs correctly.\n")
+    logger.info("Parallel computation terminated. If errors occur, check whether that " + command.split(" ")[0] + " runs correctly.")
   
   # print statistics
   job_server.print_stats()

@@ -29,6 +29,8 @@ import shutil
 import random
 import shlex
 from subprocess import * 
+import logging
+logger = logging.getLogger('sbpipe')
 
 
 # It reads a copasi file configured for parameter estimation task, and randomise the starting values of the parameters to estimate. 
@@ -66,7 +68,7 @@ class RandomiseParameters:
   # starting value chosen in the determined ammissible range for that parameter.
   def generate_instances_from_template(self, num_files):
     num_files = int(num_files)
-    print("Randomising parameters for:")
+    logger.info("Randomising parameters for:")
     for i in range(0, num_files):
       # initialise the names and generate the output file
       filename_out = self._filename_in[:-4] + str(i+1) + ".cps"
@@ -77,21 +79,21 @@ class RandomiseParameters:
 	os.remove(file_out)
       shutil.copy2(file_in, file_out)      
       # 1) RANDOMIZATION
-      print(filename_out)      
+      logger.info(filename_out)      
       new__start_values, old_str, new_str = self._randomise_start_value()
       # 2) PRINT NEW VALUES
-      #print("\nInitial parameters for the output file: " + file_out)      
-      #self._print_parameters_to_estimate2(new__start_values)
+      #logger.info("\nInitial parameters for the output file: " + file_out)      
+      self._print_parameters_to_estimate2(new__start_values)
       # 3) REPLACE VALUES IN THE NEW FILE
       self._replace_start_value_in_file(file_out, report_filename, old_str, new_str)
 
 
   # Print the values extracted from COPASI template file
   def print_parameters_to_estimate(self):
-    print("\t\tParameterName\t\tLowerBound\t\tStartValue\t\tUpperBound")
-    print("\t\t=============\t\t==========\t\t==========\t\t==========")
+    logger.info("\t\tParameterName\t\tLowerBound\t\tStartValue\t\tUpperBound")
+    logger.info("\t\t=============\t\t==========\t\t==========\t\t==========")
     for i in range(0, len(self._param_names)):
-      print("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] + 
+      logger.info("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] + 
 	    "\t\t" + self._lower_bounds[i] + "\t\t" + self._start_values[i] + "\t\t" + self._upper_bounds[i])
 
 
@@ -135,10 +137,10 @@ class RandomiseParameters:
 
   # Print the values extracted from COPASI template file and the new random start value
   def _print_parameters_to_estimate2(self, new__start_values):
-    print("\t\tParameter\t\tLowerBound\t\tUpperBound\t\tStartValue\t\tNEWStartValue")
-    print("\t\t=========\t\t==========\t\t==========\t\t==========\t\t=============")
+    logger.debug("\t\tParameter\t\tLowerBound\t\tUpperBound\t\tStartValue\t\tNEWStartValue")
+    logger.debug("\t\t=========\t\t==========\t\t==========\t\t==========\t\t=============")
     for i in range(0, len(self._param_names)):
-      print("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] 
+      logger.debug("\t\t" + self._param_names[i][self._param_names[i].find("[")+1:self._param_names[i].find("]")] 
 	    + "\t\t" + self._lower_bounds[i]
 	    + "\t\t" + self._upper_bounds[i]
 	    + "\t\t" + self._start_values[i] 
@@ -160,8 +162,8 @@ class RandomiseParameters:
 	new__start_values.append(str(random.uniform(float(self._lower_bounds[i]), float(self._upper_bounds[i]))))
       old_str.append('<Parameter name="StartValue" type="float" value="' + self._start_values[i] + '"/>')
       new_str.append('<Parameter name="StartValue" type="float" value="' + new__start_values[i] + '"/>')
-      #print(old_str[i])
-      #print(new_str[i])
+      #logger.debug(old_str[i])
+      #logger.debug(new_str[i])
     return new__start_values, old_str, new_str
 
 
@@ -178,7 +180,7 @@ class RandomiseParameters:
       s = self._param_names[i]
       
       ctrl_str='<Parameter name="ObjectCN" type="cn" value="' + s + '"/>'
-      #print(ctrl_str)
+      #logger.debug(ctrl_str)
       name_line_num = get_pattern_position(ctrl_str, file_out)    
       # (B) Retrieve the line number of the current parameter start value to edit
       start_val_line_num = get_pattern_position(old_str[i], file_out)
@@ -187,6 +189,6 @@ class RandomiseParameters:
 	# replace the parameter starting value
 	replace_string_in_file(file_out, old_str[i], new_str[i])
       else:
-	print("Error - Found wrong instance: [" + ctrl_str + "] at line " + name_line_num) 
+	logger.warn("Error - Found wrong instance: [" + ctrl_str + "] at line " + name_line_num) 
 
 

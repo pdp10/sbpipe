@@ -28,20 +28,21 @@
 
 import sys
 import os
-
-
+import logging
+logger = logging.getLogger('sbpipe')
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
+
 
 # Return the line number (as string) of the first occurrence of pattern in filename
 def get_pattern_position(pattern, filename):
   with open(filename) as myFile:
     for num, line in enumerate(myFile, 1):
       if pattern in line:
-	#print(str(num) + " : " + pattern)
+	logger.debug(str(num) + " : " + pattern)
 	return str(num)
-  #print(str(-1) + " : " + pattern)
+  logger.debug(str(-1) + " : " + pattern)
   return str(-1)
 
 

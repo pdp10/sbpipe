@@ -34,6 +34,8 @@ import shutil
 from subprocess import Popen,PIPE
 # for generating a timestamp
 import datetime
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE)
@@ -54,30 +56,30 @@ from parallel_computation import parallel_computation
 def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits, results_dir, output_folder, tmp_dir):
   
   if int(nfits) < 1: 
-    print("ERROR: variable " + nfits + " must be greater than 0. Please, check your configuration file.");
+    logger.error("variable " + nfits + " must be greater than 0. Please, check your configuration file.");
     return
 
   if not os.path.exists(data_dir):
-    print(data_dir + " does not exist.") 
+    logger.error(data_dir + " does not exist.") 
     return  
 
   if not os.path.isfile(os.path.join(models_dir,model)):
-    print(os.path.join(models_dir, model) + " does not exist.") 
+    logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return  
   
   if not os.path.exists(os.path.join(results_dir, output_folder)):
     os.mkdir(os.path.join(results_dir, output_folder)) 
 
 
-  print("Configure Copasi:")
-  print("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
+  logger.info("Configure Copasi:")
+  logger.info("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
   pre_param_estim = RandomiseParameters(models_dir, model)
   pre_param_estim.print_parameters_to_estimate()
   pre_param_estim.generate_instances_from_template(nfits)
   
 
-  print("\n")
-  print("Parallel parameter estimation:")
+  logger.info("\n")
+  logger.info("Parallel parameter estimation:")
   # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
   # Let's temporarily copy this folder and then delete it.
   if os.path.exists(os.path.join(models_dir, data_folder)):
@@ -86,14 +88,12 @@ def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits,
 
   copasi = get_copasi()
   if copasi == None:
-    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return
   
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
-  servers="localhost:65000"
-  secret="sb_pipe"
-  parallel_computation(command, timestamp, cluster_type, nfits, results_dir, servers, secret, pp_cpus)
+  parallel_computation(command, timestamp, cluster_type, nfits, results_dir, pp_cpus)
 
   # remove the previously copied Data folder
   shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
