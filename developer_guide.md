@@ -117,6 +117,9 @@ configured first), generate plots and report;
 These pipelines are available as Python functions and are invoked 
 directly via *sb_pipe/run_sb_pipe.py*.
 
+*NOTE:* 
+use the logger("sbpipe") for printing messages instead of a simple print().
+
 
 ##### tests
 The *tests/* folder contains the script *run_tests.py* to run a test 
@@ -136,6 +139,7 @@ ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
 
 Travis-CI runs sb_pipe tests using `nosetests`. Please see .travis.yml 
 for detail.
+
 
 
 ## Miscellaneous of useful commands:
