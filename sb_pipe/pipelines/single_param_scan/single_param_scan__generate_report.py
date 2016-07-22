@@ -42,35 +42,34 @@ from latex_reports import latex_report_par_scan
 # results_dir: Read the results dir
 # plots_dir: The directory containing the plots of the single parameter scan
 # legend_noext: The name of the legend
-def main(model_noext, species, results_dir, plots_dir):
+def main(model_noext, species, results_dir, plots_dir): 
     
+    if not os.path.exists(os.path.join(results_dir,plots_dir)): 
+	print("ERROR: input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
+	return
     
-  if not os.path.exists(os.path.join(results_dir,plots_dir)): 
-    print("ERROR: input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
-    return
-  
-    
-  print("Generating a LaTeX report\n")
-  print(model_noext)
-  filename_prefix="report__single_param_scan_"
-  latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
-			model_noext, species)
+      
+    print("Generating a LaTeX report\n")
+    print(model_noext)
+    filename_prefix="report__single_param_scan_"
+    latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
+			  model_noext, species)
 
-  
-  print("Generating PDF report\n")  
-  currdir=os.getcwd()
-  os.chdir(results_dir)
-  print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-  p1.communicate()[0]
-  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-  p1.communicate()[0]
-  
-  # remove temporary files
-  os.remove(filename_prefix+model_noext+".out")
-  os.remove(filename_prefix+model_noext+".log")
-  os.remove(filename_prefix+model_noext+".aux")
-  
-  os.chdir(currdir)
-  print("DONE\n")
+    
+    print("Generating PDF report\n")  
+    currdir=os.getcwd()
+    os.chdir(results_dir)
+    print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
+    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
+    
+    # remove temporary files
+    #os.remove(filename_prefix+model_noext+".out")
+    #os.remove(filename_prefix+model_noext+".log")
+    #os.remove(filename_prefix+model_noext+".aux")
+    
+    os.chdir(currdir)
+    print("DONE\n")
 
