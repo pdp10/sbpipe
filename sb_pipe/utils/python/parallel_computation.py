@@ -182,7 +182,8 @@ def run_jobs_sge(command, command_iter_substr, outDir, errDir, runs):
       echoProc = Popen(echoCMD, stdout=PIPE)
       qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   # Check here when these jobs are finished before proceeding
-  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1], "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]  
+  # don't add names for output and error files as they can generate errors..
+  qsubCMD = ["qsub", "-sync", "y", "-hold_jid", jobs[:-1]] #, "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]  
   echoProc = Popen(echoSleep, stdout=PIPE)
   qsubProc = Popen(qsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   qsubProc.communicate()[0]
@@ -211,7 +212,7 @@ def run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs):
   import random 
   import string
   jobName = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2], "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]
+  bsubCMD = ["bsub", "-J", jobName, "-w", jobs[:-2]] #, "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]
   echoProc = Popen(echoSleep, stdout=PIPE)
   bsubProc = Popen(bsubCMD, stdin=echoProc.stdout, stdout=PIPE)
   bsubProc.communicate()[0]
