@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.38.0
+v0.39.0
 
+- improved LaTeX reports
 - tested parameter estimation using Gillespie algorithm for model simulation.
 - configured Travis-CI for continous integration tests.
 - pipeline renaming.
