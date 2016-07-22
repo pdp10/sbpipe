@@ -40,28 +40,28 @@ from latex_reports import latex_report_simulate
 # plots_dir: the directory containing the time courses results combined with experimental data  
 def main(model_noext, results_dir, plots_dir):
     
-  if not os.path.exists(os.path.join(results_dir, plots_dir)): 
-    print("ERROR: input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
-    return    
+    if not os.path.exists(os.path.join(results_dir, plots_dir)): 
+	print("ERROR: input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
+	return    
+      
+    print("Generating a LaTeX report")
+    filename_prefix="report__simulate_"
+    latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix)
     
-  print("Generating a LaTeX report")
-  filename_prefix="report__simulate_"
-  latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix)
-  
-  
-  print("Generating PDF report\n")  
-  currdir=os.getcwd()
-  os.chdir(results_dir)
-  print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
-  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-  p1.communicate()[0]
-  p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-  p1.communicate()[0]
-  
-  # remove temporary files
-  os.remove(filename_prefix+model_noext+".out")
-  os.remove(filename_prefix+model_noext+".log")
-  os.remove(filename_prefix+model_noext+".aux")
-  
-  os.chdir(currdir)
-  print("DONE\n")
+    
+    print("Generating PDF report\n")  
+    currdir=os.getcwd()
+    os.chdir(results_dir)
+    print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
+    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
+    
+    # remove temporary files
+    #os.remove(filename_prefix+model_noext+".out")
+    #os.remove(filename_prefix+model_noext+".log")
+    #os.remove(filename_prefix+model_noext+".aux")
+    
+    os.chdir(currdir)
+    print("DONE\n")
