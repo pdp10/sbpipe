@@ -23,6 +23,8 @@
 
 
 from xml.dom.minidom import parse, parseString
+import logging
+logger = logging.getLogger('sbpipe')
 
 # Class CopasiParser: it provides methods to retrieve information from a Copasi file
 class CopasiParser: 
@@ -38,7 +40,7 @@ class CopasiParser:
     param_names = []
     start_values = []
     upper_bounds = []
-    print("\nParsing the xml document")
+    logger.info("Parsing the xml document")
     with open(file_in) as file:
       dom = parse(file)
       # select the task tag (note: root->ListOfTaks->Tasks)
@@ -48,7 +50,7 @@ class CopasiParser:
 	task_name = task.getAttribute('name')
 	# select Parameter Estimation task
 	if task_name == "Parameter Estimation":
-	  print("\nRetrieving information for " + task_name)
+	  logger.info("Retrieving information for " + task_name)
 	  # retrieve report name for this task
 	  report_filename_template = task.getElementsByTagName('Report')[0].getAttribute('target')
 	  # retrieve parameter values

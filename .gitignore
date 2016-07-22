@@ -1,3 +1,4 @@
 */**/.directory
 tests/**/Rplots.pdf
 sb_pipe/**/*.pyc
+logs/*.log*

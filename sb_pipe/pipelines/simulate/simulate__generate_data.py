@@ -33,6 +33,8 @@ import glob
 from shutil import copyfile, move
 import datetime
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(SB_PIPE)
@@ -53,11 +55,11 @@ from parallel_computation import parallel_computation
 def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, runs=1):
   
   if runs < 1: 
-    print("ERROR: variable " + str(runs) + " must be greater than 0. Please, check your configuration file.");
+    logger.error("variable " + str(runs) + " must be greater than 0. Please, check your configuration file.");
     return
 
   if not os.path.isfile(os.path.join(models_dir,model)):
-    print(os.path.join(models_dir, model) + " does not exist.") 
+    logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return  
 
   # folder preparation
@@ -68,7 +70,7 @@ def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, r
     os.makedirs(output_dir)
 
   # execute runs simulations.
-  print("Simulating model " + model + " for " + str(runs) + " time(s)")
+  logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
   # Replicate the copasi file and rename its report file
   for i in xrange(1, runs + 1):
     copyfile(os.path.join(models_dir,model), os.path.join(models_dir,model[:-4])+str(i)+".cps") 
@@ -79,14 +81,12 @@ def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, r
   # run copasi in parallel
   copasi = get_copasi()
   if copasi == None:
-    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return
   
   timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
   command = copasi + " " + os.path.join(models_dir, model[:-4]+timestamp+".cps")
-  servers="localhost:65000"
-  secret="sb_pipe"
-  parallel_computation(command, timestamp, cluster_type, runs, output_dir, servers, secret, pp_cpus)
+  parallel_computation(command, timestamp, cluster_type, runs, output_dir, pp_cpus)
   
  
   for file in glob.glob(os.path.join(tmp_dir, model[:-4]+"*.csv")):

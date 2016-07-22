@@ -30,9 +30,9 @@ import sys
 import os
 
 
-
 reload(sys)  
 sys.setdefaultencoding('utf8')
+
 
 # Return the line number (as string) of the first occurrence of pattern in filename
 def get_pattern_position(pattern, filename):

@@ -32,6 +32,8 @@ import os
 import sys
 import glob
 import shutil
+import logging
+logger = logging.getLogger('sbpipe')
 
 from ConfigParser import ConfigParser
 from StringIO import StringIO
@@ -56,7 +58,7 @@ def main(model_configuration):
       model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """
   
-  print("\nReading file " + model_configuration + " : \n")
+  logger.info("Reading file " + model_configuration + " : \n")
   # import the model configuration data (project, model-name, association-pattern)
   parser = ConfigParser()
   with open(model_configuration) as stream:
@@ -90,7 +92,7 @@ def main(model_configuration):
 
   # Initialises the variables
   for line in lines:
-    print line
+    logger.info(line)
     if line[0] == "generate_data":
       generate_data = {'True': True, 'False': False}.get(line[1], False)     
     if line[0] == "analyse_data":
@@ -118,7 +120,7 @@ def main(model_configuration):
 
   # Some controls
   if runs < 1: 
-    print("ERROR: variable `runs` must be greater than 0. Please, check your configuration file.");
+    logger.error("variable `runs` must be greater than 0. Please, check your configuration file.");
     return 1
 
 
@@ -145,17 +147,17 @@ def main(model_configuration):
 
 
 
-  print("\n<START PIPELINE>\n")
+  logger.info("\n<START PIPELINE>\n")
   # Get the pipeline start time
   start = time.clock()
 
 
       
-  print("\n")
-  print("#############################################################")
-  print("### Processing model "+ model)
-  print("#############################################################")
-  print("")
+  logger.info("\n")
+  logger.info("#############################################################")
+  logger.info("### Processing model "+ model)
+  logger.info("#############################################################")
+  logger.info("")
 	
   # preprocessing
   if not os.path.exists(tmp_dir):
@@ -165,30 +167,30 @@ def main(model_configuration):
  
  
   if generate_data == True:
-    print("\n")
-    print("Data generation:")
-    print("################")
+    logger.info("\n")
+    logger.info("Data generation:")
+    logger.info("################")
     simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, cluster, pp_cpus, runs)
 
 
   if analyse_data == True:
-    print("\n")
-    print("Data analysis:")
-    print("##############")
+    logger.info("\n")
+    logger.info("Data analysis:")
+    logger.info("##############")
     simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_raw_data), results_dir, tc_dir, tc_mean_dir, tc_mean_with_exp_dir, simulate__xaxis_label)    
 
 
   if generate_report == True:
-    print("\n")
-    print("Report generation:")
-    print("##################")
+    logger.info("\n")
+    logger.info("Report generation:")
+    logger.info("##################")
     simulate__generate_report.main(model[:-4], results_dir, tc_mean_dir)
 
 
   # Print the pipeline elapsed time
   end = time.clock()
-  print("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  print("\n<END PIPELINE>\n")
+  logger.info("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
+  logger.info("\n<END PIPELINE>\n")
 
 
   if len(glob.glob(os.path.join(results_dir, tc_mean_dir, model[:-4]+'*.png'))) > 0 and len(glob.glob(os.path.join(results_dir, '*'+model[:-4]+'*.pdf'))) == 1:

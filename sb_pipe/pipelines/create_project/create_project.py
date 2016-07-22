@@ -25,6 +25,8 @@
 
 import sys
 import os
+import logging
+logger = logging.getLogger('sbpipe')
 
 
 """
@@ -38,7 +40,7 @@ def main(project):
       project -- the project name
   """
   
-  print("Create new folder tree for the new project "+project+" ... \n")
+  logger.info("Creating folder tree for the new project " + project)
 
   if not os.path.exists(project):
     os.mkdir(project)
@@ -63,20 +65,20 @@ def main(project):
   if not os.path.exists(os.path.join(project,'SBGN_graphic_models','previous_models')):
     os.mkdir(os.path.join(project,'SBGN_graphic_models','previous_models'))        
 
-  if not os.path.exists(os.path.join(project,'GENSSI_struct_identif')):
-    os.mkdir(os.path.join(project,'GENSSI_struct_identif'))
-  if not os.path.exists(os.path.join(project,'MOTA_identif')):
-    os.mkdir(os.path.join(project,'MOTA_identif'))
-  if not os.path.exists(os.path.join(project,'sbtoolbox2')):
-    os.mkdir(os.path.join(project,'sbtoolbox2'))
-  if not os.path.exists(os.path.join(project,'sbtoolbox2','project')):
-    os.mkdir(os.path.join(project,'sbtoolbox2','project'))
-  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','estimations')):
-    os.mkdir(os.path.join(project,'sbtoolbox2','project','estimations'))
-  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','experiments')):
-    os.mkdir(os.path.join(project,'sbtoolbox2','project','experiments'))        
-  if not os.path.exists(os.path.join(project,'sbtoolbox2','project','models')):
-    os.mkdir(os.path.join(project,'sbtoolbox2','project','models'))
+  #if not os.path.exists(os.path.join(project,'GENSSI_struct_identif')):
+    #os.mkdir(os.path.join(project,'GENSSI_struct_identif'))
+  #if not os.path.exists(os.path.join(project,'MOTA_identif')):
+    #os.mkdir(os.path.join(project,'MOTA_identif'))
+  #if not os.path.exists(os.path.join(project,'sbtoolbox2')):
+    #os.mkdir(os.path.join(project,'sbtoolbox2'))
+  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project')):
+    #os.mkdir(os.path.join(project,'sbtoolbox2','project'))
+  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','estimations')):
+    #os.mkdir(os.path.join(project,'sbtoolbox2','project','estimations'))
+  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','experiments')):
+    #os.mkdir(os.path.join(project,'sbtoolbox2','project','experiments'))        
+  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','models')):
+    #os.mkdir(os.path.join(project,'sbtoolbox2','project','models'))
         
-  print("DONE!\n")
+  logger.info("Project structure created.")
   return 0

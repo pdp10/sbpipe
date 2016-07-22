@@ -26,6 +26,8 @@
 # Collection of functions for generating Latex code. These functions are used for reporting purposes.
 
 import os
+import logging
+logger = logging.getLogger('sbpipe')
 
 
 # Initialize a Latex header with a title and an abstract
@@ -50,16 +52,16 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
     with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
 	species_name = species[0:].replace("_", " ")
-	print("Model: " + model_ver)
-	print("Perturbation of the species: " + species)
+	logger.info("Model: " + model_ver)
+	logger.info("Parameter scan for: " + species)
 	# writing on file
 	# Get latex header
 	header = get_latex_header("Report: " + model_ver, 
 				  "Report: " + model_ver, 
 				  "Simulation for model {\\it " + model_ver + "} model scanning {\\it " + species_name + "} parameter.")
 	file_out.write(header)
-	print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
-	file_out.write("\\section*{Plots - Perturbation of " + species_name + "}\n")
+	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
+	file_out.write("\\section*{Plots - Parameter scan for " + species_name + "}\n")
 	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
 	folder.sort()
 	for infile in folder:
@@ -67,7 +69,7 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
 	      pos = infile.find(species)
 	      marker = infile.find("__eval_")
 	      if pos != -1 and pos < marker:
-		  print(infile)
+		  logger.info(infile)
 		  file_out.write("\\includegraphics[scale=0.24]{" + plots_dir + "/" + infile + "}\n")
 		  file_out.write("\\hfill\n")
 	file_out.write("\\end{document}\n")
@@ -77,21 +79,21 @@ def latex_report_par_scan(results_dir, plots_dir, filename_prefix, model_noext, 
 def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
     with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
-	print(model_ver)
+	logger.info(model_ver)
 	# writing on file
 	# Get latex header
 	header = get_latex_header("Report: " + model_ver, 
 				  "Report: " + model_ver, 
 				  "Simulation for {\\it " + model_ver + "} model.")
 	file_out.write(header)  
-	print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
+	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
 	file_out.write("\\section*{Plots}\n")
 	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
 	folder.sort()  
 	for infile in folder:
 	    if infile.find(model_noext) != -1:
 		if (infile.find('_sd_n_ci95_') != -1):
-		    print(infile)
+		    logger.info(infile)
 		    file_out.write("\\includegraphics[scale=0.24]{" + plots_dir + "/" + infile + "}\n")
 	file_out.write("\\end{document}\n")
 
@@ -101,14 +103,14 @@ def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
 def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
     with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
-	print(model_ver)
+	logger.info(model_ver)
 	# writing on file
 	# Get latex header
 	header = get_latex_header("Report: " + model_ver, 
 				  "Report: " + model_ver, 
 				  "Generic report for {\\it " + model_ver + "} model.")
 	file_out.write(header)  
-	print("List of files in " + os.path.join(results_dir, plots_dir) + ":\n")
+	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
 	file_out.write("\\section*{Plots}\n")
 	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
 	folder.sort()
@@ -116,7 +118,7 @@ def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
 	figure_num = 0
 	figures_per_page = 9
 	for infile in folder:
-	    print(infile)
+	    logger.info(infile)
 	    figure_num = figure_num + 1
 	    if not begin_figure: 
 		file_out.write("\\begin{figure}[!ht]\n")
