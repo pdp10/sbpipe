@@ -34,6 +34,8 @@ SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from latex_reports import latex_report
 
+from sb_config import which
+
 
 # INITIALIZATION
 # model_noext: read the model_noext
@@ -49,14 +51,18 @@ def main(model_noext, results_dir, plots_dir):
     filename_prefix="report__param_estim_"
     latex_report(results_dir, plots_dir, model_noext, filename_prefix)
 
-
+    pdflatex = which("pdflatex")
+    if pdflatex == None:
+	print("ERROR: pdflatex not found! pdflatex must be installed for pdf reports.")
+	return
+  
     print("Generating PDF report")  
     currdir=os.getcwd()
     os.chdir(results_dir)
-    print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
-    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    print(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+    p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
     p1.communicate()[0]
-    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
     p1.communicate()[0]
 
     # remove temporary files
