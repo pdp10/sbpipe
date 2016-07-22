@@ -31,6 +31,8 @@ import os
 import sys
 import glob
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 

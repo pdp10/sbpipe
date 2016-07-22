@@ -29,6 +29,8 @@ import sys
 import glob
 import subprocess
 import shutil
+import logging
+logger = logging.getLogger('sbpipe')
 
 # For reading the first N lines of a file.
 from itertools import islice
@@ -57,16 +59,16 @@ def main(model, scanned_species, knock_down_only, results_dir,
 
 
   if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
-    print("ERROR: input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
+    logger.error("input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
     return
   
     # some control
   if int(min_level) < 0: 
-    print("\n ERROR: min_level MUST BE non negative ")
+    logger.error("min_level MUST BE non negative.")
     return
   
   if int(max_level) < 100: 
-    print("\n ERROR: max_level MUST BE greater than 100 ")
+    logger.error("max_level MUST BE greater than 100.")
     return  
   
 

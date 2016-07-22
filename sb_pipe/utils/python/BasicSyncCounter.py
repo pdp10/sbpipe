@@ -29,6 +29,8 @@
 
 import thread
 import sys
+import logging
+logger = logging.getLogger('sbpipe')
 
 # This is a monitor.
 # Callback class for collecting information about finished processes
@@ -53,7 +55,6 @@ class BasicSyncCounter:
         # with a desired logic. Here we only use it to collect an overall status of the parallel computation.
         self.__value = self.__value and value
         self.lock.release()
-        print("Process P" + str(pid) + " completed")
     
     # get methods
     def get_value(self):

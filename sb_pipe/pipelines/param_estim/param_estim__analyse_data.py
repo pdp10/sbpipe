@@ -30,6 +30,8 @@
 import os
 import sys
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 from collect_results import retrieve_final_estimates
@@ -42,20 +44,20 @@ from collect_results import retrieve_all_estimates
 def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False):
 
   if not os.path.exists(input_dir) or not os.listdir(input_dir): 
-    print("ERROR: input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
+    logger.error("input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
     return
   
   if not os.path.exists(plots_dir):
     os.makedirs(plots_dir)
   
-  print("Collect results:")
+  logger.info("Collect results:")
   # Collect and summarises the parameter estimation results
   retrieve_final_estimates(input_dir, results_dir, fileout_final_estims)
   retrieve_all_estimates(input_dir, results_dir, fileout_all_estims)  
 
-  print("\n")
-  print("Plot results:")
-  print("\n")
+  logger.info("\n")
+  logger.info("Plot results:")
+  logger.info("\n")
   process = Popen(['Rscript',
 		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_final_fits_analysis.r'),
 		   os.path.join(results_dir, fileout_final_estims),

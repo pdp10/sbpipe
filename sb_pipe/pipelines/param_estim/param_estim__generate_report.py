@@ -29,10 +29,14 @@
 import os
 import sys
 from subprocess import Popen,PIPE
+import logging
+logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from latex_reports import latex_report
+
+from sb_config import which
 
 
 # INITIALIZATION
@@ -42,27 +46,26 @@ from latex_reports import latex_report
 def main(model_noext, results_dir, plots_dir):
     
     if not os.path.exists(os.path.join(results_dir, plots_dir)): 
-	print("ERROR: input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
+	logger.error("input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
 	return       
       
-    print("Generating LaTeX report")
+    logger.info("Generating LaTeX report")
     filename_prefix="report__param_estim_"
     latex_report(results_dir, plots_dir, model_noext, filename_prefix)
 
-
-    print("Generating PDF report")  
+    pdflatex = which("pdflatex")
+    if pdflatex == None:
+	logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
+	return
+  
+    logger.info("Generating PDF report")  
     currdir=os.getcwd()
     os.chdir(results_dir)
-    print("pdflatex -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
-    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-    p1.communicate()[0]
-    p1 = Popen(["pdflatex", "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
-    p1.communicate()[0]
 
-    # remove temporary files
-    #os.remove(filename_prefix+model_noext+".out")
-    #os.remove(filename_prefix+model_noext+".log")
-    #os.remove(filename_prefix+model_noext+".aux")
+    logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
+    p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
+    p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
+    p1.communicate()[0]
 
     os.chdir(currdir)
-    print("DONE\n")

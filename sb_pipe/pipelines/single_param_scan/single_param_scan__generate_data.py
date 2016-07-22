@@ -29,6 +29,8 @@ import sys
 import glob
 import subprocess
 import shutil
+import logging
+logger = logging.getLogger('sbpipe')
 
 # For reading the first N lines of a file.
 from itertools import islice
@@ -54,7 +56,7 @@ def main(model, species, sim_number, simulate__intervals,
 
 
   if not os.path.isfile(os.path.join(models_dir,model)):
-    print(os.path.join(models_dir, model) + " does not exist.") 
+    logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return
   
   filesToDelete = glob.glob(os.path.join(output_dir,model[:-4]+"*"))
@@ -64,7 +66,7 @@ def main(model, species, sim_number, simulate__intervals,
     os.mkdir(output_dir) 
     
 
-  print("Simulating Model: "+ model)
+  logger.info("Simulating Model: "+ model)
 
   model_noext=model[:-4]
 
@@ -78,19 +80,19 @@ def main(model, species, sim_number, simulate__intervals,
 
   copasi=get_copasi()
   if copasi == None:
-    print("ERROR: copasi not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
+    logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return  
   
   for i in xrange(0, int(sim_number)):
     
-      print("Simulation No.: "+str(i))
+      logger.info("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
       process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir,model)])
       process.wait()
       
 
       if not os.path.isfile(os.path.join(tmp_dir, model_noext+".csv")): 
-	  print("ERROR: " + os.path.join(tmp_dir, model_noext+".csv") + " does not exist!") 
+	  logger.warn(os.path.join(tmp_dir, model_noext+".csv") + " does not exist!") 
 	  continue
       
       # Replace some string in the report file   
@@ -102,23 +104,23 @@ def main(model, species, sim_number, simulate__intervals,
       # Find the index of species in the header file, so it is possible to read the amount at 
       # the second line.
       if i == 0:
-	print("Retrieving column index for species "+species+" from file "+ os.path.join(tmp_dir, model_noext+".csv"))
+	logger.info("Retrieving column index for species "+species+" from file "+ os.path.join(tmp_dir, model_noext+".csv"))
 	# Read the first line of a file.
 	with open(os.path.join(tmp_dir, model_noext+".csv")) as myfile:
 	  # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
 	  header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
-	#print header
+	logger.debug(header)
 	for j, name in enumerate(header): 
-	  print(str(j) + " " + name + " " + species)
+	  logger.info(str(j) + " " + name + " " + species)
 	  if name == species: 
 	    species_index=j 
 	    break;
 	if species_index == -1: 
-	  print("Column index for species "+species+": "+str(species_index)+". ERROR: Species not found!!! You must add the species "+species+
-	  " to the report form in the copasi file (check the report time-course or parameter scan). STOP")
+	  logger.error("Column index for species "+species+": "+str(species_index)+". Species not found! You must add the species "+species+
+	  " to the report form in the copasi file (check the report time-course or parameter scan).")
 	  return
 	else:
-	  print("Column index for species "+species+": "+str(species_index))
+	  logger.info("Column index for species "+species+": "+str(species_index))
 
 
       # Prepare the Header for the output files
@@ -138,10 +140,10 @@ def main(model, species, sim_number, simulate__intervals,
 	#print initial_configuration
 	species_level = initial_configuration[species_index]
 	if species_level == -1: 
-	  print("ERROR: species_level not configured!!! STOP")
+	  logger.error("species_level not configured!")
 	  return 
 	else:
-	  print(species + " level: "+str(species_level)+" (list index: "+str(species_index)+")")
+	  logger.info(species + " level: "+str(species_level)+" (list index: "+str(species_index)+")")
 	
 
 	# copy the -th run to a new file: add 1 to timepoints because of the header.
