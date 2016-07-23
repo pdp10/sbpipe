@@ -31,7 +31,7 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-plot_single_param_scan_data <- function(model_noext, species, inhibition_only, 
+plot_single_param_scan_data <- function(model_noext, variable, inhibition_only, 
 					results_dir, dataset_parameter_scan_dir, 
 					tc_parameter_scan_dir, simulate__xaxis_label, 
 					simulations_number, 
@@ -50,7 +50,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
-    # Scanning using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
+    # Scanning using a virtual variable (A_percent_level) defining the percent level of its corresponding real variable (A). 
     # The scanninig is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
     if(inhibition_only) {
@@ -65,7 +65,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
-    writeLines(paste("Perturbed species: ", species, sep=""))
+    writeLines(paste("Perturbed variable: ", variable, sep=""))
     #writeLines(results_dir)
     # variables
     inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
@@ -88,7 +88,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
 	  
 	  
 	  # the array files MUST be sorted. Required to convert the string into numeric.
-	  # this is important because the legend must represent species's knockdown in order.
+	  # this is important because the legend must represent variable's knockdown in order.
 	  for(i in 1:length(files)) {
 	      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
 	      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
@@ -103,11 +103,11 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
 	  }
 	  levels <- sort(levels)
 
-	  # Read species
+	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 
-	  levels <- paste(species, levels, sep=" ")
+	  levels <- paste(variable, levels, sep=" ")
 	  writeLines(levels)
 	  
 	  # let's plot now! :) 

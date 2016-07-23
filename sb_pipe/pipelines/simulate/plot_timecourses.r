@@ -31,7 +31,7 @@ source(file.path(SB_PIPE,'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-compute_descriptive_statistics <- function(timepoint.values, timepoint, species, nfiles) {
+compute_descriptive_statistics <- function(timepoint.values, timepoint, variable, nfiles) {
     # compute mean, standard deviation, error, error.left, error.right
     timepoint$mean <- mean(timepoint.values, na.rm = TRUE)
     timepoint$sd <- sd(timepoint.values, na.rm = TRUE)
@@ -50,26 +50,26 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, species,
     timepoint$max <- max(timepoint.values, na.rm = TRUE)
 
     # put data in lists
-    species$mean <- c ( species$mean, timepoint$mean )
-    species$sd <- c ( species$sd, timepoint$sd )
-    species$var <- c ( species$var, timepoint$var )
-    species$skew <- c ( species$skew, timepoint$skew )
-    species$kurt <- c ( species$kurt, timepoint$kurt )
-    species$ci95 <- c ( species$ci95, timepoint$ci95 )
-    species$coeffvar <- c ( species$coeffvar, timepoint$coeffvar )
-    species$min <- c ( species$min, timepoint$min )
-    species$stquantile <- c ( species$stquantile, timepoint$stquantile )
-    species$median <- c ( species$median, timepoint$median )
-    species$rdquantile <- c ( species$rdquantile, timepoint$rdquantile )
-    species$max <- c ( species$max, timepoint$max )
+    variable$mean <- c ( variable$mean, timepoint$mean )
+    variable$sd <- c ( variable$sd, timepoint$sd )
+    variable$var <- c ( variable$var, timepoint$var )
+    variable$skew <- c ( variable$skew, timepoint$skew )
+    variable$kurt <- c ( variable$kurt, timepoint$kurt )
+    variable$ci95 <- c ( variable$ci95, timepoint$ci95 )
+    variable$coeffvar <- c ( variable$coeffvar, timepoint$coeffvar )
+    variable$min <- c ( variable$min, timepoint$min )
+    variable$stquantile <- c ( variable$stquantile, timepoint$stquantile )
+    variable$median <- c ( variable$median, timepoint$median )
+    variable$rdquantile <- c ( variable$rdquantile, timepoint$rdquantile )
+    variable$max <- c ( variable$max, timepoint$max )
  
     #print(nfiles)
     #for debug
     #print(column[j])
     #print(timepoints[k])
-    #print(species.mean)
-    #prints(species.sd)
-    return (species)
+    #print(variable.mean)
+    #prints(variable.sd)
+    return (variable)
 }
 
 
@@ -92,39 +92,39 @@ get_column_names_statistics <- function(column.names, name) {
     return (column.names)
 }
 
-get_statistics_table <- function(statistics, species, s=2) {    
-    #print(species$mean) 
-    statistics[,s]   <- species$mean
-    statistics[,s+1] <- species$sd
-    statistics[,s+2] <- species$var
-    statistics[,s+3] <- species$skew
-    statistics[,s+4] <- species$kurt
-    statistics[,s+5] <- species$ci95
-    statistics[,s+6] <- species$coeffvar
-    statistics[,s+7] <- species$min
-    statistics[,s+8] <- species$stquantile
-    statistics[,s+9] <- species$median
-    statistics[,s+10] <- species$rdquantile
-    statistics[,s+11] <- species$max
+get_statistics_table <- function(statistics, variable, s=2) {    
+    #print(variable$mean) 
+    statistics[,s]   <- variable$mean
+    statistics[,s+1] <- variable$sd
+    statistics[,s+2] <- variable$var
+    statistics[,s+3] <- variable$skew
+    statistics[,s+4] <- variable$kurt
+    statistics[,s+5] <- variable$ci95
+    statistics[,s+6] <- variable$coeffvar
+    statistics[,s+7] <- variable$min
+    statistics[,s+8] <- variable$stquantile
+    statistics[,s+9] <- variable$median
+    statistics[,s+10] <- variable$rdquantile
+    statistics[,s+11] <- variable$max
     return (statistics)
 }
 
 
-plot_error_bars <- function(outputdir, version, name, species, timepoints, simulate__xaxis_label, bar_type="sd") {
+plot_error_bars <- function(outputdir, version, name, variable, timepoints, simulate__xaxis_label, bar_type="sd") {
     filename = ""
 
     if(bar_type == "none") {
       # standard error configuration
       filename = file.path(outputdir, paste(version, "_none_", name, ".png", sep=""))
       # Let's plot this special case now as it does not require error bars
-      df <- data.frame(a=timepoints, b=species$mean)      
+      df <- data.frame(a=timepoints, b=variable$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
       g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
       ggsave(filename, dpi=300,  width=8, height=6) #, bg = "transparent")      
 
     } else { 
 
-      df <- data.frame(a=timepoints, b=species$mean, c=species$sd, d=species$ci95)
+      df <- data.frame(a=timepoints, b=variable$mean, c=variable$sd, d=variable$ci95)
       #print(df)
       g <- ggplot(df, aes(x=a, y=b))
 
@@ -156,7 +156,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     
     theme_set(tc_theme(28))  
 
-    # Read species
+    # Read variable
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
 
@@ -194,7 +194,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 	# structures
 	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
 			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
-	species <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
+	variable <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
 		      "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
 	k <- 1
 	# for each computed timepoint
@@ -208,17 +208,17 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
  	      for(m in 1:length(files)) {
 		  timepoint.values <- c(timepoint.values, dataset[l,m])  
  	      }
-  	      species <- compute_descriptive_statistics(timepoint.values, timepoint, species, length(files))   
- 	      #print(species)
+  	      variable <- compute_descriptive_statistics(timepoint.values, timepoint, variable, length(files))   
+ 	      #print(variable)
   	      k <- k + 1
   	  }
  	}
   	column.names <- get_column_names_statistics(column.names, column[j])
-  	statistics <- get_statistics_table(statistics, species, s)
+  	statistics <- get_statistics_table(statistics, variable, s)
  	s <- s+13
-  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "none")
-  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd")  
-  	plot_error_bars(outputdir, version, column[j], species, timepoints, simulate__xaxis_label, "sd_n_ci95")  	
+  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "none")
+  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "sd")  
+  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)
