@@ -73,19 +73,16 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
     #writeLines(inputdir)
     #writeLines(outputdir)
     
+    # create the directory of output
+    if (!file.exists(outputdir)){ dir.create(outputdir) }    
 
     theme_set(tc_theme(28))    
     
     for(k_sim in 1:simulations_number) {    
     
-	  
 	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))
 	  levels <- c()
 	  levels.index <- c()
-
-	  # create the directory of output
-	  if (!file.exists(outputdir)){ dir.create(outputdir) }
-	  
 	  
 	  # the array files MUST be sorted. Required to convert the string into numeric.
 	  # this is important because the legend must represent variable's knockdown in order.
@@ -140,3 +137,48 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
   }
   
 }
+
+
+
+
+plot_single_param_scan_data_homogen <- function(model_noext, variable, 
+					results_dir, dataset_parameter_scan_dir, 
+					tc_parameter_scan_dir, simulate__xaxis_label, 
+					simulations_number) {
+					
+    writeLines(paste("Model: ", model_noext, ".cps", sep=""))
+    writeLines(paste("Perturbed variable: ", variable, sep=""))
+    #writeLines(results_dir)
+    # variables
+    inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
+    outputdir <- c(file.path(results_dir, tc_parameter_scan_dir))
+    #writeLines(inputdir)
+    #writeLines(outputdir)
+    # create the directory of output
+    if (!file.exists(outputdir)){ dir.create(outputdir) }
+    
+    theme_set(tc_theme(28))    
+    
+    for(k_sim in 1:simulations_number) { 
+	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))	  
+	  # Read variable
+	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+	  column <- names(timecourses)
+	  
+	  for(j in 2:length(column)) {
+   	    g <- ggplot()
+	    for(m in 1:length(files)) {
+		df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
+			      dec=".",sep="\t")[,j]
+		df <- data.frame(time=timecourses[,1], value=df)
+		g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
+	    }
+	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep=""))
+      	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+		   dpi=300,  width=8, height=6)#, bg = "transparent")
+	  }
+  }
+  
+}
+
+

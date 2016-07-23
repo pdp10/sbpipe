@@ -40,25 +40,41 @@ main <- function(args) {
     min_level <- args[10]
     max_level <- args[11]
     levels_number <- args[12]
+    homogeneous_lines <- args[13]
 
+    
     # Add controls here if any
-    if(inhibition_only == "true" || inhibition_only=="True" || inhibition_only=="TRUE") {
+    if(homogeneous_lines=="true" || homogeneous_lines=="True" || homogeneous_lines=="TRUE") {
+      homogeneous_lines <- TRUE
+    } else {
+      homogeneous_lines <- FALSE      
+    }
+    
+    if(inhibition_only=="true" || inhibition_only=="True" || inhibition_only=="TRUE") {
       inhibition_only <- TRUE
     } else {
       inhibition_only <- FALSE
     }
       
-    if(percent_levels == "true" || percent_levels=="True" || percent_levels=="TRUE") {
+    if(percent_levels=="true" || percent_levels=="True" || percent_levels=="TRUE") {
       percent_levels <- TRUE
     } else {
       percent_levels <- FALSE      
     }
     
-    plot_single_param_scan_data(model_noext, species, inhibition_only, 
-			        results_dir, dataset_parameter_scan_dir, 
-				tc_parameter_scan_dir, simulate__xaxis_label, 
-				simulations_number, percent_levels, min_level, 
-				max_level, levels_number)
+    
+    if(homogeneous_lines) {
+	plot_single_param_scan_data_homogen(model_noext, species, 
+				    results_dir, dataset_parameter_scan_dir, 
+				    tc_parameter_scan_dir, simulate__xaxis_label, 
+				    simulations_number)
+    } else {    
+	plot_single_param_scan_data(model_noext, species, inhibition_only, 
+				    results_dir, dataset_parameter_scan_dir, 
+				    tc_parameter_scan_dir, simulate__xaxis_label, 
+				    simulations_number, percent_levels, min_level, 
+				    max_level, levels_number)
+    }
 }
 
 
