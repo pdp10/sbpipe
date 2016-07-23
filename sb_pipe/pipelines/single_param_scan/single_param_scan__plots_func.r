@@ -26,7 +26,6 @@ library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(file.path(SB_PIPE, 'sb_pipe','utils','R','matrices.r'))
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
@@ -108,26 +107,23 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 
-	  # Load files in memory
-	  dataset <- load_files_in_matrix_wlevels(inputdir, files, levels.index)
-
 	  levels <- paste(species, levels, sep=" ")
 	  writeLines(levels)
-
 	  
-	  # let's plot now! :)
-	  # NOTE: a legend is not added. To create one, the color (and linetype) must be inside aes. 
-	  # For each line they need to receive 
+	  # let's plot now! :) 
 	  library(reshape2)
-	  df <- data.frame(time=dataset[,1,1], b=dataset[,1,1])  
-	  # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
-	  df <- melt(df, id=c("time"))
 	  
 	  for(j in 2:length(column)) {
    	    g <- ggplot()
 	    for(m in 1:length(files)) {
-		df$value <- dataset[,j,m]
+		dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
+			      dec=".",sep="\t")[,j]
+		df <- data.frame(time=timecourses[,1], b=dataset)
+		# NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+		df <- melt(df, id=c("time"))
+		df$value <- dataset
 		df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
+		
 		#print(df$variable)
 		g <- g + geom_line(data=df, 
 				   aes(x=time, y=value, color=variable, linetype=variable), 

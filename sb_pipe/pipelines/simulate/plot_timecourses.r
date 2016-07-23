@@ -21,15 +21,11 @@
 # $Date: 2016-07-7 11:14:32 $
 
 
-
-# create a multidimensional matrix from matrices
-library(abind)
 library(ggplot2)
 
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(file.path(SB_PIPE,'sb_pipe','utils','R','matrices.r'))
 source(file.path(SB_PIPE,'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
@@ -178,18 +174,22 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     statistics[,1] <- timepoints
     s <- 2
     linewidth=14
-
-    #dataset <- load_files_in_matrix(inputdir, files)
-    #print(dataset)
+    
+    # an empty colum that we need for creating a data.frame of length(timecourses$Time) rows
+    na <- c(rep(NA, length(timecourses$Time)))
 
     for(j in 1:length(column)) {
       if(column[j] != "Time") {
 	print(column[j])
 
-	# Don't retrieve the variable Time.
-	cols <- c(rep("NULL",j-1), NA, rep("NULL",length(column)-j))
 	# Extract column[j] for each file.
-	dataset <- load_files_columns_in_matrix(inputdir, files, cols)
+	dataset <- data.frame(na)
+	for(i in 1:length(files)) {
+	    dataset <- data.frame(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,na.strings="NA",dec=".",sep="\t")[,j])
+	}
+	# remove the first column (na)
+	dataset <- subset(dataset, select=-c(na))
+	
 	#print(dataset)
 	# structures
 	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
@@ -200,21 +200,13 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 	# for each computed timepoint
  	for( l in 1:length ( timecourses$Time ) ) {
 
-	  # it contains values for a specific timepoint (same size of the array timepoints)
 	  timepoint.values <- c ( )
-	  # consider only a subset of timepoints (vector: timepoints)
-
-#	  print(timepoints[k])
-	  #print(timecourses$Time[l])
-	  #print(timepoint.values)
 
   	  if ( k <= length( timepoints ) && as.character(timepoints[k]) == as.character(timecourses$Time[l]) ) {
 	      #print(timepoints[k])
-	      #if(timecourses$Time[l] == 0.3) print ("0.3")
  	      # for each Sample
- 	      for ( m in 1:length ( files) ) {
-  		#timepoint.values <- c(timepoint.values, dataset[l,j,m]) 
-  		timepoint.values <- c(timepoint.values, dataset[l,1,m]) 
+ 	      for(m in 1:length(files)) {
+		  timepoint.values <- c(timepoint.values, dataset[l,m])  
  	      }
   	      species <- compute_descriptive_statistics(timepoint.values, timepoint, species, length(files))   
  	      #print(species)
