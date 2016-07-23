@@ -52,10 +52,12 @@ SB_PIPE = os.environ["SB_PIPE"]
 # min_level
 # max_level
 # levels_number
+# homogeneous_lines
 def main(model, scanned_species, knock_down_only, results_dir, 
 	 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 	 simulations_number, 
-	 percent_levels, min_level, max_level, levels_number):
+	 percent_levels, min_level, max_level, levels_number, 
+	 homogeneous_lines):
 
 
   if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
@@ -63,12 +65,12 @@ def main(model, scanned_species, knock_down_only, results_dir,
     return
   
     # some control
-  if int(min_level) < 0: 
+  if float(min_level) < 0: 
     logger.error("min_level MUST BE non negative.")
     return
   
-  if int(max_level) < 100: 
-    logger.error("max_level MUST BE greater than 100.")
+  if percent_levels and float(max_level) < 100: 
+    logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
     return  
   
 
@@ -82,6 +84,7 @@ def main(model, scanned_species, knock_down_only, results_dir,
 
   process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__analyse_data.r'), 
 			      model, scanned_species, str(knock_down_only), results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number)])    
+			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), 
+			      str(homogeneous_lines)])    
   process.wait()
 

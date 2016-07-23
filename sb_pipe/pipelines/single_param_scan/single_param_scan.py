@@ -90,17 +90,21 @@ def main(model_configuration):
   # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
   single_param_scan_simulations_number=1
   # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-  single_param_scan_percent_levels=True
+  single_param_scan_percent_levels=False
   # if True then, plot only kd (blue), otherwise plot kd and overexpression
   single_param_scan_knock_down_only=True
   # The number of levels of inhibition/over-expression
   levels_number=10  
-  # minimum inhibition level
+  # minimum level
   min_level=0
-  # maximum overexpression level
+  # maximum level
   max_level=250
-
-
+  # True if lines should have the same colour, no linetype, no legend. 
+  # Useful for scanning from a confidence interval
+  # If this is true, it overrides:
+  # - single_param_scan_percent_levels and 
+  # - single_param_scan_knock_down_only
+  homogeneous_lines=False
 
 
   # Initialises the variables
@@ -136,7 +140,8 @@ def main(model_configuration):
       max_level = line[1]
     elif line[0] == "levels_number": 
       levels_number = line[1]          
-
+    elif line[0] == "homogeneous_lines": 
+      homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)                
 
 
   # INTERNAL VARIABLES
@@ -198,7 +203,8 @@ def main(model_configuration):
 					 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 					 single_param_scan_simulations_number, 
 					 single_param_scan_percent_levels, 
-					 min_level, max_level, levels_number)
+					 min_level, max_level, levels_number,
+					 homogeneous_lines)
   
   
   

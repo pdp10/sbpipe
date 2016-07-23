@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.40.0
+v0.42.0
 
+- restructuring dataset parsing for simulate and single_param_scan.
+- added parameter scan plot with homogeneous lines (useful for plotting param conf. interv.).
 - replaced all prints with Python logging. 
 - improved LaTeX reports
 - tested parameter estimation using Gillespie algorithm for model simulation.
