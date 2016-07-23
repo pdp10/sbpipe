@@ -94,6 +94,10 @@ scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
 
 
 
+
+
+
+
 # plot sensitivity sens_matrix by row in a multi plot
 plot.sensitivities <- function(filename, kinetics) {
   sens_matrix <- read.table(filename, header=TRUE, row.names=1, na.strings="NA", dec=".", sep="\t")

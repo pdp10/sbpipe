@@ -26,13 +26,12 @@ library(ggplot2)
 
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-source(file.path(SB_PIPE, 'sb_pipe','utils','R','matrices.r'))
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
 
-plot_single_param_scan_data <- function(model_noext, species, inhibition_only, 
+plot_single_param_scan_data <- function(model_noext, variable, inhibition_only, 
 					results_dir, dataset_parameter_scan_dir, 
 					tc_parameter_scan_dir, simulate__xaxis_label, 
 					simulations_number, 
@@ -51,7 +50,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
-    # Scanning using a virtual species (A_percent_level) defining the percent level of its corresponding real species (A). 
+    # Scanning using a virtual variable (A_percent_level) defining the percent level of its corresponding real variable (A). 
     # The scanninig is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
     if(inhibition_only) {
@@ -66,7 +65,7 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
-    writeLines(paste("Perturbed species: ", species, sep=""))
+    writeLines(paste("Perturbed variable: ", variable, sep=""))
     #writeLines(results_dir)
     # variables
     inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
@@ -74,22 +73,19 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
     #writeLines(inputdir)
     #writeLines(outputdir)
     
+    # create the directory of output
+    if (!file.exists(outputdir)){ dir.create(outputdir) }    
 
     theme_set(tc_theme(28))    
     
     for(k_sim in 1:simulations_number) {    
     
-	  
 	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))
 	  levels <- c()
 	  levels.index <- c()
-
-	  # create the directory of output
-	  if (!file.exists(outputdir)){ dir.create(outputdir) }
-	  
 	  
 	  # the array files MUST be sorted. Required to convert the string into numeric.
-	  # this is important because the legend must represent species's knockdown in order.
+	  # this is important because the legend must represent variable's knockdown in order.
 	  for(i in 1:length(files)) {
 	      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
 	      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
@@ -104,30 +100,27 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
 	  }
 	  levels <- sort(levels)
 
-	  # Read species
+	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 
-	  # Load files in memory
-	  dataset <- load_files_in_matrix_wlevels(inputdir, files, levels.index)
-
-	  levels <- paste(species, levels, sep=" ")
+	  levels <- paste(variable, levels, sep=" ")
 	  writeLines(levels)
-
 	  
-	  # let's plot now! :)
-	  # NOTE: a legend is not added. To create one, the color (and linetype) must be inside aes. 
-	  # For each line they need to receive 
+	  # let's plot now! :) 
 	  library(reshape2)
-	  df <- data.frame(time=dataset[,1,1], b=dataset[,1,1])  
-	  # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
-	  df <- melt(df, id=c("time"))
 	  
 	  for(j in 2:length(column)) {
    	    g <- ggplot()
 	    for(m in 1:length(files)) {
-		df$value <- dataset[,j,m]
+		dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
+			      dec=".",sep="\t")[,j]
+		df <- data.frame(time=timecourses[,1], b=dataset)
+		# NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+		df <- melt(df, id=c("time"))
+		df$value <- dataset
 		df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
+		
 		#print(df$variable)
 		g <- g + geom_line(data=df, 
 				   aes(x=time, y=value, color=variable, linetype=variable), 
@@ -144,3 +137,48 @@ plot_single_param_scan_data <- function(model_noext, species, inhibition_only,
   }
   
 }
+
+
+
+
+plot_single_param_scan_data_homogen <- function(model_noext, variable, 
+					results_dir, dataset_parameter_scan_dir, 
+					tc_parameter_scan_dir, simulate__xaxis_label, 
+					simulations_number) {
+					
+    writeLines(paste("Model: ", model_noext, ".cps", sep=""))
+    writeLines(paste("Perturbed variable: ", variable, sep=""))
+    #writeLines(results_dir)
+    # variables
+    inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
+    outputdir <- c(file.path(results_dir, tc_parameter_scan_dir))
+    #writeLines(inputdir)
+    #writeLines(outputdir)
+    # create the directory of output
+    if (!file.exists(outputdir)){ dir.create(outputdir) }
+    
+    theme_set(tc_theme(28))    
+    
+    for(k_sim in 1:simulations_number) { 
+	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))	  
+	  # Read variable
+	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+	  column <- names(timecourses)
+	  
+	  for(j in 2:length(column)) {
+   	    g <- ggplot()
+	    for(m in 1:length(files)) {
+		df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
+			      dec=".",sep="\t")[,j]
+		df <- data.frame(time=timecourses[,1], value=df)
+		g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
+	    }
+	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep=""))
+      	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+		   dpi=300,  width=8, height=6)#, bg = "transparent")
+	  }
+  }
+  
+}
+
+
