@@ -26,7 +26,7 @@
 
 
 # for computing the pipeline elapsed time 
-import time
+import datetime
 
 import os
 import sys
@@ -111,15 +111,13 @@ def main(model_configuration):
   tmp_dir = os.path.join(copasi_reports_path)
 
 
-  logger.info("\n<START PIPELINE>\n")
   # Get the pipeline start time
-  start = time.clock()
+  start = datetime.datetime.now().replace(microsecond=0)
 
       
 
   logger.info("\n")
-  logger.info("#############################################################")
-  logger.info("### Processing model " + model)
+  logger.info("Processing model " + model)
   logger.info("#############################################################")
   logger.info("")
 
@@ -156,9 +154,8 @@ def main(model_configuration):
 
 
   # Print the pipeline elapsed time
-  end = time.clock()
-  logger.info("\n\nPipeline elapsed time (using Python time.clock()): " + str(end-start)) 
-  logger.info("\n<END PIPELINE>\n")
+  end = datetime.datetime.now().replace(microsecond=0)
+  logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
   if len(glob.glob(os.path.join(results_dir, '*.csv'))) > 0:
