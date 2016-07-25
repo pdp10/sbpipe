@@ -49,8 +49,27 @@ import logging
 from logging.config import fileConfig
 
 
+def logo():
+  """
+  Return sb_pipe logo.
+  """
+  logo = ("\n"
+          "                            _             \n"
+	  "          /\               (_)            \n"
+	  "    ___  / /_        ____    ____  ___    \n"              
+	  "   / __\/ __ \      / __ \/\/ __ \/ _ \   \n"      
+	  "  _\ \_/ /_/ /     / /_/ / / /_/ /  __/   \n"
+	  " \____/\____/     / ____/_/ ____/\____/   \n"
+	  "            =====/ /     / /              \n"
+	  "                /_/     /_/               \n"
+  )
+  return logo  
+
 
 def help():
+  """
+  Return help message.
+  """
   message = (
     "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"
     "Pipelines for systems modelling of biological networks.\n\n"
@@ -107,7 +126,8 @@ def main(argv=None):
 	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')
-  logger.info("=== SB_pipe ===")
+  print(logo())
+  
   
   try:
       try:
@@ -157,6 +177,9 @@ def main(argv=None):
 	  
 	    elif opt in ("-n", "--sensitivity"):
 	      return sensitivity.main(args[0])
+	    
+	  
+	  print(help())
 	  
       except getopt.error, msg:
 	    raise Usage(msg)
