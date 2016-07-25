@@ -60,7 +60,7 @@ def logo():
 	  "   / __\/ __ \      / __ \/\/ __ \/ _ \   \n"      
 	  "  _\ \_/ /_/ /     / /_/ / / /_/ /  __/   \n"
 	  " \____/\____/     / ____/_/ ____/\____/   \n"
-	  "            =====/ /     / /              \n"
+	  "            -----/ /     / /              \n"
 	  "                /_/     /_/               \n"
   )
   return logo  
@@ -71,7 +71,7 @@ def help():
   Return help message.
   """
   message = (
-    "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"
+    "Usage: run_sb_pipe.py [OPTION] [FILE]\n"
     "Pipelines for systems modelling of biological networks.\n\n"
     "List of mandatory options:\n"
     "\t-h, --help\n\t\tShows this help.\n"
@@ -93,11 +93,17 @@ def help():
   return message
 
 
+
 def readFileHeader(fname):
   line = ""
   with open(os.path.join(SB_PIPE, fname)) as file:
     line = file.readline().strip() + " "+ file.readline().strip()
   return line
+
+
+def check_args(args, msg):
+  if len(args) < 1:
+    raise(Usage(msg))
   
 
 class Usage(Exception):
@@ -126,60 +132,69 @@ def main(argv=None):
 	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')
-  print(logo())
-  
+
+  exit_status = 0
+  no_conf_file_msg = "no configuration file received"
+  no_project_name_msg = "no project name received"
   
   try:
       try:
 	  opts, args = getopt.getopt(argv[1:], 
-				     "hcspenlv", 
+				      "hcspenlv", 
 				    ["help", 
-				     "create-project", 
-				     "simulate", 
-				     "single-param-scan", 
-				     "double-param-scan", 
-				     "param-estim", 
-				     "sensitivity", 
-				     "license", 
-				     "version"
+				      "create-project", 
+				      "simulate", 
+				      "single-param-scan", 
+				      "double-param-scan", 
+				      "param-estim", 
+				      "sensitivity", 
+				      "license", 
+				      "version"
 				    ])
-
+  
 	  for opt, arg in opts:
 	    
-	    if opt in ("-h", "--help"):
-	      print(help())
-	      return 0
-	    
-	    if opt in ("-l", "--license"):
-	      print(readFileHeader("LICENSE"))
-	      return 0
-	    
-	    if opt in ("-v", "--version"):
-	      print(readFileHeader("VERSION"))
-	      return 0
+	      if opt in ("-h", "--help"):
+		print(help())
 	      
-	    elif opt in ("-c", "--create-project"):
-	      return create_project.main(args[0])
+	      elif opt in ("-l", "--license"):
+		print(readFileHeader("LICENSE"))
 	      
-	    elif opt in ("-s", "--simulate"):
-	      return simulate.main(args[0])
+	      elif opt in ("-v", "--version"):
+		print(readFileHeader("VERSION"))
+		
+	      elif opt in ("-c", "--create-project"):
+		check_args(args, no_project_name_msg)
+		exit_status = create_project.main(args[0])
+		
+	      elif opt in ("-s", "--simulate"):
+		check_args(args, no_conf_file_msg)
+	        print(logo())
+		exit_status = simulate.main(args[0])
 
-	    elif opt in ("-p", "--single-param-scan"):
-	      return single_param_scan.main(args[0])
+	      elif opt in ("-p", "--single-param-scan"):
+		check_args(args, no_conf_file_msg)
+	        print(logo())
+		exit_status = single_param_scan.main(args[0])
 
-	    elif opt in ("-d", "--double-param-scan"):
-	      #return double_param_scan.main(args[0])
-	      logger.error("Double parameter scan is not yet available! Apologise!")
-	      return False
-	  
-	    elif opt in ("-e", "--param-estim"): 
-	      return param_estim.main(args[0])
-	  
-	    elif opt in ("-n", "--sensitivity"):
-	      return sensitivity.main(args[0])
+	      elif opt in ("-d", "--double-param-scan"):
+		check_args(args, no_conf_file_msg)
+	        print(logo())
+		#exit_status = double_param_scan.main(args[0])
+		logger.error("double-param-scan pipeline is not yet available. We apologise.")
 	    
-	  
-	  print(help())
+	      elif opt in ("-e", "--param-estim"): 
+		check_args(args, no_conf_file_msg)
+	        print(logo())
+		exit_status = param_estim.main(args[0])
+	    
+	      elif opt in ("-n", "--sensitivity"):
+		check_args(args, no_conf_file_msg)
+	        print(logo())
+		exit_status = sensitivity.main(args[0])
+	    
+	  if len(opts) < 1:
+	    raise Usage("no option received")
 	  
       except getopt.error, msg:
 	    raise Usage(msg)
@@ -187,8 +202,9 @@ def main(argv=None):
   except Usage, err:
       print >>sys.stderr, err.msg
       print >>sys.stderr, "for help use -h, --help"
-      return 2
+      exit_status = 2
 
+  return exit_status
 
 
 if __name__ == "__main__":

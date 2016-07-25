@@ -40,8 +40,6 @@ def main(project):
       project -- the project name
   """
   
-  logger.info("Creating folder tree for the new project " + project)
-
   if not os.path.exists(project):
     os.mkdir(project)
 
@@ -80,5 +78,5 @@ def main(project):
   #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','models')):
     #os.mkdir(os.path.join(project,'sbtoolbox2','project','models'))
         
-  logger.info("Project structure created.")
+  logger.info("Project " + project + " created.")
   return 0
