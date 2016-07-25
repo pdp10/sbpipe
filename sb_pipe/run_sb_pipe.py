@@ -71,7 +71,7 @@ def help():
   Return help message.
   """
   message = (
-    "Usage: python run_sb_pipe.py [OPTION] [FILE]\n"
+    "Usage: run_sb_pipe.py [OPTION] [FILE]\n"
     "Pipelines for systems modelling of biological networks.\n\n"
     "List of mandatory options:\n"
     "\t-h, --help\n\t\tShows this help.\n"
@@ -126,59 +126,62 @@ def main(argv=None):
 	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')
-  print(logo())
-  
   
   try:
       try:
 	  opts, args = getopt.getopt(argv[1:], 
-				     "hcspenlv", 
+				      "hcspenlv", 
 				    ["help", 
-				     "create-project", 
-				     "simulate", 
-				     "single-param-scan", 
-				     "double-param-scan", 
-				     "param-estim", 
-				     "sensitivity", 
-				     "license", 
-				     "version"
+				      "create-project", 
+				      "simulate", 
+				      "single-param-scan", 
+				      "double-param-scan", 
+				      "param-estim", 
+				      "sensitivity", 
+				      "license", 
+				      "version"
 				    ])
-
+  
 	  for opt, arg in opts:
 	    
-	    if opt in ("-h", "--help"):
-	      print(help())
-	      return 0
-	    
-	    if opt in ("-l", "--license"):
-	      print(readFileHeader("LICENSE"))
-	      return 0
-	    
-	    if opt in ("-v", "--version"):
-	      print(readFileHeader("VERSION"))
-	      return 0
+	      if opt in ("-h", "--help"):
+		print(help())
+		return 0
 	      
-	    elif opt in ("-c", "--create-project"):
-	      return create_project.main(args[0])
+	      if opt in ("-l", "--license"):
+		print(readFileHeader("LICENSE"))
+		return 0
 	      
-	    elif opt in ("-s", "--simulate"):
-	      return simulate.main(args[0])
+	      if opt in ("-v", "--version"):
+		print(readFileHeader("VERSION"))
+		return 0
+		
+	      elif opt in ("-c", "--create-project"):
+		return create_project.main(args[0])
+		
+	      elif opt in ("-s", "--simulate"):
+	        print(logo())
+		return simulate.main(args[0])
 
-	    elif opt in ("-p", "--single-param-scan"):
-	      return single_param_scan.main(args[0])
+	      elif opt in ("-p", "--single-param-scan"):
+	        print(logo())
+		return single_param_scan.main(args[0])
 
-	    elif opt in ("-d", "--double-param-scan"):
-	      #return double_param_scan.main(args[0])
-	      logger.error("Double parameter scan is not yet available! Apologise!")
-	      return False
-	  
-	    elif opt in ("-e", "--param-estim"): 
-	      return param_estim.main(args[0])
-	  
-	    elif opt in ("-n", "--sensitivity"):
-	      return sensitivity.main(args[0])
+	      elif opt in ("-d", "--double-param-scan"):
+	        print(logo())
+		#return double_param_scan.main(args[0])
+		logger.error("Double parameter scan is not yet available! Apologise!")
+		return False
 	    
-	  
+	      elif opt in ("-e", "--param-estim"): 
+	        print(logo())
+		return param_estim.main(args[0])
+	    
+	      elif opt in ("-n", "--sensitivity"):
+	        print(logo())
+		return sensitivity.main(args[0])
+	    
+	
 	  print(help())
 	  
       except getopt.error, msg:
