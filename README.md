@@ -17,7 +17,7 @@ model single and double parameter scan, sensitivity analysis and parameter estim
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
 - Python 2.7+ (+dependencies: pp 1.6.4)
-- R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3)
+- R 3.3.0+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
 
 
