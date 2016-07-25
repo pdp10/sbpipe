@@ -17,7 +17,7 @@ model single and double parameter scan, sensitivity analysis and parameter estim
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
 - Python 2.7+ (+dependencies: pp 1.6.4)
-- R 3.3.1+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3)
+- R 3.3.0+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
 
 
@@ -39,7 +39,7 @@ The correct installation of sb_pipe and its dependencies can be checked by
 running the following commands inside the sb_pipe folder: 
 ```
 cd tests
-python test_suite.py
+./test_suite.py
 ```
 
 ## How to use sb_pipe
@@ -85,7 +85,7 @@ sensitivities_dir=sensitivities
 The first step is to create a new project. This can be done with 
 the command:
 ```
-python run_sb_pipe.py --create-project projectname
+run_sb_pipe.py --create-project projectname
 ```
 After creating a project, users need to create a configuration file 
 for each task they intend to run. Examples of configuration files can be found in:
@@ -96,7 +96,7 @@ Users should place their configuration files in the Working_Folder/ of their pro
 Finally, a pipeline for a certain configuration file can be executed as follows:
 ```
 cd Working_Folder
-python run_sb_pipe.py pipeline configuration_file
+run_sb_pipe.py pipeline configuration_file
 ```
 where *pipeline* can be one of the following option: 
 - --simulate (-s)
@@ -107,5 +107,5 @@ where *pipeline* can be one of the following option:
 
 For additional options, run
 ```
-python run_sb_pipe.py --help
+run_sb_pipe.py --help
 ```
