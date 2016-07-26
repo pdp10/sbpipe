@@ -37,12 +37,14 @@ import tarfile
 import logging
 logger = logging.getLogger('sbpipe')
 
-from ConfigParser import ConfigParser
-from StringIO import StringIO
-
 import param_estim__generate_data
 import param_estim__analyse_data
 import param_estim__generate_report
+
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
+from config_parser import config_parser
+
 
 
 """
@@ -50,87 +52,21 @@ This module provides the user with a complete pipeline of scripts comprising the
 and execution of jobs on the cluster, results retrieval and concatenation, parameter estimation 
 analyses and finally results storing. This pipeline uses CopasiSE
 """
-def main(model_configuration):
+def main(config_file):
   """
   Execute and collect results from parameter estimation using Copasi
   Keyword arguments:
-      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+      config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """  
 
-  logger.info("Reading file " + model_configuration + " : \n")
-  # import the model configuration data (project, model-name, association-pattern)
-  parser = ConfigParser()
-  with open(model_configuration) as stream:
-    stream = StringIO("[top]\n" + stream.read())  # This line does the trick.
-    parser.readfp(stream)  
-    
-  lines=parser.items('top')
-
-
-  # Boolean
-  generate_data=True
-  # Boolean
-  analyse_data=True
-  # Boolean
-  generate_report=True
-  # Boolean
-  generate_tarball=True  
-  # The project dir
-  project_dir=""
-  # read the copasi model name 
-  model="mymodel.cps"
-  # The path to Copasi reports
-  copasi_reports_path="tmp"  
-  # The parallel mechanism to use (pp | sge | lsf).
-  cluster="pp"
-  # The number of cpus for pp
-  pp_cpus=1
-  # The parameter estimation round 
-  round=1
-  # The number of jobs to be executed
-  runs=25
-  # The percent of best fits to consider
-  best_fits_percent=100
-  # The number of available data points
-  data_point_num=10
-  # Plot 2D correlations using data from 66% or 95% confidence levels
-  # This can be very time/memory consuming
-  plot_2d_66_95cl_corr=False
-
-
-
-  # Initialises the variables
-  for line in lines:
-    logger.info(line)
-    if line[0] == "generate_data":
-      generate_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "analyse_data":
-      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "generate_report":
-      generate_report = {'True': True, 'False': False}.get(line[1], False)        
-    if line[0] == "generate_tarball":
-      generate_tarball = {'True': True, 'False': False}.get(line[1], False)        
-    if line[0] == "project_dir": 
-      project_dir = line[1]
-    elif line[0] == "model":
-      model = line[1]     
-    elif line[0] == "copasi_reports_path": 
-      copasi_reports_path = line[1]
-    elif line[0] == "cluster":
-      cluster = line[1]      
-    elif line[0] == "round":
-      round = line[1]       
-    elif line[0] == "runs":
-      runs = line[1] 
-    elif line[0] == "pp_cpus": 
-      pp_cpus = line[1]
-    elif line[0] == "best_fits_percent": 
-      best_fits_percent = line[1]
-    elif line[0] == "data_point_num": 
-      data_point_num = line[1]
-    elif line[0] == "plot_2d_66_95cl_corr":
-      plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
-      
+  logger.info("Reading file " + config_file + " : \n")  
+  # Initialises the variables for this pipeline
+  (generate_data, analyse_data, generate_report, 
+      generate_tarball, project_dir, model, 
+      copasi_reports_path, cluster, pp_cpus, 
+      round, runs, best_fits_percent, 
+      data_point_num, plot_2d_66_95cl_corr) = config_parser(config_file, "param_estim")  
+  
 
   runs = int(runs)
   pp_cpus = int(pp_cpus)
