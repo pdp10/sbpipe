@@ -38,12 +38,14 @@ import subprocess
 import logging
 logger = logging.getLogger('sbpipe')
 
-from ConfigParser import ConfigParser
-from StringIO import StringIO
-
 import single_param_scan__generate_data
 import single_param_scan__analyse_data
 import single_param_scan__generate_report
+
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
+from config_parser import config_parser
+
 
 
 """
@@ -51,97 +53,23 @@ This module provides the user with a complete pipeline of scripts for computing
 a single parameter scan using copasi.
 """
 
-def main(model_configuration):
+def main(config_file):
   """
   Execute and collect results from a parameter scan using Copasi
   Keyword arguments:
-      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+      config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """
 
-  logger.info("Reading file " + model_configuration + " : \n")
-  # import the model configuration data (project, model-name, association-pattern)
-  parser = ConfigParser()
-  with open(model_configuration) as stream:
-    stream = StringIO("[top]\n" + stream.read())  # This line does the trick.
-    parser.readfp(stream)  
-    
-  lines=parser.items('top')
-
-
-  # Boolean
-  generate_data=True
-  # Boolean
-  analyse_data=True
-  # Boolean
-  generate_report=True
-  # the project directory
-  project_dir=".."
-  # Copasi model (e.g mtor_model_scan_mTORC1.cps ...)
-  model=""
-  # The model species to scan (e.g. mTORC1)
-  scanned_species=""  
-  # The path to Copasi reports
-  copasi_reports_path="tmp"  
-  # The number of intervals for one simulation
-  simulate__intervals=100  
-  # The plot x axis label (e.g. Time[min])
-  # This is required for plotting
-  simulate__xaxis_label="Time [min]"
-  # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
-  single_param_scan_simulations_number=1
-  # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-  single_param_scan_percent_levels=False
-  # if True then, plot only kd (blue), otherwise plot kd and overexpression
-  single_param_scan_knock_down_only=True
-  # The number of levels of inhibition/over-expression
-  levels_number=10  
-  # minimum level
-  min_level=0
-  # maximum level
-  max_level=250
-  # True if lines should have the same colour, no linetype, no legend. 
-  # Useful for scanning from a confidence interval
-  # If this is true, it overrides:
-  # - single_param_scan_percent_levels and 
-  # - single_param_scan_knock_down_only
-  homogeneous_lines=False
-
-
-  # Initialises the variables
-  for line in lines:
-    logger.info(line)
-    if line[0] == "generate_data":
-      generate_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "analyse_data":
-      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "generate_report":
-      generate_report = {'True': True, 'False': False}.get(line[1], False)        
-    if line[0] == "project_dir":
-      project_dir = line[1]   
-    elif line[0] == "model": 
-      model = line[1] 
-    elif line[0] == "scanned_species": 
-      scanned_species = line[1]
-    elif line[0] == "copasi_reports_path": 
-      copasi_reports_path = line[1]
-    elif line[0] == "simulate__intervals": 
-      simulate__intervals = line[1]       
-    elif line[0] == "simulate__xaxis_label": 
-      simulate__xaxis_label = line[1]
-    elif line[0] == "single_param_scan_simulations_number": 
-      single_param_scan_simulations_number = line[1] 
-    elif line[0] == "single_param_scan_percent_levels": 
-      single_param_scan_percent_levels = {'True': True, 'False': False}.get(line[1], False)
-    elif line[0] == "single_param_scan_knock_down_only": 
-      single_param_scan_knock_down_only = {'True': True, 'False': False}.get(line[1], False)      
-    elif line[0] == "min_level": 
-      min_level = line[1]       
-    elif line[0] == "max_level": 
-      max_level = line[1]
-    elif line[0] == "levels_number": 
-      levels_number = line[1]          
-    elif line[0] == "homogeneous_lines": 
-      homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)                
+  logger.info("Reading file " + config_file + " : \n")
+  
+  # Initialises the variables for this pipeline
+  (generate_data, analyse_data, generate_report, 
+      project_dir, model, scanned_species, copasi_reports_path, 
+      simulate__intervals, simulate__xaxis_label, 
+      single_param_scan_simulations_number, single_param_scan_percent_levels, 
+      single_param_scan_knock_down_only, levels_number, min_level, max_level, 
+      homogeneous_lines) = config_parser(config_file, "single_param_scan")
+  
 
 
   # INTERNAL VARIABLES
