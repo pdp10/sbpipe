@@ -35,14 +35,14 @@ import shutil
 import logging
 logger = logging.getLogger('sbpipe')
 
-from ConfigParser import ConfigParser
-from StringIO import StringIO
-
 
 import simulate__generate_data
 import simulate__analyse_data
 import simulate__generate_report
 
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
+from config_parser import config_parser
 
 
 
@@ -51,70 +51,22 @@ This module provides the user with a complete pipeline of scripts for running
 a model simulation using copasi
 """
 
-def main(model_configuration):
+def main(config_file):
   """
   Execute and collect results for a model simulation using Copasi
   Keyword arguments:
-      model_configuration -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
+      config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """
   
-  logger.info("Reading file " + model_configuration + " : \n")
-  # import the model configuration data (project, model-name, association-pattern)
-  parser = ConfigParser()
-  with open(model_configuration) as stream:
-    stream = StringIO("[top]\n" + stream.read())  # This line does the trick.
-    parser.readfp(stream)  
-    
-  lines=parser.items('top')
+  logger.info("Reading file " + config_file + " : \n")
+
+  # Initialises the variables for this pipeline
+  (generate_data, analyse_data, generate_report,
+      project_dir, model, copasi_reports_path, 
+      cluster, pp_cpus, runs, 
+      simulate__xaxis_label) = config_parser(config_file, "simulate")
   
-  # Boolean
-  generate_data=True
-  # Boolean
-  analyse_data=True
-  # Boolean
-  generate_report=True
-  # the project directory
-  project_dir=""
-  # The Copasi model
-  model="mymodel.cps"
-  # The path to Copasi reports
-  copasi_reports_path="tmp"
-  # The parallel mechanism to use (pp | sge | lsf).
-  cluster="pp"
-  # The number of cpus for pp
-  pp_cpus=1
-  # The number of jobs to be executed
-  runs=1  
-  # The plot x axis label (e.g. Time[min])
-  # This is required for plotting
-  simulate__xaxis_label="Time [min]"
-
-
-  # Initialises the variables
-  for line in lines:
-    logger.info(line)
-    if line[0] == "generate_data":
-      generate_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "analyse_data":
-      analyse_data = {'True': True, 'False': False}.get(line[1], False)     
-    if line[0] == "generate_report":
-      generate_report = {'True': True, 'False': False}.get(line[1], False)           
-    if line[0] == "project_dir":
-      project_dir = line[1] 
-    elif line[0] == "model": 
-      model = line[1] 
-    elif line[0] == "copasi_reports_path": 
-      copasi_reports_path = line[1]
-    elif line[0] == "cluster": 
-      cluster = line[1] 
-    elif line[0] == "pp_cpus": 
-      pp_cpus = line[1] 
-    elif line[0] == "runs": 
-      runs = line[1]      
-    elif line[0] == "simulate__xaxis_label":
-      simulate__xaxis_label = line[1]     
-
-
+  
   runs = int(runs)
   pp_cpus = int(pp_cpus)
 
