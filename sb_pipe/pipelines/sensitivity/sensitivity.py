@@ -61,9 +61,15 @@ def main(config_file):
   logger.info("Reading file " + config_file + " : \n")
   
   # Initialises the variables for this pipeline
-  (generate_data, analyse_data, generate_report,
+  try:
+    (generate_data, analyse_data, generate_report,
       project_dir, model, copasi_reports_path) = config_parser(config_file, "sensitivity")  
-      
+  except Exception as e:
+    logger.error(e.message)
+    import traceback
+    logger.debug(traceback.format_exc())    
+    return 2
+  
   
   # INTERNAL VARIABLES
   # The folder containing the models

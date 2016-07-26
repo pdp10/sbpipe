@@ -63,13 +63,18 @@ def main(config_file):
   logger.info("Reading file " + config_file + " : \n")
   
   # Initialises the variables for this pipeline
-  (generate_data, analyse_data, generate_report, 
+  try:
+    (generate_data, analyse_data, generate_report, 
       project_dir, model, scanned_species, copasi_reports_path, 
       simulate__intervals, simulate__xaxis_label, 
       single_param_scan_simulations_number, single_param_scan_percent_levels, 
       single_param_scan_knock_down_only, levels_number, min_level, max_level, 
       homogeneous_lines) = config_parser(config_file, "single_param_scan")
-  
+  except Exception as e:
+    logger.error(e.message)
+    import traceback
+    logger.debug(traceback.format_exc())    
+    return 2  
 
 
   # INTERNAL VARIABLES
