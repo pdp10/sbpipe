@@ -25,47 +25,73 @@
 
 import os
 import sys
-
+import subprocess
 import logging
 from logging.config import fileConfig
 
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
 
-from install_python_deps import install_python_deps
-from install_r_deps import install_r_deps
 from sb_config import which
 
 
 
+def install_python_deps(requirements_file):
+    """
+     Install python depenencies using pip. pip must have been installed.
+    """
+    cmd = ['pip', 'install', '--user', '-r', requirements_file]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out = proc.communicate()[0]
+    return out
+
+
+def install_r_deps(pkgs):
+    """
+     Install R packages using R script. Rscript must exist.
+    """
+    cmd = ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'utils', 'R', 'install_dependencies.r')] + pkgs
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out = proc.communicate()[0]
+    return out
+
+
 
 def python_deps(logger):
-  logger.debug("Installing Python dependencies...")    
+  logger.info("Installing Python dependencies...")    
   if which("pip") == None: 
-      logger.warn("pip not found. Skipping installation of Python dependencies.")
+      logger.warn("pip not found. Skipping installation of Python dependencies."
+		  "Please, install `python-dev` and `python-pip` packages.")
   else:
       out = install_python_deps(os.path.join(SB_PIPE, 'requirements.txt'))
       logger.debug(out)
-      if ' ERROR' in out:
-	  logger.error("Some error occurred when installing Python dependencies. "
+      if (' ERROR:' in out or
+	  ' Error:' in out):
+	  logger.error("Some error occurred when installing Python dependencies."
 		       "Please check log files in logs/")  
       else:
-	  logger.debug("Python dependencies installed correctly.")  
+	  logger.info("Python dependencies should have been installed correctly.")  
+
 
 
 
 def r_deps(logger):
-  logger.debug("Installing R dependencies...")  
+  logger.info("Installing R dependencies...")  
+  
+  # NOTE these should be placed accessible easily from another file (e.g. dependencies.r)
+  rpkgs = ["gplots", "ggplot2"]  
+  
   if which("R") == None: 
       logger.error("R not found. Skipping installation of R dependencies."
 	           "sb_pipe will be severely affected due to this.")
   else:
-      # TODO these should be placed accessible easily from another file (e.g. dependencies.r)
-      rpkgs = ("gplots", "ggplot2")
-      if not install_r_deps(rpkgs):
+      out = install_r_deps(rpkgs)
+      logger.debug(out)
+      if (' ERROR:' in out or
+	  ' error:' in out or  	  
+	  ' Error:' in out):
 	  logger.error("Some error occurred when installing R dependencies.")  
       else:
-	  logger.debug("R dependencies installed correctly.") 
+	  logger.info("R dependencies installed correctly.") 
       
 
 
@@ -82,8 +108,11 @@ def main(argv=None):
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')  
   
+  if which("CopasiSE") == None: 
+      logger.error("CopasiSE not found. Please install Copasi as explained on the sb_pipe website.")  
   
   python_deps(logger)
+  
   r_deps(logger)
   
   

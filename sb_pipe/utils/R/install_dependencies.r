@@ -21,11 +21,23 @@
 # $Date: 2016-07-26 19:48:32 $
 
 
+set_r_libs <- function() {
+    R_LIBS <- Sys.getenv(c("R_LIBS"))
+    if(R_LIBS == "") {
+        HOME <- Sys.getenv(c("HOME"))
+        r_folder <- file.path(HOME, 'R')
+	Sys.setenv(R_LIBS = r_folder)
+	dir.create(r_folder, showWarnings = FALSE)
+	R_LIBS <- r_folder
+    }
+    R_LIBS
+}    
 
-install_r_deps <- function(x) {
+    
+install_r_deps <- function(x, r_libs) {
     # no need to be noisy here.
     if (!suppressMessages(suppressWarnings(require(x, character.only=TRUE)))) {
-        install.packages(x, dep=TRUE, repos='http://cran.at.r-project.org')
+        install.packages(x, lib=r_libs, dep=TRUE, repos='http://cran.r-project.org')
         if(!suppressMessages(suppressWarnings(require(x,character.only = TRUE)))) {
             print(paste("R Package", x, "not found.", sep=" "))
         }
@@ -34,8 +46,9 @@ install_r_deps <- function(x) {
 
 
 main <- function(args) {
+   r_libs <- set_r_libs()
    for(i in 1:length(args)) {
-       install_r_deps(args[i])
+       install_r_deps(args[i], r_libs)
    }
 }
 
