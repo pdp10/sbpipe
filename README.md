@@ -123,9 +123,3 @@ the mailing list above, it would be worth this extra information is also include
 
 Issues and feature requrests can also be notified using the github issue tracking system for sb_pipe 
 at the web page: [https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
-
-
-
-Thanks for using sb_pipe!
-
-The sb_pipe team
