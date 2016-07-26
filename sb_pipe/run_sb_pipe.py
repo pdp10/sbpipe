@@ -131,11 +131,12 @@ def main(argv=None):
       argv = sys.argv
       
   # logging settings
-  if not os.path.exists(os.path.join(SB_PIPE, 'logs')):
-      os.makedirs(os.path.join(SB_PIPE, 'logs'))
+  home = os.path.expanduser("~")
+  if not os.path.exists(os.path.join(home, '.sb_pipe', 'logs')):
+      os.makedirs(os.path.join(home, '.sb_pipe', 'logs'))
   # disable_existing_loggers=False to enable logging for Python third-party packages
   fileConfig(os.path.join(SB_PIPE, 'logging_config.ini'), 
-	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
+	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')
 

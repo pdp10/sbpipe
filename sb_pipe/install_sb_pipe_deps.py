@@ -46,7 +46,7 @@ def python_deps(logger):
   else:
       out = install_python_deps(os.path.join(SB_PIPE, 'requirements.txt'))
       logger.debug(out)
-      if not 'Successfully' in out:
+      if ' ERROR' in out:
 	  logger.error("Some error occurred when installing Python dependencies. "
 		       "Please check log files in logs/")  
       else:
@@ -73,11 +73,12 @@ def r_deps(logger):
 def main(argv=None):
   
   # logging settings
-  if not os.path.exists(os.path.join(SB_PIPE, 'logs')):
-      os.makedirs(os.path.join(SB_PIPE, 'logs'))
+  home = os.path.expanduser("~")
+  if not os.path.exists(os.path.join(home, '.sb_pipe', 'logs')):
+      os.makedirs(os.path.join(home, '.sb_pipe', 'logs'))
   # disable_existing_loggers=False to enable logging for Python third-party packages
   fileConfig(os.path.join(SB_PIPE, 'logging_config.ini'), 
-	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
+	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')  
   

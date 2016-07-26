@@ -118,7 +118,7 @@ users should report problems using the following mailing list:
 sb_pipe AT googlegroups.com
 ```
 To help us better identify and reproduce your problem, some technical information is needed. This 
-detail data can be found in sb_pipe log files which are stored in ${SB_PIPE}/logs. When using 
+detail data can be found in sb_pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using 
 the mailing list above, it would be worth this extra information is also included.
 
 Issues and feature requrests can also be notified using the github issue tracking system for sb_pipe 
