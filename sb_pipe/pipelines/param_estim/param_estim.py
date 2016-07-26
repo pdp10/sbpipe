@@ -59,13 +59,20 @@ def main(config_file):
       config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """  
 
-  logger.info("Reading file " + config_file + " : \n")  
+  logger.info("Reading file " + config_file + " : \n")
+  
   # Initialises the variables for this pipeline
-  (generate_data, analyse_data, generate_report, 
+  try:
+    (generate_data, analyse_data, generate_report, 
       generate_tarball, project_dir, model, 
       copasi_reports_path, cluster, pp_cpus, 
       round, runs, best_fits_percent, 
       data_point_num, plot_2d_66_95cl_corr) = config_parser(config_file, "param_estim")  
+  except Exception as e:
+    logger.error(e.message)
+    import traceback
+    logger.debug(traceback.format_exc())    
+    return 2
   
 
   runs = int(runs)

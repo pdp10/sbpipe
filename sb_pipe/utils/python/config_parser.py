@@ -24,7 +24,7 @@
 
 
 
-
+import sys
 import logging
 logger = logging.getLogger('sbpipe')
 
@@ -36,9 +36,10 @@ from StringIO import StringIO
 
 def config_parser(config_file, section):
   parser = ConfigParser()
+
   with open(config_file) as stream:
     stream = StringIO(stream.read())    
-    parser.readfp(stream)  
+    parser.readfp(stream)     
   
   if section == 'simulate':
     return parse_simulate_section(parser.items(section))
@@ -56,8 +57,10 @@ def config_parser(config_file, section):
     return parse_sensitivity_section(parser.items(section))  
 
   else:
-    logger.error("pipeline not recognised. Please, submit this issue.")
-    return ()
+    raise Exception("Pipeline '" + section + "' not recognised " +
+		    "by sb_pipe configuration parser.")
+ 
+ 
   
 
 

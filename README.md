@@ -109,3 +109,17 @@ For additional options, run
 ```
 run_sb_pipe.py --help
 ```
+
+
+### Issue reporting & request for new features
+sb_pipe is a relatively young project and there is a chance that some error occurs. If this is the case, 
+users should report problems using the following mailing list: 
+```
+sb_pipe AT googlegroups.com
+```
+To help us better identify and reproduce your problem, some technical information is needed. This 
+detail data can be found in sb_pipe log files which are stored in ${SB_PIPE}/logs. When using 
+the mailing list above, it would be worth this extra information is also included.
+
+Issues and feature requrests can also be notified using the github issue tracking system for sb_pipe 
+at the web page: [https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
