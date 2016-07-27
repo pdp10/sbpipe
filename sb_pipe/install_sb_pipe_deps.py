@@ -104,7 +104,7 @@ def main(argv=None):
       os.makedirs(os.path.join(home, '.sb_pipe', 'logs'))
   # disable_existing_loggers=False to enable logging for Python third-party packages
   fileConfig(os.path.join(SB_PIPE, 'logging_config.ini'), 
-	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe.log')},
+	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe_inst_deps.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')  
   

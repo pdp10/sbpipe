@@ -30,7 +30,6 @@ set_r_libs <- function() {
 	dir.create(r_folder, showWarnings = FALSE)
 	R_LIBS <- r_folder
     }
-    R_LIBS
 }    
 
     

@@ -20,11 +20,13 @@ In order to use sb_pipe, the following software must be installed:
 - R 3.3.0+ (plots + statistics)
 - LaTeX 2013 (optional for report generation) (texlive-latex-base)
 
-Before proceeding, you should make sure that you have installed 
-`python-dev` and `python-pip` from your package manager. 
+Before proceeding, you should make sure that you have installed the 
+following packages using your package manager: 
+`libcurl4-openssl-dev`, `python-dev` and `python-pip`.
 
-The script `install_sb_pipe_deps.py` installs sb_pipe dependencies 
-(Python modules and R packages used by sb_pipe) automatically. 
+The script `sb_pipe/install_sb_pipe_deps.py` installs all sb_pipe 
+dependencies (Python modules and R packages used by sb_pipe) 
+automatically. 
 
 
 
