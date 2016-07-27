@@ -13,6 +13,15 @@ It aims to automate common processes and speed up productivity for tasks such as
 model single and double parameter scan, sensitivity analysis and parameter estimation. 
 
 
+### Environment variables for sb_pipe
+The following environmental variables need to be set up:
+- export SB_PIPE=/path/to/sb_pipe
+- export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+The path to CopasiSE must be added to the PATH environmental variable
+- export PATH=$PATH:/path/to/CopasiSE
+
+
 ### Requirements
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 (model parameter estimation, simulation, analyses)
@@ -24,20 +33,19 @@ Before proceeding, you should make sure that you have installed the
 following packages using your package manager: 
 `libcurl4-openssl-dev`, `python-dev` and `python-pip`.
 
-The script `sb_pipe/install_sb_pipe_deps.py` installs all sb_pipe 
-dependencies (Python modules and R packages used by sb_pipe) 
-automatically. 
+To install sb_pipe Python dependencies:
+```
+cd ${SB_PIPE}/sb_pipe/
+./install_sbpipe_pydeps.py
+```
 
-
-
-### Environment variables for sb_pipe
-The following environmental variables need to be set up:
-- export SB_PIPE=/path/to/sb_pipe
-- export PATH=$PATH:${SB_PIPE}/sb_pipe
-
-The path to CopasiSE must be added to the PATH environmental variable
-- export PATH=$PATH:/path/to/CopasiSE
-
+To install sb_pipe R dependencies:
+```
+cd ${SB_PIPE}/sb_pipe/
+$ R
+# R environment - Answer 'y' to install packages locally
+> source('install_sbpipe_rdeps.r')
+```
 
 ### Installation
 Run the command inside the sb_pipe folder: 

@@ -21,34 +21,40 @@
 # $Date: 2016-07-26 19:48:32 $
 
 
-set_r_libs <- function() {
-    R_LIBS <- Sys.getenv(c("R_LIBS"))
-    if(R_LIBS == "") {
-        HOME <- Sys.getenv(c("HOME"))
-        r_folder <- file.path(HOME, 'R')
-	Sys.setenv(R_LIBS = r_folder)
-	dir.create(r_folder, showWarnings = FALSE)
-	R_LIBS <- r_folder
-    }
-}    
-
     
-install_r_deps <- function(x, r_libs) {
+install_r_deps <- function(x) {
     # no need to be noisy here.
     if (!suppressMessages(suppressWarnings(require(x, character.only=TRUE)))) {
-        install.packages(x, lib=r_libs, dep=TRUE, repos='http://cran.r-project.org')
+        install.packages(x, dep=TRUE, repos='http://cran.r-project.org')
         if(!suppressMessages(suppressWarnings(require(x,character.only = TRUE)))) {
             print(paste("R Package", x, "not found.", sep=" "))
+            FALSE
         }
     }
+    TRUE
 }
 
 
+#TODO: maybe add a log in logs/
 main <- function(args) {
-   r_libs <- set_r_libs()
-   for(i in 1:length(args)) {
-       install_r_deps(args[i], r_libs)
+   
+   print("Installing R dependencies...")  
+  
+   # NOTE these should be placed accessible easily from another file (e.g. dependencies.r)
+   rpkgs = c("gplots", "ggplot2")
+   
+   status <- TRUE
+   for(i in 1:length(rpkgs)) {
+      if(!install_r_deps(rpkgs[i])) {
+	  status <- FALSE
+      }
    }
+   
+  if(!status) {
+      print("Some error occurred when installing R dependencies.")  
+  } else {
+      print("R dependencies installed correctly.")   
+  }  
 }
 
 

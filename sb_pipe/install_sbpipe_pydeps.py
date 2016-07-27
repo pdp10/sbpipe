@@ -45,17 +45,6 @@ def install_python_deps(requirements_file):
     return out
 
 
-def install_r_deps(pkgs):
-    """
-     Install R packages using R script. Rscript must exist.
-    """
-    cmd = ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'utils', 'R', 'install_dependencies.r')] + pkgs
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    out = proc.communicate()[0]
-    return out
-
-
-
 def python_deps(logger):
   logger.info("Installing Python dependencies...")    
   if which("pip") == None: 
@@ -73,29 +62,6 @@ def python_deps(logger):
 
 
 
-
-def r_deps(logger):
-  logger.info("Installing R dependencies...")  
-  
-  # NOTE these should be placed accessible easily from another file (e.g. dependencies.r)
-  rpkgs = ["gplots", "ggplot2"]  
-  
-  if which("R") == None: 
-      logger.error("R not found. Skipping installation of R dependencies."
-	           "sb_pipe will be severely affected due to this.")
-  else:
-      out = install_r_deps(rpkgs)
-      logger.debug(out)
-      if (' ERROR:' in out or
-	  ' error:' in out or  	  
-	  ' Error:' in out):
-	  logger.error("Some error occurred when installing R dependencies.")  
-      else:
-	  logger.info("R dependencies installed correctly.") 
-      
-
-
-
 def main(argv=None):
   
   # logging settings
@@ -104,16 +70,19 @@ def main(argv=None):
       os.makedirs(os.path.join(home, '.sb_pipe', 'logs'))
   # disable_existing_loggers=False to enable logging for Python third-party packages
   fileConfig(os.path.join(SB_PIPE, 'logging_config.ini'), 
-	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe_inst_deps.log')},
+	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe_pydeps.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')  
   
   if which("CopasiSE") == None: 
       logger.error("CopasiSE not found. Please install Copasi as explained on the sb_pipe website.")  
+
+  if which("R") == None: 
+      logger.error("R not found. Skipping installation of R dependencies."
+	           "sb_pipe will be severely affected due to this.")  
   
   python_deps(logger)
-  
-  r_deps(logger)
+
   
   
   
