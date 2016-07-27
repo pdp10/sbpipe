@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.44.0
+v0.45.0
 
+- added scripts for automatically installing Python and R package dependencies.
 - use of sections in configuration
 - separation of configuration file parsing from program logic.
 - restructuring dataset parsing for simulate and single_param_scan.

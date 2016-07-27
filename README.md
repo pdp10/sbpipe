@@ -13,14 +13,6 @@ It aims to automate common processes and speed up productivity for tasks such as
 model single and double parameter scan, sensitivity analysis and parameter estimation. 
 
 
-### Requirements
-In order to use sb_pipe, the following software must be installed:
-- Copasi 4.16 (model parameter estimation, simulation, analyses)
-- Python 2.7+ (+dependencies: pp 1.6.4)
-- R 3.3.0+ (plots + statistics) (+dependencies: ggplot2 2.1.0, gplots 2.11.3)
-- LaTeX 2013 (optional for report generation) (texlive-latex-base)
-
-
 ### Environment variables for sb_pipe
 The following environmental variables need to be set up:
 - export SB_PIPE=/path/to/sb_pipe
@@ -28,6 +20,35 @@ The following environmental variables need to be set up:
 
 The path to CopasiSE must be added to the PATH environmental variable
 - export PATH=$PATH:/path/to/CopasiSE
+
+
+### Requirements
+Before proceeding, you should make sure that the following packages 
+are installed in your machine: `build-essential`, `liblapack-dev`, 
+`libblas-dev`, `python-pip`, and (optionally) `texlive-latex-base`.
+
+In order to use sb_pipe, the following software must be installed:
+- Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
+- Python 2.7+ - [https://www.python.org/](https://www.python.org/)
+- R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
+- LaTeX 2013 (optional) [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
+
+Before installing sb_pipe Python and R dependencies, the environment 
+variables for sb_pipe need to be configured. 
+
+To install sb_pipe Python dependencies, run:
+```
+cd ${SB_PIPE}/
+./install_pydeps.py
+```
+
+To install sb_pipe R dependencies, run:
+```
+cd ${SB_PIPE}/
+$ R
+# Inside R environment, answer 'y' to install packages locally
+> source('install_rdeps.r')
+```
 
 
 ### Installation
@@ -118,7 +139,7 @@ users should report problems using the following mailing list:
 sb_pipe AT googlegroups.com
 ```
 To help us better identify and reproduce your problem, some technical information is needed. This 
-detail data can be found in sb_pipe log files which are stored in ${SB_PIPE}/logs. When using 
+detail data can be found in sb_pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using 
 the mailing list above, it would be worth this extra information is also included.
 
 Issues and feature requrests can also be notified using the github issue tracking system for sb_pipe 

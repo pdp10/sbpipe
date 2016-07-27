@@ -24,9 +24,18 @@
 # $Date: 2016-06-27 10:18:32 $
 
 
+# NOTE: 
+# don't name this file: __init__.py or sb_pipe.py . 
+# They both cause a conflict when these are invoked from the tests
+
+
+
 import os
 import sys
 import getopt
+
+import logging
+from logging.config import fileConfig
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "create_project"))
@@ -35,6 +44,7 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "param_estim"))
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "single_param_scan"))
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "double_param_scan"))
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sensitivity"))
+
 
 # pipelines
 import create_project
@@ -45,8 +55,7 @@ import single_param_scan
 import sensitivity
 
 
-import logging
-from logging.config import fileConfig
+
 
 
 def logo():
@@ -66,6 +75,7 @@ def logo():
   return logo  
 
 
+
 def help():
   """
   Return help message.
@@ -83,15 +93,13 @@ def help():
     "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"
     "Exit status:\n"
     " 0  if OK,\n"
-    " 1  if minor problems (e.g., a pipeline did not execute correctly.\n"
-    "Please check the configuration file and Copasi file before reporting),\n"
+    " 1  if minor problems (e.g., a pipeline did not execute correctly),\n"
     " 2  if serious trouble (e.g., cannot access command-line argument).\n\n"
-    "Report sb_pipe bugs to sb_pipe@googlegroups.com\n"
+    "Report bugs to sb_pipe@googlegroups.com\n"
     "sb_pipe home page: <https://pdp10.github.io/sb_pipe>\n"
     "For complete documentation, see README.md .\n"
   )
   return message
-
 
 
 def readFileHeader(fname):
@@ -101,19 +109,17 @@ def readFileHeader(fname):
   return line
 
 
+
 def check_args(args, msg):
   if len(args) < 1:
     raise(Usage(msg))
   
 
+
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-
-# NOTE: 
-# don't name this file: __init__.py or sb_pipe.py . 
-# They both cause a conflict when these are invoked from the tests
 
 
 
@@ -125,11 +131,12 @@ def main(argv=None):
       argv = sys.argv
       
   # logging settings
-  if not os.path.exists(os.path.join(SB_PIPE, 'logs')):
-      os.makedirs(os.path.join(SB_PIPE, 'logs'))
+  home = os.path.expanduser("~")
+  if not os.path.exists(os.path.join(home, '.sb_pipe', 'logs')):
+      os.makedirs(os.path.join(home, '.sb_pipe', 'logs'))
   # disable_existing_loggers=False to enable logging for Python third-party packages
   fileConfig(os.path.join(SB_PIPE, 'logging_config.ini'), 
-	     defaults={'logfilename': os.path.join(SB_PIPE, 'logs', 'sb_pipe.log')},
+	     defaults={'logfilename': os.path.join(home, '.sb_pipe', 'logs', 'sb_pipe.log')},
 	     disable_existing_loggers=False)   
   logger = logging.getLogger('sbpipe')
 
@@ -150,13 +157,13 @@ def main(argv=None):
 				      "sensitivity", 
 				      "license", 
 				      "version"
-				    ])
+				    ])  
   
 	  for opt, arg in opts:
 	    
 	      if opt in ("-h", "--help"):
 		print(help())
-	      
+		
 	      elif opt in ("-l", "--license"):
 		print(readFileHeader("LICENSE"))
 	      
