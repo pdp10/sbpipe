@@ -18,8 +18,12 @@
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-07-26 19:48:32 $
+# $Date: 2016-07-27 11:48:32 $
 
+
+
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 
     
 install_r_deps <- function(x) {
@@ -39,9 +43,14 @@ install_r_deps <- function(x) {
 main <- function(args) {
    
    print("Installing R dependencies...")  
-  
-   # NOTE these should be placed accessible easily from another file (e.g. dependencies.r)
-   rpkgs = c("gplots", "ggplot2")
+
+   rdeps_file <- file.path(SB_PIPE, "rdeps.txt")
+   if(!file.exists(rdeps_file)) {
+      print(paste("Installation failed as", rdeps_file, "does not exist"))
+      return(1)
+   }
+   rpkgs <- read.table(rdeps_file, stringsAsFactors=FALSE, encoding="utf-8")[,1]
+   print(rpkgs)
    
    status <- TRUE
    for(i in 1:length(rpkgs)) {
@@ -51,10 +60,11 @@ main <- function(args) {
    }
    
   if(!status) {
-      print("Some error occurred when installing R dependencies.")  
+      print("Some package was not found.")  
   } else {
-      print("R dependencies installed correctly.")   
-  }  
+      print("All packages were found. Please see the output for detail.")   
+  }
+  
 }
 
 

@@ -23,29 +23,33 @@ The path to CopasiSE must be added to the PATH environmental variable
 
 
 ### Requirements
+Before proceeding, you should make sure that the following packages 
+are installed in your machine: `build-essential`, `liblapack-dev`, 
+`libblas-dev`, `python-pip`, and (optionally) `texlive-latex-base`.
+
 In order to use sb_pipe, the following software must be installed:
-- Copasi 4.16 (model parameter estimation, simulation, analyses)
-- Python 2.7+ (python-dev, python-pip)
-- R 3.3.0+ (plots + statistics)
-- LaTeX 2013 (optional for report generation) (texlive-latex-base)
+- Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
+- Python 2.7+ - [https://www.python.org/](https://www.python.org/)
+- R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
+- LaTeX 2013 (optional) [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
 
-Before proceeding, you should make sure that you have installed the 
-following packages using your package manager: 
-`libcurl4-openssl-dev`, `python-dev` and `python-pip`.
+Before installing sb_pipe Python and R dependencies, the environment 
+variables for sb_pipe need to be configured. 
 
-To install sb_pipe Python dependencies:
+To install sb_pipe Python dependencies, run:
 ```
-cd ${SB_PIPE}/sb_pipe/
-./install_sbpipe_pydeps.py
+cd ${SB_PIPE}/
+./install_pydeps.py
 ```
 
-To install sb_pipe R dependencies:
+To install sb_pipe R dependencies, run:
 ```
-cd ${SB_PIPE}/sb_pipe/
+cd ${SB_PIPE}/
 $ R
-# R environment - Answer 'y' to install packages locally
-> source('install_sbpipe_rdeps.r')
+# Inside R environment, answer 'y' to install packages locally
+> source('install_rdeps.r')
 ```
+
 
 ### Installation
 Run the command inside the sb_pipe folder: 

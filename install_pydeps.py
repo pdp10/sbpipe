@@ -23,6 +23,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-26 22:18:32 $
 
+
 import os
 import sys
 import subprocess
@@ -30,6 +31,7 @@ import logging
 from logging.config import fileConfig
 
 SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe"))
 
 from sb_config import which
 
