@@ -24,8 +24,8 @@ The path to CopasiSE must be added to the PATH environmental variable
 
 ### Requirements
 Before proceeding, you should make sure that the following packages 
-are installed in your machine: `build-essential`, `liblapack-dev`, 
-`libblas-dev`, `python-pip`, and (optionally) `texlive-latex-base`.
+are installed in your machine: `build-essential`, `python-pip`, and 
+(optionally) `texlive-latex-base`.
 
 In order to use sb_pipe, the following software must be installed:
 - Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
@@ -49,6 +49,7 @@ $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
 ```
+If R package dependencies are to be compiled, it would be worth checking that these additional packages are installed in your machine: `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
 
 
 ### Installation
