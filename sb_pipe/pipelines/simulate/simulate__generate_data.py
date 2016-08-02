@@ -87,9 +87,12 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
 			   group_model+str(i)+".csv")
   
   # run copasi in parallel
-  number_to_replace = get_rand_num_str(5)
-  command = copasi + " " + os.path.join(models_dir, group_model+number_to_replace+".cps")
-  parallel_computation(command, number_to_replace, cluster_type, runs, output_dir, pp_cpus)
+  # To make things simple, the last 10 character of groupid are extracted and reversed. 
+  # This string will be likely different from groupid and is the string to replace with 
+  # the iteration number.
+  str_to_replace = groupid[10::-1]
+  command = copasi + " " + os.path.join(models_dir, group_model+str_to_replace+".cps")
+  parallel_computation(command, str_to_replace, cluster_type, runs, output_dir, pp_cpus)
   
   # move the report files
   reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]

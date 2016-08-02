@@ -84,9 +84,12 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
 
   logger.info("\n")
   logger.info("Parallel parameter estimation:")  
-  number_to_replace = get_rand_num_str(5)
-  command = copasi + " -s "+os.path.join(models_dir, group_model+number_to_replace+".cps")+" "+os.path.join(models_dir, group_model+number_to_replace+".cps")
-  parallel_computation(command, number_to_replace, cluster_type, nfits, results_dir, pp_cpus)
+  # To make things simple, the last 10 character of groupid are extracted and reversed. 
+  # This string will be likely different from groupid and is the string to replace with 
+  # the iteration number.
+  str_to_replace = groupid[10::-1]
+  command = copasi + " -s "+os.path.join(models_dir, group_model+str_to_replace+".cps")+" "+os.path.join(models_dir, group_model+str_to_replace+".cps")
+  parallel_computation(command, str_to_replace, cluster_type, nfits, results_dir, pp_cpus)
 
   # Move the report files to the results_dir
   reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
