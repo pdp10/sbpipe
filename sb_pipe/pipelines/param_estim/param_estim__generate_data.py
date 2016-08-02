@@ -29,10 +29,10 @@
 
 import os
 import sys
-import glob
+import re
 import shutil
 from subprocess import Popen,PIPE
-# for generating a timestamp
+import random
 import datetime
 import logging
 logger = logging.getLogger('sbpipe')
@@ -51,55 +51,53 @@ from parallel_computation import parallel_computation
 # model: read the model
 # models_dir: read the models dir
 # output_dir: The output dir
-# tmp_dir: read the temp dir
 # sim_number: the number of simulations to perform
-def main(model, models_dir, data_dir, data_folder, cluster_type, pp_cpus, nfits, results_dir, output_folder, tmp_dir):
+def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_folder, updated_models_folder):
   
   if int(nfits) < 1: 
     logger.error("variable " + nfits + " must be greater than 0. Please, check your configuration file.");
     return
 
-  if not os.path.exists(data_dir):
-    logger.error(data_dir + " does not exist.") 
-    return  
-
   if not os.path.isfile(os.path.join(models_dir,model)):
     logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return  
   
-  if not os.path.exists(os.path.join(results_dir, output_folder)):
-    os.mkdir(os.path.join(results_dir, output_folder)) 
-
-
-  logger.info("Configure Copasi:")
-  logger.info("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values") 
-  pre_param_estim = RandomiseParameters(models_dir, model)
-  pre_param_estim.print_parameters_to_estimate()
-  pre_param_estim.generate_instances_from_template(nfits)
+  if not os.path.exists(os.path.join(results_dir, reports_folder)):
+    os.mkdir(os.path.join(results_dir, reports_folder)) 
   
+  if not os.path.exists(os.path.join(results_dir, updated_models_folder)):
+    os.mkdir(os.path.join(results_dir, updated_models_folder)) 
 
-  logger.info("\n")
-  logger.info("Parallel parameter estimation:")
-  # for some reason, CopasiSE ignores the "../" for the data file and assumes that the Data folder is inside the Models folder..
-  # Let's temporarily copy this folder and then delete it.
-  if os.path.exists(os.path.join(models_dir, data_folder)):
-    os.rename(os.path.join(models_dir, data_folder), os.path.join(models_dir, data_folder+"_{:%Y%m%d%H%M%S}".format(datetime.datetime.now())))
-  shutil.copytree(data_dir, os.path.join(models_dir, data_folder))
 
   copasi = get_copasi()
   if copasi == None:
     logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return
+
+  logger.info("Configure Copasi:")
+  logger.info("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values")
+  groupid = '_{:%Y%m%d%H%M%S}_'.format(datetime.datetime.now())
+  pre_param_estim = RandomiseParameters(models_dir, model)
+  pre_param_estim.print_parameters_to_estimate()
+  pre_param_estim.generate_instances_from_template(nfits, groupid)
   
-  timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
-  command = copasi + " -s "+os.path.join(models_dir, model[:-4]+timestamp+".cps")+" "+os.path.join(models_dir, model[:-4]+timestamp+".cps")
-  parallel_computation(command, timestamp, cluster_type, nfits, results_dir, pp_cpus)
 
-  # remove the previously copied Data folder
-  shutil.rmtree(os.path.join(models_dir, data_folder), ignore_errors=True) 
+  logger.info("\n")
+  logger.info("Parallel parameter estimation:")  
+  group_model = model[:-4] + groupid
+  
+  number_to_replace = str(random.randint(1, 1000000))
+  command = copasi + " -s "+os.path.join(models_dir, group_model+number_to_replace+".cps")+" "+os.path.join(models_dir, group_model+number_to_replace+".cps")
+  parallel_computation(command, number_to_replace, cluster_type, nfits, results_dir, pp_cpus)
 
-  # Move the files to the results_dir
-  tmpFiles = os.listdir(tmp_dir)
-  for file in tmpFiles:
-    shutil.move(os.path.join(tmp_dir, file), os.path.join(results_dir, output_folder, file))
+  # Move the report files to the results_dir
+  reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
+  for file in reportFiles:
+    # copy report and remove the groupid
+    shutil.move(os.path.join(models_dir, file), os.path.join(results_dir, reports_folder, file.replace(groupid, "_")))
 
+  # removed repeated copasi files
+  repeatedCopasiFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.cps', f)]
+  for file in repeatedCopasiFiles:
+    #os.remove(os.path.join(models_dir, file))
+    shutil.move(os.path.join(models_dir, file), os.path.join(results_dir, updated_models_folder, file.replace(groupid, "_")))

@@ -29,8 +29,10 @@
 
 import os
 import sys
+import re
 import glob
-from shutil import copyfile, move
+import shutil
+import random
 import datetime
 from subprocess import Popen,PIPE
 import logging
@@ -50,9 +52,8 @@ from parallel_computation import parallel_computation
 # model: read the model
 # models_dir: read the models dir
 # output_dir: The output dir
-# tmp_dir: read the temp dir
 # runs: the number of simulations to perform
-def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, runs=1):
+def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
   
   if runs < 1: 
     logger.error("variable " + str(runs) + " must be greater than 0. Please, check your configuration file.");
@@ -62,36 +63,49 @@ def main(model, models_dir, output_dir, tmp_dir, cluster_type="pp", pp_cpus=2, r
     logger.error(os.path.join(models_dir, model) + " does not exist.") 
     return  
 
-  # folder preparation
-  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-
-  # execute runs simulations.
-  logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
-  # Replicate the copasi file and rename its report file
-  for i in xrange(1, runs + 1):
-    copyfile(os.path.join(models_dir,model), os.path.join(models_dir,model[:-4])+str(i)+".cps") 
-    replace_string_in_file(os.path.join(models_dir,model[:-4])+str(i)+".cps", 
-			   model[:-4]+".csv", 
-			   model[:-4]+str(i)+".csv")
-  
-  # run copasi in parallel
   copasi = get_copasi()
   if copasi == None:
     logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return
+
+  # preprocessing
+  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
+  for f in filesToDelete:
+    os.remove(f)
+  if not os.path.exists(output_dir):
+    os.makedirs(output_dir)  
+
+  # execute runs simulations.
+  logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
+  # Replicate the copasi file and rename its report file
+  groupid = '_{:%Y%m%d%H%M%S}_'.format(datetime.datetime.now())
+  group_model = model[:-4] + groupid
+
+  for i in xrange(1, runs + 1):
+    shutil.copyfile(os.path.join(models_dir,model), os.path.join(models_dir,group_model)+str(i)+".cps") 
+    replace_string_in_file(os.path.join(models_dir,group_model)+str(i)+".cps", 
+			   model[:-4]+".csv", 
+			   group_model+str(i)+".csv")
   
-  timestamp = "{:%Y%m%d%H%M%S}".format(datetime.datetime.now())
-  command = copasi + " " + os.path.join(models_dir, model[:-4]+timestamp+".cps")
-  parallel_computation(command, timestamp, cluster_type, runs, output_dir, pp_cpus)
+  # run copasi in parallel
   
- 
-  for file in glob.glob(os.path.join(tmp_dir, model[:-4]+"*.csv")):
+  number_to_replace = str(random.randint(1, 1000000))
+  command = copasi + " " + os.path.join(models_dir, group_model+number_to_replace+".cps")
+  parallel_computation(command, number_to_replace, cluster_type, runs, output_dir, pp_cpus)
+  
+  # move the report files
+  reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
+  for file in reportFiles:
     # Replace some string in the report file
-    replace_str_copasi_sim_report(file)
+    replace_str_copasi_sim_report(os.path.join(models_dir, file))
     # rename and move the output file
-    move(file, os.path.join(output_dir, model[:-4]+"__sim_" + file.replace(os.path.join(tmp_dir, model[:-4]), "")[:-4] + ".csv"))
+    shutil.move(os.path.join(models_dir, file), os.path.join(output_dir, file.replace(groupid, "_")[:-4] + ".csv"))
+   
+    
+  # removed repeated copasi files
+  repeatedCopasiFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.cps', f)]
+  for file in repeatedCopasiFiles:
+    os.remove(os.path.join(models_dir, file))  
+    
+    
     

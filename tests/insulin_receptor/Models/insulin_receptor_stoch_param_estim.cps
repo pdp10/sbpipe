@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-07-21 11:16:04 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-02 13:21:10 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -395,7 +395,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="../tmp/insulin_receptor_stoch_param_estim.csv" append="0" confirmOverwrite="0"/>
+      <Report reference="Report_12" target="insulin_receptor_stoch_param_estim.csv" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
         <Parameter name="Randomize Start Values" type="bool" value="1"/>
@@ -408,7 +408,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-04"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="448833"/>
+            <Parameter name="StartValue" type="float" value="0.0236352"/>
             <Parameter name="UpperBound" type="cn" value="1e+01"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -418,7 +418,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-04"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="1e-06"/>
+            <Parameter name="StartValue" type="float" value="0.06086836992633276"/>
             <Parameter name="UpperBound" type="cn" value="1e+01"/>
           </ParameterGroup>
           <ParameterGroup name="FitItem">
@@ -428,7 +428,7 @@ Reaction scheme where the products are created from the reactants and the change
             </ParameterGroup>
             <Parameter name="LowerBound" type="cn" value="1e-04"/>
             <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="999959"/>
+            <Parameter name="StartValue" type="float" value="1.601773756162152"/>
             <Parameter name="UpperBound" type="cn" value="1e+01"/>
           </ParameterGroup>
         </ParameterGroup>
@@ -441,10 +441,10 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="Experiment">
             <Parameter name="Data is Row Oriented" type="bool" value="1"/>
             <Parameter name="Experiment Type" type="unsignedInteger" value="1"/>
-            <Parameter name="File Name" type="file" value="../Data/insulin_receptor.csv"/>
+            <Parameter name="File Name" type="file" value="insulin_receptor_dataset.csv"/>
             <Parameter name="First Row" type="unsignedInteger" value="1"/>
             <Parameter name="Key" type="key" value="Experiment_0"/>
-            <Parameter name="Last Row" type="unsignedInteger" value="12"/>
+            <Parameter name="Last Row" type="unsignedInteger" value="34"/>
             <Parameter name="Normalize Weights per Experiment" type="bool" value="1"/>
             <Parameter name="Number of Columns" type="unsignedInteger" value="3"/>
             <ParameterGroup name="Object Map">

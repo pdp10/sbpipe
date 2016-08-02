@@ -68,7 +68,7 @@ def parse_simulate_section(lines):
   
   # parse copasi common options
   (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path) = parse_copasi_commons(lines)
+      project_dir, model) = parse_copasi_commons(lines)
   
   # default values
   # The parallel mechanism to use (pp | sge | lsf).
@@ -94,7 +94,7 @@ def parse_simulate_section(lines):
       simulate__xaxis_label = line[1]
       
   return (generate_data, analyse_data, generate_report,
-	  project_dir, model, copasi_reports_path, 
+	  project_dir, model, 
 	  cluster, pp_cpus, runs, 
 	  simulate__xaxis_label)
 
@@ -106,7 +106,7 @@ def parse_single_param_scan_section(lines):
 
   # parse copasi common options
   (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path) = parse_copasi_commons(lines)  
+      project_dir, model) = parse_copasi_commons(lines)  
   
   # default values  
   # The model species to scan (e.g. mTORC1)
@@ -160,7 +160,7 @@ def parse_single_param_scan_section(lines):
       homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)
   
   return (generate_data, analyse_data, generate_report, 
-	  project_dir, model, scanned_species, copasi_reports_path, 
+	  project_dir, model, scanned_species, 
 	  simulate__intervals, simulate__xaxis_label, 
 	  single_param_scan_simulations_number, single_param_scan_percent_levels, 
 	  single_param_scan_knock_down_only, levels_number, min_level, max_level, 
@@ -171,14 +171,14 @@ def parse_single_param_scan_section(lines):
 def parse_double_param_scan_section(lines):
   # parse copasi common options
   (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path) = parse_copasi_commons(lines)
+      project_dir, model) = parse_copasi_commons(lines)
   
   # Initialises the variables
   for line in lines:
     break
 
   return (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path)
+      project_dir, model)
 
 
 
@@ -187,7 +187,7 @@ def parse_param_estim_section(lines):
   
   # parse copasi common options
   (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path) = parse_copasi_commons(lines)  
+      project_dir, model) = parse_copasi_commons(lines)  
   
   # default values  
   # The parallel mechanism to use (pp | sge | lsf).
@@ -227,7 +227,7 @@ def parse_param_estim_section(lines):
       plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
       
   return (generate_data, analyse_data, generate_report, generate_tarball, 
-	  project_dir, model, copasi_reports_path, cluster, pp_cpus, 
+	  project_dir, model, cluster, pp_cpus, 
 	  round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr)
       
 
@@ -236,14 +236,14 @@ def parse_param_estim_section(lines):
 def parse_sensitivity_section(lines):
   # parse copasi common options 
   (generate_data, analyse_data, generate_report,
-	  project_dir, model, copasi_reports_path) = parse_copasi_commons(lines)
+	  project_dir, model) = parse_copasi_commons(lines)
     
   # Initialises the variables
   for line in lines:
     break
       
   return (generate_data, analyse_data, generate_report,
-	  project_dir, model, copasi_reports_path)
+	  project_dir, model)
 
 
 
@@ -281,4 +281,4 @@ def parse_copasi_commons(lines):
       copasi_reports_path = line[1]
       
   return (generate_data, analyse_data, generate_report,
-	  project_dir, model, copasi_reports_path)
+	  project_dir, model)

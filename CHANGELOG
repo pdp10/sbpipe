@@ -6,8 +6,12 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.45.0
+v0.49.0
 
+- Generated copasi files for parameter estimation now moved to Working_Folder/xx/
+- Improved insulin receptor model for testing.
+- Copasi report files now in Models/ .
+- Copasi experimental data files now in Models/ .
 - added scripts for automatically installing Python and R package dependencies.
 - use of sections in configuration
 - separation of configuration file parsing from program logic.
