@@ -32,8 +32,6 @@ import sys
 import re
 import shutil
 from subprocess import Popen,PIPE
-import random
-import datetime
 import logging
 logger = logging.getLogger('sbpipe')
 
@@ -44,6 +42,7 @@ from sb_config import get_copasi
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from RandomiseParameters import *
 from parallel_computation import parallel_computation
+from random_functions import get_rand_num_str, get_rand_alphanum_str
 
 
 
@@ -76,7 +75,8 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
 
   logger.info("Configure Copasi:")
   logger.info("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values")
-  groupid = '_{:%Y%m%d%H%M%S}_'.format(datetime.datetime.now())
+  groupid = "_" + get_rand_alphanum_str(20) + "_"
+  group_model = model[:-4] + groupid   
   pre_param_estim = RandomiseParameters(models_dir, model)
   pre_param_estim.print_parameters_to_estimate()
   pre_param_estim.generate_instances_from_template(nfits, groupid)
@@ -84,9 +84,7 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
 
   logger.info("\n")
   logger.info("Parallel parameter estimation:")  
-  group_model = model[:-4] + groupid
-  
-  number_to_replace = str(random.randint(1, 1000000))
+  number_to_replace = get_rand_num_str(5)
   command = copasi + " -s "+os.path.join(models_dir, group_model+number_to_replace+".cps")+" "+os.path.join(models_dir, group_model+number_to_replace+".cps")
   parallel_computation(command, number_to_replace, cluster_type, nfits, results_dir, pp_cpus)
 

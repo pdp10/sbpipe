@@ -32,8 +32,6 @@ import sys
 import re
 import glob
 import shutil
-import random
-import datetime
 from subprocess import Popen,PIPE
 import logging
 logger = logging.getLogger('sbpipe')
@@ -46,6 +44,7 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import replace_string_in_file
 from parallel_computation import parallel_computation
+from random_functions import get_rand_num_str, get_rand_alphanum_str
 
 
 # Input parameters
@@ -78,7 +77,7 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
   # execute runs simulations.
   logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
   # Replicate the copasi file and rename its report file
-  groupid = '_{:%Y%m%d%H%M%S}_'.format(datetime.datetime.now())
+  groupid = "_" + get_rand_alphanum_str(20) + "_"
   group_model = model[:-4] + groupid
 
   for i in xrange(1, runs + 1):
@@ -88,8 +87,7 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
 			   group_model+str(i)+".csv")
   
   # run copasi in parallel
-  
-  number_to_replace = str(random.randint(1, 1000000))
+  number_to_replace = get_rand_num_str(5)
   command = copasi + " " + os.path.join(models_dir, group_model+number_to_replace+".cps")
   parallel_computation(command, number_to_replace, cluster_type, runs, output_dir, pp_cpus)
   
