@@ -41,8 +41,8 @@ from sb_config import get_copasi
 
 
 # Input parameters
-# model, models_dir, output_dir, tmp_dir
-def main(model, models_dir, output_dir, tmp_dir):
+# model, models_dir, output_dir
+def main(model, models_dir, output_dir):
 
   if not os.path.isfile(os.path.join(models_dir,model)):
     logger.error(os.path.join(models_dir, model) + " does not exist.") 
@@ -70,6 +70,6 @@ def main(model, models_dir, output_dir, tmp_dir):
   p.wait()
  
   # move the output file
-  move(os.path.join(tmp_dir, model[:-4]+".csv"), output_dir)
+  move(os.path.join(model[:-4]+".csv"), output_dir)
 
     

@@ -65,9 +65,9 @@ def main(config_file):
   try:
     (generate_data, analyse_data, generate_report, 
       generate_tarball, project_dir, model, 
-      copasi_reports_path, cluster, pp_cpus, 
-      round, runs, best_fits_percent, 
-      data_point_num, plot_2d_66_95cl_corr) = config_parser(config_file, "param_estim")  
+      cluster, pp_cpus, round, runs, 
+      best_fits_percent, data_point_num, 
+      plot_2d_66_95cl_corr) = config_parser(config_file, "param_estim")  
   except Exception as e:
     logger.error(e.message)
     import traceback
@@ -83,17 +83,15 @@ def main(config_file):
   # INTERNAL VARIABLES
   # The folder containing the models
   models_folder="Models"
-  # The folder containing the data
-  data_folder="Data"
   # The folder containing the working results
   working_folder="Working_Folder"
   # The dataset working folder
-  sim_raw_data="sim_raw_data"  
+  sim_raw_data="sim_raw_data"
+  # The folder containing the updated Copasi models
+  updated_models_folder="updated_models"
   
   models_dir = os.path.join(project_dir,models_folder)
   working_dir = os.path.join(project_dir, working_folder)
-  data_dir = os.path.join(project_dir, data_folder)
-  tmp_dir = copasi_reports_path
 
   output_folder = model[:-4]+"_round"+round
   plots_folder = "plots"
@@ -116,8 +114,6 @@ def main(config_file):
   logger.info("")
 
   # preprocessing
-  if not os.path.exists(tmp_dir):
-    os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
 
@@ -128,14 +124,12 @@ def main(config_file):
     logger.info("##############")
     param_estim__generate_data.main(model, 
 				    models_dir, 
-				    data_dir, 
-				    data_folder, 
 				    cluster, 
 				    pp_cpus, 
 				    runs, 
 				    results_dir, 
-				    sim_raw_data, 
-				    tmp_dir)
+				    sim_raw_data,
+				    updated_models_folder)
     
 
   if analyse_data == True:

@@ -65,7 +65,7 @@ def main(config_file):
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report, 
-      project_dir, model, scanned_species, copasi_reports_path, 
+      project_dir, model, scanned_species,  
       simulate__intervals, simulate__xaxis_label, 
       single_param_scan_simulations_number, single_param_scan_percent_levels, 
       single_param_scan_knock_down_only, levels_number, min_level, max_level, 
@@ -89,7 +89,6 @@ def main(config_file):
 
   models_dir = os.path.join(project_dir, models_folder)
   results_dir = os.path.join(project_dir, working_folder, model[:-4])
-  tmp_dir = os.path.join(copasi_reports_path)
 
 
   # Get the pipeline start time
@@ -104,8 +103,6 @@ def main(config_file):
 
 
   # preprocessing
-  if not os.path.exists(tmp_dir):
-    os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir)
 
@@ -120,8 +117,7 @@ def main(config_file):
 					  simulate__intervals,
 					  levels_number,
 					  models_dir, 
-					  os.path.join(results_dir, raw_sim_data), 
-					  tmp_dir)
+					  os.path.join(results_dir, raw_sim_data))
   
   
   if analyse_data == True:

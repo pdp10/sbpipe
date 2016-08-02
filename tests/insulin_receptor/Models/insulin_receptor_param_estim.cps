@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-07-04 14:48:59 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-02 13:20:47 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -45,14 +45,23 @@ Reaction scheme where the products are created from the reactants and the change
     </MiriamAnnotation>
     <ListOfCompartments>
       <Compartment key="Compartment_1" name="Cell" simulationType="fixed" dimensionality="3">
+        <MiriamAnnotation>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="#Compartment_1">
+    <dcterms:created>
+      <rdf:Description>
+        <dcterms:W3CDTF>2016-08-02T12:21:33Z</dcterms:W3CDTF>
+      </rdf:Description>
+    </dcterms:created>
+  </rdf:Description>
+</rdf:RDF>
+        </MiriamAnnotation>
       </Compartment>
     </ListOfCompartments>
     <ListOfMetabolites>
       <Metabolite key="Metabolite_1" name="IR_beta" simulationType="reactions" compartment="Compartment_1">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Metabolite_1">
     <dcterms:created>
       <rdf:Description>
@@ -61,14 +70,11 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
       </Metabolite>
       <Metabolite key="Metabolite_3" name="IR_beta_pY1146" simulationType="reactions" compartment="Compartment_1">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Metabolite_3">
     <dcterms:created>
       <rdf:Description>
@@ -77,14 +83,11 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
       </Metabolite>
       <Metabolite key="Metabolite_5" name="IR_beta_ready" simulationType="reactions" compartment="Compartment_1">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Metabolite_5">
     <dcterms:created>
       <rdf:Description>
@@ -93,14 +96,11 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
       </Metabolite>
       <Metabolite key="Metabolite_7" name="Insulin" simulationType="assignment" compartment="Compartment_1">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Metabolite_7">
     <dcterms:created>
       <rdf:Description>
@@ -109,7 +109,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
         <Expression>
           &lt;CN=Root,Model=Insulin Receptor,Vector=Values[ins_stim],Reference=Value&gt;
@@ -145,9 +144,7 @@ Reaction scheme where the products are created from the reactants and the change
       </ModelValue>
       <ModelValue key="ModelValue_2" name="k3" simulationType="fixed">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#ModelValue_2">
     <dcterms:created>
       <rdf:Description>
@@ -156,7 +153,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
       </ModelValue>
       <ModelValue key="ModelValue_3" name="ins_stim" simulationType="fixed">
@@ -176,9 +172,7 @@ Reaction scheme where the products are created from the reactants and the change
     <ListOfReactions>
       <Reaction key="Reaction_0" name="IR_beta_phos" reversible="false" fast="false">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Reaction_0">
     <dcterms:created>
       <rdf:Description>
@@ -187,7 +181,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
         <ListOfSubstrates>
           <Substrate metabolite="Metabolite_1" stoichiometry="1"/>
@@ -197,7 +190,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4396" name="k1" value="448833"/>
+          <Constant key="Parameter_4396" name="k1" value="0.0045"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -213,9 +206,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Reaction>
       <Reaction key="Reaction_1" name="IR_beta_pY1146_dephos" reversible="false" fast="false">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Reaction_1">
     <dcterms:created>
       <rdf:Description>
@@ -224,7 +215,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
         <ListOfSubstrates>
           <Substrate metabolite="Metabolite_3" stoichiometry="1"/>
@@ -233,7 +223,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4395" name="k1" value="1e-06"/>
+          <Constant key="Parameter_4395" name="k1" value="0.056"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -248,9 +238,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Reaction>
       <Reaction key="Reaction_2" name="IR_beta_refractory" reversible="false" fast="false">
         <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Reaction_2">
     <dcterms:created>
       <rdf:Description>
@@ -259,7 +247,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
         </MiriamAnnotation>
         <ListOfSubstrates>
           <Substrate metabolite="Metabolite_5" stoichiometry="1"/>
@@ -268,7 +255,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4394" name="k1" value="999959"/>
+          <Constant key="Parameter_4394" name="k1" value="0.1154"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -297,28 +284,28 @@ Reaction scheme where the products are created from the reactants and the change
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[Insulin]" value="0" type="Species" simulationType="assignment"/>
         </ModelParameterGroup>
         <ModelParameterGroup cn="String=Initial Global Quantities" type="Group">
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1]" value="448833.072453607" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k2]" value="1e-06" type="ModelValue" simulationType="fixed"/>
-          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3]" value="999959.4214499376" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1]" value="0.0045" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k2]" value="0.056" type="ModelValue" simulationType="fixed"/>
+          <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3]" value="0.1154" type="ModelValue" simulationType="fixed"/>
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[ins_stim]" value="0" type="ModelValue" simulationType="fixed"/>
         </ModelParameterGroup>
         <ModelParameterGroup cn="String=Kinetic Parameters" type="Group">
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos],ParameterGroup=Parameters,Parameter=k1" value="448833.072453607" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos],ParameterGroup=Parameters,Parameter=k1" value="0.0045" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue&gt;
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos],ParameterGroup=Parameters,Parameter=k1" value="1e-06" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos],ParameterGroup=Parameters,Parameter=k1" value="0.056" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue&gt;
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory],ParameterGroup=Parameters,Parameter=k1" value="999959.4214499376" type="ReactionParameter" simulationType="assignment">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory],ParameterGroup=Parameters,Parameter=k1" value="0.1154" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue&gt;
               </InitialExpression>
@@ -340,7 +327,7 @@ Reaction scheme where the products are created from the reactants and the change
       <StateTemplateVariable objectReference="ModelValue_3"/>
     </StateTemplate>
     <InitialState type="initialState">
-      0 16.5607078175 0 0 0 1 448833.072453607 1e-06 999959.4214499376 0 
+      0 16.5607078175 0 0 0 1 0.0045 0.056 0.1154 0 
     </InitialState>
   </Model>
   <ListOfTasks>
@@ -420,7 +407,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="../tmp/insulin_receptor_param_estim.txt" append="0" confirmOverwrite="0"/>
+      <Report reference="Report_12" target="insulin_receptor_param_estim.txt" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
         <Parameter name="Randomize Start Values" type="bool" value="0"/>
@@ -466,10 +453,10 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="Experiment">
             <Parameter name="Data is Row Oriented" type="bool" value="1"/>
             <Parameter name="Experiment Type" type="unsignedInteger" value="1"/>
-            <Parameter name="File Name" type="file" value="../Data/insulin_receptor.csv"/>
+            <Parameter name="File Name" type="file" value="insulin_receptor_dataset.csv"/>
             <Parameter name="First Row" type="unsignedInteger" value="1"/>
             <Parameter name="Key" type="key" value="Experiment_0"/>
-            <Parameter name="Last Row" type="unsignedInteger" value="12"/>
+            <Parameter name="Last Row" type="unsignedInteger" value="34"/>
             <Parameter name="Normalize Weights per Experiment" type="bool" value="1"/>
             <Parameter name="Number of Columns" type="unsignedInteger" value="3"/>
             <ParameterGroup name="Object Map">

@@ -69,7 +69,7 @@ cd tests
 ### Preliminary configuration steps
 
 #### Pipelines using Copasi
-Before using these pipelines, a Copasi model must be configured as follows:
+Before using these pipelines, a Copasi model must be configured as follows. Reports must be created in the same folder of the model (Models/). 
 
 ##### simulate 
 Using CopasiUI:
@@ -96,7 +96,7 @@ Using CopasiUI:
 - Save the report with the model name replacing the extension .cps with .csv.
 
 Copasi has changed a few times the format for this report. As Sensitivity analysis is not a repetitive task, right now:
-- Generate a report for sensitivity analysis. Save this report in PROJECT_FOLDER/simulations/MODEL_NAME/sensitivities/MODEL_NAME_sensitivities.csv
+- Generate a report for sensitivity analysis. Save this report in PROJECT_FOLDER/MODEL_NAME/sensitivities/MODEL_NAME_sensitivities.csv
 - After running the task, edit the file so that it contains exactly one table.
 - Create a configuration file including: 
 sensitivities_dir=sensitivities
@@ -114,7 +114,8 @@ for each task they intend to run. Examples of configuration files can be found i
 ```
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
 ```
-Users should place their configuration files in the Working_Folder/ of their project. Models must be stored in the Models/ folder, while the any data used by the model must be placed in Data/ folder.
+Users should place their configuration files in the Working_Folder/ of their project. Models must be stored in the Models/ folder. The folder Data/ is meant for collecting experimental data files and analyses in one place. 
+Once the data files for Copasi (e.g. for parameter estimation) are generated, **it is advised** to move them into the Models/ folder so that the Copasi (.cps) file and its associated experimental data files are stored in the same folder. 
 Finally, a pipeline for a certain configuration file can be executed as follows:
 ```
 cd Working_Folder

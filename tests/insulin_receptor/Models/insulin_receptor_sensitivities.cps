@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-06-27 13:04:27 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-02 14:11:20 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -444,7 +444,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_23" name="Sensitivities" type="sensitivities" scheduled="true" updateModel="false">
-      <Report reference="Report_16" target="../simulations/insulin_receptor/sensitivities/insulin_receptor_sensitivities_scaled.csv" append="0" confirmOverwrite="1"/>
+      <Report reference="Report_16" target="insulin_receptor_sensitivities.csv" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="SubtaskType" type="unsignedInteger" value="2"/>
         <ParameterGroup name="TargetFunctions">

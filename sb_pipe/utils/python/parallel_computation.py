@@ -67,7 +67,7 @@ import pp
 
 
 
-def parallel_computation(command, timestamp, cluster_type, runs, output_dir, pp_cpus=1):
+def parallel_computation(command, command_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
   if cluster_type == "sge" or cluster_type == "lsf":
     outDir = os.path.join(output_dir, 'out')
     errDir = os.path.join(output_dir, 'err')
@@ -77,15 +77,15 @@ def parallel_computation(command, timestamp, cluster_type, runs, output_dir, pp_
       os.makedirs(errDir)   
     
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      run_jobs_sge(command, timestamp, outDir, errDir, runs)
+      run_jobs_sge(command, command_iter_substr, outDir, errDir, runs)
 
     elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      run_jobs_lsf(command, timestamp, outDir, errDir, runs)      
+      run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs)      
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
       logger.warn("Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
-    run_jobs_pp(command, timestamp, runs, pp_cpus)
+    run_jobs_pp(command, command_iter_substr, runs, pp_cpus)
 
 
 
