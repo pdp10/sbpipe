@@ -63,7 +63,7 @@ def main(config_file):
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path) = config_parser(config_file, "sensitivity")  
+      project_dir, model) = config_parser(config_file, "sensitivity")  
   except Exception as e:
     logger.error(e.message)
     import traceback
@@ -81,7 +81,6 @@ def main(config_file):
   
   models_dir = os.path.join(project_dir, models_folder)
   results_dir = os.path.join(project_dir, working_folder, model[:-4], sensitivities_dir)
-  tmp_dir = os.path.join(copasi_reports_path)
 
 
   # Get the pipeline start time
@@ -109,7 +108,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    sensitivity__generate_data.main(model, models_dir, results_dir, tmp_dir) 
+    sensitivity__generate_data.main(model, models_dir, results_dir) 
 
 
   if analyse_data == True:

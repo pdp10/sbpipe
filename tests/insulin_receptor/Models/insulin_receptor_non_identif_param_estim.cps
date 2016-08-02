@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-07-04 15:03:42 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-02 13:20:57 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -396,7 +396,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="../tmp/insulin_receptor_non_identif_param_estim.txt" append="0" confirmOverwrite="0"/>
+      <Report reference="Report_12" target="insulin_receptor_non_identif_param_estim.txt" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
         <Parameter name="Randomize Start Values" type="bool" value="0"/>
@@ -442,10 +442,10 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="Experiment">
             <Parameter name="Data is Row Oriented" type="bool" value="1"/>
             <Parameter name="Experiment Type" type="unsignedInteger" value="1"/>
-            <Parameter name="File Name" type="file" value="../Data/insulin_receptor_non_identif.csv"/>
+            <Parameter name="File Name" type="file" value="insulin_receptor_non_identif_dataset.csv"/>
             <Parameter name="First Row" type="unsignedInteger" value="1"/>
             <Parameter name="Key" type="key" value="Experiment_0"/>
-            <Parameter name="Last Row" type="unsignedInteger" value="6"/>
+            <Parameter name="Last Row" type="unsignedInteger" value="13"/>
             <Parameter name="Normalize Weights per Experiment" type="bool" value="1"/>
             <Parameter name="Number of Columns" type="unsignedInteger" value="3"/>
             <ParameterGroup name="Object Map">

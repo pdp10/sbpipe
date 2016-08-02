@@ -117,7 +117,7 @@ configured first), generate plots and report;
 These pipelines are available as Python functions and are invoked 
 directly via *sb_pipe/run_sb_pipe.py*.
 
-*NOTE:* 
+**NOTE:**
 use the logger("sbpipe") for printing messages instead of a simple print().
 
 
@@ -128,11 +128,10 @@ dependencies as well as reference for configuring a project before
 running any pipeline. 
 Projects inside the folder tests/ have the sb_pipe project structure: 
 - *Data* (e.g. training / testing data sets for the model);
-- *Model* (e.g. Copasi or Potterswheel models);
+- *Model* (e.g. Copasi models);
 - *Working_Folder* (e.g. pipelines configurations and parameter 
 estimation results, time course, parameter scan, sensitivity analysis 
 etc).
-- *tmp* (e.g. a temporary folder used for pre-processing by sb_pipe).
 
 Examples of configuration files (*.conf) can be found in 
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.

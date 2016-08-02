@@ -63,8 +63,7 @@ def main(config_file):
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report,
-      project_dir, model, copasi_reports_path, 
-      cluster, pp_cpus, runs, 
+      project_dir, model, cluster, pp_cpus, runs, 
       simulate__xaxis_label) = config_parser(config_file, "simulate")
   except Exception as e:
     logger.error(e.message)
@@ -101,7 +100,6 @@ def main(config_file):
   models_dir = os.path.join(project_dir, models_folder)
   results_dir = os.path.join(project_dir, working_folder, model[:-4])
   data_dir = os.path.join(project_dir, data_folder)
-  tmp_dir = copasi_reports_path
 
 
   # Get the pipeline start time
@@ -115,8 +113,6 @@ def main(config_file):
   logger.info("")
 	
   # preprocessing
-  if not os.path.exists(tmp_dir):
-    os.mkdir(tmp_dir)
   if not os.path.exists(results_dir):
     os.makedirs(results_dir) 
  
@@ -125,7 +121,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), tmp_dir, cluster, pp_cpus, runs)
+    simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_raw_data), cluster, pp_cpus, runs)
 
 
   if analyse_data == True:

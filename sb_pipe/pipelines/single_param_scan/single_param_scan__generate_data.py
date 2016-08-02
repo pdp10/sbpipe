@@ -50,9 +50,8 @@ from copasi_utils import replace_str_copasi_sim_report
 # sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
 # models_dir: Read the models dir
 # output_dir: the output dir
-# tmp_dir: Read the tmp dir
 def main(model, species, sim_number, simulate__intervals, 
-	 single_param_scan_intervals, models_dir, output_dir, tmp_dir):
+	 single_param_scan_intervals, models_dir, output_dir):
 
 
   if not os.path.isfile(os.path.join(models_dir,model)):
@@ -86,17 +85,18 @@ def main(model, species, sim_number, simulate__intervals,
   for i in xrange(0, int(sim_number)):
     
       logger.info("Simulation No.: "+str(i))
-      # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv in ${tmp_dir}
-      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir,model)])
+      # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
+      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
       process.wait()
       
 
-      if not os.path.isfile(os.path.join(tmp_dir, model_noext+".csv")): 
-	  logger.warn(os.path.join(tmp_dir, model_noext+".csv") + " does not exist!") 
+      if (not os.path.isfile(os.path.join(models_dir, model_noext+".csv")) and 
+          not os.path.isfile(os.path.join(models_dir, model_noext+".txt"))): 
+	  logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
 	  continue
       
       # Replace some string in the report file   
-      replace_str_copasi_sim_report(os.path.join(tmp_dir, model[:-4]+".csv"))
+      replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
       
 
 
@@ -104,9 +104,9 @@ def main(model, species, sim_number, simulate__intervals,
       # Find the index of species in the header file, so it is possible to read the amount at 
       # the second line.
       if i == 0:
-	logger.info("Retrieving column index for species "+species+" from file "+ os.path.join(tmp_dir, model_noext+".csv"))
+	logger.info("Retrieving column index for species "+species+" from file "+ os.path.join(models_dir, model_noext+".csv"))
 	# Read the first line of a file.
-	with open(os.path.join(tmp_dir, model_noext+".csv")) as myfile:
+	with open(os.path.join(models_dir, model_noext+".csv")) as myfile:
 	  # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
 	  header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
 	logger.debug(header)
@@ -134,7 +134,7 @@ def main(model, species, sim_number, simulate__intervals,
       for j in xrange(0, intervals):
 	# Read the species level
 	# Read the second line of a file.
-	with open(os.path.join(tmp_dir, model_noext+".csv")) as myfile:
+	with open(os.path.join(models_dir, model_noext+".csv")) as myfile:
 	  # 2 is the number of lines to read, 1 is the i-th element to extract from the list.	  
 	  initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
 	#print initial_configuration
@@ -149,7 +149,7 @@ def main(model, species, sim_number, simulate__intervals,
 	# copy the -th run to a new file: add 1 to timepoints because of the header.
 	round_species_level = species_level
 	# Read the first timepoints+1 lines of a file.
-	with open(os.path.join(tmp_dir, model_noext+".csv"), 'r') as file:
+	with open(os.path.join(models_dir, model_noext+".csv"), 'r') as file:
 	  table = list(islice(file, timepoints+1))  
 
 	# Write the extracted table to a separate file
@@ -157,17 +157,17 @@ def main(model, species, sim_number, simulate__intervals,
 	  for line in table:
 	    file.write(line)
 
-	with open(os.path.join(tmp_dir, model_noext+".csv"), 'r') as file:
+	with open(os.path.join(models_dir, model_noext+".csv"), 'r') as file:
 	  # read all lines
 	  lines = file.readlines()
 	  
 
-	with open(os.path.join(tmp_dir, model_noext+".csv~"), 'w') as file:
+	with open(os.path.join(models_dir, model_noext+".csv~"), 'w') as file:
 	  file.writelines(header)
 	  file.writelines(lines[timepoints+1:])
 
-	shutil.move(os.path.join(tmp_dir, model_noext+".csv~"), os.path.join(tmp_dir, model_noext+".csv"))
+	shutil.move(os.path.join(models_dir, model_noext+".csv~"), os.path.join(models_dir, model_noext+".csv"))
 	
 	
       # remove the file
-      os.remove(os.path.join(tmp_dir, model_noext+".csv"))
+      os.remove(os.path.join(models_dir, model_noext+".csv"))
