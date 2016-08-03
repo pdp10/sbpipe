@@ -65,7 +65,7 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
     os.mkdir(os.path.join(results_dir, reports_folder)) 
   else:
     mydir = os.path.join(results_dir, reports_folder)
-    files = [f for f in os.listdir(mydir) if isfile(os.path.join(mydir, f))]
+    files = [f for f in os.listdir(mydir) if os.path.isfile(os.path.join(mydir, f))]
     for f in files:
       os.remove(f)
       
@@ -73,7 +73,7 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
     os.mkdir(os.path.join(results_dir, updated_models_folder))
   else:
     mydir = os.path.join(results_dir, updated_models_folder)
-    files = [f for f in os.listdir(mydir) if isfile(os.path.join(mydir, f))]
+    files = [f for f in os.listdir(mydir) if os.path.isfile(os.path.join(mydir, f))]
     for f in files:
       os.remove(f)
     
