@@ -63,9 +63,16 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
   
   if not os.path.exists(os.path.join(results_dir, reports_folder)):
     os.mkdir(os.path.join(results_dir, reports_folder)) 
-  
+  else:
+    for f in os.listdir(os.path.join(results_dir, reports_folder)):
+      os.remove(f)
+      
   if not os.path.exists(os.path.join(results_dir, updated_models_folder)):
-    os.mkdir(os.path.join(results_dir, updated_models_folder)) 
+    os.mkdir(os.path.join(results_dir, updated_models_folder))
+  else:
+    for f in os.listdir(os.path.join(results_dir, updated_models_folder)):
+      os.remove(f)
+    
 
 
   copasi = get_copasi()
