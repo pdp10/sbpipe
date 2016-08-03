@@ -3,6 +3,8 @@
 
 Mailing list: sb_pipe AT googlegroups.com
 
+Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+
 
 ## Introduction
 This guide is meant for developers and aims to fix some common practices
