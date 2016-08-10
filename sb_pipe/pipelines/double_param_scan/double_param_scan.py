@@ -38,9 +38,9 @@ import subprocess
 import logging
 logger = logging.getLogger('sbpipe')
 
-import single_param_scan__generate_data
-import single_param_scan__analyse_data
-import single_param_scan__generate_report
+import double_param_scan__generate_data
+import double_param_scan__analyse_data
+import double_param_scan__generate_report
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
@@ -73,8 +73,8 @@ def main(config_file):
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report, 
-      project_dir, model, scanned_var1, scanned_var2,  
-      scan_intervals_var1, scan_intervals_var2, scan_type_var1, scan_type_var2, 
+      project_dir, model, scanned_par1, scanned_par2,  
+      scan_intervals_par1, scan_intervals_par2, scan_type_par1, scan_type_par2, 
       sim_length, min_level, max_level) = config_parser(config_file, "double_param_scan")
   except Exception as e:
     logger.error(e.message)
@@ -117,9 +117,6 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    CopasiSE --nologo ${models_dir}/${param_scan__double_perturb_copasi_model}
-    mv ${param_scan__double_perturb_copasi_model%.*}.csv ${raw_sim_data}/
-
     #single_param_scan__generate_data.main(model, 
 					  #scanned_species, 
 					  #single_param_scan_simulations_number, 
@@ -132,9 +129,7 @@ def main(config_file):
   if analyse_data == True:
     logger.info("\n")
     logger.info("Data analysis: (SKIP)")
-    logger.info("##############")
-    #matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([SB_PIPE,'/bin/sb_param_scan__double_perturb/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
-        
+    logger.info("##############")      
     #single_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
 					 #raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 					 #single_param_scan_simulations_number, 
@@ -157,8 +152,7 @@ def main(config_file):
 
 
   if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, tc_parameter_scan_dir, model[:-4]+"*.png"))) > 0:
-    ### TODO
-    return 1
-    #return 0
-  return 1
+    return 0
+  ### TODO : set the next return to 1
+  return 0
      

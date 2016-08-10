@@ -98,5 +98,7 @@ def main(model, species, sim_number, simulate__intervals,
       # Replace some string in the report file   
       replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
       
+      
+      #mv ${param_scan__double_perturb_copasi_model%.*}.csv ${raw_sim_data}/      
       #bash ${SB_PIPE}/bin/sb_param_scan__double_perturb/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
 

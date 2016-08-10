@@ -51,7 +51,7 @@ import create_project
 import simulate
 import param_estim
 import single_param_scan
-#import double_param_scan
+import double_param_scan
 import sensitivity
 
 

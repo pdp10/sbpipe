@@ -173,12 +173,51 @@ def parse_double_param_scan_section(lines):
   (generate_data, analyse_data, generate_report,
       project_dir, model) = parse_copasi_commons(lines)
   
+  # default values    
+  # the first scanned param
+  scanned_par1=""
+  # the second scanned param
+  scanned_par2=""
+  # the number of scanned intervals for the first par
+  scan_intervals_par1="2"
+  # the number of scanned intervals for the second par  
+  scan_intervals_par2="2"
+  # the type of scan for the first par (inhibition, overexpression, mixed) is this needed?
+  scan_type_par1="inhibition"
+  # the type of scan for the second par    
+  scan_type_par2="inhibition"
+  # the simulation length
+  sim_length=1
+  # the minimum level for the first par (not sure this is needed..)
+  min_level=0
+  # the maximum level for the first par (not sure this is needed..)  
+  max_level=100
+    
   # Initialises the variables
   for line in lines:
-    break
+    if line[0] == "scanned_par1":
+      scanned_par1 = line[1]      
+    elif line[0] == "scanned_par2":
+      scanned_par2 = line[1]       
+    elif line[0] == "scan_intervals_par1":
+      scan_intervals_par1 = line[1] 
+    elif line[0] == "scan_intervals_par2": 
+      scan_intervals_par2 = line[1]
+    elif line[0] == "scan_type_par1":
+      scan_type_par1 = line[1] 
+    elif line[0] == "scan_type_par2": 
+      scan_type_par2 = line[1]
+    elif line[0] == "sim_length": 
+      sim_length = line[1]
+    elif line[0] == "min_level": 
+      min_level = line[1]
+    elif line[0] == "max_level": 
+      max_level = line[1]      
 
-  return (generate_data, analyse_data, generate_report,
-      project_dir, model)
+  return (generate_data, analyse_data, generate_report, 
+      project_dir, model, scanned_par1, scanned_par2,  
+      scan_intervals_par1, scan_intervals_par2, scan_type_par1, scan_type_par2, 
+      sim_length, min_level, max_level)
 
 
 
