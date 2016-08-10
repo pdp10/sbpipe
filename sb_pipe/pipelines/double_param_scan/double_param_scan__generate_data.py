@@ -44,14 +44,13 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
 
 
-# INITIALIZATION
+# INITIALIZATION (COMMENTS TO UPDATE)
 # model: read the model
 # species: the species to knock-down (name of the species as in copasi)
 # sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
 # models_dir: Read the models dir
 # output_dir: the output dir
-def main(model, species, sim_number, simulate__intervals, 
-	 single_param_scan_intervals, models_dir, output_dir):
+def main(model, scanned_par1, scanned_par2, scan_intervals_par1, scan_intervals_par2, sim_length, models_dir, output_dir):
 
 
   if not os.path.isfile(os.path.join(models_dir,model)):
@@ -69,36 +68,47 @@ def main(model, species, sim_number, simulate__intervals,
 
   model_noext=model[:-4]
 
-  names=[]
-  species_index=-1
-  species_level=-1
-  # Set the number of intervals
-  intervals=int(single_param_scan_intervals)+1
-  # Set the number of timepoints
-  timepoints=int(simulate__intervals)+1
-
   copasi=get_copasi()
   if copasi == None:
     logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return  
   
-  for i in xrange(0, int(sim_number)):
-    
-      logger.info("Simulation No.: "+str(i))
-      # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
-      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
-      process.wait()
-      
+  
+  # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
+  process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
+  process.wait()
+  
 
-      if (not os.path.isfile(os.path.join(models_dir, model_noext+".csv")) and 
-          not os.path.isfile(os.path.join(models_dir, model_noext+".txt"))): 
-	  logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
-	  continue
-      
-      # Replace some string in the report file   
-      replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
-      
-      
-      #mv ${param_scan__double_perturb_copasi_model%.*}.csv ${raw_sim_data}/      
-      #bash ${SB_PIPE}/bin/sb_param_scan__double_perturb/param_scan__double_perturb_extract_timepoints.sh ${dp_datasets_dir} ${param_scan__double_perturb_copasi_model} ${param_scan__double_perturb_simulation_length}
+  if (not os.path.isfile(os.path.join(models_dir, model_noext+".csv")) and 
+      not os.path.isfile(os.path.join(models_dir, model_noext+".txt"))): 
+      logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
+      return
+  
+  # Replace some string in the report file   
+  replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
+  
+  
+  
+### TODO CONVERT THE FOLLOWING FROM BASH TO PYTHON
+  
+  #mv ${param_scan__double_perturb_copasi_model%.*}.csv ${raw_sim_data}/      
+  
+  
+  # remove blank lines, if present (this is required if one single instance of copasi is executed)
+#sed -i '/^$/d' ${path}/${param_scan__double_perturb_copasi_model%.*}.csv
+
+
+
+## Extract a selected time point from all perturbed time courses contained in ${param_scan__double_perturb_copasi_model%.*}.csv
+#for (( i=0; i<=${param_scan__double_perturb_simulation_length}; i++ ))
+#do
+    #fileout="${param_scan__double_perturb_copasi_model%.*}__tp_${i}.csv"
+    #echo "Extract time point: ${i}"
+    ## extract the header line and clean it
+    #head -1 "${path}/${param_scan__double_perturb_copasi_model%.*}.csv" > ${path}/$fileout
+    ##`replace_str_copasi_sim_report "${path}" "${fileout}"`  
+    ## extract the i-th time point
+    #sed -n "$((${i}+2))~$((${param_scan__double_perturb_simulation_length}+1))p" "${path}/${param_scan__double_perturb_copasi_model%.*}.csv" >> ${path}/$fileout
+#done
+  
 

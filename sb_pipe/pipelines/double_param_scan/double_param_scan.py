@@ -117,20 +117,21 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    #single_param_scan__generate_data.main(model, 
-					  #scanned_species, 
-					  #single_param_scan_simulations_number, 
-					  #simulate__intervals,
-					  #levels_number,
-					  #models_dir, 
-					  #os.path.join(results_dir, raw_sim_data))
+    double_param_scan__generate_data.main(model, 
+					  scanned_par1, 
+					  scanned_par2,
+					  scan_intervals_par1,
+					  scan_intervals_par2,
+					  sim_length,
+					  models_dir, 
+					  os.path.join(results_dir, raw_sim_data))
   
   
   if analyse_data == True:
     logger.info("\n")
     logger.info("Data analysis: (SKIP)")
     logger.info("##############")      
-    #single_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
+    #double_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
 					 #raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
 					 #single_param_scan_simulations_number, 
 					 #single_param_scan_percent_levels, 
@@ -142,7 +143,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Report generation: (SKIP)")
     logger.info("##################")
-    #single_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
+    #double_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
 
 
