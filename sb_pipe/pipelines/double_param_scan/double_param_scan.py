@@ -141,7 +141,7 @@ def main(config_file):
   
   if generate_report == True:
     logger.info("\n")
-    logger.info("Report generation: (SKIP)")
+    logger.info("Report generation: (SKIP - remember to reset the final return to 1)")
     logger.info("##################")
     #double_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
   
