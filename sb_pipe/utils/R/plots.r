@@ -30,8 +30,7 @@ require(graphics)
 
 # Plot a histogram
 # dfCol : a data frame with exactly one column.
-# fileout : the output file name
-histogramplot <- function(dfCol, fileout) {
+histogramplot <- function(dfCol) {
   ggplot(dfCol, aes_string(x=colnames(dfCol))) +
     geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
     theme(axis.text.x=element_text(angle = -45, hjust = 0))    
@@ -43,11 +42,10 @@ histogramplot <- function(dfCol, fileout) {
 # colNameX : the name of the column for the X axis
 # colNameY : the name of the column for the Y axis
 # colNameColor : the name of the column whose values are used as 3rd dimension
-# fileout : the output file name
-scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout, dot_size=1.0) {
+scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, dot_size=1.0, colours=rainbow(4), limits=NULL) {
   ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
     geom_point(size=dot_size) +
-    scale_colour_gradientn(colours=rainbow(4))+
+    scale_colour_gradientn(colours=colours, limits)+
     #scale_x_continuous(labels=scientific) +
     #scale_y_continuous(labels=scientific)
     #scale_colour_gradient(low="red", high="darkblue") +
@@ -63,10 +61,9 @@ scatterplot_w_color <- function(df, colNameX, colNameY, colNameColor, fileout, d
 # df : a data frame
 # colNameX : the name of the column for the X axis
 # colNameY : the name of the column for the Y axis
-# fileout : the output file name
 # conf_level_66 : horizontal line to plot
 # conf_level_95 : horizontal line to plot
-scatterplot_ple <- function(df, colNameX, colNameY, fileout, conf_level_66, conf_level_95, dot_size=0.1) {
+scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95, dot_size=0.1) {
   ggplot(df, aes_string(x=colNameX, y=colNameY)) +
       geom_point(size=dot_size) + 
       geom_hline(aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +

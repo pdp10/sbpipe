@@ -96,10 +96,10 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-	g <- histogramplot(df[i], fileout)
+	g <- histogramplot(df[i])
       } else {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-	g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx], fileout)
+	g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx])
       }
       ggsave(fileout, dpi=300)
     }    
@@ -158,7 +158,7 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
     fileout <- file.path(plots_dir, paste("approx_ple_", dfCols[i], ".png", sep=""))
-    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
+    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], 
 			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
     ggsave(fileout, dpi=300)
   
