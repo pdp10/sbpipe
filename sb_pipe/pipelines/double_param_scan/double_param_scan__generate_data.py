@@ -50,7 +50,7 @@ from copasi_utils import replace_str_copasi_sim_report
 # sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
 # models_dir: Read the models dir
 # output_dir: the output dir
-def main(model, scanned_par1, scanned_par2, scan_intervals_par1, scan_intervals_par2, sim_length, models_dir, output_dir):
+def main(model, sim_length, models_dir, output_dir):
 
 
   if not os.path.isfile(os.path.join(models_dir,model)):
@@ -74,7 +74,7 @@ def main(model, scanned_par1, scanned_par2, scan_intervals_par1, scan_intervals_
     return  
   
   
-  # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
+  # run CopasiSE. Copasi must generate a (TIME COURSE) report
   process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
   process.wait()
   
@@ -84,31 +84,38 @@ def main(model, scanned_par1, scanned_par2, scan_intervals_par1, scan_intervals_
       logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
       return
   
+  if os.path.isfile(os.path.join(models_dir, model_noext+".txt")):
+    os.rename(os.path.join(models_dir, model_noext+".txt"), os.path.join(models_dir, model_noext+".csv"))
+    
   # Replace some string in the report file   
   replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
-  
-  
-  
-### TODO CONVERT THE FOLLOWING FROM BASH TO PYTHON
-  
-  #mv ${param_scan__double_perturb_copasi_model%.*}.csv ${raw_sim_data}/      
-  
-  
-  # remove blank lines, if present (this is required if one single instance of copasi is executed)
-#sed -i '/^$/d' ${path}/${param_scan__double_perturb_copasi_model%.*}.csv
+
+  # copy file removing empty lines 
+  with open(os.path.join(models_dir, model_noext+".csv"),'r') as filein, open(os.path.join(output_dir, model_noext+".csv"),'w') as fileout:
+    for line in filein:
+        if not line.isspace():
+            fileout.write(line)
+  os.remove(os.path.join(models_dir, model_noext+".csv"))
 
 
-
-## Extract a selected time point from all perturbed time courses contained in ${param_scan__double_perturb_copasi_model%.*}.csv
-#for (( i=0; i<=${param_scan__double_perturb_simulation_length}; i++ ))
-#do
-    #fileout="${param_scan__double_perturb_copasi_model%.*}__tp_${i}.csv"
-    #echo "Extract time point: ${i}"
-    ## extract the header line and clean it
-    #head -1 "${path}/${param_scan__double_perturb_copasi_model%.*}.csv" > ${path}/$fileout
-    ##`replace_str_copasi_sim_report "${path}" "${fileout}"`  
-    ## extract the i-th time point
-    #sed -n "$((${i}+2))~$((${param_scan__double_perturb_simulation_length}+1))p" "${path}/${param_scan__double_perturb_copasi_model%.*}.csv" >> ${path}/$fileout
-#done
-  
-
+  # Extract a selected time point from all perturbed time courses contained in the report file
+  with open(os.path.join(output_dir, model_noext+".csv"),'r') as filein:
+    lines = filein.readlines()
+    header = lines[0]
+    lines = lines[1:]
+    timepoints = range(0, sim_length)
+    filesout = []
+    try:
+	filesout = [open(os.path.join(output_dir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]
+	# copy the header
+	for fileout in filesout: 
+	  fileout.write(header)
+	# extract the i-th time point and copy it to the corresponding i-th file
+	for line in lines:
+	  tp = line.rstrip().split('\t')[0]
+	  if (not '.' in tp and int(tp) in timepoints):
+	    filesout[int(tp)].write(line)
+    finally:
+	for fileout in filesout:
+	    fileout.close()      
+	  

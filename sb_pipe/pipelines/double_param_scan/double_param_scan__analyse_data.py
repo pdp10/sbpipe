@@ -53,39 +53,31 @@ SB_PIPE = os.environ["SB_PIPE"]
 # max_level
 # levels_number
 # homogeneous_lines
-def main(model, scanned_species, knock_down_only, results_dir, 
-	 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-	 simulations_number, 
-	 percent_levels, min_level, max_level, levels_number, 
-	 homogeneous_lines):
+def main(model, scanned_par1, scanned_par2, inputdir, outputdir):
 
 
-  if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
-    logger.error("input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
-    return
+  #if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
+    #logger.error("input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
+    #return
   
-    # some control
-  if float(min_level) < 0: 
-    logger.error("min_level MUST BE non negative.")
-    return
+    ## some control
+  #if float(min_level) < 0: 
+    #logger.error("min_level MUST BE non negative.")
+    #return
   
-  if percent_levels and float(max_level) < 100: 
-    logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
-    return  
+  #if percent_levels and float(max_level) < 100: 
+    #logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
+    #return  
   
 
   # folder preparation
-  filesToDelete = glob.glob(os.path.join(results_dir,tc_parameter_scan_dir,model+"*"))
+  filesToDelete = glob.glob(os.path.join(outputdir,model+"*"))
   for f in filesToDelete:
     os.remove(f)
-  if not os.path.exists(os.path.join(results_dir, tc_parameter_scan_dir)):
-    os.mkdir(os.path.join(results_dir, tc_parameter_scan_dir)) 
+  if not os.path.exists(outputdir):
+    os.mkdir(outputdir) 
 
-  #matlab -desktop -r "try; SB_PIPE=getenv('SB_PIPE'); dp_dir='"${dp_dir}"'; dp_datasets_dir='"${dp_datasets_dir}"'; perturbed_species='"${param_scan__double_perturb_copasi_species}"'; param_scan__double_perturb_suffix_plots_folder='"${param_scan__double_perturb_suffix_plots_folder}"'; param_scan__double_perturb_intervals_first_species=${param_scan__double_perturb_intervals_first_species}; param_scan__double_perturb_type_first_species='"${param_scan__double_perturb_type_first_species}"'; param_scan__double_perturb_intervals_second_species=${param_scan__double_perturb_intervals_second_species}; param_scan__double_perturb_type_second_species='"${param_scan__double_perturb_type_second_species}"'; param_scan__double_perturb_plots_3D='"${param_scan__double_perturb_plots_3D}"'; param_scan__double_perturb_plots_2D_pub='"${param_scan__double_perturb_plots_2D_pub}"'; run([SB_PIPE,'/bin/sb_param_scan__double_perturb/param_scan__double_perturb_plot_surfaces.m']); catch; end; quit; "
-
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__analyse_data.r'), 
-			      model, scanned_species, str(knock_down_only), results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), 
-			      str(homogeneous_lines)])    
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','double_param_scan','double_param_scan__analyse_data.r'), 
+			      model, scanned_par1, scanned_par2, inputdir, outputdir])    
   process.wait()
-
+  

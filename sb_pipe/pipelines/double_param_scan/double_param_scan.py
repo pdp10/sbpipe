@@ -73,15 +73,15 @@ def main(config_file):
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report, 
-      project_dir, model, scanned_par1, scanned_par2,  
-      scan_intervals_par1, scan_intervals_par2, scan_type_par1, scan_type_par2, 
-      sim_length, min_level, max_level) = config_parser(config_file, "double_param_scan")
+      project_dir, model, scanned_par1, scanned_par2, 
+      sim_length) = config_parser(config_file, "double_param_scan")
   except Exception as e:
     logger.error(e.message)
     import traceback
     logger.debug(traceback.format_exc())    
     return 2  
 
+  sim_length = int(sim_length)
 
   # INTERNAL VARIABLES
   # The folder containing the models
@@ -117,26 +117,21 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    double_param_scan__generate_data.main(model, 
-					  scanned_par1, 
-					  scanned_par2,
-					  scan_intervals_par1,
-					  scan_intervals_par2,
+    double_param_scan__generate_data.main(model,
 					  sim_length,
 					  models_dir, 
 					  os.path.join(results_dir, raw_sim_data))
   
-  
+ 
   if analyse_data == True:
     logger.info("\n")
-    logger.info("Data analysis: (SKIP)")
+    logger.info("Data analysis:")
     logger.info("##############")      
-    #double_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
-					 #raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
-					 #single_param_scan_simulations_number, 
-					 #single_param_scan_percent_levels, 
-					 #min_level, max_level, levels_number,
-					 #homogeneous_lines)
+    double_param_scan__analyse_data.main(model[:-4], 
+					 scanned_par1, 
+					 scanned_par2,
+					 os.path.join(results_dir, raw_sim_data), 
+					 os.path.join(results_dir, tc_parameter_scan_dir))
   
   
   if generate_report == True:
