@@ -6,10 +6,14 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.49.0
+v0.53.0
 
-- Generated copasi files for parameter estimation now moved to Working_Folder/xx/
-- Improved insulin receptor model for testing.
+- added test files for double parameter scan
+- ported all Matlab code to Python / R
+- added pipeline for double parameter scan (parsing, plots, report)
+- further removal of deprecated files
+- generated copasi files for parameter estimation now moved to Working_Folder/xx/
+- improved insulin receptor model for testing.
 - Copasi report files now in Models/ .
 - Copasi experimental data files now in Models/ .
 - added scripts for automatically installing Python and R package dependencies.
