@@ -35,7 +35,7 @@ logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE ,'sb_pipe','utils','python'))
-from latex_reports import latex_report_par_scan
+from latex_reports import latex_report_single_param_scan
 
 from sb_config import which
 
@@ -55,8 +55,8 @@ def main(model_noext, species, results_dir, plots_dir):
     logger.info("Generating a LaTeX report")
     logger.info(model_noext)
     filename_prefix="report__single_param_scan_"
-    latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
-			  model_noext, species)
+    latex_report_single_param_scan(results_dir, plots_dir, filename_prefix, 
+				   model_noext, species)
 
     pdflatex = which("pdflatex")
     if pdflatex == None:
