@@ -86,7 +86,9 @@ def main(config_file):
   # The folder containing the working results
   working_folder="Working_Folder"
   # The dataset working folder
-  sim_raw_data="sim_raw_data"
+  sim_data_folder="param_estim_data"
+  # The folder containing the generated plots
+  sim_plots_folder = "param_estim_plots"
   # The folder containing the updated Copasi models
   updated_models_folder="updated_models"
   
@@ -94,9 +96,7 @@ def main(config_file):
   working_dir = os.path.join(project_dir, working_folder)
 
   output_folder = model[:-4]+"_round"+round
-  plots_folder = "plots"
-  results_dir = os.path.join(working_dir, output_folder)
-  plots_dir = os.path.join(results_dir, plots_folder)
+  outputdir = os.path.join(working_dir, output_folder)
   fileout_final_estims = "final_estim_collection.csv"
   fileout_all_estims = "all_estim_collection.csv"
   fileout_approx_ple_stats = "approx_ple_stats.csv"
@@ -114,8 +114,8 @@ def main(config_file):
   logger.info("")
 
   # preprocessing
-  if not os.path.exists(results_dir):
-    os.makedirs(results_dir)
+  if not os.path.exists(outputdir):
+    os.makedirs(outputdir)
 
 
   if generate_data == True:
@@ -127,8 +127,8 @@ def main(config_file):
 				    cluster, 
 				    pp_cpus, 
 				    runs, 
-				    results_dir, 
-				    sim_raw_data,
+				    outputdir, 
+				    sim_data_folder,
 				    updated_models_folder)
     
 
@@ -136,13 +136,14 @@ def main(config_file):
     logger.info("\n")
     logger.info("Analyse data:")
     logger.info("#############")
-    param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
-				   results_dir, 
+    param_estim__analyse_data.main(model[:-4],
+				   os.path.join(outputdir, sim_data_folder), 
+				   outputdir, 
 				   fileout_final_estims, 
 				   fileout_all_estims,
 				   fileout_approx_ple_stats,
 				   fileout_conf_levels,
-				   plots_dir, 
+				   sim_plots_folder, 
 				   best_fits_percent,
 				   data_point_num,
 				   plot_2d_66_95cl_corr)
@@ -152,7 +153,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Report generation:")
     logger.info("##################")
-    param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
+    param_estim__generate_report.main(model[:-4], outputdir, sim_plots_folder)
   
 
 
@@ -174,9 +175,9 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if os.path.isfile(os.path.join(results_dir,fileout_final_estims)) and \
-     os.path.isfile(os.path.join(results_dir,fileout_all_estims)) and \
-     len(glob.glob(os.path.join(results_dir,'*'+model[:-4]+'*.pdf'))) == 1:
+  if os.path.isfile(os.path.join(outputdir,fileout_final_estims)) and \
+     os.path.isfile(os.path.join(outputdir,fileout_all_estims)) and \
+     len(glob.glob(os.path.join(outputdir,'*'+model[:-4]+'*.pdf'))) == 1:
       return 0
   return 1
     

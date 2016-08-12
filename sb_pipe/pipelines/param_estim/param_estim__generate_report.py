@@ -41,17 +41,17 @@ from sb_config import which
 
 # INITIALIZATION
 # model_noext: read the model_noext
-# results_dir: read the results_dir  
-# plots_dir: the directory containing the time courses results combined with experimental data  
-def main(model_noext, results_dir, plots_dir):
+# outputdir: read the outputdir  
+# sim_plots_folder: the directory containing the time courses results combined with experimental data  
+def main(model_noext, outputdir, sim_plots_folder):
     
-    if not os.path.exists(os.path.join(results_dir, plots_dir)): 
-	logger.error("input_dir " + os.path.join(results_dir, plots_dir) + " does not exist. Analyse the data first.");
+    if not os.path.exists(os.path.join(outputdir, sim_plots_folder)): 
+	logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.");
 	return       
       
     logger.info("Generating LaTeX report")
     filename_prefix="report__param_estim_"
-    latex_report(results_dir, plots_dir, model_noext, filename_prefix)
+    latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix)
 
     pdflatex = which("pdflatex")
     if pdflatex == None:
@@ -60,7 +60,7 @@ def main(model_noext, results_dir, plots_dir):
   
     logger.info("Generating PDF report")  
     currdir=os.getcwd()
-    os.chdir(results_dir)
+    os.chdir(outputdir)
 
     logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
     p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)

@@ -17,10 +17,10 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# $Revision: 2.0 $
+#
+# $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2015-05-30 16:14:32 $
-
+# $Date: 2016-06-23 21:43:32 $
 
 
 
@@ -28,17 +28,19 @@
 # for computing the pipeline elapsed time 
 import datetime
 
-import os
-import sys
+
 import glob
+import os
+import os.path
+import sys
 import shutil
 import subprocess
 import logging
 logger = logging.getLogger('sbpipe')
 
-import sensitivity__generate_data
-import sensitivity__analyse_data
-import sensitivity__generate_report
+import double_param_scan__generate_data
+import double_param_scan__analyse_data
+import double_param_scan__generate_report
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
@@ -48,12 +50,12 @@ from config_parser import config_parser
 
 """
 This module provides the user with a complete pipeline of scripts for computing 
-model sensitivity analysis using Copasi
+a double parameter scan using copasi.
 """
 
 def main(config_file):
   """
-  Execute and collect results for model sensitivity using Copasi
+  Execute and collect results from a parameter scan using Copasi
   Keyword arguments:
       config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
   """
@@ -62,67 +64,78 @@ def main(config_file):
   
   # Initialises the variables for this pipeline
   try:
-    (generate_data, analyse_data, generate_report,
-      project_dir, model) = config_parser(config_file, "sensitivity")  
+    (generate_data, analyse_data, generate_report, 
+      project_dir, model, scanned_par1, scanned_par2, 
+      sim_length) = config_parser(config_file, "double_param_scan")
   except Exception as e:
     logger.error(e.message)
     import traceback
     logger.debug(traceback.format_exc())    
-    return 2
-  
-  
+    return 2  
+
+  sim_length = int(sim_length)
+
   # INTERNAL VARIABLES
   # The folder containing the models
   models_folder="Models"
-  # The working folder containing the results
-  working_folder="Working_Folder"  
-  # The folder containing the sensitivity analysis results
-  sensitivities_dir="sensitivities"
-  
+  # The folder containing the results
+  working_folder="Working_Folder"
+  # The name of the folder containing the computed dataset of the parameter scan
+  sim_data_folder="double_param_scan_data"
+  # The name of the folder containing the generated plots of the parameter scan
+  sim_plots_folder="double_param_scan_plots"  
+
   models_dir = os.path.join(project_dir, models_folder)
-  outputdir = os.path.join(project_dir, working_folder, model[:-4], sensitivities_dir)
+  outputdir = os.path.join(project_dir, working_folder, model[:-4])
 
 
   # Get the pipeline start time
   start = datetime.datetime.now().replace(microsecond=0)
 
-      
-
+    
+  
   logger.info("\n")
   logger.info("Processing model " + model)
   logger.info("#############################################################")
-  logger.info("")
+  logger.info("")    
 
 
   # preprocessing
-  # remove the folder the previous results if any
-#   filesToDelete = glob.glob(os.path.join(sensitivities_dir, "*.png"))
-#   for f in filesToDelete:
-#     os.remove(f)
   if not os.path.exists(outputdir):
-    os.mkdir(outputdir)
-
+    os.makedirs(outputdir)
 
 
   if generate_data == True:
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    sensitivity__generate_data.main(model, models_dir, outputdir) 
-
-
+    double_param_scan__generate_data.main(model,
+					  sim_length,
+					  models_dir, 
+					  os.path.join(outputdir, sim_data_folder))
+  
+ 
   if analyse_data == True:
     logger.info("\n")
     logger.info("Data analysis:")
-    logger.info("##############")
-    sensitivity__analyse_data.main(outputdir)  
-
-
+    logger.info("##############")      
+    double_param_scan__analyse_data.main(model[:-4], 
+					 scanned_par1, 
+					 scanned_par2,
+					 os.path.join(outputdir, sim_data_folder), 
+					 os.path.join(outputdir, sim_plots_folder))
+  
+  
   if generate_report == True:
     logger.info("\n")
     logger.info("Report generation:")
     logger.info("##################")
-    sensitivity__generate_report.main()     
+    double_param_scan__generate_report.main(model[:-4],
+					    scanned_par1, 
+					    scanned_par2, 
+					    outputdir, 
+					    sim_plots_folder)
+  
 
 
   # Print the pipeline elapsed time
@@ -130,8 +143,7 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if len(glob.glob(os.path.join(outputdir, '*.csv'))) > 0:
-      return 0
+  if len(glob.glob(os.path.join(outputdir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(outputdir, sim_plots_folder, model[:-4]+"*.png"))) > 0:
+    return 0
   return 1
-    
-    
+     

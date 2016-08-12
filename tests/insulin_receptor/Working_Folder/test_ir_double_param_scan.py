@@ -17,18 +17,36 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
+# Object: run a list of tests for the insulin receptor model.
 #
-# $Revision: 1.0 $
+# $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-07-13 12:14:32 $
+# $Date: 2016-01-21 10:36:32 $
 
 
-# Regular expressions utils
-import re
+import os
+import sys
+from distutils.dir_util import copy_tree
+
+SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe'))
+
+import run_sb_pipe
+
+import unittest
 
 
-# Sort a list of elements alphanumerically (e.g. "file10" is correctly placed after "file2")
-def natural_sort_key(text):
-    _nsre = re.compile('([0-9]+)')
-    return [int(text) if text.isdigit() else text.lower()
-            for text in re.split(_nsre, text)]   
+"""Unit test for Insulin Receptor"""
+
+class TestIRDoubleParamScan(unittest.TestCase):
+  """
+  A collection of tests for this example.
+  """
+  def test_double_param_scan_inhib_only(self):    
+    """model double param scan - inhibition only"""
+    self.assertEqual(run_sb_pipe.main(["run_sb_pipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)     
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
+    
+    

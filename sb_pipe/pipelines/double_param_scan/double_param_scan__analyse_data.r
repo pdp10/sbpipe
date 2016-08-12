@@ -1,6 +1,3 @@
-#!/bin/bash
-# -*- coding: utf-8 -*-
-#
 # This file is part of sb_pipe.
 #
 # sb_pipe is free software: you can redistribute it and/or modify
@@ -17,27 +14,35 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# $Revision: 1.0 $
+# Object: Plotting of time courses columns wrt time. 
+#
+# $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2015-04-20 12:14:32 $
+# $Date: 2015-11-16 12:14:32 $
+
+
+# Retrieve the environment variable SB_PIPE
+SB_PIPE <- Sys.getenv(c("SB_PIPE"))
+# Add a collection of R functions
+source(file.path(SB_PIPE, 'sb_pipe','pipelines','double_param_scan','double_param_scan__plots_func.r'))
 
 
 
 
-# This script moves the substring "_dayXX" at the end of the file.
+main <- function(args) {
+    model_noext <- args[1]
+    scanned_par1 <- args[2]
+    scanned_par2 <- args[3]
+    inputdir <- args[4]
+    outputdir <- args[5]
 
-folder=$1
+    # Add controls here if any
+    
+    plot_double_param_scan_data(model_noext, scanned_par1, scanned_par2, 
+				inputdir, outputdir)    
+}
 
 
-for filenamein in `ls $folder/*.png `
-do
-    daynum=`expr match "$filenamein" '.*_day\([[:digit:]]*\)_.*' `
-    daynum="_day${daynum}"
-#echo "${daynum}"
-
-    filenameout=${filenamein/$daynum/""}
-    filenameout=${filenameout/.png/${daynum}.png}
-
-    echo "${filenamein} => ${filenameout}"
-    mv ${filenamein} ${filenameout}
-done
+main(commandArgs(TRUE))
+# Clean the environment
+rm ( list=ls ( ) )

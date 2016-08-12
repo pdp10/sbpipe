@@ -39,7 +39,7 @@ SB_PIPE = os.environ["SB_PIPE"]
 
 
 # Input parameters
-# results_dir
-def main(results_dir):
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sensitivity','plot_sensitivity.r'), results_dir])
+# outputdir
+def main(outputdir):
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sensitivity','plot_sensitivity.r'), outputdir])
   process.wait()   

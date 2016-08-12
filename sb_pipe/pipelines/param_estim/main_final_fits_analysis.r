@@ -28,11 +28,12 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 
 main <- function(args) {
   
-  filename <- args[1]
-  plots_dir <- args[2]
-  best_fits_percent <- args[3]
+  model <- args[1]
+  filename <- args[2]
+  plots_dir <- args[3]
+  best_fits_percent <- args[4]
 
-  final_fits_analysis(filename, plots_dir, best_fits_percent)
+  final_fits_analysis(model, filename, plots_dir, best_fits_percent)
 }
 
 

@@ -29,11 +29,11 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_para
 
 main <- function(args) {
     model_noext <- args[1]
-    species <- args[2]
+    variable <- args[2]
     inhibition_only <- args[3]
-    results_dir <- args[4]
-    dataset_parameter_scan_dir <- args[5]
-    tc_parameter_scan_dir <- args[6]
+    outputdir <- args[4]
+    sim_data_folder <- args[5]
+    sim_plots_folder <- args[6]
     simulate__xaxis_label <- args[7]
     simulations_number <- args[8]
     percent_levels <- args[9]    
@@ -64,14 +64,14 @@ main <- function(args) {
     
     
     if(homogeneous_lines) {
-	plot_single_param_scan_data_homogen(model_noext, species, 
-				    results_dir, dataset_parameter_scan_dir, 
-				    tc_parameter_scan_dir, simulate__xaxis_label, 
+	plot_single_param_scan_data_homogen(model_noext, variable, 
+				    outputdir, sim_data_folder, 
+				    sim_plots_folder, simulate__xaxis_label, 
 				    simulations_number)
     } else {    
-	plot_single_param_scan_data(model_noext, species, inhibition_only, 
-				    results_dir, dataset_parameter_scan_dir, 
-				    tc_parameter_scan_dir, simulate__xaxis_label, 
+	plot_single_param_scan_data(model_noext, variable, inhibition_only, 
+				    outputdir, sim_data_folder, 
+				    sim_plots_folder, simulate__xaxis_label, 
 				    simulations_number, percent_levels, min_level, 
 				    max_level, levels_number)
     }

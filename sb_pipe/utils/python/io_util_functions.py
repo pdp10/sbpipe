@@ -28,11 +28,23 @@
 
 import sys
 import os
+import glob
 import logging
 logger = logging.getLogger('sbpipe')
 
 reload(sys)  
 sys.setdefaultencoding('utf8')
+
+
+# Clean and create the folder if this does not exist
+def refresh_directory(directory, file_pattern):
+  if not os.path.exists(directory):
+    os.mkdir(directory) 
+  else:
+    files2delete = glob.glob(os.path.join(directory, file_pattern + "*"))
+    for f in files2delete:
+      os.remove(f)
+
 
 
 # Return the line number (as string) of the first occurrence of pattern in filename
