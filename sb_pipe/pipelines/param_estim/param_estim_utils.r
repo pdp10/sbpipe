@@ -99,7 +99,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 	g <- histogramplot(df[i])
       } else {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-	g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx])
+	g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx])
       }
       ggsave(fileout, dpi=300)
     }    
