@@ -28,17 +28,18 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 
 main <- function(args) {
   
-  filename <- args[1]
-  plots_dir <- args[2]
-  data_point_num <- args[3]
-  fileout_approx_ple_stats <- args[4]
-  fileout_conf_levels <- args[5]
-  plot_2d_66_95cl_corr <- args[6]
+  model <- args[1]
+  filename <- args[2]
+  plots_dir <- args[3]
+  data_point_num <- args[4]
+  fileout_approx_ple_stats <- args[5]
+  fileout_conf_levels <- args[6]
+  plot_2d_66_95cl_corr <- args[7]
   
   if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') plot_2d_66_95cl_corr = TRUE
   else plot_2d_66_95cl_corr = FALSE
 
-  all_fits_analysis(filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr)
+  all_fits_analysis(model, filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr)
 }
 
 

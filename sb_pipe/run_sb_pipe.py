@@ -51,7 +51,7 @@ import create_project
 import simulate
 import param_estim
 import single_param_scan
-#import double_param_scan
+import double_param_scan
 import sensitivity
 
 
@@ -187,8 +187,7 @@ def main(argv=None):
 	      elif opt in ("-d", "--double-param-scan"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		#exit_status = double_param_scan.main(args[0])
-		logger.error("double-param-scan pipeline is not yet available. We apologise.")
+		exit_status = double_param_scan.main(args[0])
 	    
 	      elif opt in ("-e", "--param-estim"): 
 		check_args(args, no_conf_file_msg)

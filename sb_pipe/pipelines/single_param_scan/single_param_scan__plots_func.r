@@ -32,8 +32,8 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 plot_single_param_scan_data <- function(model_noext, variable, inhibition_only, 
-					results_dir, dataset_parameter_scan_dir, 
-					tc_parameter_scan_dir, simulate__xaxis_label, 
+					outputdir, sim_data_folder, 
+					sim_plots_folder, simulate__xaxis_label, 
 					simulations_number, 
 					percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10) {
@@ -66,10 +66,10 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
     
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
     writeLines(paste("Perturbed variable: ", variable, sep=""))
-    #writeLines(results_dir)
+    #writeLines(outputdir)
     # variables
-    inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
-    outputdir <- c(file.path(results_dir, tc_parameter_scan_dir))
+    inputdir <- c(file.path(outputdir, sim_data_folder))
+    outputdir <- c(file.path(outputdir, sim_plots_folder))
     #writeLines(inputdir)
     #writeLines(outputdir)
     
@@ -142,16 +142,16 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
 
 
 plot_single_param_scan_data_homogen <- function(model_noext, variable, 
-					results_dir, dataset_parameter_scan_dir, 
-					tc_parameter_scan_dir, simulate__xaxis_label, 
+					outputdir, sim_data_folder, 
+					sim_plots_folder, simulate__xaxis_label, 
 					simulations_number) {
 					
     writeLines(paste("Model: ", model_noext, ".cps", sep=""))
     writeLines(paste("Perturbed variable: ", variable, sep=""))
-    #writeLines(results_dir)
+    #writeLines(outputdir)
     # variables
-    inputdir <- c(file.path(results_dir, dataset_parameter_scan_dir))
-    outputdir <- c(file.path(results_dir, tc_parameter_scan_dir))
+    inputdir <- c(file.path(outputdir, sim_data_folder))
+    outputdir <- c(file.path(outputdir, sim_plots_folder))
     #writeLines(inputdir)
     #writeLines(outputdir)
     # create the directory of output

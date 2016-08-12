@@ -37,6 +37,7 @@ sys.path.append(os.path.join(SB_PIPE, 'tests', ir_folder))
 # import modules
 from test_ir_simulate import TestIRSimulate
 from test_ir_single_param_scan import TestIRSingleParamScan
+from test_ir_double_param_scan import TestIRDoubleParamScan
 from test_ir_param_estim import TestIRParamEstim
 from test_ir_sensitivity import TestIRSensitivity
 from test_ir_lsf import TestIRLSF
@@ -69,11 +70,12 @@ def main(args):
   os.chdir(os.path.join(os.path.abspath(sys.path[0]), ir_folder))
   suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
   suiteSingleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRSingleParamScan)
+  suiteDoubleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRDoubleParamScan)
   suiteParamEstim = unittest.TestLoader().loadTestsFromTestCase(TestIRParamEstim)
   suiteSensitivity = unittest.TestLoader().loadTestsFromTestCase(TestIRSensitivity)  
   suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestIRLSF)  
   suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestIRSGE)  
-  suite = unittest.TestSuite([suiteSimulate, suiteSingleParamScan, suiteParamEstim, suiteSensitivity, suiteLSF, suiteSGE])
+  suite = unittest.TestSuite([suiteSimulate, suiteSingleParamScan, suiteDoubleParamScan, suiteParamEstim, suiteSensitivity, suiteLSF, suiteSGE])
   unittest.TextTestRunner(verbosity=2).run(suite)
   os.chdir(origWD) # get back to our original working directory
 

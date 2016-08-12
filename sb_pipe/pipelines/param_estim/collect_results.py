@@ -25,7 +25,7 @@
 import sys
 import os
 import glob
-from re_utils import *
+from re_utils import natural_sort_key
 import logging
 logger = logging.getLogger('sbpipe')
 
@@ -65,7 +65,7 @@ def retrieve_all_estimates(path_in=".", path_out=".", filename_out="all_estimate
 # Retrieve input files
 def retrieve_input_files(path):
   files = glob.glob(os.path.join(path, "*.csv"))
-  files.sort(key=natural_keys)
+  files.sort(key=natural_sort_key)
   return files
 
 

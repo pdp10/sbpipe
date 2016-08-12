@@ -42,24 +42,24 @@ from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
-from io_util_functions import replace_string_in_file
+from io_util_functions import refresh_directory, replace_string_in_file
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
 
 
 # Input parameters
 # model: read the model
-# models_dir: read the models dir
-# output_dir: The output dir
+# inputdir: read the models dir
+# outputdir: The output dir
 # runs: the number of simulations to perform
-def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
+def main(model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
   
   if runs < 1: 
     logger.error("variable " + str(runs) + " must be greater than 0. Please, check your configuration file.");
     return
 
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    logger.error(os.path.join(models_dir, model) + " does not exist.") 
+  if not os.path.isfile(os.path.join(inputdir, model)):
+    logger.error(os.path.join(inputdir, model) + " does not exist.") 
     return  
 
   copasi = get_copasi()
@@ -67,12 +67,8 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
     logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return
 
-  # preprocessing
-  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(output_dir):
-    os.makedirs(output_dir)  
+  # folder preparation
+  refresh_directory(outputdir, model[:-4])
 
   # execute runs simulations.
   logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
@@ -81,8 +77,8 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
   group_model = model[:-4] + groupid
 
   for i in xrange(1, runs + 1):
-    shutil.copyfile(os.path.join(models_dir,model), os.path.join(models_dir,group_model)+str(i)+".cps") 
-    replace_string_in_file(os.path.join(models_dir,group_model)+str(i)+".cps", 
+    shutil.copyfile(os.path.join(inputdir,model), os.path.join(inputdir,group_model)+str(i)+".cps") 
+    replace_string_in_file(os.path.join(inputdir,group_model)+str(i)+".cps", 
 			   model[:-4]+".csv", 
 			   group_model+str(i)+".csv")
   
@@ -91,22 +87,22 @@ def main(model, models_dir, output_dir, cluster_type="pp", pp_cpus=2, runs=1):
   # This string will be likely different from groupid and is the string to replace with 
   # the iteration number.
   str_to_replace = groupid[10::-1]
-  command = copasi + " " + os.path.join(models_dir, group_model+str_to_replace+".cps")
-  parallel_computation(command, str_to_replace, cluster_type, runs, output_dir, pp_cpus)
+  command = copasi + " " + os.path.join(inputdir, group_model+str_to_replace+".cps")
+  parallel_computation(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
   
   # move the report files
-  reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
+  reportFiles = [f for f in os.listdir(inputdir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
   for file in reportFiles:
     # Replace some string in the report file
-    replace_str_copasi_sim_report(os.path.join(models_dir, file))
+    replace_str_copasi_sim_report(os.path.join(inputdir, file))
     # rename and move the output file
-    shutil.move(os.path.join(models_dir, file), os.path.join(output_dir, file.replace(groupid, "_")[:-4] + ".csv"))
+    shutil.move(os.path.join(inputdir, file), os.path.join(outputdir, file.replace(groupid, "_")[:-4] + ".csv"))
    
     
   # removed repeated copasi files
-  repeatedCopasiFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.cps', f)]
+  repeatedCopasiFiles = [f for f in os.listdir(inputdir) if re.match(group_model+'[0-9]+.*\.cps', f)]
   for file in repeatedCopasiFiles:
-    os.remove(os.path.join(models_dir, file))  
+    os.remove(os.path.join(inputdir, file))  
     
     
     

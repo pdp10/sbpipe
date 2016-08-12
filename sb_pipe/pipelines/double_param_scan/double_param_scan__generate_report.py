@@ -19,9 +19,11 @@
 #
 # Object: Autogeneration of latex code containing images
 #
+#
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 12:38:32 $
+# $Date: 2016-06-23 22:58:32 $
+
 
 
 
@@ -31,27 +33,31 @@ from subprocess import Popen,PIPE
 import logging
 logger = logging.getLogger('sbpipe')
 
-
 SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-from latex_reports import latex_report_simulate
+sys.path.append(os.path.join(SB_PIPE ,'sb_pipe','utils','python'))
+from latex_reports import latex_report_double_param_scan
 
 from sb_config import which
 
 # INITIALIZATION
 # model_noext: read the model_noext
-# outputdir: read the outputdir  
-# sim_plots_folder: the directory containing the time courses results combined with experimental data  
-def main(model_noext, outputdir, sim_plots_folder):
+# scanned_par1: the first scanned parameter
+# scanned_par2: the second scanned parameter
+# outputdir: Read the results dir
+# sim_plots_folder: The directory containing the plots of the double parameter scan
+def main(model_noext, scanned_par1, scanned_par2, outputdir, sim_plots_folder): 
     
-    if not os.path.exists(os.path.join(outputdir, sim_plots_folder)): 
-	logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.");
-	return    
+    if not os.path.exists(os.path.join(outputdir,sim_plots_folder)): 
+	logger.error("input_dir " + os.path.join(outputdir,sim_plots_folder) + " does not exist. Analyse the data first.");
+	return
+    
       
     logger.info("Generating a LaTeX report")
-    filename_prefix="report__simulate_"
-    latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix)
-    
+    logger.info(model_noext)
+    filename_prefix="report__double_param_scan_"
+    latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, 
+			  model_noext, scanned_par1, scanned_par2)
+
     pdflatex = which("pdflatex")
     if pdflatex == None:
 	logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
@@ -66,5 +72,5 @@ def main(model_noext, outputdir, sim_plots_folder):
     p1.communicate()[0]
     p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)
     p1.communicate()[0]
-    
+
     os.chdir(currdir)

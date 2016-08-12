@@ -17,56 +17,46 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Execute the model several times for deterministic or stochastical analysis
+# Object: Run CopasiSE performing a parameter scan.
 #
-#
-# $Revision: 3.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 13:45:32 $
-
-
+# $Date: 2016-06-24 13:14:32 $
 
 
 import os
 import sys
 import glob
-from subprocess import Popen,PIPE
+import subprocess
+import shutil
 import logging
 logger = logging.getLogger('sbpipe')
+
+# For reading the first N lines of a file.
+from itertools import islice
+
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from io_util_functions import refresh_directory
 
-from sb_config import get_copasi
 
+# INITIALIZATION
+# model
+# scanned_par1
+# scanned_par2
+# inputdir
+# outputdir
+def main(model, scanned_par1, scanned_par2, inputdir, outputdir):
 
-# Input parameters
-# model, inputdir, outputdir
-def main(model, inputdir, outputdir):
-
-  if not os.path.isfile(os.path.join(inputdir,model)):
-    logger.error(os.path.join(inputdir, model) + " does not exist.") 
-    return  
+  if not os.path.exists(inputdir): 
+    logger.error("input_dir " + inputdir + " does not exist. Generate some data first.");
+    return
 
   # folder preparation
   refresh_directory(outputdir, model[:-4])
 
-  # execute runs simulations.
-  logger.info("Sensitivity analysis for " + model)
+  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','double_param_scan','double_param_scan__analyse_data.r'), 
+			      model, scanned_par1, scanned_par2, inputdir, outputdir])    
+  process.wait()
   
-  # run copasi
-  copasi = get_copasi()
-  if copasi == None:
-    logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
-    return  
-  
-  command = [copasi, os.path.join(inputdir, model[:-4]+".cps")]
-
-  p = Popen(command)
-  p.wait()
- 
-  # move the output file
-  move(os.path.join(model[:-4]+".csv"), outputdir)
-
-    

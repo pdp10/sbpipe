@@ -96,10 +96,10 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-	g <- histogramplot(df[i], fileout)
+	g <- histogramplot(df[i])
       } else {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-	g <- scatterplot_w_color(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx], fileout)
+	g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx])
       }
       ggsave(fileout, dpi=300)
     }    
@@ -112,7 +112,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 
 
-all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE) {
+all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE) {
   
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
@@ -145,7 +145,7 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
  
   # save the chisquare vs iteration
   g <- plot_fits(df[,1])
-  ggsave(file.path(plots_dir, "chi2_vs_iters.png"), dpi=300)
+  ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300)
     
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
@@ -157,8 +157,8 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
   cat(paste("Parameter", "Value", "CI_95_left", "CI_95_right", "CI_66_left", "CI_66_right\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
-    fileout <- file.path(plots_dir, paste("approx_ple_", dfCols[i], ".png", sep=""))
-    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], fileout, 
+    fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
+    g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], 
 			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
     ggsave(fileout, dpi=300)
   
@@ -178,9 +178,9 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
   
   # plot parameter correlations using the 66% and 95% confidence level data sets
   if(plot_2d_66_95cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, "ci66_fits_", 1)
-    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, "ci95_fits_", 1)
-    #plot_parameter_correlations(df, dfCols, plots_dir, "all_fits_", 1)
+    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1)
+    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1)
+    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1)
   }
   
 }
@@ -189,7 +189,7 @@ all_fits_analysis <- function(filenamein, plots_dir, data_point_num, fileout_app
 
 
 
-final_fits_analysis <- function(filenamein, plots_dir, best_fits_percent) {
+final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent) {
   
   best_fits_percent <- as.numeric(best_fits_percent)
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
@@ -213,7 +213,7 @@ final_fits_analysis <- function(filenamein, plots_dir, best_fits_percent) {
   # Set my ggplot theme here
   theme_set(basic_theme(26))
   
-  plot_parameter_correlations(df, dfCols, plots_dir, "best_fits_", 2)
+  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2)
   
 }
 

@@ -43,40 +43,28 @@ sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from RandomiseParameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
+from io_util_functions import refresh_directory
 
 
 
 # Input parameters
 # model: read the model
-# models_dir: read the models dir
+# inputdir: read the models dir
 # output_dir: The output dir
 # sim_number: the number of simulations to perform
-def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_folder, updated_models_folder):
+def main(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_folder, updated_models_folder):
   
   if int(nfits) < 1: 
     logger.error("variable " + nfits + " must be greater than 0. Please, check your configuration file.");
     return
 
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    logger.error(os.path.join(models_dir, model) + " does not exist.") 
+  if not os.path.isfile(os.path.join(inputdir,model)):
+    logger.error(os.path.join(inputdir, model) + " does not exist.") 
     return  
   
-  mydir = os.path.join(results_dir, reports_folder)
-  if not os.path.exists(mydir):
-    os.mkdir(mydir) 
-  else:
-    files = [f for f in os.listdir(mydir) if os.path.isfile(os.path.join(mydir, f))]
-    for f in files:
-      os.remove(os.path.join(mydir, f))
-      
-  mydir = os.path.join(results_dir, updated_models_folder)
-  if not os.path.exists(mydir):
-    os.mkdir(mydir)  
-  else:
-    files = [f for f in os.listdir(mydir) if os.path.isfile(os.path.join(mydir, f))]
-    for f in files:
-      os.remove(os.path.join(mydir, f))
-    
+  # folder preparation
+  refresh_directory(os.path.join(outputdir, sim_data_folder), model[:-4])
+  refresh_directory(os.path.join(outputdir, updated_models_folder), model[:-4])
 
 
   copasi = get_copasi()
@@ -88,7 +76,7 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
   logger.info("Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values")
   groupid = "_" + get_rand_alphanum_str(20) + "_"
   group_model = model[:-4] + groupid   
-  pre_param_estim = RandomiseParameters(models_dir, model)
+  pre_param_estim = RandomiseParameters(inputdir, model)
   pre_param_estim.print_parameters_to_estimate()
   pre_param_estim.generate_instances_from_template(nfits, groupid)
   
@@ -99,17 +87,17 @@ def main(model, models_dir, cluster_type, pp_cpus, nfits, results_dir, reports_f
   # This string will be likely different from groupid and is the string to replace with 
   # the iteration number.
   str_to_replace = groupid[10::-1]
-  command = copasi + " -s "+os.path.join(models_dir, group_model+str_to_replace+".cps")+" "+os.path.join(models_dir, group_model+str_to_replace+".cps")
-  parallel_computation(command, str_to_replace, cluster_type, nfits, results_dir, pp_cpus)
+  command = copasi + " -s "+os.path.join(inputdir, group_model+str_to_replace+".cps")+" "+os.path.join(inputdir, group_model+str_to_replace+".cps")
+  parallel_computation(command, str_to_replace, cluster_type, nfits, outputdir, pp_cpus)
 
-  # Move the report files to the results_dir
-  reportFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
+  # Move the report files to the outputdir
+  reportFiles = [f for f in os.listdir(inputdir) if re.match(group_model+'[0-9]+.*\.csv', f) or re.match(group_model+'[0-9]+.*\.txt', f)]
   for file in reportFiles:
     # copy report and remove the groupid
-    shutil.move(os.path.join(models_dir, file), os.path.join(results_dir, reports_folder, file.replace(groupid, "_")))
+    shutil.move(os.path.join(inputdir, file), os.path.join(outputdir, sim_data_folder, file.replace(groupid, "_")))
 
   # removed repeated copasi files
-  repeatedCopasiFiles = [f for f in os.listdir(models_dir) if re.match(group_model+'[0-9]+.*\.cps', f)]
+  repeatedCopasiFiles = [f for f in os.listdir(inputdir) if re.match(group_model+'[0-9]+.*\.cps', f)]
   for file in repeatedCopasiFiles:
-    #os.remove(os.path.join(models_dir, file))
-    shutil.move(os.path.join(models_dir, file), os.path.join(results_dir, updated_models_folder, file.replace(groupid, "_")))
+    #os.remove(os.path.join(inputdir, file))
+    shutil.move(os.path.join(inputdir, file), os.path.join(outputdir, updated_models_folder, file.replace(groupid, "_")))
