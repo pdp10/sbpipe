@@ -83,9 +83,9 @@ def main(config_file):
   # The folder containing the results
   working_folder="Working_Folder"
   # The name of the folder containing the computed dataset of the parameter scanning
-  raw_sim_data="raw_sim_data"
+  sim_data_folder="single_param_scan_data"
   # The name of the folder containing the generated plots of the parameter scanning
-  tc_parameter_scan_dir="tc_param_scan"  
+  sim_plots_folder="single_param_scan_plots"  
 
   models_dir = os.path.join(project_dir, models_folder)
   results_dir = os.path.join(project_dir, working_folder, model[:-4])
@@ -117,7 +117,7 @@ def main(config_file):
 					  simulate__intervals,
 					  levels_number,
 					  models_dir, 
-					  os.path.join(results_dir, raw_sim_data))
+					  os.path.join(results_dir, sim_data_folder))
   
   
   if analyse_data == True:
@@ -125,7 +125,7 @@ def main(config_file):
     logger.info("Data analysis:")
     logger.info("##############")
     single_param_scan__analyse_data.main(model[:-4], scanned_species, single_param_scan_knock_down_only, results_dir, 
-					 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+					 sim_data_folder, sim_plots_folder, simulate__xaxis_label, 
 					 single_param_scan_simulations_number, 
 					 single_param_scan_percent_levels, 
 					 min_level, max_level, levels_number,
@@ -137,7 +137,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Report generation:")
     logger.info("##################")
-    single_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
+    single_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, sim_plots_folder)
   
 
 
@@ -146,7 +146,7 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, tc_parameter_scan_dir, model[:-4]+"*.png"))) > 0:
+  if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, sim_plots_folder, model[:-4]+"*.png"))) > 0:
     return 0
   return 1
      

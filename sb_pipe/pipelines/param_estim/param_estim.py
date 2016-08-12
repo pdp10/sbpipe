@@ -86,7 +86,9 @@ def main(config_file):
   # The folder containing the working results
   working_folder="Working_Folder"
   # The dataset working folder
-  sim_raw_data="sim_raw_data"
+  sim_data_folder="param_estim_data"
+  # The folder containing the generated plots
+  sim_plots_folder = "param_estim_plots"
   # The folder containing the updated Copasi models
   updated_models_folder="updated_models"
   
@@ -94,9 +96,7 @@ def main(config_file):
   working_dir = os.path.join(project_dir, working_folder)
 
   output_folder = model[:-4]+"_round"+round
-  plots_folder = "plots"
   results_dir = os.path.join(working_dir, output_folder)
-  plots_dir = os.path.join(results_dir, plots_folder)
   fileout_final_estims = "final_estim_collection.csv"
   fileout_all_estims = "all_estim_collection.csv"
   fileout_approx_ple_stats = "approx_ple_stats.csv"
@@ -128,7 +128,7 @@ def main(config_file):
 				    pp_cpus, 
 				    runs, 
 				    results_dir, 
-				    sim_raw_data,
+				    sim_data_folder,
 				    updated_models_folder)
     
 
@@ -136,13 +136,13 @@ def main(config_file):
     logger.info("\n")
     logger.info("Analyse data:")
     logger.info("#############")
-    param_estim__analyse_data.main(os.path.join(results_dir, sim_raw_data), 
+    param_estim__analyse_data.main(os.path.join(results_dir, sim_data_folder), 
 				   results_dir, 
 				   fileout_final_estims, 
 				   fileout_all_estims,
 				   fileout_approx_ple_stats,
 				   fileout_conf_levels,
-				   plots_dir, 
+				   os.path.join(results_dir, sim_plots_folder), 
 				   best_fits_percent,
 				   data_point_num,
 				   plot_2d_66_95cl_corr)
@@ -152,7 +152,7 @@ def main(config_file):
     logger.info("\n")
     logger.info("Report generation:")
     logger.info("##################")
-    param_estim__generate_report.main(model[:-4], results_dir, plots_folder)
+    param_estim__generate_report.main(model[:-4], results_dir, sim_plots_folder)
   
 
 
