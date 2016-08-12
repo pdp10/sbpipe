@@ -41,34 +41,15 @@ SB_PIPE = os.environ["SB_PIPE"]
 
 # INITIALIZATION
 # model
-# scanned_species 
-# knock_down_only
-# results_dir
-# raw_sim_data
-# tc_parameter_scan_dir
-# simulate__xaxis_label
-# simulations_number
-# percent_levels
-# min_level
-# max_level
-# levels_number
-# homogeneous_lines
+# scanned_par1
+# scanned_par2
+# inputdir
+# outputdir
 def main(model, scanned_par1, scanned_par2, inputdir, outputdir):
 
-
-  #if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
-    #logger.error("input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
-    #return
-  
-    ## some control
-  #if float(min_level) < 0: 
-    #logger.error("min_level MUST BE non negative.")
-    #return
-  
-  #if percent_levels and float(max_level) < 100: 
-    #logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
-    #return  
-  
+  if not os.path.exists(inputdir): 
+    logger.error("input_dir " + inputdir + " does not exist. Generate some data first.");
+    return
 
   # folder preparation
   filesToDelete = glob.glob(os.path.join(outputdir,model+"*"))

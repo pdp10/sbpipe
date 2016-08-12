@@ -35,16 +35,17 @@ logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE ,'sb_pipe','utils','python'))
-from latex_reports import latex_report_par_scan
+from latex_reports import latex_report_double_param_scan
 
 from sb_config import which
 
 # INITIALIZATION
 # model_noext: read the model_noext
-# species: Read the species
+# scanned_par1: the first scanned parameter
+# scanned_par2: the second scanned parameter
 # results_dir: Read the results dir
 # plots_dir: The directory containing the plots of the double parameter scan
-def main(model_noext, species, results_dir, plots_dir): 
+def main(model_noext, scanned_par1, scanned_par2, results_dir, plots_dir): 
     
     if not os.path.exists(os.path.join(results_dir,plots_dir)): 
 	logger.error("input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
@@ -54,8 +55,8 @@ def main(model_noext, species, results_dir, plots_dir):
     logger.info("Generating a LaTeX report")
     logger.info(model_noext)
     filename_prefix="report__double_param_scan_"
-    latex_report_par_scan(results_dir, plots_dir, filename_prefix, 
-			  model_noext, species)
+    latex_report_double_param_scan(results_dir, plots_dir, filename_prefix, 
+			  model_noext, scanned_par1, scanned_par2)
 
     pdflatex = which("pdflatex")
     if pdflatex == None:

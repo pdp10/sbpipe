@@ -103,7 +103,7 @@ def main(model, sim_length, models_dir, output_dir):
     lines = filein.readlines()
     header = lines[0]
     lines = lines[1:]
-    timepoints = range(0, sim_length)
+    timepoints = range(0, sim_length+1)
     filesout = []
     try:
 	filesout = [open(os.path.join(output_dir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]

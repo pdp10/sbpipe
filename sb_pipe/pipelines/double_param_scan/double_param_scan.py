@@ -62,14 +62,6 @@ def main(config_file):
 
   logger.info("Reading file " + config_file + " : \n")
   
-  
-
-  # e.g.
-  #scanned_var1 = "mTORC1"
-  #scan_intervals_var1 = 9
-  #scan_type_var1 = "inhibition" | "overexpression" | "mixed"
-  #sim_length = "21" (e.g. days)
-  
   # Initialises the variables for this pipeline
   try:
     (generate_data, analyse_data, generate_report, 
@@ -136,9 +128,13 @@ def main(config_file):
   
   if generate_report == True:
     logger.info("\n")
-    logger.info("Report generation: (SKIP - remember to reset the final return to 1)")
+    logger.info("Report generation:")
     logger.info("##################")
-    #double_param_scan__generate_report.main(model[:-4], scanned_species, results_dir, tc_parameter_scan_dir)
+    double_param_scan__generate_report.main(model[:-4],
+					    scanned_par1, 
+					    scanned_par2, 
+					    results_dir, 
+					    tc_parameter_scan_dir)
   
 
 
@@ -149,6 +145,5 @@ def main(config_file):
 
   if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, tc_parameter_scan_dir, model[:-4]+"*.png"))) > 0:
     return 0
-  ### TODO : set the next return to 1
-  return 0
+  return 1
      

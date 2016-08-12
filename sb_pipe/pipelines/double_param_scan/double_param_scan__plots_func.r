@@ -31,7 +31,7 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
 plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2, inputdir, outputdir) {
-					
+	
     theme_set(tc_theme(24))    
     
     writeLines(paste("1st var: ", scanned_par1, sep=""))
@@ -63,6 +63,11 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
       df.coordinates <- subset(df.tp, select=c(scanned_par1, scanned_par2))
     }
     #print(df.coordinates)
+
+    # Construct a generic palette
+    colfunc <- colorRampPalette(c("red","yellow2","springgreen","dodgerblue", "purple"))
+    #colfunc <- colorRampPalette(c("red","yellow","springgreen","navyblue"))
+    palette.generic <- colfunc(100)    
     
     for(k in 1:length(files)) { 
       print(paste('Processing file:', files[k], sep=" "))
@@ -72,9 +77,22 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
       for(i in 1:length(columns)) {
           # add the column to plot (the colour) to the coordinate data in df.coordinates
 	  df.plot <- data.frame(df.coordinates, subset(df.tp, select=c(columns[i])))
-	  
-	  g <- scatterplot_w_color(df.plot, scanned_par1, scanned_par2, columns[i], limits=c(round(min_values[i],0), round(max_values[i],0))) 
-	  ggsave(file.path(outputdir, paste(model_noext, "__eval_", columns[i], "__tp_", k, ".png", sep="" )), 
+
+	  # Calculate the range of interest for this palette so that the colours are better represented.
+	  # Therefore, scale the column min/max for this time point by column min/max of the whole time course
+	  # so that the colour bar for each plot (time point) is consistent throught the time course.
+  	  col.min <- min(df.plot[,c(columns[i])])
+	  col.max <- max(df.plot[,c(columns[i])])
+	  colour.minidx <- as.integer(col.min*100/max_values[i])
+	  colour.maxidx <- as.integer(col.max*100/max_values[i])
+	  if(colour.minidx == colour.maxidx) { 
+	    colour.maxidx <- colour.maxidx + 1 
+	  }
+	  palette.plot <- palette.generic[colour.minidx:colour.maxidx]
+
+	  g <- scatterplot_w_colour(df.plot, scanned_par1, scanned_par2, columns[i], colours=palette.plot) + 
+	       ggtitle(paste(columns[i], ", time=", k-1, sep=""))
+	  ggsave(file.path(outputdir, paste(model_noext, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
 		dpi=300,  width=8, height=6)
       }
   }
