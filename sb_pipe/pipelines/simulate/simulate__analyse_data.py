@@ -40,32 +40,32 @@ SB_PIPE = os.environ["SB_PIPE"]
 # Input parameters
 # model: read the model
 # input_dir: the input dir
-# results_dir: The results dir
-# plots_folder: The folder containing the plots
+# outputdir: The results dir
+# sim_plots_folder: The folder containing the plots
 # xaxis_label : the x axis label
-def main(model, input_dir, results_dir, plots_folder, xaxis_label):   
+def main(model, input_dir, outputdir, sim_plots_folder, xaxis_label):   
   
   if not os.path.exists(input_dir): 
     logger.error("input_dir " + input_dir + " does not exist. Generate some data first.");
     return
 
   # folder preparation
-  filesToDelete = glob.glob(os.path.join(results_dir, plots_folder, model+"*"))    
+  filesToDelete = glob.glob(os.path.join(outputdir, sim_plots_folder, model+"*"))    
   for f in filesToDelete:
     os.remove(f)
 
-  if not os.path.exists(os.path.join(results_dir, plots_folder)):  
-    os.mkdir(os.path.join(results_dir, plots_folder))
+  if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):  
+    os.mkdir(os.path.join(outputdir, sim_plots_folder))
 
   logger.info("Generating statistics from simulations:")
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_error_bars.r'), 
 			      model, input_dir, 
-			      os.path.join(results_dir, plots_folder), 
-			      os.path.join(results_dir, 'sim_stats_'+model+'.csv'), xaxis_label])
+			      os.path.join(outputdir, sim_plots_folder), 
+			      os.path.join(outputdir, 'sim_stats_'+model+'.csv'), xaxis_label])
   process.wait() 
 
 
   #logger.info("\nGenerating overlapping plots (sim + exp):")
-  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_sim_exp_error_bars.r'), model, os.path.join(results_dir,plots_folder), os.path.join(results_dir, tc_mean_exp_dir), os.path.join(results_dir, tc_mean_with_exp_dir), os.path.join(results_dir, 'sim_stats_'+model+'.csv'),  os.path.join(results_dir,'exp_stats_'+model+'.csv')])
+  #process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate','simulate__plot_sim_exp_error_bars.r'), model, os.path.join(outputdir,sim_plots_folder), os.path.join(outputdir, tc_mean_exp_dir), os.path.join(outputdir, tc_mean_with_exp_dir), os.path.join(outputdir, 'sim_stats_'+model+'.csv'),  os.path.join(outputdir,'exp_stats_'+model+'.csv')])
   #process.wait() 
 

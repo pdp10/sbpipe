@@ -42,40 +42,35 @@ from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
+from io_util_functions import refresh_directory
 
 
 # INITIALIZATION
 # model: read the model
-# species: the species to knock-down (name of the species as in copasi)
+# variable: the variable to knock-down (name of the variable as in copasi)
 # sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
-# models_dir: Read the models dir
-# output_dir: the output dir
-def main(model, species, sim_number, simulate__intervals, 
-	 single_param_scan_intervals, models_dir, output_dir):
+# inputdir: Read the models dir
+# outputdir: the output dir
+def main(model, variable, sim_number, simulate_intervals, 
+	 single_param_scan_intervals, inputdir, outputdir):
 
-
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    logger.error(os.path.join(models_dir, model) + " does not exist.") 
+  if not os.path.isfile(os.path.join(inputdir,model)):
+    logger.error(os.path.join(inputdir, model) + " does not exist.") 
     return
   
-  filesToDelete = glob.glob(os.path.join(output_dir,model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(output_dir):
-    os.mkdir(output_dir) 
-    
+  refresh_directory(outputdir, model[:-4])    
 
   logger.info("Simulating Model: "+ model)
 
   model_noext=model[:-4]
 
   names=[]
-  species_index=-1
-  species_level=-1
+  variable_index=-1
+  variable_level=-1
   # Set the number of intervals
   intervals=int(single_param_scan_intervals)+1
   # Set the number of timepoints
-  timepoints=int(simulate__intervals)+1
+  timepoints=int(simulate_intervals)+1
 
   copasi=get_copasi()
   if copasi == None:
@@ -86,41 +81,41 @@ def main(model, species, sim_number, simulate__intervals,
     
       logger.info("Simulation No.: "+str(i))
       # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
-      process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
+      process = subprocess.Popen([copasi, '--nologo', os.path.join(inputdir, model)])
       process.wait()
       
 
-      if (not os.path.isfile(os.path.join(models_dir, model_noext+".csv")) and 
-          not os.path.isfile(os.path.join(models_dir, model_noext+".txt"))): 
-	  logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
+      if (not os.path.isfile(os.path.join(inputdir, model_noext+".csv")) and 
+          not os.path.isfile(os.path.join(inputdir, model_noext+".txt"))): 
+	  logger.warn(os.path.join(inputdir, model_noext+".csv") + " (or .txt) does not exist!") 
 	  continue
       
       # Replace some string in the report file   
-      replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
+      replace_str_copasi_sim_report(os.path.join(inputdir, model_noext+".csv"))
       
 
 
 
-      # Find the index of species in the header file, so it is possible to read the amount at 
+      # Find the index of variable in the header file, so it is possible to read the amount at 
       # the second line.
       if i == 0:
-	logger.info("Retrieving column index for species "+species+" from file "+ os.path.join(models_dir, model_noext+".csv"))
+	logger.info("Retrieving column index for "+variable+" from file "+ os.path.join(inputdir, model_noext+".csv"))
 	# Read the first line of a file.
-	with open(os.path.join(models_dir, model_noext+".csv")) as myfile:
+	with open(os.path.join(inputdir, model_noext+".csv")) as myfile:
 	  # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
 	  header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
 	logger.debug(header)
 	for j, name in enumerate(header): 
-	  logger.info(str(j) + " " + name + " " + species)
-	  if name == species: 
-	    species_index=j 
+	  logger.info(str(j) + " " + name + " " + variable)
+	  if name == variable: 
+	    variable_index=j 
 	    break;
-	if species_index == -1: 
-	  logger.error("Column index for species "+species+": "+str(species_index)+". Species not found! You must add the species "+species+
-	  " to the report form in the copasi file (check the report time-course or parameter scan).")
+	if variable_index == -1: 
+	  logger.error("Column index for "+variable+": "+str(variable_index)+". Species not found! You must add "+variable+
+	  " to the Copasi report.")
 	  return
 	else:
-	  logger.info("Column index for species "+species+": "+str(species_index))
+	  logger.info("Column index for "+variable+": "+str(variable_index))
 
 
       # Prepare the Header for the output files
@@ -132,42 +127,42 @@ def main(model, species, sim_number, simulate__intervals,
 
       # Prepare the table content for the output files
       for j in xrange(0, intervals):
-	# Read the species level
+	# Read the variable level
 	# Read the second line of a file.
-	with open(os.path.join(models_dir, model_noext+".csv")) as myfile:
+	with open(os.path.join(inputdir, model_noext+".csv")) as myfile:
 	  # 2 is the number of lines to read, 1 is the i-th element to extract from the list.	  
 	  initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
 	#print initial_configuration
-	species_level = initial_configuration[species_index]
-	if species_level == -1: 
-	  logger.error("species_level not configured!")
+	variable_level = initial_configuration[variable_index]
+	if variable_level == -1: 
+	  logger.error("variable_level not configured!")
 	  return 
 	else:
-	  logger.info(species + " level: "+str(species_level)+" (list index: "+str(species_index)+")")
+	  logger.info(variable + " level: "+str(variable_level)+" (list index: "+str(variable_index)+")")
 	
 
 	# copy the -th run to a new file: add 1 to timepoints because of the header.
-	round_species_level = species_level
+	round_variable_level = variable_level
 	# Read the first timepoints+1 lines of a file.
-	with open(os.path.join(models_dir, model_noext+".csv"), 'r') as file:
+	with open(os.path.join(inputdir, model_noext+".csv"), 'r') as file:
 	  table = list(islice(file, timepoints+1))  
 
 	# Write the extracted table to a separate file
-	with open(os.path.join(output_dir, model_noext+"__sim_"+str(i+1)+"__level_"+str(round_species_level)+".csv"), 'w') as file:
+	with open(os.path.join(outputdir, model_noext+"__sim_"+str(i+1)+"__level_"+str(round_variable_level)+".csv"), 'w') as file:
 	  for line in table:
 	    file.write(line)
 
-	with open(os.path.join(models_dir, model_noext+".csv"), 'r') as file:
+	with open(os.path.join(inputdir, model_noext+".csv"), 'r') as file:
 	  # read all lines
 	  lines = file.readlines()
 	  
 
-	with open(os.path.join(models_dir, model_noext+".csv~"), 'w') as file:
+	with open(os.path.join(inputdir, model_noext+".csv~"), 'w') as file:
 	  file.writelines(header)
 	  file.writelines(lines[timepoints+1:])
 
-	shutil.move(os.path.join(models_dir, model_noext+".csv~"), os.path.join(models_dir, model_noext+".csv"))
+	shutil.move(os.path.join(inputdir, model_noext+".csv~"), os.path.join(inputdir, model_noext+".csv"))
 	
 	
       # remove the file
-      os.remove(os.path.join(models_dir, model_noext+".csv"))
+      os.remove(os.path.join(inputdir, model_noext+".csv"))

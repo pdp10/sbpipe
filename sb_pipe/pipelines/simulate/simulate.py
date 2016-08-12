@@ -94,7 +94,7 @@ def main(config_file):
   sim_plots_folder="simulate_plots"
 
   models_dir = os.path.join(project_dir, models_folder)
-  results_dir = os.path.join(project_dir, working_folder, model[:-4])
+  outputdir = os.path.join(project_dir, working_folder, model[:-4])
   data_dir = os.path.join(project_dir, data_folder)
 
 
@@ -109,29 +109,29 @@ def main(config_file):
   logger.info("")
 	
   # preprocessing
-  if not os.path.exists(results_dir):
-    os.makedirs(results_dir) 
+  if not os.path.exists(outputdir):
+    os.makedirs(outputdir) 
  
  
   if generate_data == True:
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    simulate__generate_data.main(model, models_dir, os.path.join(results_dir, sim_data_folder), cluster, pp_cpus, runs)
+    simulate__generate_data.main(model, models_dir, os.path.join(outputdir, sim_data_folder), cluster, pp_cpus, runs)
 
 
   if analyse_data == True:
     logger.info("\n")
     logger.info("Data analysis:")
     logger.info("##############")
-    simulate__analyse_data.main(model[:-4], os.path.join(results_dir, sim_data_folder), results_dir, sim_plots_folder, simulate__xaxis_label)    
+    simulate__analyse_data.main(model[:-4], os.path.join(outputdir, sim_data_folder), outputdir, sim_plots_folder, simulate__xaxis_label)    
 
 
   if generate_report == True:
     logger.info("\n")
     logger.info("Report generation:")
     logger.info("##################")
-    simulate__generate_report.main(model[:-4], results_dir, sim_plots_folder)
+    simulate__generate_report.main(model[:-4], outputdir, sim_plots_folder)
 
 
   # Print the pipeline elapsed time
@@ -139,7 +139,7 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if len(glob.glob(os.path.join(results_dir, sim_plots_folder, model[:-4]+'*.png'))) > 0 and len(glob.glob(os.path.join(results_dir, '*'+model[:-4]+'*.pdf'))) == 1:
+  if len(glob.glob(os.path.join(outputdir, sim_plots_folder, model[:-4]+'*.png'))) > 0 and len(glob.glob(os.path.join(outputdir, '*'+model[:-4]+'*.pdf'))) == 1:
        return 0
   return 1
 

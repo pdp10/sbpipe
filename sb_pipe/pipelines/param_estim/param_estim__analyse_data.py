@@ -37,35 +37,44 @@ SB_PIPE = os.environ["SB_PIPE"]
 from collect_results import retrieve_final_estimates
 from collect_results import retrieve_all_estimates
 
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+from io_util_functions import refresh_directory
 
 
 # Input parameters
-# input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num
-def main(input_dir, results_dir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, plots_dir, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False):
+# inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num
+def main(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False):
 
-  if not os.path.exists(input_dir) or not os.listdir(input_dir): 
-    logger.error("input_dir " + input_dir + " does not exist or is empty. Generate some data first.");
+  if not os.path.exists(inputdir) or not os.listdir(inputdir): 
+    logger.error("inputdir " + inputdir + " does not exist or is empty. Generate some data first.");
     return
   
-  if not os.path.exists(plots_dir):
-    os.makedirs(plots_dir)
+  refresh_directory(os.path.join(outputdir,sim_plots_folder), model[:-4])
   
   logger.info("Collect results:")
   # Collect and summarises the parameter estimation results
-  retrieve_final_estimates(input_dir, results_dir, fileout_final_estims)
-  retrieve_all_estimates(input_dir, results_dir, fileout_all_estims)  
+  retrieve_final_estimates(inputdir, outputdir, fileout_final_estims)
+  retrieve_all_estimates(inputdir, outputdir, fileout_all_estims)  
 
   logger.info("\n")
   logger.info("Plot results:")
   logger.info("\n")
   process = Popen(['Rscript',
 		   os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_final_fits_analysis.r'),
-		   os.path.join(results_dir, fileout_final_estims),
-		   plots_dir,
+		   model,
+		   os.path.join(outputdir, fileout_final_estims),
+		   os.path.join(outputdir, sim_plots_folder),
 		   str(best_fits_percent)])
   process.wait()
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_all_fits_analysis.r'), 
-		   os.path.join(results_dir, fileout_all_estims), plots_dir, str(data_point_num), 
-		   os.path.join(results_dir, fileout_approx_ple_stats), os.path.join(results_dir, fileout_conf_levels), str(plot_2d_66_95cl_corr)])
+		   model,
+		   os.path.join(outputdir, fileout_all_estims), 
+		   os.path.join(outputdir, sim_plots_folder), 
+		   str(data_point_num), 
+		   os.path.join(outputdir, fileout_approx_ple_stats),
+		   os.path.join(outputdir, fileout_conf_levels), 
+		   str(plot_2d_66_95cl_corr)])
   process.wait()  
+  
+  
   

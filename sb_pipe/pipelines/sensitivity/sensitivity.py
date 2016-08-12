@@ -80,7 +80,7 @@ def main(config_file):
   sensitivities_dir="sensitivities"
   
   models_dir = os.path.join(project_dir, models_folder)
-  results_dir = os.path.join(project_dir, working_folder, model[:-4], sensitivities_dir)
+  outputdir = os.path.join(project_dir, working_folder, model[:-4], sensitivities_dir)
 
 
   # Get the pipeline start time
@@ -99,8 +99,8 @@ def main(config_file):
 #   filesToDelete = glob.glob(os.path.join(sensitivities_dir, "*.png"))
 #   for f in filesToDelete:
 #     os.remove(f)
-  if not os.path.exists(results_dir):
-    os.mkdir(results_dir)
+  if not os.path.exists(outputdir):
+    os.mkdir(outputdir)
 
 
 
@@ -108,14 +108,14 @@ def main(config_file):
     logger.info("\n")
     logger.info("Data generation:")
     logger.info("################")
-    sensitivity__generate_data.main(model, models_dir, results_dir) 
+    sensitivity__generate_data.main(model, models_dir, outputdir) 
 
 
   if analyse_data == True:
     logger.info("\n")
     logger.info("Data analysis:")
     logger.info("##############")
-    sensitivity__analyse_data.main(results_dir)  
+    sensitivity__analyse_data.main(outputdir)  
 
 
   if generate_report == True:
@@ -130,7 +130,7 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if len(glob.glob(os.path.join(results_dir, '*.csv'))) > 0:
+  if len(glob.glob(os.path.join(outputdir, '*.csv'))) > 0:
       return 0
   return 1
     

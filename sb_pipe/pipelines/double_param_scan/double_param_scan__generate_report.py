@@ -43,19 +43,19 @@ from sb_config import which
 # model_noext: read the model_noext
 # scanned_par1: the first scanned parameter
 # scanned_par2: the second scanned parameter
-# results_dir: Read the results dir
-# plots_dir: The directory containing the plots of the double parameter scan
-def main(model_noext, scanned_par1, scanned_par2, results_dir, plots_dir): 
+# outputdir: Read the results dir
+# sim_plots_folder: The directory containing the plots of the double parameter scan
+def main(model_noext, scanned_par1, scanned_par2, outputdir, sim_plots_folder): 
     
-    if not os.path.exists(os.path.join(results_dir,plots_dir)): 
-	logger.error("input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
+    if not os.path.exists(os.path.join(outputdir,sim_plots_folder)): 
+	logger.error("input_dir " + os.path.join(outputdir,sim_plots_folder) + " does not exist. Analyse the data first.");
 	return
     
       
     logger.info("Generating a LaTeX report")
     logger.info(model_noext)
     filename_prefix="report__double_param_scan_"
-    latex_report_double_param_scan(results_dir, plots_dir, filename_prefix, 
+    latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, 
 			  model_noext, scanned_par1, scanned_par2)
 
     pdflatex = which("pdflatex")
@@ -65,7 +65,7 @@ def main(model_noext, scanned_par1, scanned_par2, results_dir, plots_dir):
       
     logger.info("Generating PDF report")  
     currdir=os.getcwd()
-    os.chdir(results_dir)
+    os.chdir(outputdir)
 
     logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
     p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)

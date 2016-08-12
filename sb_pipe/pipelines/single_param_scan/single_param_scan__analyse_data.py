@@ -37,15 +37,16 @@ from itertools import islice
 
 
 SB_PIPE = os.environ["SB_PIPE"]
-
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+from io_util_functions import refresh_directory
 
 # INITIALIZATION
 # model
-# scanned_species 
+# scanned_par 
 # knock_down_only
-# results_dir
-# raw_sim_data
-# tc_parameter_scan_dir
+# outputdir
+# sim_data_folder
+# sim_plots_folder
 # simulate__xaxis_label
 # simulations_number
 # percent_levels
@@ -53,15 +54,14 @@ SB_PIPE = os.environ["SB_PIPE"]
 # max_level
 # levels_number
 # homogeneous_lines
-def main(model, scanned_species, knock_down_only, results_dir, 
-	 raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+def main(model, scanned_par, knock_down_only, outputdir, 
+	 sim_data_folder, sim_plots_folder, simulate__xaxis_label, 
 	 simulations_number, 
 	 percent_levels, min_level, max_level, levels_number, 
 	 homogeneous_lines):
 
-
-  if not os.path.exists(os.path.join(results_dir,raw_sim_data)): 
-    logger.error("input_dir " + os.path.join(results_dir,raw_sim_data) + " does not exist. Generate some data first.");
+  if not os.path.exists(os.path.join(outputdir,sim_data_folder)): 
+    logger.error("input_dir " + os.path.join(outputdir,sim_data_folder) + " does not exist. Generate some data first.");
     return
   
     # some control
@@ -73,17 +73,11 @@ def main(model, scanned_species, knock_down_only, results_dir,
     logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
     return  
   
-
   # folder preparation
-  filesToDelete = glob.glob(os.path.join(results_dir,tc_parameter_scan_dir,model+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(os.path.join(results_dir, tc_parameter_scan_dir)):
-    os.mkdir(os.path.join(results_dir, tc_parameter_scan_dir)) 
-
+  refresh_directory(os.path.join(outputdir,sim_plots_folder), model[:-4])
 
   process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__analyse_data.r'), 
-			      model, scanned_species, str(knock_down_only), results_dir, raw_sim_data, tc_parameter_scan_dir, simulate__xaxis_label, 
+			      model, scanned_par, str(knock_down_only), outputdir, sim_data_folder, sim_plots_folder, simulate__xaxis_label, 
 			      simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), 
 			      str(homogeneous_lines)])    
   process.wait()

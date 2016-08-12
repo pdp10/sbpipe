@@ -37,6 +37,8 @@ from itertools import islice
 
 
 SB_PIPE = os.environ["SB_PIPE"]
+sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+from io_util_functions import refresh_directory
 
 
 # INITIALIZATION
@@ -52,11 +54,7 @@ def main(model, scanned_par1, scanned_par2, inputdir, outputdir):
     return
 
   # folder preparation
-  filesToDelete = glob.glob(os.path.join(outputdir,model+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(outputdir):
-    os.mkdir(outputdir) 
+  refresh_directory(outputdir, model[:-4])
 
   process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe','pipelines','double_param_scan','double_param_scan__analyse_data.r'), 
 			      model, scanned_par1, scanned_par2, inputdir, outputdir])    

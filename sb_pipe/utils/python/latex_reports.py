@@ -54,8 +54,8 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
 
 
 # Create a report for a single parameter scanning task (1 model)
-def latex_report_single_param_scan(results_dir, plots_dir, filename_prefix, model_noext, scanned_par):
-    with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
+def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+    with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
 	scanned_par_name = scanned_par[0:].replace("_", " ")
 	logger.info("Model: " + model_ver)
@@ -66,9 +66,9 @@ def latex_report_single_param_scan(results_dir, plots_dir, filename_prefix, mode
 				  "Report: " + model_ver, 
 				  "Report for the model {\\it " + model_ver + "}, scanning {\\it " + scanned_par_name + "}.")
 	file_out.write(header)
-	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
+	logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
 	file_out.write("\\section*{Plots - Parameter scan for " + scanned_par_name + "}\n")
-	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
+	folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
 	folder.sort()
 	for infile in folder:
 	    if infile.find(model_noext) != -1:
@@ -76,14 +76,14 @@ def latex_report_single_param_scan(results_dir, plots_dir, filename_prefix, mode
 	      eval_marker = infile.find("__eval_")
 	      if scanned_par_pos != -1 and scanned_par_pos < eval_marker:
 		  logger.info(infile)
-		  file_out.write("\\includegraphics[scale=0.24]{" + plots_dir + "/" + infile + "}\n")
+		  file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
 		  file_out.write("\\hfill\n")
 	file_out.write("\\end{document}\n")
 
 
 # Create a report for a double parameter scanning task (1 model)
-def latex_report_double_param_scan(results_dir, plots_dir, filename_prefix, model_noext, scanned_par1, scanned_par2):
-    with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
+def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par1, scanned_par2):
+    with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
 	scanned_par1_name = scanned_par1[0:].replace("_", " ")
 	scanned_par2_name = scanned_par2[0:].replace("_", " ")
@@ -95,9 +95,9 @@ def latex_report_double_param_scan(results_dir, plots_dir, filename_prefix, mode
 				  "Report: " + model_ver, 
 				  "Report for the model {\\it " + model_ver + "}, scanning {\\it " + scanned_par1_name + "} and {\\it " + scanned_par2_name + "}.")
 	file_out.write(header)
-	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
+	logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
 	file_out.write("\\section*{Plots - Parameter scan for " + scanned_par1_name + " and " + scanned_par2_name + "}\n")
-	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
+	folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
 	folder.sort(key=natural_sort_key)
 	curr_readout = ''
 	prev_readout = ''
@@ -116,14 +116,14 @@ def latex_report_double_param_scan(results_dir, plots_dir, filename_prefix, mode
 	      eval_marker = infile.find("__eval_")
 	      if scanned_par1_pos != -1 and scanned_par1_pos < eval_marker:
 		  logger.info(infile)
-		  file_out.write("\\includegraphics[scale=0.24]{" + plots_dir + "/" + infile + "}\n")
+		  file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
 		  file_out.write("\\hfill\n")
 	file_out.write("\\end{document}\n")
 
 
 # Create a report of a time course task (1 model)
-def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
-    with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
+def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix):
+    with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
 	logger.info(model_ver)
 	# writing on file
@@ -132,22 +132,22 @@ def latex_report_simulate(results_dir, plots_dir, model_noext, filename_prefix):
 				  "Report: " + model_ver, 
 				  "Report for the model {\\it " + model_ver + "}.")
 	file_out.write(header)  
-	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
+	logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
 	file_out.write("\\section*{Plots}\n")
-	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
+	folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
 	folder.sort()  
 	for infile in folder:
 	    if infile.find(model_noext) != -1:
 		if (infile.find('_sd_n_ci95_') != -1):
 		    logger.info(infile)
-		    file_out.write("\\includegraphics[scale=0.24]{" + plots_dir + "/" + infile + "}\n")
+		    file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
 	file_out.write("\\end{document}\n")
 
 
 
 # Create a generic report
-def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
-    with open(os.path.join(results_dir, filename_prefix + model_noext + ".tex"), "w") as file_out:
+def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
+    with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
 	model_ver = model_noext[:].replace("_", " ")
 	logger.info(model_ver)
 	# writing on file
@@ -156,9 +156,9 @@ def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
 				  "Report: " + model_ver, 
 				  "Generic report for the model {\\it " + model_ver + "}.")
 	file_out.write(header)  
-	logger.info("List of files in " + os.path.join(results_dir, plots_dir) + ":")
+	logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
 	file_out.write("\\section*{Plots}\n")
-	folder = [f for f in os.listdir(os.path.join(results_dir, plots_dir)) if f.endswith('.png')]
+	folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
 	folder.sort()
 	begin_figure = False
 	figure_num = 0
@@ -170,7 +170,7 @@ def latex_report(results_dir, plots_dir, model_noext, filename_prefix):
 		file_out.write("\\begin{figure}[!ht]\n")
 		begin_figure = True
 	    file_out.write("\\begin{minipage}{0.25\\textwidth}\n")    
-	    file_out.write("\\includegraphics[width=\\textwidth]{" + plots_dir + "/" + infile + "}\n")
+	    file_out.write("\\includegraphics[width=\\textwidth]{" + sim_plots_folder + "/" + infile + "}\n")
 	    file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4]+ "}\n")
 	    file_out.write("\\end{minipage}\n")
 	    file_out.write("\\hfill\n")

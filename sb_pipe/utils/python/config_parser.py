@@ -110,7 +110,7 @@ def parse_single_param_scan_section(lines):
   
   # default values  
   # The model species to scan (e.g. mTORC1)
-  scanned_species=""
+  scanned_par=""
   # The number of intervals for one simulation
   simulate__intervals=100  
   # The plot x axis label (e.g. Time[min])
@@ -138,8 +138,8 @@ def parse_single_param_scan_section(lines):
   # Initialises the variables
   for line in lines:
     logger.info(line)
-    if line[0] == "scanned_species": 
-      scanned_species = line[1]
+    if line[0] == "scanned_par": 
+      scanned_par = line[1]
     elif line[0] == "simulate__intervals": 
       simulate__intervals = line[1]       
     elif line[0] == "simulate__xaxis_label": 
@@ -160,7 +160,7 @@ def parse_single_param_scan_section(lines):
       homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)
   
   return (generate_data, analyse_data, generate_report, 
-	  project_dir, model, scanned_species, 
+	  project_dir, model, scanned_par, 
 	  simulate__intervals, simulate__xaxis_label, 
 	  single_param_scan_simulations_number, single_param_scan_percent_levels, 
 	  single_param_scan_knock_down_only, levels_number, min_level, max_level, 

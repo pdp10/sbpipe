@@ -86,7 +86,7 @@ def main(config_file):
   sim_plots_folder="double_param_scan_plots"  
 
   models_dir = os.path.join(project_dir, models_folder)
-  results_dir = os.path.join(project_dir, working_folder, model[:-4])
+  outputdir = os.path.join(project_dir, working_folder, model[:-4])
 
 
   # Get the pipeline start time
@@ -101,8 +101,8 @@ def main(config_file):
 
 
   # preprocessing
-  if not os.path.exists(results_dir):
-    os.makedirs(results_dir)
+  if not os.path.exists(outputdir):
+    os.makedirs(outputdir)
 
 
   if generate_data == True:
@@ -112,7 +112,7 @@ def main(config_file):
     double_param_scan__generate_data.main(model,
 					  sim_length,
 					  models_dir, 
-					  os.path.join(results_dir, sim_data_folder))
+					  os.path.join(outputdir, sim_data_folder))
   
  
   if analyse_data == True:
@@ -122,8 +122,8 @@ def main(config_file):
     double_param_scan__analyse_data.main(model[:-4], 
 					 scanned_par1, 
 					 scanned_par2,
-					 os.path.join(results_dir, sim_data_folder), 
-					 os.path.join(results_dir, sim_plots_folder))
+					 os.path.join(outputdir, sim_data_folder), 
+					 os.path.join(outputdir, sim_plots_folder))
   
   
   if generate_report == True:
@@ -133,7 +133,7 @@ def main(config_file):
     double_param_scan__generate_report.main(model[:-4],
 					    scanned_par1, 
 					    scanned_par2, 
-					    results_dir, 
+					    outputdir, 
 					    sim_plots_folder)
   
 
@@ -143,7 +143,7 @@ def main(config_file):
   logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start)) 
 
 
-  if len(glob.glob(os.path.join(results_dir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(results_dir, sim_plots_folder, model[:-4]+"*.png"))) > 0:
+  if len(glob.glob(os.path.join(outputdir, "*"+model[:-4]+"*.pdf"))) == 1 and len(glob.glob(os.path.join(outputdir, sim_plots_folder, model[:-4]+"*.png"))) > 0:
     return 0
   return 1
      

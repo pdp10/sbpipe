@@ -42,27 +42,22 @@ from sb_config import get_copasi
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
 from copasi_utils import replace_str_copasi_sim_report
+from io_util_functions import refresh_directory
 
 
 # INITIALIZATION (COMMENTS TO UPDATE)
 # model: read the model
 # species: the species to knock-down (name of the species as in copasi)
 # sim_number: Number of times the model should be simulated. For deterministic simulations, ${sim_number}==1 . For stochastic simulations, ${sim_number}==h. 
-# models_dir: Read the models dir
-# output_dir: the output dir
-def main(model, sim_length, models_dir, output_dir):
+# inputdir: Read the models dir
+# outputdir: the output dir
+def main(model, sim_length, inputdir, outputdir):
 
-
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    logger.error(os.path.join(models_dir, model) + " does not exist.") 
+  if not os.path.isfile(os.path.join(inputdir,model)):
+    logger.error(os.path.join(inputdir, model) + " does not exist.") 
     return
   
-  filesToDelete = glob.glob(os.path.join(output_dir,model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(output_dir):
-    os.mkdir(output_dir) 
-    
+  refresh_directory(outputdir, model[:-4])    
 
   logger.info("Simulating Model: "+ model)
 
@@ -75,38 +70,38 @@ def main(model, sim_length, models_dir, output_dir):
   
   
   # run CopasiSE. Copasi must generate a (TIME COURSE) report
-  process = subprocess.Popen([copasi, '--nologo', os.path.join(models_dir, model)])
+  process = subprocess.Popen([copasi, '--nologo', os.path.join(inputdir, model)])
   process.wait()
   
 
-  if (not os.path.isfile(os.path.join(models_dir, model_noext+".csv")) and 
-      not os.path.isfile(os.path.join(models_dir, model_noext+".txt"))): 
-      logger.warn(os.path.join(models_dir, model_noext+".csv") + " (or .txt) does not exist!") 
+  if (not os.path.isfile(os.path.join(inputdir, model_noext+".csv")) and 
+      not os.path.isfile(os.path.join(inputdir, model_noext+".txt"))): 
+      logger.warn(os.path.join(inputdir, model_noext+".csv") + " (or .txt) does not exist!") 
       return
   
-  if os.path.isfile(os.path.join(models_dir, model_noext+".txt")):
-    os.rename(os.path.join(models_dir, model_noext+".txt"), os.path.join(models_dir, model_noext+".csv"))
+  if os.path.isfile(os.path.join(inputdir, model_noext+".txt")):
+    os.rename(os.path.join(inputdir, model_noext+".txt"), os.path.join(inputdir, model_noext+".csv"))
     
   # Replace some string in the report file   
-  replace_str_copasi_sim_report(os.path.join(models_dir, model_noext+".csv"))
+  replace_str_copasi_sim_report(os.path.join(inputdir, model_noext+".csv"))
 
   # copy file removing empty lines 
-  with open(os.path.join(models_dir, model_noext+".csv"),'r') as filein, open(os.path.join(output_dir, model_noext+".csv"),'w') as fileout:
+  with open(os.path.join(inputdir, model_noext+".csv"),'r') as filein, open(os.path.join(outputdir, model_noext+".csv"),'w') as fileout:
     for line in filein:
         if not line.isspace():
             fileout.write(line)
-  os.remove(os.path.join(models_dir, model_noext+".csv"))
+  os.remove(os.path.join(inputdir, model_noext+".csv"))
 
 
   # Extract a selected time point from all perturbed time courses contained in the report file
-  with open(os.path.join(output_dir, model_noext+".csv"),'r') as filein:
+  with open(os.path.join(outputdir, model_noext+".csv"),'r') as filein:
     lines = filein.readlines()
     header = lines[0]
     lines = lines[1:]
     timepoints = range(0, sim_length+1)
     filesout = []
     try:
-	filesout = [open(os.path.join(output_dir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]
+	filesout = [open(os.path.join(outputdir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]
 	# copy the header
 	for fileout in filesout: 
 	  fileout.write(header)

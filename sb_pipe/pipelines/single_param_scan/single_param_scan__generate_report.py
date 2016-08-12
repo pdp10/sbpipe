@@ -42,20 +42,20 @@ from sb_config import which
 # INITIALIZATION
 # model_noext: read the model_noext
 # species: Read the species
-# results_dir: Read the results dir
-# plots_dir: The directory containing the plots of the single parameter scan
+# outputdir: Read the results dir
+# sim_plots_folder: The directory containing the plots of the single parameter scan
 # legend_noext: The name of the legend
-def main(model_noext, species, results_dir, plots_dir): 
+def main(model_noext, species, outputdir, sim_plots_folder): 
     
-    if not os.path.exists(os.path.join(results_dir,plots_dir)): 
-	logger.error("input_dir " + os.path.join(results_dir,plots_dir) + " does not exist. Analyse the data first.");
+    if not os.path.exists(os.path.join(outputdir,sim_plots_folder)): 
+	logger.error("input_dir " + os.path.join(outputdir,sim_plots_folder) + " does not exist. Analyse the data first.");
 	return
     
       
     logger.info("Generating a LaTeX report")
     logger.info(model_noext)
     filename_prefix="report__single_param_scan_"
-    latex_report_single_param_scan(results_dir, plots_dir, filename_prefix, 
+    latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix, 
 				   model_noext, species)
 
     pdflatex = which("pdflatex")
@@ -65,7 +65,7 @@ def main(model_noext, species, results_dir, plots_dir):
       
     logger.info("Generating PDF report")  
     currdir=os.getcwd()
-    os.chdir(results_dir)
+    os.chdir(outputdir)
 
     logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ") 
     p1 = Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"], stdout=PIPE)

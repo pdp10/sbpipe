@@ -36,24 +36,21 @@ logger = logging.getLogger('sbpipe')
 
 SB_PIPE = os.environ["SB_PIPE"]
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
+from io_util_functions import refresh_directory
 
 from sb_config import get_copasi
 
 
 # Input parameters
-# model, models_dir, output_dir
-def main(model, models_dir, output_dir):
+# model, inputdir, outputdir
+def main(model, inputdir, outputdir):
 
-  if not os.path.isfile(os.path.join(models_dir,model)):
-    logger.error(os.path.join(models_dir, model) + " does not exist.") 
+  if not os.path.isfile(os.path.join(inputdir,model)):
+    logger.error(os.path.join(inputdir, model) + " does not exist.") 
     return  
 
   # folder preparation
-  filesToDelete = glob.glob(os.path.join(output_dir, model[:-4]+"*"))
-  for f in filesToDelete:
-    os.remove(f)
-  if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+  refresh_directory(outputdir, model[:-4])
 
   # execute runs simulations.
   logger.info("Sensitivity analysis for " + model)
@@ -64,12 +61,12 @@ def main(model, models_dir, output_dir):
     logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
     return  
   
-  command = [copasi, os.path.join(models_dir, model[:-4]+".cps")]
+  command = [copasi, os.path.join(inputdir, model[:-4]+".cps")]
 
   p = Popen(command)
   p.wait()
  
   # move the output file
-  move(os.path.join(model[:-4]+".csv"), output_dir)
+  move(os.path.join(model[:-4]+".csv"), outputdir)
 
     
