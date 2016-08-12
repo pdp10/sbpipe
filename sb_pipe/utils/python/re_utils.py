@@ -27,11 +27,8 @@
 import re
 
 
-# Two functions for sorting correctly the list of files of results. They sort 
-# the files as expected, by the numeric value added to the end of the file name.
-def atoi(text):
-    return int(text) if text.isdigit() else text
-  
-def natural_keys(text):
-    return [ atoi(c) for c in re.split('(\d+)', text) ]
-
+# Sort a list of elements alphanumerically (e.g. "file10" is correctly placed after "file2")
+def natural_sort_key(text):
+    _nsre = re.compile('([0-9]+)')
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split(_nsre, text)]   
