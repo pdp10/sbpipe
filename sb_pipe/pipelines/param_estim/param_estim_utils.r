@@ -155,7 +155,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
  
   # save the chisquare vs iteration
   g <- plot_fits(df[,1])
-  ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300)
+  ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
     
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
@@ -175,7 +175,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
       g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
     }         
          
-    ggsave(fileout, dpi=300)
+    ggsave(fileout, dpi=300, width=8, height=6)
   
     # retrieve a parameter value associated to the minimum Chi^2
     par_value <- sample(df95[df95[,1] <= min_chisquare, i], 1)    
