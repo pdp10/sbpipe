@@ -26,14 +26,11 @@ library(ggplot2)
 
 # A theme for time courses
 tc_theme <- function (base_size=12, base_family="") {
-  theme_bw(base_size=base_size, base_family=base_family) %+replace% 
-  theme(aspect.ratio=0.5,
+  theme_classic(base_size=base_size, base_family=base_family) %+replace% 
+  theme(aspect.ratio = 0.5,
         axis.line = element_line(colour = "black", size=1.0),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
 	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
-        panel.background = element_blank(),
-	legend.key = element_rect(fill = "transparent", colour = "transparent"),        
+	legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
         plot.background = element_rect(fill = "transparent",colour = NA)
         )
@@ -42,14 +39,11 @@ tc_theme <- function (base_size=12, base_family="") {
 
 # A basic theme
 basic_theme <- function (base_size=12, base_family="") {
-  theme_bw(base_size=base_size, base_family=base_family) %+replace% 
-  theme(aspect.ratio=1,
-        axis.line = element_line(colour = "black"),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
+  theme_classic(base_size=base_size, base_family=base_family) %+replace% 
+  theme(aspect.ratio = 1,
+        axis.line = element_line(colour = "black", size=1.0),
 	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
-        panel.background = element_blank(),
-	legend.key = element_rect(fill = "transparent", colour = "transparent"),        
+	legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
         plot.background = element_rect(fill = "transparent", colour = NA)        
         )
