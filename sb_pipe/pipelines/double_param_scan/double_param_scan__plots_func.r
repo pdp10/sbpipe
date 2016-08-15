@@ -32,7 +32,7 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2, inputdir, outputdir) {
 	
-    theme_set(tc_theme(24))    
+    theme_set(basic_theme(36))    
     
     writeLines(paste("1st var: ", scanned_par1, sep=""))
     writeLines(paste("2st var: ", scanned_par2, sep=""))    
@@ -65,8 +65,7 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
     #print(df.coordinates)
 
     # Construct a generic palette
-    colfunc <- colorRampPalette(c("red","yellow2","springgreen","dodgerblue", "purple"))
-    #colfunc <- colorRampPalette(c("red","yellow","springgreen","navyblue"))
+    colfunc <- colorRampPalette(c("blue4", "blue", "cyan", "green", "yellow", "orange", "red", "red4"))
     palette.generic <- colfunc(100)    
     
     for(k in 1:length(files)) { 

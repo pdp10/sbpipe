@@ -42,7 +42,7 @@ histogramplot <- function(dfCol) {
 # colNameX : the name of the column for the X axis
 # colNameY : the name of the column for the Y axis
 # colNameColor : the name of the column whose values are used as 3rd dimension
-scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=1.0, colours=colorRampPalette(c("red","yellow2","springgreen","dodgerblue", "purple"))(100), limits=NULL) {
+scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=1.0, colours=colorRampPalette(c("blue4", "blue", "cyan", "green", "yellow", "orange", "red", "red4"))(100), limits=NULL) {
 
 # If the third coordinate has equal values, then use the first value (default: red)
   colorCol <- df[,c(colNameColor)]
