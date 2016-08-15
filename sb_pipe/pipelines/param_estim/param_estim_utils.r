@@ -76,32 +76,39 @@ plot_fits <- function(my_array) {
     j <- j+1    
     k <- my_array[i]   
   }
-  df <- data.frame(Iter.Num.=iters, Chi.Sq.=my_array)
-  scatterplot_log10(df, "Iter.Num.", "Chi.Sq.")
+  df <- data.frame(Iter=iters, Chi2=my_array)
+  scatterplot_log10(df, "Iter", "Chi2")
 }
 
 
 # rename columns
 replace_colnames <- function(dfCols) {
-  dfCols <- gsub("ObjectiveValue", "Chi.Sq.", dfCols)
+  dfCols <- gsub("ObjectiveValue", "Chi2", dfCols)
   dfCols <- gsub("Values.", "", dfCols)
   dfCols <- gsub("..InitialValue.", "", dfCols)
 }
 
 
 
-plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx) {
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx, logspace=TRUE) {
   fileout <- ""
   for (i in seq(chi2_col_idx+1,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
 	g <- histogramplot(df[i])
+	if(logspace) {
+	  g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
+	}
       } else {
 	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-	g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx])
+	g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
+        theme(legend.key.height = unit(0.5, "in"))
+	if(logspace) {
+	  g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
+	}        
       }
-      ggsave(fileout, dpi=300)
+      ggsave(fileout, dpi=300, width=8, height=6)
     }    
   }
 }
@@ -109,10 +116,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 
 
-
-
-
-all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE) {
+all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE, logspace=TRUE) {
   
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
@@ -122,6 +126,12 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   
   df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
   
+  if(logspace) {
+    # Transform the parameter space to a log10 parameter space. 
+    # The column for the Chi^2 score is maintained instead. 
+    df[,-1] <- log10(df[,-1])
+  }
+    
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   
@@ -141,7 +151,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   df66 <- df95[df95[,1] <= chisquare_at_conf_level_66, ]  
   
   # Set my ggplot theme here
-  theme_set(basic_theme(26))
+  theme_set(basic_theme(36))
  
   # save the chisquare vs iteration
   g <- plot_fits(df[,1])
@@ -149,7 +159,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
-  cat(paste("Min_ChiSq", "Param_Num", "Data_Points_Num", "ChiSq_Conf_Level_95", "Fits_Num_95", "ChiSq_Conf_Level_66", "Fits_Num_95\n", sep="\t"))
+  cat(paste("Min_Chi2", "Param_Num", "Data_Points_Num", "Chi2_Conf_Level_95", "Fits_Num_95", "Chi2_Conf_Level_66", "Fits_Num_95\n", sep="\t"))
   cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, nrow(df95), chisquare_at_conf_level_66, nrow(df66), sep="\t"), append=TRUE)
   sink() 
 
@@ -159,7 +169,12 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     # extract statistics  
     fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
     g <- scatterplot_ple(df95, colnames(df95)[i], colnames(df95)[1], 
-			 chisquare_at_conf_level_66, chisquare_at_conf_level_95)
+			 chisquare_at_conf_level_66, chisquare_at_conf_level_95) + 
+         theme(legend.key.height = unit(0.5, "in"))
+    if(logspace) {
+      g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
+    }         
+         
     ggsave(fileout, dpi=300)
   
     # retrieve a parameter value associated to the minimum Chi^2
@@ -178,9 +193,9 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   
   # plot parameter correlations using the 66% and 95% confidence level data sets
   if(plot_2d_66_95cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1)
-    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1)
-    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1)
+    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1, logspace)
+    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1, logspace)
+    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1, logspace)
   }
   
 }
@@ -189,7 +204,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
 
 
-final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent) {
+final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE) {
   
   best_fits_percent <- as.numeric(best_fits_percent)
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
@@ -199,6 +214,13 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent)
   
   df = read.csv(filenamein, head=TRUE,sep="\t")
   
+  if(logspace) {
+    # Transform the parameter space to a log10 parameter space. 
+    # The 2nd column containing the Chi^2 score is maintained 
+    # as well as the 1st containing the parameter estimation name. 
+    df[,c(-1,-2)] <- log10(df[,c(-1,-2)])
+  }
+    
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   
@@ -211,9 +233,9 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent)
   df <- tail(df, selected_rows)
   
   # Set my ggplot theme here
-  theme_set(basic_theme(26))
+  theme_set(basic_theme(36))
   
-  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2)
+  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2, logspace)
   
 }
 

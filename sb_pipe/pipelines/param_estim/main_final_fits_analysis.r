@@ -32,8 +32,12 @@ main <- function(args) {
   filename <- args[2]
   plots_dir <- args[3]
   best_fits_percent <- args[4]
+  logspace <- args[5]
+  
+  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') logspace = TRUE
+  else logspace = FALSE
 
-  final_fits_analysis(model, filename, plots_dir, best_fits_percent)
+  final_fits_analysis(model, filename, plots_dir, best_fits_percent, logspace)
 }
 
 

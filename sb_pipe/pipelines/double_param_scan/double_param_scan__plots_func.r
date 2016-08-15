@@ -91,7 +91,6 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
 
 	  g <- scatterplot_w_colour(df.plot, scanned_par1, scanned_par2, columns[i], colours=palette.plot) + 
 	       ggtitle(paste(columns[i], ", time=", k-1, sep="")) + 
-	       ## TODO retrieve plot height
 	       theme(legend.key.height = unit(0.5, "in"))
 	  ggsave(file.path(outputdir, paste(model_noext, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
 		dpi=300,  width=8, height=6)

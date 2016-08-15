@@ -51,17 +51,15 @@ scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=
     colours <- colours[0:1]
   }
 
-  ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor)) +
-    geom_point(size=dot_size) +
-    scale_colour_gradientn(colours=colours, limits)+
-    #scale_x_continuous(labels=scientific) +
-    #scale_y_continuous(labels=scientific)
-    #scale_colour_gradient(low="red", high="darkblue") +
-    #scale_colour_gradient(low="magenta", high="blue") +
-    #geom_rug(col="darkblue",alpha=.1) +    
-    theme(axis.text.x=element_text(angle=-45, hjust=0))
+  g <- ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor))
+  g <- g + geom_point(size=dot_size) +
+       scale_colour_gradientn(colours=colours, limits)+
+      #scale_x_continuous(labels=scientific) +
+      #scale_y_continuous(labels=scientific)
+      #geom_rug(col="darkblue",alpha=.1) +    
+      theme(axis.text.x=element_text(angle=-45, hjust=0))
   # #add marginal histograms
-  #ggExtra::ggMarginal(g, type = "histogram")    
+  #ggExtra::ggMarginal(g, type = "histogram")
 }
 
 
@@ -91,10 +89,11 @@ scatterplot <-function(df, colNameX, colNameY, dot_size=0.5) {
 
 scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
   scatterplot(df, colNameX, colNameY, dot_size) + 
-       scale_x_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
-       scale_y_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000)) +
+       scale_x_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000)) +
+       scale_y_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000)) +
        xlab(paste("log10(", colNameX, ")", sep="")) +       
-       ylab(paste("log10(", colNameY, ")", sep=""))
+       ylab(paste("log10(", colNameY, ")", sep="")) + 
+       annotation_logticks() 
 }
 
 

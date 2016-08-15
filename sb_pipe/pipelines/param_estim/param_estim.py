@@ -67,7 +67,7 @@ def main(config_file):
       generate_tarball, project_dir, model, 
       cluster, pp_cpus, round, runs, 
       best_fits_percent, data_point_num, 
-      plot_2d_66_95cl_corr) = config_parser(config_file, "param_estim")  
+      plot_2d_66_95cl_corr,logspace) = config_parser(config_file, "param_estim")  
   except Exception as e:
     logger.error(e.message)
     import traceback
@@ -146,7 +146,8 @@ def main(config_file):
 				   sim_plots_folder, 
 				   best_fits_percent,
 				   data_point_num,
-				   plot_2d_66_95cl_corr)
+				   plot_2d_66_95cl_corr,
+				   logspace)
 
 
   if generate_report == True:
