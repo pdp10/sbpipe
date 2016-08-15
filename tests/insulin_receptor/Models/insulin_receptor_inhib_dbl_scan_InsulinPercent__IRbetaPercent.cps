@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-15 07:41:22 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-08-15 14:26:57 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -390,7 +390,7 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="ScanItem">
             <Parameter name="Maximum" type="float" value="100"/>
             <Parameter name="Minimum" type="float" value="0"/>
-            <Parameter name="Number of steps" type="unsignedInteger" value="20"/>
+            <Parameter name="Number of steps" type="unsignedInteger" value="100"/>
             <Parameter name="Object" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[InsulinPercent],Reference=InitialValue"/>
             <Parameter name="Type" type="unsignedInteger" value="1"/>
             <Parameter name="log" type="bool" value="0"/>
@@ -398,7 +398,7 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="ScanItem">
             <Parameter name="Maximum" type="float" value="100"/>
             <Parameter name="Minimum" type="float" value="0"/>
-            <Parameter name="Number of steps" type="unsignedInteger" value="20"/>
+            <Parameter name="Number of steps" type="unsignedInteger" value="100"/>
             <Parameter name="Object" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[IRbetaPercent],Reference=InitialValue"/>
             <Parameter name="Type" type="unsignedInteger" value="1"/>
             <Parameter name="log" type="bool" value="0"/>
