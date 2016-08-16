@@ -33,7 +33,10 @@ install:
   - Rscript install_rdeps.r
   
   # install python dependencies
-  - python install_pydeps.py
+  # Travis-CI does not accept "--user" option within the pip command. 
+  # So use the standard pip install command instead.
+  #- python install_pydeps.py
+  - pip install -r requirements.txt
   
   # install sb_pipe
   - python setup.py install
