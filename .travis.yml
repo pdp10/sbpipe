@@ -22,7 +22,8 @@ before_install:
 install:
   # install other dependencies
   - pip install -r requirements.txt
-  - export R_LIBS_USER="$HOME/r_libs/"
+  - mkdir -p $(pwd)/r_libs/  
+  - export R_LIBS_USER=$(pwd)/r_libs/
   - Rscript install_rdeps.r
   - python setup.py install
 # command to run tests
