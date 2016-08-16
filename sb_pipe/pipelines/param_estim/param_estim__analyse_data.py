@@ -42,8 +42,8 @@ from io_util_functions import refresh_directory
 
 
 # Input parameters
-# inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num
-def main(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False):
+# inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, logspace
+def main(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims, fileout_approx_ple_stats, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num, plot_2d_66_95cl_corr=False, logspace=True):
 
   if not os.path.exists(inputdir) or not os.listdir(inputdir): 
     logger.error("inputdir " + inputdir + " does not exist or is empty. Generate some data first.");
@@ -64,7 +64,7 @@ def main(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims, f
 		   model,
 		   os.path.join(outputdir, fileout_final_estims),
 		   os.path.join(outputdir, sim_plots_folder),
-		   str(best_fits_percent)])
+		   str(best_fits_percent), str(logspace)])
   process.wait()
   process = Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', 'param_estim', 'main_all_fits_analysis.r'), 
 		   model,
@@ -73,7 +73,7 @@ def main(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims, f
 		   str(data_point_num), 
 		   os.path.join(outputdir, fileout_approx_ple_stats),
 		   os.path.join(outputdir, fileout_conf_levels), 
-		   str(plot_2d_66_95cl_corr)])
+		   str(plot_2d_66_95cl_corr), str(logspace)])
   process.wait()  
   
   

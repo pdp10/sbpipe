@@ -35,11 +35,15 @@ main <- function(args) {
   fileout_approx_ple_stats <- args[5]
   fileout_conf_levels <- args[6]
   plot_2d_66_95cl_corr <- args[7]
+  logspace <- args[8]
   
   if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') plot_2d_66_95cl_corr = TRUE
   else plot_2d_66_95cl_corr = FALSE
 
-  all_fits_analysis(model, filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr)
+  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') logspace = TRUE
+  else logspace = FALSE
+  
+  all_fits_analysis(model, filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr, logspace)
 }
 
 
