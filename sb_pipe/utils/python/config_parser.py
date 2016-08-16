@@ -219,6 +219,8 @@ def parse_param_estim_section(lines):
   # Plot 2D correlations using data from 66% or 95% confidence levels
   # This can be very time/memory consuming
   plot_2d_66_95cl_corr=False
+  # True if the parameters should be plotted in log10 space.
+  logspace=True
 
   # Initialises the variables
   for line in lines:
@@ -239,10 +241,12 @@ def parse_param_estim_section(lines):
       data_point_num = line[1]
     elif line[0] == "plot_2d_66_95cl_corr":
       plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
+    elif line[0] == "logspace":
+      logspace = {'True': True, 'False': False}.get(line[1], False)
       
   return (generate_data, analyse_data, generate_report, generate_tarball, 
 	  project_dir, model, cluster, pp_cpus, 
-	  round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr)
+	  round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, logspace)
       
 
 

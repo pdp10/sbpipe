@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.53.0
+v0.55.0
 
+- added option for plotting parameter estimation results in log10 parameter space (default).
+- improved heat palette for double parameter scan and coloured scatterplots.
 - added test files for double parameter scan
 - ported all Matlab code to Python / R
 - added pipeline for double parameter scan (parsing, plots, report)
