@@ -47,12 +47,12 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines", "sensitivity"))
 
 
 # pipelines
-import create_project
-import simulate
-import param_estim
-import single_param_scan
-import double_param_scan
-import sensitivity
+from create_project import CreateProject
+from simulate import Simulate
+from param_estim import ParamEstim
+from single_param_scan import SingleParamScan
+from double_param_scan import DoubleParamScan
+from sensitivity import Sensitivity
 
 
 
@@ -90,7 +90,7 @@ def help():
     "\t-p, --single-param-scan\n\t\tSimulate a single parameter scan.\n"
     "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
     "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
-    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"
+    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis (in progress).\n\n"
     "Exit status:\n"
     " 0  if OK,\n"
     " 1  if minor problems (e.g., a pipeline did not execute correctly),\n"
@@ -172,32 +172,40 @@ def main(argv=None):
 		
 	      elif opt in ("-c", "--create-project"):
 		check_args(args, no_project_name_msg)
-		exit_status = create_project.main(args[0])
+		cp = CreateProject()
+		exit_status = cp.run(args[0])
 		
 	      elif opt in ("-s", "--simulate"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = simulate.main(args[0])
+	        s = Simulate()
+		exit_status = s.run(args[0])
 
 	      elif opt in ("-p", "--single-param-scan"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = single_param_scan.main(args[0])
+	        sps = SingleParamScan()
+		exit_status = sps.run(args[0])
 
 	      elif opt in ("-d", "--double-param-scan"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = double_param_scan.main(args[0])
+	        dps = DoubleParamScan()
+		exit_status = dps.run(args[0])
 	    
 	      elif opt in ("-e", "--param-estim"): 
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = param_estim.main(args[0])
+	        pe = ParamEstim()
+		exit_status = pe.run(args[0])
 	    
 	      elif opt in ("-n", "--sensitivity"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = sensitivity.main(args[0])
+	        print("not yet available. Apologise.")
+	        exit_status = 0
+	        s = Sensitivity()
+		#exit_status = s.run(args[0])
 	    
 	  if len(opts) < 1:
 	    raise Usage("no option received")

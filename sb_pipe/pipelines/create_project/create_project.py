@@ -28,55 +28,67 @@ import os
 import logging
 logger = logging.getLogger('sbpipe')
 
+SB_PIPE = os.environ["SB_PIPE"]
 
-"""
-This module initialises the folder tree for a new project project.
-"""
+sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
+from pipeline import Pipeline
 
-def main(project):
-  """
-  Create a project tree.
-  Keyword arguments:
-      project -- the project name
-  """
-  
-  if not os.path.exists(project):
-    os.mkdir(project)
 
-  if not os.path.exists(os.path.join(project,'Data')):
-    os.mkdir(os.path.join(project,'Data'))
-  if not os.path.exists(os.path.join(project,'Models')):
-    os.mkdir(os.path.join(project,'Models'))
-  if not os.path.exists(os.path.join(project,'Working_Folder')):
-    os.mkdir(os.path.join(project,'Working_Folder'))
-  if not os.path.exists(os.path.join(project,'tmp')):
-    os.mkdir(os.path.join(project,'tmp'))
+class CreateProject(Pipeline):
+    """
+    This module initialises the folder tree for a new project.
+    """
+      
+    def __init__(self):
+	Pipeline.__init__(self)
 
-  if not os.path.exists(os.path.join(project,'Models','previous_models')):
-    os.mkdir(os.path.join(project,'Models','previous_models'))    
-  if not os.path.exists(os.path.join(project,'paper')):
-    os.mkdir(os.path.join(project,'paper'))
-  if not os.path.exists(os.path.join(project,'paper','figures')):
-    os.mkdir(os.path.join(project,'paper','figures'))    
-  if not os.path.exists(os.path.join(project,'SBGN_graphic_models')):
-    os.mkdir(os.path.join(project,'SBGN_graphic_models'))
-  if not os.path.exists(os.path.join(project,'SBGN_graphic_models','previous_models')):
-    os.mkdir(os.path.join(project,'SBGN_graphic_models','previous_models'))        
 
-  #if not os.path.exists(os.path.join(project,'GENSSI_struct_identif')):
-    #os.mkdir(os.path.join(project,'GENSSI_struct_identif'))
-  #if not os.path.exists(os.path.join(project,'MOTA_identif')):
-    #os.mkdir(os.path.join(project,'MOTA_identif'))
-  #if not os.path.exists(os.path.join(project,'sbtoolbox2')):
-    #os.mkdir(os.path.join(project,'sbtoolbox2'))
-  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project')):
-    #os.mkdir(os.path.join(project,'sbtoolbox2','project'))
-  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','estimations')):
-    #os.mkdir(os.path.join(project,'sbtoolbox2','project','estimations'))
-  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','experiments')):
-    #os.mkdir(os.path.join(project,'sbtoolbox2','project','experiments'))        
-  #if not os.path.exists(os.path.join(project,'sbtoolbox2','project','models')):
-    #os.mkdir(os.path.join(project,'sbtoolbox2','project','models'))
-        
-  logger.info("Project " + project + " created.")
-  return 0
+
+
+    def run(self, project_name):
+      """
+      Create a project tree.
+      Keyword arguments:
+	  project_name -- the project name
+      """
+      
+      if not os.path.exists(project_name):
+	os.mkdir(project_name)
+
+      if not os.path.exists(os.path.join(project_name,'Data')):
+	os.mkdir(os.path.join(project_name,'Data'))
+      if not os.path.exists(os.path.join(project_name,'Models')):
+	os.mkdir(os.path.join(project_name,'Models'))
+      if not os.path.exists(os.path.join(project_name,'Working_Folder')):
+	os.mkdir(os.path.join(project_name,'Working_Folder'))
+      if not os.path.exists(os.path.join(project_name,'tmp')):
+	os.mkdir(os.path.join(project_name,'tmp'))
+
+      if not os.path.exists(os.path.join(project_name,'Models','previous_models')):
+	os.mkdir(os.path.join(project_name,'Models','previous_models'))    
+      if not os.path.exists(os.path.join(project_name,'paper')):
+	os.mkdir(os.path.join(project_name,'paper'))
+      if not os.path.exists(os.path.join(project_name,'paper','figures')):
+	os.mkdir(os.path.join(project_name,'paper','figures'))    
+      if not os.path.exists(os.path.join(project_name,'SBGN_graphic_models')):
+	os.mkdir(os.path.join(project_name,'SBGN_graphic_models'))
+      if not os.path.exists(os.path.join(project_name,'SBGN_graphic_models','previous_models')):
+	os.mkdir(os.path.join(project_name,'SBGN_graphic_models','previous_models'))        
+
+      #if not os.path.exists(os.path.join(project_name,'GENSSI_struct_identif')):
+	#os.mkdir(os.path.join(project_name,'GENSSI_struct_identif'))
+      #if not os.path.exists(os.path.join(project_name,'MOTA_identif')):
+	#os.mkdir(os.path.join(project_name,'MOTA_identif'))
+      #if not os.path.exists(os.path.join(project_name,'sbtoolbox2')):
+	#os.mkdir(os.path.join(project_name,'sbtoolbox2'))
+      #if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name')):
+	#os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name'))
+      #if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','estimations')):
+	#os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','estimations'))
+      #if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','experiments')):
+	#os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','experiments'))        
+      #if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','models')):
+	#os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','models'))
+	    
+      logger.info("Project " + project_name + " created.")
+      return 0
