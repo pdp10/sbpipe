@@ -90,7 +90,7 @@ def help():
     "\t-p, --single-param-scan\n\t\tSimulate a single parameter scan.\n"
     "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
     "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
-    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis.\n\n"
+    "\t-n, --sensitivity\n\t\tRun a sensitivity analysis (in progress).\n\n"
     "Exit status:\n"
     " 0  if OK,\n"
     " 1  if minor problems (e.g., a pipeline did not execute correctly),\n"
@@ -197,7 +197,9 @@ def main(argv=None):
 	      elif opt in ("-n", "--sensitivity"):
 		check_args(args, no_conf_file_msg)
 	        print(logo())
-		exit_status = sensitivity.main(args[0])
+	        print("not yet available. Apologise.")
+	        exit_status = 0
+		#exit_status = sensitivity.main(args[0])
 	    
 	  if len(opts) < 1:
 	    raise Usage("no option received")
