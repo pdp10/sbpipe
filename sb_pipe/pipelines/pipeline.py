@@ -17,29 +17,19 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Execute the model several times for deterministic or stochastical analysis
-#
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 13:45:32 $
+# $Date: 2016-06-23 21:43:32 $
 
 
 
 
-import os
-import sys
-import glob
-from subprocess import Popen,PIPE
-import logging
-logger = logging.getLogger('sbpipe')
+class Pipeline:
+  
+    def __init__(self):
+	pass
+    
+    def run(self, config_file):
+	pass
 
-SB_PIPE = os.environ["SB_PIPE"]
-
-
-
-# Input parameters
-# outputdir
-def main(outputdir):
-  process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','sensitivity','plot_sensitivity.r'), outputdir])
-  process.wait()   
