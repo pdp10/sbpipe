@@ -58,7 +58,7 @@ class SingleParamScan(Pipeline):
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
-                 sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
+                 sim_data_folder='single_param_scan_data', sim_plots_folder='single_param_scan_plots'):
         """
         Constructor.
 

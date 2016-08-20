@@ -54,7 +54,7 @@ class Sensitivity(Pipeline):
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
-                 sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
+                 sim_data_folder='sensitivity_data', sim_plots_folder='sensitivity_plots'):
         """
         Constructor.
 
@@ -176,7 +176,7 @@ class Sensitivity(Pipeline):
     # sim_plots_folder: the directory containing the time courses results combined with experimental data
     @staticmethod
     def generate_report(model_noext, outputdir, sim_plots_folder):
-        
+
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
                          " does not exist. Analyse the data first.")
