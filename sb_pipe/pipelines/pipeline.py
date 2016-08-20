@@ -23,6 +23,12 @@
 # $Date: 2016-06-23 21:43:32 $
 
 
+from ConfigParser import ConfigParser
+from StringIO import StringIO
+
+import logging
+
+logger = logging.getLogger('sbpipe')
 
 
 class Pipeline:
@@ -31,7 +37,7 @@ class Pipeline:
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
-                 sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
+                 sim_data_folder='sim_data', sim_plots_folder='sim_plots'):
         """
         Constructor.
 
@@ -99,3 +105,52 @@ class Pipeline:
         """
         return self.__sim_plots_folder
 
+    def config_parser(self, config_file, section):
+        parser = ConfigParser()
+
+        with open(config_file) as stream:
+            stream = StringIO(stream.read())
+            parser.readfp(stream)
+
+        return self.read_configuration(parser.items(section))
+
+    def read_configuration(self, lines):
+        """
+        Read the section lines from the configuration file
+        :return: a tuple containing the configuration
+        """
+        pass
+
+    def read_common_configuration(self, lines):
+        """
+        Parse the common parameters from the configuration file
+        :return: return a tuple containing the common parameters
+        """
+        # default values
+        # Boolean flag
+        generate_data = True
+        # Boolean flag
+        analyse_data = True
+        # Boolean flag
+        generate_report = True
+        # the project directory
+        project_dir = ""
+        # the  model
+        model = "model"
+
+        # Initialises the variables
+        for line in lines:
+            logger.info(line)
+            if line[0] == "generate_data":
+                generate_data = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "analyse_data":
+                analyse_data = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "generate_report":
+                generate_report = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "project_dir":
+                project_dir = line[1]
+            elif line[0] == "model":
+                model = line[1]
+
+        return (generate_data, analyse_data, generate_report,
+                project_dir, model)

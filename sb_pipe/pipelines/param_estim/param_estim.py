@@ -45,7 +45,6 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
 from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
-from config_parser import config_parser
 from RandomiseParameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
@@ -61,29 +60,14 @@ class ParamEstim(Pipeline):
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
-        """
-        Constructor.
-
-        :param data_folder: the folder containing the data
-        :param models_folder: the folder containing the models
-        :param working_folder: the folder to store the results
-        :param sim_data_folder: the folder to store the simulation data
-        :param sim_plots_folder: the folder to store the graphic results
-        """
+        __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
         # The folder containing the updated Copasi models
         self.__updated_models_folder = 'updated_models'
 
     def run(self, config_file):
-        """
-        Execute and collect results using Copasi Time Course task.
-
-        :param config_file: a configuration file for this pipeline.
-        :returns: 0 if the pipeline was executed correctly,
-                  1 if the pipeline executed but some output was skipped,
-                  2 if the pipeline did not execute correctly.
-        """
+        __doc__ = Pipeline.run.__doc__
 
         logger.info("Reading file " + config_file + " : \n")
 
@@ -93,7 +77,7 @@ class ParamEstim(Pipeline):
              generate_tarball, project_dir, model,
              cluster, pp_cpus, round, runs,
              best_fits_percent, data_point_num,
-             plot_2d_66_95cl_corr, logspace) = config_parser(config_file, "param_estim")
+             plot_2d_66_95cl_corr, logspace) = self.config_parser(config_file, "param_estim")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -346,3 +330,58 @@ class ParamEstim(Pipeline):
         p1.communicate()[0]
 
         os.chdir(currdir)
+
+    def read_configuration(self, lines):
+        __doc__ = Pipeline.read_configuration.__doc__
+
+        # parse copasi common options
+        (generate_data, analyse_data, generate_report,
+         project_dir, model) = self.read_common_configuration(lines)
+
+        # default values
+        # The parallel mechanism to use (pp | sge | lsf).
+        cluster = "pp"
+        # The number of cpus for pp
+        pp_cpus = 1
+        # The parameter estimation round
+        round = 1
+        # The number of jobs to be executed
+        runs = 25
+        # The percent of best fits to consider
+        best_fits_percent = 100
+        # The number of available data points
+        data_point_num = 10
+        # Plot 2D correlations using data from 66% or 95% confidence levels
+        # This can be very time/memory consuming
+        plot_2d_66_95cl_corr = False
+        # True if the parameters should be plotted in log10 space.
+        logspace = True
+
+        # Initialises the variables
+        for line in lines:
+            logger.info(line)
+            if line[0] == "generate_tarball":
+                generate_tarball = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "cluster":
+                cluster = line[1]
+            elif line[0] == "round":
+                round = line[1]
+            elif line[0] == "runs":
+                runs = line[1]
+            elif line[0] == "pp_cpus":
+                pp_cpus = line[1]
+            elif line[0] == "best_fits_percent":
+                best_fits_percent = line[1]
+            elif line[0] == "data_point_num":
+                data_point_num = line[1]
+            elif line[0] == "plot_2d_66_95cl_corr":
+                plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "logspace":
+                logspace = {'True': True, 'False': False}.get(line[1], False)
+
+        return (generate_data, analyse_data, generate_report, generate_tarball,
+                project_dir, model, cluster, pp_cpus,
+                round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, logspace)
+
+
+

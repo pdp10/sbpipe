@@ -41,7 +41,6 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
 from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
-from config_parser import config_parser
 from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_double_param_scan
@@ -55,27 +54,12 @@ class DoubleParamScan(Pipeline):
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='double_param_scan_data', sim_plots_folder='double_param_scan_plots'):
-        """
-		Constructor.
-
-		:param data_folder: the folder containing the data
-		:param models_folder: the folder containing the models
-		:param working_folder: the folder to store the results
-		:param sim_data_folder: the folder to store the simulation data
-		:param sim_plots_folder: the folder to store the graphic results
-		"""
+        __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
 
     def run(self, config_file):
-        """
-        Execute and collect results using Copasi Time Course task.
-
-        :param config_file: a configuration file for this pipeline.
-        :returns: 0 if the pipeline was executed correctly,
-                  1 if the pipeline executed but some output was skipped,
-                  2 if the pipeline did not execute correctly.
-        """
+        __doc__ = Pipeline.run.__doc__
 
         logger.info("Reading file " + config_file + " : \n")
 
@@ -83,7 +67,7 @@ class DoubleParamScan(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, model, scanned_par1, scanned_par2,
-             sim_length) = config_parser(config_file, "double_param_scan")
+             sim_length) = self.config_parser(config_file, "double_param_scan")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -284,3 +268,31 @@ class DoubleParamScan(Pipeline):
         p1.communicate()[0]
 
         os.chdir(currdir)
+
+    def read_configuration(self, lines):
+        __doc__ = Pipeline.read_configuration.__doc__
+
+        # parse copasi common options
+        (generate_data, analyse_data, generate_report,
+         project_dir, model) = self.read_common_configuration(lines)
+
+        # default values
+        # the first scanned param
+        scanned_par1 = ""
+        # the second scanned param
+        scanned_par2 = ""
+        # the simulation length
+        sim_length = 1
+
+        # Initialises the variables
+        for line in lines:
+            if line[0] == "scanned_par1":
+                scanned_par1 = line[1]
+            elif line[0] == "scanned_par2":
+                scanned_par2 = line[1]
+            elif line[0] == "sim_length":
+                sim_length = line[1]
+
+        return (generate_data, analyse_data, generate_report,
+                project_dir, model, scanned_par1, scanned_par2,
+                sim_length)

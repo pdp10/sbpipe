@@ -45,7 +45,6 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
 from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
-from config_parser import config_parser
 from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_single_param_scan
@@ -59,26 +58,12 @@ class SingleParamScan(Pipeline):
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='single_param_scan_data', sim_plots_folder='single_param_scan_plots'):
-        """
-        Constructor.
+        __doc__ = Pipeline.__init__.__doc__
 
-        :param data_folder: the folder containing the data
-        :param models_folder: the folder containing the models
-        :param working_folder: the folder to store the results
-        :param sim_data_folder: the folder to store the simulation data
-        :param sim_plots_folder: the folder to store the graphic results
-        """
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
 
     def run(self, config_file):
-        """
-        Execute and collect results using Copasi Parameter Scan task.
-
-        :param config_file: a configuration file for this pipeline.
-        :returns: 0 if the pipeline was executed correctly,
-                  1 if the pipeline executed but some output was skipped,
-                  2 if the pipeline did not execute correctly.
-        """
+        __doc__ = Pipeline.run.__doc__
 
         logger.info("Reading file " + config_file + " : \n")
 
@@ -89,7 +74,7 @@ class SingleParamScan(Pipeline):
              simulate__intervals, simulate__xaxis_label,
              single_param_scan_simulations_number, single_param_scan_percent_levels,
              single_param_scan_knock_down_only, levels_number, min_level, max_level,
-             homogeneous_lines) = config_parser(config_file, "single_param_scan")
+             homogeneous_lines) = self.config_parser(config_file, "single_param_scan")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -366,3 +351,69 @@ class SingleParamScan(Pipeline):
         p1.communicate()[0]
 
         os.chdir(currdir)
+
+
+    def read_configuration(self, lines):
+        __doc__ = Pipeline.read_configuration.__doc__
+
+        # parse copasi common options
+        (generate_data, analyse_data, generate_report,
+         project_dir, model) = self.read_common_configuration(lines)
+
+        # default values
+        # The model species to scan (e.g. mTORC1)
+        scanned_par = ""
+        # The number of intervals for one simulation
+        simulate__intervals = 100
+        # The plot x axis label (e.g. Time[min])
+        # This is required for plotting
+        simulate__xaxis_label = "Time [min]"
+        # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
+        single_param_scan_simulations_number = 1
+        # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
+        single_param_scan_percent_levels = False
+        # if True then, plot only kd (blue), otherwise plot kd and overexpression
+        single_param_scan_knock_down_only = True
+        # The number of levels of inhibition/over-expression
+        levels_number = 10
+        # minimum level
+        min_level = 0
+        # maximum level
+        max_level = 250
+        # True if lines should have the same colour, no linetype, no legend.
+        # Useful for scanning from a confidence interval
+        # If this is true, it overrides:
+        # - single_param_scan_percent_levels and
+        # - single_param_scan_knock_down_only
+        homogeneous_lines = False
+
+        # Initialises the variables
+        for line in lines:
+            logger.info(line)
+            if line[0] == "scanned_par":
+                scanned_par = line[1]
+            elif line[0] == "simulate__intervals":
+                simulate__intervals = line[1]
+            elif line[0] == "simulate__xaxis_label":
+                simulate__xaxis_label = line[1]
+            elif line[0] == "single_param_scan_simulations_number":
+                single_param_scan_simulations_number = line[1]
+            elif line[0] == "single_param_scan_percent_levels":
+                single_param_scan_percent_levels = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "single_param_scan_knock_down_only":
+                single_param_scan_knock_down_only = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "min_level":
+                min_level = line[1]
+            elif line[0] == "max_level":
+                max_level = line[1]
+            elif line[0] == "levels_number":
+                levels_number = line[1]
+            elif line[0] == "homogeneous_lines":
+                homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)
+
+        return (generate_data, analyse_data, generate_report,
+                project_dir, model, scanned_par,
+                simulate__intervals, simulate__xaxis_label,
+                single_param_scan_simulations_number, single_param_scan_percent_levels,
+                single_param_scan_knock_down_only, levels_number, min_level, max_level,
+                homogeneous_lines)

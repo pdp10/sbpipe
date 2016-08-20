@@ -42,7 +42,6 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
 from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
-from config_parser import config_parser
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_simulate
 
@@ -55,32 +54,20 @@ class Sensitivity(Pipeline):
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='sensitivity_data', sim_plots_folder='sensitivity_plots'):
-        """
-        Constructor.
-
-        :param data_folder: the folder containing the data
-        :param models_folder: the folder containing the models
-        :param working_folder: the folder to store the results
-        :param sim_data_folder: the folder to store the simulation data
-        :param sim_plots_folder: the folder to store the graphic results
-        """
+        __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
         self.__sensitivities_dir="sensitivities"
 
     def run(self, config_file):
-        """
-        Execute and collect results for model sensitivity using Copasi
-        Keyword arguments:
-            config_file -- the file containing the model configuration, usually in working_folder (e.g. model.conf)
-        """
+        __doc__ = Pipeline.run.__doc__
 
         logger.info("Reading file " + config_file + " : \n")
 
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-              project_dir, model) = config_parser(config_file, "sensitivity")
+              project_dir, model) = self.config_parser(config_file, "sensitivity")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -205,3 +192,16 @@ class Sensitivity(Pipeline):
 
         os.chdir(currdir)
 
+    def read_configuration(self, lines):
+        __doc__ = Pipeline.read_configuration.__doc__
+
+        # parse copasi common options
+        (generate_data, analyse_data, generate_report,
+         project_dir, model) = self.read_common_configuration(lines)
+
+        # Initialises the variables
+        for line in lines:
+            break
+
+        return (generate_data, analyse_data, generate_report,
+                project_dir, model)
