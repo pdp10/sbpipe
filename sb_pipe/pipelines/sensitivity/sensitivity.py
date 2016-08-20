@@ -43,7 +43,7 @@ from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
 from io_util_functions import refresh_directory
-from latex_reports import latex_report_simulate
+from latex_reports import latex_report_simulate, pdf_report
 
 
 class Sensitivity(Pipeline):
@@ -162,7 +162,7 @@ class Sensitivity(Pipeline):
     # outputdir: read the outputdir
     # sim_plots_folder: the directory containing the time courses results combined with experimental data
     @staticmethod
-    def generate_report(model_noext, outputdir, sim_plots_folder):
+    def generate_report(model, outputdir, sim_plots_folder):
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
@@ -171,7 +171,7 @@ class Sensitivity(Pipeline):
 
         logger.info("Generating a LaTeX report")
         filename_prefix="report__sensitivity_"
-        latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix)
+        latex_report_simulate(outputdir, sim_plots_folder, model, filename_prefix)
 
         pdflatex = which("pdflatex")
         if pdflatex is None:
@@ -179,18 +179,7 @@ class Sensitivity(Pipeline):
             return
 
         logger.info("Generating PDF report")
-        currdir = os.getcwd()
-        os.chdir(outputdir)
-
-        logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ")
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-
-        os.chdir(currdir)
+        pdf_report(outputdir, filename_prefix + model + ".tex")
 
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__

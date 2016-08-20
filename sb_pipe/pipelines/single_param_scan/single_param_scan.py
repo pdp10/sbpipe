@@ -47,7 +47,7 @@ from pipeline import Pipeline
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
 from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory
-from latex_reports import latex_report_single_param_scan
+from latex_reports import latex_report_single_param_scan, pdf_report
 
 
 class SingleParamScan(Pipeline):
@@ -268,7 +268,7 @@ class SingleParamScan(Pipeline):
         """
         The second pipeline step: data analysis.
 
-        :param model: the model to process
+        :param model: the model name
         :param scanned_par: the scanned parameter
         :param knock_down_only: True for knock down simulation, false if also scanning over expression.
         :param outputdir: the directory containing the results
@@ -311,11 +311,11 @@ class SingleParamScan(Pipeline):
         process.wait()
 
     @staticmethod
-    def generate_report(model_noext, scanned_par, outputdir, sim_plots_folder):
+    def generate_report(model, scanned_par, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 
-        :param model_noext: the model name without extension
+        :param model: the model name
         :param scanned_par: the scanned parameter
         :param outputdir: the directory containing the report
         :param sim_plots_folder: the folder containing the plots
@@ -328,29 +328,18 @@ class SingleParamScan(Pipeline):
             return
 
         logger.info("Generating a LaTeX report")
-        logger.info(model_noext)
+        logger.info(model)
         filename_prefix = "report__single_param_scan_"
         latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
-                                       model_noext, scanned_par)
+                                       model, scanned_par)
 
         pdflatex = which("pdflatex")
-        if pdflatex == None:
+        if pdflatex is None:
             logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
             return
 
         logger.info("Generating PDF report")
-        currdir = os.getcwd()
-        os.chdir(outputdir)
-
-        logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ")
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-
-        os.chdir(currdir)
+        pdf_report(outputdir, filename_prefix + model + ".tex")
 
 
     def read_configuration(self, lines):

@@ -45,7 +45,7 @@ from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory, replace_string_in_file
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
-from latex_reports import latex_report_simulate
+from latex_reports import latex_report_simulate, pdf_report
 
 
 class Simulate(Pipeline):
@@ -199,7 +199,7 @@ class Simulate(Pipeline):
         """
         The second pipeline step: data analysis.
 
-        :param model: the model to analyse
+        :param model: the model name
         :param input_dir: the directory containing the data to analyse
         :param outputdir: the output directory containing the results
         :param sim_plots_folder: the folder to save the plots
@@ -235,16 +235,15 @@ class Simulate(Pipeline):
     # process.wait()
 
     @staticmethod
-    def generate_report(model_noext, outputdir, sim_plots_folder):
+    def generate_report(model, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 
-        :param model_noext: the model name without extension
+        :param model: the model name
         :param outputdir: the output directory to store the report
         :param sim_plots_folder: the folder containing the plots
         :return:
         """
-
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
                 "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
@@ -252,25 +251,10 @@ class Simulate(Pipeline):
 
         logger.info("Generating a LaTeX report")
         filename_prefix = "report__simulate_"
-        latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix)
-
-        pdflatex = which("pdflatex")
-        if pdflatex is None:
-            logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
-            return
+        latex_report_simulate(outputdir, sim_plots_folder, model, filename_prefix)
 
         logger.info("Generating PDF report")
-        currdir = os.getcwd()
-        os.chdir(outputdir)
-
-        logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ")
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                         stdout=subprocess.PIPE)
-        p.communicate()[0]
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                         stdout=subprocess.PIPE)
-        p.communicate()[0]
-        os.chdir(currdir)
+        pdf_report(outputdir, filename_prefix + model + ".tex")
 
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__

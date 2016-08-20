@@ -49,7 +49,7 @@ from RandomiseParameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
 from io_util_functions import refresh_directory
-from latex_reports import latex_report
+from latex_reports import latex_report, pdf_report
 
 
 class ParamEstim(Pipeline):
@@ -245,7 +245,7 @@ class ParamEstim(Pipeline):
         """
         The second pipeline step: data analysis.
 
-        :param model: the model to process
+        :param model: the model name
         :param inputdir: the directory containing the simulation data
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
@@ -293,11 +293,11 @@ class ParamEstim(Pipeline):
         process.wait()
 
     @staticmethod
-    def generate_report(model_noext, outputdir, sim_plots_folder):
+    def generate_report(model, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 
-        :param model_noext: the model name without extension
+        :param model: the model name
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the folder containing the plots
         :return: no output
@@ -310,7 +310,7 @@ class ParamEstim(Pipeline):
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__param_estim_"
-        latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix)
+        latex_report(outputdir, sim_plots_folder, model, filename_prefix)
 
         pdflatex = which("pdflatex")
         if pdflatex is None:
@@ -318,18 +318,7 @@ class ParamEstim(Pipeline):
             return
 
         logger.info("Generating PDF report")
-        currdir = os.getcwd()
-        os.chdir(outputdir)
-
-        logger.info(pdflatex + " -halt-on-error " + filename_prefix + model_noext + ".tex ... ")
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-        p1 = subprocess.Popen([pdflatex, "-halt-on-error", filename_prefix + model_noext + ".tex"],
-                              stdout=subprocess.PIPE)
-        p1.communicate()[0]
-
-        os.chdir(currdir)
+        pdf_report(outputdir, filename_prefix + model + ".tex")
 
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
