@@ -22,17 +22,24 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-11 11:14:32 $
 
-
 import os
 
-def which(file):
-    for path in os.environ["PATH"].split(os.pathsep):
-        if os.path.exists(os.path.join(path, file)):
-                return os.path.join(path, file)
 
+def which(cmd_name):
+    """
+    Utility equivalent to `which` in GNU/Linux OS.
+    :param cmd_name: a command name
+    :return: return the command name with absolute path if this exists, or None
+    """
+    for path in os.environ["PATH"].split(os.pathsep):
+        if os.path.exists(os.path.join(path, cmd_name)):
+                return os.path.join(path, cmd_name)
     return None
 
 
 def get_copasi():
-  return which("CopasiSE")
-
+    """
+    Return CopasiSE with its absolute path if the command exists, or None.
+    :return: CopasiSE with absolute path or None.
+    """
+    return which("CopasiSE")
