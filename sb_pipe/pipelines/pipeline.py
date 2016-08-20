@@ -26,10 +26,76 @@
 
 
 class Pipeline:
-  
-    def __init__(self):
-	pass
-    
+    """
+    Generic pipeline.
+    """
+
+    def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
+                 sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
+        """
+        Constructor.
+
+        :param data_folder: the folder containing the experimental (wet) data sets
+        :param models_folder: the folder containing the models
+        :param working_folder: the folder to store the results
+        :param sim_data_folder: the folder to store the simulation data
+        :param sim_plots_folder: the folder to store the graphic results
+        """
+
+        # The data folder containing the dataset
+        self.__data_folder = data_folder
+        # The folder containing the models
+        self.__models_folder = models_folder
+        # The folder containing the working results
+        self.__working_folder = working_folder
+        # The dataset working folder
+        self.__sim_data_folder = sim_data_folder
+        # The dataset mean timecourses dir
+        self.__sim_plots_folder = sim_plots_folder
+
     def run(self, config_file):
-	pass
+        """
+        Run the pipeline.
+
+        :param config_file: a configuration file for this pipeline.
+        :returns: 0 if the pipeline was executed correctly,
+                  1 if the pipeline executed but some output was skipped,
+                  2 if the pipeline did not execute correctly.
+        """
+        pass
+
+    def get_data_folder(self):
+        """
+        Return the folder containing the experimental (wet) data sets.
+        :return: the experimental data sets folder.
+        """
+        return self.__data_folder
+
+    def get_models_folder(self):
+        """
+        Return the folder containing the models.
+        :return: the models folder.
+        """
+        return self.__models_folder
+
+    def get_working_folder(self):
+        """
+        Return the folder containing the results.
+        :return: the working folder.
+        """
+        return self.__working_folder
+
+    def get_sim_data_folder(self):
+        """
+        Return the folder containing the in-silico generated data sets.
+        :return: the folder of the simulated data sets.
+        """
+        return self.__sim_data_folder
+
+    def get_sim_plots_folder(self):
+        """
+        Return the folder containing the in-silico generated plots.
+        :return: the folder of the simulated plots.
+        """
+        return self.__sim_plots_folder
 
