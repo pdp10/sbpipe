@@ -22,9 +22,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 16:14:32 $
 
-
-
-
 # for computing the pipeline elapsed time 
 import datetime
 import os
@@ -159,7 +156,7 @@ class Simulate(Pipeline):
         :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param pp_cpus: the number of CPU used by Parallel Python.
         :param runs: the number of model simulation
-        :return: nothing to return
+        :return: no output
         """
 
         if runs < 1:
