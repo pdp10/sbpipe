@@ -39,7 +39,14 @@ class RandomiseParameters:
     Then, it saves the new file. As input, it receives the number of files
     to generate (multiple calibrations)
     """
+
     def __init__(self, path, filename_in):
+        """
+        Constructor
+
+        :param path:
+        :param filename_in:
+        """
 
         # A Copasi Object
         self.__copasi = CopasiParser()
@@ -56,9 +63,15 @@ class RandomiseParameters:
         self.__start_values, self.__upper_bounds = \
             self.__copasi.retrieve_param_estim_values(os.path.join(self.__path, self.__filename_in))
 
-    # Generate num_files files, in which the parameters to estimate have a random
-    # starting value chosen in the determined ammissible range for that parameter.
     def generate_instances_from_template(self, num_files, idstr):
+        """
+        Generate num_files files, in which the parameters to estimate have a random
+        starting value chosen in the determined ammissible range for that parameter.
+
+        :param num_files:
+        :param idstr:
+        :return:
+        """
         num_files = int(num_files)
         logger.info("Randomising parameters for:")
         for i in range(0, num_files):
@@ -79,41 +92,76 @@ class RandomiseParameters:
             # 3) REPLACE VALUES IN THE NEW FILE
             self.__replace_start_value_in_file(file_out, report_filename, old_str, new_str)
 
-    # SET/GET methods
-    # Return the Copasi Object
     def get_copasi_obj(self):
+        """
+        Return the Copasi Object
+
+        :return:
+        """
         return self.__copasi
 
-    # Return the path containing the template Copasi file
     def get_path(self):
+        """
+        Return the path containing the template Copasi file
+
+        :return:
+        """
         return self.__path
 
-    # Return the name of the template Copasi file
     def get_template_copasi_file(self):
+        """
+        Return the name of the template Copasi file
+
+        :return:
+        """
         return self.__filename_in
 
-    # Return the name of the template parameter estimation report
     def get_report_filename_template_str(self):
+        """
+        Return the name of the template parameter estimation report
+
+        :return:
+        """
         return self.__report_filename_template
 
-    # Return the list of lower bounds of the parameters
     def get_lower_bounds_list(self):
+        """
+        Return the list of lower bounds of the parameters
+
+        :return:
+        """
         return self.__lower_bounds
 
-    # Return the list of names of the parameters
     def get_param_names_list(self):
+        """
+        Return the list of names of the parameters
+
+        :return:
+        """
         return self.__param_names
 
-    # Return the list of start values of the parameters
     def get_start_values_list(self):
+        """
+        Return the list of start values of the parameters
+
+        :return:
+        """
         return self.__start_values
 
-    # Return the list of upper bounds of the parameters
     def get_upper_bounds_list(self):
+        """
+        Return the list of upper bounds of the parameters
+
+        :return:
+        """
         return self.__upper_bounds
 
-    # Print the values extracted from COPASI template file
     def print_parameters_to_estimate(self):
+        """
+        Print the values extracted from COPASI template file
+
+        :return:
+        """
         logger.info("\t\tParameterName\t\tLowerBound\t\tStartValue\t\tUpperBound")
         logger.info("\t\t=============\t\t==========\t\t==========\t\t==========")
         for i in range(0, len(self.__param_names)):
@@ -122,8 +170,13 @@ class RandomiseParameters:
                       "\t\t" + self.__lower_bounds[i] + "\t\t" + self.__start_values[i] +
                         "\t\t" + self.__upper_bounds[i])
 
-    # Print the values extracted from COPASI template file and the new random start value
     def __print_parameters_to_estimate2(self, new__start_values):
+        """
+        Print the values extracted from COPASI template file and the new random start value
+
+        :param new__start_values:
+        :return:
+        """
         logger.debug("\t\tParameter\t\tLowerBound\t\tUpperBound\t\tStartValue\t\tNEWStartValue")
         logger.debug("\t\t=========\t\t==========\t\t==========\t\t==========\t\t=============")
         for i in range(0, len(self.__param_names)):
@@ -134,8 +187,12 @@ class RandomiseParameters:
                         "\t\t" + self.__start_values[i] +
                         "\t\t" + new__start_values[i])
 
-    # Randomise the start value of the parameters
     def __randomise_start_value(self):
+        """
+        Randomise the start value of the parameters
+
+        :return:
+        """
         new__start_values = []
         old_str = []
         new_str = []
@@ -155,8 +212,16 @@ class RandomiseParameters:
             #logger.debug(new_str[i])
         return new__start_values, old_str, new_str
 
-    # For each parameter to estimate, replace the current start value with the new randomised start value
     def __replace_start_value_in_file(self, file_out, report_filename, old_str, new_str):
+        """
+        For each parameter to estimate, replace the current start value with the new randomised start value
+
+        :param file_out:
+        :param report_filename:
+        :param old_str:
+        :param new_str:
+        :return:
+        """
 
         replace_string_in_file(file_out, self.__report_filename_template, report_filename)
 
