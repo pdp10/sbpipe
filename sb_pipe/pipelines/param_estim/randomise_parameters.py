@@ -23,7 +23,7 @@
 
 
 import sys, os, os.path
-from CopasiParser import *
+from copasi_parser import *
 from io_util_functions import *
 import shutil
 import random

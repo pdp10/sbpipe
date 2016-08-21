@@ -36,7 +36,7 @@ logger = logging.getLogger('sbpipe')
 SB_PIPE = os.environ["SB_PIPE"]
 
 sys.path.append(os.path.join(SB_PIPE,'sb_pipe','utils','python'))
-from BasicSyncCounter import *
+from basic_sync_counter import *
 
 import pp
 

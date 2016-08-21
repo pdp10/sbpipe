@@ -45,7 +45,7 @@ sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "pipelines"))
 from pipeline import Pipeline
 
 sys.path.append(os.path.join(SB_PIPE, "sb_pipe", "utils", "python"))
-from RandomiseParameters import *
+from randomise_parameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
 from io_util_functions import refresh_directory
