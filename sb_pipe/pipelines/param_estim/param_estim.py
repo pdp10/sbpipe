@@ -59,7 +59,7 @@ class ParamEstim(Pipeline):
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
-                 sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
+                 sim_data_folder='param_estim_data', sim_plots_folder='param_estim_plots'):
         __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
@@ -121,8 +121,8 @@ class ParamEstim(Pipeline):
                                        pp_cpus,
                                        runs,
                                        outputdir,
-                                       self.get_sim_data_folder(),
-                                       self.__updated_models_folder)
+                                       os.path.join(outputdir, self.get_sim_data_folder()),
+                                       os.path.join(outputdir, self.__updated_models_folder))
 
         if analyse_data:
             logger.info("\n")
@@ -135,7 +135,7 @@ class ParamEstim(Pipeline):
                               fileout_all_estims,
                               fileout_approx_ple_stats,
                               fileout_conf_levels,
-                              self.get_sim_plots_folder(),
+                              os.path.join(outputdir, self.get_sim_plots_folder()),
                               best_fits_percent,
                               data_point_num,
                               plot_2d_66_95cl_corr,
@@ -169,8 +169,8 @@ class ParamEstim(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_folder,
-                      updated_models_folder):
+    def generate_data(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+                      updated_models_dir):
         """
         The first pipeline step: data generation.
 
@@ -180,8 +180,8 @@ class ParamEstim(Pipeline):
         :param pp_cpus: the number of cpu for parallel python
         :param nfits: the number of fits to perform
         :param outputdir: the directory to store the results
-        :param sim_data_folder: the folder containing the simulation data sets
-        :param updated_models_folder: the folder containing the Copasi models with updated parameters for
+        :param sim_data_dir: the directory containing the simulation data sets
+        :param updated_models_dir: the directory containing the Copasi models with updated parameters for
                each estimation
         :return: no output
         """
@@ -195,8 +195,8 @@ class ParamEstim(Pipeline):
             return
 
         # folder preparation
-        refresh_directory(os.path.join(outputdir, sim_data_folder), model[:-4])
-        refresh_directory(os.path.join(outputdir, updated_models_folder), model[:-4])
+        refresh_directory(sim_data_dir, model[:-4])
+        refresh_directory(updated_models_dir, model[:-4])
 
         copasi = get_copasi()
         if copasi is None:
@@ -224,23 +224,23 @@ class ParamEstim(Pipeline):
         parallel_computation(command, str_to_replace, cluster_type, nfits, outputdir, pp_cpus)
 
         # Move the report files to the outputdir
-        reportFiles = [f for f in os.listdir(inputdir) if
+        report_files = [f for f in os.listdir(inputdir) if
                        re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
-        for file in reportFiles:
+        for file in report_files:
             # copy report and remove the groupid
             shutil.move(os.path.join(inputdir, file),
-                        os.path.join(outputdir, sim_data_folder, file.replace(groupid, "_")))
+                        os.path.join(sim_data_dir, file.replace(groupid, "_")))
 
         # removed repeated copasi files
-        repeatedCopasiFiles = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
-        for file in repeatedCopasiFiles:
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
+        for file in repeated_copasi_files:
             # os.remove(os.path.join(inputdir, file))
             shutil.move(os.path.join(inputdir, file),
-                        os.path.join(outputdir, updated_models_folder, file.replace(groupid, "_")))
+                        os.path.join(updated_models_dir, file.replace(groupid, "_")))
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_approx_ple_stats, fileout_conf_levels, sim_plots_folder, best_fits_percent, data_point_num,
+                     fileout_approx_ple_stats, fileout_conf_levels, sim_plots_dir, best_fits_percent, data_point_num,
                      plot_2d_66_95cl_corr=False, logspace=True):
         """
         The second pipeline step: data analysis.
@@ -252,7 +252,7 @@ class ParamEstim(Pipeline):
         :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
         :param fileout_approx_ple_stats: the file name of the PLE results
         :param fileout_conf_levels: the file name of the confidence levels results
-        :param sim_plots_folder: the folder of the simulation plots
+        :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
         :param data_point_num: the number of data points
         :param plot_2d_66_95cl_corr: True if 2 dim plots for the parameter sets within 66% and 95% should be plotted
@@ -264,7 +264,7 @@ class ParamEstim(Pipeline):
             logger.error("inputdir " + inputdir + " does not exist or is empty. Generate some data first.")
             return
 
-        refresh_directory(os.path.join(outputdir, sim_plots_folder), model[:-4])
+        refresh_directory(sim_plots_dir, model[:-4])
 
         logger.info("Collect results:")
         # Collect and summarises the parameter estimation results
@@ -278,14 +278,14 @@ class ParamEstim(Pipeline):
                          os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'param_estim', 'main_final_fits_analysis.r'),
                          model,
                          os.path.join(outputdir, fileout_final_estims),
-                         os.path.join(outputdir, sim_plots_folder),
+                         sim_plots_dir,
                          str(best_fits_percent), str(logspace)])
         process.wait()
         process = Popen(
             ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'param_estim', 'main_all_fits_analysis.r'),
              model,
              os.path.join(outputdir, fileout_all_estims),
-             os.path.join(outputdir, sim_plots_folder),
+             sim_plots_dir,
              str(data_point_num),
              os.path.join(outputdir, fileout_approx_ple_stats),
              os.path.join(outputdir, fileout_conf_levels),

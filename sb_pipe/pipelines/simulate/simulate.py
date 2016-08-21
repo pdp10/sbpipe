@@ -112,7 +112,7 @@ class Simulate(Pipeline):
             logger.info("Data analysis:")
             logger.info("##############")
             Simulate.analyse_data(model[:-4], os.path.join(outputdir, self.get_sim_data_folder()), outputdir,
-                                  self.get_sim_plots_folder(), simulate__xaxis_label)
+                                  os.path.join(outputdir, self.get_sim_plots_folder()), simulate__xaxis_label)
 
         if generate_report:
             logger.info("\n")
@@ -195,44 +195,36 @@ class Simulate(Pipeline):
             os.remove(os.path.join(inputdir, file))
 
     @staticmethod
-    def analyse_data(model, input_dir, outputdir, sim_plots_folder, xaxis_label):
+    def analyse_data(model, inputdir, outputdir, sim_plots_dir, xaxis_label):
         """
         The second pipeline step: data analysis.
 
         :param model: the model name
-        :param input_dir: the directory containing the data to analyse
+        :param inputdir: the directory containing the data to analyse
         :param outputdir: the output directory containing the results
-        :param sim_plots_folder: the folder to save the plots
+        :param sim_plots_dir: the directory to save the plots
         :param xaxis_label: the label for the x axis (e.g. Time [min])
         :return: nothing to return
         """
 
-        if not os.path.exists(input_dir):
-            logger.error("input_dir " + input_dir + " does not exist. Generate some data first.")
+        if not os.path.exists(inputdir):
+            logger.error("inputdir " + inputdir + " does not exist. Generate some data first.")
             return
 
         # folder preparation
-        files_to_delete = glob.glob(os.path.join(outputdir, sim_plots_folder, model + "*"))
+        files_to_delete = glob.glob(os.path.join(sim_plots_dir, model + "*"))
         for f in files_to_delete:
             os.remove(f)
 
-        if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
-            os.mkdir(os.path.join(outputdir, sim_plots_folder))
+        if not os.path.exists(sim_plots_dir):
+            os.mkdir(sim_plots_dir)
 
         logger.info("Generating statistics from simulations:")
         process = subprocess.Popen(
             ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'simulate', 'simulate__plot_error_bars.r'),
-             model, input_dir,
-             os.path.join(outputdir, sim_plots_folder),
+             model, inputdir, sim_plots_dir,
              os.path.join(outputdir, 'sim_stats_' + model + '.csv'), xaxis_label])
         process.wait()
-
-    # logger.info("\nGenerating overlapping plots (sim + exp):")
-    # process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines','simulate',
-    # 'simulate__plot_sim_exp_error_bars.r'), model, os.path.join(outputdir,sim_plots_folder),
-    # os.path.join(outputdir, tc_mean_exp_dir), os.path.join(outputdir, tc_mean_with_exp_dir),
-    # os.path.join(outputdir, 'sim_stats_'+model+'.csv'),  os.path.join(outputdir,'exp_stats_'+model+'.csv')])
-    # process.wait()
 
     @staticmethod
     def generate_report(model, outputdir, sim_plots_folder):
@@ -246,7 +238,7 @@ class Simulate(Pipeline):
         """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
-                "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
+                "inputdir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
             return
 
         logger.info("Generating a LaTeX report")
