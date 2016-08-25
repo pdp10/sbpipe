@@ -34,6 +34,8 @@ def which(cmd_name):
     for path in os.environ["PATH"].split(os.pathsep):
         if os.path.exists(os.path.join(path, cmd_name)):
                 return os.path.join(path, cmd_name)
+        if os.path.exists(os.path.join(path, cmd_name + '.exe')):
+                return os.path.join(path, cmd_name + '.exe')            
     return None
 
 
@@ -42,7 +44,4 @@ def get_copasi():
     Return CopasiSE with its absolute path if the command exists, or None.
     :return: CopasiSE with absolute path or None.
     """
-    copasi = which("CopasiSE")
-    if copasi is None:
-        copasi = which("CopasiSE.exe")    
-    return copasi
+    return which("CopasiSE")
