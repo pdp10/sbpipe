@@ -42,4 +42,7 @@ def get_copasi():
     Return CopasiSE with its absolute path if the command exists, or None.
     :return: CopasiSE with absolute path or None.
     """
-    return which("CopasiSE")
+    copasi = which("CopasiSE")
+    if copasi is None:
+        copasi = which("CopasiSE.exe")    
+    return copasi
