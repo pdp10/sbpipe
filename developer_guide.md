@@ -113,8 +113,6 @@ configured first), generate plots and report;
 configured first), generate plots and report;
 - *param_estim* generate a fits sequence using Copasi 
 (this must be configured first), generate tables for statistics;
-- *sensitivity* runs Copasi (this must be 
-configured first), generate plots and report;
 
 These pipelines are available as Python functions and are invoked 
 directly via *sb_pipe/run_sb_pipe.py*.
@@ -132,8 +130,7 @@ Projects inside the folder tests/ have the sb_pipe project structure:
 - *Data* (e.g. training / testing data sets for the model);
 - *Model* (e.g. Copasi models);
 - *Working_Folder* (e.g. pipelines configurations and parameter 
-estimation results, time course, parameter scan, sensitivity analysis 
-etc).
+estimation results, time course, parameter scan, etc).
 
 Examples of configuration files (*.conf) can be found in 
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.

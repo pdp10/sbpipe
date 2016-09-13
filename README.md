@@ -12,7 +12,7 @@ Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.c
 ## Introduction
 This package contains a collection of pipelines for dynamic modelling of biological systems. 
 It aims to automate common processes and speed up productivity for tasks such as model simulation, 
-model single and double parameter scan, sensitivity analysis and parameter estimation. 
+model single and double parameter scan, and parameter estimation. 
 
 
 ### Environment variables for sb_pipe
@@ -91,19 +91,6 @@ Using CopasiUI:
 - Select the report template for the Parameter Estimation Task.
 - Save the report with the model name replacing the extension .cps with .csv.
 
-##### sensitivity
-Using CopasiUI:
-- Tick the flag _executable_ in the Sensitivities Task.
-- Select the report template for the Sensitivities Task.
-- Save the report with the model name replacing the extension .cps with .csv.
-
-Copasi has changed a few times the format for this report. As Sensitivity analysis is not a repetitive task, right now:
-- Generate a report for sensitivity analysis. Save this report in PROJECT_FOLDER/MODEL_NAME/sensitivities/MODEL_NAME_sensitivities.csv
-- After running the task, edit the file so that it contains exactly one table.
-- Create a configuration file including: 
-sensitivities_dir=sensitivities
-- The script will generate a plot for each csv file found in the folder `sensitivity`.
-
 
 ### Running sb_pipe
 The first step is to create a new project. This can be done with 
@@ -127,7 +114,6 @@ where *pipeline* can be one of the following option:
 - --simulate (-s)
 - --single-param-scan (-p) 
 - --double-param-scan (-d)
-- --sensitivity (-n)
 - --param-estim (-e)
 
 For additional options, run
