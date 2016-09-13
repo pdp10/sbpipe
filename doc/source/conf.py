@@ -27,9 +27,15 @@ try:
 except KeyError:
     print 'Unable to obtain $SB_PIPE from the environment.'
     exit(-1)
+
 sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe'))
-sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
-sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
+#sys.path.append(os.path.join(sb_pipe, 'sb_pipe'))
+#sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
+#sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
+
+#from pprint import pprint as p
+#p(sys.path)
+
 
 # -- General configuration ------------------------------------------------
 
@@ -39,7 +45,7 @@ sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -78,7 +84,7 @@ release = '0.59.0'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = []
+exclude_patterns = ['*.R', '*.r']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
