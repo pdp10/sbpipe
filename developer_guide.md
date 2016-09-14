@@ -101,7 +101,6 @@ git show
 
 ## Package structure
 
-##### sb_pipe
 The *sb_pipe/pipelines/* folder contains the following pipelines:
 
 - *create_project* creates a new project
@@ -117,16 +116,13 @@ configured first), generate plots and report;
 These pipelines are available as Python functions and are invoked 
 directly via *sb_pipe/run_sb_pipe.py*.
 
-**NOTE:**
-use the logger("sbpipe") for printing messages instead of a simple print().
 
-
-##### tests
 The *tests/* folder contains the script *run_tests.py* to run a test 
 suite. It should be used for testing the correct installation of sb_pipe
 dependencies as well as reference for configuring a project before 
 running any pipeline. 
-Projects inside the folder tests/ have the sb_pipe project structure: 
+Projects inside the folder tests/ have the sb_pipe project structure:
+
 - *Data* (e.g. training / testing data sets for the model);
 - *Model* (e.g. Copasi models);
 - *Working_Folder* (e.g. pipelines configurations and parameter 

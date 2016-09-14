@@ -17,10 +17,12 @@ model single and double parameter scan, and parameter estimation.
 
 ### Environment variables for sb_pipe
 The following environmental variables need to be set up:
+
 - export SB_PIPE=/path/to/sb_pipe
 - export PATH=$PATH:${SB_PIPE}/sb_pipe
 
-The path to CopasiSE must be added to the PATH environmental variable
+The path to CopasiSE must be added to the PATH environmental variable:
+
 - export PATH=$PATH:/path/to/CopasiSE
 
 
@@ -30,6 +32,7 @@ are installed in your machine: `build-essential`, `python-pip`, and
 (optionally) `texlive-latex-base`.
 
 In order to use sb_pipe, the following software must be installed:
+
 - Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
 - Python 2.7+ - [https://www.python.org/](https://www.python.org/)
 - R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
@@ -75,18 +78,21 @@ Before using these pipelines, a Copasi model must be configured as follows. Repo
 
 ##### simulate 
 Using CopasiUI:
+
 - Tick the flag _executable_ in the Time Course Task.
 - Select a report template for the Time Course Task.
 - Save the report with the model name replacing the extension .cps with .csv.
 
 ##### single or double parameter scan
 Using CopasiUI:
+
 - Tick the flag _executable_ in the Parameter Scan Task.
-- Select a report template for the Paramete Scan Task.
+- Select a report template for the Parameter Scan Task.
 - Save the report with the model name replacing the extension .cps with .csv.
 
 ##### param-estim
 Using CopasiUI:
+
 - Tick the flag _executable_ in the Parameter Estimation Task.
 - Select the report template for the Parameter Estimation Task.
 - Save the report with the model name replacing the extension .cps with .csv.
@@ -111,6 +117,7 @@ cd Working_Folder
 run_sb_pipe.py pipeline configuration_file
 ```
 where *pipeline* can be one of the following option: 
+
 - --simulate (-s)
 - --single-param-scan (-p) 
 - --double-param-scan (-d)
