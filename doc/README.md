@@ -8,8 +8,7 @@ Instruction for generating and cleaning sb_pipe documentation are provided below
 
 To generate the source code documentation:
 ```
-$ ./prepare_doc.sh
-$ make html
+$ ./gen_doc.sh
 ```
 
 To clean the documentation:
