@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # sb_pipe documentation build configuration file, created by
-# sphinx-quickstart on Sun Aug 21 13:14:28 2016.
+# sphinx-quickstart on Tue Sep 13 15:55:32 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -19,6 +19,7 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
+
 # This will include the necessary source files folders in the PATH to be able to generate the documentation from.
 sb_pipe=''
 try:
@@ -28,10 +29,16 @@ except KeyError:
     print 'Unable to obtain $SB_PIPE from the environment.'
     exit(-1)
 
-sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe'))
-#sys.path.append(os.path.join(sb_pipe, 'sb_pipe'))
-#sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
-#sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
+#sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'create_project'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'double_param_scan'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'param_estim'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'sensitivity'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'simulate'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'single_param_scan'))
+sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
 
 #from pprint import pprint as p
 #p(sys.path)
@@ -45,7 +52,10 @@ sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -1,16 +1,18 @@
 .. sb_pipe documentation master file, created by
-   sphinx-quickstart on Sun Aug 21 13:14:28 2016.
+   sphinx-quickstart on Tue Sep 13 15:55:32 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sb_pipe's documentation!
-===================================
+Documentation for sb_pipe
+=========================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
+   :maxdepth: 5
+   
+   user_manual
+   developer_guide
 
 
 Indices and tables
