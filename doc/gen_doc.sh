@@ -45,3 +45,6 @@ sphinx-apidoc -P -T -o source/source_code $SB_PIPE/sb_pipe/pipelines/simulate/
 sphinx-apidoc -P -T -o source/source_code $SB_PIPE/sb_pipe/pipelines/single_param_scan/
 sphinx-apidoc -P -T -o source/source_code $SB_PIPE/sb_pipe/utils/python/
 
+
+# Generate the documentation
+make html
