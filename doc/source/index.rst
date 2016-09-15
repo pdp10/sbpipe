@@ -15,8 +15,8 @@ Contents:
    developer_guide
 
 
-Indices and tables
-==================
+Source code
+===========
 
 * :ref:`genindex`
 * :ref:`modindex`
