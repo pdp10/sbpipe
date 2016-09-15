@@ -25,7 +25,7 @@
 
 
 # clean previous manuals
-rm -f source/user_manual.rst source/developer_guide.rst
+rm -f source/user_manual.rst source/developer_manual.rst
 
 # clean previous source code documentation
 rm -rf source/source_code

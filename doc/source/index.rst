@@ -12,7 +12,7 @@ Contents:
    :maxdepth: 5
    
    user_manual
-   developer_guide
+   developer_manual
 
 
 Source code

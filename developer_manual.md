@@ -1,4 +1,4 @@
-# Developer guide
+# Developer manual
 
 Mailing list: sb_pipe AT googlegroups.com
 
