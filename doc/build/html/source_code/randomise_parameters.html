@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>randomise_parameters module &mdash; sb_pipe 0.59.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.59.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sb_pipe 0.59.0 documentation" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-randomise_parameters">
+<span id="randomise-parameters-module"></span><h1>randomise_parameters module<a class="headerlink" href="#module-randomise_parameters" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="randomise_parameters.RandomiseParameters">
+<em class="property">class </em><code class="descclassname">randomise_parameters.</code><code class="descname">RandomiseParameters</code><span class="sig-paren">(</span><em>path</em>, <em>filename_in</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>It reads a copasi file configured for parameter estimation task, and randomise the starting
+values of the parameters to estimate.
+Then, it saves the new file. As input, it receives the number of files
+to generate (multiple calibrations)</p>
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.generate_instances_from_template">
+<code class="descname">generate_instances_from_template</code><span class="sig-paren">(</span><em>num_files</em>, <em>idstr</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.generate_instances_from_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate num_files files, in which the parameters to estimate have a random
+starting value chosen in the determined ammissible range for that parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>num_files</strong> &#8211; </li>
+<li><strong>idstr</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_copasi_obj">
+<code class="descname">get_copasi_obj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_copasi_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Copasi Object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_lower_bounds_list">
+<code class="descname">get_lower_bounds_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_lower_bounds_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of lower bounds of the parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_param_names_list">
+<code class="descname">get_param_names_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_param_names_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of names of the parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path containing the template Copasi file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_report_filename_template_str">
+<code class="descname">get_report_filename_template_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_report_filename_template_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the template parameter estimation report</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_start_values_list">
+<code class="descname">get_start_values_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_start_values_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of start values of the parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_template_copasi_file">
+<code class="descname">get_template_copasi_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_template_copasi_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the template Copasi file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.get_upper_bounds_list">
+<code class="descname">get_upper_bounds_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_upper_bounds_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of upper bounds of the parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.print_parameters_to_estimate">
+<code class="descname">print_parameters_to_estimate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.print_parameters_to_estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the values extracted from COPASI template file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source_code/randomise_parameters.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Piero Dalle Pezze.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
