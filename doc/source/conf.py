@@ -29,7 +29,6 @@ except KeyError:
     print 'Unable to obtain $SB_PIPE from the environment.'
     exit(-1)
 
-#sys.path.insert(0, os.path.join(sb_pipe, 'sb_pipe'))
 sys.path.append(os.path.join(sb_pipe, 'sb_pipe'))
 sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
 sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'create_project'))
@@ -40,8 +39,8 @@ sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'simulate'))
 sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'single_param_scan'))
 sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
 
-#from pprint import pprint as p
-#p(sys.path)
+from pprint import pprint as p
+p(sys.path)
 
 
 # -- General configuration ------------------------------------------------
@@ -210,7 +209,7 @@ htmlhelp_basename = 'sb_pipedoc'
 
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
@@ -223,13 +222,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'sb_pipe.tex', u'sb\\_pipe Documentation',
+  ('index', 'sb_pipe.tex', u'sb\\_pipe documentation',
    u'Piero Dalle Pezze', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = 'sb_pipe_logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -253,7 +252,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sb_pipe', u'sb_pipe Documentation',
+    ('index', 'sb_pipe', u'sb_pipe documentation',
      [u'Piero Dalle Pezze'], 1)
 ]
 
@@ -267,7 +266,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sb_pipe', u'sb_pipe Documentation',
+  ('index', 'sb_pipe', u'sb_pipe documentation',
    u'Piero Dalle Pezze', 'sb_pipe', 'One line description of project.',
    'Miscellaneous'),
 ]

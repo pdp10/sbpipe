@@ -120,8 +120,10 @@ The folder *doc/* contains the documentation for this project. In order to gener
 
 - python-sphinx
 - pandoc
+- texlive-fonts-recommended
+- texlive-latex-extra
 
-Instruction for generating and cleaning sb_pipe documentation are provided below.
+By default the documentation is generated in html and LaTeX/PDF. Instruction for generating or cleaning sb_pipe documentation are provided below.
 
 To generate the source code documentation:
 ```

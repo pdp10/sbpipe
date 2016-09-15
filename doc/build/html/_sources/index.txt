@@ -6,8 +6,6 @@
 Documentation for sb_pipe
 =========================
 
-Contents:
-
 .. toctree::
    :maxdepth: 5
    

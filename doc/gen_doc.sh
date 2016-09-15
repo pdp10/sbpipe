@@ -46,5 +46,6 @@ sphinx-apidoc -P -T -o source/source_code $SB_PIPE/sb_pipe/pipelines/single_para
 sphinx-apidoc -P -T -o source/source_code $SB_PIPE/sb_pipe/utils/python/
 
 
-# Generate the documentation
+# Generate documentation in html, LaTeX/PDF, and man
 make html
+make latexpdf

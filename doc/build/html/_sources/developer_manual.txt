@@ -153,8 +153,11 @@ packages must be installed:
 
 -  python-sphinx
 -  pandoc
+-  texlive-fonts-recommended
+-  texlive-latex-extra
 
-Instruction for generating and cleaning sb\_pipe documentation are
+By default the documentation is generated in html and LaTeX/PDF.
+Instruction for generating or cleaning sb\_pipe documentation are
 provided below.
 
 To generate the source code documentation:

@@ -7,3 +7,16 @@ doc/source/source_code/*.rst
 doc/build/doctrees/*
 doc/build/html/objects.inv
 doc/build/html/.buildinfo
+doc/build/latex/*.sty
+doc/build/latex/Makefile
+doc/build/latex/*.ist
+doc/build/latex/*.png
+doc/build/latex/*.aux
+doc/build/latex/*.idx
+doc/build/latex/*.ilg
+doc/build/latex/*.ind
+doc/build/latex/*.log
+doc/build/latex/*.out
+doc/build/latex/*.tex
+doc/build/latex/*.toc
+doc/build/latex/*.cls
