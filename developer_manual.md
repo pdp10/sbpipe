@@ -133,7 +133,7 @@ To clean the documentation:
 $ ./clean_doc.sh
 ```
 
-If new folders containing new Python modules are added, it is necessary to update the sys.path in *source/conf.py* to include these additional paths. 
+If new folders containing new Python modules are added to the project, it is necessary to update the sys.path in *source/conf.py* to include these additional paths. 
 
 
 ### sb_pipe

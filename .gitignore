@@ -2,3 +2,8 @@
 tests/**/Rplots.pdf
 sb_pipe/**/*.pyc
 logs/*.log*
+doc/source/*_manual.rst
+doc/source/source_code/*.rst
+doc/build/doctrees/*
+doc/build/html/objects.inv
+doc/build/html/.buildinfo
