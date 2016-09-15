@@ -1,4 +1,4 @@
-# sb_pipe package
+# User manual
 
 Mailing list: sb_pipe AT googlegroups.com
 
@@ -12,25 +12,10 @@ Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.c
 ## Introduction
 This package contains a collection of pipelines for dynamic modelling of biological systems. 
 It aims to automate common processes and speed up productivity for tasks such as model simulation, 
-model single and double parameter scan, and parameter estimation. 
-
-
-### Environment variables for sb_pipe
-The following environmental variables need to be set up:
-
-- export SB_PIPE=/path/to/sb_pipe
-- export PATH=$PATH:${SB_PIPE}/sb_pipe
-
-The path to CopasiSE must be added to the PATH environmental variable:
-
-- export PATH=$PATH:/path/to/CopasiSE
+single and double parameter scan, and parameter estimation. 
 
 
 ### Requirements
-Before proceeding, you should make sure that the following packages 
-are installed in your machine: `build-essential`, `python-pip`, and 
-(optionally) `texlive-latex-base`.
-
 In order to use sb_pipe, the following software must be installed:
 
 - Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
@@ -38,8 +23,31 @@ In order to use sb_pipe, the following software must be installed:
 - R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
 - LaTeX 2013 (optional) [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
 
-Before installing sb_pipe Python and R dependencies, the environment 
-variables for sb_pipe need to be configured. 
+You should also make sure that the following packages are installed in 
+your machine: `python-pip`, and (optionally) `texlive-latex-base`.
+
+Before installing sb_pipe Python and R dependencies the following 
+environment variables must be added to your GNU/Linux $HOME/.bashrc file:
+
+```
+# SB_PIPE
+export SB_PIPE=/path/to/sb_pipe
+export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+# Path to CopasiSE
+export PATH=$PATH:/path/to/CopasiSE
+```
+
+The .bashrc file can then be reloaded from your shell using the command: 
+```
+$ source $HOME/.bashrc
+```
+
+On Windows platforms, these environment variables are configured as any other 
+Windows environment variable.
+
+Now it is the time to install Python and R packages used by sb_pipe. Two scripts 
+are provided to perform these tasks automatically. 
 
 To install sb_pipe Python dependencies, run:
 ```
@@ -54,7 +62,8 @@ $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
 ```
-If R package dependencies are to be compiled, it would be worth checking that these additional packages are installed in your machine: `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
+
+If R package dependencies must be compiled, it is worth checking that the following additional packages are installed in your machine: `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
 
 
 ### Installation
@@ -74,28 +83,25 @@ cd tests
 ### Preliminary configuration steps
 
 #### Pipelines using Copasi
-Before using these pipelines, a Copasi model must be configured as follows. Reports must be created in the same folder of the model (Models/). 
+Before using these pipelines, a Copasi model must be configured as follow using CopasiUI:
 
-##### simulate 
-Using CopasiUI:
+**pipeline: simulate**
 
 - Tick the flag _executable_ in the Time Course Task.
 - Select a report template for the Time Course Task.
-- Save the report with the model name replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
 
-##### single or double parameter scan
-Using CopasiUI:
+**pipeline: single or double parameter scan**
 
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Parameter Scan Task.
-- Save the report with the model name replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
 
-##### param-estim
-Using CopasiUI:
+**pipeline: param-estim**
 
 - Tick the flag _executable_ in the Parameter Estimation Task.
 - Select the report template for the Parameter Estimation Task.
-- Save the report with the model name replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
 
 
 ### Running sb_pipe
@@ -104,14 +110,18 @@ the command:
 ```
 run_sb_pipe.py --create-project projectname
 ```
-After creating a project, users need to create a configuration file 
-for each task they intend to run. Examples of configuration files can be found in:
+
+The previous command generates the following structure:
 ```
-${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+projectname/
+    | - Data/
+    | - Models/
+    | - Working_Folder/
 ```
-Users should place their configuration files in the Working_Folder/ of their project. Models must be stored in the Models/ folder. The folder Data/ is meant for collecting experimental data files and analyses in one place. 
-Once the data files for Copasi (e.g. for parameter estimation) are generated, **it is advised** to move them into the Models/ folder so that the Copasi (.cps) file and its associated experimental data files are stored in the same folder. 
-Finally, a pipeline for a certain configuration file can be executed as follows:
+Models must be stored in the Models/ folder. The folder Data/ is meant for collecting experimental data files and analyses in one place. Once the data files for Copasi (e.g. for parameter estimation) are generated, **it is advised** to move them into the Models/ folder so that the Copasi (.cps) file and its associated experimental data files are stored in the same folder. To run sb_pipe, users need to create a configuration file 
+for each pipeline they intend to run (see next section). These configuration files should be placed in the Working_Folder/. This folder will eventually contain all the results generated by sb_pipe. 
+
+Finally, a pipeline with a certain configuration file can be executed as follows:
 ```
 cd Working_Folder
 run_sb_pipe.py pipeline configuration_file
@@ -128,8 +138,91 @@ For additional options, run
 run_sb_pipe.py --help
 ```
 
+### Pipeline configuration files
+Pipelines are configured using files (here called configuration files). These files are INI files and are therefore structured as follows: 
+```
+[pipeline_name]
+option1=value1
+option2=value2
+...
+```
 
-### Issue reporting & request for new features
+In sb_pipe each pipeline executes three tasks: data generation, data analysis, and report generation. Each task depends on the previous one. This choice allows user to analyse the same data without having to generate it every time, or to skip the report generation if not wanted. 
+Assuming that the configuration files are placed in the Working_Folder of a certain project, examples are given as follow: 
+
+**Example 1:** configuration file for the pipeline *simulate*
+```
+[simulate]
+generate_data=True                # True if data must be generated, False otherwise
+analyse_data=True                 # True if data must be analysed, False otherwise
+generate_report=True              # True if a report must be generated, False otherwise
+project_dir=..                    # The relative path to the project directory (from Working_Folder)
+model=insulin_receptor_stoch.cps  # The Copasi model name
+cluster=pp                        # The cluster type. pp (parallel python) if the model is executed locally, sge/lsf if executed on cluster.
+pp_cpus=7                         # The number of CPU if pp is used, ignored otherwise
+runs=40                           # The number of simulations to perform. 1 for deterministic simulations, n>=1 for stochastic simulations.
+simulate__xaxis_label=Time [min]  # The label for the x axis.
+```
+
+**Example 2:** configuration file for the pipeline *single_param_scan*
+```
+[single_param_scan]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+model=insulin_receptor_inhib_scan_IR_beta.cps
+scanned_par=IR_beta                            # The variable to scan (as set in Copasi Parameter Scan Task)
+simulate__intervals=100                        # The number of intervals in the simulation
+simulate__xaxis_label=Time [min]
+single_param_scan_simulations_number=1         # The number of simulations to perform for each scan
+single_param_scan_knock_down_only=True         # True if the variable is only reduced (knock down), False if over expression is also considered.
+single_param_scan_percent_levels=True          # True if the scanning represents percent levels.
+min_level=0                                    # The minimum level (as set in Copasi Parameter Scan Task)
+max_level=100                                  # The maximum level (as set in Copasi Parameter Scan Task)
+levels_number=10                               # The number of scans (as set in Copasi Parameter Scan Task)
+homogeneous_lines=False                        # True if the plot lines should not distinguish between scans (e.g. full lines with the same colour)
+```
+
+**Example 3:** configuration file for the pipeline *double_param_scan*
+```
+[double_param_scan]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
+scanned_par1=InsulinPercent                                              # The 1st variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par2=IRbetaPercent                                               # The 2nd variable to scan (as set in Copasi Parameter Scan Task)
+sim_length=10                                                            # The length of the simulation (as set in Copasi Time Course Task)
+```
+
+**Example 4:** configuration file for the pipeline *param_estim*
+```
+[param_estim]
+generate_data=True
+analyse_data=True
+generate_report=True
+generate_tarball=True
+project_dir=..
+model=insulin_receptor_param_estim.cps
+cluster=pp
+pp_cpus=7
+round=1                                  # The parameter estimation round which is used to distinguish phases of parameter estimations when parameters cannot be estimated at the same time
+runs=40                                  # The number of parameter estimations (the length of the fit sequence)
+best_fits_percent=75                     # The threshold percentage of the best fits to consider
+data_point_num=33                        # The number of available data points 
+plot_2d_66_95cl_corr=True                # True if 2D all fits plots for 66% and 95% confidence levels should be plotted. This is computationally expensive.
+logspace=True                            # True if parameter values should plotted in log space.
+```
+
+Additional examples of configuration files can be found in:
+```
+${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+```
+
+
+## How to report issues or request new features
 sb_pipe is a relatively young project and there is a chance that some error occurs. If this is the case, 
 users should report problems using the following mailing list: 
 ```
@@ -137,7 +230,7 @@ sb_pipe AT googlegroups.com
 ```
 To help us better identify and reproduce your problem, some technical information is needed. This 
 detail data can be found in sb_pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using 
-the mailing list above, it would be worth this extra information is also included.
+the mailing list above, it would be worth providing this extra information.
 
-Issues and feature requrests can also be notified using the github issue tracking system for sb_pipe 
+Issues and feature requests can also be notified using the github issue tracking system for sb_pipe 
 at the web page: [https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
