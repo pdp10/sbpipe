@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pipeline module &mdash; sb_pipe 0.59.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.59.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="sb_pipe 0.59.0 documentation" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pipeline">
+<span id="pipeline-module"></span><h1>pipeline module<a class="headerlink" href="#module-pipeline" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pipeline.Pipeline">
+<em class="property">class </em><code class="descclassname">pipeline.</code><code class="descname">Pipeline</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='sim_data'</em>, <em>sim_plots_folder='sim_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic pipeline.</p>
+<dl class="method">
+<dt id="pipeline.Pipeline.config_parser">
+<code class="descname">config_parser</code><span class="sig-paren">(</span><em>config_file</em>, <em>section</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.config_parser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.get_data_folder">
+<code class="descname">get_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_data_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the folder containing the experimental (wet) data sets.
+:return: the experimental data sets folder.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.get_models_folder">
+<code class="descname">get_models_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_models_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the folder containing the models.
+:return: the models folder.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.get_sim_data_folder">
+<code class="descname">get_sim_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_data_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the folder containing the in-silico generated data sets.
+:return: the folder of the simulated data sets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.get_sim_plots_folder">
+<code class="descname">get_sim_plots_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_plots_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the folder containing the in-silico generated plots.
+:return: the folder of the simulated plots.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.get_working_folder">
+<code class="descname">get_working_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_working_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the folder containing the results.
+:return: the working folder.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.read_common_configuration">
+<code class="descname">read_common_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_common_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the common parameters from the configuration file
+:return: return a tuple containing the common parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.read_configuration">
+<code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the section lines from the configuration file
+:return: a tuple containing the configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pipeline.Pipeline.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the pipeline.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config_file</strong> &#8211; a configuration file for this pipeline.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">0 if the pipeline was executed correctly,
+1 if the pipeline executed but some output was skipped,
+2 if the pipeline did not execute correctly.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source_code/pipeline.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Piero Dalle Pezze.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
