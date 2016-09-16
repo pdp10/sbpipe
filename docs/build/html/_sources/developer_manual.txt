@@ -130,7 +130,7 @@ The project is structured as follows:
 ::
 
     sb_pipe:
-      | - doc
+      | - docs
       | - sb_pipe
             | - pipelines
             | - utils
@@ -147,7 +147,7 @@ data analysis are needed or plots need to be annotated or edited.
 Documentation
 ~~~~~~~~~~~~~
 
-The folder *doc/* contains the documentation for this project. In order
+The folder *docs/* contains the documentation for this project. In order
 to generate the complete documentation for sb\_pipe, the following
 packages must be installed:
 

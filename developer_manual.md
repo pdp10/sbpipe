@@ -105,7 +105,7 @@ In order to automatically compile and run the test suite, Travis-CI is used and 
 The project is structured as follows: 
 ```
 sb_pipe:
-  | - doc
+  | - docs
   | - sb_pipe
         | - pipelines
         | - utils
@@ -116,7 +116,7 @@ if further data analysis are needed or plots need to be annotated or edited.
 
 
 ### Documentation
-The folder *doc/* contains the documentation for this project. In order to generate the complete documentation for sb_pipe, the following packages must be installed: 
+The folder *docs/* contains the documentation for this project. In order to generate the complete documentation for sb_pipe, the following packages must be installed: 
 
 - python-sphinx
 - pandoc
