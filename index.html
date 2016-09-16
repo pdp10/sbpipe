@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>SB pipe by pdp10</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>SB pipe</h1>
+          <h2>Pipelines for systems modelling of biological networks</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/pdp10/sb_pipe/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/pdp10/sb_pipe/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/pdp10/sb_pipe" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="user-manual" class="anchor" href="#user-manual" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>User manual</h1>
+
+<p>Mailing list: sb_pipe AT googlegroups.com</p>
+
+<p>Forum: <a href="https://groups.google.com/forum/#!forum/sb_pipe">https://groups.google.com/forum/#!forum/sb_pipe</a></p>
+
+<p><a href="https://travis-ci.org/pdp10/sb_pipe"><img src="https://travis-ci.org/pdp10/sb_pipe.svg?branch=master" alt="Build Status"></a></p>
+
+<p><a href="https://www.gnu.org/licenses/lgpl.html"><img src="http://img.shields.io/badge/license-LGPLv3-blue.svg" alt="LGPLv3 License"></a></p>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This package contains a collection of pipelines for dynamic modelling of biological systems. 
+It aims to automate common processes and speed up productivity for tasks such as model simulation, 
+single and double parameter scan, and parameter estimation. </p>
+
+<h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h3>
+
+<p>In order to use sb_pipe, the following software must be installed:</p>
+
+<ul>
+<li>Copasi 4.16 - <a href="http://copasi.org/">http://copasi.org/</a>
+</li>
+<li>Python 2.7+ - <a href="https://www.python.org/">https://www.python.org/</a>
+</li>
+<li>R 3.3.0+ - <a href="https://cran.r-project.org/">https://cran.r-project.org/</a>
+</li>
+<li>LaTeX 2013 (optional) <a href="https://latex-project.org/ftp.html">https://latex-project.org/ftp.html</a>
+</li>
+</ul>
+
+<p>You should also make sure that the following packages are installed in 
+your machine: <code>python-pip</code>, and (optionally) <code>texlive-latex-base</code>.</p>
+
+<p>Before installing sb_pipe Python and R dependencies the following 
+environment variables must be added to your GNU/Linux $HOME/.bashrc file:</p>
+
+<pre><code># SB_PIPE
+export SB_PIPE=/path/to/sb_pipe
+export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+# Path to CopasiSE
+export PATH=$PATH:/path/to/CopasiSE
+</code></pre>
+
+<p>The .bashrc file can then be reloaded from your shell using the command: </p>
+
+<pre><code>$ source $HOME/.bashrc
+</code></pre>
+
+<p>On Windows platforms, these environment variables are configured as any other 
+Windows environment variable.</p>
+
+<p>Now it is the time to install Python and R packages used by sb_pipe. Two scripts 
+are provided to perform these tasks automatically. </p>
+
+<p>To install sb_pipe Python dependencies, run:</p>
+
+<pre><code>cd ${SB_PIPE}/
+./install_pydeps.py
+</code></pre>
+
+<p>To install sb_pipe R dependencies, run:</p>
+
+<pre><code>cd ${SB_PIPE}/
+$ R
+# Inside R environment, answer 'y' to install packages locally
+&gt; source('install_rdeps.r')
+</code></pre>
+
+<p>If R package dependencies must be compiled, it is worth checking that the following additional packages are installed in your machine: <code>build-essential</code>, <code>liblapack-dev</code>, <code>libblas-dev</code>, <code>libcairo-dev</code>, <code>libssl-dev</code>, <code>libcurl4-openssl-dev</code>. After installing these packages, <code>install_rdeps.r</code> must be executed again.</p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>Run the command inside the sb_pipe folder: </p>
+
+<pre><code>python setup.py install
+</code></pre>
+
+<p>The correct installation of sb_pipe and its dependencies can be checked by 
+running the following commands inside the sb_pipe folder: </p>
+
+<pre><code>cd tests
+./test_suite.py
+</code></pre>
+
+<h2>
+<a id="how-to-use-sb_pipe" class="anchor" href="#how-to-use-sb_pipe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use sb_pipe</h2>
+
+<h3>
+<a id="preliminary-configuration-steps" class="anchor" href="#preliminary-configuration-steps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preliminary configuration steps</h3>
+
+<h4>
+<a id="pipelines-using-copasi" class="anchor" href="#pipelines-using-copasi" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pipelines using Copasi</h4>
+
+<p>Before using these pipelines, a Copasi model must be configured as follow using CopasiUI:</p>
+
+<p><strong>pipeline: simulate</strong></p>
+
+<ul>
+<li>Tick the flag <em>executable</em> in the Time Course Task.</li>
+<li>Select a report template for the Time Course Task.</li>
+<li>Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.</li>
+</ul>
+
+<p><strong>pipeline: single or double parameter scan</strong></p>
+
+<ul>
+<li>Tick the flag <em>executable</em> in the Parameter Scan Task.</li>
+<li>Select a report template for the Parameter Scan Task.</li>
+<li>Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.</li>
+</ul>
+
+<p><strong>pipeline: param-estim</strong></p>
+
+<ul>
+<li>Tick the flag <em>executable</em> in the Parameter Estimation Task.</li>
+<li>Select the report template for the Parameter Estimation Task.</li>
+<li>Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.</li>
+</ul>
+
+<h3>
+<a id="running-sb_pipe" class="anchor" href="#running-sb_pipe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running sb_pipe</h3>
+
+<p>sb_pipe is executed via the command <em>run_sb_pipe.py</em>. The syntax for this command and its complete list 
+of options can be retrieved by running <em>run_sb_pipe.py -h</em>. </p>
+
+<p>As of Sep 2016 the output is as follows:</p>
+
+<pre><code>pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
+Usage: run_sb_pipe.py [OPTION] [FILE]
+Pipelines for systems modelling of biological networks.
+
+List of mandatory options:
+        -h, --help
+                Shows this help.
+        -c, --create-project
+                Create a project structure using the argument as name.
+        -s, --simulate
+                Simulate a model.
+        -p, --single-param-scan
+                Simulate a single parameter scan.
+        -d, --double-param-scan
+                Simulate a double parameter scan.
+        -e, --param-estim
+                Generate a parameter fit sequence.
+Exit status:
+ 0  if OK,
+ 1  if minor problems (e.g., a pipeline did not execute correctly),
+ 2  if serious trouble (e.g., cannot access command-line argument).
+
+Report bugs to sb_pipe@googlegroups.com
+sb_pipe home page: &lt;https://pdp10.github.io/sb_pipe&gt;
+For complete documentation, see README.md .
+
+</code></pre>
+
+<p>The first step is to create a new project. This can be done with the command:</p>
+
+<pre><code>run_sb_pipe.py --create-project project_name
+</code></pre>
+
+<p>This generates the following structure:</p>
+
+<pre><code>project_name/
+    | - Data/
+    | - Models/
+    | - Working_Folder/
+</code></pre>
+
+<p>Models must be stored in the Models/ folder. The folder Data/ is meant for collecting experimental data files and analyses in one place. Once the data files for Copasi (e.g. for parameter estimation) are generated, <strong>it is advised</strong> to move them into the Models/ folder so that the Copasi (.cps) file and its associated experimental data files are stored in the same folder. To run sb_pipe, users need to create a configuration file 
+for each pipeline they intend to run (see next section). These configuration files should be placed in the Working_Folder/. This folder will eventually contain all the results generated by sb_pipe. </p>
+
+<p>For instance, the pipeline for parameter estimation configured with a certain configuration file can be executed by typing:</p>
+
+<pre><code>run_sb_pipe.py -e my_config_file.conf
+</code></pre>
+
+<h3>
+<a id="pipeline-configuration-files" class="anchor" href="#pipeline-configuration-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pipeline configuration files</h3>
+
+<p>Pipelines are configured using files (here called configuration files). These files are INI files and are therefore structured as follows: </p>
+
+<pre><code>[pipeline_name]
+option1=value1
+option2=value2
+...
+</code></pre>
+
+<p>In sb_pipe each pipeline executes three tasks: data generation, data analysis, and report generation. Each task depends on the previous one. This choice allows user to analyse the same data without having to generate it every time, or to skip the report generation if not wanted. 
+Assuming that the configuration files are placed in the Working_Folder of a certain project, examples are given as follow: </p>
+
+<p><strong>Example 1:</strong> configuration file for the pipeline <em>simulate</em></p>
+
+<pre><code>[simulate]
+# True if data must be generated, False otherwise
+generate_data=True
+# True if data must be analysed, False otherwise
+analyse_data=True
+# True if a report must be generated, False otherwise
+generate_report=True
+# The relative path to the project directory (from Working_Folder)
+project_dir=..
+# The Copasi model name
+model=insulin_receptor_stoch.cps
+# The cluster type. pp if the model is run locally, sge/lsf if run on cluster.
+cluster=pp
+# The number of CPU if pp is used, ignored otherwise
+pp_cpus=7
+# The number of simulations to perform. n&gt;=1 for stochastic simulations.
+runs=40
+# The label for the x axis.
+simulate__xaxis_label=Time [min]
+</code></pre>
+
+<p><strong>Example 2:</strong> configuration file for the pipeline <em>single_param_scan</em></p>
+
+<pre><code>[single_param_scan]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+model=insulin_receptor_inhib_scan_IR_beta.cps
+# The variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par=IR_beta
+# The number of intervals in the simulation
+simulate__intervals=100
+simulate__xaxis_label=Time [min]
+# The number of simulations to perform for each scan
+single_param_scan_simulations_number=1
+# True if the variable is only reduced (knock down), False otherwise.
+single_param_scan_knock_down_only=True
+# True if the scanning represents percent levels.
+single_param_scan_percent_levels=True
+# The minimum level (as set in Copasi Parameter Scan Task)
+min_level=0
+# The maximum level (as set in Copasi Parameter Scan Task)
+max_level=100
+# The number of scans (as set in Copasi Parameter Scan Task)
+levels_number=10
+# True if plot lines are the same between scans (e.g. full lines, same colour)
+homogeneous_lines=False
+</code></pre>
+
+<p><strong>Example 3:</strong> configuration file for the pipeline <em>double_param_scan</em></p>
+
+<pre><code>[double_param_scan]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
+# The 1st variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par1=InsulinPercent
+# The 2nd variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par2=IRbetaPercent
+# The length of the simulation (as set in Copasi Time Course Task)
+sim_length=10
+</code></pre>
+
+<p><strong>Example 4:</strong> configuration file for the pipeline <em>param_estim</em></p>
+
+<pre><code>[param_estim]
+generate_data=True
+analyse_data=True
+generate_report=True
+generate_tarball=True
+project_dir=..
+model=insulin_receptor_param_estim.cps
+cluster=pp
+pp_cpus=7
+# The parameter estimation round which is used to distinguish 
+# phases of parameter estimations when parameters cannot be 
+# estimated at the same time
+round=1
+# The number of parameter estimations 
+# (the length of the fit sequence)
+runs=40
+# The threshold percentage of the best fits to consider
+best_fits_percent=75
+# The number of available data points
+data_point_num=33
+# True if 2D all fits plots for 66% and 95% confidence levels 
+# should be plotted. This is computationally expensive.
+plot_2d_66_95cl_corr=True
+# True if parameter values should plotted in log space.
+logspace=True
+</code></pre>
+
+<p>Additional examples of configuration files can be found in:</p>
+
+<pre><code>${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+</code></pre>
+
+<h2>
+<a id="how-to-report-issues-or-request-new-features" class="anchor" href="#how-to-report-issues-or-request-new-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to report issues or request new features</h2>
+
+<p>sb_pipe is a relatively young project and there is a chance that some error occurs. If this is the case, 
+users should report problems using the following mailing list: </p>
+
+<pre><code>sb_pipe AT googlegroups.com
+</code></pre>
+
+<p>To help us better identify and reproduce your problem, some technical information is needed. This 
+detail data can be found in sb_pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using 
+the mailing list above, it would be worth providing this extra information.</p>
+
+<p>Issues and feature requests can also be notified using the github issue tracking system for sb_pipe 
+at the web page: <a href="https://github.com/pdp10/sb_pipe/issues">https://github.com/pdp10/sb_pipe/issues</a>.</p>
+        </section>
+
+        <footer>
+          SB pipe is maintained by <a href="https://github.com/pdp10">pdp10</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
