@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; sb_pipe 0.59.0 documentation</title>
+    <title>Developer manual &mdash; SB pipe 0.59.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="sb_pipe 0.59.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 0.59.0 documentation" href="index.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -145,10 +145,10 @@ the release add a tag:</p>
 </div>
 <div class="section" id="package-structure">
 <h2>Package structure<a class="headerlink" href="#package-structure" title="Permalink to this headline">¶</a></h2>
-<p>This section presents the structure of the sb_pipe package. The root of
+<p>This section presents the structure of the SB pipe package. The root of
 the project contains general management scripts for cleaning the package
 (clean_pacakge.py), installing Python and R dependencies
-(install_pydeps.py and install_rdeps.r), and installing sb_pipe
+(install_pydeps.py and install_rdeps.r), and installing SB pipe
 (setup.py). Additionally, the logging configuration file
 (logging_config.ini) is also at this level.</p>
 <p>In order to automatically compile and run the test suite, Travis-CI is
@@ -162,17 +162,18 @@ used and configured accordingly (.travis.yml).</p>
   | - tests
 </pre></div>
 </div>
-<p>These folders will be discussed in the next sections. In sb_pipe,
-Python is the project main language. Instead, R is essentially used for
+<p>These folders will be discussed in the next sections. In SB pipe, Python
+is the project main language. Instead, R is essentially used for
 computing statistics within the <em>data analysis tasks</em> (see section
 configuration file in User manual) and for generating plots. This choice
-allows users to run these scripts independently from sb_pipe if needed
+allows users to run these scripts independently of SB pipe if needed
 using an R environment like Rstudio. This can be convenient if further
 data analysis are needed or plots need to be annotated or edited.</p>
-<div class="section" id="documentation">
-<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
-<p>The folder <em>docs/</em> contains the documentation for this project. In order
-to generate the complete documentation for sb_pipe, the following
+<div class="section" id="docs">
+<h3>docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
+<p>The folder <em>docs/</em> contains the documentation for this project. The user
+and developer manuals are contained inside the subfolder <em>source</em>. In
+order to generate the complete documentation for SB pipe, the following
 packages must be installed:</p>
 <ul class="simple">
 <li>python-sphinx</li>
@@ -181,7 +182,7 @@ packages must be installed:</p>
 <li>texlive-latex-extra</li>
 </ul>
 <p>By default the documentation is generated in html and LaTeX/PDF.
-Instruction for generating or cleaning sb_pipe documentation are
+Instruction for generating or cleaning SB pipe documentation are
 provided below.</p>
 <p>To generate the source code documentation:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ ./gen_doc.sh
@@ -197,10 +198,10 @@ these additional paths.</p>
 </div>
 <div class="section" id="sb-pipe">
 <h3>sb_pipe<a class="headerlink" href="#sb-pipe" title="Permalink to this headline">¶</a></h3>
-<p>This folder contains the main script for running sb_pipe
+<p>This folder contains the main script for running SB pipe
 (run_sb_pipe.py). This script is an interface for the project.</p>
 <div class="section" id="pipelines">
-<h4>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h4>
+<h4>pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h4>
 <p>The folder <em>/sb_pipe/pipelines/</em> contains the following pipelines
 within folders:</p>
 <ul class="simple">
@@ -241,10 +242,10 @@ pipeline the configuration file as a list of lines.</p>
 <div class="section" id="tests">
 <h3>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
 <p>The folder <em>tests/</em> contains the script <em>run_tests.py</em> to run a test
-suite. It should be used for testing the correct installation of
-sb_pipe dependencies as well as reference for configuring a project
-before running any pipeline. Projects inside the folder tests/ have the
-sb_pipe project structure:</p>
+suite. It should be used for testing the correct installation of SB pipe
+dependencies as well as reference for configuring a project before
+running any pipeline. Projects inside the folder tests/ have the SB pipe
+project structure:</p>
 <ul class="simple">
 <li><em>Data</em>: (e.g. training / testing data sets for the model);</li>
 <li><em>Model</em>: (e.g. Copasi models, datasets directly used by Copasi
@@ -254,8 +255,8 @@ estimation results, time course, parameter scan, etc).</li>
 </ul>
 <p>Examples of configuration files (*.conf) can be found in
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.</p>
-<p>Travis-CI runs sb_pipe tests using <code class="docutils literal"><span class="pre">nosetests</span></code>. Please see
-.travis.yml for detail.</p>
+<p>Travis-CI runs SB pipe tests using <code class="docutils literal"><span class="pre">nosetests</span></code>. Please see .travis.yml
+for detail.</p>
 </div>
 </div>
 <div class="section" id="miscellaneous-of-useful-commands">
@@ -334,9 +335,9 @@ git merge upstream/develop
 </ul>
 </li>
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>
-<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#docs">docs</a></li>
 <li><a class="reference internal" href="#sb-pipe">sb_pipe</a><ul>
-<li><a class="reference internal" href="#pipelines">Pipelines</a></li>
+<li><a class="reference internal" href="#pipelines">pipelines</a></li>
 <li><a class="reference internal" href="#utils">Utils</a></li>
 </ul>
 </li>
@@ -390,7 +391,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">sb_pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

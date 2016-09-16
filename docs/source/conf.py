@@ -1,7 +1,22 @@
 # -*- coding: utf-8 -*-
 #
+# This file is part of sb_pipe.
+#
+# sb_pipe is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# sb_pipe is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+#
 # sb_pipe documentation build configuration file, created by
-# sphinx-quickstart on Tue Sep 13 15:55:32 2016.
+# sphinx-quickstart on Tue Aug 12 15:55:32 2016
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -69,7 +84,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'sb_pipe'
+project = u'SB pipe'
 copyright = u'2016, Piero Dalle Pezze'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -222,13 +237,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'sb_pipe.tex', u'sb\\_pipe documentation',
+  ('index', 'sb_pipe.tex', u'SB pipe documentation',
    u'Piero Dalle Pezze', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = 'sb_pipe_logo.png'
+latex_logo = 'logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -252,7 +267,7 @@ latex_logo = 'sb_pipe_logo.png'
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sb_pipe', u'sb_pipe documentation',
+    ('index', 'sb_pipe', u'SB pipe documentation',
      [u'Piero Dalle Pezze'], 1)
 ]
 
@@ -266,7 +281,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sb_pipe', u'sb_pipe documentation',
+  ('index', 'sb_pipe', u'SB pipe documentation',
    u'Piero Dalle Pezze', 'sb_pipe', 'One line description of project.',
    'Miscellaneous'),
 ]
