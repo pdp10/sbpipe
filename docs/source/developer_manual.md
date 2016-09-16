@@ -98,7 +98,7 @@ git show
 
 
 ## Package structure
-This section presents the structure of the sb_pipe package. The root of the project contains general management scripts for cleaning the package (clean_pacakge.py), installing Python and R dependencies (install_pydeps.py and install_rdeps.r), and installing sb_pipe (setup.py). Additionally, the logging configuration file (logging_config.ini) is also at this level.
+This section presents the structure of the SB pipe package. The root of the project contains general management scripts for cleaning the package (clean_pacakge.py), installing Python and R dependencies (install_pydeps.py and install_rdeps.r), and installing SB pipe (setup.py). Additionally, the logging configuration file (logging_config.ini) is also at this level.
 
 In order to automatically compile and run the test suite, Travis-CI is used and configured accordingly (.travis.yml).
 
@@ -111,19 +111,19 @@ sb_pipe:
         | - utils
   | - tests
 ```
-These folders will be discussed in the next sections. In sb_pipe, Python is the project main language. Instead, R is essentially used for computing statistics within the *data analysis tasks* (see section configuration file in User manual) and for generating plots. This choice allows users to run these scripts independently from sb_pipe if needed using an R environment like Rstudio. This can be convenient 
+These folders will be discussed in the next sections. In SB pipe, Python is the project main language. Instead, R is essentially used for computing statistics within the *data analysis tasks* (see section configuration file in User manual) and for generating plots. This choice allows users to run these scripts independently of SB pipe if needed using an R environment like Rstudio. This can be convenient 
 if further data analysis are needed or plots need to be annotated or edited.
 
 
-### Documentation
-The folder *docs/* contains the documentation for this project. In order to generate the complete documentation for sb_pipe, the following packages must be installed: 
+### docs
+The folder *docs/* contains the documentation for this project. The user and developer manuals are contained inside the subfolder *source*. In order to generate the complete documentation for SB pipe, the following packages must be installed: 
 
 - python-sphinx
 - pandoc
 - texlive-fonts-recommended
 - texlive-latex-extra
 
-By default the documentation is generated in html and LaTeX/PDF. Instruction for generating or cleaning sb_pipe documentation are provided below.
+By default the documentation is generated in html and LaTeX/PDF. Instruction for generating or cleaning SB pipe documentation are provided below.
 
 To generate the source code documentation:
 ```
@@ -139,10 +139,10 @@ If new folders containing new Python modules are added to the project, it is nec
 
 
 ### sb_pipe
-This folder contains the main script for running sb_pipe (run_sb_pipe.py). 
+This folder contains the main script for running SB pipe (run_sb_pipe.py). 
 This script is an interface for the project.
 
-#### Pipelines
+#### pipelines
 The folder */sb_pipe/pipelines/* contains the following pipelines within folders:
 
 - *create_project*: creates a new project
@@ -176,10 +176,10 @@ The folder *sb_pipe/utils/* contains the following structure:
 
 ### Tests
 The folder *tests/* contains the script *run_tests.py* to run a test 
-suite. It should be used for testing the correct installation of sb_pipe
+suite. It should be used for testing the correct installation of SB pipe
 dependencies as well as reference for configuring a project before 
 running any pipeline. 
-Projects inside the folder tests/ have the sb_pipe project structure:
+Projects inside the folder tests/ have the SB pipe project structure:
 
 - *Data*: (e.g. training / testing data sets for the model);
 - *Model*: (e.g. Copasi models, datasets directly used by Copasi models);
@@ -189,7 +189,7 @@ estimation results, time course, parameter scan, etc).
 Examples of configuration files (*.conf) can be found in 
 ${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
 
-Travis-CI runs sb_pipe tests using `nosetests`. Please see .travis.yml 
+Travis-CI runs SB pipe tests using `nosetests`. Please see .travis.yml 
 for detail.
 
 

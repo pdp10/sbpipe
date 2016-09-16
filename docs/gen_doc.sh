@@ -28,10 +28,10 @@
 
 
 # Import manuals
-# convert README.md to user_manual.rst
-pandoc --from=markdown --to=rst --output=source/user_manual.rst $SB_PIPE/README.md
+# convert user_manual.md to user_manual.rst
+pandoc --from=markdown --to=rst --output=source/user_manual.rst source/user_manual.md
 # convert developer_manual.md to developer_manual.rst
-pandoc --from=markdown --to=rst --output=source/developer_manual.rst $SB_PIPE/developer_manual.md
+pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/developer_manual.md
 
 
 # Import source code documentation

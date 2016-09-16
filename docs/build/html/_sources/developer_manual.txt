@@ -115,10 +115,10 @@ To see all the releases:
 Package structure
 -----------------
 
-This section presents the structure of the sb\_pipe package. The root of
+This section presents the structure of the SB pipe package. The root of
 the project contains general management scripts for cleaning the package
 (clean\_pacakge.py), installing Python and R dependencies
-(install\_pydeps.py and install\_rdeps.r), and installing sb\_pipe
+(install\_pydeps.py and install\_rdeps.r), and installing SB pipe
 (setup.py). Additionally, the logging configuration file
 (logging\_config.ini) is also at this level.
 
@@ -136,19 +136,20 @@ The project is structured as follows:
             | - utils
       | - tests
 
-These folders will be discussed in the next sections. In sb\_pipe,
-Python is the project main language. Instead, R is essentially used for
+These folders will be discussed in the next sections. In SB pipe, Python
+is the project main language. Instead, R is essentially used for
 computing statistics within the *data analysis tasks* (see section
 configuration file in User manual) and for generating plots. This choice
-allows users to run these scripts independently from sb\_pipe if needed
+allows users to run these scripts independently of SB pipe if needed
 using an R environment like Rstudio. This can be convenient if further
 data analysis are needed or plots need to be annotated or edited.
 
-Documentation
-~~~~~~~~~~~~~
+docs
+~~~~
 
-The folder *docs/* contains the documentation for this project. In order
-to generate the complete documentation for sb\_pipe, the following
+The folder *docs/* contains the documentation for this project. The user
+and developer manuals are contained inside the subfolder *source*. In
+order to generate the complete documentation for SB pipe, the following
 packages must be installed:
 
 -  python-sphinx
@@ -157,7 +158,7 @@ packages must be installed:
 -  texlive-latex-extra
 
 By default the documentation is generated in html and LaTeX/PDF.
-Instruction for generating or cleaning sb\_pipe documentation are
+Instruction for generating or cleaning SB pipe documentation are
 provided below.
 
 To generate the source code documentation:
@@ -179,10 +180,10 @@ these additional paths.
 sb\_pipe
 ~~~~~~~~
 
-This folder contains the main script for running sb\_pipe
+This folder contains the main script for running SB pipe
 (run\_sb\_pipe.py). This script is an interface for the project.
 
-Pipelines
+pipelines
 ^^^^^^^^^
 
 The folder */sb\_pipe/pipelines/* contains the following pipelines
@@ -227,10 +228,10 @@ Tests
 ~~~~~
 
 The folder *tests/* contains the script *run\_tests.py* to run a test
-suite. It should be used for testing the correct installation of
-sb\_pipe dependencies as well as reference for configuring a project
-before running any pipeline. Projects inside the folder tests/ have the
-sb\_pipe project structure:
+suite. It should be used for testing the correct installation of SB pipe
+dependencies as well as reference for configuring a project before
+running any pipeline. Projects inside the folder tests/ have the SB pipe
+project structure:
 
 -  *Data*: (e.g. training / testing data sets for the model);
 -  *Model*: (e.g. Copasi models, datasets directly used by Copasi
@@ -241,8 +242,8 @@ sb\_pipe project structure:
 Examples of configuration files (\*.conf) can be found in
 ${SB\_PIPE}/tests/insulin\_receptor/Working\_Folder/.
 
-Travis-CI runs sb\_pipe tests using ``nosetests``. Please see
-.travis.yml for detail.
+Travis-CI runs SB pipe tests using ``nosetests``. Please see .travis.yml
+for detail.
 
 Miscellaneous of useful commands
 --------------------------------
