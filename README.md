@@ -12,7 +12,7 @@ For information on how to use SB pipe, please visit the
 For information on how to develop new modules, please visit the
 [developer manual](https://github.com/pdp10/sb_pipe/blob/master/docs/developer_manual.md).
 
-
+These two manuals and the source code documentation are also available in docs/index.html within the main package folder. 
 
 SB pipe is a relatively young project and there is a chance that some error occurs. If this is the case, users should report issues using the following mailing list: 
 

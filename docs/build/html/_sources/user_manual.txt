@@ -5,10 +5,6 @@ Mailing list: sb\_pipe AT googlegroups.com
 
 Forum: https://groups.google.com/forum/#!forum/sb_pipe
 
-|Build Status|
-
-|LGPLv3 License|
-
 Introduction
 ------------
 
@@ -344,8 +340,3 @@ mailing list above, it would be worth providing this extra information.
 Issues and feature requests can also be notified using the github issue
 tracking system for sb\_pipe at the web page:
 https://github.com/pdp10/sb_pipe/issues.
-
-.. |Build Status| image:: https://travis-ci.org/pdp10/sb_pipe.svg?branch=master
-   :target: https://travis-ci.org/pdp10/sb_pipe
-.. |LGPLv3 License| image:: http://img.shields.io/badge/license-LGPLv3-blue.svg
-   :target: https://www.gnu.org/licenses/lgpl.html
