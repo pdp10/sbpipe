@@ -39,7 +39,12 @@ SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','pipelines','simulate','plot_timecourses.r'))
 
 
-
+# This is a quick interface method to plot time courses and collect statistics. 
+# :args[1]: the model name without extension
+# :args[2]: the input directory
+# :args[3]: the output directory
+# :args[4]: the output file name
+# :args[5]: the label for the x axis (e.g. Time (min))
 main <- function(args) {
     # The model model_noext
     model_noext <- args[1]

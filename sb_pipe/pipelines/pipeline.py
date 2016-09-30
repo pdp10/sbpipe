@@ -73,6 +73,7 @@ class Pipeline:
     def get_data_folder(self):
         """
         Return the folder containing the experimental (wet) data sets.
+        
         :return: the experimental data sets folder.
         """
         return self.__data_folder
@@ -80,6 +81,7 @@ class Pipeline:
     def get_models_folder(self):
         """
         Return the folder containing the models.
+        
         :return: the models folder.
         """
         return self.__models_folder
@@ -87,6 +89,7 @@ class Pipeline:
     def get_working_folder(self):
         """
         Return the folder containing the results.
+        
         :return: the working folder.
         """
         return self.__working_folder
@@ -94,6 +97,7 @@ class Pipeline:
     def get_sim_data_folder(self):
         """
         Return the folder containing the in-silico generated data sets.
+        
         :return: the folder of the simulated data sets.
         """
         return self.__sim_data_folder
@@ -101,6 +105,7 @@ class Pipeline:
     def get_sim_plots_folder(self):
         """
         Return the folder containing the in-silico generated plots.
+        
         :return: the folder of the simulated plots.
         """
         return self.__sim_plots_folder
@@ -117,6 +122,7 @@ class Pipeline:
     def read_configuration(self, lines):
         """
         Read the section lines from the configuration file
+        
         :return: a tuple containing the configuration
         """
         pass
@@ -124,6 +130,7 @@ class Pipeline:
     def read_common_configuration(self, lines):
         """
         Parse the common parameters from the configuration file
+        
         :return: return a tuple containing the common parameters
         """
         # default values

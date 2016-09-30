@@ -28,6 +28,7 @@ import os
 def which(cmd_name):
     """
     Utility equivalent to `which` in GNU/Linux OS.
+    
     :param cmd_name: a command name
     :return: return the command name with absolute path if this exists, or None
     """
@@ -42,6 +43,7 @@ def which(cmd_name):
 def get_copasi():
     """
     Return CopasiSE with its absolute path if the command exists, or None.
+    
     :return: CopasiSE with absolute path or None.
     """
     return which("CopasiSE")

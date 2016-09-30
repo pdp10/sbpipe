@@ -30,7 +30,11 @@ source(file.path(SB_PIPE,'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-
+# For each time point compute the most relevant descriptive statistics: mean, sd, var, skew, kurt, ci95, coeffvar, 
+# min, 1st quantile, median, 3rd quantile, and max.
+#
+# :param timepoint.values: array of time points
+# :param 
 compute_descriptive_statistics <- function(timepoint.values, timepoint, variable, nfiles) {
     # compute mean, standard deviation, error, error.left, error.right
     timepoint$mean <- mean(timepoint.values, na.rm = TRUE)
@@ -193,7 +197,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 	#print(dataset)
 	# structures
 	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
-			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
+			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)	
 	variable <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
 		      "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
 	k <- 1
