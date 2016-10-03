@@ -119,10 +119,16 @@ class Sensitivity(Pipeline):
             return 0
         return 1
 
-    # Input parameters
-    # model, inputdir, outputdir
     @staticmethod
     def generate_data(model, inputdir, outputdir):
+        """
+        The first pipeline step: data generation.
+
+        :param model: the model to process
+        :param inputdir: the directory containing the model
+        :param outputdir: the directory to store the results
+        :return: no output
+        """        
 
         if not os.path.isfile(os.path.join(inputdir,model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
@@ -157,12 +163,16 @@ class Sensitivity(Pipeline):
                               outputdir])
 	    p.wait()
 
-    # INITIALIZATION
-    # model_noext: read the model_noext
-    # outputdir: read the outputdir
-    # sim_plots_folder: the directory containing the time courses results combined with experimental data
     @staticmethod
     def generate_report(model, outputdir, sim_plots_folder):
+        """
+        The second pipeline step: data analysis.
+
+        :param model: the model name
+        :param outputdir: the directory to store the performed analysis
+        :param sim_plots_folder: the directory containing the time courses results combined with experimental data
+        :return: no output
+        """        
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +

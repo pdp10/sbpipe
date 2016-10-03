@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,18 +25,30 @@ SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils.r'))
 
 
+
+# R Script to run model parameter estimation analysis and plot results. This script analyses
+# only the best fits using a percent threshold.
+#
+# :args[1]: the model name without extension
+# :args[2]: the dataset containing the parameter estimation data.
+# :args[3]: the directory to save the generated plots
+# :args[4]: the percent of best fits to analyse.
+# :args[5]: true if parameters should be plotted in logspace.
 main <- function(args) {
   
   model <- args[1]
-  filename <- args[2]
+  dataset <- args[2]
   plots_dir <- args[3]
   best_fits_percent <- args[4]
   logspace <- args[5]
   
-  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') logspace = TRUE
-  else logspace = FALSE
+  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') { 
+    logspace = TRUE
+  } else { 
+    logspace = FALSE
+  }
 
-  final_fits_analysis(model, filename, plots_dir, best_fits_percent, logspace)
+  final_fits_analysis(model, dataset, plots_dir, best_fits_percent, logspace)
 }
 
 

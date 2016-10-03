@@ -14,8 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the sensitivities analysis
-#
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -31,6 +29,10 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
 
+
+# R Script to plot model sensitivities analysis.
+#
+# :args[1]: the directory containing the sensitivity analysis report.
 main <- function(args) {
     # the model_noext of the model
     sensitivities_dir <- args[1]
@@ -44,9 +46,9 @@ main <- function(args) {
       print(files[i])
       # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
       if(length(grep("kin-rates", files[i], value=TRUE)) == 0) {
-	plot_sensitivities(files[i], kinetics=FALSE)
+        plot_sensitivities(files[i], kinetics=FALSE)
       } else {
-	plot_sensitivities(files[i], kinetics=TRUE)
+        plot_sensitivities(files[i], kinetics=TRUE)
       }
     }
 }

@@ -115,7 +115,17 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 
 
-
+# Run model parameter estimation analysis and plot results. This script analyses
+# all fits.
+#
+# :param model: the model name without extension
+# :param filenamein: the dataset containing the parameter estimation data.
+# :param plots_dir: the directory to save the generated plots
+# :param data_point_num: the number of data points used for parameterise the model
+# :param fileout_approx_ple_stats: the name of the file to store the statistics for the approximated profile likelihood estimation.
+# :param fileout_conf_levels: the name of the file to store the confidence levels.
+# :param plot_2d_66_95cl_corr: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted. This is time consuming. (default: FALSE)
+# :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE, logspace=TRUE) {
   
   data_point_num <- as.numeric(data_point_num)
@@ -202,8 +212,14 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
 
 
-
-
+# Run model parameter estimation analysis and plot results. It analyses
+# only the best fits using a percent threshold.
+#
+# :param model: the model name without extension
+# :param filenamein: the dataset containing the parameter estimation data.
+# :param plots_dir: the directory to save the generated plots
+# :param best_fits_percent: the percent of best fits to analyse.
+# :param logspace: true if parameters should be plotted in logspace.
 final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE) {
   
   best_fits_percent <- as.numeric(best_fits_percent)
