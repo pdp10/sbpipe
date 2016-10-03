@@ -167,12 +167,20 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
 # :param inputdir: the input directory containing the time course files
 # :param outputdir: the output directory
 # :param model: the model name
-# :param files: the array of time course file names
 # :param outputfile: the name of the file to store the statistics
 # :param xaxis_label: the xaxis label 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, files, outputfile, xaxis_label) {
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, xaxis_label) {
     
-    theme_set(tc_theme(28))  
+    theme_set(tc_theme(28))
+    
+    # create the directory of output
+    if (!file.exists(outputdir)){ 
+        dir.create(outputdir) 
+    }
+
+    # collect all files in the directory
+    files <- list.files( path=inputdir, pattern=model )
+    print(files)
 
     # Read time course data sets
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )

@@ -51,17 +51,9 @@ main <- function(args) {
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    simulate__xaxis_label <- args[5]
+    xaxis_label <- args[5]
     
-
-    # create the directory of output
-    if (!file.exists(outputdir)){ dir.create(outputdir) }
-
-    # collect all files in the directory
-    files <- list.files( path=inputdir, pattern=model_noext )
-    print(files)
-    
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__xaxis_label)
+    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, outputfile, xaxis_label)
 }
 
 
