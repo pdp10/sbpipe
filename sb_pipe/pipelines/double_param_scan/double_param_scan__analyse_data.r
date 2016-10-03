@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of time courses columns wrt time. 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -28,7 +27,13 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','double_param_scan','double_para
 
 
 
-
+# R Script to plot model double parameter scan time courses.
+#
+# :args[1]: the model name without extension
+# :args[2]: the 1st scanned parameter
+# :args[3]: the 2nd scanned parameter
+# :args[4]: the input directory
+# :args[5]: the output directory
 main <- function(args) {
     model_noext <- args[1]
     scanned_par1 <- args[2]

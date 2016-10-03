@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -160,6 +159,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
       ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
    }
 }
+
 
 
 # Plot model readouts with statistics for each time point.
