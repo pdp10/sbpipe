@@ -37,14 +37,14 @@ class RandomiseParameters:
     """
     This class generates multiple copies of a Copasi file configured for parameter estimation task, and randomises the starting
     values of the parameters to estimate.
+    
+    :param path: the path to filename_in
+    :param filename_in: the Copasi file to process.    
     """
 
     def __init__(self, path, filename_in):
         """
         Constructor. Initialise the Copasi parser on filename_in.
-
-        :param path: the path to filename_in
-        :param filename_in: the Copasi file to process.
         """
 
         # A Copasi Object
@@ -68,7 +68,6 @@ class RandomiseParameters:
 
         :param num_files: the number of files (instances) to generate
         :param idstr: an ID string to label the generated files (e.g. a timestamp)
-        :return:
         """
         num_files = int(num_files)
         logger.info("Randomising parameters for:")
@@ -157,8 +156,6 @@ class RandomiseParameters:
     def print_parameters_to_estimate(self):
         """
         Print the parameter names, lower/upper bounds, and starting value, as extracted from COPASI template file
-
-        :return:
         """
         logger.info("\t\tParameterName\t\tLowerBound\t\tStartValue\t\tUpperBound")
         logger.info("\t\t=============\t\t==========\t\t==========\t\t==========")
@@ -174,7 +171,6 @@ class RandomiseParameters:
         Additionally, the new random starting value is also printed for each parameter.
 
         :param new_start_values: the list of new starting values for the parameters.
-        :return:
         """
         logger.debug("\t\tParameter\t\tLowerBound\t\tUpperBound\t\tStartValue\t\tNEWStartValue")
         logger.debug("\t\t=========\t\t==========\t\t==========\t\t==========\t\t=============")
@@ -220,7 +216,6 @@ class RandomiseParameters:
         :param report_filename: the report file name
         :param old_str: the list of XML strings containing the old starting values. 
         :param new_str: the list of XML strings containing the new starting values.
-        :return:
         """
         replace_string_in_file(file_out, self.__report_filename_template, report_filename)
 

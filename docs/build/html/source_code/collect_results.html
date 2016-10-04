@@ -49,15 +49,15 @@
 <span id="collect-results-module"></span><h1>collect_results module<a class="headerlink" href="#module-collect_results" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="collect_results.get_parameter_names_list">
-<code class="descclassname">collect_results.</code><code class="descname">get_parameter_names_list</code><span class="sig-paren">(</span><em>filein=''</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.get_parameter_names_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of parameter names</p>
+<code class="descclassname">collect_results.</code><code class="descname">get_parameter_names_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.get_parameter_names_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of parameter names from filein</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a Copasi parameter estimation report file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
 </tr>
 </tbody>
 </table>
@@ -66,20 +66,17 @@
 <dl class="function">
 <dt id="collect_results.retrieve_all_estimates">
 <code class="descclassname">collect_results.</code><code class="descname">retrieve_all_estimates</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.retrieve_all_estimates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect all the estimates from the results of a parameter estimation task using Copasi
-Collect the results in a file filename_out</p>
+<dd><p>Collect all the parameter estimates from the Copasi parameter estimation report. Results 
+are stored in filename_out.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path_in</strong> &#8211; </li>
-<li><strong>path_out</strong> &#8211; </li>
-<li><strong>filename_out</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>
@@ -89,20 +86,17 @@ Collect the results in a file filename_out</p>
 <dl class="function">
 <dt id="collect_results.retrieve_final_estimates">
 <code class="descclassname">collect_results.</code><code class="descname">retrieve_final_estimates</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.retrieve_final_estimates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect the estimated parameters from the results of a parameter estimation task using Copasi
-Collect the results in a file filename_out</p>
+<dd><p>Collect the final parameter estimates from the Copasi parameter estimation report. Results 
+are stored in filename_out.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path_in</strong> &#8211; </li>
-<li><strong>path_out</strong> &#8211; </li>
-<li><strong>filename_out</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>
@@ -112,14 +106,14 @@ Collect the results in a file filename_out</p>
 <dl class="function">
 <dt id="collect_results.retrieve_input_files">
 <code class="descclassname">collect_results.</code><code class="descname">retrieve_input_files</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.retrieve_input_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve input files</p>
+<dd><p>Retrieve the input files in a path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; the path containing the input files to retrieve</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of input files</td>
 </tr>
 </tbody>
 </table>
@@ -128,19 +122,16 @@ Collect the results in a file filename_out</p>
 <dl class="function">
 <dt id="collect_results.write_all_estimates">
 <code class="descclassname">collect_results.</code><code class="descname">write_all_estimates</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.write_all_estimates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write all estimates</p>
+<dd><p>Write all the estimates to filename_out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>files</strong> &#8211; </li>
-<li><strong>path_out</strong> &#8211; </li>
-<li><strong>filename_out</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
+<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>
@@ -150,19 +141,16 @@ Collect the results in a file filename_out</p>
 <dl class="function">
 <dt id="collect_results.write_final_estimates">
 <code class="descclassname">collect_results.</code><code class="descname">write_final_estimates</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.write_final_estimates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the final estimates</p>
+<dd><p>Write the final estimates to filename_out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>files</strong> &#8211; </li>
-<li><strong>path_out</strong> &#8211; </li>
-<li><strong>filename_out</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
+<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>
@@ -172,19 +160,16 @@ Collect the results in a file filename_out</p>
 <dl class="function">
 <dt id="collect_results.write_parameter_names">
 <code class="descclassname">collect_results.</code><code class="descname">write_parameter_names</code><span class="sig-paren">(</span><em>colNames</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#collect_results.write_parameter_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print the list of parameter names</p>
+<dd><p>Write the list of parameter names to filename_out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>colNames</strong> &#8211; </li>
-<li><strong>path_out</strong> &#8211; </li>
-<li><strong>filename_out</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colNames</strong> &#8211; the list of parameter names</li>
+<li><strong>path_out</strong> &#8211; the path to store filename_out</li>
+<li><strong>filename_out</strong> &#8211; the output file to store the parameter names</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
 </td>
 </tr>
 </tbody>

@@ -56,17 +56,54 @@ model sensitivity analysis using Copasi</p>
 <dl class="staticmethod">
 <dt id="sensitivity.Sensitivity.analyse_data">
 <em class="property">static </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivity.Sensitivity.analyse_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The second pipeline step: data analysis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>outputdir</strong> &#8211; the directory to store the performed analysis</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="sensitivity.Sensitivity.generate_data">
 <em class="property">static </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivity.Sensitivity.generate_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The first pipeline step: data generation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="sensitivity.Sensitivity.generate_report">
 <em class="property">static </em><code class="descname">generate_report</code><span class="sig-paren">(</span><em>model</em>, <em>outputdir</em>, <em>sim_plots_folder</em><span class="sig-paren">)</span><a class="headerlink" href="#sensitivity.Sensitivity.generate_report" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The third pipeline step: report generation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model name</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the report</li>
+<li><strong>sim_plots_folder</strong> &#8211; the directory containing the time courses results combined with experimental data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="sensitivity.Sensitivity.read_configuration">

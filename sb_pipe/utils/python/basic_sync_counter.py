@@ -32,22 +32,30 @@ import sys
 import logging
 logger = logging.getLogger('sbpipe')
 
-# This is a monitor.
-# Callback class for collecting information about finished processes
+
 class BasicSyncCounter:
+    """
+    This is a monitor. It is a callback class for collecting information about finished processes. It 
+    is used by Parallel Python (pp).
+    """
+    
     __count = 0
     __value = True
     
-    # class constructor
     def __init__(self):
+        """
+        Constructor.
+        """
         self.lock = thread.allocate_lock()
         self.__count = 0
     
-    # the callback function
-    # Note: pid is callbackargs passed to submit
-    # value is the return value of the function part_sum (which is parallelised), 
-    # so it is the callback value.
     def add(self, pid, value):
+        """
+        The callback function
+
+        :param pid: this is callbackargs passed to parallel python `submit()` method
+        :param value: the return value of the parallelised function. It is the callback value.        
+        """
         # we must use lock here because += is not atomic
         self.lock.acquire()
         self.__count = self.__count + 1
@@ -58,6 +66,11 @@ class BasicSyncCounter:
     
     # get methods
     def get_value(self):
+        """
+        Return the internal status.
+        
+        :return: True if the counter is empty.
+        """
         temp = 0.0
         self.lock.acquire()
         temp = self.__value
@@ -65,6 +78,11 @@ class BasicSyncCounter:
         return temp
     
     def get_count(self):
+        """
+        Return the counter
+        
+        :return: the number of running processes.
+        """
         temp = 0.0
         self.lock.acquire()
         temp = self.__count

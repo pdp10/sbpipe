@@ -140,7 +140,6 @@ class Simulate(Pipeline):
         :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param pp_cpus: the number of CPU used by Parallel Python.
         :param runs: the number of model simulation
-        :return: no output
         """
 
         if runs < 1:
@@ -204,7 +203,6 @@ class Simulate(Pipeline):
         :param outputdir: the output directory containing the results
         :param sim_plots_dir: the directory to save the plots
         :param xaxis_label: the label for the x axis (e.g. Time [min])
-        :return: nothing to return
         """
 
         if not os.path.exists(inputdir):
@@ -234,7 +232,6 @@ class Simulate(Pipeline):
         :param model: the model name
         :param outputdir: the output directory to store the report
         :param sim_plots_folder: the folder containing the plots
-        :return:
         """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(

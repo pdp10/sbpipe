@@ -50,26 +50,32 @@
 <dl class="class">
 <dt id="randomise_parameters.RandomiseParameters">
 <em class="property">class </em><code class="descclassname">randomise_parameters.</code><code class="descname">RandomiseParameters</code><span class="sig-paren">(</span><em>path</em>, <em>filename_in</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>It reads a copasi file configured for parameter estimation task, and randomise the starting
-values of the parameters to estimate.
-Then, it saves the new file. As input, it receives the number of files
-to generate (multiple calibrations)</p>
-<dl class="method">
-<dt id="randomise_parameters.RandomiseParameters.generate_instances_from_template">
-<code class="descname">generate_instances_from_template</code><span class="sig-paren">(</span><em>num_files</em>, <em>idstr</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.generate_instances_from_template" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate num_files files, in which the parameters to estimate have a random
-starting value chosen in the determined ammissible range for that parameter.</p>
+<dd><p>This class generates multiple copies of a Copasi file configured for parameter estimation task, and randomises the starting
+values of the parameters to estimate.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>num_files</strong> &#8211; </li>
-<li><strong>idstr</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; the path to filename_in</li>
+<li><strong>filename_in</strong> &#8211; the Copasi file to process.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</tbody>
+</table>
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.generate_instances_from_template">
+<code class="descname">generate_instances_from_template</code><span class="sig-paren">(</span><em>num_files</em>, <em>idstr</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.generate_instances_from_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate num_files files and randomise the starting values for the parameter to estimate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>num_files</strong> &#8211; the number of files (instances) to generate</li>
+<li><strong>idstr</strong> &#8211; an ID string to label the generated files (e.g. a timestamp)</li>
+</ul>
 </td>
 </tr>
 </tbody>
@@ -79,12 +85,12 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.get_copasi_obj">
 <code class="descname">get_copasi_obj</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_copasi_obj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Copasi Object</p>
+<dd><p>Return the Copasi parser object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the Copasi parser object</td>
 </tr>
 </tbody>
 </table>
@@ -93,12 +99,12 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.get_lower_bounds_list">
 <code class="descname">get_lower_bounds_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_lower_bounds_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of lower bounds of the parameters</p>
+<dd><p>Return the list of parameter lower bounds</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter lower bounds</td>
 </tr>
 </tbody>
 </table>
@@ -107,12 +113,12 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.get_param_names_list">
 <code class="descname">get_param_names_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_param_names_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of names of the parameters</p>
+<dd><p>Return the list of parameter names</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
 </tr>
 </tbody>
 </table>
@@ -126,7 +132,7 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the path to the Copasi file</td>
 </tr>
 </tbody>
 </table>
@@ -140,7 +146,7 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the name of the report file name for parameter estimation</td>
 </tr>
 </tbody>
 </table>
@@ -149,12 +155,12 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.get_start_values_list">
 <code class="descname">get_start_values_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_start_values_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of start values of the parameters</p>
+<dd><p>Return the list of parameter starting values</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter starting values</td>
 </tr>
 </tbody>
 </table>
@@ -168,7 +174,7 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the name of the Copasi file</td>
 </tr>
 </tbody>
 </table>
@@ -177,12 +183,12 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.get_upper_bounds_list">
 <code class="descname">get_upper_bounds_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.get_upper_bounds_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of upper bounds of the parameters</p>
+<dd><p>Return the list of parameter upper bounds</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter upper bounds</td>
 </tr>
 </tbody>
 </table>
@@ -191,15 +197,7 @@ starting value chosen in the determined ammissible range for that parameter.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.print_parameters_to_estimate">
 <code class="descname">print_parameters_to_estimate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.print_parameters_to_estimate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print the values extracted from COPASI template file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Print the parameter names, lower/upper bounds, and starting value, as extracted from COPASI template file</p>
 </dd></dl>
 
 </dd></dl>

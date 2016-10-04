@@ -138,7 +138,6 @@ class DoubleParamScan(Pipeline):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :return: no output
         """
 
         if not os.path.isfile(os.path.join(inputdir, model)):
@@ -211,7 +210,6 @@ class DoubleParamScan(Pipeline):
         :param scanned_par2: the second scanned parameter
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
-        :return: no output
         """
 
         if not os.path.exists(inputdir):
@@ -236,7 +234,6 @@ class DoubleParamScan(Pipeline):
         :param scanned_par2: the second scanned parameter
         :param outputdir: the directory containing the report
         :param sim_plots_folder: the folder containing the plots.
-        :return: no output
         """
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):

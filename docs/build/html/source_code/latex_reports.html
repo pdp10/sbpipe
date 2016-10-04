@@ -50,35 +50,124 @@
 <dl class="function">
 <dt id="latex_reports.get_latex_header">
 <code class="descclassname">latex_reports.</code><code class="descname">get_latex_header</code><span class="sig-paren">(</span><em>pdftitle='SB pipe report'</em>, <em>title='SB pipe report'</em>, <em>abstract='Generic report.'</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.get_latex_header" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize a Latex header with a title and an abstract.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pdftitle</strong> &#8211; the pdftitle for the LaTeX header</li>
+<li><strong>title</strong> &#8211; the title for the LaTeX header</li>
+<li><strong>abstract</strong> &#8211; the abstract for the LaTeX header</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the LaTeX header</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="latex_reports.latex_report">
 <code class="descclassname">latex_reports.</code><code class="descname">latex_report</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a generic report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
+<li><strong>model_noext</strong> &#8211; the model name</li>
+<li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="latex_reports.latex_report_double_param_scan">
 <code class="descclassname">latex_reports.</code><code class="descname">latex_report_double_param_scan</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par1</em>, <em>scanned_par2</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report_double_param_scan" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a report for a double parameter scan task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
+<li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
+<li><strong>model_noext</strong> &#8211; the model name</li>
+<li><strong>scanned_par1</strong> &#8211; the 1st scanned parameter</li>
+<li><strong>scanned_par1</strong> &#8211; the 2nd scanned parameter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="latex_reports.latex_report_simulate">
 <code class="descclassname">latex_reports.</code><code class="descname">latex_report_simulate</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report_simulate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a report for a time course task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
+<li><strong>model_noext</strong> &#8211; the model name</li>
+<li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="latex_reports.latex_report_single_param_scan">
 <code class="descclassname">latex_reports.</code><code class="descname">latex_report_single_param_scan</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report_single_param_scan" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a report for a single parameter scan task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
+<li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
+<li><strong>model_noext</strong> &#8211; the model name</li>
+<li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="latex_reports.pdf_report">
 <code class="descclassname">latex_reports.</code><code class="descname">pdf_report</code><span class="sig-paren">(</span><em>outputdir</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.pdf_report" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a PDF report from LaTeX code
-:param outputdir: the output directory
-:param filename: the LaTeX file name
-:return: no output</p>
+<dd><p>Generate a PDF report from LaTeX report using pdflatex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>filename</strong> &#8211; the LaTeX file name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

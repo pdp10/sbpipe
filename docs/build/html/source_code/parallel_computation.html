@@ -50,47 +50,120 @@
 <dl class="function">
 <dt id="parallel_computation.parallel_computation">
 <code class="descclassname">parallel_computation.</code><code class="descname">parallel_computation</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.parallel_computation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generic funcion to run a command in parallel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> &#8211; the command string to run in parallel</li>
+<li><strong>command_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
+<li><strong>cluster_type</strong> &#8211; the cluster type among pp (multithreading), sge, or lsf</li>
+<li><strong>runs</strong> &#8211; the number of runs</li>
+<li><strong>output_dir</strong> &#8211; the output directory</li>
+<li><strong>pp_cpus</strong> &#8211; the number of cpus that pp should use at most</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="parallel_computation.run_command_instance">
 <code class="descclassname">parallel_computation.</code><code class="descname">run_command_instance</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_command_instance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run a command instance</p>
+<dd><p>Run a command using Python subprocess.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> &#8211; the string of the command to run</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="parallel_computation.run_command_pp">
 <code class="descclassname">parallel_computation.</code><code class="descname">run_command_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>server</em>, <em>syncCounter=&lt;basic_sync_counter.BasicSyncCounter instance&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_command_pp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run parallel instances of a command</p>
+<dd><p>Run instances of a command in multithreading using parallel python (pp).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> &#8211; the command string to run in parallel</li>
+<li><strong>command_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
+<li><strong>runs</strong> &#8211; the number of runs</li>
+<li><strong>server</strong> &#8211; the server that pp should use</li>
+<li><strong>syncCounter</strong> &#8211; the mutex object to count the jobs</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="parallel_computation.run_jobs_lsf">
 <code class="descclassname">parallel_computation.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
-<dd><p>command : the full command to run as a job
-iterSubStr : the substring in command to be replaced with a number 
-outDir : the directory containing the standard output from bsub
-errDir : the directory containing the standard error from bsub
-runs : the number of runs to execute</p>
+<dd><p>Run jobs using a Load Sharing Facility (LSF) cluster.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> &#8211; the full command to run as a job</li>
+<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>outDir</strong> &#8211; the directory containing the standard output from bsub</li>
+<li><strong>errDir</strong> &#8211; the directory containing the standard error from bsub</li>
+<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="parallel_computation.run_jobs_pp">
-<code class="descclassname">parallel_computation.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>pp_cpus</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
-<dd><p>command : the full command to run as a job
-iterSubStr : the substring in command to be replaced with a number 
-runs: The number of runs to perform
-ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!</p>
+<code class="descclassname">parallel_computation.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run jobs using parallel python (pp) locally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> &#8211; the full command to run as a job</li>
+<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+<li><strong>pp_cpus</strong> &#8211; The number of available cpus. If pp_cpus &lt;=0, all the available cores will be used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="parallel_computation.run_jobs_sge">
 <code class="descclassname">parallel_computation.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#parallel_computation.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
-<dd><p>command : the full command to run as a job
-iterSubStr : the substring in command to be replaced with a number 
-outDir : the directory containing the standard output from qsub
-errDir : the directory containing the standard error from qsub
-runs : the number of runs to execute</p>
+<dd><p>Run jobs using a Sun Grid Engine (SGE) cluster.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> &#8211; the full command to run as a job</li>
+<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>outDir</strong> &#8211; the directory containing the standard output from qsub</li>
+<li><strong>errDir</strong> &#8211; the directory containing the standard error from qsub</li>
+<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

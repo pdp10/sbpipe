@@ -51,58 +51,138 @@
 <dt id="pipeline.Pipeline">
 <em class="property">class </em><code class="descclassname">pipeline.</code><code class="descname">Pipeline</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='sim_data'</em>, <em>sim_plots_folder='sim_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic pipeline.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data_folder</strong> &#8211; the folder containing the experimental (wet) data sets</li>
+<li><strong>models_folder</strong> &#8211; the folder containing the models</li>
+<li><strong>working_folder</strong> &#8211; the folder to store the results</li>
+<li><strong>sim_data_folder</strong> &#8211; the folder to store the simulation data</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder to store the graphic results</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="pipeline.Pipeline.config_parser">
 <code class="descname">config_parser</code><span class="sig-paren">(</span><em>config_file</em>, <em>section</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.config_parser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the configuration for the parsed section in the config_file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config_file</strong> &#8211; the configuration file to parse</li>
+<li><strong>section</strong> &#8211; the section in the configuration file to parse</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the configuration for the parsed section in the config_file</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.get_data_folder">
 <code class="descname">get_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_data_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the folder containing the experimental (wet) data sets.
-:return: the experimental data sets folder.</p>
+<dd><p>Return the folder containing the experimental (wet) data sets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the experimental data sets folder.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.get_models_folder">
 <code class="descname">get_models_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_models_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the folder containing the models.
-:return: the models folder.</p>
+<dd><p>Return the folder containing the models.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the models folder.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.get_sim_data_folder">
 <code class="descname">get_sim_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_data_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the folder containing the in-silico generated data sets.
-:return: the folder of the simulated data sets.</p>
+<dd><p>Return the folder containing the in-silico generated data sets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the folder of the simulated data sets.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.get_sim_plots_folder">
 <code class="descname">get_sim_plots_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_plots_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the folder containing the in-silico generated plots.
-:return: the folder of the simulated plots.</p>
+<dd><p>Return the folder containing the in-silico generated plots.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the folder of the simulated plots.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.get_working_folder">
 <code class="descname">get_working_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_working_folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the folder containing the results.
-:return: the working folder.</p>
+<dd><p>Return the folder containing the results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the working folder.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.read_common_configuration">
 <code class="descname">read_common_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_common_configuration" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the common parameters from the configuration file
-:return: return a tuple containing the common parameters</p>
+<dd><p>Parse the common parameters from the configuration file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">return a tuple containing the common parameters</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pipeline.Pipeline.read_configuration">
 <code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_configuration" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the section lines from the configuration file
-:return: a tuple containing the configuration</p>
+<dd><p>Read the section lines from the configuration file. This method is abstract.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tuple containing the configuration</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

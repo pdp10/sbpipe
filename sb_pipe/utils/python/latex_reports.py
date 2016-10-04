@@ -23,7 +23,7 @@
 
 
 
-# Collection of functions for generating Latex code. These functions are used for reporting purposes.
+# Utilities to generate Latex code. These functions are used for reporting purposes.
 
 import logging
 import os
@@ -39,8 +39,15 @@ from re_utils import natural_sort_key
 from sb_config import which
 
 
-# Initialize a Latex header with a title and an abstract
 def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract="Generic report."):
+    """
+    Initialize a Latex header with a title and an abstract.
+    
+    :param pdftitle: the pdftitle for the LaTeX header
+    :param title: the title for the LaTeX header
+    :param abstract: the abstract for the LaTeX header
+    :return: the LaTeX header
+    """
     return (
         "\\documentclass[10pt]{article}\n"
         "\\usepackage[english]{babel}\n"
@@ -56,8 +63,16 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
     )
 
 
-# Create a report for a single parameter scanning task (1 model)
 def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+    """
+    Generate a report for a single parameter scan task.
+    
+    :param outputdir: the output directory
+    :param sim_plots_folder: the folder containing the simulated plots
+    :param filename_prefix: the prefix for the LaTeX file
+    :param model_noext: the model name
+    :param scanned_par: the scanned parameter
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         scanned_par_name = scanned_par[0:].replace("_", " ")
@@ -84,9 +99,18 @@ def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-# Create a report for a double parameter scanning task (1 model)
 def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext,
                                    scanned_par1, scanned_par2):
+    """
+    Generate a report for a double parameter scan task.
+    
+    :param outputdir: the output directory
+    :param sim_plots_folder: the folder containing the simulated plots
+    :param filename_prefix: the prefix for the LaTeX file
+    :param model_noext: the model name
+    :param scanned_par1: the 1st scanned parameter
+    :param scanned_par1: the 2nd scanned parameter
+    """    
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         scanned_par1_name = scanned_par1[0:].replace("_", " ")
@@ -127,8 +151,15 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-# Create a report of a time course task (1 model)
 def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix):
+    """
+    Generate a report for a time course task.
+    
+    :param outputdir: the output directory
+    :param sim_plots_folder: the folder containing the simulated plots
+    :param model_noext: the model name
+    :param filename_prefix: the prefix for the LaTeX file
+    """     
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         logger.info(model_name)
@@ -150,8 +181,15 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
         file_out.write("\\end{document}\n")
 
 
-# Create a generic report
 def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
+    """
+    Generate a generic report.
+    
+    :param outputdir: the output directory
+    :param sim_plots_folder: the folder containing the simulated plots
+    :param model_noext: the model name
+    :param filename_prefix: the prefix for the LaTeX file
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         logger.info(model_name)
@@ -192,10 +230,10 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
 
 def pdf_report(outputdir, filename):
     """
-    Generate a PDF report from LaTeX code
+    Generate a PDF report from LaTeX report using pdflatex.
+    
     :param outputdir: the output directory
     :param filename: the LaTeX file name
-    :return: no output
     """
     pdflatex = which("pdflatex")
     if pdflatex is None:

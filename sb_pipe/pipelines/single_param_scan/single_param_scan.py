@@ -147,7 +147,6 @@ class SingleParamScan(Pipeline):
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :return: no output
         """
 
         if not os.path.isfile(os.path.join(inputdir, model)):
@@ -281,7 +280,6 @@ class SingleParamScan(Pipeline):
         :param max_level: the maximum level
         :param levels_number: the number of levels
         :param homogeneous_lines: True if generated line style should be homogeneous
-        :return: no output
         """
 
         # some control
@@ -319,7 +317,6 @@ class SingleParamScan(Pipeline):
         :param scanned_par: the scanned parameter
         :param outputdir: the directory containing the report
         :param sim_plots_folder: the folder containing the plots
-        :return: no output
         """
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):

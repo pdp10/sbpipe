@@ -68,36 +68,56 @@ import pp
 
 
 def parallel_computation(command, command_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
+  """
+  Generic funcion to run a command in parallel
+  
+  :param command: the command string to run in parallel
+  :param command_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
+  :param cluster_type: the cluster type among pp (multithreading), sge, or lsf
+  :param runs: the number of runs
+  :param output_dir: the output directory
+  :param pp_cpus: the number of cpus that pp should use at most
+  """
   if cluster_type == "sge" or cluster_type == "lsf":
     outDir = os.path.join(output_dir, 'out')
     errDir = os.path.join(output_dir, 'err')
     if not os.path.exists(outDir):
-      os.makedirs(outDir)
+        os.makedirs(outDir)
     if not os.path.exists(errDir):
-      os.makedirs(errDir)   
+        os.makedirs(errDir)   
     
     if cluster_type == "sge":  # use SGE (Sun Grid Engine)
-      run_jobs_sge(command, command_iter_substr, outDir, errDir, runs)
+        run_jobs_sge(command, command_iter_substr, outDir, errDir, runs)
 
     elif cluster_type == "lsf": # use LSF (Platform Load Sharing Facility)
-      run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs)      
+        run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs)      
         
   else: # use pp by default (parallel python). This is configured to work locally using multi-core.
     if cluster_type != "pp":
-      logger.warn("Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
+        logger.warn("Variable cluster_type is not set correctly in the configuration file. Values are: pp, lsf, sge. Running pp by default")
     run_jobs_pp(command, command_iter_substr, runs, pp_cpus)
 
 
-
-
 def run_command_instance(command):
-  """ Run a command instance"""
+  """ 
+  Run a command using Python subprocess.
+  
+  :param command: the string of the command to run
+  """
   p1 = subprocess.Popen(command, stdout=subprocess.PIPE) 
   p1.communicate()[0]
 
 
 def run_command_pp(command, command_iter_substr, runs, server, syncCounter=BasicSyncCounter()):  
-  """ Run parallel instances of a command """
+  """
+  Run instances of a command in multithreading using parallel python (pp).
+  
+  :param command: the command string to run in parallel
+  :param command_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
+  :param runs: the number of runs
+  :param server: the server that pp should use
+  :param syncCounter: the mutex object to count the jobs
+  """
   for i in xrange(1, runs+1):
     commandList = command.replace(command_iter_substr, str(i)).split(" ")
     callbackargs = (i,)
@@ -110,19 +130,18 @@ def run_command_pp(command, command_iter_substr, runs, server, syncCounter=Basic
 		  group="my_processes")
 
 
+def run_jobs_pp(command, command_iter_substr, runs, pp_cpus=1):
+  """
+  Run jobs using parallel python (pp) locally.
+  
+  :param command: the full command to run as a job
+  :param command_iter_substr: the substring in command to be replaced with a number 
+  :param runs: the number of runs to execute
+  :param pp_cpus: The number of available cpus. If pp_cpus <=0, all the available cores will be used.
+  """
 
-# Perform this task using python-pp (parallel python dependency). 
-# If this computation is performed on a cluster_type, start this on each node of the cluster_type. 
-# The list of servers and ports must be updated in the configuration file
-# (NOTE: It requires the installation of python-pp)
-#ppserver -p 65000 -i my-node.abc.ac.uk -s "donald_duck" -w 5 &
-def run_jobs_pp(command, command_iter_substr, runs, pp_cpus):
-  """
-  command : the full command to run as a job
-  iterSubStr : the substring in command to be replaced with a number 
-  runs: The number of runs to perform
-  ncpus: The number of available cpus. Set ncpus to 0 if all the processes have to run on a server!
-  """
+  # If this computation is performed on a cluster_type, start pp-server on each node. 
+  # The list of servers and ports must be updated in the configuration file
   
   ### ppserver configuration
   #servers: A string containing a list of servers:ports to connect (e.g. "localhost:65000,my-node.abc.ac.uk:65000")
@@ -160,15 +179,15 @@ def run_jobs_pp(command, command_iter_substr, runs, pp_cpus):
   job_server.destroy()
 
 
-
-
 def run_jobs_sge(command, command_iter_substr, outDir, errDir, runs):
   """
-  command : the full command to run as a job
-  iterSubStr : the substring in command to be replaced with a number 
-  outDir : the directory containing the standard output from qsub
-  errDir : the directory containing the standard error from qsub
-  runs : the number of runs to execute
+  Run jobs using a Sun Grid Engine (SGE) cluster.
+  
+  :param command: the full command to run as a job
+  :param command_iter_substr: the substring in command to be replaced with a number 
+  :param outDir: the directory containing the standard output from qsub
+  :param errDir: the directory containing the standard error from qsub
+  :param runs: the number of runs to execute
   """
   # Test this with echo "ls -la" | xargs xargs using Python environment.
   # The following works:
@@ -194,17 +213,16 @@ def run_jobs_sge(command, command_iter_substr, outDir, errDir, runs):
   qsubProc.communicate()[0]
 
 
-
-
-
 def run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs):
   """
-  command : the full command to run as a job
-  iterSubStr : the substring in command to be replaced with a number 
-  outDir : the directory containing the standard output from bsub
-  errDir : the directory containing the standard error from bsub
-  runs : the number of runs to execute
-  """  
+  Run jobs using a Load Sharing Facility (LSF) cluster.
+  
+  :param command: the full command to run as a job
+  :param command_iter_substr: the substring in command to be replaced with a number 
+  :param outDir: the directory containing the standard output from bsub
+  :param errDir: the directory containing the standard error from bsub
+  :param runs: the number of runs to execute
+  """
   jobs = ""
   echoSleep = ["echo", "sleep 1"]  
   for i in xrange(1,runs+1):
@@ -230,6 +248,3 @@ def run_jobs_lsf(command, command_iter_substr, outDir, errDir, runs):
     output = myPoll.communicate()[0]    
     if not jobName in output:
       found = False
-  
-
-

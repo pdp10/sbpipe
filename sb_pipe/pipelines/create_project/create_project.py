@@ -38,15 +38,15 @@ from pipeline import Pipeline
 class CreateProject(Pipeline):
     """
     This module initialises the folder tree for a new project.
+
+    :param data_folder: the folder containing the data
+    :param models_folder: the folder containing the models
+    :param working_folder: the folder to store the results    
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder'):
         """
         Constructor.
-
-        :param data_folder: the folder containing the data
-        :param models_folder: the folder containing the models
-        :param working_folder: the folder to store the results
         """
         Pipeline.__init__(self, data_folder, models_folder, working_folder)
 
@@ -55,7 +55,7 @@ class CreateProject(Pipeline):
         Create a project directory tree.
 
         :param project_name: the name of the project
-        :returns: 0 if the project is created.
+        :return: 0
         """
         if not os.path.exists(project_name):
             os.mkdir(project_name)

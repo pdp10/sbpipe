@@ -35,10 +35,9 @@ def retrieve_final_estimates(path_in=".", path_out=".", filename_out="final_esti
     Collect the final parameter estimates from the Copasi parameter estimation report. Results 
     are stored in filename_out.
 
-    :param path_in: the path to the input files (default: ".")
-    :param path_out: the path to the output files (default: ".")
-    :param filename_out: the filename to store the final estimates (default: "final_estimates.csv")
-    :return:
+    :param path_in: the path to the input files
+    :param path_out: the path to the output files
+    :param filename_out: the filename to store the final estimates
     """
     # The path containing the results .csv files
     path = path_in
@@ -57,10 +56,9 @@ def retrieve_all_estimates(path_in=".", path_out=".", filename_out="all_estimate
     Collect all the parameter estimates from the Copasi parameter estimation report. Results 
     are stored in filename_out.
 
-    :param path_in: the path to the input files (default: ".")
-    :param path_out: the path to the output files (default: ".")
-    :param filename_out: the filename to store the final estimates (default: "all_estimates.csv")
-    :return:
+    :param path_in: the path to the input files
+    :param path_out: the path to the output files
+    :param filename_out: the filename to store the final estimates
     """
     # The path containing the results .csv files
     path = path_in
@@ -119,7 +117,6 @@ def write_parameter_names(colNames, path_out, filename_out):
     :param colNames: the list of parameter names
     :param path_out: the path to store filename_out
     :param filename_out: the output file to store the parameter names
-    :return:
     """
     with open(os.path.join(path_out, filename_out), 'w') as file:
         i = -1
@@ -138,7 +135,6 @@ def write_final_estimates(files, path_out, filename_out):
     :param files: the list of Copasi parameter estimation reports
     :param path_out: the path to store the file combining the final (best) estimates (filename_out)
     :param filename_out: the file containing the final (best) estimates
-    :return:
     """
     file_num = -1
     logger.info("\nCollecting results:")
@@ -183,9 +179,8 @@ def write_all_estimates(files, path_out, filename_out):
     Write all the estimates to filename_out
 
     :param files: the list of Copasi parameter estimation reports
-    :param path_out: the path to store the file combining alle the estimates (filename_out)
+    :param path_out: the path to store the file combining all the estimates
     :param filename_out: the file containing all the estimates
-    :return:
     """
     file_num = -1
     #logger.info("\nCollecting results:")
