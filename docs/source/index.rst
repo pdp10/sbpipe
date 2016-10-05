@@ -14,18 +14,21 @@
    You should have received a copy of the GNU Lesser General Public License
    along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 
+
 SB pipe documentation
 =====================
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 3
    
    user_manual
    developer_manual
-
-
-Source code
-===========
+   source_code
+   meta_info
+   
+   
+Indices
+=======
 
 * :ref:`genindex`
 * :ref:`modindex`

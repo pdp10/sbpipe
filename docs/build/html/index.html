@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SB pipe documentation &mdash; SB pipe 0.59.0 documentation</title>
+    <title>SB pipe documentation &mdash; SB pipe 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.59.0',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 0.59.0 documentation" href="#" />
+    <link rel="top" title="SB pipe 1.0.0 documentation" href="#" />
     <link rel="next" title="User manual" href="user_manual.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">SB pipe 1.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -60,15 +60,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user_manual.html#how-to-use-sb-pipe">How to use SB pipe</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user_manual.html#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="user_manual.html#pipelines-using-copasi">Pipelines using Copasi</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="user_manual.html#preliminary-configuration-steps">Preliminary configuration steps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_manual.html#running-sb-pipe">Running SB pipe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_manual.html#pipeline-configuration-files">Pipeline configuration files</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="user_manual.html#how-to-report-issues-or-request-new-features">How to report issues or request new features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual.html#reporting-bugs-or-requesting-new-features">Reporting bugs or requesting new features</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developer_manual.html">Developer manual</a><ul>
@@ -81,12 +78,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="developer_manual.html#package-structure">Package structure</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="developer_manual.html#docs">docs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="developer_manual.html#sb-pipe">sb_pipe</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="developer_manual.html#pipelines">pipelines</a></li>
-<li class="toctree-l4"><a class="reference internal" href="developer_manual.html#utils">Utils</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="developer_manual.html#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_manual.html#sb-pipe">sb_pipe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_manual.html#tests">tests</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="developer_manual.html#miscellaneous-of-useful-commands">Miscellaneous of useful commands</a><ul>
@@ -95,11 +88,38 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="source_code.html">Source code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source_code.html#python-modules">Python modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="source_code/basic_sync_counter.html">basic_sync_counter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/collect_results.html">collect_results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/copasi_parser.html">copasi_parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/copasi_utils.html">copasi_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/create_project.html">create_project module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/double_param_scan.html">double_param_scan module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/io_util_functions.html">io_util_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/latex_reports.html">latex_reports module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/parallel_computation.html">parallel_computation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/param_estim.html">param_estim module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/pipeline.html">pipeline module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/random_functions.html">random_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/randomise_parameters.html">randomise_parameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/re_utils.html">re_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/sensitivity.html">sensitivity module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/simulate.html">simulate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source_code/single_param_scan.html">single_param_scan module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="meta_info.html">Meta information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="meta_info.html#copyright">Copyright</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-<div class="section" id="source-code">
-<h1>Source code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
@@ -116,7 +136,7 @@
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">SB pipe documentation</a></li>
-<li><a class="reference internal" href="#source-code">Source code</a></li>
+<li><a class="reference internal" href="#indices">Indices</a></li>
 </ul>
 
   <h4>Next topic</h4>
@@ -158,7 +178,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">SB pipe 1.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

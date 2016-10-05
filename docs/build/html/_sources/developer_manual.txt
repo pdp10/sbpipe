@@ -216,7 +216,7 @@ reading the options required by the pipeline to execute. The class
 *Pipeline* contains already implements the INI parser and returns each
 pipeline the configuration file as a list of lines.
 
-Utils
+utils
 ^^^^^
 
 The folder *sb\_pipe/utils/* contains the following structure:
@@ -224,7 +224,7 @@ The folder *sb\_pipe/utils/* contains the following structure:
 -  *python*: a collection of python utils.
 -  *R*: a collection of R utils (plots and statistics).
 
-Tests
+tests
 ~~~~~
 
 The folder *tests/* contains the script *run\_tests.py* to run a test

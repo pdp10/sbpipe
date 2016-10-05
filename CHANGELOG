@@ -6,8 +6,16 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v0.59.0
+v1.0.0
 
+- first release.
+
+
+v0.62.0
+
+- completed source code documentation
+- completed user and developer manuals.
+- configured Python Sphinx for documenting SB pipe
 - bug fixes.
 - separation of pdf report code from pipelines.
 - configuration sessions integrated in pipeline classes.
