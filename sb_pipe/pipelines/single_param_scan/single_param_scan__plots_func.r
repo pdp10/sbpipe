@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of time courses columns wrt time. 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -30,12 +29,23 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-
-plot_single_param_scan_data <- function(model_noext, variable, inhibition_only, 
-					outputdir, sim_data_folder, 
-					sim_plots_folder, simulate__xaxis_label, 
-					simulations_number, 
-					percent_levels=TRUE, min_level=0, 
+# Plot model single parameter scan time courses
+#
+# :param model: The model name
+# :param variable: The model variable to scan
+# :param inhibition_only: true if the scanning only decreases the variable amount (inhibition only)
+# :param outputdir: the output directory
+# :param sim_data_folder: the name of the folder containing the simulated data
+# :param sim_plots_folder: the name of the folder containing the simulated plots
+# :param xaxis_label: the label for the x axis (e.g. Time (min))
+# :param simulations_number: the simulation number
+# :param percent_levels: true if scanning levels are in percent (default: TRUE)
+# :param min_level: the minimum level (default: 0)
+# :param max_level: the maximum level (default: 100)
+# :param levels_number: the number of levels (default: 10)
+plot_single_param_scan_data <- function(model, variable, inhibition_only, 
+					outputdir, sim_data_folder, sim_plots_folder, xaxis_label, 
+					simulations_number, percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10) {
     
     # Set the labels for the plot legend
@@ -64,7 +74,7 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
     }
     
     
-    writeLines(paste("Model: ", model_noext, ".cps", sep=""))
+    writeLines(paste("Model: ", model, ".cps", sep=""))
     writeLines(paste("Perturbed variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
@@ -80,7 +90,7 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
     
     for(k_sim in 1:simulations_number) {    
     
-	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))
+	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, sep=""))
 	  levels <- c()
 	  levels.index <- c()
 	  
@@ -113,23 +123,23 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
 	  for(j in 2:length(column)) {
    	    g <- ggplot()
 	    for(m in 1:length(files)) {
-		dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
-			      dec=".",sep="\t")[,j]
-		df <- data.frame(time=timecourses[,1], b=dataset)
-		# NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
-		df <- melt(df, id=c("time"))
-		df$value <- dataset
-		df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
-		
-		#print(df$variable)
-		g <- g + geom_line(data=df, 
-				   aes(x=time, y=value, color=variable, linetype=variable), 
-				   size=1.0)   
+            dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
+                    dec=".",sep="\t")[,j]
+            df <- data.frame(time=timecourses[,1], b=dataset)
+            # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+            df <- melt(df, id=c("time"))
+            df$value <- dataset
+            df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
+            
+            #print(df$variable)
+            g <- g + geom_line(data=df, 
+                    aes(x=time, y=value, color=variable, linetype=variable), 
+                    size=1.0)   
 	    }
-	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
+	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep="")) + 
 	    scale_colour_manual("Levels", values=colors, labels=labels) + 
 	    scale_linetype_manual("Levels", values=linetype, labels=labels)
-      	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=6)#, bg = "transparent")
    
 	  }
@@ -140,13 +150,21 @@ plot_single_param_scan_data <- function(model_noext, variable, inhibition_only,
 
 
 
-
-plot_single_param_scan_data_homogen <- function(model_noext, variable, 
+# Plot model single parameter scan time courses using homogeneous lines.
+#
+# :param model: The model name
+# :param variable: The model variable to scan
+# :param outputdir: the output directory
+# :param sim_data_folder: the name of the folder containing the simulated data
+# :param sim_plots_folder: the name of the folder containing the simulated plots
+# :param xaxis_label: the label for the x axis (e.g. Time (min))
+# :param simulations_number: the simulation number
+plot_single_param_scan_data_homogen <- function(model, variable, 
 					outputdir, sim_data_folder, 
-					sim_plots_folder, simulate__xaxis_label, 
+					sim_plots_folder, xaxis_label, 
 					simulations_number) {
 					
-    writeLines(paste("Model: ", model_noext, ".cps", sep=""))
+    writeLines(paste("Model: ", model, ".cps", sep=""))
     writeLines(paste("Perturbed variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
@@ -160,7 +178,7 @@ plot_single_param_scan_data_homogen <- function(model_noext, variable,
     theme_set(tc_theme(28))    
     
     for(k_sim in 1:simulations_number) { 
-	  files <- list.files( path=inputdir, pattern=paste(model_noext, '__sim_', k_sim, sep=""))	  
+	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, sep=""))	  
 	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
@@ -168,13 +186,13 @@ plot_single_param_scan_data_homogen <- function(model_noext, variable,
 	  for(j in 2:length(column)) {
    	    g <- ggplot()
 	    for(m in 1:length(files)) {
-		df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
-			      dec=".",sep="\t")[,j]
-		df <- data.frame(time=timecourses[,1], value=df)
-		g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
+            df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
+                    dec=".",sep="\t")[,j]
+            df <- data.frame(time=timecourses[,1], value=df)
+            g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
 	    }
-	    g <- g + xlab(simulate__xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep=""))
-      	    ggsave(file.path(outputdir, paste(model_noext, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep=""))
+      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=6)#, bg = "transparent")
 	  }
   }

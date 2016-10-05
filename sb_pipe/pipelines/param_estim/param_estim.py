@@ -183,7 +183,6 @@ class ParamEstim(Pipeline):
         :param sim_data_dir: the directory containing the simulation data sets
         :param updated_models_dir: the directory containing the Copasi models with updated parameters for
                each estimation
-        :return: no output
         """
 
         if int(nfits) < 1:
@@ -257,7 +256,6 @@ class ParamEstim(Pipeline):
         :param data_point_num: the number of data points
         :param plot_2d_66_95cl_corr: True if 2 dim plots for the parameter sets within 66% and 95% should be plotted
         :param logspace: True if parameters should be plotted in log space
-        :return: no output
         """
 
         if not os.path.exists(inputdir) or not os.listdir(inputdir):
@@ -300,7 +298,6 @@ class ParamEstim(Pipeline):
         :param model: the model name
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the folder containing the plots
-        :return: no output
         """
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):

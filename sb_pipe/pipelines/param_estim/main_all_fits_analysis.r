@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -26,10 +25,22 @@ SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils.r'))
 
 
+
+# R Script to run model parameter estimation analysis and plot results. This script analyses
+# all fits.
+#
+# :args[1]: the model name without extension
+# :args[2]: the dataset containing the parameter estimation data.
+# :args[3]: the directory to save the generated plots
+# :args[4]: the number of data points used for parameterise the model
+# :args[5]: the name of the file to store the statistics for the approximated profile likelihood estimation.
+# :args[6]: the name of the file to store the confidence levels.
+# :args[7]: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted.
+# :args[8]: true if parameters should be plotted in logspace.
 main <- function(args) {
   
   model <- args[1]
-  filename <- args[2]
+  dataset <- args[2]
   plots_dir <- args[3]
   data_point_num <- args[4]
   fileout_approx_ple_stats <- args[5]
@@ -37,13 +48,20 @@ main <- function(args) {
   plot_2d_66_95cl_corr <- args[7]
   logspace <- args[8]
   
-  if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') plot_2d_66_95cl_corr = TRUE
-  else plot_2d_66_95cl_corr = FALSE
+  if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') {
+    plot_2d_66_95cl_corr = TRUE
+  } else {
+    plot_2d_66_95cl_corr = FALSE
+  }
 
-  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') logspace = TRUE
-  else logspace = FALSE
+  if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') {
+    logspace = TRUE
+  } else {
+    logspace = FALSE
+  }
   
-  all_fits_analysis(model, filename, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr, logspace)
+  all_fits_analysis(model, dataset, plots_dir, data_point_num, fileout_approx_ple_stats, 
+                    fileout_conf_levels, plot_2d_66_95cl_corr, logspace)
 }
 
 

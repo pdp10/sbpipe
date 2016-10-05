@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of time courses columns wrt time. 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -27,6 +26,22 @@ SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','pipelines','single_param_scan','single_param_scan__plots_func.r'))
 
 
+
+# R Script to plot model single parameter scan time courses.
+#
+# :args[1]: the model name without extension
+# :args[2]: the model variable to scan
+# :args[3]: true if the scanning only decreases the variable amount (inhibition only)
+# :args[4]: the output directory
+# :args[5]: the name of the folder containing the simulated data
+# :args[6]: the name of the folder containing the simulated plots
+# :args[7]: the label for the x axis (e.g. Time (min))
+# :args[8]: the simulation number
+# :args[9]: true if scanning levels are in percent
+# :args[10]: the minimum level
+# :args[11]: the maximum level
+# :args[12]: the number of levels
+# :args[13]: true if lines should be plotted homogeneously
 main <- function(args) {
     model_noext <- args[1]
     variable <- args[2]
@@ -34,7 +49,7 @@ main <- function(args) {
     outputdir <- args[4]
     sim_data_folder <- args[5]
     sim_plots_folder <- args[6]
-    simulate__xaxis_label <- args[7]
+    xaxis_label <- args[7]
     simulations_number <- args[8]
     percent_levels <- args[9]    
     min_level <- args[10]
@@ -66,12 +81,12 @@ main <- function(args) {
     if(homogeneous_lines) {
 	plot_single_param_scan_data_homogen(model_noext, variable, 
 				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulate__xaxis_label, 
+				    sim_plots_folder, xaxis_label, 
 				    simulations_number)
     } else {    
 	plot_single_param_scan_data(model_noext, variable, inhibition_only, 
 				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulate__xaxis_label, 
+				    sim_plots_folder, xaxis_label, 
 				    simulations_number, percent_levels, min_level, 
 				    max_level, levels_number)
     }

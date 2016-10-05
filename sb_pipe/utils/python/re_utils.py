@@ -18,7 +18,7 @@
 #
 #
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-13 12:14:32 $
 
@@ -27,8 +27,13 @@
 import re
 
 
-# Sort a list of elements alphanumerically (e.g. "file10" is correctly placed after "file2")
-def natural_sort_key(text):
+def natural_sort_key(str):
+    """
+    The key to sort a list of strings alphanumerically (e.g. "file10" is correctly placed after "file2")
+    
+    :param str: the string to sort alphanumerically in a list of strings
+    :return: the key to sort strings alphanumerically
+    """
     _nsre = re.compile('([0-9]+)')
-    return [int(text) if text.isdigit() else text.lower()
-            for text in re.split(_nsre, text)]   
+    return [int(str) if str.isdigit() else str.lower()
+            for str in re.split(_nsre, str)]   

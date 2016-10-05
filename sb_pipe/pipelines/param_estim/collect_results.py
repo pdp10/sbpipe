@@ -32,13 +32,12 @@ logger = logging.getLogger('sbpipe')
 
 def retrieve_final_estimates(path_in=".", path_out=".", filename_out="final_estimates.csv"):
     """
-    Collect the estimated parameters from the results of a parameter estimation task using Copasi
-    Collect the results in a file filename_out
+    Collect the final parameter estimates from the Copasi parameter estimation report. Results 
+    are stored in filename_out.
 
-    :param path_in:
-    :param path_out:
-    :param filename_out:
-    :return:
+    :param path_in: the path to the input files
+    :param path_out: the path to the output files
+    :param filename_out: the filename to store the final estimates
     """
     # The path containing the results .csv files
     path = path_in
@@ -54,13 +53,12 @@ def retrieve_final_estimates(path_in=".", path_out=".", filename_out="final_esti
 
 def retrieve_all_estimates(path_in=".", path_out=".", filename_out="all_estimates.csv"):
     """
-    Collect all the estimates from the results of a parameter estimation task using Copasi
-    Collect the results in a file filename_out
+    Collect all the parameter estimates from the Copasi parameter estimation report. Results 
+    are stored in filename_out.
 
-    :param path_in:
-    :param path_out:
-    :param filename_out:
-    :return:
+    :param path_in: the path to the input files
+    :param path_out: the path to the output files
+    :param filename_out: the filename to store the final estimates
     """
     # The path containing the results .csv files
     path = path_in
@@ -75,22 +73,22 @@ def retrieve_all_estimates(path_in=".", path_out=".", filename_out="all_estimate
 
 def retrieve_input_files(path):
     """
-    Retrieve input files
+    Retrieve the input files in a path.
 
-    :param path:
-    :return:
+    :param path: the path containing the input files to retrieve
+    :return: the list of input files
     """
     files = glob.glob(os.path.join(path, "*.csv"))
     files.sort(key=natural_sort_key)
     return files
 
 
-def get_parameter_names_list(filein=""):
+def get_parameter_names_list(filein):
     """
-    Return the list of parameter names
+    Return the list of parameter names from filein
 
-    :param filein:
-    :return:
+    :param filein: a Copasi parameter estimation report file
+    :return: the list of parameter names
     """
     parameters = []
     with open(filein, 'r') as file:
@@ -114,12 +112,11 @@ def get_parameter_names_list(filein=""):
 
 def write_parameter_names(colNames, path_out, filename_out):
     """
-    Print the list of parameter names
+    Write the list of parameter names to filename_out
 
-    :param colNames:
-    :param path_out:
-    :param filename_out:
-    :return:
+    :param colNames: the list of parameter names
+    :param path_out: the path to store filename_out
+    :param filename_out: the output file to store the parameter names
     """
     with open(os.path.join(path_out, filename_out), 'w') as file:
         i = -1
@@ -133,12 +130,11 @@ def write_parameter_names(colNames, path_out, filename_out):
 
 def write_final_estimates(files, path_out, filename_out):
     """
-    Write the final estimates
+    Write the final estimates to filename_out
 
-    :param files:
-    :param path_out:
-    :param filename_out:
-    :return:
+    :param files: the list of Copasi parameter estimation reports
+    :param path_out: the path to store the file combining the final (best) estimates (filename_out)
+    :param filename_out: the file containing the final (best) estimates
     """
     file_num = -1
     logger.info("\nCollecting results:")
@@ -180,15 +176,14 @@ def write_final_estimates(files, path_out, filename_out):
 
 def write_all_estimates(files, path_out, filename_out):
     """
-    Write all estimates
+    Write all the estimates to filename_out
 
-    :param files:
-    :param path_out:
-    :param filename_out:
-    :return:
+    :param files: the list of Copasi parameter estimation reports
+    :param path_out: the path to store the file combining all the estimates
+    :param filename_out: the file containing all the estimates
     """
     file_num = -1
-    # logger.info("\nCollecting results:")
+    #logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for file in files:
             file_num = file_num + 1

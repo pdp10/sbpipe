@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -30,8 +29,15 @@ source(file.path(SB_PIPE,'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 
 
 
-
-compute_descriptive_statistics <- function(timepoint.values, timepoint, variable, nfiles) {
+# For each time point compute the most relevant descriptive statistics: mean, sd, var, skew, kurt, ci95, coeffvar, 
+# min, 1st quantile, median, 3rd quantile, and max.
+#
+# :param timepoint.values: array of values for a certain time point
+# :param nfiles: the number of files (samples) 
+# :return: the statistics for the array of values for a specific time point
+compute_descriptive_statistics <- function(timepoint.values, nfiles) {
+	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
+			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
     # compute mean, standard deviation, error, error.left, error.right
     timepoint$mean <- mean(timepoint.values, na.rm = TRUE)
     timepoint$sd <- sd(timepoint.values, na.rm = TRUE)
@@ -49,82 +55,86 @@ compute_descriptive_statistics <- function(timepoint.values, timepoint, variable
     timepoint$rdquantile <- quantile(timepoint.values, na.rm = TRUE)[4]  # Q3
     timepoint$max <- max(timepoint.values, na.rm = TRUE)
 
-    # put data in lists
-    variable$mean <- c ( variable$mean, timepoint$mean )
-    variable$sd <- c ( variable$sd, timepoint$sd )
-    variable$var <- c ( variable$var, timepoint$var )
-    variable$skew <- c ( variable$skew, timepoint$skew )
-    variable$kurt <- c ( variable$kurt, timepoint$kurt )
-    variable$ci95 <- c ( variable$ci95, timepoint$ci95 )
-    variable$coeffvar <- c ( variable$coeffvar, timepoint$coeffvar )
-    variable$min <- c ( variable$min, timepoint$min )
-    variable$stquantile <- c ( variable$stquantile, timepoint$stquantile )
-    variable$median <- c ( variable$median, timepoint$median )
-    variable$rdquantile <- c ( variable$rdquantile, timepoint$rdquantile )
-    variable$max <- c ( variable$max, timepoint$max )
- 
-    #print(nfiles)
-    #for debug
-    #print(column[j])
-    #print(timepoints[k])
-    #print(variable.mean)
-    #prints(variable.sd)
-    return (variable)
+    return (timepoint)
 }
 
 
-get_column_names_statistics <- function(column.names, name) {    
+
+# Return the column names of the statitics to calculate
+#
+# :param column.names: an array of column names
+# :param readout: the name of the readout
+# :return: the column names including the readout name
+get_column_names_statistics <- function(column.names, readout) {    
     column.names <- c (column.names,
-                       paste(name, "_Mean", sep=""),
-                       paste(name, "_StdDev", sep=""),
-                       paste(name, "_Variance", sep=""),
-                       paste(name, "_Skewness", sep=""),
-                       paste(name, "_Kurtosis", sep=""),                       
-                       paste(name, "_t-dist_CI95%", sep=""),
-                       paste(name, "_StdErr", sep=""),
-                       paste(name, "_CoeffVar", sep=""),
-                       paste(name, "_Minimum", sep=""),
-                       paste(name, "_1stQuantile", sep=""),
-                       paste(name, "_Median", sep=""),
-                       paste(name, "_3rdQuantile", sep=""),
-                       paste(name, "_Maximum", sep=""))
-    #print(name)
+                       paste(readout, "_Mean", sep=""),
+                       paste(readout, "_StdDev", sep=""),
+                       paste(readout, "_Variance", sep=""),
+                       paste(readout, "_Skewness", sep=""),
+                       paste(readout, "_Kurtosis", sep=""),                       
+                       paste(readout, "_t-dist_CI95%", sep=""),
+                       paste(readout, "_StdErr", sep=""),
+                       paste(readout, "_CoeffVar", sep=""),
+                       paste(readout, "_Minimum", sep=""),
+                       paste(readout, "_1stQuantile", sep=""),
+                       paste(readout, "_Median", sep=""),
+                       paste(readout, "_3rdQuantile", sep=""),
+                       paste(readout, "_Maximum", sep=""))
+    #print(readout)
     return (column.names)
 }
 
-get_statistics_table <- function(statistics, variable, s=2) {    
-    #print(variable$mean) 
-    statistics[,s]   <- variable$mean
-    statistics[,s+1] <- variable$sd
-    statistics[,s+2] <- variable$var
-    statistics[,s+3] <- variable$skew
-    statistics[,s+4] <- variable$kurt
-    statistics[,s+5] <- variable$ci95
-    statistics[,s+6] <- variable$coeffvar
-    statistics[,s+7] <- variable$min
-    statistics[,s+8] <- variable$stquantile
-    statistics[,s+9] <- variable$median
-    statistics[,s+10] <- variable$rdquantile
-    statistics[,s+11] <- variable$max
+
+
+# Add the statistics for a readout to the table of statistics. The first column is Time.
+#
+# :param statistics: the table of statistics to fill up
+# :param readout: the statistics for this readout.
+# :param colidx: the position in the table to put the readout statistics
+# :return: The table of statistics including this readout.
+get_statistics_table <- function(statistics, readout, colidx=2) {    
+    #print(readout$mean) 
+    statistics[,colidx]   <- readout$mean
+    statistics[,colidx+1] <- readout$sd
+    statistics[,colidx+2] <- readout$var
+    statistics[,colidx+3] <- readout$skew
+    statistics[,colidx+4] <- readout$kurt
+    statistics[,colidx+5] <- readout$ci95
+    statistics[,colidx+6] <- readout$coeffvar
+    statistics[,colidx+7] <- readout$min
+    statistics[,colidx+8] <- readout$stquantile
+    statistics[,colidx+9] <- readout$median
+    statistics[,colidx+10] <- readout$rdquantile
+    statistics[,colidx+11] <- readout$max
     return (statistics)
 }
 
 
-plot_error_bars <- function(outputdir, version, name, variable, timepoints, simulate__xaxis_label, bar_type="sd") {
+
+# Plot a model readout time course. If specified error bars are also plotted for each time point.
+#
+# :param outputdir: The output directory
+# :param model: the model name
+# :param readout: the name of the readout
+# :param data: the data to plot (time point means at least)
+# :param timepoints: the Time vector
+# :param xaxis_label: the xaxis label 
+# :param bar_type: the type of bar ("none", "sd", "sd_n_ci95")
+plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_label, bar_type="sd") {
     filename = ""
 
     if(bar_type == "none") {
       # standard error configuration
-      filename = file.path(outputdir, paste(version, "_none_", name, ".png", sep=""))
+      filename = file.path(outputdir, paste(model, "_none_", readout, ".png", sep=""))
       # Let's plot this special case now as it does not require error bars
-      df <- data.frame(a=timepoints, b=variable$mean)      
+      df <- data.frame(a=timepoints, b=data$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
-      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep=""))
+      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep=""))
       ggsave(filename, dpi=300,  width=8, height=6) #, bg = "transparent")      
 
     } else { 
 
-      df <- data.frame(a=timepoints, b=variable$mean, c=variable$sd, d=variable$ci95)
+      df <- data.frame(a=timepoints, b=data$mean, c=data$sd, d=data$ci95)
       #print(df)
       g <- ggplot(df, aes(x=a, y=b))
 
@@ -132,31 +142,47 @@ plot_error_bars <- function(outputdir, version, name, variable, timepoints, simu
       g <- g + geom_errorbar(aes(ymin=b-c, ymax=b+c), colour="blue",  size=1.0, width=0.1)    
         
       if(bar_type == "sd") {
-	# standard deviation configuration
-	filename = file.path(outputdir, paste(version, "_sd_", name, ".png", sep=""))
+        # standard deviation configuration
+        filename = file.path(outputdir, paste(model, "_sd_", readout, ".png", sep=""))
       } else {
-	# standard deviation + confidence interval configuration
-	filename = file.path(outputdir, paste(version, "_sd_n_ci95_", name, ".png", sep=""))
-        # plot the C.I.	
-	g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
+        # standard deviation + confidence interval configuration
+        filename = file.path(outputdir, paste(model, "_sd_n_ci95_", readout, ".png", sep=""))
+        # plot the C.I.
+        g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
       }
 
       # plot the line
       g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
 
       # decorate
-      g <- g + xlab(simulate__xaxis_label) + ylab(paste(name, " level [a.u.]", sep="")) + theme(legend.position = "none")
+      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep="")) + theme(legend.position = "none")
       ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
    }
 }
 
 
 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files, outputfile, simulate__xaxis_label) {
+# Plot model readouts with statistics for each time point.
+#
+# :param inputdir: the input directory containing the time course files
+# :param outputdir: the output directory
+# :param model: the model name
+# :param outputfile: the name of the file to store the statistics
+# :param xaxis_label: the xaxis label 
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, xaxis_label) {
     
-    theme_set(tc_theme(28))  
+    theme_set(tc_theme(28))
+    
+    # create the directory of output
+    if (!file.exists(outputdir)){ 
+        dir.create(outputdir) 
+    }
 
-    # Read variable
+    # collect all files in the directory
+    files <- list.files( path=inputdir, pattern=model )
+    print(files)
+
+    # Read time course data sets
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
 
@@ -172,7 +198,7 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
     # statistical table (to export)
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
     statistics[,1] <- timepoints
-    s <- 2
+    colidx <- 2
     linewidth=14
     
     # an empty colum that we need for creating a data.frame of length(timecourses$Time) rows
@@ -180,45 +206,57 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, version, files,
 
     for(j in 1:length(column)) {
       if(column[j] != "Time") {
-	print(column[j])
+        print(column[j])
 
-	# Extract column[j] for each file.
-	dataset <- data.frame(na)
-	for(i in 1:length(files)) {
-	    dataset <- data.frame(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,na.strings="NA",dec=".",sep="\t")[,j])
-	}
-	# remove the first column (na)
-	dataset <- subset(dataset, select=-c(na))
-	
-	#print(dataset)
-	# structures
-	timepoint <- list("mean"=0,"sd"=0,"var"=0,"skew"=0,"kurt"=0,"ci95"=0,
-			  "coeffvar"=0,"min"=0,"stquantile"=0,"median"=0,"rdquantile"=0,"max"=0)
-	variable <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
-		      "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
-	k <- 1
-	# for each computed timepoint
- 	for( l in 1:length ( timecourses$Time ) ) {
+        # Extract column[j] for each file.
+        dataset <- data.frame(na)
+        for(i in 1:length(files)) {
+            dataset <- data.frame(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,na.strings="NA",dec=".",sep="\t")[,j])
+        }
+        # remove the first column (na)
+        dataset <- subset(dataset, select=-c(na))
+        
+        #print(dataset)
+        # structures
+        data <-list("mean"=c(),"sd"=c(),"var"=c(),"skew"=c(),"kurt"=c(),"ci95"=c(),
+                "coeffvar"=c(),"min"=c(),"stquantile"=c(),"median"=c(),"rdquantile"=c(),"max"=c())
+        k <- 1
+        # for each computed timepoint
+        for( l in 1:length ( timecourses$Time ) ) {
 
-	  timepoint.values <- c ( )
+            timepoint.values <- c ( )
 
-  	  if ( k <= length( timepoints ) && as.character(timepoints[k]) == as.character(timecourses$Time[l]) ) {
-	      #print(timepoints[k])
- 	      # for each Sample
- 	      for(m in 1:length(files)) {
-		  timepoint.values <- c(timepoint.values, dataset[l,m])  
- 	      }
-  	      variable <- compute_descriptive_statistics(timepoint.values, timepoint, variable, length(files))   
- 	      #print(variable)
-  	      k <- k + 1
-  	  }
- 	}
-  	column.names <- get_column_names_statistics(column.names, column[j])
-  	statistics <- get_statistics_table(statistics, variable, s)
- 	s <- s+13
-  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "none")
-  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "sd")  
-  	plot_error_bars(outputdir, version, column[j], variable, timepoints, simulate__xaxis_label, "sd_n_ci95")  	
+            if ( k <= length( timepoints ) && as.character(timepoints[k]) == as.character(timecourses$Time[l]) ) {
+                #print(timepoints[k])
+                # for each Sample
+                for(m in 1:length(files)) {
+                    timepoint.values <- c(timepoint.values, dataset[l,m])  
+                }
+                timepoint <- compute_descriptive_statistics(timepoint.values, length(files))
+                # put data in lists
+                data$mean <- c ( data$mean, timepoint$mean )
+                data$sd <- c ( data$sd, timepoint$sd )
+                data$var <- c ( data$var, timepoint$var )
+                data$skew <- c ( data$skew, timepoint$skew )
+                data$kurt <- c ( data$kurt, timepoint$kurt )
+                data$ci95 <- c ( data$ci95, timepoint$ci95 )
+                data$coeffvar <- c ( data$coeffvar, timepoint$coeffvar )
+                data$min <- c ( data$min, timepoint$min )
+                data$stquantile <- c ( data$stquantile, timepoint$stquantile )
+                data$median <- c ( data$median, timepoint$median )
+                data$rdquantile <- c ( data$rdquantile, timepoint$rdquantile )
+                data$max <- c ( data$max, timepoint$max )
+                
+                #print(data)
+                k <- k + 1
+            }
+        }
+        column.names <- get_column_names_statistics(column.names, column[j])
+        statistics <- get_statistics_table(statistics, data, colidx)
+        colidx <- colidx+13
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "none")
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "sd")  
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)

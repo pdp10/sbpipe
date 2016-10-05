@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>single_param_scan module &mdash; SB pipe 0.59.0 documentation</title>
+    <title>single_param_scan module &mdash; SB pipe 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.59.0',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 0.59.0 documentation" href="../index.html" /> 
+    <link rel="top" title="SB pipe 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Source code" href="../source_code.html" />
+    <link rel="next" title="Meta information" href="../meta_info.html" />
+    <link rel="prev" title="simulate module" href="simulate.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -36,7 +39,14 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="../meta_info.html" title="Meta information"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="simulate.html" title="simulate module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,7 +71,7 @@ a single parameter scan using copasi.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
 <li><strong>knock_down_only</strong> &#8211; True for knock down simulation, false if also scanning over expression.</li>
@@ -78,9 +88,6 @@ a single parameter scan using copasi.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">no output</p>
-</td>
-</tr>
 </tbody>
 </table>
 </dd></dl>
@@ -93,7 +100,7 @@ a single parameter scan using copasi.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
 <li><strong>sim_number</strong> &#8211; the number of simulations (for det sim: 1, for stoch sim: n&gt;1)</li>
@@ -102,9 +109,6 @@ a single parameter scan using copasi.</p>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">no output</p>
 </td>
 </tr>
 </tbody>
@@ -119,15 +123,12 @@ a single parameter scan using copasi.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
 <li><strong>outputdir</strong> &#8211; the directory containing the report</li>
 <li><strong>sim_plots_folder</strong> &#8211; the folder containing the plots</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">no output</p>
 </td>
 </tr>
 </tbody>
@@ -154,6 +155,12 @@ a single parameter scan using copasi.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="simulate.html"
+                        title="previous chapter">simulate module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../meta_info.html"
+                        title="next chapter">Meta information</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -187,7 +194,14 @@ a single parameter scan using copasi.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="../meta_info.html" title="Meta information"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="simulate.html" title="simulate module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

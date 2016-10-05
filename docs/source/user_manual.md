@@ -271,15 +271,25 @@ ${SB_PIPE}/tests/insulin_receptor/Working_Folder/
 ```
 
 
-## How to report issues or request new features
-SB pipe is a relatively young project and there is a chance that some error occurs. If this is the case, 
-users should report problems using the following mailing list: 
+## Reporting bugs or requesting new features
+SB pipe is a relatively young project and there is a chance that some error occurs. 
+The following mailing list should be used for general questions: 
 ```
 sb_pipe AT googlegroups.com
 ```
-To help us better identify and reproduce your problem, some technical information is needed. This 
-detail data can be found in SB pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using 
-the mailing list above, it would be worth providing this extra information.
 
-Issues and feature requests can also be notified using the github issue tracking system for SB pipe 
-at the web page: [https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
+All the topics discussed in this mailing list are also available at 
+the website: 
+
+[https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+
+
+To help us better identify and reproduce your problem, some technical information 
+is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using the mailing list above, it would be worth providing 
+this extra information.
+
+Issues and feature requests can also be notified using the github issue tracking system 
+for SB pipe at the web page: 
+
+[https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
+

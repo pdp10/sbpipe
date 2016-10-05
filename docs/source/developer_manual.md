@@ -167,14 +167,14 @@ for reading the options required by the pipeline to execute. The class *Pipeline
 each pipeline the configuration file as a list of lines.
 
 
-#### Utils
+#### utils
 The folder *sb_pipe/utils/* contains the following structure:
 
 - *python*: a collection of python utils.
 - *R*: a collection of R utils (plots and statistics).
 
 
-### Tests
+### tests
 The folder *tests/* contains the script *run_tests.py* to run a test 
 suite. It should be used for testing the correct installation of SB pipe
 dependencies as well as reference for configuring a project before 

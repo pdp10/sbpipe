@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>io_util_functions module &mdash; SB pipe 0.59.0 documentation</title>
+    <title>io_util_functions module &mdash; SB pipe 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.59.0',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 0.59.0 documentation" href="../index.html" /> 
+    <link rel="top" title="SB pipe 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Source code" href="../source_code.html" />
+    <link rel="next" title="latex_reports module" href="latex_reports.html" />
+    <link rel="prev" title="double_param_scan module" href="double_param_scan.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -36,7 +39,14 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="latex_reports.html" title="latex_reports module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="double_param_scan.html" title="double_param_scan module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,27 +60,100 @@
 <dl class="function">
 <dt id="io_util_functions.files_with_pattern_recur">
 <code class="descclassname">io_util_functions.</code><code class="descname">files_with_pattern_recur</code><span class="sig-paren">(</span><em>folder</em>, <em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.files_with_pattern_recur" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return all files with a certain pattern in folder+subdirectories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>folder</strong> &#8211; the folder to search for</li>
+<li><strong>pattern</strong> &#8211; the string to search for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the files containing the pattern.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="io_util_functions.get_pattern_position">
 <code class="descclassname">io_util_functions.</code><code class="descname">get_pattern_position</code><span class="sig-paren">(</span><em>pattern</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.get_pattern_position" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the line number (as string) of the first occurrence of a pattern in filename</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; the pattern of the string to find</li>
+<li><strong>filename</strong> &#8211; the file name containing the pattern to search</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the line number containing the pattern or &#8220;-1&#8221; if the pattern was not found</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="io_util_functions.refresh_directory">
-<code class="descclassname">io_util_functions.</code><code class="descname">refresh_directory</code><span class="sig-paren">(</span><em>directory</em>, <em>file_pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.refresh_directory" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">io_util_functions.</code><code class="descname">refresh_directory</code><span class="sig-paren">(</span><em>path</em>, <em>file_pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.refresh_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean and create the folder if this does not exist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; the path containing the files to remove</li>
+<li><strong>file_pattern</strong> &#8211; the string pattern of the files to remove</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="io_util_functions.replace_string_in_file">
-<code class="descclassname">io_util_functions.</code><code class="descname">replace_string_in_file</code><span class="sig-paren">(</span><em>file_out</em>, <em>old_string</em>, <em>new_string</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.replace_string_in_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">io_util_functions.</code><code class="descname">replace_string_in_file</code><span class="sig-paren">(</span><em>filename_out</em>, <em>old_string</em>, <em>new_string</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.replace_string_in_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace a string with another in filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_out</strong> &#8211; the output file</li>
+<li><strong>old_string</strong> &#8211; the old string that should be replaced</li>
+<li><strong>new_string</strong> &#8211; the new string replacing old_string</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="io_util_functions.write_matrix_on_file">
 <code class="descclassname">io_util_functions.</code><code class="descname">write_matrix_on_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_out</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#io_util_functions.write_matrix_on_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Write the matrix results stored in data to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; the path to filename_out</li>
+<li><strong>filename_out</strong> &#8211; the output file</li>
+<li><strong>data</strong> &#8211; the data to store in a file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -80,6 +163,12 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="double_param_scan.html"
+                        title="previous chapter">double_param_scan module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="latex_reports.html"
+                        title="next chapter">latex_reports module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -113,7 +202,14 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 0.59.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="latex_reports.html" title="latex_reports module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="double_param_scan.html" title="double_param_scan module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

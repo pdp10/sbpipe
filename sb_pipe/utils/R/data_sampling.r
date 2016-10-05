@@ -24,10 +24,18 @@
 library(xlsx)
 
 
+
+
 # Generate time courses by extracting original data (using sample()).
 # Sample time courses (samples.num) from the original data. The xlsx file is organised so that each sheet is 
 # a readout. In each sheet, the columns are the time points whereas the rows are the repeats. The first raw is 
 # the header and contains the time points. This works for both CopasiUI and CopasiSE.
+#
+# :param timecourse: a vector of time courses
+# :param xlsxname.file: the xlsx file name
+# :param xlsxname.sheets: the sheet names in the xlsx file
+# :param file.samples: the output file containing the generated samples
+# :param samples.num: the number of samples to generate
 sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.samples, samples.num) {
 
   samples.rows <- length(timecourse)           
@@ -70,7 +78,9 @@ sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.sa
   #print(mat3d)
   
   # delete a previous file if this exists
-  if (file.exists(file.samples)) file.remove(file.samples)  
+  if (file.exists(file.samples)) {
+    file.remove(file.samples)
+  }
   # save data on file
   write.table(as.data.frame.list(columnNames), file=file.samples, append=FALSE, quote=FALSE, sep=",",
             na="", row.names=FALSE, col.names=FALSE)   
@@ -82,13 +92,15 @@ sample_from_data <- function(timecourse, xlsxname.file, xlsxname.sheets, file.sa
 }
 
 
-
+# Generate time courses by sampling from data distribution.
 # For geometric mean and standard deviation, read this: 
 # http://stats.stackexchange.com/questions/114087/summarizing-a-lognormal-distribution-with-geometric-mean-and-standard-deviation
-
-# datafile - a file containing readouts specified as time,mean,sd,mean,sd, ...
-# lognormal - a boolean, true if log normal distribution is used. If this is used data must be geometric mean and sd.
-# resampling - a boolean, true if resampling is desired when a NA or negative value is computed.
+#
+# :param datafile: a file containing readouts specified as time,mean,sd,mean,sd, ...
+# :param samplefile: the output file containing the generated samples.
+# :param samples.num: the number of samples
+# :param lognormal: TRUE if log normal distribution is used. If this is used data must be geometric mean and sd.
+# :param resampling: TRUE if resampling is desired when a NA or negative value is computed.
 sample_from_distribution <- function(datafile, samplefile, samples.num, lognormal, resampling) {
     samples.num <- as.numeric(samples.num)
     
@@ -120,58 +132,58 @@ sample_from_distribution <- function(datafile, samplefile, samples.num, lognorma
       mat3d[,1,] <- time
       for(s.j in 1:samples.rows) { 
 
-	if(lognormal == "true") {
- 
-	  # Use of geometric mean, sd and Log-Normal distribution.
-	  tp.mean <- data[s.j, d]
-	  tp.sd <- data[s.j, d+1]
-	  sample <- rlnorm(samples.num, meanlog=tp.mean, sdlog=tp.sd)
+        if(lognormal == "true") {
+    
+            # Use of geometric mean, sd and Log-Normal distribution.
+            tp.mean <- data[s.j, d]
+            tp.sd <- data[s.j, d+1]
+            sample <- rlnorm(samples.num, meanlog=tp.mean, sdlog=tp.sd)
 
-	  if(resampling == "false") {
-	    # DISCARD IF NA or O
-	    for(s.k in 1:samples.num) {
-	      logSample = log(sample[s.k])
-	      ##logSample = sample[s.k]
-	      if(!is.na(logSample) && logSample > 0) {
-		mat3d[s.j, s.i, s.k] = logSample
-	      }
-	    }
-	  } else {
-	    # RE-SAMPLE IF NA or O
-	    for(s.k in 1:samples.num) { 
-	      while(!is.na(log(sample[s.k])) && log(sample[s.k]) <= 0) {
-		sample[s.k] <- rlnorm(1, meanlog=tp.mean, sdlog=tp.sd)
-	      }      
-	      # copy the data
-	      mat3d[s.j, s.i, s.k] = log(sample[s.k])
-	    }
-	  }
-	  
-	  
-	} else {
-	  # Use of arithmetic mean, sd and Normal distribution.
-	  tp.mean <- data[s.j, d]
-	  tp.sd <- data[s.j, d+1]
-	  sample <- rnorm(samples.num, mean=tp.mean, sd=tp.sd)
+            if(resampling == "false") {
+                # DISCARD IF NA or O
+                for(s.k in 1:samples.num) {
+                logSample = log(sample[s.k])
+                ##logSample = sample[s.k]
+                if(!is.na(logSample) && logSample > 0) {
+                    mat3d[s.j, s.i, s.k] = logSample
+                }
+                }
+            } else {
+                # RE-SAMPLE IF NA or O
+                for(s.k in 1:samples.num) { 
+                while(!is.na(log(sample[s.k])) && log(sample[s.k]) <= 0) {
+                    sample[s.k] <- rlnorm(1, meanlog=tp.mean, sdlog=tp.sd)
+                }      
+                # copy the data
+                mat3d[s.j, s.i, s.k] = log(sample[s.k])
+                }
+            }
+        
+        
+        } else {
+            # Use of arithmetic mean, sd and Normal distribution.
+            tp.mean <- data[s.j, d]
+            tp.sd <- data[s.j, d+1]
+            sample <- rnorm(samples.num, mean=tp.mean, sd=tp.sd)
 
-	  if(resampling == "false") {
-	    # DISCARD IF NA or O
-	    for(s.k in 1:samples.num) {
-	      if(!is.na(sample[s.k]) && sample[s.k] > 0) {
-		mat3d[s.j, s.i, s.k] = sample[s.k]
-	      }
-	    }  
-	  } else {
-	    # RE-SAMPLE IF NA or O
-	    for(s.k in 1:samples.num) { 
-	      while(!is.na(sample[s.k]) && sample[s.k] <= 0) {
-		sample[s.k] <- rnorm(1, tp.mean, tp.sd) 
-	      }
-	      # copy the data
-	      mat3d[s.j, s.i, s.k] = sample[s.k]
-	    }
-	  }
-	}
+            if(resampling == "false") {
+                # DISCARD IF NA or O
+                for(s.k in 1:samples.num) {
+                if(!is.na(sample[s.k]) && sample[s.k] > 0) {
+                    mat3d[s.j, s.i, s.k] = sample[s.k]
+                }
+                }  
+            } else {
+                # RE-SAMPLE IF NA or O
+                for(s.k in 1:samples.num) { 
+                while(!is.na(sample[s.k]) && sample[s.k] <= 0) {
+                    sample[s.k] <- rnorm(1, tp.mean, tp.sd) 
+                }
+                # copy the data
+                mat3d[s.j, s.i, s.k] = sample[s.k]
+                }
+            }
+        }
 
       }
       d <- d+2     
@@ -187,16 +199,16 @@ sample_from_distribution <- function(datafile, samplefile, samples.num, lognorma
     for(k in 1:samples.num) {
       if(samples.rows == 1) {
         # take the transpose to print it as a row and not as a column.
-	write.table(t(mat3d[, , k]), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
-            na = "", row.names = FALSE, col.names = c(column.export))
+        write.table(t(mat3d[, , k]), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
+                    na = "", row.names = FALSE, col.names = c(column.export))
       } else {
-	write.table(mat3d[, , k], file = samplefile, append = TRUE, quote = FALSE, sep = ",",
-            na = "", row.names = FALSE, col.names = c(column.export))      
+        write.table(mat3d[, , k], file = samplefile, append = TRUE, quote = FALSE, sep = ",",
+                    na = "", row.names = FALSE, col.names = c(column.export))      
       }
-# Copasi throws an Error if an empty line is added between repeats. 
-# Weird as the documentation says to add it!            
-#      write.table(array(NA, dim=c(1, samples.cols)), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
-#            na = "", row.names = FALSE, col.names = FALSE)            
+      # Copasi throws an Error if an empty line is added between repeats. 
+      # Weird as the documentation says to add it!            
+      # write.table(array(NA, dim=c(1, samples.cols)), file = samplefile, append = TRUE, quote = FALSE, sep = ",",
+      #             na = "", row.names = FALSE, col.names = FALSE)            
     }
     
 }

@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of time courses columns wrt time. 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -30,7 +29,15 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
-plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2, inputdir, outputdir) {
+
+# Plot model double parameter scan time courses.
+#
+# :param model: the model name without extension
+# :param scanned_par1: the 1st scanned parameter
+# :param scanned_par2: the 2nd scanned parameter
+# :param inputdir: the input directory
+# :param outputdir: the output directory
+plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, inputdir, outputdir) {
 	
     theme_set(basic_theme(36))    
     
@@ -38,10 +45,10 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
     writeLines(paste("2st var: ", scanned_par2, sep=""))    
     # create the directory of output
     if (!file.exists(outputdir)){ 
-	dir.create(outputdir) 
+        dir.create(outputdir) 
     }
 
-    df <- read.table(file.path(inputdir, paste(model_noext, ".csv", sep="")), header=TRUE, na.strings="NA", dec=".", sep="\t")
+    df <- read.table(file.path(inputdir, paste(model, ".csv", sep="")), header=TRUE, na.strings="NA", dec=".", sep="\t")
     
     # discard the first column (Time) and the columns of the two scanned parameters
     columns2discard <- c(colnames(df)[1], scanned_par1, scanned_par2)
@@ -53,7 +60,7 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
     columns <- colnames(df.compact)
 
     # Iterate for each file representing time point data
-    files <- list.files(path=inputdir, pattern=paste(model_noext, '__tp_', sep=""))
+    files <- list.files(path=inputdir, pattern=paste(model, '__tp_', sep=""))
     files <- sort(files)
     
     # Extract the coordinates of the data frame to plot
@@ -74,26 +81,26 @@ plot_double_param_scan_data <- function(model_noext, scanned_par1, scanned_par2,
       df.tp <- read.table(file.path(inputdir, files[k]), header=TRUE, na.strings="NA", dec=".", sep="\t")
 
       for(i in 1:length(columns)) {
-          # add the column to plot (the colour) to the coordinate data in df.coordinates
-	  df.plot <- data.frame(df.coordinates, subset(df.tp, select=c(columns[i])))
+        # add the column to plot (the colour) to the coordinate data in df.coordinates
+        df.plot <- data.frame(df.coordinates, subset(df.tp, select=c(columns[i])))
 
-	  # Calculate the range of interest for this palette so that the colours are better represented.
-	  # Therefore, scale the column min/max for this time point by column min/max of the whole time course
-	  # so that the colour bar for each plot (time point) is consistent throught the time course.
-  	  col.min <- min(df.plot[,c(columns[i])])
-	  col.max <- max(df.plot[,c(columns[i])])
-	  colour.minidx <- as.integer(col.min*100/max_values[i])
-	  colour.maxidx <- as.integer(col.max*100/max_values[i])
-	  if(colour.minidx == colour.maxidx) { 
-	    colour.maxidx <- colour.maxidx + 1 
-	  }
-	  palette.plot <- palette.generic[colour.minidx:colour.maxidx]
+        # Calculate the range of interest for this palette so that the colours are better represented.
+        # Therefore, scale the column min/max for this time point by column min/max of the whole time course
+        # so that the colour bar for each plot (time point) is consistent throught the time course.
+        col.min <- min(df.plot[,c(columns[i])])
+        col.max <- max(df.plot[,c(columns[i])])
+        colour.minidx <- as.integer(col.min*100/max_values[i])
+        colour.maxidx <- as.integer(col.max*100/max_values[i])
+        if(colour.minidx == colour.maxidx) { 
+            colour.maxidx <- colour.maxidx + 1 
+        }
+        palette.plot <- palette.generic[colour.minidx:colour.maxidx]
 
-	  g <- scatterplot_w_colour(df.plot, scanned_par1, scanned_par2, columns[i], colours=palette.plot) + 
-	       ggtitle(paste(columns[i], ", time=", k-1, sep="")) + 
-	       theme(legend.key.height = unit(0.5, "in"))
-	  ggsave(file.path(outputdir, paste(model_noext, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
-		dpi=300,  width=8, height=6)
+        g <- scatterplot_w_colour(df.plot, scanned_par1, scanned_par2, columns[i], colours=palette.plot) + 
+            ggtitle(paste(columns[i], ", time=", k-1, sep="")) + 
+            theme(legend.key.height = unit(0.5, "in"))
+        ggsave(file.path(outputdir, paste(model, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
+            dpi=300,  width=8, height=6)
       }
   }
   

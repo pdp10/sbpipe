@@ -18,7 +18,7 @@
 #
 #
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
@@ -32,28 +32,28 @@ import glob
 import re
 
 
-
-# Replaces a group of annotation strings from a generated copasi report file
-# Input parameters
-# report: The file (with path) of the report with extension
 def replace_str_copasi_sim_report(report):
-
-  # The with statement ensures that the file is closed correctly, 
-  # and re-opening the file in "w" mode empties the file before you write to it. 
-  # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
-  with open(report, "r") as file:
-    lines = file.readlines()
-  with open(report, "w") as file:
-    #for idx, line in lines:
-    for i in range(len(lines)):
-	if i < 1:
-	  # First remove non-alphanumerics and non-underscores. 
-	  # Then replaces whites with TAB.
-	  # Finally use rstrip to remove the TAB at the end.
-	  # [^\w] matches anything that is not alphanumeric or underscore
-	  lines[i] = lines[i].replace("Values[", "").replace("]", "")
-	  file.write(
-	    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
-	else:
-	  file.write(lines[i].rstrip('\t'))  
+    """
+    Replace a group of annotation strings from a generated copasi report file
+    
+    :param report: The report file with absolute path
+    """
+    
+    # `with` ensures that the file is closed correctly
+    # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+    with open(report, "r") as file:
+        lines = file.readlines()
+    with open(report, "w") as file:
+        #for idx, line in lines:
+        for i in range(len(lines)):
+            if i < 1:
+                # First remove non-alphanumerics and non-underscores. 
+                # Then replaces whites with TAB.
+                # Finally use rstrip to remove the TAB at the end.
+                # [^\w] matches anything that is not alphanumeric or underscore
+                lines[i] = lines[i].replace("Values[", "").replace("]", "")
+                file.write(
+                re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+            else:
+                file.write(lines[i].rstrip('\t'))
 

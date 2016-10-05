@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plots and statistics for parameter estimation
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -29,59 +28,84 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
 
 
-
-# m = number of model parameters
-# n = number of data points
-# p = significance level
+# Compute the fratio threshold for the confidence level. 
+#
+# :param m: number of model parameters
+# :param n: number of data points
+# :param p: significance level
 compute_fratio_threshold <- function(m, n, p=0.05) {
   1 + (m/(n-m)) * qf(1.0-p, df1=m, df2=n-m)
 }
 
 
-# return the left value confidence interval
+
+# Return the left value confidence interval.
+#
+# :param cut_dataset: a subset of the full dataset (e.g. the best 66%, the best 95%)
+# :param full_dataset: the full dataset
+# :param chisquare_col_idx: the index for the Chi^2 column in the dataset
+# :param param_col_idx: the index for the parameter column in the dataset
+# :param chisquare_conf_level: the Chi^2 confidence level
 leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
-   # retrieve the minimum parameter value for cut_dataset
-    min_ci <- min(cut_dataset[[param_col_idx]])    
-    # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
-    # ...[min95, )  (we are retrieving those ...)
-    lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx] 
-    if(min(lt_min_chisquares) < chisquare_conf_level) 
-      min_ci <- "inf"
-    min_ci
+  # retrieve the minimum parameter value for cut_dataset
+  min_ci <- min(cut_dataset[[param_col_idx]])    
+  # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
+  # ...[min95, )  (we are retrieving those ...)
+  lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx] 
+  if(min(lt_min_chisquares) < chisquare_conf_level) {
+    min_ci <- "inf"
+  }
+  min_ci
 }
 
 
-# return the right value confidence interval
+
+# Return the right value confidence interval.
+#
+# :param cut_dataset: a subset of the full dataset (e.g. the best 66%, the best 95%)
+# :param full_dataset: the full dataset
+# :param chisquare_col_idx: the index for the Chi^2 column in the dataset
+# :param param_col_idx: the index for the parameter column in the dataset
+# :param chisquare_conf_level: the Chi^2 confidence level
 rightCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
-   # retrieve the minimum parameter value for cut_dataset
-    max_ci <- max(cut_dataset[[param_col_idx]])    
-    # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
-    # (, max95]...  (we are retrieving those ...)
-    gt_max_chisquares <- full_dataset[full_dataset[,param_col_idx] > max_ci, chisquare_col_idx] 
-    if(min(gt_max_chisquares) < chisquare_conf_level) 
-      max_ci <- "inf"
-    max_ci
+  # retrieve the minimum parameter value for cut_dataset
+  max_ci <- max(cut_dataset[[param_col_idx]])    
+  # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
+  # (, max95]...  (we are retrieving those ...)
+  gt_max_chisquares <- full_dataset[full_dataset[,param_col_idx] > max_ci, chisquare_col_idx] 
+  if(min(gt_max_chisquares) < chisquare_conf_level) {
+    max_ci <- "inf"
+  }
+  max_ci
 }
 
 
-plot_fits <- function(my_array) {
+
+# Plot the number of iterations vs Chi^2 in log10 scale.
+#
+# :param chi2_array: the array of Chi^2.
+plot_fits <- function(chi2_array) {
   iters <- c()
   j <- 0
   k <- 0
-  for(i in 1:length(my_array)) {
-    if(k < my_array[i]) {
+  for(i in 1:length(chi2_array)) {
+    if(k < chi2_array[i]) {
       j <- 0
     }
     iters <- c(iters, j)
     j <- j+1    
-    k <- my_array[i]   
+    k <- chi2_array[i]   
   }
-  df <- data.frame(Iter=iters, Chi2=my_array)
+  df <- data.frame(Iter=iters, Chi2=chi2_array)
   scatterplot_log10(df, "Iter", "Chi2")
 }
 
 
-# rename columns
+
+# Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue.` are 
+# removed. 
+# 
+# :param dfCols: The columns of a data frame.
 replace_colnames <- function(dfCols) {
   dfCols <- gsub("ObjectiveValue", "Chi2", dfCols)
   dfCols <- gsub("Values.", "", dfCols)
@@ -90,23 +114,31 @@ replace_colnames <- function(dfCols) {
 
 
 
-plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx, logspace=TRUE) {
+# Plot parameter correlations. 
+# 
+# :param df: the data frame
+# :param dfCols: the columns of the data frame. Each column is a parameter. Only parameters to the left of chi2_col_idx are plotted. 
+# :param plots_dir: the directory for storing the plots
+# :param plot_filename_prefix: the prefix for the plot filename
+# :param chi2_col_idx: the index of the column containing the Chi^2 (default: 1)
+# :param logspace: true if the parameters should be plotted in logspace (default: TRUE)
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx=1, logspace=TRUE) {
   fileout <- ""
   for (i in seq(chi2_col_idx+1,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
-	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-	g <- histogramplot(df[i])
-	if(logspace) {
-	  g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
-	}
+        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+        g <- histogramplot(df[i])
+        if(logspace) {
+            g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
+        }
       } else {
-	fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-	g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
-        theme(legend.key.height = unit(0.5, "in"))
-	if(logspace) {
-	  g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
-	}        
+        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
+        g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
+            theme(legend.key.height = unit(0.5, "in"))
+        if(logspace) {
+            g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
+        }        
       }
       ggsave(fileout, dpi=300, width=8, height=6)
     }    
@@ -115,7 +147,17 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 
 
-
+# Run model parameter estimation analysis and plot results. This script analyses
+# all fits.
+#
+# :param model: the model name without extension
+# :param filenamein: the dataset containing the parameter estimation data.
+# :param plots_dir: the directory to save the generated plots
+# :param data_point_num: the number of data points used for parameterise the model
+# :param fileout_approx_ple_stats: the name of the file to store the statistics for the approximated profile likelihood estimation.
+# :param fileout_conf_levels: the name of the file to store the confidence levels.
+# :param plot_2d_66_95cl_corr: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted. This is time consuming. (default: FALSE)
+# :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE, logspace=TRUE) {
   
   data_point_num <- as.numeric(data_point_num)
@@ -202,8 +244,14 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
 
 
-
-
+# Run model parameter estimation analysis and plot results. It analyses
+# only the best fits using a percent threshold.
+#
+# :param model: the model name without extension
+# :param filenamein: the dataset containing the parameter estimation data.
+# :param plots_dir: the directory to save the generated plots
+# :param best_fits_percent: the percent of best fits to analyse.
+# :param logspace: true if parameters should be plotted in logspace.
 final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE) {
   
   best_fits_percent <- as.numeric(best_fits_percent)

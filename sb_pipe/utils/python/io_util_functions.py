@@ -24,7 +24,7 @@
 
 
 
-# Personal I/O utilities
+# I/O utilities
 
 import sys
 import os
@@ -36,59 +36,81 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-# Clean and create the folder if this does not exist
-def refresh_directory(directory, file_pattern):
-  if not os.path.exists(directory):
-    os.mkdir(directory) 
-  else:
-    files2delete = glob.glob(os.path.join(directory, file_pattern + "*"))
-    for f in files2delete:
-      os.remove(f)
+def refresh_directory(path, file_pattern):
+    """
+    Clean and create the folder if this does not exist.
+
+    :param path: the path containing the files to remove
+    :param file_pattern: the string pattern of the files to remove
+    """
+    if not os.path.exists(path):
+        os.mkdir(path) 
+    else:
+        files2delete = glob.glob(os.path.join(path, file_pattern + "*"))
+        for f in files2delete:
+            os.remove(f)
 
 
-
-# Return the line number (as string) of the first occurrence of pattern in filename
 def get_pattern_position(pattern, filename):
-  with open(filename) as myFile:
-    for num, line in enumerate(myFile, 1):
-      if pattern in line:
-	logger.debug(str(num) + " : " + pattern)
-	return str(num)
-  logger.debug(str(-1) + " : " + pattern)
-  return str(-1)
+    """
+    Return the line number (as string) of the first occurrence of a pattern in filename
+
+    :param pattern: the pattern of the string to find
+    :param filename: the file name containing the pattern to search
+    :return: the line number containing the pattern or "-1" if the pattern was not found
+    """
+    with open(filename) as myFile:
+        for num, line in enumerate(myFile, 1):
+            if pattern in line:
+                logger.debug(str(num) + " : " + pattern)
+                return str(num)
+    logger.debug(str(-1) + " : " + pattern)
+    return str(-1)
 
 
-
-# Return all files with a certain pattern in folder+subdirectories
 def files_with_pattern_recur(folder, pattern):
-   for dirname, subdirs, files in os.walk(folder):
-      for f in files:
-         if f.endswith(pattern):
-            yield os.path.join(dirname, f)
+    """
+    Return all files with a certain pattern in folder+subdirectories
+    
+    :param folder: the folder to search for
+    :param pattern: the string to search for
+    :return: the files containing the pattern.
+    """
+    for dirname, subdirs, files in os.walk(folder):
+        for f in files:
+            if f.endswith(pattern):
+                yield os.path.join(dirname, f)
 
 
-
-# Print the matrix results stored in data in an output file
 def write_matrix_on_file(path, filename_out, data):
-  # Open output file
-  with open(os.path.join(path, filename_out), 'w') as file:
-    for row in data:
-      # convert a list of strings or numbers into a string with items delimited by a tab.
-      concatStringList = '\t'.join(map(str, row))
-      # write the string above and add a newline.
-      file.write(concatStringList + "\n")
+    """
+    Write the matrix results stored in data to filename_out
+
+    :param path: the path to filename_out
+    :param filename_out: the output file
+    :param data: the data to store in a file
+    """
+    with open(os.path.join(path, filename_out), 'w') as file:
+        for row in data:
+            # convert a list of strings or numbers into a string with items delimited by a tab.
+            concatStringList = '\t'.join(map(str, row))
+            # write the string above and add a newline.
+            file.write(concatStringList + "\n")
 
   
-  
-  # replace a string with another in file_out  
-def replace_string_in_file(file_out, old_string, new_string):
-  # Read in the file
-  filedata = None
-  with open(file_out, 'r') as file:
-    filedata = file.read()
-  # Replace the target string
-  filedata = filedata.replace(old_string, new_string)
-  # Write the file out again
-  with open(file_out, 'w') as file:
-    file.write(filedata)
+def replace_string_in_file(filename_out, old_string, new_string):
+    """
+    Replace a string with another in filename_out
 
+    :param filename_out: the output file
+    :param old_string: the old string that should be replaced
+    :param new_string: the new string replacing old_string
+    """
+    filedata = None
+    with open(filename_out, 'r') as file:
+        filedata = file.read()
+    # Replace the target string
+    filedata = filedata.replace(old_string, new_string)
+    # Write the file out again
+    with open(filename_out, 'w') as file:
+        file.write(filedata)  

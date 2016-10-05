@@ -18,22 +18,33 @@
 #
 #
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
 
 
-# Personal random utilities
+# Utilities for randomisation
 
 import string
 import random
 
 
-
 def get_rand_alphanum_str(length):
-  return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(length))
-  
-  
+    """
+    Return a random alphanumeric string
+    
+    :param length: the length of the string
+    :return: the generated string
+    """
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(length))
+
+
 def get_rand_num_str(length):
-  return ''.join(random.SystemRandom().choice(string.digits) for _ in range(length))  
+    """
+    Return a random numeric string
+    
+    :param length: the length of the string
+    :return: the generated string
+    """
+    return ''.join(random.SystemRandom().choice(string.digits) for _ in range(length))

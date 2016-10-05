@@ -14,7 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Plotting of the confidence intervals
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -22,41 +21,27 @@
 
 
 
-# To launch the script, type
-# $ R
-# > source("filename.R")
-#
-# OR type
-# $ Rscritp filename.R
-
-
-
-# Compute statistics and plot the mean with error bars.
-
-
 # Retrieve the environment variable SB_PIPE
 SB_PIPE <- Sys.getenv(c("SB_PIPE"))
 source(file.path(SB_PIPE, 'sb_pipe','pipelines','simulate','plot_timecourses.r'))
 
 
-
+# R Script to plot time courses and collect statistics.
+#
+# :args[1]: the model name without extension
+# :args[2]: the input directory
+# :args[3]: the output directory
+# :args[4]: the output file name
+# :args[5]: the label for the x axis (e.g. Time (min))
 main <- function(args) {
     # The model model_noext
     model_noext <- args[1]
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    simulate__xaxis_label <- args[5]
+    xaxis_label <- args[5]
     
-
-    # create the directory of output
-    if (!file.exists(outputdir)){ dir.create(outputdir) }
-
-    # collect all files in the directory
-    files <- list.files( path=inputdir, pattern=model_noext )
-    print(files)
-    
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, files, outputfile, simulate__xaxis_label)
+    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, outputfile, xaxis_label)
 }
 
 

@@ -17,7 +17,7 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
@@ -26,15 +26,25 @@ from xml.dom.minidom import parse, parseString
 import logging
 logger = logging.getLogger('sbpipe')
 
-# Class CopasiParser: it provides methods to retrieve information from a Copasi file
-class CopasiParser: 
 
-  # Constructor of the class
+class CopasiParser:
+  """
+  Retrieve information from a Copasi file.
+  """
+
   def __init__(self):
+    """
+    Constructor.
+    """
     pass
-   
-  # Task: PARAMETER ESTIMATION. Parse a Copasi file and retrieve informations about the parameters to estimate
+
   def retrieve_param_estim_values(self, file_in):
+    """
+    Parse a Copasi file and retrieve information on the parameters to estimate.
+    
+    :param file_in: the Copasi file including absolute path to parse
+    :return: a tuple containing the report file name, the parameter lower bounds, names, starting values, and upper bounds
+    """
     report_filename_template = ""
     lower_bounds = []
     param_names = []

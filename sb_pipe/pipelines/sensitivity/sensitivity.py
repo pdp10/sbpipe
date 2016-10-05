@@ -119,10 +119,15 @@ class Sensitivity(Pipeline):
             return 0
         return 1
 
-    # Input parameters
-    # model, inputdir, outputdir
     @staticmethod
     def generate_data(model, inputdir, outputdir):
+        """
+        The first pipeline step: data generation.
+
+        :param model: the model to process
+        :param inputdir: the directory containing the model
+        :param outputdir: the directory to store the results
+        """        
 
         if not os.path.isfile(os.path.join(inputdir,model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
@@ -152,17 +157,25 @@ class Sensitivity(Pipeline):
     # outputdir
     @staticmethod
     def analyse_data(outputdir):
-	    p = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines',
+        """
+        The second pipeline step: data analysis.
+
+        :param outputdir: the directory to store the performed analysis
+        """        
+        p = subprocess.Popen(['Rscript', os.path.join(SB_PIPE,'sb_pipe','pipelines', \
                                                       'sensitivity','plot_sensitivity.r'),
                               outputdir])
-	    p.wait()
+        p.wait()
 
-    # INITIALIZATION
-    # model_noext: read the model_noext
-    # outputdir: read the outputdir
-    # sim_plots_folder: the directory containing the time courses results combined with experimental data
     @staticmethod
     def generate_report(model, outputdir, sim_plots_folder):
+        """
+        The third pipeline step: report generation.
+
+        :param model: the model name
+        :param outputdir: the directory to store the report
+        :param sim_plots_folder: the directory containing the time courses results combined with experimental data
+        """        
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
