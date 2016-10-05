@@ -14,8 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: perform repeated measures anova
-# Run: Rscript rep_meas_anova.R > fileout.txt
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -23,18 +21,13 @@
 
 
 
-# Retrieve the environment variable SB_PIPE
-#SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-# Add a collection of R functions
-#source(file.path(SB_PIPE, 'utils','R','plot_functions.R'))
-
-
-
-
-
+# Perform repeated measures anova on a file containing data. 
+# This file contains control and treatment. 
+# Structure: TREATMENT (0,1) | time point | sample No. | result
+# where (0,1) in TREATMENT means (no-treatment,treatment).
+#
+# :param args[1]: the file to process
 main <- function(args) {
-    # The name of the file to import controls and treatment. 
-    # Structure: TREATMENT (0,1) | time point | sample No. | result
     filename <- args[1]
   
 
@@ -60,8 +53,6 @@ main <- function(args) {
 
     rep_meas_anova.aov = aov(rep_meas_anova$result~timepoint+sample+treatment+treatment*timepoint)
     summary (rep_meas_anova.aov)
-
-
 
 }
     

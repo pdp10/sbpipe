@@ -14,8 +14,6 @@
 # along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Perform two samples statistical test. 
-# Run: Rscript compute_statistical_test.R > fileout.txt
 #
 #
 # $Revision: 3.0 $
@@ -24,17 +22,13 @@
 
 
 
-# Retrieve the environment variable SB_PIPE
-#SB_PIPE <- Sys.getenv(c("SB_PIPE"))
-# Add a collection of R functions
-#source(file.path(SB_PIPE, 'utils','R','plot_functions.R'))
-
-
 # symmetry test
 library(lawstat) 
 
 
-
+# Perform two samples statistical tests. 
+#
+# :args[1] filename: the filename containing the data
 main <- function(args) {
     # The name of the file to import controls and treatment. 
     # Structure: CTRL_A|TRMT_A|CTRL_B|TRMT_B|...|CTRL_M|TRMT_M
