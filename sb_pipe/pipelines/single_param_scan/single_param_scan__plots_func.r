@@ -136,7 +136,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
                     aes(x=time, y=value, color=variable, linetype=variable), 
                     size=1.0)   
 	    }
-	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep="")) + 
+	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep="")) + 
 	    scale_colour_manual("Levels", values=colors, labels=labels) + 
 	    scale_linetype_manual("Levels", values=linetype, labels=labels)
       	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
@@ -191,7 +191,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
             df <- data.frame(time=timecourses[,1], value=df)
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
 	    }
-	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " level [a.u.]", sep=""))
+	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep=""))
       	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=6)#, bg = "transparent")
 	  }

@@ -24,26 +24,32 @@
 library(ggplot2)
 
 
-# A theme for time courses
+# A theme for time courses. It extends ggplot2 theme_classic.
+#
+# :param base_size: the font size
+# :param base_family: the font family
 tc_theme <- function (base_size=12, base_family="") {
   theme_classic(base_size=base_size, base_family=base_family) %+replace% 
   theme(aspect.ratio = 0.5,
         axis.line = element_line(colour = "black", size=1.0),
-	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
-	legend.key = element_rect(fill = "transparent", colour = "transparent"),
+        panel.border = element_rect(colour = "black", fill=NA, size=1.5),
+        legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
         plot.background = element_rect(fill = "transparent",colour = NA)
         )
 }
 
 
-# A basic theme
+# A generic basic theme for time courses. It extends ggplot2 theme_classic.
+#
+# :param base_size: the font size
+# :param base_family: the font family
 basic_theme <- function (base_size=12, base_family="") {
   theme_classic(base_size=base_size, base_family=base_family) %+replace% 
   theme(aspect.ratio = 1,
         axis.line = element_line(colour = "black", size=1.0),
-	panel.border = element_rect(colour = "black", fill=NA, size=1.5),
-	legend.key = element_rect(fill = "transparent", colour = "transparent"),
+        panel.border = element_rect(colour = "black", fill=NA, size=1.5),
+        legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
         plot.background = element_rect(fill = "transparent", colour = NA)        
         )

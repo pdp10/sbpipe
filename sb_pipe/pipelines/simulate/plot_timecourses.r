@@ -129,7 +129,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
       # Let's plot this special case now as it does not require error bars
       df <- data.frame(a=timepoints, b=data$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
-      g <- g + xlab(xaxis_label) + ylab(paste(readout, " level [a.u.]", sep=""))
+      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep=""))
       ggsave(filename, dpi=300,  width=8, height=6) #, bg = "transparent")      
 
     } else { 
@@ -155,7 +155,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
       g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
 
       # decorate
-      g <- g + xlab(xaxis_label) + ylab(paste(readout, " level [a.u.]", sep="")) + theme(legend.position = "none")
+      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep="")) + theme(legend.position = "none")
       ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
    }
 }
