@@ -271,7 +271,7 @@ data_point_num=33
 # True if 2D all fits plots for 66% and 95% confidence levels 
 # should be plotted. This is computationally expensive.
 plot_2d_66_95cl_corr=True
-# True if parameter values should plotted in log space.
+# True if parameter values should be plotted in log space.
 logspace=True
 ```
 
