@@ -201,7 +201,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
-  cat(paste("Min_Chi2", "Param_Num", "Data_Points_Num", "Chi2_Conf_Level_95", "Fits_Num_95", "Chi2_Conf_Level_66", "Fits_Num_95\n", sep="\t"))
+  cat(paste("Min_Chi2", "Param_Num", "Data_Points_Num", "Chi2_Conf_Level_95", "Fits_Num_95", "Chi2_Conf_Level_66", "Fits_Num_66\n", sep="\t"))
   cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, nrow(df95), chisquare_at_conf_level_66, nrow(df66), sep="\t"), append=TRUE)
   sink() 
 
@@ -227,7 +227,12 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     min_ci_66 <- leftCI(df66, df95, 1, i, chisquare_at_conf_level_66)
     max_ci_66 <- rightCI(df66, df95, 1, i, chisquare_at_conf_level_66)
     # save the result
-    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
+    if(logspace) {
+      # Transform to the real values.
+      cat(paste(colnames(df95)[i], 10^par_value, 10^min_ci_95, 10^max_ci_95, 10^min_ci_66, 10^max_ci_66, sep="\t"), append=TRUE)
+    } else {
+      cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
+    }
     cat("\n", append=TRUE)    
   }
   sink()

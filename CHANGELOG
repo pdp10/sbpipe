@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.0.0
+v1.0.2
 
+- Copasi models are fully consistent.
+- table of estimated parameter and confidence values is in normal scale (not log10). 
 - first release.
 
 
