@@ -34,7 +34,8 @@ require(graphics)
 histogramplot <- function(dfCol) {
   ggplot(dfCol, aes_string(x=colnames(dfCol))) +
     geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
-    theme(axis.text.x=element_text(angle = -45, hjust = 0))    
+    scale_x_continuous(labels=scientific) +
+    theme(axis.text.x=element_text(vjust = 1))    
 }
 
 
@@ -59,11 +60,11 @@ scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=
 
   g <- ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor))
   g <- g + geom_point(size=dot_size) +
-       scale_colour_gradientn(colours=colours, limits)+
-      #scale_x_continuous(labels=scientific) +
-      #scale_y_continuous(labels=scientific)
-      #geom_rug(col="darkblue",alpha=.1) +    
-      theme(axis.text.x=element_text(angle=-45, hjust=0))
+       scale_colour_gradientn(colours=colours, limits) +
+       scale_x_continuous(labels=scientific) +
+       scale_y_continuous(labels=scientific) +
+       #geom_rug(col="darkblue",alpha=.1) +    
+       theme(axis.text.x=element_text(vjust = 1))  
   # #add marginal histograms
   #ggExtra::ggMarginal(g, type = "histogram")
 }
@@ -85,7 +86,7 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
       geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) + 
       scale_colour_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="blue","_66"="red")) +
       scale_linetype_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="dashed", "_66"="dotted")) +
-      theme(axis.text.x=element_text(angle=-45, hjust=0))
+      theme(axis.text.x=element_text(vjust = 1)) 
 }
 
 
@@ -99,7 +100,7 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
 scatterplot <-function(df, colNameX, colNameY, dot_size=0.5) {
   ggplot(df, aes_string(x=colNameX, y=colNameY)) +
        geom_point(size=dot_size) +
-       theme(axis.text.x=element_text(angle=-45, hjust=0))
+       theme(axis.text.x=element_text(vjust = 1)) 
 }
 
 

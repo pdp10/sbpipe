@@ -31,7 +31,8 @@ library(ggplot2)
 tc_theme <- function (base_size=12, base_family="") {
   theme_classic(base_size=base_size, base_family=base_family) %+replace% 
   theme(aspect.ratio = 0.5,
-        axis.line = element_line(colour = "black", size=1.0),
+        axis.line = element_line(colour="black", size=1.0),
+        axis.text.x=element_text(angle=-45, hjust=0, vjust=0.8),
         panel.border = element_rect(colour = "black", fill=NA, size=1.5),
         legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
@@ -48,6 +49,7 @@ basic_theme <- function (base_size=12, base_family="") {
   theme_classic(base_size=base_size, base_family=base_family) %+replace% 
   theme(aspect.ratio = 1,
         axis.line = element_line(colour = "black", size=1.0),
+        axis.text.x=element_text(angle=-45, hjust=0, vjust=0.8),
         panel.border = element_rect(colour = "black", fill=NA, size=1.5),
         legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),

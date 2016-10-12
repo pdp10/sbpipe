@@ -139,10 +139,11 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
                     aes(x=time, y=value, color=variable, linetype=variable), 
                     size=1.0)   
 	    }
-	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) +   
-	    scale_colour_manual("Levels", values=colors, labels=labels) + 
-	    scale_linetype_manual("Levels", values=linetype, labels=labels)
-      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) + 
+	         theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
+	         scale_colour_manual("Levels", values=colors, labels=labels) + 
+	         scale_linetype_manual("Levels", values=linetype, labels=labels)
+        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=8)#, bg = "transparent")
    
 	  }
@@ -196,7 +197,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
 	    }
 	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
-      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
 		   dpi=300,  width=8, height=8)#, bg = "transparent")
 	  }
   }
