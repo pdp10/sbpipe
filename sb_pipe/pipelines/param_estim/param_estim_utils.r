@@ -201,12 +201,12 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     
   min_chisquare <- min(df95[[1]])  
   fileoutPLE <- sink(fileout_conf_levels)
-  cat(paste("Min_Chi2", "Param_Num", "Data_Points_Num", "Chi2_Conf_Level_95", "Fits_Num_95", "Chi2_Conf_Level_66", "Fits_Num_66\n", sep="\t"))
+  cat(paste("MinChi2", "ParamNum", "DataPointNum", "CL95Chi2", "CL95FitsNum", "CL66Chi2", "CL66FitsNum\n", sep="\t"))
   cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, nrow(df95), chisquare_at_conf_level_66, nrow(df66), sep="\t"), append=TRUE)
   sink() 
 
   fileoutPLE <- sink(fileout_approx_ple_stats)
-  cat(paste("Parameter", "Value", "CI_95_left", "CI_95_right", "CI_66_left", "CI_66_right\n", sep="\t"), append=TRUE)      
+  cat(paste("Parameter", "Value", "LeftCI95", "RightCI95", "LeftCI66", "RightCI66\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
     fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
