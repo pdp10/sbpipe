@@ -37,6 +37,7 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 # :args[6]: the name of the file to store the confidence levels.
 # :args[7]: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted.
 # :args[8]: true if parameters should be plotted in logspace.
+# :args[9]: true if axis labels should be plotted in scientific notation.
 main <- function(args) {
   
   model <- args[1]
@@ -47,6 +48,7 @@ main <- function(args) {
   fileout_conf_levels <- args[6]
   plot_2d_66_95cl_corr <- args[7]
   logspace <- args[8]
+  scientific_notation <- args[9]
   
   if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') {
     plot_2d_66_95cl_corr = TRUE
@@ -60,8 +62,14 @@ main <- function(args) {
     logspace = FALSE
   }
   
+  if(scientific_notation == 'True' || scientific_notation == 'TRUE' || scientific_notation == 'true') {
+    scientific_notation = TRUE
+  } else {
+    scientific_notation = FALSE
+  }  
+  
   all_fits_analysis(model, dataset, plots_dir, data_point_num, fileout_approx_ple_stats, 
-                    fileout_conf_levels, plot_2d_66_95cl_corr, logspace)
+                    fileout_conf_levels, plot_2d_66_95cl_corr, logspace, scientific_notation)
 }
 
 

@@ -122,7 +122,9 @@ replace_colnames <- function(dfCols) {
 # :param plot_filename_prefix: the prefix for the plot filename
 # :param chi2_col_idx: the index of the column containing the Chi^2 (default: 1)
 # :param logspace: true if the parameters should be plotted in logspace (default: TRUE)
-plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx=1, logspace=TRUE) {
+# :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx=1, 
+                                        logspace=TRUE, scientific_notation=TRUE) {
   fileout <- ""
   for (i in seq(chi2_col_idx+1,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
@@ -139,6 +141,9 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
         if(logspace) {
             g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
         }        
+      }
+      if(scientific_notation) {
+         g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
       }
       ggsave(fileout, dpi=300, width=8, height=6)
     }    
@@ -158,7 +163,8 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 # :param fileout_conf_levels: the name of the file to store the confidence levels.
 # :param plot_2d_66_95cl_corr: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted. This is time consuming. (default: FALSE)
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
-all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE, logspace=TRUE) {
+# :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
+all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66_95cl_corr=FALSE, logspace=TRUE, scientific_notation=TRUE) {
   
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
@@ -215,7 +221,10 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
          theme(legend.key.height = unit(0.5, "in"))
     if(logspace) {
       g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
-    }         
+    }
+    if(scientific_notation) {
+      g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
+    }
          
     ggsave(fileout, dpi=300, width=8, height=6)
   
@@ -240,9 +249,9 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   
   # plot parameter correlations using the 66% and 95% confidence level data sets
   if(plot_2d_66_95cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1, logspace)
-    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1, logspace)
-    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1, logspace)
+    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1, logspace, scientific_notation)
+    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1, logspace, scientific_notation)
+    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1, logspace, scientific_notation)
   }
   
 }
@@ -257,7 +266,8 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 # :param plots_dir: the directory to save the generated plots
 # :param best_fits_percent: the percent of best fits to analyse.
 # :param logspace: true if parameters should be plotted in logspace.
-final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE) {
+# :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
+final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE, scientific_notation= TRUE) {
   
   best_fits_percent <- as.numeric(best_fits_percent)
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
@@ -288,7 +298,7 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent,
   # Set my ggplot theme here
   theme_set(basic_theme(36))
   
-  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2, logspace)
+  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2, logspace, scientific_notation)
   
 }
 

@@ -77,7 +77,7 @@ class ParamEstim(Pipeline):
              generate_tarball, project_dir, model,
              cluster, pp_cpus, round, runs,
              best_fits_percent, data_point_num,
-             plot_2d_66_95cl_corr, logspace) = self.config_parser(config_file, "param_estim")
+             plot_2d_66_95cl_corr, logspace, scientific_notation) = self.config_parser(config_file, "param_estim")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -139,7 +139,8 @@ class ParamEstim(Pipeline):
                               best_fits_percent,
                               data_point_num,
                               plot_2d_66_95cl_corr,
-                              logspace)
+                              logspace,
+                              scientific_notation)
 
         if generate_report:
             logger.info("\n")
@@ -240,7 +241,7 @@ class ParamEstim(Pipeline):
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
                      fileout_approx_ple_stats, fileout_conf_levels, sim_plots_dir, best_fits_percent, data_point_num,
-                     plot_2d_66_95cl_corr=False, logspace=True):
+                     plot_2d_66_95cl_corr=False, logspace=True, scientific_notation=True):
         """
         The second pipeline step: data analysis.
 
@@ -256,6 +257,7 @@ class ParamEstim(Pipeline):
         :param data_point_num: the number of data points
         :param plot_2d_66_95cl_corr: True if 2 dim plots for the parameter sets within 66% and 95% should be plotted
         :param logspace: True if parameters should be plotted in log space
+        :param scientific_notation: True if axis labels should be plotted in scientific notation        
         """
 
         if not os.path.exists(inputdir) or not os.listdir(inputdir):
@@ -277,7 +279,7 @@ class ParamEstim(Pipeline):
                          model,
                          os.path.join(outputdir, fileout_final_estims),
                          sim_plots_dir,
-                         str(best_fits_percent), str(logspace)])
+                         str(best_fits_percent), str(logspace), str(scientific_notation)])
         process.wait()
         process = Popen(
             ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'param_estim', 'main_all_fits_analysis.r'),
@@ -287,7 +289,7 @@ class ParamEstim(Pipeline):
              str(data_point_num),
              os.path.join(outputdir, fileout_approx_ple_stats),
              os.path.join(outputdir, fileout_conf_levels),
-             str(plot_2d_66_95cl_corr), str(logspace)])
+             str(plot_2d_66_95cl_corr), str(logspace), str(scientific_notation)])
         process.wait()
 
     @staticmethod
@@ -342,6 +344,8 @@ class ParamEstim(Pipeline):
         plot_2d_66_95cl_corr = False
         # True if the parameters should be plotted in log10 space.
         logspace = True
+        # True if axis labels should be plotted in scientific notation
+        scientific_notation = True
 
         # Initialises the variables
         for line in lines:
@@ -364,10 +368,13 @@ class ParamEstim(Pipeline):
                 plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "logspace":
                 logspace = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "scientific_notation":
+                scientific_notation = {'True': True, 'False': False}.get(line[1], False)
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, model, cluster, pp_cpus,
-                round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, logspace)
+                round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, 
+                logspace, scientific_notation)
 
 
 

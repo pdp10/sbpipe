@@ -33,8 +33,7 @@ require(graphics)
 # :param dfCol: a data frame with exactly one column.
 histogramplot <- function(dfCol) {
   ggplot(dfCol, aes_string(x=colnames(dfCol))) +
-    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
-    scale_x_continuous(labels=scientific) +
+    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") + 
     theme(axis.text.x=element_text(vjust = 1))    
 }
 
@@ -61,8 +60,6 @@ scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=
   g <- ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor))
   g <- g + geom_point(size=dot_size) +
        scale_colour_gradientn(colours=colours, limits) +
-       scale_x_continuous(labels=scientific) +
-       scale_y_continuous(labels=scientific) +
        #geom_rug(col="darkblue",alpha=.1) +    
        theme(axis.text.x=element_text(vjust = 1))  
   # #add marginal histograms
@@ -99,7 +96,7 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
 # :param dot_size: the size of the dots in the scatterplot
 scatterplot <-function(df, colNameX, colNameY, dot_size=0.5) {
   ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-       geom_point(size=dot_size) +
+       geom_point(size=dot_size) +    
        theme(axis.text.x=element_text(vjust = 1)) 
 }
 
@@ -116,7 +113,7 @@ scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
        scale_x_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000)) +
        scale_y_continuous(trans=log10_trans(), breaks=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100,1000,10000)) +
        xlab(paste("log10(", colNameX, ")", sep="")) +       
-       ylab(paste("log10(", colNameY, ")", sep="")) + 
+       ylab(paste("log10(", colNameY, ")", sep="")) +          
        annotation_logticks() 
 }
 
