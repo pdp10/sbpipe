@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User manual &mdash; SB pipe 1.0.0 documentation</title>
+    <title>User manual &mdash; SB pipe 1.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0',
+        VERSION:     '1.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.0.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 1.5.0 documentation" href="index.html" />
     <link rel="next" title="Developer manual" href="developer_manual.html" />
     <link rel="prev" title="SB pipe documentation" href="index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.0.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.5.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -85,7 +85,7 @@ your machine: <code class="docutils literal"><span class="pre">python-pip</span>
 <p>Before installing SB pipe Python and R dependencies the following
 environment variables must be added to your GNU/Linux $HOME/.bashrc
 file:</p>
-<div class="highlight-python"><div class="highlight"><pre># SB_PIPE
+<div class="highlight-python"><div class="highlight"><pre><span></span># SB_PIPE
 export SB_PIPE=/path/to/sb_pipe
 export PATH=$PATH:${SB_PIPE}/sb_pipe
 
@@ -94,7 +94,7 @@ export PATH=$PATH:/path/to/CopasiSE
 </pre></div>
 </div>
 <p>The .bashrc file can then be reloaded from your shell using the command:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ source $HOME/.bashrc
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ source $HOME/.bashrc
 </pre></div>
 </div>
 <p>On Windows platforms, these environment variables are configured as any
@@ -102,12 +102,12 @@ other Windows environment variable.</p>
 <p>Now it is the time to install Python and R packages used by SB pipe. Two
 scripts are provided to perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies, run:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd ${SB_PIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
 ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies, run:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd ${SB_PIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -122,12 +122,12 @@ installing these packages, <code class="docutils literal"><span class="pre">inst
 <div class="section" id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
 <p>Run the command inside the sb_pipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>python setup.py install
+<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py install
 </pre></div>
 </div>
 <p>The correct installation of SB pipe and its dependencies can be checked
 by running the following commands inside the SB pipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd tests
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd tests
 ./test_suite.py
 </pre></div>
 </div>
@@ -170,7 +170,7 @@ but replacing the extension .cps with .csv.</li>
 this command and its complete list of options can be retrieved by
 running <em>run_sb_pipe.py -h</em>.</p>
 <p>As of Sep 2016 the output is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre>pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
+<div class="highlight-python"><div class="highlight"><pre><span></span>pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
 Usage: run_sb_pipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
@@ -199,11 +199,11 @@ For complete documentation, see README.md .
 </div>
 <p>The first step is to create a new project. This can be done with the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre>run_sb_pipe.py --create-project project_name
+<div class="highlight-python"><div class="highlight"><pre><span></span>run_sb_pipe.py --create-project project_name
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
-<div class="highlight-python"><div class="highlight"><pre>project_name/
+<div class="highlight-python"><div class="highlight"><pre><span></span>project_name/
     | - Data/
     | - Models/
     | - Working_Folder/
@@ -220,7 +220,7 @@ configuration files should be placed in the Working_Folder/. This
 folder will eventually contain all the results generated by SB pipe.</p>
 <p>For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:</p>
-<div class="highlight-python"><div class="highlight"><pre>run_sb_pipe.py -e my_config_file.conf
+<div class="highlight-python"><div class="highlight"><pre><span></span>run_sb_pipe.py -e my_config_file.conf
 </pre></div>
 </div>
 </div>
@@ -228,7 +228,7 @@ certain configuration file can be executed by typing:</p>
 <h3>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h3>
 <p>Pipelines are configured using files (here called configuration files).
 These files are INI files and are therefore structured as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
 <span class="n">option1</span><span class="o">=</span><span class="n">value1</span>
 <span class="n">option2</span><span class="o">=</span><span class="n">value2</span>
 <span class="o">...</span>
@@ -241,7 +241,7 @@ generate it every time, or to skip the report generation if not wanted.
 Assuming that the configuration files are placed in the Working_Folder
 of a certain project, examples are given as follow:</p>
 <p><strong>Example 1:</strong> configuration file for the pipeline <em>simulate</em></p>
-<div class="highlight-python"><div class="highlight"><pre>[simulate]
+<div class="highlight-python"><div class="highlight"><pre><span></span>[simulate]
 # True if data must be generated, False otherwise
 generate_data=True
 # True if data must be analysed, False otherwise
@@ -259,11 +259,13 @@ pp_cpus=7
 # The number of simulations to perform. n&gt;=1 for stochastic simulations.
 runs=40
 # The label for the x axis.
-simulate__xaxis_label=Time [min]
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 </pre></div>
 </div>
 <p><strong>Example 2:</strong> configuration file for the pipeline <em>single_param_scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre>[single_param_scan]
+<div class="highlight-python"><div class="highlight"><pre><span></span>[single_param_scan]
 generate_data=True
 analyse_data=True
 generate_report=True
@@ -273,7 +275,6 @@ model=insulin_receptor_inhib_scan_IR_beta.cps
 scanned_par=IR_beta
 # The number of intervals in the simulation
 simulate__intervals=100
-simulate__xaxis_label=Time [min]
 # The number of simulations to perform for each scan
 single_param_scan_simulations_number=1
 # True if the variable is only reduced (knock down), False otherwise.
@@ -288,10 +289,14 @@ max_level=100
 levels_number=10
 # True if plot lines are the same between scans (e.g. full lines, same colour)
 homogeneous_lines=False
+# The label for the x axis.
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 </pre></div>
 </div>
 <p><strong>Example 3:</strong> configuration file for the pipeline <em>double_param_scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre>[double_param_scan]
+<div class="highlight-python"><div class="highlight"><pre><span></span>[double_param_scan]
 generate_data=True
 analyse_data=True
 generate_report=True
@@ -306,7 +311,7 @@ sim_length=10
 </pre></div>
 </div>
 <p><strong>Example 4:</strong> configuration file for the pipeline <em>param_estim</em></p>
-<div class="highlight-python"><div class="highlight"><pre>[param_estim]
+<div class="highlight-python"><div class="highlight"><pre><span></span>[param_estim]
 generate_data=True
 analyse_data=True
 generate_report=True
@@ -331,10 +336,12 @@ data_point_num=33
 plot_2d_66_95cl_corr=True
 # True if parameter values should be plotted in log space.
 logspace=True
+# True if plot axis labels should be plotted in scientific notation.
+scientific_notation=True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-python"><div class="highlight"><pre>${SB_PIPE}/tests/insulin_receptor/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre><span></span>${SB_PIPE}/tests/insulin_receptor/Working_Folder/
 </pre></div>
 </div>
 </div>
@@ -344,7 +351,7 @@ logspace=True
 <p>SB pipe is a relatively young project and there is a chance that some
 error occurs. The following mailing list should be used for general
 questions:</p>
-<div class="highlight-python"><div class="highlight"><pre>sb_pipe AT googlegroups.com
+<div class="highlight-python"><div class="highlight"><pre><span></span>sb_pipe AT googlegroups.com
 </pre></div>
 </div>
 <p>All the topics discussed in this mailing list are also available at the
@@ -433,7 +440,7 @@ tracking system for SB pipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.0.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.5.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

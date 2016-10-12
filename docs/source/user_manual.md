@@ -198,7 +198,9 @@ pp_cpus=7
 # The number of simulations to perform. n>=1 for stochastic simulations.
 runs=40
 # The label for the x axis.
-simulate__xaxis_label=Time [min]
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 ```
 
 **Example 2:** configuration file for the pipeline *single_param_scan*
@@ -213,7 +215,6 @@ model=insulin_receptor_inhib_scan_IR_beta.cps
 scanned_par=IR_beta
 # The number of intervals in the simulation
 simulate__intervals=100
-simulate__xaxis_label=Time [min]
 # The number of simulations to perform for each scan
 single_param_scan_simulations_number=1
 # True if the variable is only reduced (knock down), False otherwise.
@@ -228,6 +229,10 @@ max_level=100
 levels_number=10
 # True if plot lines are the same between scans (e.g. full lines, same colour)
 homogeneous_lines=False
+# The label for the x axis.
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 ```
 
 **Example 3:** configuration file for the pipeline *double_param_scan*
@@ -273,6 +278,8 @@ data_point_num=33
 plot_2d_66_95cl_corr=True
 # True if parameter values should be plotted in log space.
 logspace=True
+# True if plot axis labels should be plotted in scientific notation.
+scientific_notation=True
 ```
 
 Additional examples of configuration files can be found in:
