@@ -32,7 +32,8 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','simulate','plot_timecourses.r')
 # :args[2]: the input directory
 # :args[3]: the output directory
 # :args[4]: the output file name
-# :args[5]: the label for the x axis (e.g. Time (min))
+# :args[5]: the label for the x axis (e.g. Time [min])
+# :args[6]: the label for the y axis (e.g. Level [a.u.])
 main <- function(args) {
     # The model model_noext
     model_noext <- args[1]
@@ -40,8 +41,9 @@ main <- function(args) {
     outputdir <- args[3]
     outputfile <- args[4]
     xaxis_label <- args[5]
+    yaxis_label <- args[6]
     
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, outputfile, xaxis_label)
+    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
 }
 
 

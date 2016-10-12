@@ -69,7 +69,7 @@ class Simulate(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, model, cluster, pp_cpus, runs,
-             simulate__xaxis_label) = self.config_parser(config_file, "simulate")
+             xaxis_label, yaxis_label) = self.config_parser(config_file, "simulate")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -112,7 +112,7 @@ class Simulate(Pipeline):
             logger.info("Data analysis:")
             logger.info("##############")
             Simulate.analyse_data(model[:-4], os.path.join(outputdir, self.get_sim_data_folder()), outputdir,
-                                  os.path.join(outputdir, self.get_sim_plots_folder()), simulate__xaxis_label)
+                                  os.path.join(outputdir, self.get_sim_plots_folder()), xaxis_label, yaxis_label)
 
         if generate_report:
             logger.info("\n")
@@ -194,7 +194,7 @@ class Simulate(Pipeline):
             os.remove(os.path.join(inputdir, file))
 
     @staticmethod
-    def analyse_data(model, inputdir, outputdir, sim_plots_dir, xaxis_label):
+    def analyse_data(model, inputdir, outputdir, sim_plots_dir, xaxis_label, yaxis_label):
         """
         The second pipeline step: data analysis.
 
@@ -203,6 +203,7 @@ class Simulate(Pipeline):
         :param outputdir: the output directory containing the results
         :param sim_plots_dir: the directory to save the plots
         :param xaxis_label: the label for the x axis (e.g. Time [min])
+        :param yaxis_label: the label for the y axis (e.g. Level [a.u.])        
         """
 
         if not os.path.exists(inputdir):
@@ -221,7 +222,7 @@ class Simulate(Pipeline):
         process = subprocess.Popen(
             ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'simulate', 'simulate__plot_error_bars.r'),
              model, inputdir, sim_plots_dir,
-             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), xaxis_label])
+             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), xaxis_label, yaxis_label])
         process.wait()
 
     @staticmethod
@@ -256,7 +257,8 @@ class Simulate(Pipeline):
         cluster = 'pp'
         pp_cpus = 1
         runs = 1
-        simulate__xaxis_label = 'Time [min]'
+        xaxis_label = 'Time [min]'
+        yaxis_label = 'Level [a.u.]'
 
         # Initialises the variables
         for line in lines:
@@ -267,10 +269,12 @@ class Simulate(Pipeline):
                 pp_cpus = line[1]
             elif line[0] == "runs":
                 runs = line[1]
-            elif line[0] == "simulate__xaxis_label":
-                simulate__xaxis_label = line[1]
+            elif line[0] == "xaxis_label":
+                xaxis_label = line[1]
+            elif line[0] == "yaxis_label":
+                yaxis_label = line[1]
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, model,
                 cluster, pp_cpus, runs,
-                simulate__xaxis_label)
+                xaxis_label, yaxis_label)

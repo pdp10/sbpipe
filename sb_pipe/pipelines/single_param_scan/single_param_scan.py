@@ -71,10 +71,10 @@ class SingleParamScan(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, model, scanned_par,
-             simulate__intervals, simulate__xaxis_label,
-             single_param_scan_simulations_number, single_param_scan_percent_levels,
-             single_param_scan_knock_down_only, levels_number, min_level, max_level,
-             homogeneous_lines) = self.config_parser(config_file, "single_param_scan")
+             simulate__intervals, single_param_scan_simulations_number, 
+             single_param_scan_percent_levels, single_param_scan_knock_down_only, 
+             levels_number, min_level, max_level, homogeneous_lines,
+             xaxis_label, yaxis_label) = self.config_parser(config_file, "single_param_scan")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -113,11 +113,10 @@ class SingleParamScan(Pipeline):
             logger.info("Data analysis:")
             logger.info("##############")
             SingleParamScan.analyse_data(model[:-4], scanned_par, single_param_scan_knock_down_only, outputdir,
-                                         self.get_sim_data_folder(), self.get_sim_plots_folder(), simulate__xaxis_label,
-                                         single_param_scan_simulations_number,
+                                         self.get_sim_data_folder(), self.get_sim_plots_folder(),                     single_param_scan_simulations_number,
                                          single_param_scan_percent_levels,
                                          min_level, max_level, levels_number,
-                                         homogeneous_lines)
+                                         homogeneous_lines, xaxis_label, yaxis_label)
 
         if generate_report:
             logger.info("\n")
@@ -260,10 +259,9 @@ class SingleParamScan(Pipeline):
 
     @staticmethod
     def analyse_data(model, scanned_par, knock_down_only, outputdir,
-                     sim_data_folder, sim_plots_folder, simulate__xaxis_label,
-                     simulations_number,
+                     sim_data_folder, sim_plots_folder, simulations_number,
                      percent_levels, min_level, max_level, levels_number,
-                     homogeneous_lines):
+                     homogeneous_lines, xaxis_label, yaxis_label):
         """
         The second pipeline step: data analysis.
 
@@ -273,13 +271,14 @@ class SingleParamScan(Pipeline):
         :param outputdir: the directory containing the results
         :param sim_data_folder: the folder containing the simulated data sets
         :param sim_plots_folder: the folder containing the generated plots
-        :param simulate__xaxis_label: the name of the x axis (e.g. Time [min])
         :param simulations_number: the number of simulations
         :param percent_levels: True if the levels are percents.
         :param min_level: the minimum level
         :param max_level: the maximum level
         :param levels_number: the number of levels
         :param homogeneous_lines: True if generated line style should be homogeneous
+        :param xaxis_label: the name of the x axis (e.g. Time [min])
+        :param yaxis_label: the name of the y axis (e.g. Level [a.u.])        
         """
 
         # some control
@@ -302,10 +301,8 @@ class SingleParamScan(Pipeline):
         process = subprocess.Popen(['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'single_param_scan',
                                                             'single_param_scan__analyse_data.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, simulate__xaxis_label,
-                                    simulations_number, str(percent_levels), str(min_level), str(max_level),
-                                    str(levels_number),
-                                    str(homogeneous_lines)])
+                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), str(homogeneous_lines), 
+                                    xaxis_label, yaxis_label])
         process.wait()
 
     @staticmethod
@@ -352,8 +349,10 @@ class SingleParamScan(Pipeline):
         # The number of intervals for one simulation
         simulate__intervals = 100
         # The plot x axis label (e.g. Time[min])
-        # This is required for plotting
-        simulate__xaxis_label = "Time [min]"
+        # The x axis label
+        xaxis_label = "Time [min]"
+        # The y axis label
+        yaxis_label = "Level [a.u.]"        
         # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
         single_param_scan_simulations_number = 1
         # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
@@ -380,8 +379,6 @@ class SingleParamScan(Pipeline):
                 scanned_par = line[1]
             elif line[0] == "simulate__intervals":
                 simulate__intervals = line[1]
-            elif line[0] == "simulate__xaxis_label":
-                simulate__xaxis_label = line[1]
             elif line[0] == "single_param_scan_simulations_number":
                 single_param_scan_simulations_number = line[1]
             elif line[0] == "single_param_scan_percent_levels":
@@ -396,10 +393,13 @@ class SingleParamScan(Pipeline):
                 levels_number = line[1]
             elif line[0] == "homogeneous_lines":
                 homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "xaxis_label":
+                xaxis_label = line[1]
+            elif line[0] == "yaxis_label":
+                yaxis_label = line[1]
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, model, scanned_par,
-                simulate__intervals, simulate__xaxis_label,
-                single_param_scan_simulations_number, single_param_scan_percent_levels,
+                simulate__intervals, single_param_scan_simulations_number, single_param_scan_percent_levels,
                 single_param_scan_knock_down_only, levels_number, min_level, max_level,
-                homogeneous_lines)
+                homogeneous_lines, xaxis_label, yaxis_label)

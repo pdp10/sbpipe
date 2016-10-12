@@ -119,8 +119,9 @@ get_statistics_table <- function(statistics, readout, colidx=2) {
 # :param data: the data to plot (time point means at least)
 # :param timepoints: the Time vector
 # :param xaxis_label: the xaxis label 
+# :param yaxis_label: the yaxis label 
 # :param bar_type: the type of bar ("none", "sd", "sd_n_ci95")
-plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_label, bar_type="sd") {
+plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_label="", yaxis_label="", bar_type="sd") {
     filename = ""
 
     if(bar_type == "none") {
@@ -129,9 +130,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
       # Let's plot this special case now as it does not require error bars
       df <- data.frame(a=timepoints, b=data$mean)      
       g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
-      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep=""))
-      ggsave(filename, dpi=300,  width=8, height=6) #, bg = "transparent")      
-
+      g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout)
     } else { 
 
       df <- data.frame(a=timepoints, b=data$mean, c=data$sd, d=data$ci95)
@@ -155,9 +154,9 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
       g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
 
       # decorate
-      g <- g + xlab(xaxis_label) + ylab(paste(readout, " [a.u.]", sep="")) + theme(legend.position = "none")
-      ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
+      g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout) + theme(legend.position = "none")
    }
+   ggsave(filename, dpi=300,  width=8, height=8)#, bg = "transparent")   
 }
 
 
@@ -169,9 +168,10 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
 # :param model: the model name
 # :param outputfile: the name of the file to store the statistics
 # :param xaxis_label: the xaxis label 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, xaxis_label) {
+# :param yaxis_label: the yaxis label 
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, xaxis_label="", yaxis_label="") {
     
-    theme_set(tc_theme(28))
+    theme_set(tc_theme(36)) #28
     
     # create the directory of output
     if (!file.exists(outputdir)){ 
@@ -254,9 +254,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
         column.names <- get_column_names_statistics(column.names, column[j])
         statistics <- get_statistics_table(statistics, data, colidx)
         colidx <- colidx+13
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "none")
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "sd")  
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, "sd_n_ci95")  	
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "none")
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "sd")  
+        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)

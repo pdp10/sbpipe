@@ -49,13 +49,14 @@ main <- function(args) {
     outputdir <- args[4]
     sim_data_folder <- args[5]
     sim_plots_folder <- args[6]
-    xaxis_label <- args[7]
-    simulations_number <- args[8]
-    percent_levels <- args[9]    
-    min_level <- args[10]
-    max_level <- args[11]
-    levels_number <- args[12]
-    homogeneous_lines <- args[13]
+    simulations_number <- args[7]
+    percent_levels <- args[8]    
+    min_level <- args[9]
+    max_level <- args[10]
+    levels_number <- args[11]
+    homogeneous_lines <- args[12]
+    xaxis_label <- args[13]
+    yaxis_label <- args[14]    
 
     
     # Add controls here if any
@@ -81,14 +82,15 @@ main <- function(args) {
     if(homogeneous_lines) {
 	plot_single_param_scan_data_homogen(model_noext, variable, 
 				    outputdir, sim_data_folder, 
-				    sim_plots_folder, xaxis_label, 
-				    simulations_number)
+				    sim_plots_folder, simulations_number,
+				    xaxis_label, yaxis_label)
     } else {    
 	plot_single_param_scan_data(model_noext, variable, inhibition_only, 
 				    outputdir, sim_data_folder, 
-				    sim_plots_folder, xaxis_label, 
-				    simulations_number, percent_levels, min_level, 
-				    max_level, levels_number)
+				    sim_plots_folder, simulations_number, 
+				    percent_levels, min_level, 
+				    max_level, levels_number,
+				    xaxis_label, yaxis_label)
     }
 }
 
