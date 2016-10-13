@@ -21,7 +21,7 @@
 
 
 library(ggplot2)
-# library(scales)
+#library(scales)
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 source(file.path(SB_PIPE, 'sb_pipe','utils','R','plots.r'))
 
