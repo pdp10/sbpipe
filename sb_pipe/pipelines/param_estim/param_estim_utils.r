@@ -51,9 +51,9 @@ leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, 
   min_ci <- min(cut_dataset[[param_col_idx]])    
   # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
   # ...[min95, )  (we are retrieving those ...)
-  lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx] 
-  if(min(lt_min_chisquares) < chisquare_conf_level) {
-    min_ci <- "inf"
+  lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx]
+  if(length(lt_min_chisquares) == 0 || min(lt_min_chisquares) <= chisquare_conf_level) {
+    min_ci <- "-inf"
   }
   min_ci
 }
@@ -73,8 +73,8 @@ rightCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx,
   # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
   # (, max95]...  (we are retrieving those ...)
   gt_max_chisquares <- full_dataset[full_dataset[,param_col_idx] > max_ci, chisquare_col_idx] 
-  if(min(gt_max_chisquares) < chisquare_conf_level) {
-    max_ci <- "inf"
+  if(length(gt_max_chisquares) == 0 || min(gt_max_chisquares) <= chisquare_conf_level) {
+    max_ci <- "+inf"
   }
   max_ci
 }
@@ -107,7 +107,7 @@ plot_fits <- function(chi2_array) {
 # 
 # :param dfCols: The columns of a data frame.
 replace_colnames <- function(dfCols) {
-  dfCols <- gsub("ObjectiveValue", "Chi2", dfCols)
+  dfCols <- gsub("ObjectiveValue", "chi2", dfCols)
   dfCols <- gsub("Values.", "", dfCols)
   dfCols <- gsub("..InitialValue.", "", dfCols)
 }
@@ -120,10 +120,11 @@ replace_colnames <- function(dfCols) {
 # :param dfCols: the columns of the data frame. Each column is a parameter. Only parameters to the left of chi2_col_idx are plotted. 
 # :param plots_dir: the directory for storing the plots
 # :param plot_filename_prefix: the prefix for the plot filename
+# :param title: the plot title (default: "")
 # :param chi2_col_idx: the index of the column containing the Chi^2 (default: 1)
 # :param logspace: true if the parameters should be plotted in logspace (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, chi2_col_idx=1, 
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", chi2_col_idx=1, 
                                         logspace=TRUE, scientific_notation=TRUE) {
   fileout <- ""
   for (i in seq(chi2_col_idx+1,length(dfCols))) { 
@@ -145,6 +146,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
       if(scientific_notation) {
          g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
       }
+      g <- g + ggtitle(title)
       ggsave(fileout, dpi=300, width=8, height=6)
     }    
   }
@@ -202,7 +204,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   theme_set(basic_theme(36))
  
   # save the chisquare vs iteration
-  g <- plot_fits(df[,1])
+  g <- plot_fits(df[,1]) + ggtitle("chi2 vs iters")
   ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
     
   min_chisquare <- min(df95[[1]])  
@@ -225,7 +227,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     if(scientific_notation) {
       g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
     }
-         
+    g <- g + ggtitle("ple")
     ggsave(fileout, dpi=300, width=8, height=6)
   
     # retrieve a parameter value associated to the minimum Chi^2
@@ -238,10 +240,13 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     # save the result
     if(logspace) {
       # Transform to the real values.
-      cat(paste(colnames(df95)[i], 10^par_value, 10^min_ci_95, 10^max_ci_95, 10^min_ci_66, 10^max_ci_66, sep="\t"), append=TRUE)
-    } else {
-      cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
-    }
+      par_value <- 10^par_value
+      if(is.numeric(min_ci_95)) { min_ci_95 <- 10^min_ci_95 }
+      if(is.numeric(max_ci_95)) { max_ci_95 <- 10^max_ci_95 }
+      if(is.numeric(min_ci_66)) { min_ci_66 <- 10^min_ci_66 }
+      if(is.numeric(max_ci_66)) { max_ci_66 <- 10^max_ci_66 }      
+    } 
+    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
     cat("\n", append=TRUE)    
   }
   sink()
@@ -249,9 +254,9 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   
   # plot parameter correlations using the 66% and 95% confidence level data sets
   if(plot_2d_66_95cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), 1, logspace, scientific_notation)
-    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), 1, logspace, scientific_notation)
-    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), 1, logspace, scientific_notation)
+    plot_parameter_correlations(df66[order(-df66[,1]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), "ci66 fits", 1, logspace, scientific_notation)
+    plot_parameter_correlations(df95[order(-df95[,1]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), "ci95 fits", 1, logspace, scientific_notation)
+    #plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_all_fits_", sep=""), "all fits", 1, logspace, scientific_notation)
   }
   
 }
@@ -298,7 +303,7 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent,
   # Set my ggplot theme here
   theme_set(basic_theme(36))
   
-  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), 2, logspace, scientific_notation)
+  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), "best fits", 2, logspace, scientific_notation)
   
 }
 

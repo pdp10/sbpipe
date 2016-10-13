@@ -181,7 +181,19 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
         file_out.write("\\end{document}\n")
 
 
-def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_prefix):
+    """
+    Generate a report for a parameter estimation task.
+    
+    :param outputdir: the output directory
+    :param sim_plots_folder: the folder containing the simulated plots
+    :param model_noext: the model name
+    :param filename_prefix: the prefix for the LaTeX file
+    """
+    latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, False)
+    
+
+def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, caption=False):
     """
     Generate a generic report.
     
@@ -189,6 +201,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
     :param sim_plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
+    :param caption: True if figure captions (=figure file name) should be added
     """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
@@ -212,16 +225,17 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix):
             if not begin_figure:
                 file_out.write("\\begin{figure}[!ht]\n")
                 begin_figure = True
-            file_out.write("\\begin{minipage}{0.25\\textwidth}\n")
+            file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
             file_out.write("\\includegraphics[width=\\textwidth]{" + sim_plots_folder + "/" + infile + "}\n")
-            file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4] + "}\n")
+            if caption:
+                file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4] + "}\n")
             file_out.write("\\end{minipage}\n")
             file_out.write("\\hfill\n")
             if figure_num % figures_per_page == 0 and begin_figure:
                 file_out.write("\\end{figure}\n")
                 file_out.write("\\newpage\n")
                 begin_figure = False
-                figures_per_page = 12
+                figures_per_page = 15
                 figure_num = 0
         if begin_figure:
             file_out.write("\\end{figure}\n")

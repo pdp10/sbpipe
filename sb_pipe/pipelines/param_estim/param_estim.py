@@ -49,7 +49,7 @@ from randomise_parameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
 from io_util_functions import refresh_directory
-from latex_reports import latex_report, pdf_report
+from latex_reports import latex_report_param_estim, pdf_report
 
 
 class ParamEstim(Pipeline):
@@ -309,7 +309,7 @@ class ParamEstim(Pipeline):
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__param_estim_"
-        latex_report(outputdir, sim_plots_folder, model, filename_prefix)
+        latex_report_param_estim(outputdir, sim_plots_folder, model, filename_prefix)
 
         pdflatex = which("pdflatex")
         if pdflatex is None:
