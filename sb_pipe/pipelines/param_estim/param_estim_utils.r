@@ -214,7 +214,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   sink() 
 
   fileoutPLE <- sink(fileout_approx_ple_stats)
-  cat(paste("Parameter", "Value", "LeftCI95", "RightCI95", "LeftCI66", "RightCI66", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "\n", sep="\t"), append=TRUE)      
+  cat(paste("Parameter", "Value", "LeftCI95", "RightCI95", "LeftCI66", "RightCI66", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "Value_LeftCI66_ratio", "RightCI66_Value_ratio", "\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
     fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
@@ -247,15 +247,23 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
       if(is.numeric(min_ci_66)) { min_ci_66 <- 10^min_ci_66 }
       if(is.numeric(max_ci_66)) { max_ci_66 <- 10^max_ci_66 }      
     }
-    min_ci_95_par_value_ratio <- "nan"
-    max_ci_95_par_value_ratio <- "nan"    
+    min_ci_95_par_value_ratio <- "-inf"
+    max_ci_95_par_value_ratio <- "+inf"
+    min_ci_66_par_value_ratio <- "-inf"
+    max_ci_66_par_value_ratio <- "+inf"    
     if(is.numeric(min_ci_95) && min_ci_95 != 0) {
-        min_ci_95_par_value_ratio <- par_value/min_ci_95
-    }     
+        min_ci_95_par_value_ratio <- round(par_value/min_ci_95, digits=6)
+    }
     if(is.numeric(max_ci_95) && par_value != 0) {
-        max_ci_95_par_value_ratio <- max_ci_95/par_value
+        max_ci_95_par_value_ratio <- round(max_ci_95/par_value, digits=6)
+    }
+    if(is.numeric(min_ci_66) && min_ci_66 != 0) {
+        min_ci_66_par_value_ratio <- round(par_value/min_ci_66, digits=6)
+    }
+    if(is.numeric(max_ci_66) && par_value != 0) {
+        max_ci_66_par_value_ratio <- round(max_ci_66/par_value, digits=6)
     }   
-    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, min_ci_95_par_value_ratio, max_ci_95_par_value_ratio, sep="\t"), append=TRUE)
+    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, min_ci_95_par_value_ratio, max_ci_95_par_value_ratio, min_ci_66_par_value_ratio, max_ci_66_par_value_ratio, sep="\t"), append=TRUE)
     cat("\n", append=TRUE)    
   }
   sink()
