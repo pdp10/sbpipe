@@ -48,7 +48,7 @@ compute_fratio_threshold <- function(m, n, p=0.05) {
 # :param chisquare_conf_level: the Chi^2 confidence level
 leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
   # retrieve the minimum parameter value for cut_dataset
-  min_ci <- min(cut_dataset[[param_col_idx]])    
+  min_ci <- min(cut_dataset[,param_col_idx])    
   # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
   # ...[min95, )  (we are retrieving those ...)
   lt_min_chisquares <- full_dataset[full_dataset[,param_col_idx] < min_ci, chisquare_col_idx]
@@ -69,7 +69,7 @@ leftCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, 
 # :param chisquare_conf_level: the Chi^2 confidence level
 rightCI <- function(cut_dataset, full_dataset, chisquare_col_idx, param_col_idx, chisquare_conf_level) {
   # retrieve the minimum parameter value for cut_dataset
-  max_ci <- max(cut_dataset[[param_col_idx]])    
+  max_ci <- max(cut_dataset[,param_col_idx])    
   # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
   # (, max95]...  (we are retrieving those ...)
   gt_max_chisquares <- full_dataset[full_dataset[,param_col_idx] > max_ci, chisquare_col_idx] 
@@ -197,9 +197,9 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
   # select the rows with chi^2 smaller than our max threshold
   df99 <- df[df[,1] <= chisquare_at_conf_level_99, ]  
-  df95 <- df99[df99[,1] <= chisquare_at_conf_level_95, ]
-  df66 <- df95[df95[,1] <= chisquare_at_conf_level_66, ]  
-  
+  df95 <- df[df[,1] <= chisquare_at_conf_level_95, ]
+  df66 <- df[df[,1] <= chisquare_at_conf_level_66, ]  
+    
   # Set my ggplot theme here
   theme_set(basic_theme(36))
  
@@ -207,14 +207,14 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   g <- plot_fits(df[,1]) + ggtitle("chi2 vs iters")
   ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
     
-  min_chisquare <- min(df95[[1]])  
+  min_chisquare <- min(df95[,1])  
   fileoutPLE <- sink(fileout_conf_levels)
   cat(paste("MinChi2", "ParamNum", "DataPointNum", "CL95Chi2", "CL95FitsNum", "CL66Chi2", "CL66FitsNum\n", sep="\t"))
   cat(paste(min_chisquare, parameter_num, data_point_num, chisquare_at_conf_level_95, nrow(df95), chisquare_at_conf_level_66, nrow(df66), sep="\t"), append=TRUE)
   sink() 
 
   fileoutPLE <- sink(fileout_approx_ple_stats)
-  cat(paste("Parameter", "Value", "LeftCI95", "RightCI95", "LeftCI66", "RightCI66\n", sep="\t"), append=TRUE)      
+  cat(paste("Parameter", "Value", "LeftCI95", "RightCI95", "LeftCI66", "RightCI66", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "\n", sep="\t"), append=TRUE)      
   for (i in seq(2,length(dfCols))) {
     # extract statistics  
     fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
@@ -246,8 +246,16 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
       if(is.numeric(max_ci_95)) { max_ci_95 <- 10^max_ci_95 }
       if(is.numeric(min_ci_66)) { min_ci_66 <- 10^min_ci_66 }
       if(is.numeric(max_ci_66)) { max_ci_66 <- 10^max_ci_66 }      
-    } 
-    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, sep="\t"), append=TRUE)
+    }
+    min_ci_95_par_value_ratio <- "nan"
+    max_ci_95_par_value_ratio <- "nan"    
+    if(is.numeric(min_ci_95) && min_ci_95 != 0) {
+        min_ci_95_par_value_ratio <- par_value/min_ci_95
+    }     
+    if(is.numeric(max_ci_95) && par_value != 0) {
+        max_ci_95_par_value_ratio <- max_ci_95/par_value
+    }   
+    cat(paste(colnames(df95)[i], par_value, min_ci_95, max_ci_95, min_ci_66, max_ci_66, min_ci_95_par_value_ratio, max_ci_95_par_value_ratio, sep="\t"), append=TRUE)
     cat("\n", append=TRUE)    
   }
   sink()
