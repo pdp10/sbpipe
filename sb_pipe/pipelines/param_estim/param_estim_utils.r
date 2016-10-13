@@ -197,7 +197,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
   # select the rows with chi^2 smaller than our max threshold
   df99 <- df[df[,1] <= chisquare_at_conf_level_99, ]  
-  df95 <- df[df[,1] <= chisquare_at_conf_level_95, ]
+  df95 <- df99[df99[,1] <= chisquare_at_conf_level_95, ]
   df66 <- df95[df95[,1] <= chisquare_at_conf_level_66, ]  
   
   # Set my ggplot theme here
@@ -238,6 +238,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     min_ci_66 <- leftCI(df66, df95, 1, i, chisquare_at_conf_level_66)
     max_ci_66 <- rightCI(df66, df95, 1, i, chisquare_at_conf_level_66)
     # save the result
+    
     if(logspace) {
       # Transform to the real values.
       par_value <- 10^par_value
