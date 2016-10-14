@@ -273,9 +273,15 @@ runs=250
 best_fits_percent=75
 # The number of available data points
 data_point_num=33
-# True if 2D all fits plots for 66% and 95% confidence levels 
-# should be plotted. This is computationally expensive.
-plot_2d_66_95cl_corr=True
+# True if 2D all fits plots for 66% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_66cl_corr=True
+# True if 2D all fits plots for 95% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_95cl_corr=True
+# True if 2D all fits plots for 99% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_99cl_corr=True
 # True if parameter values should be plotted in log space.
 logspace=True
 # True if plot axis labels should be plotted in scientific notation.

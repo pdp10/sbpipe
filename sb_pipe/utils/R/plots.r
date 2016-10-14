@@ -88,6 +88,28 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
 
 
 
+# Plot a profile likelihood estimation (PLE) scatter plot
+#
+# :param df: a data frame
+# :param colNameX: the name of the column for the X axis
+# :param colNameY: the name of the column for the Y axis
+# :param conf_level_66: the 66% confidence level to plot
+# :param conf_level_95: the 95% confidence level to plot
+# :param conf_level_99: the 99% confidence level to plot
+# :param dot_size: the size of the dots in the scatterplot
+scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95, conf_level_99, dot_size=0.1) {
+  ggplot(df, aes_string(x=colNameX, y=colNameY)) +
+      geom_point(size=dot_size) + 
+      geom_hline(aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
+      geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
+      geom_hline(aes(yintercept=conf_level_99, color="_99", linetype="_99"), size=2, show.legend=TRUE) +       
+      scale_colour_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="slategrey","_95"="blue","_66"="red")) +
+      scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="twodash", "_95"="dashed", "_66"="dotted")) +
+      theme(axis.text.x=element_text(vjust = 1)) 
+}
+
+
+
 # Plot a generic scatter plot
 #
 # :param df: a data frame

@@ -35,9 +35,11 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 # :args[4]: the number of data points used for parameterise the model
 # :args[5]: the name of the file to store the statistics for the approximated profile likelihood estimation.
 # :args[6]: the name of the file to store the confidence levels.
-# :args[7]: true if the 2D parameter correlation plots for 66% and 95% confidence intervals should be plotted.
-# :args[8]: true if parameters should be plotted in logspace.
-# :args[9]: true if axis labels should be plotted in scientific notation.
+# :args[7]: true if the 2D parameter correlation plots for 66% confidence intervals should be plotted.
+# :args[8]: true if the 2D parameter correlation plots for 95% confidence intervals should be plotted.
+# :args[9]: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted.
+# :args[10]: true if parameters should be plotted in logspace.
+# :args[11]: true if axis labels should be plotted in scientific notation.
 main <- function(args) {
   
   model <- args[1]
@@ -46,16 +48,30 @@ main <- function(args) {
   data_point_num <- args[4]
   fileout_approx_ple_stats <- args[5]
   fileout_conf_levels <- args[6]
-  plot_2d_66_95cl_corr <- args[7]
-  logspace <- args[8]
-  scientific_notation <- args[9]
+  plot_2d_66cl_corr <- args[7]
+  plot_2d_95cl_corr <- args[8]
+  plot_2d_99cl_corr <- args[9]  
+  logspace <- args[10]
+  scientific_notation <- args[11]
   
-  if(plot_2d_66_95cl_corr == 'True' || plot_2d_66_95cl_corr == 'TRUE' || plot_2d_66_95cl_corr == 'true') {
-    plot_2d_66_95cl_corr = TRUE
+  if(plot_2d_66cl_corr == 'True' || plot_2d_66cl_corr == 'TRUE' || plot_2d_66cl_corr == 'true') {
+    plot_2d_66cl_corr = TRUE
   } else {
-    plot_2d_66_95cl_corr = FALSE
+    plot_2d_66cl_corr = FALSE
   }
 
+  if(plot_2d_95cl_corr == 'True' || plot_2d_95cl_corr == 'TRUE' || plot_2d_95cl_corr == 'true') {
+    plot_2d_95cl_corr = TRUE
+  } else {
+    plot_2d_95cl_corr = FALSE
+  }
+
+  if(plot_2d_99cl_corr == 'True' || plot_2d_99cl_corr == 'TRUE' || plot_2d_99cl_corr == 'true') {
+    plot_2d_99cl_corr = TRUE
+  } else {
+    plot_2d_99cl_corr = FALSE
+  }  
+  
   if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') {
     logspace = TRUE
   } else {
@@ -69,7 +85,8 @@ main <- function(args) {
   }  
   
   all_fits_analysis(model, dataset, plots_dir, data_point_num, fileout_approx_ple_stats, 
-                    fileout_conf_levels, plot_2d_66_95cl_corr, logspace, scientific_notation)
+                    fileout_conf_levels, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr, 
+                    logspace, scientific_notation)
 }
 
 
