@@ -190,7 +190,41 @@ def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
     """
-    latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, False)
+    with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
+        model_name = model_noext[:].replace("_", " ")
+        logger.info(model_name)
+        # writing on file
+        # Get latex header
+        header = get_latex_header("Report: " + model_name,
+                                  "Report: " + model_name,
+                                  "Generic report for {\\it " + model_name + "} model.")
+        file_out.write(header)
+        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        file_out.write("\\section*{Plots}\n")
+        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        folder.sort()
+        begin_figure = False
+        figure_num = 0
+        figures_per_page = 12
+        for infile in folder:
+            logger.info(infile)
+            figure_num += 1
+            if not begin_figure:
+                file_out.write("\\begin{figure}[!ht]\n")
+                begin_figure = True
+            file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
+            file_out.write("\\includegraphics[width=\\textwidth]{" + sim_plots_folder + "/" + infile + "}\n")
+            file_out.write("\\end{minipage}\n")
+            file_out.write("\\hfill\n")
+            if figure_num % figures_per_page == 0 and begin_figure:
+                file_out.write("\\end{figure}\n")
+                file_out.write("\\newpage\n")
+                begin_figure = False
+                figures_per_page = 18
+                figure_num = 0
+        if begin_figure:
+            file_out.write("\\end{figure}\n")
+        file_out.write("\\end{document}\n")
     
 
 def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, caption=False):
@@ -218,7 +252,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
         folder.sort()
         begin_figure = False
         figure_num = 0
-        figures_per_page = 12
+        figures_per_page = 9
         for infile in folder:
             logger.info(infile)
             figure_num += 1
@@ -235,7 +269,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
                 file_out.write("\\end{figure}\n")
                 file_out.write("\\newpage\n")
                 begin_figure = False
-                figures_per_page = 18
+                figures_per_page = 15
                 figure_num = 0
         if begin_figure:
             file_out.write("\\end{figure}\n")
