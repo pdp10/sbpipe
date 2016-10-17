@@ -97,7 +97,9 @@ plot_fits <- function(chi2_array) {
     k <- chi2_array[i]   
   }
   df <- data.frame(Iter=iters, Chi2=chi2_array)
-  scatterplot_log10(df, "Iter", "Chi2")
+  scatterplot_log10(df, "Iter", "Chi2") + 
+            # Re paint the y lab as we want to use the Greek letter chi.
+            ylab(expression(paste("log10(",chi^{2},")", sep="")))    
 }
 
 
@@ -131,14 +133,15 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
     for (j in seq(i, length(dfCols))) {
       if(i==j) {
         fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-        g <- histogramplot(df[i])
+        g <- histogramplot(df[i]) + ggtitle(title)
         if(logspace) {
             g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
         }
       } else {
         fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
         g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
-            theme(legend.key.height = unit(0.5, "in"))
+             ggtitle(bquote(chi^2: .(title))) +
+             theme(legend.key.height = unit(0.5, "in"))
         if(logspace) {
             g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
         }        
@@ -146,7 +149,6 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
       if(scientific_notation) {
          g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
       }
-      g <- g + ggtitle(title)
       ggsave(fileout, dpi=300, width=8, height=6)
     }    
   }
@@ -161,7 +163,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 # :param model: the model name
 plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {  
     # save the chi2 vs iteration
-    g <- plot_fits(df[,chi2_col]) + ggtitle("chi2 vs iters")
+    g <- plot_fits(df[,chi2_col]) + ggtitle(expression(paste(chi^{2}, " vs iters", sep="")))
     ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
 }
 
@@ -193,7 +195,7 @@ plot_approx_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plo
         if(scientific_notation) {
             g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
         }
-        g <- g + ggtitle("ple")
+        g <- g + ggtitle("PLE")
         ggsave(fileout, dpi=300, width=8, height=6)
     }
 }
@@ -228,13 +230,13 @@ plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
                             logspace=TRUE, scientific_notation=TRUE) {
   dfCols <- colnames(df99)
   if(plot_2d_66cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), "ci66 fits", which(dfCols==chi2_col), logspace, scientific_notation)
+    plot_parameter_correlations(df66[order(-df66[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""), "CI66 fits", which(dfCols==chi2_col), logspace, scientific_notation)
   }
   if(plot_2d_95cl_corr) {
-    plot_parameter_correlations(df95[order(-df95[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), "ci95 fits", which(dfCols==chi2_col), logspace, scientific_notation)
+    plot_parameter_correlations(df95[order(-df95[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""), "CI95 fits", which(dfCols==chi2_col), logspace, scientific_notation)
   }
   if(plot_2d_99cl_corr) {
-    plot_parameter_correlations(df99[order(-df99[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci99_fits_", sep=""), "ci99 fits", which(dfCols==chi2_col), logspace, scientific_notation)
+    plot_parameter_correlations(df99[order(-df99[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci99_fits_", sep=""), "CI99 fits", which(dfCols==chi2_col), logspace, scientific_notation)
   }  
 }
 

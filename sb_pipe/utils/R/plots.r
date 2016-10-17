@@ -83,6 +83,7 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
       geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) + 
       scale_colour_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="blue","_66"="red")) +
       scale_linetype_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="dashed", "_66"="dotted")) +
+      ylab(expression(chi^{2})) +
       theme(axis.text.x=element_text(vjust = 1)) 
 }
 
@@ -105,6 +106,7 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
       geom_hline(aes(yintercept=conf_level_99, color="_99", linetype="_99"), size=2, show.legend=TRUE) +       
       scale_colour_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="slategrey","_95"="blue","_66"="red")) +
       scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="twodash", "_95"="dashed", "_66"="dotted")) +
+      ylab(expression(chi^{2})) +
       theme(axis.text.x=element_text(vjust = 1)) 
 }
 
