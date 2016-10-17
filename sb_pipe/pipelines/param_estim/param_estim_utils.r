@@ -376,6 +376,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   fileoutPLE <- sink(fileout_conf_levels)
   cat(paste("MinChi2", "ParamNum", "DataPointNum", "CL66Chi2", "CL66FitsNum", "CL95Chi2", "CL95FitsNum", "CL99Chi2", "CL99FitsNum\n", sep="\t"))
   cat(paste(min_chi2, parameter_num, data_point_num, cl66_chi2, nrow(df66), cl95_chi2, nrow(df95), cl99_chi2, nrow(df99), sep="\t"), append=TRUE)
+  cat("\n", append=TRUE)   
   sink()
 
   # Plot the approximated profile likelihood estimations (PLE)
@@ -383,7 +384,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   
   # Write the table for the approx PLE statistics.
   fileoutPLE <- sink(fileout_approx_ple_stats)
-  cat(paste("Parameter", "Value", "LeftCI66", "RightCI66", "LeftCI95", "RightCI95", "LeftCI99", "RightCI99", "Value_LeftCI66_ratio", "RightCI66_Value_ratio", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "Value_LeftCI99_ratio", "RightCI99_Value_ratio", "\n", sep="\t"), append=TRUE)
+  cat(paste("Parameter", "Value", "LeftCI66", "RightCI66", "LeftCI95", "RightCI95", "LeftCI99", "RightCI99", "Value_LeftCI66_ratio", "RightCI66_Value_ratio", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "Value_LeftCI99_ratio", "RightCI99_Value_ratio\n", sep="\t"), append=TRUE)
   for (i in seq(2,length(dfCols))) {
     # compute the confidence levels and the value for the best parameter
     ci_obj <- compute_approx_ple_stats(df66, df95, df99, df, chi2_col, chi2_col_idx, i, 
