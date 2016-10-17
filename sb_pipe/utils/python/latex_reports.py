@@ -218,7 +218,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
         folder.sort()
         begin_figure = False
         figure_num = 0
-        figures_per_page = 9
+        figures_per_page = 12
         for infile in folder:
             logger.info(infile)
             figure_num += 1
@@ -235,7 +235,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
                 file_out.write("\\end{figure}\n")
                 file_out.write("\\newpage\n")
                 begin_figure = False
-                figures_per_page = 15
+                figures_per_page = 18
                 figure_num = 0
         if begin_figure:
             file_out.write("\\end{figure}\n")
