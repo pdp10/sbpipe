@@ -197,7 +197,7 @@ def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Generic report for {\\it " + model_name + "} model.")
+                                  "Parameter estimation report for {\\it " + model_name + "} model.")
         file_out.write(header)
         logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
