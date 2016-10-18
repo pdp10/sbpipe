@@ -88,6 +88,13 @@ plot_fits <- function(chi2_array) {
   iters <- c()
   j <- 0
   k <- 0
+
+  # We intentionally consider only the Chi^2 above 100*median(Chi2_array). 
+  # Often the very first Chi^2 can be extremely large (e^[hundreds]). When so, 
+  # ggsave() does not process correctly, potentially due to a bug. 
+  med_chi2 <- median(chi2_array[is.finite(chi2_array)])
+  chi2_array <- chi2_array[chi2_array < med_chi2*100]
+
   for(i in 1:length(chi2_array)) {
     if(k < chi2_array[i]) {
       j <- 0
@@ -343,17 +350,26 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   }
   
   df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
-  
-  if(logspace) {
-    # Transform the parameter space to a log10 parameter space. 
-    # The column for the Chi^2 score is maintained instead. 
-    df[,-1] <- log10(df[,-1])
-  }
-  
+   
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   chi2_col_idx <- 1
   chi2_col <- dfCols[chi2_col_idx]
+
+  # Remove the lines containing infinite chi^2
+  # TODO if the rows are removed, plot_fits() algorithm does not work properly. 
+  # It would be better to replace those cells (inf) with the maximum numeric value.
+  #df <- df[!is.infinite(df[,chi2_col]), ]
+  
+  #max_chi2 <- max(df[is.finite(df[,chi2_col]), chi2_col])
+  #df[is.infinite(df[,chi2_col]), chi2_col] <- max_chi2
+  ## TODO NOT SURE THE ABOVE FIX IS ACTUALLY NECESSARY... 
+  ## THE PROBLEM IS NOT SOLVED AND INF IS ALSO PRESENT IN OTHER DATASETS... shit..  
+  if(logspace) {
+    # Transform the parameter space to a log10 parameter space. 
+    # The column for the Chi^2 score is maintained instead. 
+    df[,-chi2_col_idx] <- log10(df[,-chi2_col_idx])
+  }
   
   parameter_num = length(colnames(df)) - 1
   # compute the confidence levels
