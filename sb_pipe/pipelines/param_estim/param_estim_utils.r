@@ -356,15 +356,6 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   chi2_col_idx <- 1
   chi2_col <- dfCols[chi2_col_idx]
 
-  # Remove the lines containing infinite chi^2
-  # TODO if the rows are removed, plot_fits() algorithm does not work properly. 
-  # It would be better to replace those cells (inf) with the maximum numeric value.
-  #df <- df[!is.infinite(df[,chi2_col]), ]
-  
-  #max_chi2 <- max(df[is.finite(df[,chi2_col]), chi2_col])
-  #df[is.infinite(df[,chi2_col]), chi2_col] <- max_chi2
-  ## TODO NOT SURE THE ABOVE FIX IS ACTUALLY NECESSARY... 
-  ## THE PROBLEM IS NOT SOLVED AND INF IS ALSO PRESENT IN OTHER DATASETS... shit..  
   if(logspace) {
     # Transform the parameter space to a log10 parameter space. 
     # The column for the Chi^2 score is maintained instead. 
