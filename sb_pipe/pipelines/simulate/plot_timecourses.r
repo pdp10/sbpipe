@@ -118,27 +118,29 @@ get_statistics_table <- function(statistics, readout, colidx=2) {
 # :param readout: the name of the readout
 # :param data: the data to plot (time point means at least)
 # :param timepoints: the Time vector
+# :param df_exp_dataset: an experimental data set data frame.
+# :param plot_exp_dataset: TRUE if the experimental data set should be added
 # :param xaxis_label: the xaxis label 
 # :param yaxis_label: the yaxis label 
 # :param bar_type: the type of bar ("none", "sd", "sd_n_ci95")
-plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_label="", yaxis_label="", bar_type="sd") {
+plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_dataset, plot_exp_dataset=FALSE, xaxis_label="", yaxis_label="", bar_type="sd") {
     filename = ""
-
+    
+    g <- ggplot()
     if(bar_type == "none") {
       # standard error configuration
       filename = file.path(outputdir, paste(model, "_none_", readout, ".png", sep=""))
       # Let's plot this special case now as it does not require error bars
       df <- data.frame(a=timepoints, b=data$mean)      
-      g <- ggplot() + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
-      g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout)
+      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) + 
+           xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout)
     } else { 
 
       df <- data.frame(a=timepoints, b=data$mean, c=data$sd, d=data$ci95)
       #print(df)
-      g <- ggplot(df, aes(x=a, y=b))
 
       # plot the error bars
-      g <- g + geom_errorbar(aes(ymin=b-c, ymax=b+c), colour="blue",  size=1.0, width=0.1)    
+      g <- g + geom_errorbar(data=df, aes(x=a, ymin=b-c, ymax=b+c), colour="blue", size=1.0, width=0.1)    
         
       if(bar_type == "sd") {
         # standard deviation configuration
@@ -147,16 +149,27 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
         # standard deviation + confidence interval configuration
         filename = file.path(outputdir, paste(model, "_sd_n_ci95_", readout, ".png", sep=""))
         # plot the C.I.
-        g <- g + geom_errorbar(aes(ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
-      }
+        g <- g + geom_errorbar(data=df, aes(x=a, ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
+      }   
 
       # plot the line
-      g <- g + geom_line(aes(x=a, y=b), color="black", size=1.0)    
-
+      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) 
+      
       # decorate
       g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout) + theme(legend.position = "none")
    }
-   ggsave(filename, dpi=300,  width=8, height=8)#, bg = "transparent")   
+   ggsave(filename, dpi=300,  width=8, height=8)#, bg = "transparent")
+   
+   if(plot_exp_dataset) {
+     # Let's add the experimental data set to the plot
+     # ONLY PRINT THE DATA POINTS FOR THE LENGTH OF THIS SIMULATION
+     df_max_time <- max(df$a)
+     df_exp_dataset <- df_exp_dataset[df_exp_dataset$Time <= df_max_time,]
+     if(readout %in% colnames(df_exp_dataset)) {
+         g <- g + geom_point(data=df_exp_dataset, aes_string(x="Time", y=readout), shape=1, size=4, stroke=1.5)
+         ggsave(gsub(".png","_w_dataset.png",filename), dpi=300,  width=8, height=8)#, bg = "transparent")   
+     }
+   }
 }
 
 
@@ -167,9 +180,11 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, xaxis_l
 # :param outputdir: the output directory
 # :param model: the model name
 # :param outputfile: the name of the file to store the statistics
+# :param exp_dataset: a full path file containing the experimental data.
+# :param plot_exp_dataset: TRUE if the experimental data should also be plotted
 # :param xaxis_label: the xaxis label 
 # :param yaxis_label: the yaxis label 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, xaxis_label="", yaxis_label="") {
+plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, exp_dataset, plot_exp_dataset=FALSE, xaxis_label="", yaxis_label="") {
     
     theme_set(tc_theme(36)) #28
     
@@ -177,12 +192,21 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     if (!file.exists(outputdir)){ 
         dir.create(outputdir) 
     }
-
+    
+    df_exp_dataset <- data.frame()
+    # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
+    if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){     
+        df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))    
+    } else {
+        print(paste("Error: file ", exp_dataset, " does not exist. Skip plots.", sep=""))
+        plot_exp_dataset = FALSE
+    }
+    
     # collect all files in the directory
     files <- list.files( path=inputdir, pattern=model )
     print(files)
-
-    # Read time course data sets
+        
+    # Read the simulated time course data sets
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names (timecourses)
 
@@ -254,9 +278,9 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
         column.names <- get_column_names_statistics(column.names, column[j])
         statistics <- get_statistics_table(statistics, data, colidx)
         colidx <- colidx+13
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "none")
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "sd")  
-        plot_error_bars(outputdir, model, column[j], data, timepoints, xaxis_label, yaxis_label, "sd_n_ci95")  	
+        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "none")
+        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "sd")  
+        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)
