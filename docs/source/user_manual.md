@@ -197,6 +197,10 @@ cluster=pp
 pp_cpus=7
 # The number of simulations to perform. n>=1 for stochastic simulations.
 runs=40
+# An experimental data set (or blank) to add to the simulated plots as additional layer
+exp_dataset=insulin_receptor_dataset.csv
+# True if the experimental data set should be plotted.
+plot_exp_dataset=True
 # The label for the x axis.
 xaxis_label=Time [min]
 # The label for the y axis.

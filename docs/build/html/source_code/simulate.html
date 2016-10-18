@@ -65,7 +65,7 @@
 a model simulation using copasi</p>
 <dl class="staticmethod">
 <dt id="simulate.Simulate.analyse_data">
-<em class="property">static </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>sim_plots_dir</em>, <em>xaxis_label</em>, <em>yaxis_label</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.analyse_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>sim_plots_dir</em>, <em>exp_dataset</em>, <em>plot_exp_dataset</em>, <em>xaxis_label</em>, <em>yaxis_label</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.analyse_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The second pipeline step: data analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -76,6 +76,8 @@ a model simulation using copasi</p>
 <li><strong>inputdir</strong> &#8211; the directory containing the data to analyse</li>
 <li><strong>outputdir</strong> &#8211; the output directory containing the results</li>
 <li><strong>sim_plots_dir</strong> &#8211; the directory to save the plots</li>
+<li><strong>exp_dataset</strong> &#8211; the full path of the experimental data set</li>
+<li><strong>plot_exp_dataset</strong> &#8211; True if the experimental data set should also be plotted</li>
 <li><strong>xaxis_label</strong> &#8211; the label for the x axis (e.g. Time [min])</li>
 <li><strong>yaxis_label</strong> &#8211; the label for the y axis (e.g. Level [a.u.])</li>
 </ul>
