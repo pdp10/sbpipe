@@ -94,7 +94,7 @@ def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
                 eval_marker = infile.find("__eval_")
                 if scanned_par_pos != -1 and scanned_par_pos < eval_marker:
                     logger.info(infile)
-                    file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
+                    file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
                     file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
