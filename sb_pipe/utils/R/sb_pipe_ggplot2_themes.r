@@ -36,7 +36,8 @@ tc_theme <- function (base_size=12, base_family="") {
         panel.border = element_rect(colour = "black", fill=NA, size=1.5),
         legend.key = element_rect(fill = "transparent", colour = "transparent"),
         legend.background = element_rect(fill = "transparent", colour = "transparent"),
-        plot.background = element_rect(fill = "transparent",colour = NA)
+        plot.background = element_rect(fill = "transparent",colour = NA),
+        plot.margin = unit(c(0.5,0.5,0.8,0.5), "in")
         )
 }
 

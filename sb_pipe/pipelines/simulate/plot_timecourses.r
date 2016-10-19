@@ -158,7 +158,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
       # decorate
       g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout) + theme(legend.position = "none")
    }
-   ggsave(filename, dpi=300,  width=8, height=8)#, bg = "transparent")
+   ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
    
    if(plot_exp_dataset) {
      # Let's add the experimental data set to the plot
@@ -167,7 +167,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
      df_exp_dataset <- df_exp_dataset[df_exp_dataset$Time <= df_max_time,]
      if(readout %in% colnames(df_exp_dataset)) {
          g <- g + geom_point(data=df_exp_dataset, aes_string(x="Time", y=readout), shape=1, size=4, stroke=1.5)
-         ggsave(gsub(".png","_w_dataset.png",filename), dpi=300,  width=8, height=8)#, bg = "transparent")   
+         ggsave(gsub(".png","_w_dataset.png",filename), dpi=300,  width=8, height=6)#, bg = "transparent")   
      }
    }
 }
