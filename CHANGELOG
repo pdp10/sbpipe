@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.11.0
+v1.13.0
 
+- added plots comparing model simulation vs experimental data in simulate pipeline.
+- improving plot margins for simulate and single parameter scan pipelines.
 - source code refractoring in parameter estimation analysis task.
 - fixed a bug in parameter estimation pipeline related to the filtering of confidence intervals from the complete data set.
 - added ratios in parameter estimation summaries to investigate the distance between the estimated parameter and its confidence intervals.
