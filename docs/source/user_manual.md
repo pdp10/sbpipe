@@ -181,23 +181,26 @@ Assuming that the configuration files are placed in the Working_Folder of a cert
 **Example 1:** configuration file for the pipeline *simulate*
 ```
 [simulate]
-# True if data must be generated, False otherwise
+# True if data should be generated, False otherwise
 generate_data=True
-# True if data must be analysed, False otherwise
+# True if data should be analysed, False otherwise
 analyse_data=True
-# True if a report must be generated, False otherwise
+# True if a report should be generated, False otherwise
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
 # The Copasi model name
 model=insulin_receptor_stoch.cps
-# The cluster type. pp if the model is run locally, sge/lsf if run on cluster.
+# The cluster type. pp if the model is run locally, 
+# sge/lsf if run on cluster.
 cluster=pp
 # The number of CPU if pp is used, ignored otherwise
 pp_cpus=7
-# The number of simulations to perform. n>=1 for stochastic simulations.
+# The number of simulations to perform. 
+# n>=1 for stochastic simulations.
 runs=40
-# An experimental data set (or blank) to add to the simulated plots as additional layer
+# An experimental data set (or blank) to add to the 
+# simulated plots as additional layer
 exp_dataset=insulin_receptor_dataset.csv
 # True if the experimental data set should be plotted.
 plot_exp_dataset=True
@@ -210,10 +213,15 @@ yaxis_label=Level [a.u.]
 **Example 2:** configuration file for the pipeline *single_param_scan*
 ```
 [single_param_scan]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
@@ -231,7 +239,8 @@ min_level=0
 max_level=100
 # The number of scans (as set in Copasi Parameter Scan Task)
 levels_number=10
-# True if plot lines are the same between scans (e.g. full lines, same colour)
+# True if plot lines are the same between scans 
+# (e.g. full lines, same colour)
 homogeneous_lines=False
 # The label for the x axis.
 xaxis_label=Time [min]
@@ -242,29 +251,43 @@ yaxis_label=Level [a.u.]
 **Example 3:** configuration file for the pipeline *double_param_scan*
 ```
 [double_param_scan]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par1=InsulinPercent
 # The 2nd variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par2=IRbetaPercent
-# The length of the simulation (as set in Copasi Time Course Task)
+# The simulation length (as set in Copasi Time Course Task)
 sim_length=10
 ```
 
 **Example 4:** configuration file for the pipeline *param_estim*
 ```
 [param_estim]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# True if a zipped tarball should be generated, False otherwise
 generate_tarball=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_param_estim.cps
+# The cluster type. pp if the model is run locally, 
+# sge/lsf if run on cluster.
 cluster=pp
+# The number of CPU if pp is used, ignored otherwise
 pp_cpus=7
 # The parameter estimation round which is used to distinguish 
 # phases of parameter estimations when parameters cannot be 
