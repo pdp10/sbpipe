@@ -208,13 +208,14 @@ class ParamEstim(Pipeline):
             return
 
         logger.info("Configure Copasi:")
-        logger.info(
-            "Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values")
         groupid = "_" + get_rand_alphanum_str(20) + "_"
         group_model = model[:-4] + groupid
         pre_param_estim = RandomiseParameters(inputdir, model)
-        pre_param_estim.print_parameters_to_estimate()
+        logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")        
         pre_param_estim.generate_instances_from_template(nfits, groupid)
+        #logger.info("Randomise the initial parameter values")
+        #pre_param_estim.print_parameters_to_estimate()        
+        #pre_param_estim.randomise_parameters(nfits, groupid)
 
         logger.info("\n")
         logger.info("Parallel parameter estimation:")
