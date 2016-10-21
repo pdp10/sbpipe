@@ -202,7 +202,7 @@ plot_approx_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plo
         if(scientific_notation) {
             g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
         }
-        g <- g + ggtitle("PLE")
+        g <- g + ggtitle("Sampled PLE")
         ggsave(fileout, dpi=300, width=8, height=6)
     }
 }
