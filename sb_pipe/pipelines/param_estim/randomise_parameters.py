@@ -62,9 +62,10 @@ class RandomiseParameters:
         self.__start_values, self.__upper_bounds = \
             self.__copasi.retrieve_param_estim_values(os.path.join(self.__path, self.__filename_in))
 
-    def generate_instances_from_template(self, num_files, idstr):
+
+    def randomise_parameters(self, num_files, idstr):
         """
-        Generate num_files files and randomise the starting values for the parameter to estimate.
+        Randomise the starting values for the parameter to estimate.
 
         :param num_files: the number of files (instances) to generate
         :param idstr: an ID string to label the generated files (e.g. a timestamp)
@@ -74,12 +75,7 @@ class RandomiseParameters:
         for i in range(0, num_files):
             # initialise the names and generate the output file
             filename_out = self.__filename_in[:-4] + idstr + str(i + 1) + ".cps"
-            report_filename = self.__report_filename_template[:-4] + idstr + str(i + 1) + ".csv"
             file_out = os.path.join(self.__path, filename_out)
-            file_in = os.path.join(self.__path, self.__filename_in)
-            if os.path.isfile(file_out):
-                os.remove(file_out)
-            shutil.copy2(file_in, file_out)
             # 1) RANDOMIZATION
             logger.info(filename_out)
             new_start_values, old_str, new_str = self.__randomise_start_value()
@@ -87,7 +83,29 @@ class RandomiseParameters:
             #logger.info("\nInitial parameters for the output file: " + file_out)
             self.__print_parameters_to_estimate2(new_start_values)
             # 3) REPLACE VALUES IN THE NEW FILE
-            self.__replace_start_value_in_file(file_out, report_filename, old_str, new_str)
+            self.__replace_start_value(file_out, old_str, new_str)
+            
+
+    def generate_instances_from_template(self, num_files, idstr):
+        """
+        Generate num_files files and add an ID string to Copasi file/report names 
+
+        :param num_files: the number of files (instances) to generate
+        :param idstr: an ID string to label the generated files (e.g. a timestamp)
+        """
+        num_files = int(num_files)
+        logger.debug("Model replication:")
+        for i in range(0, num_files):
+            # initialise the names and generate the output file
+            filename_out = self.__filename_in[:-4] + idstr + str(i + 1) + ".cps"
+            report_filename = self.__report_filename_template[:-4] + idstr + str(i + 1) + ".csv"
+            file_out = os.path.join(self.__path, filename_out)
+            file_in = os.path.join(self.__path, self.__filename_in)
+            if os.path.isfile(file_out):
+                os.remove(file_out)
+            shutil.copy2(file_in, file_out)
+            self.__replace_report_filename(file_out, report_filename)            
+
 
     def get_copasi_obj(self):
         """
@@ -208,17 +226,14 @@ class RandomiseParameters:
             #logger.debug(new_str[i])
         return new_start_values, old_str, new_str
 
-    def __replace_start_value_in_file(self, file_out, report_filename, old_str, new_str):
+    def __replace_start_value(self, file_out, old_str, new_str):
         """
         For each parameter to estimate, replace the current start value with the new randomised start value
 
         :param file_out: the Copasi output file.
-        :param report_filename: the report file name
         :param old_str: the list of XML strings containing the old starting values. 
         :param new_str: the list of XML strings containing the new starting values.
         """
-        replace_string_in_file(file_out, self.__report_filename_template, report_filename)
-
         for i in range(0, len(self.__param_names)):
             # Check whether the replacement of the parameter start value is exactly for the parameter estimation task
             # and for the corresponding parameter name. So, if different parameters have same start values, the algorithm
@@ -238,4 +253,11 @@ class RandomiseParameters:
             else:
                 logger.warn("Error - Found wrong instance: [" + ctrl_str + "] at line " + name_line_num)
 
+    def __replace_report_filename(self, file_out, report_filename):
+        """
+        Replace the report file name
 
+        :param file_out: the Copasi output file.
+        :param report_filename: the report file name
+        """
+        replace_string_in_file(file_out, self.__report_filename_template, report_filename)

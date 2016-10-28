@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>latex_reports module &mdash; SB pipe 1.0.0 documentation</title>
+    <title>latex_reports module &mdash; SB pipe 1.5.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.0.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 1.5.0 documentation" href="../index.html" />
     <link rel="up" title="Source code" href="../source_code.html" />
     <link rel="next" title="parallel_computation module" href="parallel_computation.html" />
     <link rel="prev" title="io_util_functions module" href="io_util_functions.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="io_util_functions.html" title="io_util_functions module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.5.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -81,7 +81,7 @@
 
 <dl class="function">
 <dt id="latex_reports.latex_report">
-<code class="descclassname">latex_reports.</code><code class="descname">latex_report</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">latex_reports.</code><code class="descname">latex_report</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em>, <em>caption=False</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a generic report.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -92,6 +92,7 @@
 <li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
 <li><strong>model_noext</strong> &#8211; the model name</li>
 <li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
+<li><strong>caption</strong> &#8211; True if figure captions (=figure file name) should be added</li>
 </ul>
 </td>
 </tr>
@@ -114,6 +115,26 @@
 <li><strong>model_noext</strong> &#8211; the model name</li>
 <li><strong>scanned_par1</strong> &#8211; the 1st scanned parameter</li>
 <li><strong>scanned_par1</strong> &#8211; the 2nd scanned parameter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="latex_reports.latex_report_param_estim">
+<code class="descclassname">latex_reports.</code><code class="descname">latex_report_param_estim</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#latex_reports.latex_report_param_estim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a report for a parameter estimation task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outputdir</strong> &#8211; the output directory</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the simulated plots</li>
+<li><strong>model_noext</strong> &#8211; the model name</li>
+<li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
 </ul>
 </td>
 </tr>
@@ -233,7 +254,7 @@
         <li class="right" >
           <a href="io_util_functions.html" title="io_util_functions module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.0.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.5.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 
       </ul>
     </div>

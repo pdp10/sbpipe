@@ -11,6 +11,6 @@ SB pipe and its documentation are released under the GNU Lesser General Public L
 A copy of this license is provided with the package and can also be found here:
 https://www.gnu.org/licenses/lgpl-3.0.txt.
 
-Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicolas Le Novère (nicolas.lenovere AT babraham.ac.uk)
+Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK

@@ -34,6 +34,7 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 # :args[3]: the directory to save the generated plots
 # :args[4]: the percent of best fits to analyse.
 # :args[5]: true if parameters should be plotted in logspace.
+# :args[6]: true if axis labels should be plotted in scientific notation.
 main <- function(args) {
   
   model <- args[1]
@@ -41,14 +42,21 @@ main <- function(args) {
   plots_dir <- args[3]
   best_fits_percent <- args[4]
   logspace <- args[5]
+  scientific_notation <- args[6]
   
   if(logspace == 'True' || logspace == 'TRUE' || logspace == 'true') { 
     logspace = TRUE
   } else { 
     logspace = FALSE
   }
-
-  final_fits_analysis(model, dataset, plots_dir, best_fits_percent, logspace)
+  
+  if(scientific_notation == 'True' || scientific_notation == 'TRUE' || scientific_notation == 'true') {
+    scientific_notation = TRUE
+  } else {
+    scientific_notation = FALSE
+  }  
+  
+  final_fits_analysis(model, dataset, plots_dir, best_fits_percent, logspace, scientific_notation)
 }
 
 

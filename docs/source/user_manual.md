@@ -6,7 +6,7 @@ SB pipe and its documentation are released under the GNU Lesser General Public L
 A copy of this license is provided with the package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
 
-Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicolas Le Novère (nicolas.lenovere AT babraham.ac.uk)
+Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
@@ -181,39 +181,52 @@ Assuming that the configuration files are placed in the Working_Folder of a cert
 **Example 1:** configuration file for the pipeline *simulate*
 ```
 [simulate]
-# True if data must be generated, False otherwise
+# True if data should be generated, False otherwise
 generate_data=True
-# True if data must be analysed, False otherwise
+# True if data should be analysed, False otherwise
 analyse_data=True
-# True if a report must be generated, False otherwise
+# True if a report should be generated, False otherwise
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
 # The Copasi model name
 model=insulin_receptor_stoch.cps
-# The cluster type. pp if the model is run locally, sge/lsf if run on cluster.
+# The cluster type. pp if the model is run locally, 
+# sge/lsf if run on cluster.
 cluster=pp
 # The number of CPU if pp is used, ignored otherwise
 pp_cpus=7
-# The number of simulations to perform. n>=1 for stochastic simulations.
+# The number of simulations to perform. 
+# n>=1 for stochastic simulations.
 runs=40
+# An experimental data set (or blank) to add to the 
+# simulated plots as additional layer
+exp_dataset=insulin_receptor_dataset.csv
+# True if the experimental data set should be plotted.
+plot_exp_dataset=True
 # The label for the x axis.
-simulate__xaxis_label=Time [min]
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 ```
 
 **Example 2:** configuration file for the pipeline *single_param_scan*
 ```
 [single_param_scan]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
 # The number of intervals in the simulation
 simulate__intervals=100
-simulate__xaxis_label=Time [min]
 # The number of simulations to perform for each scan
 single_param_scan_simulations_number=1
 # True if the variable is only reduced (knock down), False otherwise.
@@ -226,36 +239,55 @@ min_level=0
 max_level=100
 # The number of scans (as set in Copasi Parameter Scan Task)
 levels_number=10
-# True if plot lines are the same between scans (e.g. full lines, same colour)
+# True if plot lines are the same between scans 
+# (e.g. full lines, same colour)
 homogeneous_lines=False
+# The label for the x axis.
+xaxis_label=Time [min]
+# The label for the y axis.
+yaxis_label=Level [a.u.]
 ```
 
 **Example 3:** configuration file for the pipeline *double_param_scan*
 ```
 [double_param_scan]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par1=InsulinPercent
 # The 2nd variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par2=IRbetaPercent
-# The length of the simulation (as set in Copasi Time Course Task)
+# The simulation length (as set in Copasi Time Course Task)
 sim_length=10
 ```
 
 **Example 4:** configuration file for the pipeline *param_estim*
 ```
 [param_estim]
+# True if data should be generated, False otherwise
 generate_data=True
+# True if data should be analysed, False otherwise
 analyse_data=True
+# True if a report should be generated, False otherwise
 generate_report=True
+# True if a zipped tarball should be generated, False otherwise
 generate_tarball=True
+# The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The Copasi model name
 model=insulin_receptor_param_estim.cps
+# The cluster type. pp if the model is run locally, 
+# sge/lsf if run on cluster.
 cluster=pp
+# The number of CPU if pp is used, ignored otherwise
 pp_cpus=7
 # The parameter estimation round which is used to distinguish 
 # phases of parameter estimations when parameters cannot be 
@@ -263,16 +295,24 @@ pp_cpus=7
 round=1
 # The number of parameter estimations 
 # (the length of the fit sequence)
-runs=40
+runs=250
 # The threshold percentage of the best fits to consider
 best_fits_percent=75
 # The number of available data points
 data_point_num=33
-# True if 2D all fits plots for 66% and 95% confidence levels 
-# should be plotted. This is computationally expensive.
-plot_2d_66_95cl_corr=True
-# True if parameter values should plotted in log space.
+# True if 2D all fits plots for 66% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_66cl_corr=True
+# True if 2D all fits plots for 95% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_95cl_corr=True
+# True if 2D all fits plots for 99% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_99cl_corr=True
+# True if parameter values should be plotted in log space.
 logspace=True
+# True if plot axis labels should be plotted in scientific notation.
+scientific_notation=True
 ```
 
 Additional examples of configuration files can be found in:

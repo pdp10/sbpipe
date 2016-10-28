@@ -150,7 +150,7 @@ class Pipeline:
 
         # Initialises the variables
         for line in lines:
-            logger.info(line)
+            # logger.info(line)
             if line[0] == "generate_data":
                 generate_data = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "analyse_data":

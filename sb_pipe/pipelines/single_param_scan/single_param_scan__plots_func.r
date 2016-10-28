@@ -43,10 +43,13 @@ source(file.path(SB_PIPE, 'sb_pipe','utils','R','sb_pipe_ggplot2_themes.r'))
 # :param min_level: the minimum level (default: 0)
 # :param max_level: the maximum level (default: 100)
 # :param levels_number: the number of levels (default: 10)
+# :param xaxis_label: the label for the x axis (e.g. Time [min])
+# :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data <- function(model, variable, inhibition_only, 
-					outputdir, sim_data_folder, sim_plots_folder, xaxis_label, 
-					simulations_number, percent_levels=TRUE, min_level=0, 
-					max_level=100, levels_number=10) {
+					outputdir, sim_data_folder, sim_plots_folder, simulations_number, 
+					percent_levels=TRUE, min_level=0, 
+					max_level=100, levels_number=10, 
+					xaxis_label="", yaxis_label="") {
     
     # Set the labels for the plot legend
     labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))    
@@ -86,7 +89,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
     # create the directory of output
     if (!file.exists(outputdir)){ dir.create(outputdir) }    
 
-    theme_set(tc_theme(28))    
+    theme_set(tc_theme(36)) #28
     
     for(k_sim in 1:simulations_number) {    
     
@@ -136,11 +139,12 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
                     aes(x=time, y=value, color=variable, linetype=variable), 
                     size=1.0)   
 	    }
-	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep="")) + 
-	    scale_colour_manual("Levels", values=colors, labels=labels) + 
-	    scale_linetype_manual("Levels", values=linetype, labels=labels)
-      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
-		   dpi=300,  width=8, height=6)#, bg = "transparent")
+	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) + 
+	         theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
+	         scale_colour_manual("Levels", values=colors, labels=labels) + 
+	         scale_linetype_manual("Levels", values=linetype, labels=labels)
+        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+		   dpi=300,  width=8, height=8)#, bg = "transparent")
    
 	  }
 	  
@@ -157,12 +161,13 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 # :param outputdir: the output directory
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
-# :param xaxis_label: the label for the x axis (e.g. Time (min))
 # :param simulations_number: the simulation number
+# :param xaxis_label: the label for the x axis (e.g. Time [min])
+# :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data_homogen <- function(model, variable, 
 					outputdir, sim_data_folder, 
-					sim_plots_folder, xaxis_label, 
-					simulations_number) {
+					sim_plots_folder, simulations_number,
+					xaxis_label="", yaxis_label="") {
 					
     writeLines(paste("Model: ", model, ".cps", sep=""))
     writeLines(paste("Perturbed variable: ", variable, sep=""))
@@ -175,7 +180,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     # create the directory of output
     if (!file.exists(outputdir)){ dir.create(outputdir) }
     
-    theme_set(tc_theme(28))    
+    theme_set(tc_theme(36)) #28
     
     for(k_sim in 1:simulations_number) { 
 	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, sep=""))	  
@@ -191,9 +196,9 @@ plot_single_param_scan_data_homogen <- function(model, variable,
             df <- data.frame(time=timecourses[,1], value=df)
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
 	    }
-	    g <- g + xlab(xaxis_label) + ylab(paste(column[j], " [a.u.]", sep=""))
-      	    ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
-		   dpi=300,  width=8, height=6)#, bg = "transparent")
+	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
+        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+		   dpi=300,  width=8, height=8)#, bg = "transparent")
 	  }
   }
   

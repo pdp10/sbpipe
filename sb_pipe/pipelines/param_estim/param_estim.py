@@ -49,7 +49,7 @@ from randomise_parameters import *
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str
 from io_util_functions import refresh_directory
-from latex_reports import latex_report, pdf_report
+from latex_reports import latex_report_param_estim, pdf_report
 
 
 class ParamEstim(Pipeline):
@@ -77,7 +77,8 @@ class ParamEstim(Pipeline):
              generate_tarball, project_dir, model,
              cluster, pp_cpus, round, runs,
              best_fits_percent, data_point_num,
-             plot_2d_66_95cl_corr, logspace) = self.config_parser(config_file, "param_estim")
+             plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+             logspace, scientific_notation) = self.config_parser(config_file, "param_estim")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -96,8 +97,8 @@ class ParamEstim(Pipeline):
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
-        fileout_approx_ple_stats = "approx_ple_stats.csv"
-        fileout_conf_levels = "conf_levels.csv"
+        fileout_param_estim_details = "param_estim_details.csv"
+        fileout_param_estim_summary = "param_estim_summary.csv"
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -133,13 +134,16 @@ class ParamEstim(Pipeline):
                               outputdir,
                               fileout_final_estims,
                               fileout_all_estims,
-                              fileout_approx_ple_stats,
-                              fileout_conf_levels,
+                              fileout_param_estim_details,
+                              fileout_param_estim_summary,
                               os.path.join(outputdir, self.get_sim_plots_folder()),
                               best_fits_percent,
                               data_point_num,
-                              plot_2d_66_95cl_corr,
-                              logspace)
+                              plot_2d_66cl_corr,
+                              plot_2d_95cl_corr,
+                              plot_2d_99cl_corr,
+                              logspace,
+                              scientific_notation)
 
         if generate_report:
             logger.info("\n")
@@ -204,13 +208,14 @@ class ParamEstim(Pipeline):
             return
 
         logger.info("Configure Copasi:")
-        logger.info(
-            "Replicate a Copasi file configured for parameter estimation and randomise the initial parameter values")
         groupid = "_" + get_rand_alphanum_str(20) + "_"
         group_model = model[:-4] + groupid
         pre_param_estim = RandomiseParameters(inputdir, model)
-        pre_param_estim.print_parameters_to_estimate()
+        logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")        
         pre_param_estim.generate_instances_from_template(nfits, groupid)
+        #logger.info("Randomise the initial parameter values")
+        #pre_param_estim.print_parameters_to_estimate()        
+        #pre_param_estim.randomise_parameters(nfits, groupid)
 
         logger.info("\n")
         logger.info("Parallel parameter estimation:")
@@ -239,8 +244,9 @@ class ParamEstim(Pipeline):
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_approx_ple_stats, fileout_conf_levels, sim_plots_dir, best_fits_percent, data_point_num,
-                     plot_2d_66_95cl_corr=False, logspace=True):
+                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir, best_fits_percent, data_point_num,
+                     plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
+                     logspace=True, scientific_notation=True):
         """
         The second pipeline step: data analysis.
 
@@ -249,13 +255,16 @@ class ParamEstim(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
         :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
-        :param fileout_approx_ple_stats: the file name of the PLE results
-        :param fileout_conf_levels: the file name of the confidence levels results
+        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+        :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
         :param data_point_num: the number of data points
-        :param plot_2d_66_95cl_corr: True if 2 dim plots for the parameter sets within 66% and 95% should be plotted
+        :param plot_2d_66cl_corr: True if 2 dim plots for the parameter sets within 66% should be plotted
+        :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
+        :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted        
         :param logspace: True if parameters should be plotted in log space
+        :param scientific_notation: True if axis labels should be plotted in scientific notation        
         """
 
         if not os.path.exists(inputdir) or not os.listdir(inputdir):
@@ -277,7 +286,7 @@ class ParamEstim(Pipeline):
                          model,
                          os.path.join(outputdir, fileout_final_estims),
                          sim_plots_dir,
-                         str(best_fits_percent), str(logspace)])
+                         str(best_fits_percent), str(logspace), str(scientific_notation)])
         process.wait()
         process = Popen(
             ['Rscript', os.path.join(SB_PIPE, 'sb_pipe', 'pipelines', 'param_estim', 'main_all_fits_analysis.r'),
@@ -285,9 +294,10 @@ class ParamEstim(Pipeline):
              os.path.join(outputdir, fileout_all_estims),
              sim_plots_dir,
              str(data_point_num),
-             os.path.join(outputdir, fileout_approx_ple_stats),
-             os.path.join(outputdir, fileout_conf_levels),
-             str(plot_2d_66_95cl_corr), str(logspace)])
+             os.path.join(outputdir, fileout_param_estim_details),
+             os.path.join(outputdir, fileout_param_estim_summary),
+             str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr), 
+             str(logspace), str(scientific_notation)])
         process.wait()
 
     @staticmethod
@@ -307,7 +317,7 @@ class ParamEstim(Pipeline):
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__param_estim_"
-        latex_report(outputdir, sim_plots_folder, model, filename_prefix)
+        latex_report_param_estim(outputdir, sim_plots_folder, model, filename_prefix)
 
         pdflatex = which("pdflatex")
         if pdflatex is None:
@@ -337,11 +347,19 @@ class ParamEstim(Pipeline):
         best_fits_percent = 100
         # The number of available data points
         data_point_num = 10
-        # Plot 2D correlations using data from 66% or 95% confidence levels
+        # Plot 2D correlations using data from 66% confidence levels
         # This can be very time/memory consuming
-        plot_2d_66_95cl_corr = False
+        plot_2d_66cl_corr = False
+        # Plot 2D correlations using data from 95% confidence levels
+        # This can be very time/memory consuming
+        plot_2d_95cl_corr = False
+        # Plot 2D correlations using data from 99% confidence levels
+        # This can be very time/memory consuming
+        plot_2d_99cl_corr = False        
         # True if the parameters should be plotted in log10 space.
         logspace = True
+        # True if axis labels should be plotted in scientific notation
+        scientific_notation = True
 
         # Initialises the variables
         for line in lines:
@@ -360,14 +378,22 @@ class ParamEstim(Pipeline):
                 best_fits_percent = line[1]
             elif line[0] == "data_point_num":
                 data_point_num = line[1]
-            elif line[0] == "plot_2d_66_95cl_corr":
-                plot_2d_66_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "plot_2d_66cl_corr":
+                plot_2d_66cl_corr = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "plot_2d_95cl_corr":
+                plot_2d_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "plot_2d_99cl_corr":
+                plot_2d_99cl_corr = {'True': True, 'False': False}.get(line[1], False)                
             elif line[0] == "logspace":
                 logspace = {'True': True, 'False': False}.get(line[1], False)
+            elif line[0] == "scientific_notation":
+                scientific_notation = {'True': True, 'False': False}.get(line[1], False)
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, model, cluster, pp_cpus,
-                round, runs, best_fits_percent, data_point_num, plot_2d_66_95cl_corr, logspace)
+                round, runs, best_fits_percent, data_point_num, 
+                plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+                logspace, scientific_notation)
 
 
 

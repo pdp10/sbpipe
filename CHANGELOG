@@ -1,14 +1,28 @@
 sb_pipe (GNU Lesser General Public License v3)
-Copyright 2010-2016 Piero Dalle Pezze
+Copyright 2010-2018 Piero Dalle Pezze and Nicolas Le Novère
 
 Website: https://pdp10.github.io/sb_pipe/
 
 
 ### CHANGELOG
 
-v1.0.0
+v1.15.0
 
-- first release.
+- added AIC, AICc, BIC to the parameter estimation summary table.
+- randomisation of initial parameter values for parameter estimation is now only performed by Copasi.
+- added plots comparing model simulation vs experimental data in simulate pipeline.
+- improving plot margins for simulate and single parameter scan pipelines.
+- source code refractoring in parameter estimation analysis task.
+- fixed a bug in parameter estimation pipeline related to the filtering of confidence intervals from the complete data set.
+- added ratios in parameter estimation summaries to investigate the distance between the estimated parameter and its confidence intervals.
+- plot polishing.
+- separated options for plotting 2d correlations within 66%, 95%, or 99% confidence intervals.
+- added 99% confidence intervals parameter estimation plots. 
+- added option to plot parameter estimation plots using the scientific notation.
+- improved plots layout (fonts, legends).
+- added option for y axis label to simulate and single parameter scan pipelines.
+- Copasi models are fully consistent.
+- table of estimated parameter and confidence values is in normal scale (not log10). 
 
 
 v0.62.0
