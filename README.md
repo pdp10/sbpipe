@@ -6,10 +6,10 @@
 
 This package contains a collection of pipelines for dynamic modelling of biological systems. It aims to automate common processes and speed up productivity for tasks such as model simulation, single and double parameter scan, and parameter estimation. 
 
-For information on how to use SB pipe, please visit the 
+For information on how to **install** and **use** SB pipe, please visit the 
 [user manual](https://github.com/pdp10/sb_pipe/blob/master/docs/source/user_manual.md).
 
-For information on how to develop new modules, please visit the
+For information on how to **develop** new modules, please visit the
 [developer manual](https://github.com/pdp10/sb_pipe/blob/master/docs/source/developer_manual.md).
 
 These two manuals and the source code documentation are also available in docs/index.html within the main package folder. 
