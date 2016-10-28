@@ -97,8 +97,8 @@ class ParamEstim(Pipeline):
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
-        fileout_approx_ple_stats = "approx_ple_stats.csv"
-        fileout_conf_levels = "conf_levels.csv"
+        fileout_param_estim_details = "param_estim_details.csv"
+        fileout_param_estim_summary = "param_estim_summary.csv"
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -134,8 +134,8 @@ class ParamEstim(Pipeline):
                               outputdir,
                               fileout_final_estims,
                               fileout_all_estims,
-                              fileout_approx_ple_stats,
-                              fileout_conf_levels,
+                              fileout_param_estim_details,
+                              fileout_param_estim_summary,
                               os.path.join(outputdir, self.get_sim_plots_folder()),
                               best_fits_percent,
                               data_point_num,
@@ -244,7 +244,7 @@ class ParamEstim(Pipeline):
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_approx_ple_stats, fileout_conf_levels, sim_plots_dir, best_fits_percent, data_point_num,
+                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir, best_fits_percent, data_point_num,
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
                      logspace=True, scientific_notation=True):
         """
@@ -255,8 +255,8 @@ class ParamEstim(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
         :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
-        :param fileout_approx_ple_stats: the file name of the PLE results
-        :param fileout_conf_levels: the file name of the confidence levels results
+        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+        :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
         :param data_point_num: the number of data points
@@ -294,8 +294,8 @@ class ParamEstim(Pipeline):
              os.path.join(outputdir, fileout_all_estims),
              sim_plots_dir,
              str(data_point_num),
-             os.path.join(outputdir, fileout_approx_ple_stats),
-             os.path.join(outputdir, fileout_conf_levels),
+             os.path.join(outputdir, fileout_param_estim_details),
+             os.path.join(outputdir, fileout_param_estim_summary),
              str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr), 
              str(logspace), str(scientific_notation)])
         process.wait()

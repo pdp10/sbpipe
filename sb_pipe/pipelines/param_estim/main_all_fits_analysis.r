@@ -29,12 +29,12 @@ source(file.path(SB_PIPE, 'sb_pipe','pipelines','param_estim','param_estim_utils
 # R Script to run model parameter estimation analysis and plot results. This script analyses
 # all fits.
 #
-# :args[1]: the model name without extension
+# :args[1]: the model name without extension.
 # :args[2]: the dataset containing the parameter estimation data.
-# :args[3]: the directory to save the generated plots
-# :args[4]: the number of data points used for parameterise the model
-# :args[5]: the name of the file to store the statistics for the approximated profile likelihood estimation.
-# :args[6]: the name of the file to store the confidence levels.
+# :args[3]: the directory to save the generated plots.
+# :args[4]: the number of data points used for parameterise the model.
+# :args[5]: the name of the file containing the detailed statistics for the estimated parameters.
+# :args[6]: the name of the file containing the summary for the parameter estimation.
 # :args[7]: true if the 2D parameter correlation plots for 66% confidence intervals should be plotted.
 # :args[8]: true if the 2D parameter correlation plots for 95% confidence intervals should be plotted.
 # :args[9]: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted.
@@ -46,8 +46,8 @@ main <- function(args) {
   dataset <- args[2]
   plots_dir <- args[3]
   data_point_num <- args[4]
-  fileout_approx_ple_stats <- args[5]
-  fileout_conf_levels <- args[6]
+  fileout_param_estim_details <- args[5]
+  fileout_param_estim_summary <- args[6]
   plot_2d_66cl_corr <- args[7]
   plot_2d_95cl_corr <- args[8]
   plot_2d_99cl_corr <- args[9]  
@@ -84,8 +84,8 @@ main <- function(args) {
     scientific_notation = FALSE
   }  
   
-  all_fits_analysis(model, dataset, plots_dir, data_point_num, fileout_approx_ple_stats, 
-                    fileout_conf_levels, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr, 
+  all_fits_analysis(model, dataset, plots_dir, data_point_num, fileout_param_estim_details, 
+                    fileout_param_estim_summary, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr, 
                     logspace, scientific_notation)
 }
 

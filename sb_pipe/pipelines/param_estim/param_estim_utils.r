@@ -175,7 +175,7 @@ plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {
 }
 
 
-# Plot the approximated profile likelihood estimations (PLE)
+# Plot the sampled profile likelihood estimations (PLE)
 # 
 # :param df99: the 99% confidence level data frame
 # :param chi2_col: the chi2 column name
@@ -186,7 +186,7 @@ plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {
 # :param model: the model name
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-plot_approx_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model,
+plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model,
                             logspace=TRUE, scientific_notation=TRUE) { 
     dfCols <- colnames(df99)
     for (i in seq(2,length(dfCols))) {
@@ -249,7 +249,7 @@ plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
 
 
     
-# Compute the table for the approx PLE statistics.
+# Compute the table for the sampled PLE statistics.
 #
 # :param df66: the data frame filtered at 66%
 # :param df95: the data frame filtered at 95%
@@ -262,7 +262,7 @@ plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
 # :param cl95_chi2: the 95% confidence level chi2
 # :param cl99_chi2: the 99% confidence level chi2
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
-compute_approx_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_idx, param_col_idx, 
+compute_sampled_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_idx, param_col_idx, 
                                         cl66_chi2, cl95_chi2, cl99_chi2, logspace=TRUE) {
 
     min_chi2 <- min(df99[,chi2_col])                                         
@@ -364,14 +364,14 @@ compute_bic <- function(chi2, k, n) {
 # :param filenamein: the dataset containing the parameter estimation data.
 # :param plots_dir: the directory to save the generated plots
 # :param data_point_num: the number of data points used for parameterise the model
-# :param fileout_approx_ple_stats: the name of the file to store the statistics for the approximated profile likelihood estimation.
-# :param fileout_conf_levels: the name of the file to store the confidence levels.
+# :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+# :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
 # :param plot_2d_66cl_corr: true if the 2D parameter correlation plots for 66% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
 # :param plot_2d_95cl_corr: true if the 2D parameter correlation plots for 95% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
 # :param plot_2d_99cl_corr: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_approx_ple_stats, fileout_conf_levels, plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE, logspace=TRUE, scientific_notation=TRUE) {
+all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_param_estim_details, fileout_param_estim_summary, plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE, logspace=TRUE, scientific_notation=TRUE) {
   
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
@@ -412,21 +412,21 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   plot_chi2_vs_iters(df, chi2_col, plots_dir, model) 
 
   # Write the summary for the parameter estimation analysis
-  fileoutPLE <- sink(fileout_conf_levels)
+  fileoutPLE <- sink(fileout_param_estim_summary)
   cat(paste("MinChi2", "AIC", "AICc", "BIC", "ParamNum", "DataPointNum", "CL66Chi2", "CL66FitsNum", "CL95Chi2", "CL95FitsNum", "CL99Chi2", "CL99FitsNum\n", sep="\t"))
   cat(paste(min_chi2, compute_aic(min_chi2, parameter_num), compute_aicc(min_chi2, parameter_num, data_point_num), compute_bic(min_chi2, parameter_num, data_point_num), parameter_num, data_point_num, cl66_chi2, nrow(df66), cl95_chi2, nrow(df95), cl99_chi2, nrow(df99), sep="\t"), append=TRUE)
   cat("\n", append=TRUE)   
   sink()
 
-  # Plot the approximated profile likelihood estimations (PLE)
-  plot_approx_ple(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model, logspace, scientific_notation)
+  # Plot the sampled profile likelihood estimations (PLE)
+  plot_sampled_ple(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model, logspace, scientific_notation)
   
-  # Write the table for the approx PLE statistics.
-  fileoutPLE <- sink(fileout_approx_ple_stats)
+  # Write the table containing the parameter estimation details.
+  fileoutPLE <- sink(fileout_param_estim_details)
   cat(paste("Parameter", "Value", "LeftCI66", "RightCI66", "LeftCI95", "RightCI95", "LeftCI99", "RightCI99", "Value_LeftCI66_ratio", "RightCI66_Value_ratio", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "Value_LeftCI99_ratio", "RightCI99_Value_ratio\n", sep="\t"), append=TRUE)
   for (i in seq(2,length(dfCols))) {
     # compute the confidence levels and the value for the best parameter
-    ci_obj <- compute_approx_ple_stats(df66, df95, df99, df, chi2_col, chi2_col_idx, i, 
+    ci_obj <- compute_sampled_ple_stats(df66, df95, df99, df, chi2_col, chi2_col_idx, i, 
                                         cl66_chi2, cl95_chi2, cl99_chi2, logspace)
 
     # write on file
