@@ -33,14 +33,18 @@ In order to use SB pipe, the following software must be installed:
 -  Copasi 4.16 - http://copasi.org/
 -  Python 2.7+ - https://www.python.org/
 -  R 3.3.0+ - https://cran.r-project.org/
--  LaTeX 2013 (optional) https://latex-project.org/ftp.html
+-  LaTeX 2013 (only for reports) https://latex-project.org/ftp.html
 
-You should also make sure that the following packages are installed in
-your machine: ``python-pip``, and (optionally) ``texlive-latex-base``.
+GNU/Linux
+^^^^^^^^^
 
-Before installing SB pipe Python and R dependencies the following
-environment variables must be added to your GNU/Linux $HOME/.bashrc
-file:
+The previous packages except Copasi are generally available in any
+GNU/Linux distribution. GNU/Linux users should also make sure that the
+following packages are installed in your machine: ``python-pip``, and
+(only for reports) ``texlive-latex-base``.
+
+The following environment variables must be added to your GNU/Linux
+$HOME/.bashrc file:
 
 ::
 
@@ -57,20 +61,18 @@ The .bashrc file can then be reloaded from your shell using the command:
 
     $ source $HOME/.bashrc
 
-On Windows platforms, these environment variables are configured as any
-other Windows environment variable.
+After configuring the environment variables the next step is to install
+Python and R packages used by SB pipe. Two scripts are provided to
+perform these tasks automatically.
 
-Now it is the time to install Python and R packages used by SB pipe. Two
-scripts are provided to perform these tasks automatically.
-
-To install SB pipe Python dependencies, run:
+To install SB pipe Python dependencies on GNU/Linux, run:
 
 ::
 
     cd ${SB_PIPE}/
     ./install_pydeps.py
 
-To install SB pipe R dependencies, run:
+To install SB pipe R dependencies on GNU/Linux, run:
 
 ::
 
@@ -84,6 +86,73 @@ the following additional packages are installed in your machine:
 ``build-essential``, ``liblapack-dev``, ``libblas-dev``,
 ``libcairo-dev``, ``libssl-dev``, ``libcurl4-openssl-dev``. After
 installing these packages, ``install_rdeps.r`` must be executed again.
+
+Windows
+^^^^^^^
+
+Windows users are also strongly advised to install the package:
+
+-  Cygwin 2.6.0 https://www.cygwin.com/
+
+Cygwin offers a GNU/Linux-like shell. This makes the installation of
+dependencies easier as this follows the configuration for GNU/Linux
+users.
+
+Windows users may need to edit the ``PATH`` environment variable so that
+the binary files for the previous packages (Copasi, Python, R, and
+LaTeX) are correctly found. Specifically for Python, the python scripts
+``pip.py`` and ``easy_install.py`` are located inside the folder
+``Scripts`` within the Python root directory. The path to this folder
+must also be added to ``PATH``.
+
+The following environment variables must also be added:
+
+::
+
+    SB_PIPE=\path\to\sb_pipe
+    PATH=[previous paths];%SB_PIPE%\sb_pipe
+
+\*\* NOTE for Cygwin: \*\* Environment variables can also be configured
+directly within the .bashrc file in cygwin/home/USERNAME/. In the
+beginning of this file, users should place:
+
+::
+
+    # Path to CopasiSE
+    export PATH=$PATH:/path/to/CopasiSE/binaries/
+
+    # Path to R
+    export PATH=$PATH:/path/to/R/binaries/
+
+    # Path to Python
+    export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
+
+    # Path to LaTeX
+    export PATH=$PATH:/path/to/LaTeX/binaries/
+
+    # SB_PIPE
+    export SB_PIPE=/path/to/sb_pipe
+    export PATH=$PATH:${SB_PIPE}/sb_pipe
+
+After configuring the environment variables directly or internally in
+Cygwin, the next step is to install Python and R packages used by SB
+pipe. Two scripts are provided to perform these tasks automatically.
+
+To install SB pipe Python dependencies using Cygwin on Windows, run:
+
+::
+
+    cd /cygdrive/PATH/TO/SB_PIPE/
+    python.exe install_pydeps.py
+
+To install SB pipe R dependencies using Cygwin on Windows, run:
+
+::
+
+    cd /cygdrive/PATH/TO/SB_PIPE/
+    $ R.exe
+    # Inside R environment, answer 'y' to install packages locally
+    > source('install_rdeps.r')
 
 Installation
 ~~~~~~~~~~~~

@@ -78,13 +78,16 @@ parameter scan, and parameter estimation.</p>
 <li>Copasi 4.16 - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a></li>
 <li>Python 2.7+ - <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></li>
 <li>R 3.3.0+ - <a class="reference external" href="https://cran.r-project.org/">https://cran.r-project.org/</a></li>
-<li>LaTeX 2013 (optional) <a class="reference external" href="https://latex-project.org/ftp.html">https://latex-project.org/ftp.html</a></li>
+<li>LaTeX 2013 (only for reports) <a class="reference external" href="https://latex-project.org/ftp.html">https://latex-project.org/ftp.html</a></li>
 </ul>
-<p>You should also make sure that the following packages are installed in
-your machine: <code class="docutils literal"><span class="pre">python-pip</span></code>, and (optionally) <code class="docutils literal"><span class="pre">texlive-latex-base</span></code>.</p>
-<p>Before installing SB pipe Python and R dependencies the following
-environment variables must be added to your GNU/Linux $HOME/.bashrc
-file:</p>
+<div class="section" id="gnu-linux">
+<h4>GNU/Linux<a class="headerlink" href="#gnu-linux" title="Permalink to this headline">¶</a></h4>
+<p>The previous packages except Copasi are generally available in any
+GNU/Linux distribution. GNU/Linux users should also make sure that the
+following packages are installed in your machine: <code class="docutils literal"><span class="pre">python-pip</span></code>, and
+(only for reports) <code class="docutils literal"><span class="pre">texlive-latex-base</span></code>.</p>
+<p>The following environment variables must be added to your GNU/Linux
+$HOME/.bashrc file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span># SB_PIPE
 export SB_PIPE=/path/to/sb_pipe
 export PATH=$PATH:${SB_PIPE}/sb_pipe
@@ -97,16 +100,15 @@ export PATH=$PATH:/path/to/CopasiSE
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ source $HOME/.bashrc
 </pre></div>
 </div>
-<p>On Windows platforms, these environment variables are configured as any
-other Windows environment variable.</p>
-<p>Now it is the time to install Python and R packages used by SB pipe. Two
-scripts are provided to perform these tasks automatically.</p>
-<p>To install SB pipe Python dependencies, run:</p>
+<p>After configuring the environment variables the next step is to install
+Python and R packages used by SB pipe. Two scripts are provided to
+perform these tasks automatically.</p>
+<p>To install SB pipe Python dependencies on GNU/Linux, run:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
 ./install_pydeps.py
 </pre></div>
 </div>
-<p>To install SB pipe R dependencies, run:</p>
+<p>To install SB pipe R dependencies on GNU/Linux, run:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
@@ -118,6 +120,63 @@ the following additional packages are installed in your machine:
 <code class="docutils literal"><span class="pre">build-essential</span></code>, <code class="docutils literal"><span class="pre">liblapack-dev</span></code>, <code class="docutils literal"><span class="pre">libblas-dev</span></code>,
 <code class="docutils literal"><span class="pre">libcairo-dev</span></code>, <code class="docutils literal"><span class="pre">libssl-dev</span></code>, <code class="docutils literal"><span class="pre">libcurl4-openssl-dev</span></code>. After
 installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must be executed again.</p>
+</div>
+<div class="section" id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<p>Windows users are also strongly advised to install the package:</p>
+<ul class="simple">
+<li>Cygwin 2.6.0 <a class="reference external" href="https://www.cygwin.com/">https://www.cygwin.com/</a></li>
+</ul>
+<p>Cygwin offers a GNU/Linux-like shell. This makes the installation of
+dependencies easier as this follows the configuration for GNU/Linux
+users.</p>
+<p>Windows users may need to edit the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable so that
+the binary files for the previous packages (Copasi, Python, R, and
+LaTeX) are correctly found. Specifically for Python, the python scripts
+<code class="docutils literal"><span class="pre">pip.py</span></code> and <code class="docutils literal"><span class="pre">easy_install.py</span></code> are located inside the folder
+<code class="docutils literal"><span class="pre">Scripts</span></code> within the Python root directory. The path to this folder
+must also be added to <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
+<p>The following environment variables must also be added:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>SB_PIPE=\path\to\sb_pipe
+PATH=[previous paths];%SB_PIPE%\sb_pipe
+</pre></div>
+</div>
+<p>** NOTE for Cygwin: ** Environment variables can also be configured
+directly within the .bashrc file in cygwin/home/USERNAME/. In the
+beginning of this file, users should place:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span># Path to CopasiSE
+export PATH=$PATH:/path/to/CopasiSE/binaries/
+
+# Path to R
+export PATH=$PATH:/path/to/R/binaries/
+
+# Path to Python
+export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
+
+# Path to LaTeX
+export PATH=$PATH:/path/to/LaTeX/binaries/
+
+# SB_PIPE
+export SB_PIPE=/path/to/sb_pipe
+export PATH=$PATH:${SB_PIPE}/sb_pipe
+</pre></div>
+</div>
+<p>After configuring the environment variables directly or internally in
+Cygwin, the next step is to install Python and R packages used by SB
+pipe. Two scripts are provided to perform these tasks automatically.</p>
+<p>To install SB pipe Python dependencies using Cygwin on Windows, run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SB_PIPE/
+python.exe install_pydeps.py
+</pre></div>
+</div>
+<p>To install SB pipe R dependencies using Cygwin on Windows, run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SB_PIPE/
+$ R.exe
+# Inside R environment, answer &#39;y&#39; to install packages locally
+&gt; source(&#39;install_rdeps.r&#39;)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
@@ -410,7 +469,11 @@ tracking system for SB pipe at the web page:</p>
   <ul>
 <li><a class="reference internal" href="#">User manual</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#gnu-linux">GNU/Linux</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 </ul>
 </li>
