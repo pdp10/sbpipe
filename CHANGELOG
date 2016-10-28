@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.14.0
+v1.15.0
 
+- added AIC, AICc, BIC to the parameter estimation summary table.
 - randomisation of initial parameter values for parameter estimation is now only performed by Copasi.
 - added plots comparing model simulation vs experimental data in simulate pipeline.
 - improving plot margins for simulate and single parameter scan pipelines.

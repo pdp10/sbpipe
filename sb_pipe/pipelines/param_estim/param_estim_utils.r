@@ -325,6 +325,36 @@ compute_approx_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_id
 }
 
 
+# Compute the Akaike Information Criterion. Assuming additive Gaussian 
+# measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
+# 
+# :param chi2: the Chi^2 for the model
+# :param k: the number of model parameters
+compute_aic <- function(chi2, k) {
+    chi2 + 2*k
+}
+
+
+# Compute the corrected Akaike Information Criterion. Assuming additive Gaussian 
+# measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
+# 
+# :param chi2: the Chi^2 for the model
+# :param k: the number of model parameters
+# :param n: the number of data points
+compute_aicc <- function(chi2, k, n) {
+    compute_aic(chi2, k) + (2*k*(k+1))/(n-k-1)
+}
+
+
+# Compute the Bayesian Information Criterion. Assuming additive Gaussian 
+# measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
+# 
+# :param chi2: the Chi^2 for the model
+# :param k: the number of model parameters
+# :param n: the number of data points
+compute_bic <- function(chi2, k, n) {
+    chi2 + k*log(n)
+}
 
 
 # Run model parameter estimation analysis and plot results. This script analyses
@@ -383,8 +413,8 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 
   # Write the summary for the parameter estimation analysis
   fileoutPLE <- sink(fileout_conf_levels)
-  cat(paste("MinChi2", "ParamNum", "DataPointNum", "CL66Chi2", "CL66FitsNum", "CL95Chi2", "CL95FitsNum", "CL99Chi2", "CL99FitsNum\n", sep="\t"))
-  cat(paste(min_chi2, parameter_num, data_point_num, cl66_chi2, nrow(df66), cl95_chi2, nrow(df95), cl99_chi2, nrow(df99), sep="\t"), append=TRUE)
+  cat(paste("MinChi2", "AIC", "AICc", "BIC", "ParamNum", "DataPointNum", "CL66Chi2", "CL66FitsNum", "CL95Chi2", "CL95FitsNum", "CL99Chi2", "CL99FitsNum\n", sep="\t"))
+  cat(paste(min_chi2, compute_aic(min_chi2, parameter_num), compute_aicc(min_chi2, parameter_num, data_point_num), compute_bic(min_chi2, parameter_num, data_point_num), parameter_num, data_point_num, cl66_chi2, nrow(df66), cl95_chi2, nrow(df95), cl99_chi2, nrow(df99), sep="\t"), append=TRUE)
   cat("\n", append=TRUE)   
   sink()
 
