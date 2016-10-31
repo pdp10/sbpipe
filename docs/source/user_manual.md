@@ -40,7 +40,7 @@ The following environment variables must be added to your GNU/Linux $HOME/.bashr
 ```
 # SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:${SBPIPE}/sbpipe
+export PATH=$PATH:SBPIPE/sbpipe
 
 # Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE
@@ -56,13 +56,13 @@ are provided to perform these tasks automatically.
 
 To install SB pipe Python dependencies on GNU/Linux, run:
 ```
-cd ${SBPIPE}/
+cd $SBPIPE/
 ./install_pydeps.py
 ```
 
 To install SB pipe R dependencies on GNU/Linux, run:
 ```
-cd ${SBPIPE}/
+cd $SBPIPE/
 $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
@@ -113,7 +113,7 @@ export PATH=$PATH:/path/to/LaTeX/binaries/
 
 # SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:${SBPIPE}/sbpipe
+export PATH=$PATH:$SBPIPE/sbpipe
 
 ```
 
@@ -381,7 +381,7 @@ scientific_notation=True
 
 Additional examples of configuration files can be found in:
 ```
-${SBPIPE}/tests/insulin_receptor/Working_Folder/ 
+$SBPIPE/tests/insulin_receptor/Working_Folder/ 
 ```
 
 

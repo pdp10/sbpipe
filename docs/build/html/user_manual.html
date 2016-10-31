@@ -82,7 +82,7 @@ parameter scan, and parameter estimation.</p>
 </ul>
 <div class="section" id="gnu-linux">
 <h4>GNU/Linux<a class="headerlink" href="#gnu-linux" title="Permalink to this headline">¶</a></h4>
-<p>The previous packages except Copasi are generally available in any
+<p>The previous packages but Copasi are generally available in any
 GNU/Linux distribution. GNU/Linux users should also make sure that the
 following packages are installed in your machine: <code class="docutils literal"><span class="pre">python-pip</span></code>, and
 (only for reports) <code class="docutils literal"><span class="pre">texlive-latex-base</span></code>.</p>
@@ -90,7 +90,7 @@ following packages are installed in your machine: <code class="docutils literal"
 $HOME/.bashrc file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span># SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:${SBPIPE}/sbpipe
+export PATH=$PATH:SBPIPE/sbpipe
 
 # Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE
@@ -104,12 +104,12 @@ export PATH=$PATH:/path/to/CopasiSE
 Python and R packages used by SB pipe. Two scripts are provided to
 perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SBPIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd $SBPIPE/
 ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SBPIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd $SBPIPE/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -120,6 +120,9 @@ the following additional packages are installed in your machine:
 <code class="docutils literal"><span class="pre">build-essential</span></code>, <code class="docutils literal"><span class="pre">liblapack-dev</span></code>, <code class="docutils literal"><span class="pre">libblas-dev</span></code>,
 <code class="docutils literal"><span class="pre">libcairo-dev</span></code>, <code class="docutils literal"><span class="pre">libssl-dev</span></code>, <code class="docutils literal"><span class="pre">libcurl4-openssl-dev</span></code>. After
 installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must be executed again.</p>
+<p><strong>NOTES for Python3:</strong> Currently SB pipe is not available for Python 3
+because there is no stable port to Python 3 for the dependency package
+<code class="docutils literal"><span class="pre">pp</span></code>.</p>
 </div>
 <div class="section" id="windows">
 <h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
@@ -158,7 +161,7 @@ export PATH=$PATH:/path/to/LaTeX/binaries/
 
 # SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:${SBPIPE}/sbpipe
+export PATH=$PATH:$SBPIPE/sbpipe
 </pre></div>
 </div>
 <p>After configuring the environment variables directly or internally in
@@ -433,7 +436,7 @@ scientific_notation=True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>${SBPIPE}/tests/insulin_receptor/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre><span></span>$SBPIPE/tests/insulin_receptor/Working_Folder/
 </pre></div>
 </div>
 </div>
@@ -451,8 +454,8 @@ website:</p>
 <p><a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
 <p>To help us better identify and reproduce your problem, some technical
 information is needed. This detail data can be found in SB pipe log
-files which are stored in ${HOME}/.sbpipe/logs/. When using the
-mailing list above, it would be worth providing this extra information.</p>
+files which are stored in ${HOME}/.sbpipe/logs/. When using the mailing
+list above, it would be worth providing this extra information.</p>
 <p>Issues and feature requests can also be notified using the github issue
 tracking system for SB pipe at the web page:</p>
 <p><a class="reference external" href="https://github.com/pdp10/sbpipe/issues">https://github.com/pdp10/sbpipe/issues</a>.</p>

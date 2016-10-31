@@ -187,7 +187,7 @@ Projects inside the folder tests/ have the SB pipe project structure:
 estimation results, time course, parameter scan, etc).
 
 Examples of configuration files (*.conf) can be found in 
-${SBPIPE}/tests/insulin_receptor/Working_Folder/.
+$SBPIPE/tests/insulin_receptor/Working_Folder/.
 
 Travis-CI runs SB pipe tests using `nosetests`. Please see .travis.yml 
 for detail.

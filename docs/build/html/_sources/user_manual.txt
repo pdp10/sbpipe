@@ -13,7 +13,7 @@ Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
-Mailing list: sb\_pipe AT googlegroups.com
+Mailing list: sbpipe AT googlegroups.com
 
 Forum: https://groups.google.com/forum/#!forum/sbpipe
 
@@ -38,7 +38,7 @@ In order to use SB pipe, the following software must be installed:
 GNU/Linux
 ^^^^^^^^^
 
-The previous packages except Copasi are generally available in any
+The previous packages but Copasi are generally available in any
 GNU/Linux distribution. GNU/Linux users should also make sure that the
 following packages are installed in your machine: ``python-pip``, and
 (only for reports) ``texlive-latex-base``.
@@ -50,7 +50,7 @@ $HOME/.bashrc file:
 
     # SBPIPE
     export SBPIPE=/path/to/sbpipe
-    export PATH=$PATH:${SBPIPE}/sbpipe
+    export PATH=$PATH:SBPIPE/sbpipe
 
     # Path to CopasiSE
     export PATH=$PATH:/path/to/CopasiSE
@@ -69,14 +69,14 @@ To install SB pipe Python dependencies on GNU/Linux, run:
 
 ::
 
-    cd ${SBPIPE}/
+    cd $SBPIPE/
     ./install_pydeps.py
 
 To install SB pipe R dependencies on GNU/Linux, run:
 
 ::
 
-    cd ${SBPIPE}/
+    cd $SBPIPE/
     $ R
     # Inside R environment, answer 'y' to install packages locally
     > source('install_rdeps.r')
@@ -86,6 +86,10 @@ the following additional packages are installed in your machine:
 ``build-essential``, ``liblapack-dev``, ``libblas-dev``,
 ``libcairo-dev``, ``libssl-dev``, ``libcurl4-openssl-dev``. After
 installing these packages, ``install_rdeps.r`` must be executed again.
+
+**NOTES for Python3:** Currently SB pipe is not available for Python 3
+because there is no stable port to Python 3 for the dependency package
+``pp``.
 
 Windows
 ^^^^^^^
@@ -132,7 +136,7 @@ beginning of this file, users should place:
 
     # SBPIPE
     export SBPIPE=/path/to/sbpipe
-    export PATH=$PATH:${SBPIPE}/sbpipe
+    export PATH=$PATH:$SBPIPE/sbpipe
 
 After configuring the environment variables directly or internally in
 Cygwin, the next step is to install Python and R packages used by SB
@@ -157,7 +161,7 @@ To install SB pipe R dependencies using Cygwin on Windows, run:
 Installation
 ~~~~~~~~~~~~
 
-Run the command inside the sb\_pipe folder:
+Run the command inside the sbpipe folder:
 
 ::
 
@@ -207,9 +211,9 @@ follow using CopasiUI:
 Running SB pipe
 ~~~~~~~~~~~~~~~
 
-SB pipe is executed via the command *run\_sb\_pipe.py*. The syntax for
+SB pipe is executed via the command *run\_sbpipe.py*. The syntax for
 this command and its complete list of options can be retrieved by
-running *run\_sb\_pipe.py -h*.
+running *run\_sbpipe.py -h*.
 
 As of Sep 2016 the output is as follows:
 
@@ -439,7 +443,7 @@ Additional examples of configuration files can be found in:
 
 ::
 
-    ${SBPIPE}/tests/insulin_receptor/Working_Folder/ 
+    $SBPIPE/tests/insulin_receptor/Working_Folder/ 
 
 Reporting bugs or requesting new features
 -----------------------------------------
@@ -459,8 +463,8 @@ https://groups.google.com/forum/#!forum/sbpipe
 
 To help us better identify and reproduce your problem, some technical
 information is needed. This detail data can be found in SB pipe log
-files which are stored in ${HOME}/.sb\_pipe/logs/. When using the
-mailing list above, it would be worth providing this extra information.
+files which are stored in ${HOME}/.sbpipe/logs/. When using the mailing
+list above, it would be worth providing this extra information.
 
 Issues and feature requests can also be notified using the github issue
 tracking system for SB pipe at the web page:
