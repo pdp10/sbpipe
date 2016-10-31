@@ -3,7 +3,7 @@ Developer manual
 
 Mailing list: sb\_pipe AT googlegroups.com
 
-Forum: https://groups.google.com/forum/#!forum/sb_pipe
+Forum: https://groups.google.com/forum/#!forum/sbpipe
 
 Introduction
 ------------
@@ -129,9 +129,9 @@ The project is structured as follows:
 
 ::
 
-    sb_pipe:
+    sbpipe:
       | - docs
-      | - sb_pipe
+      | - sbpipe
             | - pipelines
             | - utils
       | - tests
@@ -255,7 +255,7 @@ Git
 
 ::
 
-    $ git clone https://YOURUSERNAME@server/YOURUSERNAME/sb_pipe.git   
+    $ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git   
     # to clone the master
     $ git checkout -b develop origin/develop                           
     # to get the develop branch

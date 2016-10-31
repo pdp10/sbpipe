@@ -10,9 +10,9 @@ Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicol
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
-Mailing list: sb_pipe AT googlegroups.com
+Mailing list: sbpipe AT googlegroups.com
 
-Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
 ## Introduction
@@ -38,9 +38,9 @@ your machine: `python-pip`, and (only for reports) `texlive-latex-base`.
 The following environment variables must be added to your GNU/Linux $HOME/.bashrc file:
 
 ```
-# SB_PIPE
-export SB_PIPE=/path/to/sb_pipe
-export PATH=$PATH:${SB_PIPE}/sb_pipe
+# SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:${SBPIPE}/sbpipe
 
 # Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE
@@ -56,19 +56,24 @@ are provided to perform these tasks automatically.
 
 To install SB pipe Python dependencies on GNU/Linux, run:
 ```
-cd ${SB_PIPE}/
+cd ${SBPIPE}/
 ./install_pydeps.py
 ```
 
 To install SB pipe R dependencies on GNU/Linux, run:
 ```
-cd ${SB_PIPE}/
+cd ${SBPIPE}/
 $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
 ```
 
 If R package dependencies must be compiled, it is worth checking that the following additional packages are installed in your machine: `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
+
+
+**NOTES for Python3:**
+Currently SB pipe is not available for Python 3 because there is no stable port to Python 3 for the dependency package `pp`. 
+
 
 
 #### Windows
@@ -84,8 +89,8 @@ packages (Copasi, Python, R, and LaTeX) are correctly found. Specifically for Py
 The following environment variables must also be added:
 
 ```
-SB_PIPE=\path\to\sb_pipe
-PATH=[previous paths];%SB_PIPE%\sb_pipe
+SBPIPE=\path\to\sbpipe
+PATH=[previous paths];%SBPIPE%\sbpipe
 ```
 
 
@@ -106,9 +111,9 @@ export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
 # Path to LaTeX
 export PATH=$PATH:/path/to/LaTeX/binaries/
 
-# SB_PIPE
-export SB_PIPE=/path/to/sb_pipe
-export PATH=$PATH:${SB_PIPE}/sb_pipe
+# SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:${SBPIPE}/sbpipe
 
 ```
 
@@ -117,13 +122,13 @@ are provided to perform these tasks automatically.
 
 To install SB pipe Python dependencies using Cygwin on Windows, run:
 ```
-cd /cygdrive/PATH/TO/SB_PIPE/
+cd /cygdrive/PATH/TO/SBPIPE/
 python.exe install_pydeps.py
 ```
 
 To install SB pipe R dependencies using Cygwin on Windows, run:
 ```
-cd /cygdrive/PATH/TO/SB_PIPE/
+cd /cygdrive/PATH/TO/SBPIPE/
 $ R.exe
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
@@ -132,7 +137,7 @@ $ R.exe
 
 
 ### Installation
-Run the command inside the sb_pipe folder: 
+Run the command inside the sbpipe folder: 
 ```
 python setup.py install
 ```
@@ -170,13 +175,13 @@ Before using these pipelines, a Copasi model must be configured as follow using 
 
 
 ### Running SB pipe
-SB pipe is executed via the command *run_sb_pipe.py*. The syntax for this command and its complete list 
-of options can be retrieved by running *run_sb_pipe.py -h*. 
+SB pipe is executed via the command *run_sbpipe.py*. The syntax for this command and its complete list 
+of options can be retrieved by running *run_sbpipe.py -h*. 
 
 As of Sep 2016 the output is as follows:
 ```
-pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
-Usage: run_sb_pipe.py [OPTION] [FILE]
+pdp@ariel:~/sbpipe$ run_sbpipe.py -h
+Usage: run_sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
@@ -197,15 +202,15 @@ Exit status:
  1  if minor problems (e.g., a pipeline did not execute correctly),
  2  if serious trouble (e.g., cannot access command-line argument).
 
-Report bugs to sb_pipe@googlegroups.com
-SB pipe home page: <https://pdp10.github.io/sb_pipe>
+Report bugs to sbpipe@googlegroups.com
+SB pipe home page: <https://pdp10.github.io/sbpipe>
 For complete documentation, see README.md .
 
 ```
 
 The first step is to create a new project. This can be done with the command:
 ```
-run_sb_pipe.py --create-project project_name
+run_sbpipe.py --create-project project_name
 ```
 
 This generates the following structure:
@@ -221,7 +226,7 @@ for each pipeline they intend to run (see next section). These configuration fil
 
 For instance, the pipeline for parameter estimation configured with a certain configuration file can be executed by typing:
 ```
-run_sb_pipe.py -e my_config_file.conf
+run_sbpipe.py -e my_config_file.conf
 ```
 
 
@@ -376,7 +381,7 @@ scientific_notation=True
 
 Additional examples of configuration files can be found in:
 ```
-${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+${SBPIPE}/tests/insulin_receptor/Working_Folder/ 
 ```
 
 
@@ -384,21 +389,21 @@ ${SB_PIPE}/tests/insulin_receptor/Working_Folder/
 SB pipe is a relatively young project and there is a chance that some error occurs. 
 The following mailing list should be used for general questions: 
 ```
-sb_pipe AT googlegroups.com
+sbpipe AT googlegroups.com
 ```
 
 All the topics discussed in this mailing list are also available at 
 the website: 
 
-[https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+[https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
 To help us better identify and reproduce your problem, some technical information 
-is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using the mailing list above, it would be worth providing 
+is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sbpipe/logs/. When using the mailing list above, it would be worth providing 
 this extra information.
 
 Issues and feature requests can also be notified using the github issue tracking system 
 for SB pipe at the web page: 
 
-[https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
+[https://github.com/pdp10/sbpipe/issues](https://github.com/pdp10/sbpipe/issues).
 

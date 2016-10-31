@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# This file is part of sb_pipe.
+# This file is part of sbpipe.
 #
-# sb_pipe is free software: you can redistribute it and/or modify
+# sbpipe is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# sb_pipe is distributed in the hope that it will be useful,
+# sbpipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
 #
@@ -27,12 +27,12 @@ import os, sys
 import unittest
 
 
-SB_PIPE = os.environ["SB_PIPE"]
+SBPIPE = os.environ["SBPIPE"]
 # folders containing the configuration files and test file
 ir_folder = os.path.join('insulin_receptor','Working_Folder')
 
 # import paths to the resource folders
-sys.path.append(os.path.join(SB_PIPE, 'tests', ir_folder))
+sys.path.append(os.path.join(SBPIPE, 'tests', ir_folder))
 
 # import modules
 from test_ir_simulate import TestIRSimulate

@@ -15,7 +15,7 @@ Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
 Mailing list: sb\_pipe AT googlegroups.com
 
-Forum: https://groups.google.com/forum/#!forum/sb_pipe
+Forum: https://groups.google.com/forum/#!forum/sbpipe
 
 Introduction
 ------------
@@ -48,9 +48,9 @@ $HOME/.bashrc file:
 
 ::
 
-    # SB_PIPE
-    export SB_PIPE=/path/to/sb_pipe
-    export PATH=$PATH:${SB_PIPE}/sb_pipe
+    # SBPIPE
+    export SBPIPE=/path/to/sbpipe
+    export PATH=$PATH:${SBPIPE}/sbpipe
 
     # Path to CopasiSE
     export PATH=$PATH:/path/to/CopasiSE
@@ -69,14 +69,14 @@ To install SB pipe Python dependencies on GNU/Linux, run:
 
 ::
 
-    cd ${SB_PIPE}/
+    cd ${SBPIPE}/
     ./install_pydeps.py
 
 To install SB pipe R dependencies on GNU/Linux, run:
 
 ::
 
-    cd ${SB_PIPE}/
+    cd ${SBPIPE}/
     $ R
     # Inside R environment, answer 'y' to install packages locally
     > source('install_rdeps.r')
@@ -109,8 +109,8 @@ The following environment variables must also be added:
 
 ::
 
-    SB_PIPE=\path\to\sb_pipe
-    PATH=[previous paths];%SB_PIPE%\sb_pipe
+    SBPIPE=\path\to\sbpipe
+    PATH=[previous paths];%SBPIPE%\sbpipe
 
 \*\* NOTE for Cygwin: \*\* Environment variables can also be configured
 directly within the .bashrc file in cygwin/home/USERNAME/. In the
@@ -130,9 +130,9 @@ beginning of this file, users should place:
     # Path to LaTeX
     export PATH=$PATH:/path/to/LaTeX/binaries/
 
-    # SB_PIPE
-    export SB_PIPE=/path/to/sb_pipe
-    export PATH=$PATH:${SB_PIPE}/sb_pipe
+    # SBPIPE
+    export SBPIPE=/path/to/sbpipe
+    export PATH=$PATH:${SBPIPE}/sbpipe
 
 After configuring the environment variables directly or internally in
 Cygwin, the next step is to install Python and R packages used by SB
@@ -142,14 +142,14 @@ To install SB pipe Python dependencies using Cygwin on Windows, run:
 
 ::
 
-    cd /cygdrive/PATH/TO/SB_PIPE/
+    cd /cygdrive/PATH/TO/SBPIPE/
     python.exe install_pydeps.py
 
 To install SB pipe R dependencies using Cygwin on Windows, run:
 
 ::
 
-    cd /cygdrive/PATH/TO/SB_PIPE/
+    cd /cygdrive/PATH/TO/SBPIPE/
     $ R.exe
     # Inside R environment, answer 'y' to install packages locally
     > source('install_rdeps.r')
@@ -215,8 +215,8 @@ As of Sep 2016 the output is as follows:
 
 ::
 
-    pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
-    Usage: run_sb_pipe.py [OPTION] [FILE]
+    pdp@ariel:~/sbpipe$ run_sbpipe.py -h
+    Usage: run_sbpipe.py [OPTION] [FILE]
     Pipelines for systems modelling of biological networks.
 
     List of mandatory options:
@@ -237,8 +237,8 @@ As of Sep 2016 the output is as follows:
      1  if minor problems (e.g., a pipeline did not execute correctly),
      2  if serious trouble (e.g., cannot access command-line argument).
 
-    Report bugs to sb_pipe@googlegroups.com
-    SB pipe home page: <https://pdp10.github.io/sb_pipe>
+    Report bugs to sbpipe@googlegroups.com
+    SB pipe home page: <https://pdp10.github.io/sbpipe>
     For complete documentation, see README.md .
 
 The first step is to create a new project. This can be done with the
@@ -246,7 +246,7 @@ command:
 
 ::
 
-    run_sb_pipe.py --create-project project_name
+    run_sbpipe.py --create-project project_name
 
 This generates the following structure:
 
@@ -272,7 +272,7 @@ certain configuration file can be executed by typing:
 
 ::
 
-    run_sb_pipe.py -e my_config_file.conf
+    run_sbpipe.py -e my_config_file.conf
 
 Pipeline configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -439,7 +439,7 @@ Additional examples of configuration files can be found in:
 
 ::
 
-    ${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+    ${SBPIPE}/tests/insulin_receptor/Working_Folder/ 
 
 Reporting bugs or requesting new features
 -----------------------------------------
@@ -450,12 +450,12 @@ questions:
 
 ::
 
-    sb_pipe AT googlegroups.com
+    sbpipe AT googlegroups.com
 
 All the topics discussed in this mailing list are also available at the
 website:
 
-https://groups.google.com/forum/#!forum/sb_pipe
+https://groups.google.com/forum/#!forum/sbpipe
 
 To help us better identify and reproduce your problem, some technical
 information is needed. This detail data can be found in SB pipe log
@@ -465,4 +465,4 @@ mailing list above, it would be worth providing this extra information.
 Issues and feature requests can also be notified using the github issue
 tracking system for SB pipe at the web page:
 
-https://github.com/pdp10/sb_pipe/issues.
+https://github.com/pdp10/sbpipe/issues.

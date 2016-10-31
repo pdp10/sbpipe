@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# This file is part of sb_pipe.
+# This file is part of sbpipe.
 #
-# sb_pipe is free software: you can redistribute it and/or modify
+# sbpipe is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# sb_pipe is distributed in the hope that it will be useful,
+# sbpipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
 #
@@ -40,16 +40,16 @@ def read(fname):
 
 
 setup(
-  name = 'sb_pipe',
-  packages = ['sb_pipe'],
+  name = 'sbpipe',
+  packages = ['sbpipe'],
   version = read('VERSION'),
   description = 'Pipelines for systems modelling of biological networks',
   author = 'Dr Piero Dalle Pezze',
   requires=['pp'],
-  package_data={'sb_pipe': ['doc/*.pdf','doc/*.html','*.tgz']},
+  package_data={'sbpipe': ['doc/*.pdf','doc/*.html','*.tgz']},
   author_email = 'piero.dallepezze@babraham.ac.uk',
-  url = 'https://github.com/pdp10/sb_pipe',
-  download_url = 'https://pdp10.github.io/sb_pipe',
+  url = 'https://github.com/pdp10/sbpipe',
+  download_url = 'https://pdp10.github.io/sbpipe',
   keywords = ['systems biology','mathematical modelling','copasi','pipeline'],
   include_package_data = False,
   license = 'GNU GPL v3',

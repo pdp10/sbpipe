@@ -63,8 +63,8 @@ package and can also be found here:
 <p>Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and
 Dr Nicolas Le Novère (lenov AT babraham.ac.uk)</p>
 <p>Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK</p>
-<p>Mailing list: sb_pipe AT googlegroups.com</p>
-<p>Forum: <a class="reference external" href="https://groups.google.com/forum/#!forum/sb_pipe">https://groups.google.com/forum/#!forum/sb_pipe</a></p>
+<p>Mailing list: sbpipe AT googlegroups.com</p>
+<p>Forum: <a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>This package contains a collection of pipelines for dynamic modelling of
@@ -88,9 +88,9 @@ following packages are installed in your machine: <code class="docutils literal"
 (only for reports) <code class="docutils literal"><span class="pre">texlive-latex-base</span></code>.</p>
 <p>The following environment variables must be added to your GNU/Linux
 $HOME/.bashrc file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># SB_PIPE
-export SB_PIPE=/path/to/sb_pipe
-export PATH=$PATH:${SB_PIPE}/sb_pipe
+<div class="highlight-python"><div class="highlight"><pre><span></span># SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:${SBPIPE}/sbpipe
 
 # Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE
@@ -104,12 +104,12 @@ export PATH=$PATH:/path/to/CopasiSE
 Python and R packages used by SB pipe. Two scripts are provided to
 perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SBPIPE}/
 ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SB_PIPE}/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd ${SBPIPE}/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -137,8 +137,8 @@ LaTeX) are correctly found. Specifically for Python, the python scripts
 <code class="docutils literal"><span class="pre">Scripts</span></code> within the Python root directory. The path to this folder
 must also be added to <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 <p>The following environment variables must also be added:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>SB_PIPE=\path\to\sb_pipe
-PATH=[previous paths];%SB_PIPE%\sb_pipe
+<div class="highlight-python"><div class="highlight"><pre><span></span>SBPIPE=\path\to\sbpipe
+PATH=[previous paths];%SBPIPE%\sbpipe
 </pre></div>
 </div>
 <p>** NOTE for Cygwin: ** Environment variables can also be configured
@@ -156,21 +156,21 @@ export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
 # Path to LaTeX
 export PATH=$PATH:/path/to/LaTeX/binaries/
 
-# SB_PIPE
-export SB_PIPE=/path/to/sb_pipe
-export PATH=$PATH:${SB_PIPE}/sb_pipe
+# SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:${SBPIPE}/sbpipe
 </pre></div>
 </div>
 <p>After configuring the environment variables directly or internally in
 Cygwin, the next step is to install Python and R packages used by SB
 pipe. Two scripts are provided to perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SB_PIPE/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SBPIPE/
 python.exe install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SB_PIPE/
+<div class="highlight-python"><div class="highlight"><pre><span></span>cd /cygdrive/PATH/TO/SBPIPE/
 $ R.exe
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -180,7 +180,7 @@ $ R.exe
 </div>
 <div class="section" id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
-<p>Run the command inside the sb_pipe folder:</p>
+<p>Run the command inside the sbpipe folder:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py install
 </pre></div>
 </div>
@@ -225,12 +225,12 @@ but replacing the extension .cps with .csv.</li>
 </div>
 <div class="section" id="running-sb-pipe">
 <h3>Running SB pipe<a class="headerlink" href="#running-sb-pipe" title="Permalink to this headline">¶</a></h3>
-<p>SB pipe is executed via the command <em>run_sb_pipe.py</em>. The syntax for
+<p>SB pipe is executed via the command <em>run_sbpipe.py</em>. The syntax for
 this command and its complete list of options can be retrieved by
-running <em>run_sb_pipe.py -h</em>.</p>
+running <em>run_sbpipe.py -h</em>.</p>
 <p>As of Sep 2016 the output is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
-Usage: run_sb_pipe.py [OPTION] [FILE]
+<div class="highlight-python"><div class="highlight"><pre><span></span>pdp@ariel:~/sbpipe$ run_sbpipe.py -h
+Usage: run_sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
@@ -251,14 +251,14 @@ Exit status:
  1  if minor problems (e.g., a pipeline did not execute correctly),
  2  if serious trouble (e.g., cannot access command-line argument).
 
-Report bugs to sb_pipe@googlegroups.com
-SB pipe home page: &lt;https://pdp10.github.io/sb_pipe&gt;
+Report bugs to sbpipe@googlegroups.com
+SB pipe home page: &lt;https://pdp10.github.io/sbpipe&gt;
 For complete documentation, see README.md .
 </pre></div>
 </div>
 <p>The first step is to create a new project. This can be done with the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>run_sb_pipe.py --create-project project_name
+<div class="highlight-python"><div class="highlight"><pre><span></span>run_sbpipe.py --create-project project_name
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
@@ -279,7 +279,7 @@ configuration files should be placed in the Working_Folder/. This
 folder will eventually contain all the results generated by SB pipe.</p>
 <p>For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>run_sb_pipe.py -e my_config_file.conf
+<div class="highlight-python"><div class="highlight"><pre><span></span>run_sbpipe.py -e my_config_file.conf
 </pre></div>
 </div>
 </div>
@@ -433,7 +433,7 @@ scientific_notation=True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>${SB_PIPE}/tests/insulin_receptor/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre><span></span>${SBPIPE}/tests/insulin_receptor/Working_Folder/
 </pre></div>
 </div>
 </div>
@@ -443,19 +443,19 @@ scientific_notation=True
 <p>SB pipe is a relatively young project and there is a chance that some
 error occurs. The following mailing list should be used for general
 questions:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>sb_pipe AT googlegroups.com
+<div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe AT googlegroups.com
 </pre></div>
 </div>
 <p>All the topics discussed in this mailing list are also available at the
 website:</p>
-<p><a class="reference external" href="https://groups.google.com/forum/#!forum/sb_pipe">https://groups.google.com/forum/#!forum/sb_pipe</a></p>
+<p><a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
 <p>To help us better identify and reproduce your problem, some technical
 information is needed. This detail data can be found in SB pipe log
-files which are stored in ${HOME}/.sb_pipe/logs/. When using the
+files which are stored in ${HOME}/.sbpipe/logs/. When using the
 mailing list above, it would be worth providing this extra information.</p>
 <p>Issues and feature requests can also be notified using the github issue
 tracking system for SB pipe at the web page:</p>
-<p><a class="reference external" href="https://github.com/pdp10/sb_pipe/issues">https://github.com/pdp10/sb_pipe/issues</a>.</p>
+<p><a class="reference external" href="https://github.com/pdp10/sbpipe/issues">https://github.com/pdp10/sbpipe/issues</a>.</p>
 </div>
 </div>
 

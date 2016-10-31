@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 #
-# This file is part of sb_pipe.
+# This file is part of sbpipe.
 #
-# sb_pipe is free software: you can redistribute it and/or modify
+# sbpipe is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# sb_pipe is distributed in the hope that it will be useful,
+# sbpipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
-# sb_pipe documentation build configuration file, created by
+# sbpipe documentation build configuration file, created by
 # sphinx-quickstart on Tue Aug 12 15:55:32 2016
 #
 # This file is execfile()d with the current directory set to its
@@ -36,23 +36,23 @@ import os
 #sys.path.insert(0, os.path.abspath('.'))
 
 # This will include the necessary source files folders in the PATH to be able to generate the documentation from.
-sb_pipe=''
+sbpipe=''
 try:
-    if os.environ['SB_PIPE']:
-        sb_pipe = os.environ['SB_PIPE'] 
+    if os.environ['SBPIPE']:
+        sbpipe = os.environ['SBPIPE'] 
 except KeyError:
-    print 'Unable to obtain $SB_PIPE from the environment.'
+    print 'Unable to obtain $SBPIPE from the environment.'
     exit(-1)
 
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'create_project'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'double_param_scan'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'param_estim'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'sensitivity'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'simulate'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'pipelines', 'single_param_scan'))
-sys.path.append(os.path.join(sb_pipe, 'sb_pipe', 'utils', 'python'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'create_project'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'double_param_scan'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'param_estim'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'sensitivity'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'simulate'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'pipelines', 'single_param_scan'))
+sys.path.append(os.path.join(sbpipe, 'sbpipe', 'utils', 'python'))
 
 from pprint import pprint as p
 p(sys.path)
@@ -217,7 +217,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'sb_pipedoc'
+htmlhelp_basename = 'sbpipedoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -238,7 +238,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'sb_pipe.tex', u'SB pipe documentation',
+  ('index', 'sbpipe.tex', u'SB pipe documentation',
    u'Piero Dalle Pezze and Nicolas Le Novère', 'manual'),
 ]
 
@@ -268,7 +268,7 @@ latex_show_urls = True
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sb_pipe', u'SB pipe documentation',
+    ('index', 'sbpipe', u'SB pipe documentation',
      [u'Piero Dalle Pezze and Nicolas Le Novère'], 1)
 ]
 
@@ -282,8 +282,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sb_pipe', u'SB pipe documentation',
-   u'Piero Dalle Pezze and Nicolas Le Novère', 'sb_pipe', 'One line description of project.',
+  ('index', 'sbpipe', u'SB pipe documentation',
+   u'Piero Dalle Pezze and Nicolas Le Novère', 'sbpipe', 'One line description of project.',
    'Miscellaneous'),
 ]
 
