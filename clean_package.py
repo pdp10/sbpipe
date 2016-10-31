@@ -49,8 +49,8 @@ def main(args):
   process = subprocess.Popen(['python', os.path.join(SB_PIPE,'tests','clean_tests.py')])
   process.wait() 
   
-  process = subprocess.Popen(['pyclean', '.'])
-  process.wait()
+  #process = subprocess.Popen(['pyclean', '.'])
+  #process.wait()
   
   ### delete this silly file
   if os.path.isfile(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf')):
