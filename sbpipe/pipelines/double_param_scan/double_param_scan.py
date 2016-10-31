@@ -241,7 +241,7 @@ class DoubleParamScan(Pipeline):
                          " does not exist. Analyse the data first.")
             return
 
-        logger.info("Generating a LaTeX report")
+        logger.info("Generating LaTeX report")
         logger.info(model)
         filename_prefix = "report__double_param_scan_"
         latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,

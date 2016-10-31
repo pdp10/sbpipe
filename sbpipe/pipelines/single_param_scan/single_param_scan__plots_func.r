@@ -78,7 +78,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
     
     
     writeLines(paste("Model: ", model, ".cps", sep=""))
-    writeLines(paste("Perturbed variable: ", variable, sep=""))
+    writeLines(paste("Scanning variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
     inputdir <- c(file.path(outputdir, sim_data_folder))
@@ -170,7 +170,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
 					xaxis_label="", yaxis_label="") {
 					
     writeLines(paste("Model: ", model, ".cps", sep=""))
-    writeLines(paste("Perturbed variable: ", variable, sep=""))
+    writeLines(paste("Scanning variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
     inputdir <- c(file.path(outputdir, sim_data_folder))

@@ -77,15 +77,15 @@ def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
         model_name = model_noext[:].replace("_", " ")
         scanned_par_name = scanned_par[0:].replace("_", " ")
         logger.info("Model: " + model_name)
-        logger.info("Parameter scan for: " + scanned_par)
+        logger.info("Scanning parameter: " + scanned_par)
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Report for {\\it " + model_name + "} model, scanning {\\it " + scanned_par_name + "}.")
+                                  "Report for {\\it " + model_name + "}, scanning {\\it " + scanned_par_name + "}.")
         file_out.write(header)
-        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
-        file_out.write("\\section*{Plots - Parameter scan for " + scanned_par_name + "}\n")
+        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        file_out.write("\\section*{Plots - Scanning parameter " + scanned_par_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort()
         for infile in folder:
@@ -116,16 +116,16 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         scanned_par1_name = scanned_par1[0:].replace("_", " ")
         scanned_par2_name = scanned_par2[0:].replace("_", " ")
         logger.info("Model: " + model_name)
-        logger.info("Parameter scan for: " + scanned_par1_name + " and " + scanned_par2_name)
+        logger.info("Scanning parameters: " + scanned_par1_name + " and " + scanned_par2_name)
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Report for {\\it " + model_name + "} model, scanning {\\it " +
+                                  "Report for {\\it " + model_name + "}, scanning {\\it " +
                                   scanned_par1_name + "} and {\\it " + scanned_par2_name + "}.")
         file_out.write(header)
-        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
-        file_out.write("\\section*{Plots - Parameter scan for " + scanned_par1_name + " and " +
+        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort(key=natural_sort_key)
@@ -167,9 +167,9 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Report for {\\it " + model_name + "} model.")
+                                  "Report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort()
@@ -197,9 +197,9 @@ def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Parameter estimation report for {\\it " + model_name + "} model.")
+                                  "Parameter estimation report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort()
@@ -244,9 +244,9 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
-                                  "Generic report for {\\it " + model_name + "} model.")
+                                  "Generic report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("List of files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort()

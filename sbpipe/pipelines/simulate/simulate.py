@@ -242,7 +242,7 @@ class Simulate(Pipeline):
                 "inputdir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
             return
 
-        logger.info("Generating a LaTeX report")
+        logger.info("Generating LaTeX report")
         filename_prefix = "report__simulate_"
         latex_report_simulate(outputdir, sim_plots_folder, model, filename_prefix)
 

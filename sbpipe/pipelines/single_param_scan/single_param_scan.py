@@ -321,7 +321,7 @@ class SingleParamScan(Pipeline):
                 "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
             return
 
-        logger.info("Generating a LaTeX report")
+        logger.info("Generating LaTeX report")
         logger.info(model)
         filename_prefix = "report__single_param_scan_"
         latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
