@@ -31,7 +31,7 @@ In order to use SB pipe, the following software must be installed:
 
 
 #### GNU/Linux
-The previous packages except Copasi are generally available in any GNU/Linux distribution. 
+The previous packages but Copasi are generally available in any GNU/Linux distribution. 
 GNU/Linux users should also make sure that the following packages are installed in 
 your machine: `python-pip`, and (only for reports) `texlive-latex-base`.
 
