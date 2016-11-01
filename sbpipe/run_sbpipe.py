@@ -88,6 +88,8 @@ def get_sbpipe_help():
                "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
                "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
                #"\t-n, --sensitivity\n\t\tRun a sensitivity analysis (in progress).\n\n"
+               "\t-l, --license\n\t\tShows the license.\n"
+               "\t-v, --version\n\t\tShows the version.\n"               
                "Exit status:\n"
                " 0  if OK,\n"
                " 1  if minor problems (e.g., a pipeline did not execute correctly),\n"
