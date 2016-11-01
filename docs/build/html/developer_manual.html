@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; SB pipe 1.5.0 documentation</title>
+    <title>Developer manual &mdash; SB pipe 1.15.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.5.0',
+        VERSION:     '1.15.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.5.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 1.15.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.5.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -94,13 +94,13 @@ called hotfixNUMBER and is forked from <em>master</em>.</li>
 <h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
 <p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
 is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git checkout -b feature10 develop
+<div class="highlight-python"><div class="highlight"><pre>$ git checkout -b feature10 develop
 </pre></div>
 </div>
 <p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
 discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
 work, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
+<div class="highlight-python"><div class="highlight"><pre>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
 description of the changes, if any.&quot;
 $ git push origin feature10       # sometimes and at the end.
 </pre></div>
@@ -114,14 +114,14 @@ new branch and, once committed and pushed, <strong>merge</strong> it to <code cl
 <code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
 <code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
 Requests:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>base:develop  compare:feature10   Able to merge. These branches can be
+<div class="highlight-python"><div class="highlight"><pre>base:develop  compare:feature10   Able to merge. These branches can be
 automatically merged.
 </pre></div>
 </div>
 <p>A small discussion about feature10 should also be included to allow
 other users to understand the feature.</p>
 <p>Finally delete the branch:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git branch -d feature10      # delete the branch feature10 (locally)
+<div class="highlight-python"><div class="highlight"><pre>$ git branch -d feature10      # delete the branch feature10 (locally)
 </pre></div>
 </div>
 </div>
@@ -134,15 +134,15 @@ Only bugfixes or hotfixes are applied to this branch. When this
 testing/correction phase is completed, the <code class="docutils literal"><span class="pre">master</span></code> branch will merge
 with the <code class="docutils literal"><span class="pre">release-x.x.x</span></code> branch, using the commands above. To record
 the release add a tag:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git tag -a v1.3 -m &quot;PROGRAM_NAME v1.3&quot;
+<div class="highlight-python"><div class="highlight"><pre>git tag -a v1.3 -m &quot;PROGRAM_NAME v1.3&quot;
 </pre></div>
 </div>
 <p>To transfer the tag to the remote server:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git push origin v1.3   # Note: it goes in a separate &#39;branch&#39;
+<div class="highlight-python"><div class="highlight"><pre>git push origin v1.3   # Note: it goes in a separate &#39;branch&#39;
 </pre></div>
 </div>
 <p>To see all the releases:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git show
+<div class="highlight-python"><div class="highlight"><pre>git show
 </pre></div>
 </div>
 </div>
@@ -158,7 +158,7 @@ the project contains general management scripts for cleaning the package
 <p>In order to automatically compile and run the test suite, Travis-CI is
 used and configured accordingly (.travis.yml).</p>
 <p>The project is structured as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe:
+<div class="highlight-python"><div class="highlight"><pre>sbpipe:
   | - docs
   | - sbpipe
         | - pipelines
@@ -189,16 +189,18 @@ packages must be installed:</p>
 Instruction for generating or cleaning SB pipe documentation are
 provided below.</p>
 <p>To generate the source code documentation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ ./gen_doc.sh
+<div class="highlight-python"><div class="highlight"><pre>$ ./gen_doc.sh
 </pre></div>
 </div>
 <p>To clean the documentation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ ./clean_doc.sh
+<div class="highlight-python"><div class="highlight"><pre>$ ./clean_doc.sh
 </pre></div>
 </div>
 <p>If new folders containing new Python modules are added to the project,
-it is necessary to update the sys.path in <em>source/conf.py</em> to include
-these additional paths.</p>
+it is necessary to add these new pahts to the sys.path in
+<em>source/conf.py</em> and to the <code class="docutils literal"><span class="pre">sphinx-apidoc</span></code> command in <em>gen_doc.sh</em>.
+These additions are necessary to port Python source code documentation
+to <code class="docutils literal"><span class="pre">.rst</span></code> files, so that Sphinx is able to generate the documentation.</p>
 </div>
 <div class="section" id="sbpipe">
 <h3>sbpipe<a class="headerlink" href="#sbpipe" title="Permalink to this headline">¶</a></h3>
@@ -219,20 +221,28 @@ generate plots and report;</li>
 generate plots and report;</li>
 <li><em>param_estim</em>: generate a fits sequence using Copasi (this must be
 configured first), generate tables for statistics.</li>
+<li><em>simulator</em>: a collection of classes used to invoke simulators for
+each pipeline. Currently, Copasi.py is the only class implemented.
+This class invokes CopasiSE.</li>
 </ul>
 <p>These pipelines are invoked directly via the script
 <em>sbpipe/run_sbpipe.py</em>. Each pipeline extends the class <em>Pipeline</em>,
 which represents a generic and abstract pipeline. Each pipeline must
 implement the following methods of <em>Pipeline</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>def run(self, config_file)
+<div class="highlight-python"><div class="highlight"><pre>def run(self, config_file)
 def read_configuration(self, lines)
 </pre></div>
 </div>
 <p>The method <em>run()</em> contains the procedure to execute for a specific
 configuration file. The method <em>read_configuration()</em> is needed for
 reading the options required by the pipeline to execute. The class
-<em>Pipeline</em> contains already implements the INI parser and returns each
-pipeline the configuration file as a list of lines.</p>
+<em>Pipeline</em> implements the INI parser and returns the configuration file
+as a list of lines for each pipeline.</p>
+<p>Each simulators (as of 2016, just <code class="docutils literal"><span class="pre">Copasi</span></code>) extends the class
+<code class="docutils literal"><span class="pre">Simulator</span></code>. The name of the simulator is retrieved from the
+configuration file and an instance for the corresponding class is
+dynamically generated. Therefore, each pipeline is not coupled with
+specific subclasses of <code class="docutils literal"><span class="pre">Simulator</span></code>.</p>
 </div>
 <div class="section" id="utils">
 <h4>utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h4>
@@ -268,7 +278,7 @@ for detail.</p>
 <div class="section" id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
 <p><strong>Startup</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git
+<div class="highlight-python"><div class="highlight"><pre>$ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git
 # to clone the master
 $ git checkout -b develop origin/develop
 # to get the develop branch
@@ -278,7 +288,7 @@ $ git fetch --all    # to update all the branches with remote
 </pre></div>
 </div>
 <p><strong>Update</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git pull [--rebase] origin BRANCH  # ONLY use --rebase for private
+<div class="highlight-python"><div class="highlight"><pre>$ git pull [--rebase] origin BRANCH  # ONLY use --rebase for private
 branches. Never use it for shared branches otherwise it breaks the
 history. --rebase moves your commits ahead. I think for shared
 branches, you should use `git fetch &amp;&amp; git merge --no-ff`.
@@ -286,34 +296,34 @@ branches, you should use `git fetch &amp;&amp; git merge --no-ff`.
 </pre></div>
 </div>
 <p><strong>File system</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
+<div class="highlight-python"><div class="highlight"><pre>$ git rm [--cache] filename
 $ git add filename
 </pre></div>
 </div>
 <p><strong>Information</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git status
+<div class="highlight-python"><div class="highlight"><pre>$ git status
 $ git log [--stat]
 $ git branch       # list the branches
 </pre></div>
 </div>
 <p><strong>Maintenance</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git fsck      # check errors
+<div class="highlight-python"><div class="highlight"><pre>$ git fsck      # check errors
 $ git gc        # clean up
 </pre></div>
 </div>
 <p><strong>Rename a branch locally and remotely</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git branch -m old_branch new_branch         # Rename branch locally
+<div class="highlight-python"><div class="highlight"><pre>git branch -m old_branch new_branch         # Rename branch locally
 git push origin :old_branch                 # Delete the old branch
 git push --set-upstream origin new_branch   # Push the new branch, set
 local branch to track the new remote
 </pre></div>
 </div>
 <p><strong>Reset</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git reset --hard HEAD    # to undo all the local uncommitted changes
+<div class="highlight-python"><div class="highlight"><pre>git reset --hard HEAD    # to undo all the local uncommitted changes
 </pre></div>
 </div>
 <p><strong>Syncing a fork (assuming upstreams are set)</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>git fetch upstream
+<div class="highlight-python"><div class="highlight"><pre>git fetch upstream
 git checkout develop
 git merge upstream/develop
 </pre></div>
@@ -401,7 +411,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.5.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

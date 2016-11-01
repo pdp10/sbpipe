@@ -135,7 +135,7 @@ To clean the documentation:
 $ ./clean_doc.sh
 ```
 
-If new folders containing new Python modules are added to the project, it is necessary to update the sys.path in *source/conf.py* to include these additional paths. 
+If new folders containing new Python modules are added to the project, it is necessary to add these new pahts to the sys.path in *source/conf.py* and to the `sphinx-apidoc` command in *gen_doc.sh*. These additions are necessary to port Python source code documentation to `.rst` files, so that Sphinx is able to generate the documentation. 
 
 
 ### sbpipe
@@ -154,6 +154,9 @@ configured first), generate plots and report;
 configured first), generate plots and report;
 - *param_estim*: generate a fits sequence using Copasi 
 (this must be configured first), generate tables for statistics.
+- *simulator*: a collection of classes used to invoke simulators for 
+each pipeline. Currently, Copasi.py is the only class implemented. This class invokes 
+CopasiSE.
 
 These pipelines are invoked directly via the script *sbpipe/run_sbpipe.py*. Each pipeline extends the class *Pipeline*, 
 which represents a generic and abstract pipeline. Each pipeline must implement the following methods of *Pipeline*: 
@@ -162,9 +165,15 @@ def run(self, config_file)
 def read_configuration(self, lines)
 ```
 
-The method *run()* contains the procedure to execute for a specific configuration file. The method *read_configuration()* is needed 
-for reading the options required by the pipeline to execute. The class *Pipeline* contains already implements the INI parser and returns 
-each pipeline the configuration file as a list of lines.
+The method *run()* contains the procedure to execute for a specific 
+configuration file. The method *read_configuration()* is needed 
+for reading the options required by the pipeline to execute. The 
+class *Pipeline* implements the INI parser and returns the configuration file 
+as a list of lines for each pipeline.
+
+Each simulators (as of 2016, just `Copasi`) extends the class `Simulator`. The name of the simulator 
+is retrieved from the configuration file and an instance for the corresponding class is dynamically 
+generated. Therefore, each pipeline is not coupled with specific subclasses of `Simulator`.
 
 
 #### utils

@@ -42,6 +42,7 @@ sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/double_param_
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/param_estim/
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/sensitivity/
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/simulate/
+sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/simulator/
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/single_param_scan/
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/utils/python/
 

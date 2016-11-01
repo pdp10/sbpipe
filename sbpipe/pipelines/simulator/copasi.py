@@ -57,27 +57,17 @@ class Copasi(Simulator):
     _copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable."
 
     def __init__(self):
-        """
-        Default constructor.
-        """
-        # run copasi
+        __doc__ = Simulator.__init__.__doc__
         
+        Simulator.__init__(self)
         self._copasi = which("CopasiSE")
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 
 
     def simulate(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
-        """
-        Time course simulator.
+        __doc__ = Simulator.simulate.__doc__
         
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory containing the output files
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
-        :param runs: the number of model simulation
-        """
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
@@ -116,17 +106,8 @@ class Copasi(Simulator):
 
     def single_param_scan(self, model, scanned_par, sim_number, simulate_intervals, 
                           single_param_scan_intervals, inputdir, outputdir):
-        """
-        Single parameter scan.
+        __doc__ = Simulator.single_param_scan.__doc__
         
-        :param model: the model to process
-        :param scanned_par: the scanned parameter
-        :param sim_number: the number of simulations (for det sim: 1, for stoch sim: n>1)
-        :param simulate_intervals: the time step of each simulation
-        :param single_param_scan_intervals: the number of scans to perform
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory to store the results
-        """
         logger.info("Simulating Model: " + model)
 
         model_noext = model[:-4]
@@ -229,14 +210,8 @@ class Copasi(Simulator):
             os.remove(os.path.join(inputdir, model_noext + ".csv"))
 
     def double_param_scan(self, model, sim_length, inputdir, outputdir):
-        """
-        Double paramter scan.
+        __doc__ = Simulator.double_param_scan.__doc__
         
-        :param model: the model to process
-        :param sim_length: the length of the simulation
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory to store the results
-        """
         logger.info("Simulating Model: " + model)
 
         model_noext = model[:-4]
@@ -291,19 +266,8 @@ class Copasi(Simulator):
     
     def parameter_estimation(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
                              updated_models_dir):
-        """
-        parameter estimation.
+        __doc__ = Simulator.parameter_estimation.__doc__
         
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
-        :param pp_cpus: the number of cpu for parallel python
-        :param nfits: the number of fits to perform
-        :param outputdir: the directory to store the results
-        :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the Copasi models with updated parameters for
-               each estimation
-        """
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
@@ -344,13 +308,7 @@ class Copasi(Simulator):
                         os.path.join(updated_models_dir, file.replace(groupid, "_")))
     
     def sensitivity_analysis(model, inputdir, outputdir):
-        """
-        Sensitivity analysis.
-        
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory to store the results
-        """
+        __doc__ = Simulator.sensitivity_analysis.__doc__
 
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
