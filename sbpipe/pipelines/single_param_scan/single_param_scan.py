@@ -70,7 +70,7 @@ class SingleParamScan(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-             project_dir, model, scanned_par,
+             project_dir, simulator, model, scanned_par,
              simulate__intervals, single_param_scan_simulations_number, 
              single_param_scan_percent_levels, single_param_scan_knock_down_only, 
              levels_number, min_level, max_level, homogeneous_lines,
@@ -100,7 +100,8 @@ class SingleParamScan(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            SingleParamScan.generate_data(model,
+            SingleParamScan.generate_data(simulator, 
+                                          model,
                                           scanned_par,
                                           single_param_scan_simulations_number,
                                           simulate__intervals,
@@ -134,11 +135,12 @@ class SingleParamScan(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, scanned_par, sim_number, simulate_intervals,
+    def generate_data(simulator, model, scanned_par, sim_number, simulate_intervals,
                       single_param_scan_intervals, inputdir, outputdir):
         """
         The first pipeline step: data generation.
 
+        :param simulator: the name of the simulator (e.g. copasi)
         :param model: the model to process
         :param scanned_par: the scanned parameter
         :param sim_number: the number of simulations (for det sim: 1, for stoch sim: n>1)
@@ -147,7 +149,6 @@ class SingleParamScan(Pipeline):
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
         """
-
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return
@@ -155,9 +156,13 @@ class SingleParamScan(Pipeline):
         refresh_directory(outputdir, model[:-4])
 
         logger.info("Simulating Model: " + model)
-        sim = Copasi()
-        sim.single_param_scan(model, scanned_par, sim_number, simulate_intervals,
-                              single_param_scan_intervals, inputdir, outputdir)
+        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
+        if simulator == "copasi":
+            sim = Copasi()
+            sim.single_param_scan(model, scanned_par, sim_number, simulate_intervals,
+                                  single_param_scan_intervals, inputdir, outputdir)
+        else:
+            logger.error("simulator: " + simulator + " not found.")
 
     @staticmethod
     def analyse_data(model, scanned_par, knock_down_only, outputdir,
@@ -236,11 +241,12 @@ class SingleParamScan(Pipeline):
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
 
-        # parse copasi common options
+        # parse common options
         (generate_data, analyse_data, generate_report,
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
+        simulator = 'copasi'
         # The model species to scan (e.g. mTORC1)
         scanned_par = ""
         # The number of intervals for one simulation
@@ -272,7 +278,9 @@ class SingleParamScan(Pipeline):
         # Initialises the variables
         for line in lines:
             logger.info(line)
-            if line[0] == "scanned_par":
+            if line[0] == "simulator":
+                simulator = line[1]            
+            elif line[0] == "scanned_par":
                 scanned_par = line[1]
             elif line[0] == "simulate__intervals":
                 simulate__intervals = line[1]
@@ -296,7 +304,7 @@ class SingleParamScan(Pipeline):
                 yaxis_label = line[1]
 
         return (generate_data, analyse_data, generate_report,
-                project_dir, model, scanned_par,
+                project_dir, simulator, model, scanned_par,
                 simulate__intervals, single_param_scan_simulations_number, single_param_scan_percent_levels,
                 single_param_scan_knock_down_only, levels_number, min_level, max_level,
                 homogeneous_lines, xaxis_label, yaxis_label)

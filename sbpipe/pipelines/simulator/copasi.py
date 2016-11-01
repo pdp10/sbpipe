@@ -39,7 +39,7 @@ import logging
 logger = logging.getLogger('sbpipe')
 
 from simulator import Simulator
-from sb_config import get_copasi
+from sb_config import which
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from randomise_parameters import *
@@ -61,7 +61,8 @@ class Copasi(Simulator):
         Default constructor.
         """
         # run copasi
-        self._copasi = get_copasi()
+        
+        self._copasi = which("CopasiSE")
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 

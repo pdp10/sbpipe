@@ -75,7 +75,7 @@ class ParamEstim(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-             generate_tarball, project_dir, model,
+             generate_tarball, project_dir, simulator, model,
              cluster, pp_cpus, round, runs,
              best_fits_percent, data_point_num,
              plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
@@ -117,14 +117,15 @@ class ParamEstim(Pipeline):
             logger.info("\n")
             logger.info("Generate data:")
             logger.info("##############")
-            ParamEstim.generate_data(model,
-                                       models_dir,
-                                       cluster,
-                                       pp_cpus,
-                                       runs,
-                                       outputdir,
-                                       os.path.join(outputdir, self.get_sim_data_folder()),
-                                       os.path.join(outputdir, self.__updated_models_folder))
+            ParamEstim.generate_data(simulator, 
+                                     model,
+                                     models_dir,
+                                     cluster,
+                                     pp_cpus,
+                                     runs,
+                                     outputdir,
+                                     os.path.join(outputdir, self.get_sim_data_folder()),
+                                     os.path.join(outputdir, self.__updated_models_folder))
 
         if analyse_data:
             logger.info("\n")
@@ -150,7 +151,9 @@ class ParamEstim(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            self.generate_report(model[:-4], outputdir, self.get_sim_plots_folder())
+            self.generate_report(model[:-4], 
+                                 outputdir, 
+                                 self.get_sim_plots_folder())
 
         if generate_tarball:
             logger.info("\n")
@@ -174,11 +177,12 @@ class ParamEstim(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+    def generate_data(simulator, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
                       updated_models_dir):
         """
         The first pipeline step: data generation.
 
+        :param simulator: the name of the simulator (e.g. copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
@@ -189,7 +193,6 @@ class ParamEstim(Pipeline):
         :param updated_models_dir: the directory containing the Copasi models with updated parameters for
                each estimation
         """
-
         if int(nfits) < 1:
             logger.error("variable " + nfits + " must be greater than 0. Please, check your configuration file.")
             return
@@ -201,10 +204,13 @@ class ParamEstim(Pipeline):
         # folder preparation
         refresh_directory(sim_data_dir, model[:-4])
         refresh_directory(updated_models_dir, model[:-4])
-
-        sim = Copasi()
-        sim.parameter_estimation(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, 
+        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
+        if simulator == "copasi":
+            sim = Copasi()
+            sim.parameter_estimation(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, 
                                  sim_data_dir, updated_models_dir)
+        else:
+            logger.error("simulator: " + simulator + " not found.")
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
@@ -230,7 +236,6 @@ class ParamEstim(Pipeline):
         :param logspace: True if parameters should be plotted in log space
         :param scientific_notation: True if axis labels should be plotted in scientific notation        
         """
-
         if not os.path.exists(inputdir) or not os.listdir(inputdir):
             logger.error("inputdir " + inputdir + " does not exist or is empty. Generate some data first.")
             return
@@ -273,7 +278,6 @@ class ParamEstim(Pipeline):
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the folder containing the plots
         """
-
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
                 "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
@@ -289,11 +293,12 @@ class ParamEstim(Pipeline):
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
 
-        # parse copasi common options
+        # parse common options
         (generate_data, analyse_data, generate_report,
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
+        simulator = 'copasi'
         # The parallel mechanism to use (pp | sge | lsf).
         cluster = "pp"
         # The number of cpus for pp
@@ -323,7 +328,9 @@ class ParamEstim(Pipeline):
         # Initialises the variables
         for line in lines:
             logger.info(line)
-            if line[0] == "generate_tarball":
+            if line[0] == "simulator":
+                simulator = line[1]            
+            elif line[0] == "generate_tarball":
                 generate_tarball = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "cluster":
                 cluster = line[1]
@@ -349,7 +356,7 @@ class ParamEstim(Pipeline):
                 scientific_notation = {'True': True, 'False': False}.get(line[1], False)
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
-                project_dir, model, cluster, pp_cpus,
+                project_dir, simulator, model, cluster, pp_cpus,
                 round, runs, best_fits_percent, data_point_num, 
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                 logspace, scientific_notation)

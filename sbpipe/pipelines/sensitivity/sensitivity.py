@@ -70,7 +70,7 @@ class Sensitivity(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-              project_dir, model) = self.config_parser(config_file, "sensitivity")
+              project_dir, simulator, model) = self.config_parser(config_file, "sensitivity")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -100,7 +100,10 @@ class Sensitivity(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            Sensitivity.generate_data(model, self.get_models_dir(), outputdir)
+            Sensitivity.generate_data(simulator, 
+                                      model, 
+                                      self.get_models_dir(), 
+                                      outputdir)
 
         if analyse_data:
             logger.info("\n")
@@ -123,15 +126,15 @@ class Sensitivity(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, inputdir, outputdir):
+    def generate_data(simulator, model, inputdir, outputdir):
         """
         The first pipeline step: data generation.
 
+        :param simulator: the name of the simulator (e.g. copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
         """        
-
         if not os.path.isfile(os.path.join(inputdir,model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return
@@ -141,8 +144,12 @@ class Sensitivity(Pipeline):
 
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
-        sim = Copasi()
-        sim.sensitivity_analysis(model, inputdir, outputdir)
+        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
+        if simulator == "copasi":
+            sim = Copasi()
+            sim.sensitivity_analysis(model, inputdir, outputdir)
+        else:
+            logger.error("simulator: " + simulator + " not found.")
 
     # Input parameters
     # outputdir
@@ -167,7 +174,6 @@ class Sensitivity(Pipeline):
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the directory containing the time courses results combined with experimental data
         """        
-
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
                          " does not exist. Analyse the data first.")
@@ -188,14 +194,19 @@ class Sensitivity(Pipeline):
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
 
-        # parse copasi common options
+        # parse common options
         (generate_data, analyse_data, generate_report,
          project_dir, model) = self.read_common_configuration(lines)
 
+        # default values
+        simulator = 'copasi'
+        
         # Initialises the variables
         for line in lines:
             logger.info(line)
+            if line[0] == "simulator":
+                simulator = line[1]            
             break
 
         return (generate_data, analyse_data, generate_report,
-                project_dir, model)
+                project_dir, simulator, model)

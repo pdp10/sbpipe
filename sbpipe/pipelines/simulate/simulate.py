@@ -66,7 +66,7 @@ class Simulate(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-             project_dir, model, cluster, pp_cpus, runs,
+             project_dir, simulator, model, cluster, pp_cpus, runs,
              exp_dataset, plot_exp_dataset, 
              xaxis_label, yaxis_label) = self.config_parser(config_file, "simulate")
         except Exception as e:
@@ -103,21 +103,34 @@ class Simulate(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            Simulate.generate_data(model, models_dir, os.path.join(outputdir, self.get_sim_data_folder()),
-                                   cluster, pp_cpus, runs)
+            Simulate.generate_data(simulator, 
+                                   model, 
+                                   models_dir, 
+                                   os.path.join(outputdir, self.get_sim_data_folder()),
+                                   cluster, 
+                                   pp_cpus, 
+                                   runs)
 
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            Simulate.analyse_data(model[:-4], os.path.join(outputdir, self.get_sim_data_folder()), outputdir,
-                                  os.path.join(outputdir, self.get_sim_plots_folder()), os.path.join(models_dir, exp_dataset), plot_exp_dataset, xaxis_label, yaxis_label)
+            Simulate.analyse_data(model[:-4], 
+                                  os.path.join(outputdir, self.get_sim_data_folder()), 
+                                  outputdir,
+                                  os.path.join(outputdir, self.get_sim_plots_folder()), 
+                                  os.path.join(models_dir, exp_dataset), 
+                                  plot_exp_dataset, 
+                                  xaxis_label, 
+                                  yaxis_label)
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            Simulate.generate_report(model[:-4], outputdir, self.get_sim_plots_folder())
+            Simulate.generate_report(model[:-4], 
+                                     outputdir, 
+                                     self.get_sim_plots_folder())
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
@@ -129,10 +142,11 @@ class Simulate(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def generate_data(simulator, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         """
         The first pipeline step: data generation.
 
+        :param simulator: the name of the simulator (e.g. copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files
@@ -140,7 +154,6 @@ class Simulate(Pipeline):
         :param pp_cpus: the number of CPU used by Parallel Python.
         :param runs: the number of model simulation
         """
-
         if runs < 1:
             logger.error("variable " + str(runs) + " must be greater than 0. Please, check your configuration file.")
             return
@@ -154,8 +167,12 @@ class Simulate(Pipeline):
         
         # execute runs simulations.
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
-        sim = Copasi()
-        sim.simulate(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
+        if simulator == "copasi":
+            sim = Copasi()
+            sim.simulate(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+        else:
+            logger.error("simulator: " + simulator + " not found.")
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label):
@@ -171,7 +188,6 @@ class Simulate(Pipeline):
         :param xaxis_label: the label for the x axis (e.g. Time [min])
         :param yaxis_label: the label for the y axis (e.g. Level [a.u.])        
         """
-
         if not os.path.exists(inputdir):
             logger.error("inputdir " + inputdir + " does not exist. Generate some data first.")
             return
@@ -215,11 +231,12 @@ class Simulate(Pipeline):
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
 
-        # parse copasi common options
+        # parse common options
         (generate_data, analyse_data, generate_report,
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
+        simulator = 'copasi'
         cluster = 'pp'
         pp_cpus = 1
         runs = 1
@@ -231,7 +248,9 @@ class Simulate(Pipeline):
         # Initialises the variables
         for line in lines:
             logger.info(line)
-            if line[0] == "cluster":
+            if line[0] == "simulator":
+                simulator = line[1]            
+            elif line[0] == "cluster":
                 cluster = line[1]
             elif line[0] == "pp_cpus":
                 pp_cpus = line[1]
@@ -247,7 +266,7 @@ class Simulate(Pipeline):
                 yaxis_label = line[1]
 
         return (generate_data, analyse_data, generate_report,
-                project_dir, model,
+                project_dir, simulator, model,
                 cluster, pp_cpus, runs,
                 exp_dataset, plot_exp_dataset,
                 xaxis_label, yaxis_label)

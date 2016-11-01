@@ -69,7 +69,7 @@ class DoubleParamScan(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-             project_dir, model, scanned_par1, scanned_par2,
+             project_dir, simulator, model, scanned_par1, scanned_par2,
              sim_length) = self.config_parser(config_file, "double_param_scan")
         except Exception as e:
             logger.error(e.message)
@@ -98,7 +98,8 @@ class DoubleParamScan(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            DoubleParamScan.generate_data(model,
+            DoubleParamScan.generate_data(simulator, 
+                                          model,
                                           sim_length,
                                           models_dir,
                                           os.path.join(outputdir, self.get_sim_data_folder()))
@@ -133,16 +134,16 @@ class DoubleParamScan(Pipeline):
         return 1
 
     @staticmethod
-    def generate_data(model, sim_length, inputdir, outputdir):
+    def generate_data(simulator, model, sim_length, inputdir, outputdir):
         """
         The first pipeline step: data generation.
 
+        :param simulator: the name of the simulator (e.g. copasi)
         :param model: the model to process
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
         """
-
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return
@@ -150,8 +151,12 @@ class DoubleParamScan(Pipeline):
         refresh_directory(outputdir, model[:-4])
 
         logger.info("Simulating Model: " + model)
-        sim = Copasi()
-        sim.double_param_scan(model, sim_length, inputdir, outputdir)
+        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
+        if simulator == "copasi":
+            sim = Copasi()
+            sim.double_param_scan(model, sim_length, inputdir, outputdir)
+        else:
+            logger.error("simulator: " + simulator + " not found.")
 
     @staticmethod
     def analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir):
@@ -164,7 +169,6 @@ class DoubleParamScan(Pipeline):
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
         """
-
         if not os.path.exists(inputdir):
             logger.error("input_dir " + inputdir + " does not exist. Generate some data first.")
             return
@@ -188,7 +192,6 @@ class DoubleParamScan(Pipeline):
         :param outputdir: the directory containing the report
         :param sim_plots_folder: the folder containing the plots.
         """
-
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
                          " does not exist. Analyse the data first.")
@@ -206,11 +209,12 @@ class DoubleParamScan(Pipeline):
     def read_configuration(self, lines):
         __doc__ = Pipeline.read_configuration.__doc__
 
-        # parse copasi common options
+        # parse common options
         (generate_data, analyse_data, generate_report,
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
+        simulator = 'copasi'        
         # the first scanned param
         scanned_par1 = ""
         # the second scanned param
@@ -221,7 +225,9 @@ class DoubleParamScan(Pipeline):
         # Initialises the variables
         for line in lines:
             logger.info(line)            
-            if line[0] == "scanned_par1":
+            if line[0] == "simulator":
+                simulator = line[1]            
+            elif line[0] == "scanned_par1":
                 scanned_par1 = line[1]
             elif line[0] == "scanned_par2":
                 scanned_par2 = line[1]
@@ -229,5 +235,5 @@ class DoubleParamScan(Pipeline):
                 sim_length = line[1]
 
         return (generate_data, analyse_data, generate_report,
-                project_dir, model, scanned_par1, scanned_par2,
+                project_dir, simulator, model, scanned_par1, scanned_par2,
                 sim_length)

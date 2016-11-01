@@ -316,6 +316,8 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The name of the configurator (e.g. copasi)
+simulator=copasi
 # The Copasi model name
 model=insulin_receptor_stoch.cps
 # The cluster type. pp if the model is run locally, 
@@ -348,6 +350,8 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The name of the configurator (e.g. copasi)
+simulator=copasi
 # The Copasi model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
@@ -386,6 +390,8 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The name of the configurator (e.g. copasi)
+simulator=copasi
 # The Copasi model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
@@ -409,6 +415,8 @@ generate_report=True
 generate_tarball=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
+# The name of the configurator (e.g. copasi)
+simulator=copasi
 # The Copasi model name
 model=insulin_receptor_param_estim.cps
 # The cluster type. pp if the model is run locally, 
