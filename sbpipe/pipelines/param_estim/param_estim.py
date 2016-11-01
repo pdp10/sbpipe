@@ -43,10 +43,9 @@ from collect_results import retrieve_all_estimates
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
-from simulator import Simulator
-### NOTE: an instance of simulator should be retrieved dynamically.
-from copasi import Copasi
+# locate is used to dynamically load a class by its name.
+from pydoc import locate
+import simulator
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from io_util_functions import refresh_directory
@@ -204,13 +203,16 @@ class ParamEstim(Pipeline):
         # folder preparation
         refresh_directory(sim_data_dir, model[:-4])
         refresh_directory(updated_models_dir, model[:-4])
-        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
-        if simulator == "copasi":
-            sim = Copasi()
+        try:
+            # use reflection to dynamically load the simulator class by name
+            sim = locate('simulator.' + simulator.lower() + '.' + simulator)()
             sim.parameter_estimation(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, 
-                                 sim_data_dir, updated_models_dir)
-        else:
-            logger.error("simulator: " + simulator + " not found.")
+                                     sim_data_dir, updated_models_dir)
+        except Exception as e:
+            logger.error("simulator: " + simulator + " not found.")            
+            import traceback
+            logger.debug(traceback.format_exc())
+            return
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,

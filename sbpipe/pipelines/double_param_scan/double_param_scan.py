@@ -39,10 +39,9 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
-from simulator import Simulator
-### NOTE: an instance of simulator should be retrieved dynamically.
-from copasi import Copasi
+# locate is used to dynamically load a class by its name.
+from pydoc import locate
+import simulator
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from io_util_functions import refresh_directory
@@ -151,12 +150,15 @@ class DoubleParamScan(Pipeline):
         refresh_directory(outputdir, model[:-4])
 
         logger.info("Simulating Model: " + model)
-        ## TODO : this should be done dynamically instead of creating an instance of Copasi here..
-        if simulator == "copasi":
-            sim = Copasi()
+        try:
+            # use reflection to dynamically load the simulator class by name
+            sim = locate('simulator.' + simulator.lower() + '.' + simulator)()
             sim.double_param_scan(model, sim_length, inputdir, outputdir)
-        else:
-            logger.error("simulator: " + simulator + " not found.")
+        except Exception as e:
+            logger.error("simulator: " + simulator + " not found.")            
+            import traceback
+            logger.debug(traceback.format_exc())
+            return
 
     @staticmethod
     def analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir):
