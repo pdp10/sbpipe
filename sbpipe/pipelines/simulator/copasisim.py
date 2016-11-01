@@ -24,21 +24,39 @@
 
 
 
-import logging
+import sys
+import os
+import shutil
+import re
+import subprocess
 
+# For reading the first N lines of a file.
+from itertools import islice
+
+SBPIPE = os.environ["SBPIPE"]
+
+import logging
 logger = logging.getLogger('sbpipe')
 
 from simulator import Simulator
+from sb_config import get_copasi
+
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
+from randomise_parameters import *
+from copasi_utils import replace_str_copasi_sim_report
+from parallel_computation import parallel_computation
+from random_functions import get_rand_num_str, get_rand_alphanum_str
+from io_util_functions import replace_string_in_file
 
 
-class CopasiSim(Simulator):
+class Copasi(Simulator):
     """
     Copasi simulator.
     """
     _copasi = None
     _copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable."
 
-    def __init__():
+    def __init__(self):
         """
         Default constructor.
         """
