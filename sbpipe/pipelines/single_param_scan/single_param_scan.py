@@ -246,7 +246,7 @@ class SingleParamScan(Pipeline):
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
-        simulator = 'copasi'
+        simulator = 'Copasi'
         # The model species to scan (e.g. mTORC1)
         scanned_par = ""
         # The number of intervals for one simulation

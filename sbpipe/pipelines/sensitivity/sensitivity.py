@@ -199,7 +199,7 @@ class Sensitivity(Pipeline):
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
-        simulator = 'copasi'
+        simulator = 'Copasi'
         
         # Initialises the variables
         for line in lines:

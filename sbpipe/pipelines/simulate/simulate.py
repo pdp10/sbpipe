@@ -236,7 +236,7 @@ class Simulate(Pipeline):
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
-        simulator = 'copasi'
+        simulator = 'Copasi'
         cluster = 'pp'
         pp_cpus = 1
         runs = 1

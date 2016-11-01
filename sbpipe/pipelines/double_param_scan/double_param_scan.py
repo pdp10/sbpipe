@@ -214,7 +214,7 @@ class DoubleParamScan(Pipeline):
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
-        simulator = 'copasi'        
+        simulator = 'Copasi'        
         # the first scanned param
         scanned_par1 = ""
         # the second scanned param

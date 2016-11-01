@@ -298,7 +298,7 @@ class ParamEstim(Pipeline):
          project_dir, model) = self.read_common_configuration(lines)
 
         # default values
-        simulator = 'copasi'
+        simulator = 'Copasi'
         # The parallel mechanism to use (pp | sge | lsf).
         cluster = "pp"
         # The number of cpus for pp
