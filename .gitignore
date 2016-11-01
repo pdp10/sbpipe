@@ -1,6 +1,6 @@
 */**/.directory
 tests/**/Rplots.pdf
-sb_pipe/**/*.pyc
+sbpipe/**/*.pyc
 logs/*.log*
 docs/source/*_manual.rst
 docs/source/source_code/*.rst
