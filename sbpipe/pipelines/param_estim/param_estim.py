@@ -37,17 +37,18 @@ logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 
-from sb_config import get_copasi, which
 from collect_results import retrieve_final_estimates
 from collect_results import retrieve_all_estimates
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
+from simulator import Simulator
+### NOTE: an instance of simulator should be retrieved dynamically.
+from copasi import Copasi
+
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
-from randomise_parameters import *
-from parallel_computation import parallel_computation
-from random_functions import get_rand_num_str, get_rand_alphanum_str
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_param_estim, pdf_report
 
@@ -201,46 +202,9 @@ class ParamEstim(Pipeline):
         refresh_directory(sim_data_dir, model[:-4])
         refresh_directory(updated_models_dir, model[:-4])
 
-        copasi = get_copasi()
-        if copasi is None:
-            logger.error(
-                "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
-            return
-
-        logger.info("Configure Copasi:")
-        groupid = "_" + get_rand_alphanum_str(20) + "_"
-        group_model = model[:-4] + groupid
-        pre_param_estim = RandomiseParameters(inputdir, model)
-        logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")        
-        pre_param_estim.generate_instances_from_template(nfits, groupid)
-        #logger.info("Randomise the initial parameter values")
-        #pre_param_estim.print_parameters_to_estimate()        
-        #pre_param_estim.randomise_parameters(nfits, groupid)
-
-        logger.info("\n")
-        logger.info("Parallel parameter estimation:")
-        # To make things simple, the last 10 character of groupid are extracted and reversed.
-        # This string will be likely different from groupid and is the string to replace with
-        # the iteration number.
-        str_to_replace = groupid[10::-1]
-        command = copasi + " -s " + os.path.join(inputdir, group_model + str_to_replace + ".cps") + \
-                  " " + os.path.join(inputdir, group_model + str_to_replace + ".cps")
-        parallel_computation(command, str_to_replace, cluster_type, nfits, outputdir, pp_cpus)
-
-        # Move the report files to the outputdir
-        report_files = [f for f in os.listdir(inputdir) if
-                       re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
-        for file in report_files:
-            # copy report and remove the groupid
-            shutil.move(os.path.join(inputdir, file),
-                        os.path.join(sim_data_dir, file.replace(groupid, "_")))
-
-        # removed repeated copasi files
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
-        for file in repeated_copasi_files:
-            # os.remove(os.path.join(inputdir, file))
-            shutil.move(os.path.join(inputdir, file),
-                        os.path.join(updated_models_dir, file.replace(groupid, "_")))
+        sim = Copasi()
+        sim.parameter_estimation(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, 
+                                 sim_data_dir, updated_models_dir)
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
@@ -281,14 +245,14 @@ class ParamEstim(Pipeline):
         logger.info("\n")
         logger.info("Plot results:")
         logger.info("\n")
-        process = Popen(['Rscript',
+        process = subprocess.Popen(['Rscript',
                          os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'param_estim', 'main_final_fits_analysis.r'),
                          model,
                          os.path.join(outputdir, fileout_final_estims),
                          sim_plots_dir,
                          str(best_fits_percent), str(logspace), str(scientific_notation)])
         process.wait()
-        process = Popen(
+        process = subprocess.Popen(
             ['Rscript', os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'param_estim', 'main_all_fits_analysis.r'),
              model,
              os.path.join(outputdir, fileout_all_estims),
@@ -318,11 +282,6 @@ class ParamEstim(Pipeline):
         logger.info("Generating LaTeX report")
         filename_prefix = "report__param_estim_"
         latex_report_param_estim(outputdir, sim_plots_folder, model, filename_prefix)
-
-        pdflatex = which("pdflatex")
-        if pdflatex is None:
-            logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
-            return
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")

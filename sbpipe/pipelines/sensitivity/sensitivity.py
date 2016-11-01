@@ -36,10 +36,13 @@ logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 
-from sb_config import get_copasi, which
-
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
+
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
+from simulator import Simulator
+### NOTE: an instance of simulator should be retrieved dynamically.
+from copasi import Copasi
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from io_util_functions import refresh_directory
@@ -138,20 +141,8 @@ class Sensitivity(Pipeline):
 
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
-
-        # run copasi
-        copasi = get_copasi()
-        if copasi is None:
-            logger.error("CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
-            return
-
-        command = [copasi, os.path.join(inputdir, model[:-4]+".cps")]
-
-        p = subprocess.Popen(command)
-        p.wait()
-
-        # move the output file
-        shutil.move(os.path.join(model[:-4]+".csv"), outputdir)
+        sim = Copasi()
+        sim.sensitivity_analysis(model, inputdir, outputdir)
 
     # Input parameters
     # outputdir

@@ -27,24 +27,22 @@ import datetime
 import os
 import sys
 import glob
-import re
-import shutil
 import logging
 import subprocess
 
 logger = logging.getLogger('sbpipe')
 
-from sb_config import get_copasi, which
-
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
+from simulator import Simulator
+### NOTE: an instance of simulator should be retrieved dynamically.
+from copasi import Copasi
+
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
-from copasi_utils import replace_str_copasi_sim_report
-from io_util_functions import refresh_directory, replace_string_in_file
-from parallel_computation import parallel_computation
-from random_functions import get_rand_num_str, get_rand_alphanum_str
+from io_util_functions import refresh_directory
 from latex_reports import latex_report_simulate, pdf_report
 
 
@@ -151,48 +149,13 @@ class Simulate(Pipeline):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return
 
-        copasi = get_copasi()
-        if copasi is None:
-            logger.error(
-                "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
-            return
-
         # folder preparation
         refresh_directory(outputdir, model[:-4])
-
+        
         # execute runs simulations.
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
-        # Replicate the copasi file and rename its report file
-        groupid = "_" + get_rand_alphanum_str(20) + "_"
-        group_model = model[:-4] + groupid
-
-        for i in xrange(1, runs + 1):
-            shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".cps")
-            replace_string_in_file(os.path.join(inputdir, group_model) + str(i) + ".cps",
-                                   model[:-4] + ".csv",
-                                   group_model + str(i) + ".csv")
-
-        # run copasi in parallel
-        # To make things simple, the last 10 character of groupid are extracted and reversed.
-        # This string will be likely different from groupid and is the string to replace with
-        # the iteration number.
-        str_to_replace = groupid[10::-1]
-        command = copasi + " " + os.path.join(inputdir, group_model + str_to_replace + ".cps")
-        parallel_computation(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
-
-        # move the report files
-        report_files = [f for f in os.listdir(inputdir) if
-                        re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
-        for file in report_files:
-            # Replace some string in the report file
-            replace_str_copasi_sim_report(os.path.join(inputdir, file))
-            # rename and move the output file
-            shutil.move(os.path.join(inputdir, file), os.path.join(outputdir, file.replace(groupid, "_")[:-4] + ".csv"))
-
-        # removed repeated copasi files
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
-        for file in repeated_copasi_files:
-            os.remove(os.path.join(inputdir, file))
+        sim = Copasi()
+        sim.simulate(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
 
     @staticmethod
     def analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label):

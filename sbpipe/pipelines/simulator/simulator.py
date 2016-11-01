@@ -34,7 +34,7 @@ class Simulator:
     Generic simulator.
     """
 
-    def __init__():
+    def __init__(self):
         """
         Default constructor.
         """

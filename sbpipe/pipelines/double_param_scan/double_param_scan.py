@@ -35,13 +35,16 @@ import logging
 logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
-from sb_config import get_copasi, which
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
+from simulator import Simulator
+### NOTE: an instance of simulator should be retrieved dynamically.
+from copasi import Copasi
+
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
-from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_double_param_scan, pdf_report
 
@@ -147,58 +150,8 @@ class DoubleParamScan(Pipeline):
         refresh_directory(outputdir, model[:-4])
 
         logger.info("Simulating Model: " + model)
-
-        model_noext = model[:-4]
-
-        copasi = get_copasi()
-        if copasi is None:
-            logger.error("CopasiSE not found! Please check that CopasiSE is "
-                         "installed and in the PATH environmental variable.")
-            return
-
-        # run CopasiSE. Copasi must generate a (TIME COURSE) report
-        process = subprocess.Popen([copasi, '--nologo', os.path.join(inputdir, model)])
-        process.wait()
-
-        if (not os.path.isfile(os.path.join(inputdir, model_noext + ".csv")) and
-                not os.path.isfile(os.path.join(inputdir, model_noext + ".txt"))):
-            logger.warn(os.path.join(inputdir, model_noext + ".csv") + " (or .txt) does not exist!")
-            return
-
-        if os.path.isfile(os.path.join(inputdir, model_noext + ".txt")):
-            os.rename(os.path.join(inputdir, model_noext + ".txt"), os.path.join(inputdir, model_noext + ".csv"))
-
-        # Replace some string in the report file
-        replace_str_copasi_sim_report(os.path.join(inputdir, model_noext + ".csv"))
-
-        # copy file removing empty lines
-        with open(os.path.join(inputdir, model_noext + ".csv"), 'r') as filein, \
-                open(os.path.join(outputdir, model_noext + ".csv"), 'w') as fileout:
-            for line in filein:
-                if not line.isspace():
-                    fileout.write(line)
-        os.remove(os.path.join(inputdir, model_noext + ".csv"))
-
-        # Extract a selected time point from all perturbed time courses contained in the report file
-        with open(os.path.join(outputdir, model_noext + ".csv"), 'r') as filein:
-            lines = filein.readlines()
-            header = lines[0]
-            lines = lines[1:]
-            timepoints = range(0, sim_length + 1)
-            filesout = []
-            try:
-                filesout = [open(os.path.join(outputdir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]
-                # copy the header
-                for fileout in filesout:
-                    fileout.write(header)
-                # extract the i-th time point and copy it to the corresponding i-th file
-                for line in lines:
-                    tp = line.rstrip().split('\t')[0]
-                    if not '.' in tp and int(tp) in timepoints:
-                        filesout[int(tp)].write(line)
-            finally:
-                for fileout in filesout:
-                    fileout.close()
+        sim = Copasi()
+        sim.double_param_scan(model, sim_length, inputdir, outputdir)
 
     @staticmethod
     def analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir):
@@ -246,11 +199,6 @@ class DoubleParamScan(Pipeline):
         filename_prefix = "report__double_param_scan_"
         latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
                                        model, scanned_par1, scanned_par2)
-
-        pdflatex = which("pdflatex")
-        if pdflatex is None:
-            logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
-            return
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")

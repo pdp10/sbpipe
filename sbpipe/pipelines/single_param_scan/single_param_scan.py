@@ -35,17 +35,17 @@ import logging
 
 logger = logging.getLogger('sbpipe')
 
-# For reading the first N lines of a file.
-from itertools import islice
-
 SBPIPE = os.environ["SBPIPE"]
-from sb_config import get_copasi, which
 
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulator"))
+from simulator import Simulator
+### NOTE: an instance of simulator should be retrieved dynamically.
+from copasi import Copasi
+
 sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
-from copasi_utils import replace_str_copasi_sim_report
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_single_param_scan, pdf_report
 
@@ -155,107 +155,9 @@ class SingleParamScan(Pipeline):
         refresh_directory(outputdir, model[:-4])
 
         logger.info("Simulating Model: " + model)
-
-        model_noext = model[:-4]
-
-        names = []
-        scanned_par_index = -1
-        scanned_par_level = -1
-        # Set the number of intervals
-        intervals = int(single_param_scan_intervals) + 1
-        # Set the number of timepoints
-        timepoints = int(simulate_intervals) + 1
-
-        copasi = get_copasi()
-        if copasi == None:
-            logger.error(
-                "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable.")
-            return
-
-        for i in xrange(0, int(sim_number)):
-
-            logger.info("Simulation No.: " + str(i))
-            # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
-            process = subprocess.Popen([copasi, '--nologo', os.path.join(inputdir, model)])
-            process.wait()
-
-            if (not os.path.isfile(os.path.join(inputdir, model_noext + ".csv")) and
-                    not os.path.isfile(os.path.join(inputdir, model_noext + ".txt"))):
-                logger.warn(os.path.join(inputdir, model_noext + ".csv") + " (or .txt) does not exist!")
-                continue
-
-            # Replace some string in the report file
-            replace_str_copasi_sim_report(os.path.join(inputdir, model_noext + ".csv"))
-
-            # Find the index of scanned_par in the header file, so it is possible to read the amount at
-            # the second line.
-            if i == 0:
-                logger.info("Retrieving column index for " + scanned_par +
-                            " from file " + os.path.join(inputdir, model_noext + ".csv"))
-                # Read the first line of a file.
-                with open(os.path.join(inputdir, model_noext + ".csv")) as myfile:
-                    # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
-                    header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
-                logger.debug(header)
-                for j, name in enumerate(header):
-                    logger.info(str(j) + " " + name + " " + scanned_par)
-                    if name == scanned_par:
-                        scanned_par_index = j
-                        break
-                if scanned_par_index == -1:
-                    logger.error("Column index for " + scanned_par + ": " + str(
-                        scanned_par_index) + ". Species not found! You must add " + scanned_par +
-                                 " to the Copasi report.")
-                    return
-                else:
-                    logger.info("Column index for " + scanned_par + ": " + str(scanned_par_index))
-
-            # Prepare the Header for the output files
-            # Add a \t at the end of each element of the header
-            header = [h + "\t" for h in header]
-            # Remove the \t for the last element.
-            header[-1] = header[-1].strip()
-
-            # Prepare the table content for the output files
-            for j in xrange(0, intervals):
-                # Read the scanned_par level
-                # Read the second line of a file.
-                with open(os.path.join(inputdir, model_noext + ".csv")) as myfile:
-                    # 2 is the number of lines to read, 1 is the i-th element to extract from the list.
-                    initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
-                # print initial_configuration
-                scanned_par_level = initial_configuration[scanned_par_index]
-                if scanned_par_level == -1:
-                    logger.error("scanned_par_level not configured!")
-                    return
-                else:
-                    logger.info(
-                        scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(scanned_par_index) + ")")
-
-                # copy the -th run to a new file: add 1 to timepoints because of the header.
-                round_scanned_par_level = scanned_par_level
-                # Read the first timepoints+1 lines of a file.
-                with open(os.path.join(inputdir, model_noext + ".csv"), 'r') as file:
-                    table = list(islice(file, timepoints + 1))
-
-                # Write the extracted table to a separate file
-                with open(os.path.join(outputdir, model_noext + "__sim_" + str(i + 1) + "__level_" + str(
-                        round_scanned_par_level) + ".csv"), 'w') as file:
-                    for line in table:
-                        file.write(line)
-
-                with open(os.path.join(inputdir, model_noext + ".csv"), 'r') as file:
-                    # read all lines
-                    lines = file.readlines()
-
-                with open(os.path.join(inputdir, model_noext + ".csv~"), 'w') as file:
-                    file.writelines(header)
-                    file.writelines(lines[timepoints + 1:])
-
-                shutil.move(os.path.join(inputdir, model_noext + ".csv~"), os.path.join(inputdir, model_noext + ".csv"))
-
-            # remove the file
-            os.remove(os.path.join(inputdir, model_noext + ".csv"))
+        sim = Copasi()
+        sim.single_param_scan(model, scanned_par, sim_number, simulate_intervals,
+                              single_param_scan_intervals, inputdir, outputdir)
 
     @staticmethod
     def analyse_data(model, scanned_par, knock_down_only, outputdir,
@@ -326,11 +228,6 @@ class SingleParamScan(Pipeline):
         filename_prefix = "report__single_param_scan_"
         latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
                                        model, scanned_par)
-
-        pdflatex = which("pdflatex")
-        if pdflatex is None:
-            logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
-            return
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
