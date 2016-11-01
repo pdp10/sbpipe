@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# This file is part of sb_pipe.
+# This file is part of sbpipe.
 #
-# sb_pipe is free software: you can redistribute it and/or modify
+# sbpipe is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# sb_pipe is distributed in the hope that it will be useful,
+# sbpipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
 # Object: clean the package
@@ -27,8 +27,8 @@
 import sys
 import os
 import subprocess
-SB_PIPE = os.environ["SB_PIPE"]
-sys.path.append(os.path.join(SB_PIPE, 'sb_pipe', 'utils', 'python'))
+SBPIPE = os.environ["SBPIPE"]
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'utils', 'python'))
 import io_util_functions
 
 def main(args):
@@ -46,11 +46,11 @@ def main(args):
   origWD = os.getcwd() # remember our original working directory
 
   os.chdir("tests")    # change folder
-  process = subprocess.Popen(['python', os.path.join(SB_PIPE,'tests','clean_tests.py')])
+  process = subprocess.Popen(['python', os.path.join(SBPIPE,'tests','clean_tests.py')])
   process.wait() 
   
-  process = subprocess.Popen(['pyclean', '.'])
-  process.wait()
+  #process = subprocess.Popen(['pyclean', '.'])
+  #process.wait()
   
   ### delete this silly file
   if os.path.isfile(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf')):

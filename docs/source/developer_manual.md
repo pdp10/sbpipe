@@ -1,8 +1,8 @@
 # Developer manual
 
-Mailing list: sb_pipe AT googlegroups.com
+Mailing list: sbpipe AT googlegroups.com
 
-Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
 ## Introduction
@@ -104,9 +104,9 @@ In order to automatically compile and run the test suite, Travis-CI is used and 
 
 The project is structured as follows: 
 ```
-sb_pipe:
+sbpipe:
   | - docs
-  | - sb_pipe
+  | - sbpipe
         | - pipelines
         | - utils
   | - tests
@@ -138,12 +138,12 @@ $ ./clean_doc.sh
 If new folders containing new Python modules are added to the project, it is necessary to update the sys.path in *source/conf.py* to include these additional paths. 
 
 
-### sb_pipe
-This folder contains the main script for running SB pipe (run_sb_pipe.py). 
+### sbpipe
+This folder contains the main script for running SB pipe (run_sbpipe.py). 
 This script is an interface for the project.
 
 #### pipelines
-The folder */sb_pipe/pipelines/* contains the following pipelines within folders:
+The folder */sbpipe/pipelines/* contains the following pipelines within folders:
 
 - *create_project*: creates a new project
 - *simulate*: simulates a model deterministically or stochastically
@@ -155,7 +155,7 @@ configured first), generate plots and report;
 - *param_estim*: generate a fits sequence using Copasi 
 (this must be configured first), generate tables for statistics.
 
-These pipelines are invoked directly via the script *sb_pipe/run_sb_pipe.py*. Each pipeline extends the class *Pipeline*, 
+These pipelines are invoked directly via the script *sbpipe/run_sbpipe.py*. Each pipeline extends the class *Pipeline*, 
 which represents a generic and abstract pipeline. Each pipeline must implement the following methods of *Pipeline*: 
 ```
 def run(self, config_file)
@@ -168,7 +168,7 @@ each pipeline the configuration file as a list of lines.
 
 
 #### utils
-The folder *sb_pipe/utils/* contains the following structure:
+The folder *sbpipe/utils/* contains the following structure:
 
 - *python*: a collection of python utils.
 - *R*: a collection of R utils (plots and statistics).
@@ -187,7 +187,7 @@ Projects inside the folder tests/ have the SB pipe project structure:
 estimation results, time course, parameter scan, etc).
 
 Examples of configuration files (*.conf) can be found in 
-${SB_PIPE}/tests/insulin_receptor/Working_Folder/.
+$SBPIPE/tests/insulin_receptor/Working_Folder/.
 
 Travis-CI runs SB pipe tests using `nosetests`. Please see .travis.yml 
 for detail.
@@ -201,7 +201,7 @@ for detail.
 ### Git
 **Startup**
 ```
-$ git clone https://YOURUSERNAME@server/YOURUSERNAME/sb_pipe.git   
+$ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git   
 # to clone the master
 $ git checkout -b develop origin/develop                           
 # to get the develop branch

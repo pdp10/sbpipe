@@ -77,7 +77,7 @@ values of the parameters to estimate.</p>
 <dl class="method">
 <dt id="randomise_parameters.RandomiseParameters.generate_instances_from_template">
 <code class="descname">generate_instances_from_template</code><span class="sig-paren">(</span><em>num_files</em>, <em>idstr</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.generate_instances_from_template" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate num_files files and randomise the starting values for the parameter to estimate.</p>
+<dd><p>Generate num_files files and add an ID string to Copasi file/report names</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -208,6 +208,24 @@ values of the parameters to estimate.</p>
 <dt id="randomise_parameters.RandomiseParameters.print_parameters_to_estimate">
 <code class="descname">print_parameters_to_estimate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.print_parameters_to_estimate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the parameter names, lower/upper bounds, and starting value, as extracted from COPASI template file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="randomise_parameters.RandomiseParameters.randomise_parameters">
+<code class="descname">randomise_parameters</code><span class="sig-paren">(</span><em>num_files</em>, <em>idstr</em><span class="sig-paren">)</span><a class="headerlink" href="#randomise_parameters.RandomiseParameters.randomise_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Randomise the starting values for the parameter to estimate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>num_files</strong> &#8211; the number of files (instances) to generate</li>
+<li><strong>idstr</strong> &#8211; an ID string to label the generated files (e.g. a timestamp)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

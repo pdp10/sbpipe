@@ -1,17 +1,17 @@
-# This file is part of sb_pipe.
+# This file is part of sbpipe.
 #
-# sb_pipe is free software: you can redistribute it and/or modify
+# sbpipe is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# sb_pipe is distributed in the hope that it will be useful,
+# sbpipe is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with sb_pipe.  If not, see <http://www.gnu.org/licenses/>.
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
 # Object: install required dependencies automatically
@@ -22,8 +22,8 @@
 
 
 
-# Retrieve the environment variable SB_PIPE
-SB_PIPE <- Sys.getenv(c("SB_PIPE"))
+# Retrieve the environment variable SBPIPE
+SBPIPE <- Sys.getenv(c("SBPIPE"))
 
     
 install_r_deps <- function(x) {
@@ -44,7 +44,7 @@ main <- function(args) {
    
    print("Installing R dependencies...")  
 
-   rdeps_file <- file.path(SB_PIPE, "rdeps.txt")
+   rdeps_file <- file.path(SBPIPE, "rdeps.txt")
    if(!file.exists(rdeps_file)) {
       print(paste("Installation failed as", rdeps_file, "does not exist"))
       return(1)

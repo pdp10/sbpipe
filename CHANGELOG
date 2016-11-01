@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.15.0
+v1.17.0
 
+- improvements to program prints
+- project renamed sbpipe
 - added AIC, AICc, BIC to the parameter estimation summary table.
 - randomisation of initial parameter values for parameter estimation is now only performed by Copasi.
 - added plots comparing model simulation vs experimental data in simulate pipeline.

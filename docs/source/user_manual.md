@@ -10,9 +10,9 @@ Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicol
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
-Mailing list: sb_pipe AT googlegroups.com
+Mailing list: sbpipe AT googlegroups.com
 
-Forum: [https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
 ## Introduction
@@ -26,44 +26,101 @@ In order to use SB pipe, the following software must be installed:
 
 - Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
 - Python 2.7+ - [https://www.python.org/](https://www.python.org/)
-- R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
-- LaTeX 2013 (optional) [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
+- R 3.2.3+ - [https://cran.r-project.org/](https://cran.r-project.org/)
 
-You should also make sure that the following packages are installed in 
-your machine: `python-pip`, and (optionally) `texlive-latex-base`.
 
-Before installing SB pipe Python and R dependencies the following 
-environment variables must be added to your GNU/Linux $HOME/.bashrc file:
+If LaTeX/PDF reports are also desired, the following software must also be installed:
+
+- LaTeX 2013
+
+Depending on your operating system, LaTeX can be downloaded at these websites: 
+
+- GNU/Linux: [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
+- Windows: [https://miktex.org/](https://miktex.org/)
+
+
+#### GNU/Linux
+It is advised that users install Python, R and (optionally) LaTeX packages using the package manager of their GNU/Linux distribution. Users need to make sure that the packages `python-pip` and `texlive-latex-base` (only for reports). In most cases, the installation via the package manager will automatically configure the correct environment variables. 
+
+If a local installation of Python, R, or LaTeX is needed, users need to add the following environment variables to `$PATH` in their `$HOME`/.bashrc file as follows:
 
 ```
-# SB_PIPE
-export SB_PIPE=/path/to/sb_pipe
-export PATH=$PATH:${SB_PIPE}/sb_pipe
+# Path to R
+export PATH=$PATH:/path/to/R/binaries/
 
+# Path to Python. Scripts is the folder (if any) containing the Python script `pip`
+# pip must be available via command line.
+export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
+
+# Path to LaTeX
+export PATH=$PATH:/path/to/LaTeX/binaries/
+
+```
+
+The correct installation of Python, R, and LaTeX can be tested by running the commands: 
+```
+# If variables were manually exported, reload the .bashrc file
+$ source $HOME/.bashrc
+
+$ python -V
+Python 2.7.12
+$ pip -V
+pip 8.1.2 from /home/ariel/.local/lib/python2.7/site-packages (python 2.7)
+
+$ R --version
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+$ pdflatex -v
+pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
+kpathsea version 6.2.1
+Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+```
+
+As of 2016, Copasi is not available as a package in GNU/Linux distributions. Users must add the path to Copasi binary files manually editing their GNU/Linux `$HOME`/.bashrc file as follows:
+
+```
 # Path to CopasiSE
-export PATH=$PATH:/path/to/CopasiSE
+export PATH=$PATH:/path/to/CopasiSE/
+```
+The correct installation of CopasiSE can be tested by running the command: 
+```
+# Reload the .bashrc file
+$ source $HOME/.bashrc
+
+$ CopasiSE -h
+COPASI 4.16 (Build 104)
 ```
 
-The .bashrc file can then be reloaded from your shell using the command: 
+At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed correctly. SB pipe requires the configuration of an environment variable (`$SBPIPE`) which must also be added in the `$HOME`/.bashrc file. The package source files also need to be added to `$PATH`. Users need to add the following lines to their `$HOME`/.bashrc file:
+
 ```
+# SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:$SBPIPE/sbpipe
+
+```
+
+Now you should reload the .bashrc file to make the previous change effective: 
+```
+# Reload the .bashrc file
 $ source $HOME/.bashrc
 ```
 
-On Windows platforms, these environment variables are configured as any other 
-Windows environment variable.
 
-Now it is the time to install Python and R packages used by SB pipe. Two scripts 
+Before testing the correct installation of SB pipe, users need to install Python and R dependency packages used by SB pipe. Two scripts 
 are provided to perform these tasks automatically. 
 
-To install SB pipe Python dependencies, run:
+To install SB pipe Python dependencies on GNU/Linux, run:
 ```
-cd ${SB_PIPE}/
-./install_pydeps.py
+$ cd $SBPIPE/
+$ ./install_pydeps.py
 ```
 
-To install SB pipe R dependencies, run:
+To install SB pipe R dependencies on GNU/Linux, run:
 ```
-cd ${SB_PIPE}/
+$ cd $SBPIPE/
 $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
@@ -71,17 +128,83 @@ $ R
 
 If R package dependencies must be compiled, it is worth checking that the following additional packages are installed in your machine: `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
 
+The correct installation of SB pipe can be tested by running the command: 
+```
+$ run_sbpipe.py -v
+1.17.0
+```
+
+
+#### Windows
+Windows users are also strongly advised to install the package: 
+
+- Cygwin 2.6.0 [https://www.cygwin.com/](https://www.cygwin.com/)
+
+Cygwin offers a GNU/Linux-like shell. This makes the installation of dependencies easier as this follows the configuration for GNU/Linux users.
+
+Windows users may need to edit the `PATH` environment variable so that the binary files for the previous 
+packages (Copasi, Python, R, and (optionally) LaTeX) are correctly found. Specifically for Python, the python scripts `pip.py` and `easy_install.py` are located inside the folder `Scripts` within the Python root directory. The path to this folder must also be added to `PATH`.
+
+Therefore, the following environment variables must also be added:
+
+```
+SBPIPE=\path\to\sbpipe
+PATH=[previous paths];%SBPIPE%\sbpipe
+```
+
+
+** NOTE for Cygwin: **
+Environment variables can also be configured directly within the .bashrc file in cygwin/home/USERNAME/. 
+In the beginning of this file, users should place: 
+
+```
+# Path to R
+export PATH=$PATH:/path/to/R/binaries/
+
+# Path to Python
+export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
+
+# Path to LaTeX
+export PATH=$PATH:/path/to/LaTeX/binaries/
+
+# Path to CopasiSE
+export PATH=$PATH:/path/to/CopasiSE/binaries/
+
+# SBPIPE
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:$SBPIPE/sbpipe
+
+```
+
+After configuring the environment variables directly or internally in Cygwin, the next step is to install Python and R packages used by SB pipe. Two scripts are provided to perform these tasks automatically. 
+
+To install SB pipe Python dependencies using Cygwin on Windows, run:
+```
+$ cd /cygdrive/PATH/TO/SBPIPE/
+$ python.exe install_pydeps.py
+```
+
+To install SB pipe R dependencies using Cygwin on Windows, run:
+```
+$ cd /cygdrive/PATH/TO/SBPIPE/
+$ R.exe
+# Inside R environment, answer 'y' to install packages locally
+> source('install_rdeps.r')
+```
+
+
 
 ### Installation
-Run the command inside the sb_pipe folder: 
+If desired, SB pipe can be installed in your system. To do so, run the command inside the sbpipe folder: 
 ```
-python setup.py install
+$ cd $SBPIPE
+$ python setup.py install
 ```
 The correct installation of SB pipe and its dependencies can be checked by 
 running the following commands inside the SB pipe folder: 
 ```
-cd tests
-./test_suite.py
+$ cd tests
+$ ./test_suite.py
 ```
 
 ## How to use SB pipe
@@ -111,13 +234,13 @@ Before using these pipelines, a Copasi model must be configured as follow using 
 
 
 ### Running SB pipe
-SB pipe is executed via the command *run_sb_pipe.py*. The syntax for this command and its complete list 
-of options can be retrieved by running *run_sb_pipe.py -h*. 
+SB pipe is executed via the command *run_sbpipe.py*. The syntax for this command and its complete list 
+of options can be retrieved by running *run_sbpipe.py -h*. 
 
 As of Sep 2016 the output is as follows:
 ```
-pdp@ariel:~/sb_pipe$ run_sb_pipe.py -h
-Usage: run_sb_pipe.py [OPTION] [FILE]
+$ run_sbpipe.py -h
+Usage: run_sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
@@ -133,20 +256,24 @@ List of mandatory options:
                 Simulate a double parameter scan.
         -e, --param-estim
                 Generate a parameter fit sequence.
+        -l, --license
+                Shows the license.
+        -v, --version
+                Shows the version.                
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
  2  if serious trouble (e.g., cannot access command-line argument).
 
-Report bugs to sb_pipe@googlegroups.com
-SB pipe home page: <https://pdp10.github.io/sb_pipe>
+Report bugs to sbpipe@googlegroups.com
+SB pipe home page: <https://pdp10.github.io/sbpipe>
 For complete documentation, see README.md .
 
 ```
 
 The first step is to create a new project. This can be done with the command:
 ```
-run_sb_pipe.py --create-project project_name
+$ run_sbpipe.py --create-project project_name
 ```
 
 This generates the following structure:
@@ -162,7 +289,7 @@ for each pipeline they intend to run (see next section). These configuration fil
 
 For instance, the pipeline for parameter estimation configured with a certain configuration file can be executed by typing:
 ```
-run_sb_pipe.py -e my_config_file.conf
+$ run_sbpipe.py -e my_config_file.conf
 ```
 
 
@@ -317,7 +444,7 @@ scientific_notation=True
 
 Additional examples of configuration files can be found in:
 ```
-${SB_PIPE}/tests/insulin_receptor/Working_Folder/ 
+$SBPIPE/tests/insulin_receptor/Working_Folder/ 
 ```
 
 
@@ -325,21 +452,21 @@ ${SB_PIPE}/tests/insulin_receptor/Working_Folder/
 SB pipe is a relatively young project and there is a chance that some error occurs. 
 The following mailing list should be used for general questions: 
 ```
-sb_pipe AT googlegroups.com
+sbpipe AT googlegroups.com
 ```
 
 All the topics discussed in this mailing list are also available at 
 the website: 
 
-[https://groups.google.com/forum/#!forum/sb_pipe](https://groups.google.com/forum/#!forum/sb_pipe)
+[https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
 To help us better identify and reproduce your problem, some technical information 
-is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sb_pipe/logs/. When using the mailing list above, it would be worth providing 
+is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sbpipe/logs/. When using the mailing list above, it would be worth providing 
 this extra information.
 
 Issues and feature requests can also be notified using the github issue tracking system 
 for SB pipe at the web page: 
 
-[https://github.com/pdp10/sb_pipe/issues](https://github.com/pdp10/sb_pipe/issues).
+[https://github.com/pdp10/sbpipe/issues](https://github.com/pdp10/sbpipe/issues).
 

@@ -1,9 +1,9 @@
 Developer manual
 ================
 
-Mailing list: sb\_pipe AT googlegroups.com
+Mailing list: sbpipe AT googlegroups.com
 
-Forum: https://groups.google.com/forum/#!forum/sb_pipe
+Forum: https://groups.google.com/forum/#!forum/sbpipe
 
 Introduction
 ------------
@@ -129,9 +129,9 @@ The project is structured as follows:
 
 ::
 
-    sb_pipe:
+    sbpipe:
       | - docs
-      | - sb_pipe
+      | - sbpipe
             | - pipelines
             | - utils
       | - tests
@@ -177,17 +177,17 @@ If new folders containing new Python modules are added to the project,
 it is necessary to update the sys.path in *source/conf.py* to include
 these additional paths.
 
-sb\_pipe
-~~~~~~~~
+sbpipe
+~~~~~~
 
 This folder contains the main script for running SB pipe
-(run\_sb\_pipe.py). This script is an interface for the project.
+(run\_sbpipe.py). This script is an interface for the project.
 
 pipelines
 ^^^^^^^^^
 
-The folder */sb\_pipe/pipelines/* contains the following pipelines
-within folders:
+The folder */sbpipe/pipelines/* contains the following pipelines within
+folders:
 
 -  *create\_project*: creates a new project
 -  *simulate*: simulates a model deterministically or stochastically
@@ -201,7 +201,7 @@ within folders:
    configured first), generate tables for statistics.
 
 These pipelines are invoked directly via the script
-*sb\_pipe/run\_sb\_pipe.py*. Each pipeline extends the class *Pipeline*,
+*sbpipe/run\_sbpipe.py*. Each pipeline extends the class *Pipeline*,
 which represents a generic and abstract pipeline. Each pipeline must
 implement the following methods of *Pipeline*:
 
@@ -219,7 +219,7 @@ pipeline the configuration file as a list of lines.
 utils
 ^^^^^
 
-The folder *sb\_pipe/utils/* contains the following structure:
+The folder *sbpipe/utils/* contains the following structure:
 
 -  *python*: a collection of python utils.
 -  *R*: a collection of R utils (plots and statistics).
@@ -240,7 +240,7 @@ project structure:
    estimation results, time course, parameter scan, etc).
 
 Examples of configuration files (\*.conf) can be found in
-${SB\_PIPE}/tests/insulin\_receptor/Working\_Folder/.
+$SBPIPE/tests/insulin\_receptor/Working\_Folder/.
 
 Travis-CI runs SB pipe tests using ``nosetests``. Please see .travis.yml
 for detail.
@@ -255,7 +255,7 @@ Git
 
 ::
 
-    $ git clone https://YOURUSERNAME@server/YOURUSERNAME/sb_pipe.git   
+    $ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git   
     # to clone the master
     $ git checkout -b develop origin/develop                           
     # to get the develop branch
