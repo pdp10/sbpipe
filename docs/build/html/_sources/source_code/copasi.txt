@@ -1,0 +1,7 @@
+copasi module
+=============
+
+.. automodule:: copasi
+    :members:
+    :undoc-members:
+    :show-inheritance:
