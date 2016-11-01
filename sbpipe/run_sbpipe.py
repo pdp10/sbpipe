@@ -35,20 +35,14 @@ import logging
 from logging.config import fileConfig
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "create_project"))
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "simulate"))
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "param_estim"))
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "single_param_scan"))
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "double_param_scan"))
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines", "sensitivity"))
 
 # pipelines
-from create_project import CreateProject
-from simulate import Simulate
-from param_estim import ParamEstim
-from single_param_scan import SingleParamScan
-from double_param_scan import DoubleParamScan
-from sensitivity import Sensitivity
+from pipelines.create_project.create_project import CreateProject
+from pipelines.simulate.simulate import Simulate
+from pipelines.param_estim.param_estim import ParamEstim
+from pipelines.single_param_scan.single_param_scan import SingleParamScan
+from pipelines.double_param_scan.double_param_scan import DoubleParamScan
+from pipelines.sensitivity.sensitivity import Sensitivity
 
 
 def get_sbpipe_logo():

@@ -37,14 +37,12 @@ logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
 import simulator
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_single_param_scan, pdf_report
 

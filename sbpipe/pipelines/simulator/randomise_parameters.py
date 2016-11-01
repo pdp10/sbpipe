@@ -23,6 +23,9 @@
 
 
 import sys, os, os.path
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from copasi_parser import *
 from io_util_functions import *
 import shutil

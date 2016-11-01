@@ -40,14 +40,12 @@ SBPIPE = os.environ["SBPIPE"]
 from collect_results import retrieve_final_estimates
 from collect_results import retrieve_all_estimates
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "pipelines"))
 from pipeline import Pipeline
 
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
 import simulator
 
-sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_param_estim, pdf_report
 
