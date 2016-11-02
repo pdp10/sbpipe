@@ -48,7 +48,7 @@ setup(
   author_email = 'piero.dallepezze@babraham.ac.uk',  
   requires=['pp'],
   package_data={'sbpipe': ['src/*']},
-  scripts=['sbpipe/run_sbpipe.py'],  
+  scripts=['scripts/run_sbpipe.py', 'scripts/cleanup_sbpipe.py'],  
   url = 'https://github.com/pdp10/sbpipe',
   download_url = 'https://pdp10.github.io/sbpipe',
   keywords = ['systems biology','mathematical modelling','copasi','pipeline'],

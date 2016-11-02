@@ -17,36 +17,21 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model.
 #
-# $Revision: 3.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+# $Date: 2016-11-01 22:14:32 $
 
 
-import os
-import sys
-from distutils.dir_util import copy_tree
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'scripts'))
-
-import run_sbpipe
-
-import unittest
+from simulator import Simulator
 
 
-"""Unit test for Insulin Receptor"""
 
-class TestIRDoubleParamScan(unittest.TestCase):
-  """
-  A collection of tests for this example.
-  """
-  def test_double_param_scan_inhib_only(self):    
-    """model double param scan - inhibition only"""
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)     
-
-if __name__ == '__main__':
-    unittest.main(verbosity=2)
-    
-    
+# USEFUL 
+## dynamically load the modules in this package
+#for module in os.listdir(os.path.dirname(__file__)):
+    #if module == '__init__.py' or module[-3:] != '.py':
+        #continue
+    #__import__(module[:-3], locals(), globals())
+#del module

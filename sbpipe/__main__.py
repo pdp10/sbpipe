@@ -25,7 +25,14 @@
 
 
 import sys
+import os
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, os.path.join(SBPIPE, "scripts"))
+
 import run_sbpipe
+
+
 
 if __name__ == "__main__":
     sys.exit(run_sbpipe.main())
