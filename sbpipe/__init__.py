@@ -22,18 +22,3 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-26 23:00:32 $
 
-
-
-# Set default logging handler to avoid "No handler found" warnings.
-import logging
-try:  # Python 2.7+
-    from logging import NullHandler
-except ImportError:
-    class NullHandler(logging.Handler):
-        def emit(self, record):
-            pass
-
-# Add a default empty handler
-logging.getLogger(__name__).addHandler(NullHandler())
-
-
