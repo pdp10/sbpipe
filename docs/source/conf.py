@@ -45,15 +45,20 @@ except KeyError:
     exit(-1)
 
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'create_project'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'double_param_scan'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'param_estim'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'sensitivity'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'simulate'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'single_param_scan'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipelines', 'simulator'))
-sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'utils', 'python'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'create_project'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'double_param_scan'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'param_estim'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'sensitivity'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'simulate'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'pipeline', 'single_param_scan'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'simulator'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'simulator', 'copasi'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'report'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'utils'))
+sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'R'))
+
+
 
 from pprint import pprint as p
 p(sys.path)
