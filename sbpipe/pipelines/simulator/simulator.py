@@ -91,7 +91,7 @@ class Simulator:
         :param nfits: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the Copasi models with updated parameters for
+        :param updated_models_dir: the directory containing the models with updated parameters for
                each estimation
         """
         pass

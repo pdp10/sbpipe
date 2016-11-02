@@ -49,7 +49,7 @@ from latex_reports import latex_report_simulate, pdf_report
 class Sensitivity(Pipeline):
     """
     This module provides the user with a complete pipeline of scripts for computing 
-    model sensitivity analysis using Copasi
+    model sensitivity analysis.
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
@@ -127,7 +127,7 @@ class Sensitivity(Pipeline):
         """
         The first pipeline step: data generation.
 
-        :param simulator: the name of the simulator (e.g. copasi)
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results

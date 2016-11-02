@@ -33,11 +33,11 @@ import subprocess
 logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
-from pipeline import Pipeline
+from pipelines.pipeline import Pipeline
 
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
-import simulator
+import pipelines.simulator
 
 from io_util_functions import refresh_directory
 from latex_reports import latex_report_simulate, pdf_report
@@ -46,7 +46,7 @@ from latex_reports import latex_report_simulate, pdf_report
 class Simulate(Pipeline):
     """
     This module provides the user with a complete pipeline of scripts for running 
-    a model simulation using copasi
+    model simulations
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
@@ -143,7 +143,7 @@ class Simulate(Pipeline):
         """
         The first pipeline step: data generation.
 
-        :param simulator: the name of the simulator (e.g. copasi)
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files

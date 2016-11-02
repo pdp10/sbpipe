@@ -53,7 +53,7 @@ from latex_reports import latex_report_param_estim, pdf_report
 class ParamEstim(Pipeline):
     """
     This module provides the user with a complete pipeline of scripts for running
-    a model parameter estimation using copasi
+    model parameter estimations
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
@@ -61,7 +61,7 @@ class ParamEstim(Pipeline):
         __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
-        # The folder containing the updated Copasi models
+        # The folder containing the models with estimated parameters
         self.__updated_models_folder = 'updated_models'
 
     def run(self, config_file):
@@ -179,7 +179,7 @@ class ParamEstim(Pipeline):
         """
         The first pipeline step: data generation.
 
-        :param simulator: the name of the simulator (e.g. copasi)
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
@@ -187,7 +187,7 @@ class ParamEstim(Pipeline):
         :param nfits: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the Copasi models with updated parameters for
+        :param updated_models_dir: the directory containing the models with updated parameters for
                each estimation
         """
         if int(nfits) < 1:

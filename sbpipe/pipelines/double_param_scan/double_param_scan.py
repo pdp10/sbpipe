@@ -49,7 +49,7 @@ from latex_reports import latex_report_double_param_scan, pdf_report
 class DoubleParamScan(Pipeline):
     """
     This module provides the user with a complete pipeline of scripts for computing 
-    a double parameter scan using copasi.
+    double parameter scans.
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
@@ -135,7 +135,7 @@ class DoubleParamScan(Pipeline):
         """
         The first pipeline step: data generation.
 
-        :param simulator: the name of the simulator (e.g. copasi)
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model

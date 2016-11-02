@@ -50,7 +50,7 @@ from latex_reports import latex_report_single_param_scan, pdf_report
 class SingleParamScan(Pipeline):
     """
     This module provides the user with a complete pipeline of scripts for computing 
-    a single parameter scan using copasi.
+    single parameter scans.
     """
 
     def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
@@ -137,7 +137,7 @@ class SingleParamScan(Pipeline):
         """
         The first pipeline step: data generation.
 
-        :param simulator: the name of the simulator (e.g. copasi)
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param scanned_par: the scanned parameter
         :param sim_number: the number of simulations (for det sim: 1, for stoch sim: n>1)
