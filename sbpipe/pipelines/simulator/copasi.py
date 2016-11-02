@@ -38,10 +38,11 @@ SBPIPE = os.environ["SBPIPE"]
 import logging
 logger = logging.getLogger('sbpipe')
 
-from simulator import Simulator
-from randomise_parameters import RandomiseParameters
 from sb_config import which
+from simulator import Simulator
+#from randomise_parameters import RandomiseParameters
 
+sys.path.append(os.path.join(SBPIPE, "sbpipe", "utils", "python"))
 from copasi_utils import replace_str_copasi_sim_report
 from parallel_computation import parallel_computation
 from random_functions import get_rand_num_str, get_rand_alphanum_str

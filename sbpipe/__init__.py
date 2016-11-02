@@ -22,3 +22,8 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-26 23:00:32 $
 
+
+
+__all__ = ['run_sbpipe',
+           'sb_config']
+           
