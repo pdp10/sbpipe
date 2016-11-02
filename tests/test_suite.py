@@ -67,7 +67,7 @@ def main(args):
 
   # For each test, we need to change directory.
   origWD = os.getcwd() # remember our original working directory
-  os.chdir(os.path.join(os.path.abspath(sys.path[0]), ir_folder))
+  os.chdir(os.path.join(SBPIPE, 'tests', ir_folder))
   suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
   suiteSingleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRSingleParamScan)
   suiteDoubleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRDoubleParamScan)
