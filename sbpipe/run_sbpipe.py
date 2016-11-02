@@ -31,8 +31,21 @@ import os
 import sys
 import getopt
 
+
+
+# Set default logging handler to avoid "No handler found" warnings.
 import logging
+try:  # Python 2.7+
+    from logging import NullHandler
+except ImportError:
+    class NullHandler(logging.Handler):
+        def emit(self, record):
+            pass
+
+# Add a default empty handler
+logging.getLogger(__name__).addHandler(NullHandler())
 from logging.config import fileConfig
+
 
 SBPIPE = os.environ["SBPIPE"]
 
