@@ -24,16 +24,19 @@ import shutil
 import glob
 
 
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
-def cleanup():
+
+def cleanup_tests():
     """
     Clean up the test results.
     """
-    mypath = os.getcwd()
-    modelProjects = [f for f in os.listdir(mypath) if isdir(join(mypath, f))]
+    testpath = os.path.join(SBPIPE,'tests')
+    projects = [f for f in os.listdir(testpath) if isdir(join(testpath, f))]
 
-    for file in modelProjects:
-        modelspath = join(file, 'Models')
+    for file in projects:
+        modelspath = join(testpath, file, 'Models')
         print("cleaning replicated copasi files...")        
         replicatedCopasiFiles = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicatedCopasiFiles:       
@@ -41,11 +44,11 @@ def cleanup():
         
         print("cleaning tmp folder...")       
         # print tmppath
-        tmppath = join(file, 'tmp')    
+        tmppath = join(testpath, file, 'tmp')    
         shutil.rmtree(tmppath, ignore_errors=True)
         
         print("cleaning output files...")           
-        wfpath = join(file, 'Working_Folder')    
+        wfpath = join(testpath, file, 'Working_Folder')    
     
         # Delete tgz files
         wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
@@ -58,7 +61,7 @@ def cleanup():
 
 
 def main(args):
-    cleanup()
+    cleanup_tests()
     
 
 main(sys.argv)

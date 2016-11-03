@@ -33,32 +33,28 @@ sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.io_util_functions import files_with_pattern_recur
 
+
+def cleanup_sbpipe():
+    """
+    Clean up the package including the tests.
+    """
+    # Remove all files with suffix .pyc recursively
+    for f in files_with_pattern_recur('.', '.pyc'):
+        os.remove(f)
+    # Remove all temporary files (*~) recursively
+    for f in files_with_pattern_recur('.', '~'):
+        os.remove(f)
+          
+    ### delete this silly file
+    if os.path.isfile(os.path.join(SBPIPE,'tests','insulin_receptor','Working_Folder','Rplots.pdf')):
+        os.remove(os.path.join(SBPIPE,'tests','insulin_receptor','Working_Folder','Rplots.pdf'))
+
+
 def main(args):
-   
-  # Some cleaning
-  # Remove all files with suffix .pyc recursively
-  for f in files_with_pattern_recur('.', '.pyc'):
-    os.remove(f)
-  # Remove all temporary files (*~) recursively
-  for f in files_with_pattern_recur('.', '~'):
-    os.remove(f)
-    
-   
-  # clean the test results
-  origWD = os.getcwd() # remember our original working directory
-
-  os.chdir(os.path.join(SBPIPE,'tests'))    # change folder
-  process = subprocess.Popen(['python', os.path.join(SBPIPE,'tests','clean_tests.py')])
-  process.wait() 
-  
-  #process = subprocess.Popen(['pyclean', '.'])
-  #process.wait()
-  
-  ### delete this silly file
-  if os.path.isfile(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf')):
-    os.remove(os.path.join('insulin_receptor','Working_Folder','Rplots.pdf'))
-
-  os.chdir(origWD) # get back to our original working directory  
+    # Clean the tests (note cleanup_tests has a main() so it runs when imported.
+    from tests.cleanup_tests import cleanup_tests
+    # Clean sbpipe
+    cleanup_sbpipe()
 
 
 main(sys.argv)

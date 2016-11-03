@@ -44,9 +44,6 @@ from test_ir_lsf import TestIRLSF
 from test_ir_sge import TestIRSGE
 
 
-from cleanup_tests import cleanup
-
-
 #def create_suite():
     #"""
     #Test suite and runner
@@ -82,7 +79,9 @@ def run_sbpipe_tests():
 
 
 def main(args):
-    cleanup()
+    # Clean the tests (note cleanup_tests has a main() so it runs when imported.
+    from cleanup_tests import cleanup_tests
+    # Run the test suite
     run_sbpipe_tests()
 
 
