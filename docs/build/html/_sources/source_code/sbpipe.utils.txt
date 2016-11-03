@@ -4,34 +4,34 @@ sbpipe.utils package
 Submodules
 ----------
 
-sbpipe.utils.basic_sync_counter module
---------------------------------------
+sbpipe.utils.io module
+----------------------
 
-.. automodule:: sbpipe.utils.basic_sync_counter
+.. automodule:: sbpipe.utils.io
     :members:
     :undoc-members:
     :show-inheritance:
 
-sbpipe.utils.io_util_functions module
--------------------------------------
+sbpipe.utils.monitor module
+---------------------------
 
-.. automodule:: sbpipe.utils.io_util_functions
+.. automodule:: sbpipe.utils.monitor
     :members:
     :undoc-members:
     :show-inheritance:
 
-sbpipe.utils.parallel_computation module
-----------------------------------------
+sbpipe.utils.parcomp module
+---------------------------
 
-.. automodule:: sbpipe.utils.parallel_computation
+.. automodule:: sbpipe.utils.parcomp
     :members:
     :undoc-members:
     :show-inheritance:
 
-sbpipe.utils.random_functions module
-------------------------------------
+sbpipe.utils.rand module
+------------------------
 
-.. automodule:: sbpipe.utils.random_functions
+.. automodule:: sbpipe.utils.rand
     :members:
     :undoc-members:
     :show-inheritance:

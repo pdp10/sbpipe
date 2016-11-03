@@ -29,11 +29,10 @@ import logging
 import os
 import re
 import subprocess
-import sys
 
 logger = logging.getLogger('sbpipe')
 
-from sbpipe.utils.re_utils import natural_sort_key
+from sbpipe.utils.re_utils import nat_sort_key
 from sbpipe.sb_config import which
 
 
@@ -61,7 +60,7 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
     )
 
 
-def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+def latex_report_sps(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
     """
     Generate a report for a single parameter scan task.
     
@@ -97,8 +96,8 @@ def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext,
-                                   scanned_par1, scanned_par2):
+def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
+                     scanned_par1, scanned_par2):
     """
     Generate a report for a double parameter scan task.
     
@@ -126,7 +125,7 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
-        folder.sort(key=natural_sort_key)
+        folder.sort(key=nat_sort_key)
         curr_readout = ''
         prev_readout = ''
         for infile in folder:
@@ -149,7 +148,7 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a time course task.
     
@@ -179,7 +178,7 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
         file_out.write("\\end{document}\n")
 
 
-def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a parameter estimation task.
     

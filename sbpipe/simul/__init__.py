@@ -17,20 +17,21 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: clean the package
 #
-# $Revision: 3.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-06-24 13:02:32 $
+# $Date: 2016-11-01 22:14:32 $
 
 
-import os
-import sys
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.insert(0, SBPIPE)
+from simul import Simul
 
-from sbpipe import main
 
-if __name__ == "__main__":
-    sys.exit(main.cleanup())
+
+# USEFUL 
+## dynamically load the modules in this package
+#for module in os.listdir(os.path.dirname(__file__)):
+    #if module == '__init__.py' or module[-3:] != '.py':
+        #continue
+    #__import__(module[:-3], locals(), globals())
+#del module

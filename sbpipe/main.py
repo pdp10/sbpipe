@@ -49,13 +49,13 @@ sys.path.insert(0, SBPIPE)
 
 
 
-def cleanup_sbpipe():
+def cleanup():
     """
     Clean up the package including the tests.
     """
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
     from tests.cleanup_tests import cleanup_tests
-    from sbpipe.utils.io_util_functions import files_with_pattern_recur
+    from sbpipe.utils.io import files_with_pattern_recur
     # Remove all files with suffix .pyc recursively
     for f in files_with_pattern_recur(SBPIPE, '.pyc'):
         os.remove(f)
@@ -230,36 +230,36 @@ def main(argv=None):
 
                 elif opt in ("-c", "--create-project"):
                     check_args(args, no_project_name_msg)
-                    from sbpipe.pipeline.create_project.create_project import CreateProject
-                    cp = CreateProject()
+                    from sbpipe.pl.create.newproj import NewProj
+                    cp = NewProj()
                     exit_status = cp.run(args[0])
 
                 elif opt in ("-s", "--simulate"):
                     check_args(args, no_conf_file_msg)
                     print(logo())
-                    from sbpipe.pipeline.simulate.simulate import Simulate
-                    s = Simulate()
+                    from sbpipe.pl.sim.sim import Sim
+                    s = Sim()
                     exit_status = s.run(args[0])
 
                 elif opt in ("-p", "--single-param-scan"):
                     check_args(args, no_conf_file_msg)
                     print(logo())
-                    from sbpipe.pipeline.single_param_scan.single_param_scan import SingleParamScan
-                    sps = SingleParamScan()
+                    from sbpipe.pl.ps1.parscan1 import ParScan1
+                    sps = ParScan1()
                     exit_status = sps.run(args[0])
 
                 elif opt in ("-d", "--double-param-scan"):
                     check_args(args, no_conf_file_msg)
                     print(logo())
-                    from sbpipe.pipeline.double_param_scan.double_param_scan import DoubleParamScan                   
-                    dps = DoubleParamScan()
+                    from sbpipe.pl.ps2.parscan2 import ParScan2
+                    dps = ParScan2()
                     exit_status = dps.run(args[0])
 
                 elif opt in ("-e", "--param-estim"):
                     check_args(args, no_conf_file_msg)
                     print(logo())
-                    from sbpipe.pipeline.param_estim.param_estim import ParamEstim
-                    pe = ParamEstim()
+                    from sbpipe.pl.pe.parest import ParEst
+                    pe = ParEst()
                     exit_status = pe.run(args[0])
 
                 elif opt in ("-n", "--sensitivity"):
@@ -267,8 +267,8 @@ def main(argv=None):
                     print(logo())
                     print("not yet available. Apologise.")
                     exit_status = 0
-                    from sbpipe.pipeline.sensitivity.sensitivity import Sensitivity                    
-                    s = Sensitivity()
+                    from sbpipe.pl.sens.sens import Sens
+                    s = Sens()
                 # exit_status = s.run(args[0])
 
             if len(opts) < 1:

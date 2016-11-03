@@ -27,7 +27,7 @@
     <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe package" href="sbpipe.html" />
     <link rel="next" title="Meta information" href="../meta_info.html" />
-    <link rel="prev" title="sbpipe.simulator.copasi package" href="sbpipe.simulator.copasi.html" /> 
+    <link rel="prev" title="sbpipe.simul.copasi package" href="sbpipe.simul.copasi.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -43,7 +43,7 @@
           <a href="../meta_info.html" title="Meta information"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="sbpipe.simulator.copasi.html" title="sbpipe.simulator.copasi package"
+          <a href="sbpipe.simul.copasi.html" title="sbpipe.simul.copasi package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
@@ -61,67 +61,11 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-sbpipe.utils.basic_sync_counter">
-<span id="sbpipe-utils-basic-sync-counter-module"></span><h2>sbpipe.utils.basic_sync_counter module<a class="headerlink" href="#module-sbpipe.utils.basic_sync_counter" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="sbpipe.utils.basic_sync_counter.BasicSyncCounter">
-<em class="property">class </em><code class="descclassname">sbpipe.utils.basic_sync_counter.</code><code class="descname">BasicSyncCounter</code><a class="headerlink" href="#sbpipe.utils.basic_sync_counter.BasicSyncCounter" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a monitor. It is a callback class for collecting information about finished processes. It 
-is used by Parallel Python (pp).</p>
-<dl class="method">
-<dt id="sbpipe.utils.basic_sync_counter.BasicSyncCounter.add">
-<code class="descname">add</code><span class="sig-paren">(</span><em>pid</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.basic_sync_counter.BasicSyncCounter.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>The callback function</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>pid</strong> &#8211; this is callbackargs passed to parallel python <cite>submit()</cite> method</li>
-<li><strong>value</strong> &#8211; the return value of the parallelised function. It is the callback value.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sbpipe.utils.basic_sync_counter.BasicSyncCounter.get_count">
-<code class="descname">get_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.basic_sync_counter.BasicSyncCounter.get_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the counter</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of running processes.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sbpipe.utils.basic_sync_counter.BasicSyncCounter.get_value">
-<code class="descname">get_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.basic_sync_counter.BasicSyncCounter.get_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the internal status.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the counter is empty.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-sbpipe.utils.io_util_functions">
-<span id="sbpipe-utils-io-util-functions-module"></span><h2>sbpipe.utils.io_util_functions module<a class="headerlink" href="#module-sbpipe.utils.io_util_functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-sbpipe.utils.io">
+<span id="sbpipe-utils-io-module"></span><h2>sbpipe.utils.io module<a class="headerlink" href="#module-sbpipe.utils.io" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.utils.io_util_functions.files_with_pattern_recur">
-<code class="descclassname">sbpipe.utils.io_util_functions.</code><code class="descname">files_with_pattern_recur</code><span class="sig-paren">(</span><em>folder</em>, <em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io_util_functions.files_with_pattern_recur" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.io.files_with_pattern_recur">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">files_with_pattern_recur</code><span class="sig-paren">(</span><em>folder</em>, <em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.files_with_pattern_recur" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all files with a certain pattern in folder+subdirectories</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -141,8 +85,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.io_util_functions.get_pattern_position">
-<code class="descclassname">sbpipe.utils.io_util_functions.</code><code class="descname">get_pattern_position</code><span class="sig-paren">(</span><em>pattern</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io_util_functions.get_pattern_position" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.io.get_pattern_pos">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">get_pattern_pos</code><span class="sig-paren">(</span><em>pattern</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.get_pattern_pos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the line number (as string) of the first occurrence of a pattern in filename</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -162,8 +106,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.io_util_functions.refresh_directory">
-<code class="descclassname">sbpipe.utils.io_util_functions.</code><code class="descname">refresh_directory</code><span class="sig-paren">(</span><em>path</em>, <em>file_pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io_util_functions.refresh_directory" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.io.refresh">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">refresh</code><span class="sig-paren">(</span><em>path</em>, <em>file_pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.refresh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean and create the folder if this does not exist.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -180,8 +124,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.io_util_functions.replace_string_in_file">
-<code class="descclassname">sbpipe.utils.io_util_functions.</code><code class="descname">replace_string_in_file</code><span class="sig-paren">(</span><em>filename_out</em>, <em>old_string</em>, <em>new_string</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io_util_functions.replace_string_in_file" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.io.replace_str_in_file">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">replace_str_in_file</code><span class="sig-paren">(</span><em>filename_out</em>, <em>old_string</em>, <em>new_string</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.replace_str_in_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace a string with another in filename_out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -199,8 +143,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.io_util_functions.write_matrix_on_file">
-<code class="descclassname">sbpipe.utils.io_util_functions.</code><code class="descname">write_matrix_on_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_out</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io_util_functions.write_matrix_on_file" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.io.write_mat_on_file">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">write_mat_on_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_out</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.write_mat_on_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the matrix results stored in data to filename_out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -218,11 +162,67 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-sbpipe.utils.parallel_computation">
-<span id="sbpipe-utils-parallel-computation-module"></span><h2>sbpipe.utils.parallel_computation module<a class="headerlink" href="#module-sbpipe.utils.parallel_computation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-sbpipe.utils.monitor">
+<span id="sbpipe-utils-monitor-module"></span><h2>sbpipe.utils.monitor module<a class="headerlink" href="#module-sbpipe.utils.monitor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="sbpipe.utils.monitor.Monitor">
+<em class="property">class </em><code class="descclassname">sbpipe.utils.monitor.</code><code class="descname">Monitor</code><a class="headerlink" href="#sbpipe.utils.monitor.Monitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a monitor. It is a callback class for collecting information about finished processes. It 
+is used by Parallel Python (pp).</p>
+<dl class="method">
+<dt id="sbpipe.utils.monitor.Monitor.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>pid</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.monitor.Monitor.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>The callback function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pid</strong> &#8211; this is callbackargs passed to parallel python <cite>submit()</cite> method</li>
+<li><strong>value</strong> &#8211; the return value of the parallelised function. It is the callback value.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sbpipe.utils.monitor.Monitor.get_count">
+<code class="descname">get_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.monitor.Monitor.get_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the counter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of running processes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sbpipe.utils.monitor.Monitor.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.monitor.Monitor.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the internal status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the counter is empty.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.utils.parcomp">
+<span id="sbpipe-utils-parcomp-module"></span><h2>sbpipe.utils.parcomp module<a class="headerlink" href="#module-sbpipe.utils.parcomp" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.parallel_computation">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">parallel_computation</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.parallel_computation" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.parcomp">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic funcion to run a command in parallel</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -243,8 +243,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.run_command_instance">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">run_command_instance</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.run_command_instance" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.run_cmd_instance">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd_instance</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd_instance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a command using Python subprocess.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -257,8 +257,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.run_command_pp">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">run_command_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>server</em>, <em>syncCounter=&lt;sbpipe.utils.basic_sync_counter.BasicSyncCounter instance&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.run_command_pp" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.run_command_pp">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_command_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>server</em>, <em>syncCounter=&lt;sbpipe.utils.monitor.Monitor instance&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_command_pp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run instances of a command in multithreading using parallel python (pp).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -278,8 +278,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.run_jobs_lsf">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.run_jobs_lsf">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Load Sharing Facility (LSF) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -299,8 +299,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.run_jobs_pp">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.run_jobs_pp">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using parallel python (pp) locally.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -319,8 +319,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parallel_computation.run_jobs_sge">
-<code class="descclassname">sbpipe.utils.parallel_computation.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parallel_computation.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.parcomp.run_jobs_sge">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Sun Grid Engine (SGE) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -340,11 +340,11 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-sbpipe.utils.random_functions">
-<span id="sbpipe-utils-random-functions-module"></span><h2>sbpipe.utils.random_functions module<a class="headerlink" href="#module-sbpipe.utils.random_functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-sbpipe.utils.rand">
+<span id="sbpipe-utils-rand-module"></span><h2>sbpipe.utils.rand module<a class="headerlink" href="#module-sbpipe.utils.rand" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.utils.random_functions.get_rand_alphanum_str">
-<code class="descclassname">sbpipe.utils.random_functions.</code><code class="descname">get_rand_alphanum_str</code><span class="sig-paren">(</span><em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.random_functions.get_rand_alphanum_str" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.rand.get_rand_alphanum_str">
+<code class="descclassname">sbpipe.utils.rand.</code><code class="descname">get_rand_alphanum_str</code><span class="sig-paren">(</span><em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.rand.get_rand_alphanum_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a random alphanumeric string</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -359,8 +359,8 @@ is used by Parallel Python (pp).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.random_functions.get_rand_num_str">
-<code class="descclassname">sbpipe.utils.random_functions.</code><code class="descname">get_rand_num_str</code><span class="sig-paren">(</span><em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.random_functions.get_rand_num_str" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.rand.get_rand_num_str">
+<code class="descclassname">sbpipe.utils.rand.</code><code class="descname">get_rand_num_str</code><span class="sig-paren">(</span><em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.rand.get_rand_num_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a random numeric string</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -378,8 +378,8 @@ is used by Parallel Python (pp).</p>
 <div class="section" id="module-sbpipe.utils.re_utils">
 <span id="sbpipe-utils-re-utils-module"></span><h2>sbpipe.utils.re_utils module<a class="headerlink" href="#module-sbpipe.utils.re_utils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.utils.re_utils.natural_sort_key">
-<code class="descclassname">sbpipe.utils.re_utils.</code><code class="descname">natural_sort_key</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.re_utils.natural_sort_key" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.utils.re_utils.nat_sort_key">
+<code class="descclassname">sbpipe.utils.re_utils.</code><code class="descname">nat_sort_key</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.re_utils.nat_sort_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>The key to sort a list of strings alphanumerically (e.g. &#8220;file10&#8221; is correctly placed after &#8220;file2&#8221;)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -409,10 +409,10 @@ is used by Parallel Python (pp).</p>
   <ul>
 <li><a class="reference internal" href="#">sbpipe.utils package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-sbpipe.utils.basic_sync_counter">sbpipe.utils.basic_sync_counter module</a></li>
-<li><a class="reference internal" href="#module-sbpipe.utils.io_util_functions">sbpipe.utils.io_util_functions module</a></li>
-<li><a class="reference internal" href="#module-sbpipe.utils.parallel_computation">sbpipe.utils.parallel_computation module</a></li>
-<li><a class="reference internal" href="#module-sbpipe.utils.random_functions">sbpipe.utils.random_functions module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.utils.io">sbpipe.utils.io module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.utils.monitor">sbpipe.utils.monitor module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.utils.parcomp">sbpipe.utils.parcomp module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.utils.rand">sbpipe.utils.rand module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.utils.re_utils">sbpipe.utils.re_utils module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.utils">Module contents</a></li>
 </ul>
@@ -420,8 +420,8 @@ is used by Parallel Python (pp).</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="sbpipe.simulator.copasi.html"
-                        title="previous chapter">sbpipe.simulator.copasi package</a></p>
+  <p class="topless"><a href="sbpipe.simul.copasi.html"
+                        title="previous chapter">sbpipe.simul.copasi package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../meta_info.html"
                         title="next chapter">Meta information</a></p>
@@ -462,7 +462,7 @@ is used by Parallel Python (pp).</p>
           <a href="../meta_info.html" title="Meta information"
              >next</a> |</li>
         <li class="right" >
-          <a href="sbpipe.simulator.copasi.html" title="sbpipe.simulator.copasi package"
+          <a href="sbpipe.simul.copasi.html" title="sbpipe.simul.copasi package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
