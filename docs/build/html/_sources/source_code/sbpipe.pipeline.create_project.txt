@@ -1,0 +1,22 @@
+sbpipe.pipeline.create_project package
+======================================
+
+Submodules
+----------
+
+sbpipe.pipeline.create_project.create_project module
+----------------------------------------------------
+
+.. automodule:: sbpipe.pipeline.create_project.create_project
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.pipeline.create_project
+    :members:
+    :undoc-members:
+    :show-inheritance:

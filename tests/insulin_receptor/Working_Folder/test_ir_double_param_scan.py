@@ -29,7 +29,7 @@ import sys
 from distutils.dir_util import copy_tree
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'sbpipe'))
+sys.path.append(os.path.join(SBPIPE,'scripts'))
 
 import run_sbpipe
 

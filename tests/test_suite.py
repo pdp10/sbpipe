@@ -44,40 +44,45 @@ from test_ir_lsf import TestIRLSF
 from test_ir_sge import TestIRSGE
 
 
-
-"""
-Test suite and runner
-"""
-
 #def create_suite():
-  #"""A suite of tests to run."""
-  ## Load the tests for these test cases
-  #suite1 = unittest.TestLoader().loadTestsFromTestCase(TestIR)
-  ##suite2 = unittest.TestLoader().loadTestsFromTestCase("SOMETHING_ELSE")
-  ##alltests = unittest.TestSuite([suite1, suite2])
-  #alltests = unittest.TestSuite([suite1])
-  #return alltests
+    #"""
+    #Test suite and runner
+    #"""
+    ## Load the tests for these test cases
+    #suite1 = unittest.TestLoader().loadTestsFromTestCase(TestIR)
+    ##suite2 = unittest.TestLoader().loadTestsFromTestCase("SOMETHING_ELSE")
+    ##alltests = unittest.TestSuite([suite1, suite2])
+    #alltests = unittest.TestSuite([suite1])
+    #return alltests
 
+
+def run_sbpipe_tests():
+    """
+    Run a suite of tests for the sbpipe package
+    """
+    #suite = create_suite()
+    #unittest.TextTestRunner(verbosity=2).run(suite)
+
+    # For each test, we need to change directory.
+    origWD = os.getcwd() # remember our original working directory
+    os.chdir(os.path.join(SBPIPE, 'tests', ir_folder))
+    suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
+    suiteSingleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRSingleParamScan)
+    suiteDoubleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRDoubleParamScan)
+    suiteParamEstim = unittest.TestLoader().loadTestsFromTestCase(TestIRParamEstim)
+    suiteSensitivity = unittest.TestLoader().loadTestsFromTestCase(TestIRSensitivity)  
+    suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestIRLSF)  
+    suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestIRSGE)  
+    suite = unittest.TestSuite([suiteSimulate, suiteSingleParamScan, suiteDoubleParamScan, suiteParamEstim, suiteSensitivity, suiteLSF, suiteSGE])
+    unittest.TextTestRunner(verbosity=2).run(suite)
+    os.chdir(origWD) # get back to our original working directory
 
 
 def main(args):
-  """Run a suite of tests."""
-  #suite = create_suite()
-  #unittest.TextTestRunner(verbosity=2).run(suite)
-
-  # For each test, we need to change directory.
-  origWD = os.getcwd() # remember our original working directory
-  os.chdir(os.path.join(os.path.abspath(sys.path[0]), ir_folder))
-  suiteSimulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
-  suiteSingleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRSingleParamScan)
-  suiteDoubleParamScan = unittest.TestLoader().loadTestsFromTestCase(TestIRDoubleParamScan)
-  suiteParamEstim = unittest.TestLoader().loadTestsFromTestCase(TestIRParamEstim)
-  suiteSensitivity = unittest.TestLoader().loadTestsFromTestCase(TestIRSensitivity)  
-  suiteLSF = unittest.TestLoader().loadTestsFromTestCase(TestIRLSF)  
-  suiteSGE = unittest.TestLoader().loadTestsFromTestCase(TestIRSGE)  
-  suite = unittest.TestSuite([suiteSimulate, suiteSingleParamScan, suiteDoubleParamScan, suiteParamEstim, suiteSensitivity, suiteLSF, suiteSGE])
-  unittest.TextTestRunner(verbosity=2).run(suite)
-  os.chdir(origWD) # get back to our original working directory
+    # Clean the tests (note cleanup_tests has a main() so it runs when imported.
+    from cleanup_tests import cleanup_tests
+    # Run the test suite
+    run_sbpipe_tests()
 
 
 

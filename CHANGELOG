@@ -6,8 +6,16 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.17.0
+v1.25.0
 
+- moved script core functions within sbpipe package.
+- the copasi package is now a dynamically loaded simulator. Users can choose the simulator to use in the configuration file.
+- simulators are loaded dynamically. Uncoupling between simulators and pipelines.
+- separation of code for generating data from pipeline package. 
+- improved source code modularisation for the whole program.
+- extracted scripts (run_sb_pipe and cleanup_sbpipe) from sbpipe/.
+- sbpipe supports execution as a Python module (__main__.py).
+- all Python imports are now absolute (in agreement with Python 3). 
 - improvements to program prints
 - project renamed sbpipe
 - added AIC, AICc, BIC to the parameter estimation summary table.
@@ -27,7 +35,7 @@ v1.17.0
 - table of estimated parameter and confidence values is in normal scale (not log10). 
 
 
-v0.62.0
+v1.0.0 (Mercury)
 
 - completed source code documentation
 - completed user and developer manuals.

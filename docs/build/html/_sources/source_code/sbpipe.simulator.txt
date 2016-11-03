@@ -1,0 +1,29 @@
+sbpipe.simulator package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    sbpipe.simulator.copasi
+
+Submodules
+----------
+
+sbpipe.simulator.simulator module
+---------------------------------
+
+.. automodule:: sbpipe.simulator.simulator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simulator
+    :members:
+    :undoc-members:
+    :show-inheritance:
