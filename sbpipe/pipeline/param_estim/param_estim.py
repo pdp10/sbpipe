@@ -39,9 +39,6 @@ from .collect_results import retrieve_all_estimates
 
 from ..pipeline import Pipeline
 
-# locate is used to dynamically load a class by its name.
-from pydoc import locate
-
 from sbpipe.utils.io_util_functions import refresh_directory
 from sbpipe.report.latex_reports import latex_report_param_estim, pdf_report
 
@@ -169,8 +166,8 @@ class ParamEstim(Pipeline):
             return 0
         return 1
 
-    @staticmethod
-    def generate_data(simulator, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+    @classmethod
+    def generate_data(cls, simulator, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
                       updated_models_dir):
         """
         The first pipeline step: data generation.
@@ -198,8 +195,7 @@ class ParamEstim(Pipeline):
         refresh_directory(sim_data_dir, model[:-4])
         refresh_directory(updated_models_dir, model[:-4])
         try:
-            # use reflection to dynamically load the simulator class by name
-            sim = locate('sbpipe.simulator.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+            sim = cls.get_simulator_object(simulator)
             sim.parameter_estimation(model, inputdir, cluster_type, pp_cpus, nfits, outputdir, 
                                      sim_data_dir, updated_models_dir)
         except Exception as e:
@@ -208,9 +204,10 @@ class ParamEstim(Pipeline):
             logger.debug(traceback.format_exc())
             return
 
-    @staticmethod
-    def analyse_data(model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir, best_fits_percent, data_point_num,
+    @classmethod
+    def analyse_data(cls, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
+                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir, 
+                     best_fits_percent, data_point_num,
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
                      logspace=True, scientific_notation=True):
         """
@@ -265,8 +262,8 @@ class ParamEstim(Pipeline):
              str(logspace), str(scientific_notation)])
         process.wait()
 
-    @staticmethod
-    def generate_report(model, outputdir, sim_plots_folder):
+    @classmethod
+    def generate_report(cls, model, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 

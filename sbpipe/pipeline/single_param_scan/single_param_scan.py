@@ -36,9 +36,6 @@ logger = logging.getLogger('sbpipe')
 
 from ..pipeline import Pipeline
 
-# locate is used to dynamically load a class by its name.
-from pydoc import locate
-
 from sbpipe.utils.io_util_functions import refresh_directory
 from sbpipe.report.latex_reports import latex_report_single_param_scan, pdf_report
 
@@ -127,8 +124,8 @@ class SingleParamScan(Pipeline):
             return 0
         return 1
 
-    @staticmethod
-    def generate_data(simulator, model, scanned_par, sim_number, simulate_intervals,
+    @classmethod
+    def generate_data(cls, simulator, model, scanned_par, sim_number, simulate_intervals,
                       single_param_scan_intervals, inputdir, outputdir):
         """
         The first pipeline step: data generation.
@@ -150,8 +147,7 @@ class SingleParamScan(Pipeline):
 
         logger.info("Simulating Model: " + model)
         try:
-            # use reflection to dynamically load the simulator class by name
-            sim = locate('sbpipe.simulator.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+            sim = cls.get_simulator_object(simulator)
             sim.single_param_scan(model, scanned_par, sim_number, simulate_intervals,
                                   single_param_scan_intervals, inputdir, outputdir)
         except Exception as e:
@@ -160,8 +156,8 @@ class SingleParamScan(Pipeline):
             logger.debug(traceback.format_exc())
             return
 
-    @staticmethod
-    def analyse_data(model, scanned_par, knock_down_only, outputdir,
+    @classmethod
+    def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
                      sim_data_folder, sim_plots_folder, simulations_number,
                      percent_levels, min_level, max_level, levels_number,
                      homogeneous_lines, xaxis_label, yaxis_label):
@@ -208,8 +204,8 @@ class SingleParamScan(Pipeline):
                                     xaxis_label, yaxis_label])
         process.wait()
 
-    @staticmethod
-    def generate_report(model, scanned_par, outputdir, sim_plots_folder):
+    @classmethod
+    def generate_report(cls, model, scanned_par, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 

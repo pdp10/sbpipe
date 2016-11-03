@@ -30,6 +30,9 @@ import logging
 
 logger = logging.getLogger('sbpipe')
 
+# locate is used to dynamically load a class by its name.
+from pydoc import locate
+
 
 class Pipeline:
     """
@@ -105,6 +108,19 @@ class Pipeline:
         :return: the folder of the simulated plots.
         """
         return self.__sim_plots_folder
+    
+    @classmethod
+    def get_simulator_object(cls, simulator):
+        """
+        Return the simulator object if this exists. Otherwise throws an exception.
+        The simulator name starts with an upper case letter. Each simulator is in a package
+        within `sbpipe.simulator`.
+       
+        :param simulator: the simulator name
+        :return: the simulator object.
+        """
+        # use reflection to dynamically load the simulator class by name
+        return locate('sbpipe.simulator.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
 
     def config_parser(self, config_file, section):
         """

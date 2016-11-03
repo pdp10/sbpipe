@@ -36,9 +36,6 @@ logger = logging.getLogger('sbpipe')
 
 from ..pipeline import Pipeline
 
-# locate is used to dynamically load a class by its name.
-from pydoc import locate
-
 from sbpipe.utils.io_util_functions import refresh_directory
 from sbpipe.report.latex_reports import latex_report_double_param_scan, pdf_report
 
@@ -127,8 +124,8 @@ class DoubleParamScan(Pipeline):
             return 0
         return 1
 
-    @staticmethod
-    def generate_data(simulator, model, sim_length, inputdir, outputdir):
+    @classmethod
+    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir):
         """
         The first pipeline step: data generation.
 
@@ -146,8 +143,7 @@ class DoubleParamScan(Pipeline):
 
         logger.info("Simulating Model: " + model)
         try:
-            # use reflection to dynamically load the simulator class by name
-            sim = locate('sbpipe.simulator.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+            sim = cls.get_simulator_object(simulator)
             sim.double_param_scan(model, sim_length, inputdir, outputdir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")            
@@ -155,8 +151,8 @@ class DoubleParamScan(Pipeline):
             logger.debug(traceback.format_exc())
             return
 
-    @staticmethod
-    def analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir):
+    @classmethod
+    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir):
         """
         The second pipeline step: data analysis.
 
@@ -178,8 +174,8 @@ class DoubleParamScan(Pipeline):
                                     model, scanned_par1, scanned_par2, inputdir, outputdir])
         process.wait()
 
-    @staticmethod
-    def generate_report(model, scanned_par1, scanned_par2, outputdir, sim_plots_folder):
+    @classmethod
+    def generate_report(cls, model, scanned_par1, scanned_par2, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 

@@ -35,9 +35,6 @@ logger = logging.getLogger('sbpipe')
 
 from ..pipeline import Pipeline
 
-# locate is used to dynamically load a class by its name.
-from pydoc import locate
-
 from sbpipe.utils.io_util_functions import refresh_directory
 from sbpipe.report.latex_reports import latex_report_simulate, pdf_report
 
@@ -118,8 +115,8 @@ class Sensitivity(Pipeline):
             return 0
         return 1
 
-    @staticmethod
-    def generate_data(simulator, model, inputdir, outputdir):
+    @classmethod
+    def generate_data(cls, simulator, model, inputdir, outputdir):
         """
         The first pipeline step: data generation.
 
@@ -138,8 +135,7 @@ class Sensitivity(Pipeline):
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
         try:
-            # use reflection to dynamically load the simulator class by name
-            sim = locate('sbpipe.simulator.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+            sim = cls.get_simulator_object(simulator)
             sim.sensitivity_analysis(model, inputdir, outputdir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")            
@@ -149,8 +145,8 @@ class Sensitivity(Pipeline):
 
     # Input parameters
     # outputdir
-    @staticmethod
-    def analyse_data(outputdir):
+    @classmethod
+    def analyse_data(cls, outputdir):
         """
         The second pipeline step: data analysis.
 
@@ -160,8 +156,8 @@ class Sensitivity(Pipeline):
                               outputdir])
         p.wait()
 
-    @staticmethod
-    def generate_report(model, outputdir, sim_plots_folder):
+    @classmethod
+    def generate_report(cls, model, outputdir, sim_plots_folder):
         """
         The third pipeline step: report generation.
 
