@@ -30,8 +30,7 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'sbpipe'))
-config_dir = os.path.join(SBPIPE, "tests", "insulin_receptor", "Working_Folder")
+sys.path.append(os.path.join(SBPIPE,'scripts'))
 
 import run_sbpipe
 

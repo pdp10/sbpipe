@@ -23,8 +23,9 @@
 # $Date: 2016-09-14 13:38:32 $
 
 
-./clean_doc.sh
+./cleanup_doc.sh
 
+export PYTHONPATH=$PYTHONPATH:$SBPIPE
 
 
 # Import manuals
@@ -35,17 +36,10 @@ pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/deve
 
 
 # Import source code documentation
-#sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/create_project/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/double_param_scan/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/param_estim/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/sensitivity/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/simulate/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipelines/single_param_scan/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/utils/python/
+sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/
 
 
 # Generate documentation in html, LaTeX/PDF, and man
 make html
 make latexpdf
+#make man
