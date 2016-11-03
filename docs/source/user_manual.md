@@ -18,7 +18,7 @@ Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.co
 ## Introduction
 This package contains a collection of pipelines for dynamic modelling of biological systems. 
 It aims to automate common processes and speed up productivity for tasks such as model simulation, 
-single and double parameter scan, and parameter estimation. 
+single/double parameter scan, and parameter estimation. 
 
 
 ### Requirements
@@ -93,12 +93,12 @@ $ CopasiSE -h
 COPASI 4.16 (Build 104)
 ```
 
-At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed correctly. SB pipe requires the configuration of an environment variable (`$SBPIPE`) which must also be added in the `$HOME`/.bashrc file. The package source files also need to be added to `$PATH`. Users need to add the following lines to their `$HOME`/.bashrc file:
+At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed correctly. SB pipe requires the configuration of an environment variable (`$SBPIPE`) which must also be added in the `$HOME`/.bashrc file. The package also needs to be added to `$PATH`. To do so, users need to add the following lines to their `$HOME`/.bashrc file:
 
 ```
 # SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/sbpipe
+export PATH=$PATH:$SBPIPE/scripts
 
 ```
 
@@ -149,7 +149,7 @@ Therefore, the following environment variables must also be added:
 
 ```
 SBPIPE=\path\to\sbpipe
-PATH=[previous paths];%SBPIPE%\sbpipe
+PATH=[previous paths];%SBPIPE%\scripts
 ```
 
 
@@ -172,7 +172,7 @@ export PATH=$PATH:/path/to/CopasiSE/binaries/
 
 # SBPIPE
 export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/sbpipe
+export PATH=$PATH:$SBPIPE/scripts
 
 ```
 
@@ -203,7 +203,7 @@ $ python setup.py install
 The correct installation of SB pipe and its dependencies can be checked by 
 running the following commands inside the SB pipe folder: 
 ```
-$ cd tests
+$ cd $SBPIPE/tests
 $ ./test_suite.py
 ```
 
@@ -302,7 +302,7 @@ option2=value2
 ...
 ```
 
-In SB pipe each pipeline executes three tasks: data generation, data analysis, and report generation. Each task depends on the previous one. This choice allows user to analyse the same data without having to generate it every time, or to skip the report generation if not wanted. 
+In SB pipe each pipeline executes three tasks: data generation, data analysis, and report generation. Each task depends on the previous one. This choice allows users to analyse the same data without having to generate it every time, or to skip the report generation if not wanted. 
 Assuming that the configuration files are placed in the Working_Folder of a certain project, examples are given as follow: 
 
 **Example 1:** configuration file for the pipeline *simulate*
