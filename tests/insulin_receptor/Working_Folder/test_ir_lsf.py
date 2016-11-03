@@ -25,43 +25,40 @@
 
 
 import os
-import sys
 import subprocess
-from distutils.dir_util import copy_tree
+import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'scripts'))
+sys.path.append(os.path.join(SBPIPE, 'scripts'))
 
 import run_sbpipe
 
 import unittest
 
-
 """Unit test for Insulin Receptor"""
 
+
 class TestIRLSF(unittest.TestCase):
-  """
-  A collection of tests for this example using LSF
-  """
+    """
+    A collection of tests for this example using LSF
+    """
 
-  def test_stoch_simul_copasi_lsf(self):        
-    """model simulation using LSF if found"""
-    try:
-	subprocess.call(["qstat"])
-	self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)	
-    except OSError as e:
-	print("Skipping test as no LSF (Load Sharing Facility) was found.")
+    def test_stoch_simul_copasi_lsf(self):
+        """model simulation using LSF if found"""
+        try:
+            subprocess.call(["qstat"])
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
+    def test_param_estim_copasi_lsf(self):
+        """model parameter estimation using LSF if found"""
+        try:
+            subprocess.call(["bjobs"])
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
-  def test_param_estim_copasi_lsf(self):        
-    """model parameter estimation using LSF if found"""
-    try:
-	subprocess.call(["bjobs"])    
-	self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)        
-    except OSError as e:
-	print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    
-    

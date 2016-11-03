@@ -23,18 +23,16 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-26 22:18:32 $
 
-
-import os
-import sys
-import subprocess
 import logging
+import os
+import subprocess
+import sys
 from logging.config import fileConfig
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, "sbpipe"))
 
-from sb_config import which
-
+from sbpipe.sb_config import which
 
 
 def install_python_deps(requirements_file):
@@ -48,44 +46,40 @@ def install_python_deps(requirements_file):
 
 
 def python_deps(logger):
-  logger.info("Installing Python dependencies...")    
-  if which("pip") == None: 
-      logger.warn("pip not found. Skipping installation of Python dependencies."
-          "Please, install `python-dev` and `python-pip` packages.")
-  else:
-      out = str(install_python_deps(os.path.join(SBPIPE, 'requirements.txt')))
-      logger.debug(out)
-      if (' ERROR:' in out or ' Error:' in out):
-          logger.error("Some error occurred when installing Python dependencies."
-              "Please check log files in logs/")  
-      else:
-          logger.info("Python dependencies should have been installed correctly.")  
+    logger.info("Installing Python dependencies...")
+    if which("pip") == None:
+        logger.warn("pip not found. Skipping installation of Python dependencies."
+                    "Please, install `python-dev` and `python-pip` packages.")
+    else:
+        out = str(install_python_deps(os.path.join(SBPIPE, 'requirements.txt')))
+        logger.debug(out)
+        if ' ERROR:' in out or ' Error:' in out:
+            logger.error("Some error occurred when installing Python dependencies."
+                         "Please check log files in logs/")
+        else:
+            logger.info("Python dependencies should have been installed correctly.")
 
 
+def main():
+    # logging settings
+    home = os.path.expanduser("~")
+    if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
+        os.makedirs(os.path.join(home, '.sbpipe', 'logs'))
+    # disable_existing_loggers=False to enable logging for Python third-party packages
+    fileConfig(os.path.join(SBPIPE, 'logging_config.ini'),
+               defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe_pydeps.log')},
+               disable_existing_loggers=False)
+    logger = logging.getLogger('sbpipe')
 
-def main(argv=None):
-  
-  # logging settings
-  home = os.path.expanduser("~")
-  if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
-      os.makedirs(os.path.join(home, '.sbpipe', 'logs'))
-  # disable_existing_loggers=False to enable logging for Python third-party packages
-  fileConfig(os.path.join(SBPIPE, 'logging_config.ini'), 
-             defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe_pydeps.log')},
-             disable_existing_loggers=False)   
-  logger = logging.getLogger('sbpipe')  
-  
-  if which("CopasiSE") == None:
-      logger.error("CopasiSE not found. Please install Copasi as explained on the sbpipe website.")  
+    if which("CopasiSE") == None:
+        logger.error("CopasiSE not found. Please install Copasi as explained on the sbpipe website.")
 
-  if which("R") == None:
-      logger.error("R not found. Skipping installation of R dependencies."
-          "sbpipe will be severely affected due to this.")  
-  
-  python_deps(logger)
+    if which("R") == None:
+        logger.error("R not found. Skipping installation of R dependencies."
+                     "sbpipe will be severely affected due to this.")
 
-  
-  
-  
+    python_deps(logger)
+
+
 if __name__ == "__main__":
-    sys.exit(main())    
+    sys.exit(main())

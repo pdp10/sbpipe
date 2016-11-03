@@ -96,7 +96,7 @@ class Simul:
         """
         pass
     
-    def sens(model, inputdir, outputdir):
+    def sens(self, model, inputdir, outputdir):
         """
         Sensitivity analysis.
         

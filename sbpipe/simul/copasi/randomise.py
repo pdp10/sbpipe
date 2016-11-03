@@ -21,14 +21,12 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
-
-import sys, os, os.path
+import os.path
+import random
+import shutil
 
 from copasi_parser import CopasiParser
 from sbpipe.utils.io import *
-import shutil
-import random
-import logging
 logger = logging.getLogger('sbpipe')
 
 

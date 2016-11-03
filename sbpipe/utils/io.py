@@ -22,17 +22,14 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
-
-
-# I/O utilities
-
-import sys
-import os
 import glob
 import logging
+import os
+import sys
+
 logger = logging.getLogger('sbpipe')
 
-reload(sys)  
+reload(sys)
 sys.setdefaultencoding('utf8')
 
 
@@ -44,7 +41,7 @@ def refresh(path, file_pattern):
     :param file_pattern: the string pattern of the files to remove
     """
     if not os.path.exists(path):
-        os.mkdir(path) 
+        os.mkdir(path)
     else:
         files2delete = glob.glob(os.path.join(path, file_pattern + "*"))
         for f in files2delete:
@@ -97,7 +94,7 @@ def write_mat_on_file(path, filename_out, data):
             # write the string above and add a newline.
             file.write(concatStringList + "\n")
 
-  
+
 def replace_str_in_file(filename_out, old_string, new_string):
     """
     Replace a string with another in filename_out
@@ -106,11 +103,10 @@ def replace_str_in_file(filename_out, old_string, new_string):
     :param old_string: the old string that should be replaced
     :param new_string: the new string replacing old_string
     """
-    filedata = None
     with open(filename_out, 'r') as file:
         filedata = file.read()
     # Replace the target string
     filedata = filedata.replace(old_string, new_string)
     # Write the file out again
     with open(filename_out, 'w') as file:
-        file.write(filedata)  
+        file.write(filedata)

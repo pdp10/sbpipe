@@ -23,9 +23,8 @@
 # $Date: 2015-03-21 14:34:32 $
 
 
-import sys
-import os
 import logging
+import os
 
 logger = logging.getLogger('sbpipe')
 

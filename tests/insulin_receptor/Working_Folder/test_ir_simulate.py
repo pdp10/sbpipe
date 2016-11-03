@@ -23,10 +23,8 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
-
 import os
 import sys
-from distutils.dir_util import copy_tree
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE,'scripts'))

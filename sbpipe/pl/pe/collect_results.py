@@ -22,9 +22,10 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-07-16 12:14:32 $
 
-import os
 import glob
 import logging
+import os
+
 logger = logging.getLogger('sbpipe')
 
 
@@ -142,7 +143,6 @@ def write_best_fits(files, path_out, filename_out):
     logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for filein in files:
-            completed = False
             file_num += 1
             with open(filein, 'r') as file:
                 logger.info(os.path.basename(filein))
@@ -166,8 +166,6 @@ def write_best_fits(files, path_out, filename_out):
                             split_result = result.split("\t")
                             if len(split_result) >= 0 and split_result[0] == "\n":
                                 # All the parameters are retrieved, then exit
-                                line = result
-                                split_line = split_result
                                 finished = True
                                 break
                             entry.append(str(split_result[2]))
@@ -188,7 +186,7 @@ def write_all_fits(files, path_out, filename_out):
     #logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for file in files:
-            file_num = file_num + 1
+            file_num += 1
             with open(file, 'r') as filein:
                 # logger.info(os.path.basename(file))
                 lines = filein.readlines()

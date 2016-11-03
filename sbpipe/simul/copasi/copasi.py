@@ -22,27 +22,21 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-01 15:43:32 $
 
-
-
-import sys
+import logging
 import os
-import shutil
 import re
+import shutil
 import subprocess
-
-# For reading the first N lines of a file.
 from itertools import islice
 
-import logging
 logger = logging.getLogger('sbpipe')
 
 from sbpipe.sb_config import which
-from sbpipe.simul import Simul
 from randomise import Randomise
 
 from .copasi_utils import replace_str_copasi_sim_report
 from sbpipe.utils.parcomp import parcomp
-from sbpipe.utils.rand import get_rand_num_str, get_rand_alphanum_str
+from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
 
 from ..simul import Simul
@@ -137,6 +131,9 @@ class Copasi(Simul):
             # Replace some string in the report file
             replace_str_copasi_sim_report(os.path.join(inputdir, model_noext + ".csv"))
 
+            # initialise the table header
+            header = ['Time']
+
             # Find the index of scanned_par in the header file, so it is possible to read the amount at
             # the second line.
             if i == 0:
@@ -145,7 +142,7 @@ class Copasi(Simul):
                 # Read the first line of a file.
                 with open(os.path.join(inputdir, model_noext + ".csv")) as myfile:
                     # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
-                    header = list(islice(myfile, 1))[0].replace("\n", "").split('\t')
+                    header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
                 logger.debug(header)
                 for j, name in enumerate(header):
                     logger.info(str(j) + " " + name + " " + scanned_par)
@@ -162,7 +159,7 @@ class Copasi(Simul):
 
             # Prepare the Header for the output files
             # Add a \t at the end of each element of the header
-            header = [h + "\t" for h in header]
+            header = [h + '\t' for h in header]
             # Remove the \t for the last element.
             header[-1] = header[-1].strip()
 
@@ -305,7 +302,7 @@ class Copasi(Simul):
             shutil.move(os.path.join(inputdir, file),
                         os.path.join(updated_models_dir, file.replace(groupid, "_")))
     
-    def sens(model, inputdir, outputdir):
+    def sens(self, model, inputdir, outputdir):
         __doc__ = Simul.sens.__doc__
 
         # execute runs simulations.

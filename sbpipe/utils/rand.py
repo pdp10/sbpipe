@@ -26,8 +26,8 @@
 
 # Utilities for randomisation
 
-import string
 import random
+import string
 
 
 def get_rand_alphanum_str(length):

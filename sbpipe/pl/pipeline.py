@@ -23,10 +23,9 @@
 # $Date: 2016-06-23 21:43:32 $
 
 
+import logging
 from ConfigParser import ConfigParser
 from StringIO import StringIO
-
-import logging
 
 logger = logging.getLogger('sbpipe')
 
@@ -136,9 +135,9 @@ class Pipeline:
             stream = StringIO(stream.read())
             parser.readfp(stream)
 
-        return self.read_configuration(parser.items(section))
+        return self.read_config(parser.items(section))
 
-    def read_configuration(self, lines):
+    def read_config(self, lines):
         """
         Read the section lines from the configuration file. This method is abstract.
         
@@ -146,10 +145,11 @@ class Pipeline:
         """
         pass
 
-    def read_common_configuration(self, lines):
+    def read_common_config(self, lines):
         """
         Parse the common parameters from the configuration file
-        
+
+        :param lines: the lines to parse.
         :return: return a tuple containing the common parameters
         """
         # default values

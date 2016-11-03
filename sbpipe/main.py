@@ -22,16 +22,11 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-02 10:18:32 $
 
-
-
+import getopt
+import logging
 import os
 import sys
-import getopt
 
-
-
-# Set default logging handler to avoid "No handler found" warnings.
-import logging
 try:  # Python 2.7+
     from logging import NullHandler
 except ImportError:
@@ -43,10 +38,8 @@ except ImportError:
 logging.getLogger(__name__).addHandler(NullHandler())
 from logging.config import fileConfig
 
-
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
-
 
 
 def cleanup():
@@ -54,7 +47,6 @@ def cleanup():
     Clean up the package including the tests.
     """
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-    from tests.cleanup_tests import cleanup_tests
     from sbpipe.utils.io import files_with_pattern_recur
     # Remove all files with suffix .pyc recursively
     for f in files_with_pattern_recur(SBPIPE, '.pyc'):
@@ -74,7 +66,7 @@ def logo():
 
   	:return: sbpipe logo
   	"""
-    logo = (
+    sb_logo = (
             "\n"
             "                            _             \n"
             "          /\               (_)            \n"
@@ -85,7 +77,7 @@ def logo():
             "            -----/ /     / /              \n"
             "                /_/     /_/               \n"
             )
-    return logo
+    return sb_logo
 
 
 def help():
@@ -125,9 +117,9 @@ def _read_file_header(filename):
     :param filename: the file name to read
     :return: the first line
     """
-    line = ""
-    with open(os.path.join(SBPIPE, filename)) as file:
-        line = file.readline().strip() + " " + file.readline().strip()
+    line = ''
+    with open(os.path.join(SBPIPE, filename)) as filein:
+        line = filein.readline().strip() + " " + filein.readline().strip()
     return line
 
 
@@ -196,7 +188,6 @@ def main(argv=None):
     fileConfig(os.path.join(SBPIPE, 'logging_config.ini'),
                defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
                disable_existing_loggers=False)
-    logger = logging.getLogger('sbpipe')
 
     exit_status = 0
     no_conf_file_msg = "no configuration file received"

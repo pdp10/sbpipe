@@ -22,10 +22,8 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-27 10:18:32 $
 
-
 import os, sys
 import unittest
-
 
 SBPIPE = os.environ["SBPIPE"]
 # folders containing the configuration files and test file

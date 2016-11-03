@@ -24,11 +24,11 @@
 
 # for computing the pipeline elapsed time 
 import datetime
-import os
 import glob
+import logging
+import os
 import subprocess
 import tarfile
-import logging
 
 logger = logging.getLogger('sbpipe')
 
@@ -281,17 +281,20 @@ class ParEst(Pipeline):
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
 
-    def read_configuration(self, lines):
-        __doc__ = Pipeline.read_configuration.__doc__
+    def read_config(self, lines):
+        __doc__ = Pipeline.read_config.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_configuration(lines)
+         project_dir, model) = self.read_common_config(lines)
 
         # default values
+        # The simulator
         simulator = 'Copasi'
+        # Generate a zipped tarball
+        generate_tarball = False
         # The parallel mechanism to use (pp | sge | lsf).
-        cluster = "pp"
+        cluster = 'pp'
         # The number of cpus for pp
         pp_cpus = 1
         # The parameter estimation round

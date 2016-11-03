@@ -23,7 +23,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-27 10:18:32 $
 
-
 import os
 import sys
 
@@ -39,4 +38,3 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -27,9 +27,9 @@
 
 # On client side, run this program
 
-import thread
-import sys
 import logging
+import thread
+
 logger = logging.getLogger('sbpipe')
 
 
@@ -58,7 +58,7 @@ class Monitor:
         """
         # we must use lock here because += is not atomic
         self.lock.acquire()
-        self.__count = self.__count + 1
+        self.__count += 1
         # We don't do much with this value, but the idea is that one could combine the values 
         # with a desired logic. Here we only use it to collect an overall status of the parallel computation.
         self.__value = self.__value and value

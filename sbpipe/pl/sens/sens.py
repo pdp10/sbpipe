@@ -24,11 +24,10 @@
 
 # for computing the pipeline elapsed time 
 import datetime
-
-import os
 import glob
-import subprocess
 import logging
+import os
+import subprocess
 logger = logging.getLogger('sbpipe')
 
 from ..pipeline import Pipeline
@@ -103,7 +102,7 @@ class Sens(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            Sens.generate_report()
+            Sens.generate_report(model, outputdir, self.get_sim_plots_folder())
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
@@ -180,12 +179,12 @@ class Sens(Pipeline):
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
 
-    def read_configuration(self, lines):
-        __doc__ = Pipeline.read_configuration.__doc__
+    def read_config(self, lines):
+        __doc__ = Pipeline.read_config.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_configuration(lines)
+         project_dir, model) = self.read_common_config(lines)
 
         # default values
         simulator = 'Copasi'

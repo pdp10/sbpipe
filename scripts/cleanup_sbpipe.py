@@ -23,14 +23,19 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-24 13:02:32 $
 
-
 import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe import main
+import sbpipe.main as sbpipe
+
+
+def main(argv=None):
+    sbpipe.main.cleanup()
+
 
 if __name__ == "__main__":
-    sys.exit(main.cleanup())
+    main()
+

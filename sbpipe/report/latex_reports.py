@@ -106,7 +106,7 @@ def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
     :param filename_prefix: the prefix for the LaTeX file
     :param model_noext: the model name
     :param scanned_par1: the 1st scanned parameter
-    :param scanned_par1: the 2nd scanned parameter
+    :param scanned_par2: the 2nd scanned parameter
     """    
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
@@ -126,7 +126,6 @@ def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
                        scanned_par2_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
         folder.sort(key=nat_sort_key)
-        curr_readout = ''
         prev_readout = ''
         for infile in folder:
             if infile.find(model_noext) != -1:
@@ -287,10 +286,7 @@ def pdf_report(outputdir, filename):
     currdir = os.getcwd()
     os.chdir(outputdir)
     logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename],
-                         stdout=subprocess.PIPE)
-    p.communicate()[0]
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename],
-                         stdout=subprocess.PIPE)
+    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
     p.communicate()[0]
     os.chdir(currdir)

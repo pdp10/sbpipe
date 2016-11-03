@@ -60,7 +60,7 @@ def cleanup_tests():
             shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)    
 
 
-def main(args):
+def main(args=None):
     cleanup_tests()
     
 

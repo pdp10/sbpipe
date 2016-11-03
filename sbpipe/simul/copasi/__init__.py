@@ -22,8 +22,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-01 22:14:32 $
 
-
-
 import os
 
 
@@ -35,6 +33,6 @@ for module in os.listdir(os.path.dirname(__file__)):
     if module[:-3] == foldername:
         #print(module[:-3])
         __import__(module[:-3], locals(), globals())
-del module
+    del module
 
 
