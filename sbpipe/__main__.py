@@ -24,15 +24,11 @@
 # $Date: 2016-11-02 10:18:32 $
 
 
+
 import sys
-import os
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.insert(0, os.path.join(SBPIPE, "scripts"))
-
-import run_sbpipe
-
-
+from sbpipe import main
 
 if __name__ == "__main__":
-    sys.exit(run_sbpipe.main())
+    sys.exit(main.main())
+

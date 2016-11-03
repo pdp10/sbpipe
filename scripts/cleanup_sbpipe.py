@@ -24,37 +24,13 @@
 # $Date: 2016-06-24 13:02:32 $
 
 
-import sys
 import os
-import subprocess
+import sys
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.utils.io_util_functions import files_with_pattern_recur
+from sbpipe import main
 
-
-def cleanup_sbpipe():
-    """
-    Clean up the package including the tests.
-    """
-    # Remove all files with suffix .pyc recursively
-    for f in files_with_pattern_recur('.', '.pyc'):
-        os.remove(f)
-    # Remove all temporary files (*~) recursively
-    for f in files_with_pattern_recur('.', '~'):
-        os.remove(f)
-          
-    ### delete this silly file
-    if os.path.isfile(os.path.join(SBPIPE,'tests','insulin_receptor','Working_Folder','Rplots.pdf')):
-        os.remove(os.path.join(SBPIPE,'tests','insulin_receptor','Working_Folder','Rplots.pdf'))
-
-
-def main(args):
-    # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-    from tests.cleanup_tests import cleanup_tests
-    # Clean sbpipe
-    cleanup_sbpipe()
-
-
-main(sys.argv)
+if __name__ == "__main__":
+    sys.exit(main.cleanup_sbpipe())
