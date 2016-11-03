@@ -140,7 +140,7 @@ $ cd $SBPIPE/docs
 $ ./cleanup_doc.sh
 ```
 
-If new folders containing new Python modules are added to the project, it is necessary to add these new paths to the sys.path in `docs/source/conf.py`. A corresponding `sphinx-apidoc` command for the new paths must also be added in `docs/gen_doc.sh`. These additions are necessary to extract Python source code documentation to .rst files. 
+[//]: # (**No longer necessary.** If new folders containing new Python modules are added to the project, it is necessary to add these new paths to the sys.path in `docs/source/conf.py`. A corresponding `sphinx-apidoc` command for the new paths must also be added in `docs/gen_doc.sh`. These additions are necessary to extract Python source code documentation to .rst files.)
 
 
 ### sbpipe

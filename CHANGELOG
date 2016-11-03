@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sb_pipe/
 
 ### CHANGELOG
 
-v1.24.0
+v1.25.0
 
+- moved script core functions within sbpipe package.
 - the copasi package is now a dynamically loaded simulator. Users can choose the simulator to use in the configuration file.
 - simulators are loaded dynamically. Uncoupling between simulators and pipelines.
 - separation of code for generating data from pipeline package. 

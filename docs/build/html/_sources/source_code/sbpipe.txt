@@ -22,6 +22,14 @@ sbpipe.__main__ module
     :undoc-members:
     :show-inheritance:
 
+sbpipe.main module
+------------------
+
+.. automodule:: sbpipe.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sbpipe.sb_config module
 -----------------------
 

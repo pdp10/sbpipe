@@ -27,7 +27,7 @@
     <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
     <link rel="up" title="Source code" href="../source_code.html" />
     <link rel="next" title="sbpipe.pipeline package" href="sbpipe.pipeline.html" />
-    <link rel="prev" title="report package" href="report.html" /> 
+    <link rel="prev" title="Source code" href="../source_code.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -43,7 +43,7 @@
           <a href="sbpipe.pipeline.html" title="sbpipe.pipeline package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="report.html" title="report package"
+          <a href="../source_code.html" title="Source code"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
@@ -150,6 +150,118 @@
 <div class="section" id="module-sbpipe.__main__">
 <span id="sbpipe-main-module"></span><h2>sbpipe.__main__ module<a class="headerlink" href="#module-sbpipe.__main__" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-sbpipe.main">
+<span id="id1"></span><h2>sbpipe.main module<a class="headerlink" href="#module-sbpipe.main" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="sbpipe.main.Usage">
+<em class="property">exception </em><code class="descclassname">sbpipe.main.</code><code class="descname">Usage</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.Usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>This class is used for printing a generic exception</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.check_args">
+<code class="descclassname">sbpipe.main.</code><code class="descname">check_args</code><span class="sig-paren">(</span><em>args</em>, <em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.check_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that at least one argument is passed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; the list of arguments</li>
+<li><strong>msg</strong> &#8211; the message to print</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><p class="first">Usage exception if less than one argument is passed</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">no output</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.cleanup_sbpipe">
+<code class="descclassname">sbpipe.main.</code><code class="descname">cleanup_sbpipe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.cleanup_sbpipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean up the package including the tests.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.help">
+<code class="descclassname">sbpipe.main.</code><code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return help message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the help message</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.license">
+<code class="descclassname">sbpipe.main.</code><code class="descname">license</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.license" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the license</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the license</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.logo">
+<code class="descclassname">sbpipe.main.</code><code class="descname">logo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.logo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return sbpipe logo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">sbpipe logo</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.main">
+<code class="descclassname">sbpipe.main.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>SB pipe main function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argv</strong> &#8211; options for sbpipe. Type python -m sbpipe -h for a full list of options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">0 if OK, 1 if minor problems, or 2 if serious trouble.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.version">
+<code class="descclassname">sbpipe.main.</code><code class="descname">version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the version</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the version</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-sbpipe.sb_config">
 <span id="sbpipe-sb-config-module"></span><h2>sbpipe.sb_config module<a class="headerlink" href="#module-sbpipe.sb_config" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -186,6 +298,7 @@
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-sbpipe.__main__">sbpipe.__main__ module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.main">sbpipe.main module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.sb_config">sbpipe.sb_config module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
@@ -193,8 +306,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="report.html"
-                        title="previous chapter">report package</a></p>
+  <p class="topless"><a href="../source_code.html"
+                        title="previous chapter">Source code</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="sbpipe.pipeline.html"
                         title="next chapter">sbpipe.pipeline package</a></p>
@@ -235,7 +348,7 @@
           <a href="sbpipe.pipeline.html" title="sbpipe.pipeline package"
              >next</a> |</li>
         <li class="right" >
-          <a href="report.html" title="report package"
+          <a href="../source_code.html" title="Source code"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 

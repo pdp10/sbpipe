@@ -23,7 +23,7 @@
 # $Date: 2016-09-14 13:38:32 $
 
 
-./clean_doc.sh
+./cleanup_doc.sh
 
 export PYTHONPATH=$PYTHONPATH:$SBPIPE
 
@@ -37,22 +37,9 @@ pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/deve
 
 # Import source code documentation
 sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/create_project/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/double_param_scan/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/param_estim/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/sensitivity/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/simulate/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/pipeline/single_param_scan/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/simulator/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/simulator/copasi/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/report/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/utils/
-sphinx-apidoc -P -T -o source/source_code $SBPIPE/sbpipe/R/
+
 
 # Generate documentation in html, LaTeX/PDF, and man
-
-# NOTE THAT autodoc throws a weird warning. The documentation is fine though..
-
 make html
-#make latexpdf
+make latexpdf
+#make man

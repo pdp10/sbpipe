@@ -201,11 +201,6 @@ $ ./gen_doc.sh
 $ ./cleanup_doc.sh
 </pre></div>
 </div>
-<p>If new folders containing new Python modules are added to the project,
-it is necessary to add these new paths to the sys.path in
-<code class="docutils literal"><span class="pre">docs/source/conf.py</span></code>. A corresponding <code class="docutils literal"><span class="pre">sphinx-apidoc</span></code> command for
-the new paths must also be added in <code class="docutils literal"><span class="pre">docs/gen_doc.sh</span></code>. These additions
-are necessary to extract Python source code documentation to .rst files.</p>
 </div>
 <div class="section" id="sbpipe">
 <h3>sbpipe<a class="headerlink" href="#sbpipe" title="Permalink to this headline">¶</a></h3>
@@ -282,6 +277,13 @@ exactly one simulator class can be instantiated.</p>
 <p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.utils</span></code> contains a collection of Python utility
 modules which are used by sbpipe.</p>
 </div>
+</div>
+<div class="section" id="scripts">
+<h3>scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
+<p>The folder <code class="docutils literal"><span class="pre">scripts</span></code> contains the scripts: <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> and
+<code class="docutils literal"><span class="pre">run_sbpipe.py</span></code>. <code class="docutils literal"><span class="pre">run_sbpipe.py</span></code> is the main script and is used to
+run the pipelines. <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> is used for cleaning the
+package including the test results.</p>
 </div>
 <div class="section" id="tests">
 <h3>tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
@@ -393,6 +395,7 @@ git merge upstream/develop
 <li><a class="reference internal" href="#utils">utils</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#scripts">scripts</a></li>
 <li><a class="reference internal" href="#tests">tests</a></li>
 </ul>
 </li>
