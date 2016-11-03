@@ -45,6 +45,7 @@ from sbpipe.utils.parallel_computation import parallel_computation
 from sbpipe.utils.random_functions import get_rand_num_str, get_rand_alphanum_str
 from sbpipe.utils.io_util_functions import replace_string_in_file
 
+from ..simulator import Simulator
 
 class Copasi(Simulator):
     """

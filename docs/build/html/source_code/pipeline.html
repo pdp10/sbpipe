@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pipeline module &mdash; SB pipe 1.15.0 documentation</title>
+    <title>pipeline package &mdash; SB pipe 1.15.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
     <link rel="up" title="Source code" href="../source_code.html" />
-    <link rel="next" title="random_functions module" href="random_functions.html" />
-    <link rel="prev" title="param_estim module" href="param_estim.html" /> 
+    <link rel="next" title="pipeline.create_project package" href="pipeline.create_project.html" />
+    <link rel="prev" title="param_estim package" href="param_estim.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,10 +40,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="random_functions.html" title="random_functions module"
+          <a href="pipeline.create_project.html" title="pipeline.create_project package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="param_estim.html" title="param_estim module"
+          <a href="param_estim.html" title="param_estim package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
@@ -55,11 +55,60 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-pipeline">
-<span id="pipeline-module"></span><h1>pipeline module<a class="headerlink" href="#module-pipeline" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pipeline-package">
+<h1>pipeline package<a class="headerlink" href="#pipeline-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.create_project.html">pipeline.create_project package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.create_project.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.create_project.html#module-pipeline.create_project.create_project">pipeline.create_project.create_project module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.create_project.html#module-pipeline.create_project">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.double_param_scan.html">pipeline.double_param_scan package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.double_param_scan.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.double_param_scan.html#module-pipeline.double_param_scan.double_param_scan">pipeline.double_param_scan.double_param_scan module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.double_param_scan.html#module-pipeline.double_param_scan">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.param_estim.html">pipeline.param_estim package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.param_estim.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.param_estim.html#module-pipeline.param_estim.collect_results">pipeline.param_estim.collect_results module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.param_estim.html#module-pipeline.param_estim.param_estim">pipeline.param_estim.param_estim module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.param_estim.html#module-pipeline.param_estim">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.sensitivity.html">pipeline.sensitivity package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.sensitivity.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.sensitivity.html#module-pipeline.sensitivity.sensitivity">pipeline.sensitivity.sensitivity module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.sensitivity.html#module-pipeline.sensitivity">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.simulate.html">pipeline.simulate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.simulate.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.simulate.html#module-pipeline.simulate.simulate">pipeline.simulate.simulate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.simulate.html#module-pipeline.simulate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.single_param_scan.html">pipeline.single_param_scan package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.single_param_scan.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.single_param_scan.html#module-pipeline.single_param_scan.single_param_scan">pipeline.single_param_scan.single_param_scan module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.single_param_scan.html#module-pipeline.single_param_scan">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pipeline.pipeline">
+<span id="pipeline-pipeline-module"></span><h2>pipeline.pipeline module<a class="headerlink" href="#module-pipeline.pipeline" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pipeline.Pipeline">
-<em class="property">class </em><code class="descclassname">pipeline.</code><code class="descname">Pipeline</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='sim_data'</em>, <em>sim_plots_folder='sim_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline">
+<em class="property">class </em><code class="descclassname">pipeline.pipeline.</code><code class="descname">Pipeline</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='sim_data'</em>, <em>sim_plots_folder='sim_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic pipeline.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -77,8 +126,8 @@
 </tbody>
 </table>
 <dl class="method">
-<dt id="pipeline.Pipeline.config_parser">
-<code class="descname">config_parser</code><span class="sig-paren">(</span><em>config_file</em>, <em>section</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.config_parser" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.config_parser">
+<code class="descname">config_parser</code><span class="sig-paren">(</span><em>config_file</em>, <em>section</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.config_parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the configuration for the parsed section in the config_file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -98,8 +147,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.get_data_folder">
-<code class="descname">get_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_data_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.get_data_folder">
+<code class="descname">get_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_data_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the folder containing the experimental (wet) data sets.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -112,8 +161,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.get_models_folder">
-<code class="descname">get_models_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_models_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.get_models_folder">
+<code class="descname">get_models_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_models_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the folder containing the models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -126,8 +175,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.get_sim_data_folder">
-<code class="descname">get_sim_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_data_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.get_sim_data_folder">
+<code class="descname">get_sim_data_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_sim_data_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the folder containing the in-silico generated data sets.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -140,8 +189,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.get_sim_plots_folder">
-<code class="descname">get_sim_plots_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_sim_plots_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.get_sim_plots_folder">
+<code class="descname">get_sim_plots_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_sim_plots_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the folder containing the in-silico generated plots.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -153,9 +202,27 @@
 </table>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="pipeline.pipeline.Pipeline.get_simulator_object">
+<em class="property">classmethod </em><code class="descname">get_simulator_object</code><span class="sig-paren">(</span><em>simulator</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_simulator_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the simulator object if this exists. Otherwise throws an exception.
+The simulator name starts with an upper case letter. Each simulator is in a package
+within <cite>sbpipe.simulator</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>simulator</strong> &#8211; the simulator name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the simulator object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
-<dt id="pipeline.Pipeline.get_working_folder">
-<code class="descname">get_working_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.get_working_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.get_working_folder">
+<code class="descname">get_working_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.get_working_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the folder containing the results.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -168,8 +235,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.read_common_configuration">
-<code class="descname">read_common_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_common_configuration" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.read_common_configuration">
+<code class="descname">read_common_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.read_common_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse the common parameters from the configuration file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -182,8 +249,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.read_configuration">
-<code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.read_configuration" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.read_configuration">
+<code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.read_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the section lines from the configuration file. This method is abstract.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -196,8 +263,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="pipeline.Pipeline.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.Pipeline.run" title="Permalink to this definition">¶</a></dt>
+<dt id="pipeline.pipeline.Pipeline.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#pipeline.pipeline.Pipeline.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the pipeline.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -216,6 +283,10 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-pipeline">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pipeline" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
 
 
           </div>
@@ -223,12 +294,23 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pipeline package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pipeline.pipeline">pipeline.pipeline module</a></li>
+<li><a class="reference internal" href="#module-pipeline">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="param_estim.html"
-                        title="previous chapter">param_estim module</a></p>
+                        title="previous chapter">param_estim package</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="random_functions.html"
-                        title="next chapter">random_functions module</a></p>
+  <p class="topless"><a href="pipeline.create_project.html"
+                        title="next chapter">pipeline.create_project package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -263,10 +345,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="random_functions.html" title="random_functions module"
+          <a href="pipeline.create_project.html" title="pipeline.create_project package"
              >next</a> |</li>
         <li class="right" >
-          <a href="param_estim.html" title="param_estim module"
+          <a href="param_estim.html" title="param_estim package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 

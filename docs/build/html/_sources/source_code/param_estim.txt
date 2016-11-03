@@ -1,5 +1,28 @@
-param_estim module
-==================
+param_estim package
+===================
+
+Submodules
+----------
+
+param_estim.collect_results module
+----------------------------------
+
+.. automodule:: param_estim.collect_results
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+param_estim.param_estim module
+------------------------------
+
+.. automodule:: param_estim.param_estim
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: param_estim
     :members:

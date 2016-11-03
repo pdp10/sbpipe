@@ -1,0 +1,40 @@
+sbpipe package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    sbpipe.pipeline
+    sbpipe.report
+    sbpipe.simulator
+    sbpipe.utils
+
+Submodules
+----------
+
+sbpipe.__main__ module
+----------------------
+
+.. automodule:: sbpipe.__main__
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe.sb_config module
+-----------------------
+
+.. automodule:: sbpipe.sb_config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe
+    :members:
+    :undoc-members:
+    :show-inheritance:

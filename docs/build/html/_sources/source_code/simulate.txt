@@ -1,5 +1,20 @@
-simulate module
-===============
+simulate package
+================
+
+Submodules
+----------
+
+simulate.simulate module
+------------------------
+
+.. automodule:: simulate.simulate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: simulate
     :members:

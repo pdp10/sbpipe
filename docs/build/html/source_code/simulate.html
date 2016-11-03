@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>simulate module &mdash; SB pipe 1.15.0 documentation</title>
+    <title>simulate package &mdash; SB pipe 1.15.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
     <link rel="up" title="Source code" href="../source_code.html" />
-    <link rel="next" title="simulator module" href="simulator.html" />
-    <link rel="prev" title="sensitivity module" href="sensitivity.html" /> 
+    <link rel="next" title="simulator package" href="simulator.html" />
+    <link rel="prev" title="sensitivity package" href="sensitivity.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,10 +40,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="simulator.html" title="simulator module"
+          <a href="simulator.html" title="simulator package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="sensitivity.html" title="sensitivity module"
+          <a href="sensitivity.html" title="sensitivity package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
@@ -55,92 +55,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-simulate">
-<span id="simulate-module"></span><h1>simulate module<a class="headerlink" href="#module-simulate" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="simulate.Simulate">
-<em class="property">class </em><code class="descclassname">simulate.</code><code class="descname">Simulate</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='simulate_data'</em>, <em>sim_plots_folder='simulate_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pipeline.html#pipeline.Pipeline" title="pipeline.Pipeline"><code class="xref py py-class docutils literal"><span class="pre">pipeline.Pipeline</span></code></a></p>
-<p>This module provides the user with a complete pipeline of scripts for running 
-a model simulation using copasi</p>
-<dl class="staticmethod">
-<dt id="simulate.Simulate.analyse_data">
-<em class="property">static </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>sim_plots_dir</em>, <em>exp_dataset</em>, <em>plot_exp_dataset</em>, <em>xaxis_label</em>, <em>yaxis_label</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.analyse_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>The second pipeline step: data analysis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; the model name</li>
-<li><strong>inputdir</strong> &#8211; the directory containing the data to analyse</li>
-<li><strong>outputdir</strong> &#8211; the output directory containing the results</li>
-<li><strong>sim_plots_dir</strong> &#8211; the directory to save the plots</li>
-<li><strong>exp_dataset</strong> &#8211; the full path of the experimental data set</li>
-<li><strong>plot_exp_dataset</strong> &#8211; True if the experimental data set should also be plotted</li>
-<li><strong>xaxis_label</strong> &#8211; the label for the x axis (e.g. Time [min])</li>
-<li><strong>yaxis_label</strong> &#8211; the label for the y axis (e.g. Level [a.u.])</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="simulate.Simulate.generate_data">
-<em class="property">static </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='pp'</em>, <em>pp_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.generate_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>The first pipeline step: data generation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>simulator</strong> &#8211; the name of the simulator (e.g. copasi)</li>
-<li><strong>model</strong> &#8211; the model to process</li>
-<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
-<li><strong>outputdir</strong> &#8211; the directory containing the output files</li>
-<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
-<li><strong>runs</strong> &#8211; the number of model simulation</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="simulate.Simulate.generate_report">
-<em class="property">static </em><code class="descname">generate_report</code><span class="sig-paren">(</span><em>model</em>, <em>outputdir</em>, <em>sim_plots_folder</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.generate_report" title="Permalink to this definition">¶</a></dt>
-<dd><p>The third pipeline step: report generation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; the model name</li>
-<li><strong>outputdir</strong> &#8211; the output directory to store the report</li>
-<li><strong>sim_plots_folder</strong> &#8211; the folder containing the plots</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="simulate.Simulate.read_configuration">
-<code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.read_configuration" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="simulate.Simulate.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#simulate.Simulate.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="simulate-package">
+<h1>simulate package<a class="headerlink" href="#simulate-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="simulate-simulate-module">
+<h2>simulate.simulate module<a class="headerlink" href="#simulate-simulate-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-simulate">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-simulate" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -149,12 +74,22 @@ a model simulation using copasi</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">simulate package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#simulate-simulate-module">simulate.simulate module</a></li>
+<li><a class="reference internal" href="#module-simulate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="sensitivity.html"
-                        title="previous chapter">sensitivity module</a></p>
+                        title="previous chapter">sensitivity package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="simulator.html"
-                        title="next chapter">simulator module</a></p>
+                        title="next chapter">simulator package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -189,10 +124,10 @@ a model simulation using copasi</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="simulator.html" title="simulator module"
+          <a href="simulator.html" title="simulator package"
              >next</a> |</li>
         <li class="right" >
-          <a href="sensitivity.html" title="sensitivity module"
+          <a href="sensitivity.html" title="sensitivity package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 

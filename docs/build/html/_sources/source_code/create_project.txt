@@ -1,5 +1,20 @@
-create_project module
-=====================
+create_project package
+======================
+
+Submodules
+----------
+
+create_project.create_project module
+------------------------------------
+
+.. automodule:: create_project.create_project
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: create_project
     :members:

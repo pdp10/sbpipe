@@ -1,5 +1,20 @@
-double_param_scan module
-========================
+double_param_scan package
+=========================
+
+Submodules
+----------
+
+double_param_scan.double_param_scan module
+------------------------------------------
+
+.. automodule:: double_param_scan.double_param_scan
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: double_param_scan
     :members:

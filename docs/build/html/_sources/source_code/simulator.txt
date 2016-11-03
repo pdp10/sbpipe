@@ -1,5 +1,27 @@
-simulator module
-================
+simulator package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    simulator.copasi
+
+Submodules
+----------
+
+simulator.simulator module
+--------------------------
+
+.. automodule:: simulator.simulator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: simulator
     :members:

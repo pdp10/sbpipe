@@ -1,0 +1,22 @@
+pipeline.simulate package
+=========================
+
+Submodules
+----------
+
+pipeline.simulate.simulate module
+---------------------------------
+
+.. automodule:: pipeline.simulate.simulate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pipeline.simulate
+    :members:
+    :undoc-members:
+    :show-inheritance:

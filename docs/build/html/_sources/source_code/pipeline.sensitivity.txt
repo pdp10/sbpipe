@@ -1,0 +1,22 @@
+pipeline.sensitivity package
+============================
+
+Submodules
+----------
+
+pipeline.sensitivity.sensitivity module
+---------------------------------------
+
+.. automodule:: pipeline.sensitivity.sensitivity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pipeline.sensitivity
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,22 @@
+sbpipe.pipeline.single_param_scan package
+=========================================
+
+Submodules
+----------
+
+sbpipe.pipeline.single_param_scan.single_param_scan module
+----------------------------------------------------------
+
+.. automodule:: sbpipe.pipeline.single_param_scan.single_param_scan
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.pipeline.single_param_scan
+    :members:
+    :undoc-members:
+    :show-inheritance:

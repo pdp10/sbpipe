@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sbpipe.pipeline.param_estim package &mdash; SB pipe 1.15.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.15.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
+    <link rel="up" title="sbpipe.pipeline package" href="sbpipe.pipeline.html" />
+    <link rel="next" title="sbpipe.pipeline.sensitivity package" href="sbpipe.pipeline.sensitivity.html" />
+    <link rel="prev" title="sbpipe.pipeline.double_param_scan package" href="sbpipe.pipeline.double_param_scan.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sbpipe.pipeline.sensitivity.html" title="sbpipe.pipeline.sensitivity package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sbpipe.pipeline.double_param_scan.html" title="sbpipe.pipeline.double_param_scan package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="sbpipe.pipeline.html" accesskey="U">sbpipe.pipeline package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sbpipe-pipeline-param-estim-package">
+<h1>sbpipe.pipeline.param_estim package<a class="headerlink" href="#sbpipe-pipeline-param-estim-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-sbpipe.pipeline.param_estim.collect_results">
+<span id="sbpipe-pipeline-param-estim-collect-results-module"></span><h2>sbpipe.pipeline.param_estim.collect_results module<a class="headerlink" href="#module-sbpipe.pipeline.param_estim.collect_results" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.get_parameter_names_list">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">get_parameter_names_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.get_parameter_names_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of parameter names from filein</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a Copasi parameter estimation report file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.retrieve_all_estimates">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">retrieve_all_estimates</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.retrieve_all_estimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect all the parameter estimates from the Copasi parameter estimation report. Results 
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.retrieve_final_estimates">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">retrieve_final_estimates</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.retrieve_final_estimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the final parameter estimates from the Copasi parameter estimation report. Results 
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.retrieve_input_files">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">retrieve_input_files</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.retrieve_input_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the input files in a path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; the path containing the input files to retrieve</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of input files</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.write_all_estimates">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">write_all_estimates</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.write_all_estimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all the estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
+<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.write_final_estimates">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">write_final_estimates</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.write_final_estimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the final estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
+<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.pipeline.param_estim.collect_results.write_parameter_names">
+<code class="descclassname">sbpipe.pipeline.param_estim.collect_results.</code><code class="descname">write_parameter_names</code><span class="sig-paren">(</span><em>colNames</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.collect_results.write_parameter_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the list of parameter names to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colNames</strong> &#8211; the list of parameter names</li>
+<li><strong>path_out</strong> &#8211; the path to store filename_out</li>
+<li><strong>filename_out</strong> &#8211; the output file to store the parameter names</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.pipeline.param_estim.param_estim">
+<span id="sbpipe-pipeline-param-estim-param-estim-module"></span><h2>sbpipe.pipeline.param_estim.param_estim module<a class="headerlink" href="#module-sbpipe.pipeline.param_estim.param_estim" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim">
+<em class="property">class </em><code class="descclassname">sbpipe.pipeline.param_estim.param_estim.</code><code class="descname">ParamEstim</code><span class="sig-paren">(</span><em>data_folder='Data'</em>, <em>models_folder='Models'</em>, <em>working_folder='Working_Folder'</em>, <em>sim_data_folder='param_estim_data'</em>, <em>sim_plots_folder='param_estim_plots'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sbpipe.pipeline.html#sbpipe.pipeline.pipeline.Pipeline" title="sbpipe.pipeline.pipeline.Pipeline"><code class="xref py py-class docutils literal"><span class="pre">sbpipe.pipeline.pipeline.Pipeline</span></code></a></p>
+<p>This module provides the user with a complete pipeline of scripts for running
+model parameter estimations</p>
+<dl class="classmethod">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim.analyse_data">
+<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>fileout_final_estims</em>, <em>fileout_all_estims</em>, <em>fileout_param_estim_details</em>, <em>fileout_param_estim_summary</em>, <em>sim_plots_dir</em>, <em>best_fits_percent</em>, <em>data_point_num</em>, <em>plot_2d_66cl_corr=False</em>, <em>plot_2d_95cl_corr=False</em>, <em>plot_2d_99cl_corr=False</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim.analyse_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The second pipeline step: data analysis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model name</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the simulation data</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>fileout_final_estims</strong> &#8211; the name of the file containing final parameter sets with Chi^2</li>
+<li><strong>fileout_all_estims</strong> &#8211; the name of the file containing all the parameter sets with Chi^2</li>
+<li><strong>fileout_param_estim_details</strong> &#8211; the name of the file containing the detailed statistics for the estimated parameters</li>
+<li><strong>fileout_param_estim_summary</strong> &#8211; the name of the file containing the summary for the parameter estimation</li>
+<li><strong>sim_plots_dir</strong> &#8211; the directory of the simulation plots</li>
+<li><strong>best_fits_percent</strong> &#8211; the percent to consider for the best fits</li>
+<li><strong>data_point_num</strong> &#8211; the number of data points</li>
+<li><strong>plot_2d_66cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 66% should be plotted</li>
+<li><strong>plot_2d_95cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 95% should be plotted</li>
+<li><strong>plot_2d_99cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 99% should be plotted</li>
+<li><strong>logspace</strong> &#8211; True if parameters should be plotted in log space</li>
+<li><strong>scientific_notation</strong> &#8211; True if axis labels should be plotted in scientific notation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim.generate_data">
+<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim.generate_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first pipeline step: data generation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>cluster_type</strong> &#8211; pp for parallel python, lsf for load sharing facility, sge for sun grid engine</li>
+<li><strong>pp_cpus</strong> &#8211; the number of cpu for parallel python</li>
+<li><strong>nfits</strong> &#8211; the number of fits to perform</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>sim_data_dir</strong> &#8211; the directory containing the simulation data sets</li>
+<li><strong>updated_models_dir</strong> &#8211; the directory containing the models with updated parameters for
+each estimation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim.generate_report">
+<em class="property">classmethod </em><code class="descname">generate_report</code><span class="sig-paren">(</span><em>model</em>, <em>outputdir</em>, <em>sim_plots_folder</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim.generate_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>The third pipeline step: report generation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model name</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the report</li>
+<li><strong>sim_plots_folder</strong> &#8211; the folder containing the plots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim.read_configuration">
+<code class="descname">read_configuration</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim.read_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sbpipe.pipeline.param_estim.param_estim.ParamEstim.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pipeline.param_estim.param_estim.ParamEstim.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.pipeline.param_estim">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sbpipe.pipeline.param_estim" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">sbpipe.pipeline.param_estim package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-sbpipe.pipeline.param_estim.collect_results">sbpipe.pipeline.param_estim.collect_results module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.pipeline.param_estim.param_estim">sbpipe.pipeline.param_estim.param_estim module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.pipeline.param_estim">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sbpipe.pipeline.double_param_scan.html"
+                        title="previous chapter">sbpipe.pipeline.double_param_scan package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sbpipe.pipeline.sensitivity.html"
+                        title="next chapter">sbpipe.pipeline.sensitivity package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source_code/sbpipe.pipeline.param_estim.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sbpipe.pipeline.sensitivity.html" title="sbpipe.pipeline.sensitivity package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sbpipe.pipeline.double_param_scan.html" title="sbpipe.pipeline.double_param_scan package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="sbpipe.pipeline.html" >sbpipe.pipeline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

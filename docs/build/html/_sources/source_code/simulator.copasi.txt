@@ -1,0 +1,46 @@
+simulator.copasi package
+========================
+
+Submodules
+----------
+
+simulator.copasi.copasi module
+------------------------------
+
+.. automodule:: simulator.copasi.copasi
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+simulator.copasi.copasi_parser module
+-------------------------------------
+
+.. automodule:: simulator.copasi.copasi_parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+simulator.copasi.copasi_utils module
+------------------------------------
+
+.. automodule:: simulator.copasi.copasi_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+simulator.copasi.randomise_parameters module
+--------------------------------------------
+
+.. automodule:: simulator.copasi.randomise_parameters
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: simulator.copasi
+    :members:
+    :undoc-members:
+    :show-inheritance:

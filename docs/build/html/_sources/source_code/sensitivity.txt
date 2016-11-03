@@ -1,5 +1,20 @@
-sensitivity module
-==================
+sensitivity package
+===================
+
+Submodules
+----------
+
+sensitivity.sensitivity module
+------------------------------
+
+.. automodule:: sensitivity.sensitivity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
 
 .. automodule:: sensitivity
     :members:

@@ -22,8 +22,8 @@ Introduction
 
 This package contains a collection of pipelines for dynamic modelling of
 biological systems. It aims to automate common processes and speed up
-productivity for tasks such as model simulation, single and double
-parameter scan, and parameter estimation.
+productivity for tasks such as model simulation, single/double parameter
+scan, and parameter estimation.
 
 Requirements
 ~~~~~~~~~~~~
@@ -117,15 +117,15 @@ command:
 At this stage, Python, R, Copasi, and (optionally) LaTeX should be
 installed correctly. SB pipe requires the configuration of an
 environment variable (``$SBPIPE``) which must also be added in the
-``$HOME``/.bashrc file. The package source files also need to be added
-to ``$PATH``. Users need to add the following lines to their
+``$HOME``/.bashrc file. The package also needs to be added to ``$PATH``.
+To do so, users need to add the following lines to their
 ``$HOME``/.bashrc file:
 
 ::
 
     # SBPIPE
     export SBPIPE=/path/to/sbpipe
-    export PATH=$PATH:$SBPIPE/sbpipe
+    export PATH=$PATH:$SBPIPE/scripts
 
 Now you should reload the .bashrc file to make the previous change
 effective:
@@ -192,7 +192,7 @@ Therefore, the following environment variables must also be added:
 ::
 
     SBPIPE=\path\to\sbpipe
-    PATH=[previous paths];%SBPIPE%\sbpipe
+    PATH=[previous paths];%SBPIPE%\scripts
 
 \*\* NOTE for Cygwin: \*\* Environment variables can also be configured
 directly within the .bashrc file in cygwin/home/USERNAME/. In the
@@ -214,7 +214,7 @@ beginning of this file, users should place:
 
     # SBPIPE
     export SBPIPE=/path/to/sbpipe
-    export PATH=$PATH:$SBPIPE/sbpipe
+    export PATH=$PATH:$SBPIPE/scripts
 
 After configuring the environment variables directly or internally in
 Cygwin, the next step is to install Python and R packages used by SB
@@ -252,7 +252,7 @@ by running the following commands inside the SB pipe folder:
 
 ::
 
-    $ cd tests
+    $ cd $SBPIPE/tests
     $ ./test_suite.py
 
 How to use SB pipe
@@ -377,7 +377,7 @@ These files are INI files and are therefore structured as follows:
 
 In SB pipe each pipeline executes three tasks: data generation, data
 analysis, and report generation. Each task depends on the previous one.
-This choice allows user to analyse the same data without having to
+This choice allows users to analyse the same data without having to
 generate it every time, or to skip the report generation if not wanted.
 Assuming that the configuration files are placed in the Working\_Folder
 of a certain project, examples are given as follow:

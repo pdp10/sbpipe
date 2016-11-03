@@ -116,11 +116,10 @@ Package structure
 -----------------
 
 This section presents the structure of the SB pipe package. The root of
-the project contains general management scripts for cleaning the package
-(clean\_pacakge.py), installing Python and R dependencies
-(install\_pydeps.py and install\_rdeps.r), and installing SB pipe
-(setup.py). Additionally, the logging configuration file
-(logging\_config.ini) is also at this level.
+the project contains general management scripts for installing Python
+and R dependencies (install\_pydeps.py and install\_rdeps.r), and
+installing SB pipe (setup.py). Additionally, the logging configuration
+file (logging\_config.ini) is also at this level.
 
 In order to automatically compile and run the test suite, Travis-CI is
 used and configured accordingly (.travis.yml).
@@ -130,27 +129,31 @@ The project is structured as follows:
 ::
 
     sbpipe:
-      | - docs
-      | - sbpipe
-            | - pipelines
+      | - docs/
+      | - sbpipe/
+            | - pipeline
+            | - R
+            | - report
+            | - simulator
             | - utils
-      | - tests
+      | - scripts/
+      | - tests/
 
 These folders will be discussed in the next sections. In SB pipe, Python
 is the project main language. Instead, R is essentially used for
-computing statistics within the *data analysis tasks* (see section
-configuration file in User manual) and for generating plots. This choice
-allows users to run these scripts independently of SB pipe if needed
-using an R environment like Rstudio. This can be convenient if further
-data analysis are needed or plots need to be annotated or edited.
+computing statistics (see section configuration file in the user manual)
+and for generating plots. This choice allows users to run these scripts
+independently of SB pipe if needed using an R environment like Rstudio.
+This can be convenient if further data analysis are needed or plots need
+to be annotated or edited.
 
 docs
 ~~~~
 
-The folder *docs/* contains the documentation for this project. The user
-and developer manuals are contained inside the subfolder *source*. In
-order to generate the complete documentation for SB pipe, the following
-packages must be installed:
+The folder ``docs/`` contains the documentation for this project. The
+user and developer manuals in markdown format are contained in
+``docs/source``. In order to generate the complete documentation for SB
+pipe, the following packages must be installed:
 
 -  python-sphinx
 -  pandoc
@@ -165,96 +168,133 @@ To generate the source code documentation:
 
 ::
 
+    $ cd $SBPIPE/docs
     $ ./gen_doc.sh
 
 To clean the documentation:
 
 ::
 
-    $ ./clean_doc.sh
+    $ cd $SBPIPE/docs
+    $ ./cleanup_doc.sh
 
 If new folders containing new Python modules are added to the project,
-it is necessary to add these new pahts to the sys.path in
-*source/conf.py* and to the ``sphinx-apidoc`` command in *gen\_doc.sh*.
-These additions are necessary to port Python source code documentation
-to ``.rst`` files, so that Sphinx is able to generate the documentation.
+it is necessary to add these new paths to the sys.path in
+``docs/source/conf.py``. A corresponding ``sphinx-apidoc`` command for
+the new paths must also be added in ``docs/gen_doc.sh``. These additions
+are necessary to extract Python source code documentation to .rst files.
 
 sbpipe
 ~~~~~~
 
-This folder contains the main script for running SB pipe
-(run\_sbpipe.py). This script is an interface for the project.
+This folder contains the source code of the project SB pipe. At this
+level a file called ``__main__.py`` enables users to run SB pipe as a
+Python module via the command:
 
-pipelines
-^^^^^^^^^
+::
 
-The folder */sbpipe/pipelines/* contains the following pipelines within
-folders:
+    $ python sbpipe
 
--  *create\_project*: creates a new project
--  *simulate*: simulates a model deterministically or stochastically
-   using Copasi (this must be configured first), generate plots and
+The following subsections describe sbpipe subpackages.
+
+pipeline
+^^^^^^^^
+
+The subpackage ``sbpipe.pipeline`` contains the class ``Pipeline`` in
+the file ``pipeline.py``. This class represents a generic pipeline which
+is extended by SB pipe pipelines. These are organised in the following
+subpackages:
+
+-  ``create_project``: creates a new project
+-  ``simulate``: simulates a model deterministically or stochastically,
+   generate plots and report;
+-  ``single_param_scan``: scan a model parameter, generate plots and
    report;
--  *single\_param\_scan*: runs Copasi (this must be configured first),
-   generate plots and report;
--  *double\_param\_scan*: runs Copasi (this must be configured first),
-   generate plots and report;
--  *param\_estim*: generate a fits sequence using Copasi (this must be
-   configured first), generate tables for statistics.
--  *simulator*: a collection of classes used to invoke simulators for
-   each pipeline. Currently, Copasi.py is the only class implemented.
-   This class invokes CopasiSE.
+-  ``double_param_scan``: scan two model parameters, generate plots and
+   report;
+-  ``param_estim``: generate a fits sequence, tables of statistics and
+   plots.
 
-These pipelines are invoked directly via the script
-*sbpipe/run\_sbpipe.py*. Each pipeline extends the class *Pipeline*,
-which represents a generic and abstract pipeline. Each pipeline must
-implement the following methods of *Pipeline*:
+All these pipelines are invoked directly via the script
+``$SBPIPE/scripts/run_sbpipe.py``. Each SB pipe pipeline extends the
+class ``Pipeline`` and therefore must implement the following methods:
 
 ::
 
     def run(self, config_file)
     def read_configuration(self, lines)
 
-The method *run()* contains the procedure to execute for a specific
-configuration file. The method *read\_configuration()* is needed for
-reading the options required by the pipeline to execute. The class
-*Pipeline* implements the INI parser and returns the configuration file
-as a list of lines for each pipeline.
+The former contains the procedure to execute an INI configuration file.
+The latter parses the pipeline options. The ``Pipeline`` class
+implements the INI parser which is therefore available to each pipeline.
+The INI parser returns the configuration file as a list of lines.
 
-Each simulators (as of 2016, just ``Copasi``) extends the class
-``Simulator``. The name of the simulator is retrieved from the
-configuration file and an instance for the corresponding class is
-dynamically generated. Therefore, each pipeline is not coupled with
-specific subclasses of ``Simulator``.
+R
+^
+
+This folder contains a collection of R utility methods for plotting and
+generating statistics. These utilities are used by the pipelines during
+data analysis.
+
+report
+^^^^^^
+
+The subpackage ``sbpipe.report`` contains Python modules for generating
+LaTeX/PDF reports.
+
+simulator
+^^^^^^^^^
+
+The subpackage ``sbpipe.simulator`` contains the class ``Simulator`` in
+the file ``simulator.py``. This is a generic simulator interface used by
+the pipelines in SB pipe. This mechanism uncouples pipelines from
+specific simulators which can therefore be configured in each pipeline
+configuration file. As of 2016, the only available simulator is
+``Copasi`` and this is available in the package
+``sbpipe.simulator.copasi``. This implements all the method of the class
+``Simulator``.
+
+Pipelines can dynamically load a simulator via the class method
+``Pipeline.get_simulator_object(simulator)``. This method instantiates
+an object of subtype ``Simulator`` by refractoring the simulator name as
+parameter. A simulator class (e.g. ``Copasi``) must have the same name
+of their package (e.g. ``copasi``) but start with an upper case letter.
+A simulator class must be contained in a file with the same name of
+their package (e.g. ``copasi``). Therefore, for each simulator package,
+exactly one simulator class can be instantiated.
+
+Simulators can be configured in the configuration file using the field
+``simulator``.
 
 utils
 ^^^^^
 
-The folder *sbpipe/utils/* contains the following structure:
-
--  *python*: a collection of python utils.
--  *R*: a collection of R utils (plots and statistics).
+The subpackage ``sbpipe.utils`` contains a collection of Python utility
+modules which are used by sbpipe.
 
 tests
 ~~~~~
 
-The folder *tests/* contains the script *run\_tests.py* to run a test
-suite. It should be used for testing the correct installation of SB pipe
-dependencies as well as reference for configuring a project before
-running any pipeline. Projects inside the folder tests/ have the SB pipe
-project structure:
+The package ``tests`` contains the script ``test_suite.py`` which
+executes all sbpipe tests. It should be used for testing the correct
+installation of SB pipe dependencies as well as reference for
+configuring a project before running any pipeline. Projects inside the
+folder ``$SBPIPE/tests/`` have the SB pipe project structure:
 
--  *Data*: (e.g. training / testing data sets for the model);
--  *Model*: (e.g. Copasi models, datasets directly used by Copasi
-   models);
--  *Working\_Folder*: (e.g. pipelines configurations and parameter
+-  ``Data``: (e.g. training / testing data sets for the model);
+-  ``Model``: (e.g. models, Copasi models, datasets directly used by
+   Copasi models);
+-  ``Working_Folder``: (e.g. pipelines configurations and parameter
    estimation results, time course, parameter scan, etc).
 
 Examples of configuration files (\*.conf) can be found in
 $SBPIPE/tests/insulin\_receptor/Working\_Folder/.
 
-Travis-CI runs SB pipe tests using ``nosetests``. Please see .travis.yml
-for detail.
+As of 2016, the repository for SB pipe source code is ``github.com``.
+This is configured to run Travis-CI every time a ``git push`` into the
+repository is performed. The exact details of execution of Travis-CI can
+be found in Travis-CI configuration file ``$SBPIPE/.travis.yml``.
+Importantly, Travis-CI runs all SB pipe tests using ``nosetests``.
 
 Miscellaneous of useful commands
 --------------------------------
@@ -266,23 +306,25 @@ Git
 
 ::
 
-    $ git clone https://YOURUSERNAME@server/YOURUSERNAME/sbpipe.git   
-    # to clone the master
-    $ git checkout -b develop origin/develop                           
-    # to get the develop branch
+    # clone master
+    $ git clone https://github.com/pdp10/sbpipe.git
+    # get develop branch
+    $ git checkout -b develop origin/develop
+    # to get all the other branches
     $ for b in `git branch -r | grep -v -- '->'`; do git branch 
-    --track ${b##origin/} $b; done     # to get all the other branches
-    $ git fetch --all    # to update all the branches with remote
+    --track ${b##origin/} $b; done
+    # to update all the branches with remote
+    $ git fetch --all
 
 **Update**
 
 ::
 
-    $ git pull [--rebase] origin BRANCH  # ONLY use --rebase for private 
-    branches. Never use it for shared branches otherwise it breaks the 
-    history. --rebase moves your commits ahead. I think for shared 
-    branches, you should use `git fetch && git merge --no-ff`. 
-    **[FOR NOW, DON'T USE REBASE BEFORE AGREED]**.
+    # ONLY use --rebase for private branches. Never use it for shared 
+    # branches otherwise it breaks the history. --rebase moves your 
+    # commits ahead. For shared branches, you should use 
+    # `git fetch && git merge --no-ff`
+    $ git pull [--rebase] origin BRANCH 
 
 **File system**
 
@@ -310,8 +352,8 @@ Git
 
 ::
 
-    git branch -m old_branch new_branch         # Rename branch locally    
-    git push origin :old_branch                 # Delete the old branch    
+    git branch -m old_branch new_branch         # Rename branch locally
+    git push origin :old_branch                 # Delete the old branch
     git push --set-upstream origin new_branch   # Push the new branch, set 
     local branch to track the new remote
 
