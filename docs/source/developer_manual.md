@@ -196,6 +196,10 @@ Simulators can be configured in the configuration file using the field `simulato
 The subpackage `sbpipe.utils` contains a collection of Python utility modules which are used by sbpipe. 
 
 
+### scripts
+The folder `scripts` contains the scripts: `cleanup_sbpipe.py` and `run_sbpipe.py`. `run_sbpipe.py` is the main script and is used to run the pipelines. `cleanup_sbpipe.py` is used for cleaning the package including the test results. 
+
+
 ### tests
 The package `tests` contains the script `test_suite.py` which executes all sbpipe tests. 
 It should be used for testing the correct installation of SB pipe
