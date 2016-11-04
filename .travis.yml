@@ -45,6 +45,5 @@ script:
 #  Use nosetests so that travis output depends on the return value from the test_suite
 # it would be nice to run tests/test_suite.py , but even if the full name of the conf files is passed, 
 # nosetest return ERROR for each test (even though these actually work correctly..)
-  - cd tests/insulin_receptor/Working_Folder
-  - nosetests -v -s test_*.py
-#  - python tests/test_suite.py
+  - cd tests
+  - nosetests -v -s test_suite.py
