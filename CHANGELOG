@@ -1,30 +1,37 @@
-sb_pipe (GNU Lesser General Public License v3)
+sbpipe (GNU Lesser General Public License v3)
 Copyright 2010-2018 Piero Dalle Pezze and Nicolas Le Novère
 
-Website: https://pdp10.github.io/sb_pipe/
+Website: https://pdp10.github.io/sbpipe/
 
 
 ### CHANGELOG
 
-v1.25.0
+v1.28.0
 
+- source code uses PEP8 standard
+- source code cleaning and reformatting.
+- improved source code by eliminating some warning highlighted by PyCharm.
 - moved script core functions within sbpipe package.
-- the copasi package is now a dynamically loaded simulator. Users can choose the simulator to use in the configuration file.
+- the copasi package is now a dynamically loaded simulator. Users can choose the simulator
+to use in the configuration file.
 - simulators are loaded dynamically. Uncoupling between simulators and pipelines.
 - separation of code for generating data from pipeline package. 
 - improved source code modularisation for the whole program.
-- extracted scripts (run_sb_pipe and cleanup_sbpipe) from sbpipe/.
+- extracted scripts (run_sbpipe and cleanup_sbpipe) from sbpipe/.
 - sbpipe supports execution as a Python module (__main__.py).
 - all Python imports are now absolute (in agreement with Python 3). 
 - improvements to program prints
 - project renamed sbpipe
 - added AIC, AICc, BIC to the parameter estimation summary table.
-- randomisation of initial parameter values for parameter estimation is now only performed by Copasi.
+- randomisation of initial parameter values for parameter estimation is now only
+performed by Copasi.
 - added plots comparing model simulation vs experimental data in simulate pipeline.
 - improving plot margins for simulate and single parameter scan pipelines.
 - source code refractoring in parameter estimation analysis task.
-- fixed a bug in parameter estimation pipeline related to the filtering of confidence intervals from the complete data set.
-- added ratios in parameter estimation summaries to investigate the distance between the estimated parameter and its confidence intervals.
+- fixed a bug in parameter estimation pipeline related to the filtering of confidence
+intervals from the complete data set.
+- added ratios in parameter estimation summaries to investigate the distance between the
+estimated parameter and its confidence intervals.
 - plot polishing.
 - separated options for plotting 2d correlations within 66%, 95%, or 99% confidence intervals.
 - added 99% confidence intervals parameter estimation plots. 
@@ -71,23 +78,23 @@ v1.0.0 (Mercury)
 - cleaned pipeline output.
 - added documentation for configuring Copasi.
 - removed part of the deprecated code.
-- internalised code for each pipeline; run_sb_pipe.py is the main executor for sb_pipe.
+- internalised code for each pipeline; run_sbpipe.py is the main executor for sbpipe.
 - bug fixes.
 - models can now be simulated in parallel using PP, SGE, or LSF.
 - separation of parallel code from param_estim__copasi pipeline. It is generic now.
-- sb_pipe should now be platform independent (untested yet).
+- sbpipe should now be platform independent (untested yet).
 - removed unused dependencies.
 - better separation of test cases.
 - pipeline steps can be executed separately.
 - pipeline restructuring (separation of the steps: generate data, analyse data, and generate report).
 - model parameters can now be estimated in parallel using PP, SGE, or LSF.
 - removed old deprecated code.
-- restructuring source code in the lib/ folder (now sb_pipe/pipelines and sb_pipe/utils).
+- restructuring source code in the lib/ folder (now sbpipe/pipelines and sbpipe/utils).
 - finalised skeleton for sb_param_estim pipeline.
 - added parameter correlation plots for sb_param_estim pipeline.
 - ported R gplots code to ggplot in sb_param_scan__single_perturb pipeline.
 - ported R gplots code to ggplot in sb_simulate pipeline.
-- sb_pipe is now a Python package.
+- sbpipe is now a Python package.
 - added documentation (readme, developer_guide).
 - added unit tests and setup.py. 
 - ported Bash / sed / grep and cut code to Python in sb_param_estim pipeline.
