@@ -34,8 +34,7 @@ def which(cmd_name):
     """
     for path in os.environ["PATH"].split(os.pathsep):
         if os.path.exists(os.path.join(path, cmd_name)):
-                return os.path.join(path, cmd_name)
+            return os.path.join(path, cmd_name)
         if os.path.exists(os.path.join(path, cmd_name + '.exe')):
-                return os.path.join(path, cmd_name + '.exe')            
+            return os.path.join(path, cmd_name + '.exe')
     return None
-

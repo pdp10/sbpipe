@@ -131,10 +131,10 @@ The project is structured as follows:
     sbpipe:
       | - docs/
       | - sbpipe/
-            | - pipeline
+            | - pl
             | - R
             | - report
-            | - simulator
+            | - simul
             | - utils
       | - scripts/
       | - tests/
@@ -178,6 +178,11 @@ To clean the documentation:
     $ cd $SBPIPE/docs
     $ ./cleanup_doc.sh
 
+The complete source code documentation for this project is stored in
+``docs/build/html`` (html format) and ``docs/build/latex`` (LaTeX/PDF
+format). A shortcut to the documentation in html format is available at
+the page ``docs/index.html``
+
 sbpipe
 ~~~~~~
 
@@ -189,34 +194,42 @@ Python module via the command:
 
     $ python sbpipe
 
+Alternatively ``sbpipe`` can be imported as shown below:
+
+::
+
+    $ cd $SBPIPE
+    $ python
+    # Python environment
+    >>> import sbpipe.main as sb
+    >>> sb.version()
+    '1.25.0 '
+
 The following subsections describe sbpipe subpackages.
 
-pipeline
-^^^^^^^^
+pl
+^^
 
-The subpackage ``sbpipe.pipeline`` contains the class ``Pipeline`` in
-the file ``pipeline.py``. This class represents a generic pipeline which
-is extended by SB pipe pipelines. These are organised in the following
+The subpackage ``sbpipe.pl`` contains the class ``Pipeline`` in the file
+``pipeline.py``. This class represents a generic pipeline which is
+extended by SB pipe pipelines. These are organised in the following
 subpackages:
 
--  ``create_project``: creates a new project
--  ``simulate``: simulates a model deterministically or stochastically,
+-  ``create``: creates a new project
+-  ``ps1``: scan a model parameter, generate plots and report;
+-  ``ps2``: scan two model parameters, generate plots and report;
+-  ``pe``: generate a fits sequence, tables of statistics and plots.
+-  ``sim``: simulates a model deterministically or stochastically,
    generate plots and report;
--  ``single_param_scan``: scan a model parameter, generate plots and
-   report;
--  ``double_param_scan``: scan two model parameters, generate plots and
-   report;
--  ``param_estim``: generate a fits sequence, tables of statistics and
-   plots.
 
-All these pipelines are invoked directly via the script
+All these pipelines can be invoked directly via the script
 ``$SBPIPE/scripts/run_sbpipe.py``. Each SB pipe pipeline extends the
 class ``Pipeline`` and therefore must implement the following methods:
 
 ::
 
     def run(self, config_file)
-    def read_configuration(self, lines)
+    def read_config(self, lines)
 
 The former contains the procedure to execute an INI configuration file.
 The latter parses the pipeline options. The ``Pipeline`` class
@@ -236,29 +249,26 @@ report
 The subpackage ``sbpipe.report`` contains Python modules for generating
 LaTeX/PDF reports.
 
-simulator
-^^^^^^^^^
+simul
+^^^^^
 
-The subpackage ``sbpipe.simulator`` contains the class ``Simulator`` in
-the file ``simulator.py``. This is a generic simulator interface used by
-the pipelines in SB pipe. This mechanism uncouples pipelines from
-specific simulators which can therefore be configured in each pipeline
+The subpackage ``sbpipe.simul`` contains the class ``Simul`` in the file
+``simul.py``. This is a generic simulator interface used by the
+pipelines in SB pipe. This mechanism uncouples pipelines from specific
+simulators which can therefore be configured in each pipeline
 configuration file. As of 2016, the only available simulator is
-``Copasi`` and this is available in the package
-``sbpipe.simulator.copasi``. This implements all the method of the class
-``Simulator``.
+``Copasi`` and this is available in the package ``sbpipe.simul.copasi``.
+This implements all the method of the class ``Simul``.
 
 Pipelines can dynamically load a simulator via the class method
-``Pipeline.get_simulator_object(simulator)``. This method instantiates
-an object of subtype ``Simulator`` by refractoring the simulator name as
+``Pipeline.get_simul_obj(simulator)``. This method instantiates an
+object of subtype ``Simul`` by refractoring the simulator name as
 parameter. A simulator class (e.g. ``Copasi``) must have the same name
 of their package (e.g. ``copasi``) but start with an upper case letter.
 A simulator class must be contained in a file with the same name of
 their package (e.g. ``copasi``). Therefore, for each simulator package,
-exactly one simulator class can be instantiated.
-
-Simulators can be configured in the configuration file using the field
-``simulator``.
+exactly one simulator class can be instantiated. Simulators can be
+configured in the configuration file using the field ``simulator``.
 
 utils
 ^^^^^
@@ -284,7 +294,7 @@ configuring a project before running any pipeline. Projects inside the
 folder ``$SBPIPE/tests/`` have the SB pipe project structure:
 
 -  ``Data``: (e.g. training / testing data sets for the model);
--  ``Model``: (e.g. models, Copasi models, datasets directly used by
+-  ``Model``: (e.g. models, Copasi models, data sets directly used by
    Copasi models);
 -  ``Working_Folder``: (e.g. pipelines configurations and parameter
    estimation results, time course, parameter scan, etc).

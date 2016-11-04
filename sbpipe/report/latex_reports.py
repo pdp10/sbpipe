@@ -21,20 +21,16 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
-
-
 # Utilities to generate Latex code. These functions are used for reporting purposes.
 
 import logging
 import os
 import re
 import subprocess
-import sys
+from sbpipe.utils.re_utils import nat_sort_key
+from sbpipe.sb_config import which
 
 logger = logging.getLogger('sbpipe')
-
-from sbpipe.utils.re_utils import natural_sort_key
-from sbpipe.sb_config import which
 
 
 def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract="Generic report."):
@@ -51,17 +47,18 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
         "\\usepackage[english]{babel}\n"
         "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
         "\\usepackage{graphicx}\n"
-        "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n"
-        "\\author{Generated with SB pipe} \n"
-        "\\title{" + title + "}\n"
-        "\\date{\\today}\n"
-        "\\begin{document}\n"
-        "\\maketitle\n"
-        "\\begin{abstract}\n" + abstract + " \n\\end{abstract}\n"
+        "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]"
+                                                                                                   "{hyperref}\n"
+                                                                                                   "\\author{Generated with SB pipe} \n"
+                                                                                                   "\\title{" + title + "}\n"
+                                                                                                                        "\\date{\\today}\n"
+                                                                                                                        "\\begin{document}\n"
+                                                                                                                        "\\maketitle\n"
+                                                                                                                        "\\begin{abstract}\n" + abstract + " \n\\end{abstract}\n"
     )
 
 
-def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+def latex_report_sps(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
     """
     Generate a report for a single parameter scan task.
     
@@ -97,8 +94,8 @@ def latex_report_single_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix, model_noext,
-                                   scanned_par1, scanned_par2):
+def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
+                     scanned_par1, scanned_par2):
     """
     Generate a report for a double parameter scan task.
     
@@ -107,8 +104,8 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
     :param filename_prefix: the prefix for the LaTeX file
     :param model_noext: the model name
     :param scanned_par1: the 1st scanned parameter
-    :param scanned_par1: the 2nd scanned parameter
-    """    
+    :param scanned_par2: the 2nd scanned parameter
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         scanned_par1_name = scanned_par1[0:].replace("_", " ")
@@ -126,8 +123,7 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
-        folder.sort(key=natural_sort_key)
-        curr_readout = ''
+        folder.sort(key=nat_sort_key)
         prev_readout = ''
         for infile in folder:
             if infile.find(model_noext) != -1:
@@ -149,7 +145,7 @@ def latex_report_double_param_scan(outputdir, sim_plots_folder, filename_prefix,
         file_out.write("\\end{document}\n")
 
 
-def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a time course task.
     
@@ -157,7 +153,7 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
     :param sim_plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
-    """     
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         logger.info(model_name)
@@ -173,13 +169,13 @@ def latex_report_simulate(outputdir, sim_plots_folder, model_noext, filename_pre
         folder.sort()
         for infile in folder:
             if infile.find(model_noext) != -1:
-                if (infile.find('_sd_n_ci95_') != -1):
+                if infile.find('_sd_n_ci95_') != -1:
                     logger.info(infile)
                     file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
         file_out.write("\\end{document}\n")
 
 
-def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a parameter estimation task.
     
@@ -223,7 +219,7 @@ def latex_report_param_estim(outputdir, sim_plots_folder, model_noext, filename_
         if begin_figure:
             file_out.write("\\end{figure}\n")
         file_out.write("\\end{document}\n")
-    
+
 
 def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, caption=False):
     """
@@ -288,10 +284,7 @@ def pdf_report(outputdir, filename):
     currdir = os.getcwd()
     os.chdir(outputdir)
     logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename],
-                         stdout=subprocess.PIPE)
-    p.communicate()[0]
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename],
-                         stdout=subprocess.PIPE)
+    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
     p.communicate()[0]
     os.chdir(currdir)

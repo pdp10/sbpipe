@@ -2,11 +2,13 @@
 
 Copyright © 2015-2018, Piero Dalle Pezze and Nicolas Le Novère.
 
-SB pipe and its documentation are released under the GNU Lesser General Public License v3 (LGPLv3). 
-A copy of this license is provided with the package and can also be found here:
+SB pipe and its documentation are released under the GNU Lesser General 
+Public License v3 (LGPLv3). A copy of this license is provided with the 
+package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
 
-Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
+Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and 
+Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
@@ -16,9 +18,10 @@ Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.co
 
 
 ## Introduction
-This package contains a collection of pipelines for dynamic modelling of biological systems. 
-It aims to automate common processes and speed up productivity for tasks such as model simulation, 
-single/double parameter scan, and parameter estimation. 
+This package contains a collection of pipelines for dynamic modelling of 
+biological systems. It aims to automate common processes and speed up 
+productivity for tasks such as model simulation, single/double parameter 
+scan, and parameter estimation. 
 
 
 ### Requirements
@@ -29,27 +32,35 @@ In order to use SB pipe, the following software must be installed:
 - R 3.2.3+ - [https://cran.r-project.org/](https://cran.r-project.org/)
 
 
-If LaTeX/PDF reports are also desired, the following software must also be installed:
+If LaTeX/PDF reports are also desired, the following software must also 
+be installed:
 
 - LaTeX 2013
 
-Depending on your operating system, LaTeX can be downloaded at these websites: 
+Depending on your operating system, LaTeX can be downloaded at these 
+websites: 
 
 - GNU/Linux: [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
 - Windows: [https://miktex.org/](https://miktex.org/)
 
 
 #### GNU/Linux
-It is advised that users install Python, R and (optionally) LaTeX packages using the package manager of their GNU/Linux distribution. Users need to make sure that the packages `python-pip` and `texlive-latex-base` (only for reports). In most cases, the installation via the package manager will automatically configure the correct environment variables. 
+It is advised that users install Python, R and (optionally) LaTeX packages 
+using the package manager of their GNU/Linux distribution. Users need to 
+make sure that the packages `python-pip` and `texlive-latex-base` (only 
+for reports). In most cases, the installation via the package manager 
+will automatically configure the correct environment variables. 
 
-If a local installation of Python, R, or LaTeX is needed, users need to add the following environment variables to `$PATH` in their `$HOME`/.bashrc file as follows:
+If a local installation of Python, R, or LaTeX is needed, users need to 
+add the following environment variables to `$PATH` in their `$HOME`/.bashrc 
+file as follows:
 
 ```
 # Path to R
 export PATH=$PATH:/path/to/R/binaries/
 
-# Path to Python. Scripts is the folder (if any) containing the Python script `pip`
-# pip must be available via command line.
+# Path to Python. Scripts is the folder (if any) containing the Python 
+# script `pip`. pip must be available via command line.
 export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
 
 # Path to LaTeX
@@ -57,7 +68,8 @@ export PATH=$PATH:/path/to/LaTeX/binaries/
 
 ```
 
-The correct installation of Python, R, and LaTeX can be tested by running the commands: 
+The correct installation of Python, R, and LaTeX can be tested by running 
+the commands: 
 ```
 # If variables were manually exported, reload the .bashrc file
 $ source $HOME/.bashrc
@@ -78,7 +90,9 @@ kpathsea version 6.2.1
 Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 ```
 
-As of 2016, Copasi is not available as a package in GNU/Linux distributions. Users must add the path to Copasi binary files manually editing their GNU/Linux `$HOME`/.bashrc file as follows:
+As of 2016, Copasi is not available as a package in GNU/Linux distributions. 
+Users must add the path to Copasi binary files manually editing their 
+GNU/Linux `$HOME`/.bashrc file as follows:
 
 ```
 # Path to CopasiSE
@@ -93,7 +107,11 @@ $ CopasiSE -h
 COPASI 4.16 (Build 104)
 ```
 
-At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed correctly. SB pipe requires the configuration of an environment variable (`$SBPIPE`) which must also be added in the `$HOME`/.bashrc file. The package also needs to be added to `$PATH`. To do so, users need to add the following lines to their `$HOME`/.bashrc file:
+At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed 
+correctly. SB pipe requires the configuration of the environment variable 
+`$SBPIPE` which must also be added in the `$HOME`/.bashrc file. The 
+package also needs to be added to `$PATH`. To do so, users need to add 
+the following lines to their `$HOME`/.bashrc file:
 
 ```
 # SBPIPE
@@ -109,8 +127,9 @@ $ source $HOME/.bashrc
 ```
 
 
-Before testing the correct installation of SB pipe, users need to install Python and R dependency packages used by SB pipe. Two scripts 
-are provided to perform these tasks automatically. 
+Before testing the correct installation of SB pipe, users need to install 
+Python and R dependency packages used by SB pipe. Two scripts are provided 
+to perform these tasks automatically. 
 
 To install SB pipe Python dependencies on GNU/Linux, run:
 ```
@@ -126,7 +145,11 @@ $ R
 > source('install_rdeps.r')
 ```
 
-If R package dependencies must be compiled, it is worth checking that the following additional packages are installed in your machine: `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, `install_rdeps.r` must be executed again.
+If R package dependencies must be compiled, it is worth checking that 
+the following additional packages are installed in your machine: 
+`build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, 
+`libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, 
+`install_rdeps.r` must be executed again.
 
 The correct installation of SB pipe can be tested by running the command: 
 ```
@@ -140,10 +163,15 @@ Windows users are also strongly advised to install the package:
 
 - Cygwin 2.6.0 [https://www.cygwin.com/](https://www.cygwin.com/)
 
-Cygwin offers a GNU/Linux-like shell. This makes the installation of dependencies easier as this follows the configuration for GNU/Linux users.
+Cygwin offers a GNU/Linux-like shell. This makes the installation of 
+dependencies easier as this follows the configuration for GNU/Linux users.
 
-Windows users may need to edit the `PATH` environment variable so that the binary files for the previous 
-packages (Copasi, Python, R, and (optionally) LaTeX) are correctly found. Specifically for Python, the python scripts `pip.py` and `easy_install.py` are located inside the folder `Scripts` within the Python root directory. The path to this folder must also be added to `PATH`.
+Windows users may need to edit the `PATH` environment variable so that 
+the binary files for the previous packages (Copasi, Python, R, and 
+(optionally) LaTeX) are correctly found. Specifically for Python, the 
+python scripts `pip.py` and `easy_install.py` are located inside the 
+folder `Scripts` within the Python root directory. The path to this folder 
+must also be added to `PATH`.
 
 Therefore, the following environment variables must also be added:
 
@@ -153,8 +181,9 @@ PATH=[previous paths];%SBPIPE%\scripts
 ```
 
 
-** NOTE for Cygwin: **
-Environment variables can also be configured directly within the .bashrc file in cygwin/home/USERNAME/. 
+**NOTE for Cygwin:**
+Environment variables can also be configured directly within the .bashrc 
+file in cygwin/home/USERNAME/. 
 In the beginning of this file, users should place: 
 
 ```
@@ -176,7 +205,9 @@ export PATH=$PATH:$SBPIPE/scripts
 
 ```
 
-After configuring the environment variables directly or internally in Cygwin, the next step is to install Python and R packages used by SB pipe. Two scripts are provided to perform these tasks automatically. 
+After configuring the environment variables directly or internally in 
+Cygwin, the next step is to install Python and R packages used by SB pipe. 
+Two scripts are provided to perform these tasks automatically. 
 
 To install SB pipe Python dependencies using Cygwin on Windows, run:
 ```
@@ -193,15 +224,15 @@ $ R.exe
 ```
 
 
-
 ### Installation
-If desired, SB pipe can be installed in your system. To do so, run the command inside the sbpipe folder: 
+If desired, SB pipe can be installed in your system. To do so, run the 
+command inside the sbpipe folder: 
 ```
 $ cd $SBPIPE
 $ python setup.py install
 ```
-The correct installation of SB pipe and its dependencies can be checked by 
-running the following commands inside the SB pipe folder: 
+The correct installation of SB pipe and its dependencies can be checked 
+by running the following commands inside the SB pipe folder: 
 ```
 $ cd $SBPIPE/tests
 $ ./test_suite.py
@@ -212,29 +243,34 @@ $ ./test_suite.py
 ### Preliminary configuration steps
 
 #### Pipelines using Copasi
-Before using these pipelines, a Copasi model must be configured as follow using CopasiUI:
+Before using these pipelines, a Copasi model must be configured as follow 
+using CopasiUI:
 
-**pipeline: simulate**
+**pipeline: simulation**
 
 - Tick the flag _executable_ in the Time Course Task.
 - Select a report template for the Time Course Task.
-- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but 
+replacing the extension .cps with .csv.
 
-**pipeline: single or double parameter scan**
+**pipelines: single or double parameter scan**
 
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Parameter Scan Task.
-- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but 
+replacing the extension .cps with .csv.
 
-**pipeline: param-estim**
+**pipeline: parameter estimation**
 
 - Tick the flag _executable_ in the Parameter Estimation Task.
 - Select the report template for the Parameter Estimation Task.
-- Save the report in the same folder with the same name as the model but replacing the extension .cps with .csv.
+- Save the report in the same folder with the same name as the model but 
+replacing the extension .cps with .csv.
 
 
 ### Running SB pipe
-SB pipe is executed via the command *run_sbpipe.py*. The syntax for this command and its complete list 
+SB pipe is executed via the command *run_sbpipe.py*. The syntax for this 
+command and its complete list 
 of options can be retrieved by running *run_sbpipe.py -h*. 
 
 As of Sep 2016 the output is as follows:
@@ -271,7 +307,8 @@ For complete documentation, see README.md .
 
 ```
 
-The first step is to create a new project. This can be done with the command:
+The first step is to create a new project. This can be done with the 
+command:
 ```
 $ run_sbpipe.py --create-project project_name
 ```
@@ -283,18 +320,26 @@ project_name/
     | - Models/
     | - Working_Folder/
 ```
-Models must be stored in the Models/ folder. The folder Data/ is meant for collecting experimental data files and analyses in one place. Once the data files for Copasi (e.g. for parameter estimation) are generated, **it is advised** to move them into the Models/ folder so that the Copasi (.cps) file and its associated experimental data files are stored in the same folder. To run SB pipe, users need to create a configuration file 
-for each pipeline they intend to run (see next section). These configuration files should be placed in the Working_Folder/. This folder will eventually contain all the results generated by SB pipe. 
+Models must be stored in the Models/ folder. The folder Data/ is meant 
+for collecting experimental data files and analyses in one place. Once 
+the data files for Copasi (e.g. for parameter estimation) are generated, 
+**it is advised** to move them into the Models/ folder so that the Copasi 
+(.cps) file and its associated experimental data files are stored in the 
+same folder. To run SB pipe, users need to create a configuration file 
+for each pipeline they intend to run (see next section). These configuration 
+files should be placed in the Working_Folder/. This folder will eventually 
+contain all the results generated by SB pipe. 
 
-
-For instance, the pipeline for parameter estimation configured with a certain configuration file can be executed by typing:
+For instance, the pipeline for parameter estimation configured with a 
+certain configuration file can be executed by typing:
 ```
 $ run_sbpipe.py -e my_config_file.conf
 ```
 
 
 ### Pipeline configuration files
-Pipelines are configured using files (here called configuration files). These files are INI files and are therefore structured as follows: 
+Pipelines are configured using files (here called configuration files). 
+These files are INI files and are therefore structured as follows: 
 ```
 [pipeline_name]
 option1=value1
@@ -302,10 +347,14 @@ option2=value2
 ...
 ```
 
-In SB pipe each pipeline executes three tasks: data generation, data analysis, and report generation. Each task depends on the previous one. This choice allows users to analyse the same data without having to generate it every time, or to skip the report generation if not wanted. 
-Assuming that the configuration files are placed in the Working_Folder of a certain project, examples are given as follow: 
+In SB pipe each pipeline executes three tasks: data generation, data 
+analysis, and report generation. Each task depends on the previous one. 
+This choice allows users to analyse the same data without having to 
+generate it every time, or to skip the report generation if not wanted. 
+Assuming that the configuration files are placed in the Working_Folder 
+of a certain project, examples are given as follow: 
 
-**Example 1:** configuration file for the pipeline *simulate*
+**Example 1:** configuration file for the pipeline *simulation*
 ```
 [simulate]
 # True if data should be generated, False otherwise
@@ -339,7 +388,7 @@ xaxis_label=Time [min]
 yaxis_label=Level [a.u.]
 ```
 
-**Example 2:** configuration file for the pipeline *single_param_scan*
+**Example 2:** configuration file for the pipeline *single parameter scan*
 ```
 [single_param_scan]
 # True if data should be generated, False otherwise
@@ -379,7 +428,7 @@ xaxis_label=Time [min]
 yaxis_label=Level [a.u.]
 ```
 
-**Example 3:** configuration file for the pipeline *double_param_scan*
+**Example 3:** configuration file for the pipeline *double parameter scan*
 ```
 [double_param_scan]
 # True if data should be generated, False otherwise
@@ -402,7 +451,7 @@ scanned_par2=IRbetaPercent
 sim_length=10
 ```
 
-**Example 4:** configuration file for the pipeline *param_estim*
+**Example 4:** configuration file for the pipeline *parameter estimation*
 ```
 [param_estim]
 # True if data should be generated, False otherwise
@@ -457,8 +506,9 @@ $SBPIPE/tests/insulin_receptor/Working_Folder/
 
 
 ## Reporting bugs or requesting new features
-SB pipe is a relatively young project and there is a chance that some error occurs. 
-The following mailing list should be used for general questions: 
+SB pipe is a relatively young project and there is a chance that some 
+error occurs. The following mailing list should be used for general 
+questions: 
 ```
 sbpipe AT googlegroups.com
 ```
@@ -469,12 +519,13 @@ the website:
 [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
 
-To help us better identify and reproduce your problem, some technical information 
-is needed. This detail data can be found in SB pipe log files which are stored in ${HOME}/.sbpipe/logs/. When using the mailing list above, it would be worth providing 
-this extra information.
+To help us better identify and reproduce your problem, some technical 
+information is needed. This detail data can be found in SB pipe log files 
+which are stored in ${HOME}/.sbpipe/logs/. When using the mailing list 
+above, it would be worth providing this extra information.
 
-Issues and feature requests can also be notified using the github issue tracking system 
-for SB pipe at the web page: 
+Issues and feature requests can also be notified using the github issue 
+tracking system for SB pipe at the web page: 
 
 [https://github.com/pdp10/sbpipe/issues](https://github.com/pdp10/sbpipe/issues).
 

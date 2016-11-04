@@ -27,7 +27,7 @@
 import re
 
 
-def natural_sort_key(str):
+def nat_sort_key(str):
     """
     The key to sort a list of strings alphanumerically (e.g. "file10" is correctly placed after "file2")
     
@@ -36,4 +36,4 @@ def natural_sort_key(str):
     """
     _nsre = re.compile('([0-9]+)')
     return [int(str) if str.isdigit() else str.lower()
-            for str in re.split(_nsre, str)]   
+            for str in re.split(_nsre, str)]

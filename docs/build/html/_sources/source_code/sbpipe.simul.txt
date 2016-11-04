@@ -1,0 +1,29 @@
+sbpipe.simul package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    sbpipe.simul.copasi
+
+Submodules
+----------
+
+sbpipe.simul.simul module
+-------------------------
+
+.. automodule:: sbpipe.simul.simul
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simul
+    :members:
+    :undoc-members:
+    :show-inheritance:
