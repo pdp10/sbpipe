@@ -52,7 +52,7 @@ class Sim(Pipeline):
 
         logger.info("Reading file " + config_file + " : \n")
 
-        # Initialises the variables for this pipeline
+        # variable initialisation
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, cluster, pp_cpus, runs,
@@ -62,7 +62,7 @@ class Sim(Pipeline):
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
-            return 2
+            return False
 
         runs = int(runs)
         pp_cpus = int(pp_cpus)
@@ -70,11 +70,10 @@ class Sim(Pipeline):
         # Some controls
         if runs < 1:
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
-            return 1
+            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4])
-        data_dir = os.path.join(project_dir, self.get_data_folder())
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -92,34 +91,40 @@ class Sim(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            Sim.generate_data(simulator,
-                              model,
-                              models_dir,
-                              os.path.join(outputdir, self.get_sim_data_folder()),
-                              cluster,
-                              pp_cpus,
-                              runs)
+            status = Sim.generate_data(simulator,
+                                       model,
+                                       models_dir,
+                                       os.path.join(outputdir, self.get_sim_data_folder()),
+                                       cluster,
+                                       pp_cpus,
+                                       runs)
+            if not status:
+                return False
 
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            Sim.analyse_data(model[:-4],
-                             os.path.join(outputdir, self.get_sim_data_folder()),
-                             outputdir,
-                             os.path.join(outputdir, self.get_sim_plots_folder()),
-                             os.path.join(models_dir, exp_dataset),
-                             plot_exp_dataset,
-                             xaxis_label,
-                             yaxis_label)
+            status = Sim.analyse_data(model[:-4],
+                                      os.path.join(outputdir, self.get_sim_data_folder()),
+                                      outputdir,
+                                      os.path.join(outputdir, self.get_sim_plots_folder()),
+                                      os.path.join(models_dir, exp_dataset),
+                                      plot_exp_dataset,
+                                      xaxis_label,
+                                      yaxis_label)
+            if not status:
+                return False
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            Sim.generate_report(model[:-4],
-                                outputdir,
-                                self.get_sim_plots_folder())
+            status = Sim.generate_report(model[:-4],
+                                         outputdir,
+                                         self.get_sim_plots_folder())
+            if not status:
+                return False
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
@@ -127,8 +132,8 @@ class Sim(Pipeline):
 
         if len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + '*.png'))) > 0 and len(
                 glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
-            return 0
-        return 1
+            return True
+        return False
 
     @classmethod
     def generate_data(cls, simulator, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
@@ -142,14 +147,20 @@ class Sim(Pipeline):
         :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param pp_cpus: the number of CPU used by Parallel Python.
         :param runs: the number of model simulation
+        :return: True if the task was completed successfully, False otherwise.
         """
+
+        if int(pp_cpus) < 1:
+            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
         if runs < 1:
-            logger.error("variable " + str(runs) + " must be greater than 0. Please, check your configuration file.")
-            return
+            logger.error("variable runs must be greater than 0. Please, check your configuration file.")
+            return False
 
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
-            return
+            return False
 
         # folder preparation
         refresh(outputdir, model[:-4])
@@ -162,8 +173,9 @@ class Sim(Pipeline):
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
-            logger.error(traceback.format_exc())
-            return
+            logger.debug(traceback.format_exc())
+            return False
+        return True
 
     @classmethod
     def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label,
@@ -178,11 +190,12 @@ class Sim(Pipeline):
         :param exp_dataset: the full path of the experimental data set
         :param plot_exp_dataset: True if the experimental data set should also be plotted
         :param xaxis_label: the label for the x axis (e.g. Time [min])
-        :param yaxis_label: the label for the y axis (e.g. Level [a.u.])        
+        :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(inputdir):
             logger.error("inputdir " + inputdir + " does not exist. Generate some data first.")
-            return
+            return False
 
         # folder preparation
         files_to_delete = glob.glob(os.path.join(sim_plots_dir, model + "*"))
@@ -199,6 +212,7 @@ class Sim(Pipeline):
              os.path.join(outputdir, 'sim_stats_' + model + '.csv'), exp_dataset, str(plot_exp_dataset), xaxis_label,
              yaxis_label])
         process.wait()
+        return True
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -208,11 +222,12 @@ class Sim(Pipeline):
         :param model: the model name
         :param outputdir: the output directory to store the report
         :param sim_plots_folder: the folder containing the plots
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
                 "inputdir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
-            return
+            return False
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__simulate_"
@@ -220,6 +235,7 @@ class Sim(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+        return True
 
     def read_config(self, lines):
         __doc__ = Pipeline.read_config.__doc__

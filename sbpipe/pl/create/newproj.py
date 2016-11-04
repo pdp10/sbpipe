@@ -89,4 +89,4 @@ class NewProj(Pipeline):
         # os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','models'))
 
         logger.info("Project " + project_name + " created.")
-        return 0
+        return True

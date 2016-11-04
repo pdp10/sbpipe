@@ -56,7 +56,7 @@ class ParEst(Pipeline):
 
         logger.info("Reading file " + config_file + " : \n")
 
-        # Initialises the variables for this pipeline
+        # variable initialisation
         try:
             (generate_data, analyse_data, generate_report,
              generate_tarball, project_dir, simulator, model,
@@ -68,7 +68,7 @@ class ParEst(Pipeline):
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
-            return 2
+            return False
 
         runs = int(runs)
         pp_cpus = int(pp_cpus)
@@ -101,43 +101,49 @@ class ParEst(Pipeline):
             logger.info("\n")
             logger.info("Generate data:")
             logger.info("##############")
-            ParEst.generate_data(simulator,
-                                 model,
-                                 models_dir,
-                                 cluster,
-                                 pp_cpus,
-                                 runs,
-                                 outputdir,
-                                 os.path.join(outputdir, self.get_sim_data_folder()),
-                                 os.path.join(outputdir, self.__updated_models_folder))
+            status = ParEst.generate_data(simulator,
+                                          model,
+                                          models_dir,
+                                          cluster,
+                                          pp_cpus,
+                                          runs,
+                                          outputdir,
+                                          os.path.join(outputdir, self.get_sim_data_folder()),
+                                          os.path.join(outputdir, self.__updated_models_folder))
+            if not status:
+                return False
 
         if analyse_data:
             logger.info("\n")
             logger.info("Analyse data:")
             logger.info("#############")
-            self.analyse_data(model[:-4],
-                              os.path.join(outputdir, self.get_sim_data_folder()),
-                              outputdir,
-                              fileout_final_estims,
-                              fileout_all_estims,
-                              fileout_param_estim_details,
-                              fileout_param_estim_summary,
-                              os.path.join(outputdir, self.get_sim_plots_folder()),
-                              best_fits_percent,
-                              data_point_num,
-                              plot_2d_66cl_corr,
-                              plot_2d_95cl_corr,
-                              plot_2d_99cl_corr,
-                              logspace,
-                              scientific_notation)
+            status = ParEst.analyse_data(model[:-4],
+                                         os.path.join(outputdir, self.get_sim_data_folder()),
+                                         outputdir,
+                                         fileout_final_estims,
+                                         fileout_all_estims,
+                                         fileout_param_estim_details,
+                                         fileout_param_estim_summary,
+                                         os.path.join(outputdir, self.get_sim_plots_folder()),
+                                         best_fits_percent,
+                                         data_point_num,
+                                         plot_2d_66cl_corr,
+                                         plot_2d_95cl_corr,
+                                         plot_2d_99cl_corr,
+                                         logspace,
+                                         scientific_notation)
+            if not status:
+                return False
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            self.generate_report(model[:-4],
-                                 outputdir,
-                                 self.get_sim_plots_folder())
+            status = ParEst.generate_report(model[:-4],
+                                            outputdir,
+                                            self.get_sim_plots_folder())
+            if not status:
+                return False
 
         if generate_tarball:
             logger.info("\n")
@@ -157,8 +163,8 @@ class ParEst(Pipeline):
         if os.path.isfile(os.path.join(outputdir, fileout_final_estims)) and \
                 os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
                         len(glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
-            return 0
-        return 1
+            return True
+        return False
 
     @classmethod
     def generate_data(cls, simulator, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
@@ -176,14 +182,19 @@ class ParEst(Pipeline):
         :param sim_data_dir: the directory containing the simulation data sets
         :param updated_models_dir: the directory containing the models with updated parameters for
                each estimation
+        :return: True if the task was completed successfully, False otherwise.
         """
+        if int(pp_cpus) < 1:
+            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
         if int(nfits) < 1:
-            logger.error("variable " + nfits + " must be greater than 0. Please, check your configuration file.")
-            return
+            logger.error("variable nfits must be greater than 0. Please, check your configuration file.")
+            return False
 
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
-            return
+            return False
 
         # folder preparation
         refresh(sim_data_dir, model[:-4])
@@ -196,7 +207,8 @@ class ParEst(Pipeline):
             logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
-            return
+            return False
+        return True
 
     @classmethod
     def analyse_data(cls, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
@@ -222,11 +234,20 @@ class ParEst(Pipeline):
         :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
         :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted        
         :param logspace: True if parameters should be plotted in log space
-        :param scientific_notation: True if axis labels should be plotted in scientific notation        
+        :param scientific_notation: True if axis labels should be plotted in scientific notation
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(inputdir) or not os.listdir(inputdir):
             logger.error("inputdir " + inputdir + " does not exist or is empty. Generate some data first.")
-            return
+            return False
+
+        if int(best_fits_percent) < 1 or int(best_fits_percent) > 100:
+            logger.error("variable `best_fits_percent` must be in (0, 100]. Please, check your configuration file.")
+            return False
+
+        if int(data_point_num) < 1:
+            logger.error("variable `data_point_num` must be greater than 0. Please, check your configuration file.")
+            return False
 
         refresh(sim_plots_dir, model[:-4])
 
@@ -256,6 +277,7 @@ class ParEst(Pipeline):
              str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr),
              str(logspace), str(scientific_notation)])
         process.wait()
+        return True
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -265,11 +287,12 @@ class ParEst(Pipeline):
         :param model: the model name
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the folder containing the plots
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
                 "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
-            return
+            return False
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__param_estim_"
@@ -277,6 +300,7 @@ class ParEst(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+        return True
 
     def read_config(self, lines):
         __doc__ = Pipeline.read_config.__doc__

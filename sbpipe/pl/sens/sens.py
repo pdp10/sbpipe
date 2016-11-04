@@ -53,7 +53,7 @@ class Sens(Pipeline):
 
         logger.info("Reading file " + config_file + " : \n")
 
-        # Initialises the variables for this pipeline
+        # variable initialisation
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model) = self.config_parser(config_file, "sensitivity")
@@ -61,7 +61,7 @@ class Sens(Pipeline):
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
-            return 2
+            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4], self.__sensitivities_dir)
@@ -86,30 +86,36 @@ class Sens(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            Sens.generate_data(simulator,
-                               model,
-                               self.get_models_dir(),
-                               outputdir)
+            status = Sens.generate_data(simulator,
+                                        model,
+                                        self.get_models_dir(),
+                                        outputdir)
+            if not status:
+                return False
 
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            Sens.analyse_data(outputdir)
+            status = Sens.analyse_data(outputdir)
+            if not status:
+                return False
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            Sens.generate_report(model, outputdir, self.get_sim_plots_folder())
+            status = Sens.generate_report(model, outputdir, self.get_sim_plots_folder())
+            if not status:
+                return False
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
         if len(glob.glob(os.path.join(outputdir, '*.csv'))) > 0:
-            return 0
-        return 1
+            return True
+        return False
 
     @classmethod
     def generate_data(cls, simulator, model, inputdir, outputdir):
@@ -120,10 +126,11 @@ class Sens(Pipeline):
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
-            return
+            return False
 
         # folder preparation
         refresh(outputdir, model[:-4])
@@ -137,7 +144,8 @@ class Sens(Pipeline):
             logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
-            return
+            return False
+        return True
 
     # Input parameters
     # outputdir
@@ -146,11 +154,13 @@ class Sens(Pipeline):
         """
         The second pipeline step: data analysis.
 
-        :param outputdir: the directory to store the performed analysis
+        :param outputdir: the directory to store the performed analysis.
+        :return: True if the task was completed successfully, False otherwise.
         """
         p = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__), 'sens_plot.r'),
                               outputdir])
         p.wait()
+        return True
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -160,23 +170,20 @@ class Sens(Pipeline):
         :param model: the model name
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the directory containing the time courses results combined with experimental data
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
                          " does not exist. Analyse the data first.")
-            return
+            return False
 
         logger.info("Generating LaTeX report")
         filename_prefix = "report__sensitivity_"
         latex_report_sim(outputdir, sim_plots_folder, model, filename_prefix)
 
-        pdflatex = which("pdflatex")
-        if pdflatex is None:
-            logger.error("pdflatex not found! pdflatex must be installed for pdf reports.")
-            return
-
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+        return True
 
     def read_config(self, lines):
         __doc__ = Pipeline.read_config.__doc__

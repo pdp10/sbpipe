@@ -53,7 +53,7 @@ class ParScan1(Pipeline):
 
         logger.info("Reading file " + config_file + " : \n")
 
-        # Initialises the variables for this pipeline
+        # variable initialisation
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par,
@@ -65,7 +65,7 @@ class ParScan1(Pipeline):
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
-            return 2
+            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4])
@@ -86,31 +86,37 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Data generation:")
             logger.info("################")
-            ParScan1.generate_data(simulator,
-                                   model,
-                                   scanned_par,
-                                   single_param_scan_simulations_number,
-                                   simulate__intervals,
-                                   levels_number,
-                                   models_dir,
-                                   os.path.join(outputdir, self.get_sim_data_folder()))
+            status = ParScan1.generate_data(simulator,
+                                            model,
+                                            scanned_par,
+                                            single_param_scan_simulations_number,
+                                            simulate__intervals,
+                                            levels_number,
+                                            models_dir,
+                                            os.path.join(outputdir, self.get_sim_data_folder()))
+            if not status:
+                return False
 
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            ParScan1.analyse_data(model[:-4], scanned_par, single_param_scan_knock_down_only, outputdir,
-                                  self.get_sim_data_folder(), self.get_sim_plots_folder(),
-                                  single_param_scan_simulations_number,
-                                  single_param_scan_percent_levels,
-                                  min_level, max_level, levels_number,
-                                  homogeneous_lines, xaxis_label, yaxis_label)
+            status = ParScan1.analyse_data(model[:-4], scanned_par, single_param_scan_knock_down_only, outputdir,
+                                           self.get_sim_data_folder(), self.get_sim_plots_folder(),
+                                           single_param_scan_simulations_number,
+                                           single_param_scan_percent_levels,
+                                           min_level, max_level, levels_number,
+                                           homogeneous_lines, xaxis_label, yaxis_label)
+            if not status:
+                return False
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            ParScan1.generate_report(model[:-4], scanned_par, outputdir, self.get_sim_plots_folder())
+            status = ParScan1.generate_report(model[:-4], scanned_par, outputdir, self.get_sim_plots_folder())
+            if not status:
+                return False
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
@@ -118,8 +124,8 @@ class ParScan1(Pipeline):
 
         if (len(glob.glob(os.path.join(outputdir, "*" + model[:-4] + "*.pdf"))) == 1 and
                     len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + "*.png"))) > 0):
-            return 0
-        return 1
+            return True
+        return False
 
     @classmethod
     def generate_data(cls, simulator, model, scanned_par, sim_number, simulate_intervals,
@@ -135,10 +141,24 @@ class ParScan1(Pipeline):
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
+        :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
-            return
+            return False
+
+        if int(sim_number) < 1:
+            logger.error("variable sim_number must be greater than 0. Please, check your configuration file.")
+            return False
+
+        if int(simulate_intervals) < 1:
+            logger.error("variable simulate_intervals must be greater than 0. Please, check your configuration file.")
+            return False
+
+        if int(single_param_scan_intervals) < 1:
+            logger.error("variable single_param_scan_intervals must be greater than 0. Please, "
+                         "check your configuration file.")
+            return False
 
         refresh(outputdir, model[:-4])
 
@@ -151,7 +171,8 @@ class ParScan1(Pipeline):
             logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
-            return
+            return False
+        return True
 
     @classmethod
     def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
@@ -174,22 +195,40 @@ class ParScan1(Pipeline):
         :param levels_number: the number of levels
         :param homogeneous_lines: True if generated line style should be homogeneous
         :param xaxis_label: the name of the x axis (e.g. Time [min])
-        :param yaxis_label: the name of the y axis (e.g. Level [a.u.])        
+        :param yaxis_label: the name of the y axis (e.g. Level [a.u.])
+        :return: True if the task was completed successfully, False otherwise.
         """
 
         # some control
         if not os.path.exists(os.path.join(outputdir, sim_data_folder)):
             logger.error(
                 "input_dir " + os.path.join(outputdir, sim_data_folder) + " does not exist. Generate some data first.")
-            return
+            return False
 
         if float(min_level) < 0:
-            logger.error("min_level MUST BE non negative.")
-            return
+            logger.error("min_level MUST BE non negative. Please, check your configuration file.")
+            return False
+
+        if float(max_level) < 0:
+            logger.error("max_level MUST BE non negative. Please, check your configuration file.")
+            return False
+
+        if float(max_level) <= float(min_level):
+            logger.error("min_level MUST BE lower than max_level. Please, check your configuration file.")
+            return False
+
+        if int(simulations_number) < 1:
+            logger.error("variable simulations_number must be greater than 0. Please, check your configuration file.")
+            return False
+
+        if int(levels_number) < 1:
+            logger.error("variable levels_number must be greater than 0. Please, check your configuration file.")
+            return False
 
         if percent_levels and float(max_level) < 100:
-            logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True .")
-            return
+            logger.error("max_level cannot be less than 100 (=ctrl) if option `percent_levels` is True. "
+                         "Please, check your configuration file.")
+            return False
 
         # folder preparation
         refresh(os.path.join(outputdir, sim_plots_folder), model[:-4])
@@ -201,6 +240,7 @@ class ParScan1(Pipeline):
                                     str(max_level), str(levels_number), str(homogeneous_lines),
                                     xaxis_label, yaxis_label])
         process.wait()
+        return True
 
     @classmethod
     def generate_report(cls, model, scanned_par, outputdir, sim_plots_folder):
@@ -211,12 +251,13 @@ class ParScan1(Pipeline):
         :param scanned_par: the scanned parameter
         :param outputdir: the directory containing the report
         :param sim_plots_folder: the folder containing the plots
+        :return: True if the task was completed successfully, False otherwise.
         """
 
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error(
                 "input_dir " + os.path.join(outputdir, sim_plots_folder) + " does not exist. Analyse the data first.")
-            return
+            return False
 
         logger.info("Generating LaTeX report")
         logger.info(model)
@@ -226,6 +267,7 @@ class ParScan1(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+        return True
 
     def read_config(self, lines):
         __doc__ = Pipeline.read_config.__doc__

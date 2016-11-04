@@ -60,9 +60,7 @@ class Pipeline:
         Run the pipeline.
 
         :param config_file: a configuration file for this pipeline.
-        :return: 0 if the pipeline was executed correctly,
-                  1 if the pipeline executed but some output was skipped,
-                  2 if the pipeline did not execute correctly.
+        :return: True if the pipeline was executed correctly, False otherwise.
         """
         pass
 

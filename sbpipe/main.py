@@ -202,36 +202,36 @@ def main(argv=None):
                 elif opt in ('-c', '--create-project'):
                     check_args(args, no_project_name_msg)
                     from sbpipe.pl.create.newproj import NewProj
-                    cp = NewProj()
-                    exit_status = cp.run(args[0])
+                    s = NewProj()
+                    exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-s', '--simulate'):
                     check_args(args, no_conf_file_msg)
                     print(logo())
                     from sbpipe.pl.sim.sim import Sim
                     s = Sim()
-                    exit_status = s.run(args[0])
+                    exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-p', '--single-param-scan'):
                     check_args(args, no_conf_file_msg)
                     print(logo())
                     from sbpipe.pl.ps1.parscan1 import ParScan1
-                    sps = ParScan1()
-                    exit_status = sps.run(args[0])
+                    s = ParScan1()
+                    exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-d', '--double-param-scan'):
                     check_args(args, no_conf_file_msg)
                     print(logo())
                     from sbpipe.pl.ps2.parscan2 import ParScan2
-                    dps = ParScan2()
-                    exit_status = dps.run(args[0])
+                    s = ParScan2()
+                    exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-e', '--param-estim'):
                     check_args(args, no_conf_file_msg)
                     print(logo())
                     from sbpipe.pl.pe.parest import ParEst
-                    pe = ParEst()
-                    exit_status = pe.run(args[0])
+                    s = ParEst()
+                    exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-n', '--sensitivity'):
                     check_args(args, no_conf_file_msg)
@@ -240,7 +240,7 @@ def main(argv=None):
                     exit_status = 0
                     from sbpipe.pl.sens.sens import Sens
                     s = Sens()
-                    # exit_status = s.run(args[0])
+                    # exit_status = 0 if s.run(args[0]) else 1
 
             if len(opts) < 1:
                 raise Usage('no option received')
