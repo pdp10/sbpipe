@@ -23,6 +23,7 @@
 # $Date: 2016-11-01 15:43:32 $
 
 import logging
+
 logger = logging.getLogger('sbpipe')
 
 
@@ -75,7 +76,7 @@ class Simul:
         :param outputdir: the directory to store the results
         """
         pass
-    
+
     def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
            updated_models_dir):
         """
@@ -92,7 +93,7 @@ class Simul:
                each estimation
         """
         pass
-    
+
     def sens(self, model, inputdir, outputdir):
         """
         Sensitivity analysis.
@@ -102,4 +103,3 @@ class Simul:
         :param outputdir: the directory to store the results
         """
         pass
-

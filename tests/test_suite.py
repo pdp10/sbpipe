@@ -25,6 +25,7 @@
 import os
 import sys
 import unittest
+
 SBPIPE = os.environ["SBPIPE"]
 # folders containing the configuration files and test file
 ir_folder = os.path.join('insulin_receptor', 'Working_Folder')

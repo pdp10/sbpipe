@@ -26,6 +26,7 @@ import getopt
 import logging
 import os
 import sys
+
 try:  # Python 2.7+
     from logging import NullHandler
 except ImportError:

@@ -24,7 +24,6 @@
 
 import os
 
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 path, foldername = os.path.split(dir_path)
 
@@ -34,5 +33,3 @@ for module in os.listdir(os.path.dirname(__file__)):
         # print(module[:-3])
         __import__(module[:-3], locals(), globals())
     del module
-
-

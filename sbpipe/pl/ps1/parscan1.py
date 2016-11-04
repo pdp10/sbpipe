@@ -100,7 +100,8 @@ class ParScan1(Pipeline):
             logger.info("Data analysis:")
             logger.info("##############")
             ParScan1.analyse_data(model[:-4], scanned_par, single_param_scan_knock_down_only, outputdir,
-                                  self.get_sim_data_folder(), self.get_sim_plots_folder(), single_param_scan_simulations_number,
+                                  self.get_sim_data_folder(), self.get_sim_plots_folder(),
+                                  single_param_scan_simulations_number,
                                   single_param_scan_percent_levels,
                                   min_level, max_level, levels_number,
                                   homogeneous_lines, xaxis_label, yaxis_label)
@@ -196,7 +197,8 @@ class ParScan1(Pipeline):
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'parscan1_analyse_data.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), str(homogeneous_lines),
+                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level),
+                                    str(max_level), str(levels_number), str(homogeneous_lines),
                                     xaxis_label, yaxis_label])
         process.wait()
 
@@ -224,7 +226,6 @@ class ParScan1(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
-
 
     def read_config(self, lines):
         __doc__ = Pipeline.read_config.__doc__

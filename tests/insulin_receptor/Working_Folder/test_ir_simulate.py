@@ -25,6 +25,7 @@
 
 import os
 import sys
+
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe

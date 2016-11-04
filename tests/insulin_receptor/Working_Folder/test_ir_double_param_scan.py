@@ -26,6 +26,7 @@
 import os
 import sys
 import unittest
+
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe

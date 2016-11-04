@@ -38,17 +38,17 @@ class Monitor:
     This is a monitor. It is a callback class for collecting information about finished processes. It 
     is used by Parallel Python (pp).
     """
-    
+
     __count = 0
     __value = True
-    
+
     def __init__(self):
         """
         Constructor.
         """
         self.lock = thread.allocate_lock()
         self.__count = 0
-    
+
     def add(self, pid, value):
         """
         The callback function
@@ -63,7 +63,7 @@ class Monitor:
         # with a desired logic. Here we only use it to collect an overall status of the parallel computation.
         self.__value = self.__value and value
         self.lock.release()
-    
+
     # get methods
     def get_value(self):
         """
@@ -76,7 +76,7 @@ class Monitor:
         temp = self.__value
         self.lock.release()
         return temp
-    
+
     def get_count(self):
         """
         Return the counter

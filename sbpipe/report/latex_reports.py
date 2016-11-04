@@ -49,12 +49,12 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
         "\\usepackage{graphicx}\n"
         "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]"
                                                                                                    "{hyperref}\n"
-        "\\author{Generated with SB pipe} \n"
-        "\\title{" + title + "}\n"
-        "\\date{\\today}\n"
-        "\\begin{document}\n"
-        "\\maketitle\n"
-        "\\begin{abstract}\n" + abstract + " \n\\end{abstract}\n"
+                                                                                                   "\\author{Generated with SB pipe} \n"
+                                                                                                   "\\title{" + title + "}\n"
+                                                                                                                        "\\date{\\today}\n"
+                                                                                                                        "\\begin{document}\n"
+                                                                                                                        "\\maketitle\n"
+                                                                                                                        "\\begin{abstract}\n" + abstract + " \n\\end{abstract}\n"
     )
 
 
@@ -105,7 +105,7 @@ def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
     :param model_noext: the model name
     :param scanned_par1: the 1st scanned parameter
     :param scanned_par2: the 2nd scanned parameter
-    """    
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         scanned_par1_name = scanned_par1[0:].replace("_", " ")
@@ -153,7 +153,7 @@ def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
     :param sim_plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
-    """     
+    """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         logger.info(model_name)
@@ -219,7 +219,7 @@ def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
         if begin_figure:
             file_out.write("\\end{figure}\n")
         file_out.write("\\end{document}\n")
-    
+
 
 def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, caption=False):
     """
