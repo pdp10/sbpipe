@@ -210,29 +210,30 @@ model parameter estimations</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the simulation data</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 <li><strong>fileout_final_estims</strong> &#8211; the name of the file containing final parameter sets with Chi^2</li>
 <li><strong>fileout_all_estims</strong> &#8211; the name of the file containing all the parameter sets with Chi^2</li>
-<li><strong>fileout_param_estim_details</strong> &#8211; the name of the file containing the detailed statistics for the</li>
+<li><strong>fileout_param_estim_details</strong> &#8211; the name of the file containing the detailed statistics for the         estimated parameters</li>
+<li><strong>fileout_param_estim_summary</strong> &#8211; the name of the file containing the summary for the parameter estimation</li>
+<li><strong>sim_plots_dir</strong> &#8211; the directory of the simulation plots</li>
+<li><strong>best_fits_percent</strong> &#8211; the percent to consider for the best fits</li>
+<li><strong>data_point_num</strong> &#8211; the number of data points</li>
+<li><strong>plot_2d_66cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 66% should be plotted</li>
+<li><strong>plot_2d_95cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 95% should be plotted</li>
+<li><strong>plot_2d_99cl_corr</strong> &#8211; True if 2 dim plots for the parameter sets within 99% should be plotted</li>
+<li><strong>logspace</strong> &#8211; True if parameters should be plotted in log space</li>
+<li><strong>scientific_notation</strong> &#8211; True if axis labels should be plotted in scientific notation</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>estimated parameters
-:param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
-:param sim_plots_dir: the directory of the simulation plots
-:param best_fits_percent: the percent to consider for the best fits
-:param data_point_num: the number of data points
-:param plot_2d_66cl_corr: True if 2 dim plots for the parameter sets within 66% should be plotted
-:param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
-:param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted        
-:param logspace: True if parameters should be plotted in log space
-:param scientific_notation: True if axis labels should be plotted in scientific notation
-:return: True if the task was completed successfully, False otherwise.</p>
 </dd></dl>
 
 <dl class="classmethod">
