@@ -78,7 +78,7 @@ single parameter scans.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
 <li><strong>knock_down_only</strong> &#8211; True for knock down simulation, false if also scanning over expression.</li>
@@ -96,6 +96,9 @@ single parameter scans.</p>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
+</td>
+</tr>
 </tbody>
 </table>
 </dd></dl>
@@ -108,7 +111,7 @@ single parameter scans.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
@@ -118,6 +121,9 @@ single parameter scans.</p>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
 </td>
 </tr>
 </tbody>
@@ -132,12 +138,15 @@ single parameter scans.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
 <li><strong>outputdir</strong> &#8211; the directory containing the report</li>
 <li><strong>sim_plots_folder</strong> &#8211; the folder containing the plots</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
 </td>
 </tr>
 </tbody>

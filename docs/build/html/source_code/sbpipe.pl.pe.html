@@ -231,7 +231,8 @@ model parameter estimations</p>
 :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
 :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted        
 :param logspace: True if parameters should be plotted in log space
-:param scientific_notation: True if axis labels should be plotted in scientific notation</p>
+:param scientific_notation: True if axis labels should be plotted in scientific notation
+:return: True if the task was completed successfully, False otherwise.</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -242,7 +243,7 @@ model parameter estimations</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
@@ -254,6 +255,9 @@ model parameter estimations</p>
 <li><strong>updated_models_dir</strong> &#8211; the directory containing the models with updated parameters for
 each estimation</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
 </td>
 </tr>
 </tbody>
@@ -268,11 +272,14 @@ each estimation</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the report</li>
 <li><strong>sim_plots_folder</strong> &#8211; the folder containing the plots</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the task was completed successfully, False otherwise.</p>
 </td>
 </tr>
 </tbody>
