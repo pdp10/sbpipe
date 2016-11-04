@@ -25,31 +25,27 @@
 
 import os
 import sys
-
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'scripts'))
-
+sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
-
 import unittest
-
 
 """Unit test for Insulin Receptor"""
 
-class TestIRSimulate(unittest.TestCase):
-  """
-  A collection of tests for this example.
-  """
-  def test_det_simulation(self):
-    """model deterministic simulation"""
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul.conf"]), 0)
 
-  def test_stoch_simulation(self):    
-    """model stochastic simulation"""    
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_stoch_simul.conf"]), 0) 
+class TestIRSimulate(unittest.TestCase):
+    """
+    A collection of tests for this example.
+    """
+
+    def test_det_simulation(self):
+        """model deterministic simulation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul.conf"]), 0)
+
+    def test_stoch_simulation(self):
+        """model stochastic simulation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_stoch_simul.conf"]), 0)
 
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    
-    

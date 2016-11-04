@@ -25,12 +25,9 @@
 import glob
 import logging
 import os
-
-logger = logging.getLogger('sbpipe')
-
-
 from sbpipe.utils.re_utils import nat_sort_key
 
+logger = logging.getLogger('sbpipe')
 
 
 def get_best_fits(path_in=".", path_out=".", filename_out="final_estimates.csv"):
@@ -47,10 +44,10 @@ def get_best_fits(path_in=".", path_out=".", filename_out="final_estimates.csv")
     # The collection of .csv files
     files = get_input_files(path)
     # List of estimated parameters
-    colNames = get_params_list(files[0])
-    colNames.insert(0, 'Estimation')
-    colNames.insert(1, 'ObjectiveValue')
-    write_params(colNames, path_out, filename_out)
+    col_names = get_params_list(files[0])
+    col_names.insert(0, 'Estimation')
+    col_names.insert(1, 'ObjectiveValue')
+    write_params(col_names, path_out, filename_out)
     write_best_fits(files, path_out, filename_out)
 
 
@@ -68,9 +65,9 @@ def get_all_fits(path_in=".", path_out=".", filename_out="all_estimates.csv"):
     # The collection of .csv files
     files = get_input_files(path)
     # List of estimated parameters
-    colNames = get_params_list(files[0])
-    colNames.insert(0, 'ObjectiveValue')
-    write_params(colNames, path_out, filename_out)
+    col_names = get_params_list(files[0])
+    col_names.insert(0, 'ObjectiveValue')
+    write_params(col_names, path_out, filename_out)
     write_all_fits(files, path_out, filename_out)
 
 
@@ -113,19 +110,19 @@ def get_params_list(filein):
     return parameters
 
 
-def write_params(colNames, path_out, filename_out):
+def write_params(col_names, path_out, filename_out):
     """
     Write the list of parameter names to filename_out
 
-    :param colNames: the list of parameter names
+    :param col_names: the list of parameter names
     :param path_out: the path to store filename_out
     :param filename_out: the output file to store the parameter names
     """
     with open(os.path.join(path_out, filename_out), 'w') as file:
         i = -1
-        for param in colNames:
+        for param in col_names:
             i += 1
-            if i < len(colNames) - 1:
+            if i < len(col_names) - 1:
                 file.write(param + '\t')
             else:
                 file.write(param + '\n')
@@ -183,7 +180,7 @@ def write_all_fits(files, path_out, filename_out):
     :param filename_out: the file containing all the estimates
     """
     file_num = -1
-    #logger.info("\nCollecting results:")
+    # logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for file in files:
             file_num += 1
@@ -196,7 +193,7 @@ def write_all_fits(files, path_out, filename_out):
                     split_line = line.rstrip().split("\t")
                     # Retrieve the estimated values of the parameters
                     if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
-                        split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
+                                    split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
                         # add to data the parameter values
                         line_num += 1
                         if line_num < len(lines):

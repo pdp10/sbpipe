@@ -22,19 +22,17 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 16:14:32 $
 
-# for computing the pipeline elapsed time 
+# for computing the pipeline elapsed time
 import datetime
 import glob
 import logging
 import os
 import subprocess
-
-logger = logging.getLogger('sbpipe')
-
 from ..pipeline import Pipeline
-
 from sbpipe.utils.io import refresh
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
+
+logger = logging.getLogger('sbpipe')
 
 
 class Sim(Pipeline):
@@ -58,7 +56,7 @@ class Sim(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, cluster, pp_cpus, runs,
-             exp_dataset, plot_exp_dataset, 
+             exp_dataset, plot_exp_dataset,
              xaxis_label, yaxis_label) = self.config_parser(config_file, "simulate")
         except Exception as e:
             logger.error(e.message)
@@ -155,20 +153,21 @@ class Sim(Pipeline):
 
         # folder preparation
         refresh(outputdir, model[:-4])
-        
+
         # execute runs simulations.
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
         try:
-            sim = cls.get_simulator_object(simulator)
+            sim = cls.get_simul_obj(simulator)
             sim.sim(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")            
+            logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.error(traceback.format_exc())
             return
 
     @classmethod
-    def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label):
+    def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label,
+                     yaxis_label):
         """
         The second pipeline step: data analysis.
 
@@ -197,7 +196,8 @@ class Sim(Pipeline):
         process = subprocess.Popen(
             ['Rscript', os.path.join(os.path.dirname(__file__), 'sim_plot_error_bars.r'),
              model, inputdir, sim_plots_dir,
-             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), exp_dataset, str(plot_exp_dataset), xaxis_label, yaxis_label])
+             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), exp_dataset, str(plot_exp_dataset), xaxis_label,
+             yaxis_label])
         process.wait()
 
     @classmethod
@@ -242,7 +242,7 @@ class Sim(Pipeline):
         for line in lines:
             logger.info(line)
             if line[0] == "simulator":
-                simulator = line[1]            
+                simulator = line[1]
             elif line[0] == "cluster":
                 cluster = line[1]
             elif line[0] == "pp_cpus":
@@ -250,9 +250,9 @@ class Sim(Pipeline):
             elif line[0] == "runs":
                 runs = line[1]
             elif line[0] == "exp_dataset":
-                exp_dataset = line[1]                
+                exp_dataset = line[1]
             elif line[0] == "plot_exp_dataset":
-                plot_exp_dataset = {'True': True, 'False': False}.get(line[1], False)                
+                plot_exp_dataset = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "xaxis_label":
                 xaxis_label = line[1]
             elif line[0] == "yaxis_label":

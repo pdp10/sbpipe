@@ -22,10 +22,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-01 15:43:32 $
 
-
-
 import logging
-
 logger = logging.getLogger('sbpipe')
 
 

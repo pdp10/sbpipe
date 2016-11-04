@@ -28,12 +28,11 @@ import glob
 import logging
 import os
 import subprocess
-logger = logging.getLogger('sbpipe')
-
 from ..pipeline import Pipeline
-
 from sbpipe.utils.io import refresh
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
+
+logger = logging.getLogger('sbpipe')
 
 
 class Sens(Pipeline):
@@ -47,7 +46,7 @@ class Sens(Pipeline):
         __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
-        self.__sensitivities_dir="sensitivities"
+        self.__sensitivities_dir = "sensitivities"
 
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
@@ -57,7 +56,7 @@ class Sens(Pipeline):
         # Initialises the variables for this pipeline
         try:
             (generate_data, analyse_data, generate_report,
-              project_dir, simulator, model) = self.config_parser(config_file, "sensitivity")
+             project_dir, simulator, model) = self.config_parser(config_file, "sensitivity")
         except Exception as e:
             logger.error(e.message)
             import traceback
@@ -106,7 +105,7 @@ class Sens(Pipeline):
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
-        logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end-start))
+        logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
         if len(glob.glob(os.path.join(outputdir, '*.csv'))) > 0:
             return 0
@@ -121,8 +120,8 @@ class Sens(Pipeline):
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        """        
-        if not os.path.isfile(os.path.join(inputdir,model)):
+        """
+        if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return
 
@@ -132,10 +131,10 @@ class Sens(Pipeline):
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
         try:
-            sim = cls.get_simulator_object(simulator)
+            sim = cls.get_simul_obj(simulator)
             sim.sensitivity_analysis(model, inputdir, outputdir)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")            
+            logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
             return
@@ -148,7 +147,7 @@ class Sens(Pipeline):
         The second pipeline step: data analysis.
 
         :param outputdir: the directory to store the performed analysis
-        """        
+        """
         p = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__), 'sens_plot.r'),
                               outputdir])
         p.wait()
@@ -161,14 +160,14 @@ class Sens(Pipeline):
         :param model: the model name
         :param outputdir: the directory to store the report
         :param sim_plots_folder: the directory containing the time courses results combined with experimental data
-        """        
+        """
         if not os.path.exists(os.path.join(outputdir, sim_plots_folder)):
             logger.error("input_dir " + os.path.join(outputdir, sim_plots_folder) +
                          " does not exist. Analyse the data first.")
             return
 
         logger.info("Generating LaTeX report")
-        filename_prefix="report__sensitivity_"
+        filename_prefix = "report__sensitivity_"
         latex_report_sim(outputdir, sim_plots_folder, model, filename_prefix)
 
         pdflatex = which("pdflatex")
@@ -188,12 +187,12 @@ class Sens(Pipeline):
 
         # default values
         simulator = 'Copasi'
-        
+
         # Initialises the variables
         for line in lines:
             logger.info(line)
             if line[0] == "simulator":
-                simulator = line[1]            
+                simulator = line[1]
             break
 
         return (generate_data, analyse_data, generate_report,

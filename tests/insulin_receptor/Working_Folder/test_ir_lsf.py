@@ -23,16 +23,12 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
-
 import os
 import subprocess
 import sys
-
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
-
 import run_sbpipe
-
 import unittest
 
 """Unit test for Insulin Receptor"""

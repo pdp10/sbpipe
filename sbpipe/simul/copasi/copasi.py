@@ -28,38 +28,36 @@ import re
 import shutil
 import subprocess
 from itertools import islice
-
-logger = logging.getLogger('sbpipe')
-
 from sbpipe.sb_config import which
 from randomise import Randomise
-
 from .copasi_utils import replace_str_copasi_sim_report
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
-
 from ..simul import Simul
+
+logger = logging.getLogger('sbpipe')
+
 
 class Copasi(Simul):
     """
     Copasi simulator.
     """
     _copasi = None
-    _copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH environmental variable."
+    _copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH " \
+                            "environmental variable."
 
     def __init__(self):
         __doc__ = Simul.__init__.__doc__
-        
+
         Simul.__init__(self)
         self._copasi = which("CopasiSE")
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 
-
     def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.sim.__doc__
-        
+
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
@@ -71,7 +69,7 @@ class Copasi(Simul):
         for i in xrange(1, runs + 1):
             shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".cps")
             replace_str_in_file(os.path.join(inputdir, group_model) + str(i) + ".cps",
-                                   model[:-4] + ".csv",
+                                model[:-4] + ".csv",
                                 group_model + str(i) + ".csv")
 
         # run copasi in parallel
@@ -99,7 +97,7 @@ class Copasi(Simul):
     def ps1(self, model, scanned_par, sim_number, simulate_intervals,
             single_param_scan_intervals, inputdir, outputdir):
         __doc__ = Simul.ps1.__doc__
-        
+
         logger.info("Simulating Model: " + model)
 
         model_noext = model[:-4]
@@ -112,7 +110,7 @@ class Copasi(Simul):
         # Set the number of timepoints
         timepoints = int(simulate_intervals) + 1
 
-        if self._copasi == None:
+        if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
 
@@ -177,7 +175,8 @@ class Copasi(Simul):
                     return
                 else:
                     logger.info(
-                        scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(scanned_par_index) + ")")
+                        scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(
+                            scanned_par_index) + ")")
 
                 # copy the -th run to a new file: add 1 to timepoints because of the header.
                 round_scanned_par_level = scanned_par_level
@@ -206,7 +205,7 @@ class Copasi(Simul):
 
     def ps2(self, model, sim_length, inputdir, outputdir):
         __doc__ = Simul.ps2.__doc__
-        
+
         logger.info("Simulating Model: " + model)
 
         model_noext = model[:-4]
@@ -253,16 +252,16 @@ class Copasi(Simul):
                 # extract the i-th time point and copy it to the corresponding i-th file
                 for line in lines:
                     tp = line.rstrip().split('\t')[0]
-                    if not '.' in tp and int(tp) in timepoints:
+                    if '.' not in tp and int(tp) in timepoints:
                         filesout[int(tp)].write(line)
             finally:
                 for fileout in filesout:
                     fileout.close()
-    
+
     def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
            updated_models_dir):
         __doc__ = Simul.pe.__doc__
-        
+
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
@@ -271,11 +270,11 @@ class Copasi(Simul):
         groupid = "_" + get_rand_alphanum_str(20) + "_"
         group_model = model[:-4] + groupid
         pre_param_estim = Randomise(inputdir, model)
-        logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")        
+        logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")
         pre_param_estim.replicate(nfits, groupid)
-        #logger.info("Randomise the initial parameter values")
-        #pre_param_estim.print_parameters_to_estimate()        
-        #pre_param_estim.randomise_parameters(nfits, groupid)
+        # logger.info("Randomise the initial parameter values")
+        # pre_param_estim.print_parameters_to_estimate()
+        # pre_param_estim.randomise_parameters(nfits, groupid)
 
         logger.info("\n")
         logger.info("Parallel parameter estimation:")
@@ -301,7 +300,7 @@ class Copasi(Simul):
             # os.remove(os.path.join(inputdir, file))
             shutil.move(os.path.join(inputdir, file),
                         os.path.join(updated_models_dir, file.replace(groupid, "_")))
-    
+
     def sens(self, model, inputdir, outputdir):
         __doc__ = Simul.sens.__doc__
 
@@ -321,4 +320,3 @@ class Copasi(Simul):
         #
         # # move the output file
         # shutil.move(os.path.join(model[:-4]+".csv"), outputdir)
-        

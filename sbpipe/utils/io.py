@@ -90,9 +90,9 @@ def write_mat_on_file(path, filename_out, data):
     with open(os.path.join(path, filename_out), 'w') as file:
         for row in data:
             # convert a list of strings or numbers into a string with items delimited by a tab.
-            concatStringList = '\t'.join(map(str, row))
+            concat_str_list = '\t'.join(map(str, row))
             # write the string above and add a newline.
-            file.write(concatStringList + "\n")
+            file.write(concat_str_list + "\n")
 
 
 def replace_str_in_file(filename_out, old_string, new_string):

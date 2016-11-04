@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User manual &mdash; SB pipe 1.15.0 documentation</title>
+    <title>User manual &mdash; SB pipe 1.18.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.15.0',
+        VERSION:     '1.18.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.15.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 1.18.0 documentation" href="index.html" />
     <link rel="next" title="Developer manual" href="developer_manual.html" />
     <link rel="prev" title="SB pipe documentation" href="index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -104,8 +104,8 @@ add the following environment variables to <code class="docutils literal"><span 
 <div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
 export PATH=$PATH:/path/to/R/binaries/
 
-# Path to Python. Scripts is the folder (if any) containing the Python script `pip`
-# pip must be available via command line.
+# Path to Python. Scripts is the folder (if any) containing the Python
+# script `pip`. pip must be available via command line.
 export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
 
 # Path to LaTeX
@@ -150,8 +150,8 @@ COPASI 4.16 (Build 104)
 </pre></div>
 </div>
 <p>At this stage, Python, R, Copasi, and (optionally) LaTeX should be
-installed correctly. SB pipe requires the configuration of an
-environment variable (<code class="docutils literal"><span class="pre">$SBPIPE</span></code>) which must also be added in the
+installed correctly. SB pipe requires the configuration of the
+environment variable <code class="docutils literal"><span class="pre">$SBPIPE</span></code> which must also be added in the
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file. The package also needs to be added to <code class="docutils literal"><span class="pre">$PATH</span></code>.
 To do so, users need to add the following lines to their
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
@@ -213,7 +213,7 @@ folder must also be added to <code class="docutils literal"><span class="pre">PA
 PATH=[previous paths];%SBPIPE%\scripts
 </pre></div>
 </div>
-<p>** NOTE for Cygwin: ** Environment variables can also be configured
+<p><strong>NOTE for Cygwin:</strong> Environment variables can also be configured
 directly within the .bashrc file in cygwin/home/USERNAME/. In the
 beginning of this file, users should place:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
@@ -274,21 +274,21 @@ $ ./test_suite.py
 <h4>Pipelines using Copasi<a class="headerlink" href="#pipelines-using-copasi" title="Permalink to this headline">¶</a></h4>
 <p>Before using these pipelines, a Copasi model must be configured as
 follow using CopasiUI:</p>
-<p><strong>pipeline: simulate</strong></p>
+<p><strong>pipeline: simulation</strong></p>
 <ul class="simple">
 <li>Tick the flag <em>executable</em> in the Time Course Task.</li>
 <li>Select a report template for the Time Course Task.</li>
 <li>Save the report in the same folder with the same name as the model
 but replacing the extension .cps with .csv.</li>
 </ul>
-<p><strong>pipeline: single or double parameter scan</strong></p>
+<p><strong>pipelines: single or double parameter scan</strong></p>
 <ul class="simple">
 <li>Tick the flag <em>executable</em> in the Parameter Scan Task.</li>
 <li>Select a report template for the Parameter Scan Task.</li>
 <li>Save the report in the same folder with the same name as the model
 but replacing the extension .cps with .csv.</li>
 </ul>
-<p><strong>pipeline: param-estim</strong></p>
+<p><strong>pipeline: parameter estimation</strong></p>
 <ul class="simple">
 <li>Tick the flag <em>executable</em> in the Parameter Estimation Task.</li>
 <li>Select the report template for the Parameter Estimation Task.</li>
@@ -377,7 +377,7 @@ This choice allows users to analyse the same data without having to
 generate it every time, or to skip the report generation if not wanted.
 Assuming that the configuration files are placed in the Working_Folder
 of a certain project, examples are given as follow:</p>
-<p><strong>Example 1:</strong> configuration file for the pipeline <em>simulate</em></p>
+<p><strong>Example 1:</strong> configuration file for the pipeline <em>simulation</em></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[simulate]
 # True if data should be generated, False otherwise
 generate_data=True
@@ -410,7 +410,8 @@ xaxis_label=Time [min]
 yaxis_label=Level [a.u.]
 </pre></div>
 </div>
-<p><strong>Example 2:</strong> configuration file for the pipeline <em>single_param_scan</em></p>
+<p><strong>Example 2:</strong> configuration file for the pipeline <em>single parameter
+scan</em></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[single_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
@@ -449,7 +450,8 @@ xaxis_label=Time [min]
 yaxis_label=Level [a.u.]
 </pre></div>
 </div>
-<p><strong>Example 3:</strong> configuration file for the pipeline <em>double_param_scan</em></p>
+<p><strong>Example 3:</strong> configuration file for the pipeline <em>double parameter
+scan</em></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[double_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
@@ -471,7 +473,8 @@ scanned_par2=IRbetaPercent
 sim_length=10
 </pre></div>
 </div>
-<p><strong>Example 4:</strong> configuration file for the pipeline <em>param_estim</em></p>
+<p><strong>Example 4:</strong> configuration file for the pipeline <em>parameter
+estimation</em></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[param_estim]
 # True if data should be generated, False otherwise
 generate_data=True
@@ -622,7 +625,7 @@ tracking system for SB pipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

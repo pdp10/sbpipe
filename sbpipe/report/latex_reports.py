@@ -21,19 +21,16 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
-
-
 # Utilities to generate Latex code. These functions are used for reporting purposes.
 
 import logging
 import os
 import re
 import subprocess
-
-logger = logging.getLogger('sbpipe')
-
 from sbpipe.utils.re_utils import nat_sort_key
 from sbpipe.sb_config import which
+
+logger = logging.getLogger('sbpipe')
 
 
 def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract="Generic report."):
@@ -50,7 +47,8 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
         "\\usepackage[english]{babel}\n"
         "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
         "\\usepackage{graphicx}\n"
-        "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]{hyperref}\n"
+        "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]"
+                                                                                                   "{hyperref}\n"
         "\\author{Generated with SB pipe} \n"
         "\\title{" + title + "}\n"
         "\\date{\\today}\n"
@@ -171,7 +169,7 @@ def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
         folder.sort()
         for infile in folder:
             if infile.find(model_noext) != -1:
-                if (infile.find('_sd_n_ci95_') != -1):
+                if infile.find('_sd_n_ci95_') != -1:
                     logger.info(infile)
                     file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
         file_out.write("\\end{document}\n")

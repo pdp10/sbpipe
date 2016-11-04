@@ -23,35 +23,29 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
-
 import os
 import sys
-from distutils.dir_util import copy_tree
-
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'scripts'))
-
+sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
-
 import unittest
-
 
 """Unit test for Insulin Receptor"""
 
+
 class TestIRParamEstim(unittest.TestCase):
-  """
-  A collection of tests for this example.
-  """
-  def test_param_estim_copasi(self):        
-    """model parameter estimation"""
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim.conf"]), 0)    
-    
-  def test_non_identif_param_estim_copasi(self):        
-    """model parameter estimation with identifiability issues """
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_non_identif_param_estim.conf"]), 0)    
+    """
+    A collection of tests for this example.
+    """
+
+    def test_param_estim_copasi(self):
+        """model parameter estimation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim.conf"]), 0)
+
+    def test_non_identif_param_estim_copasi(self):
+        """model parameter estimation with identifiability issues """
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_non_identif_param_estim.conf"]), 0)
 
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    
-    

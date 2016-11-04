@@ -22,7 +22,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 21:43:32 $
 
-
 # for computing the pipeline elapsed time 
 import datetime
 import glob
@@ -30,13 +29,11 @@ import logging
 import os
 import os.path
 import subprocess
-
-logger = logging.getLogger('sbpipe')
-
 from ..pipeline import Pipeline
-
 from sbpipe.utils.io import refresh
 from sbpipe.report.latex_reports import latex_report_dps, pdf_report
+
+logger = logging.getLogger('sbpipe')
 
 
 class ParScan2(Pipeline):
@@ -118,8 +115,8 @@ class ParScan2(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if (len(glob.glob(os.path.join(outputdir, "*" + model[:-4] + "*.pdf"))) == 1 and
-                    len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + "*.png"))) > 0):
+        if len(glob.glob(os.path.join(outputdir, "*" + model[:-4] + "*.pdf"))) == 1 and \
+                        len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + "*.png"))) > 0:
             return 0
         return 1
 
@@ -142,10 +139,10 @@ class ParScan2(Pipeline):
 
         logger.info("Simulating Model: " + model)
         try:
-            sim = cls.get_simulator_object(simulator)
+            sim = cls.get_simul_obj(simulator)
             sim.ps2(model, sim_length, inputdir, outputdir)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")            
+            logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
             return
@@ -206,7 +203,7 @@ class ParScan2(Pipeline):
          project_dir, model) = self.read_common_config(lines)
 
         # default values
-        simulator = 'Copasi'        
+        simulator = 'Copasi'
         # the first scanned param
         scanned_par1 = ""
         # the second scanned param
@@ -216,9 +213,9 @@ class ParScan2(Pipeline):
 
         # Initialises the variables
         for line in lines:
-            logger.info(line)            
+            logger.info(line)
             if line[0] == "simulator":
-                simulator = line[1]            
+                simulator = line[1]
             elif line[0] == "scanned_par1":
                 scanned_par1 = line[1]
             elif line[0] == "scanned_par2":

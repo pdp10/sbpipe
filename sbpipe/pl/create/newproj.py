@@ -25,11 +25,9 @@
 
 import logging
 import os
+from sbpipe.pl.pipeline import Pipeline
 
 logger = logging.getLogger('sbpipe')
-
-
-from sbpipe.pl.pipeline import Pipeline
 
 
 class NewProj(Pipeline):

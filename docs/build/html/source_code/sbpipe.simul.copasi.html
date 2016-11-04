@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.simul.copasi package &mdash; SB pipe 1.15.0 documentation</title>
+    <title>sbpipe.simul.copasi package &mdash; SB pipe 1.18.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.15.0',
+        VERSION:     '1.18.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 1.18.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe.simul package" href="sbpipe.simul.html" />
     <link rel="next" title="sbpipe.utils package" href="sbpipe.utils.html" />
     <link rel="prev" title="sbpipe.simul package" href="sbpipe.simul.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="sbpipe.simul.html" title="sbpipe.simul package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.simul.html" accesskey="U">sbpipe.simul package</a> &raquo;</li> 
@@ -103,9 +103,9 @@
 <dt id="sbpipe.simul.copasi.copasi_parser.CopasiParser">
 <em class="property">class </em><code class="descclassname">sbpipe.simul.copasi.copasi_parser.</code><code class="descname">CopasiParser</code><a class="headerlink" href="#sbpipe.simul.copasi.copasi_parser.CopasiParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve information from a Copasi file.</p>
-<dl class="method">
+<dl class="classmethod">
 <dt id="sbpipe.simul.copasi.copasi_parser.CopasiParser.get_param_estim_val">
-<code class="descname">get_param_estim_val</code><span class="sig-paren">(</span><em>file_in</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_parser.CopasiParser.get_param_estim_val" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">get_param_estim_val</code><span class="sig-paren">(</span><em>file_in</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_parser.CopasiParser.get_param_estim_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a Copasi file and retrieve information on the parameters to estimate.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -113,10 +113,11 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_in</strong> &#8211; the Copasi file including absolute path to parse</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tuple containing the report file name, the parameter lower bounds, names, starting values, and upper bounds</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tuple containing the report file name, the parameter lower bounds, names, starting values,</td>
 </tr>
 </tbody>
 </table>
+<p>and upper bounds</p>
 </dd></dl>
 
 </dd></dl>
@@ -144,8 +145,8 @@
 <dl class="class">
 <dt id="sbpipe.simul.copasi.randomise.Randomise">
 <em class="property">class </em><code class="descclassname">sbpipe.simul.copasi.randomise.</code><code class="descname">Randomise</code><span class="sig-paren">(</span><em>path</em>, <em>filename_in</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.randomise.Randomise" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class generates multiple copies of a Copasi file configured for parameter estimation task, and randomises the starting
-values of the parameters to estimate.</p>
+<dd><p>This class generates multiple copies of a Copasi file configured for parameter estimation task,
+and randomises the starting values of the parameters to estimate.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -384,7 +385,7 @@ values of the parameters to estimate.</p>
         <li class="right" >
           <a href="sbpipe.simul.html" title="sbpipe.simul package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.simul.html" >sbpipe.simul package</a> &raquo;</li> 

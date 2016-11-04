@@ -22,15 +22,13 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 21:43:32 $
 
-
 import logging
 from ConfigParser import ConfigParser
 from StringIO import StringIO
-
-logger = logging.getLogger('sbpipe')
-
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
+
+logger = logging.getLogger('sbpipe')
 
 
 class Pipeline:
@@ -107,9 +105,9 @@ class Pipeline:
         :return: the folder of the simulated plots.
         """
         return self.__sim_plots_folder
-    
+
     @classmethod
-    def get_simulator_object(cls, simulator):
+    def get_simul_obj(cls, simulator):
         """
         Return the simulator object if this exists. Otherwise throws an exception.
         The simulator name starts with an upper case letter. Each simulator is in a package
@@ -145,7 +143,8 @@ class Pipeline:
         """
         pass
 
-    def read_common_config(self, lines):
+    @classmethod
+    def read_common_config(cls, lines):
         """
         Parse the common parameters from the configuration file
 

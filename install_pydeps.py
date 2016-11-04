@@ -28,10 +28,8 @@ import os
 import subprocess
 import sys
 from logging.config import fileConfig
-
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, "sbpipe"))
-
 from sbpipe.sb_config import which
 
 
@@ -47,7 +45,7 @@ def install_python_deps(requirements_file):
 
 def python_deps(logger):
     logger.info("Installing Python dependencies...")
-    if which("pip") == None:
+    if which("pip") is None:
         logger.warn("pip not found. Skipping installation of Python dependencies."
                     "Please, install `python-dev` and `python-pip` packages.")
     else:
@@ -71,10 +69,10 @@ def main():
                disable_existing_loggers=False)
     logger = logging.getLogger('sbpipe')
 
-    if which("CopasiSE") == None:
+    if which("CopasiSE") is None:
         logger.error("CopasiSE not found. Please install Copasi as explained on the sbpipe website.")
 
-    if which("R") == None:
+    if which("R") is None:
         logger.error("R not found. Skipping installation of R dependencies."
                      "sbpipe will be severely affected due to this.")
 

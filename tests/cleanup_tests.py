@@ -32,14 +32,14 @@ def cleanup_tests():
     """
     Clean up the test results.
     """
-    testpath = os.path.join(SBPIPE,'tests')
+    testpath = os.path.join(SBPIPE, 'tests')
     projects = [f for f in os.listdir(testpath) if isdir(join(testpath, f))]
 
     for file in projects:
         modelspath = join(testpath, file, 'Models')
         print("cleaning replicated copasi files...")        
-        replicatedCopasiFiles = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
-        for f in replicatedCopasiFiles:       
+        replicated_copasi_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
+        for f in replicated_copasi_files:
             os.remove(f)
         
         print("cleaning tmp folder...")       
@@ -51,7 +51,7 @@ def cleanup_tests():
         wfpath = join(testpath, file, 'Working_Folder')    
     
         # Delete tgz files
-        wflist = [ f for f in os.listdir(wfpath) if f.endswith(".tgz") ]
+        wflist = [f for f in os.listdir(wfpath) if f.endswith(".tgz")]
         for f in wflist:
             os.remove(os.path.join(wfpath, f))
         # delete sub-directories

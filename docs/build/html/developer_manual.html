@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; SB pipe 1.15.0 documentation</title>
+    <title>Developer manual &mdash; SB pipe 1.18.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.15.0',
+        VERSION:     '1.18.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.15.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 1.18.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -160,10 +160,10 @@ used and configured accordingly (.travis.yml).</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe:
   | - docs/
   | - sbpipe/
-        | - pipeline
+        | - pl
         | - R
         | - report
-        | - simulator
+        | - simul
         | - utils
   | - scripts/
   | - tests/
@@ -201,6 +201,10 @@ $ ./gen_doc.sh
 $ ./cleanup_doc.sh
 </pre></div>
 </div>
+<p>The complete source code documentation for this project is stored in
+<code class="docutils literal"><span class="pre">docs/build/html</span></code> (html format) and <code class="docutils literal"><span class="pre">docs/build/latex</span></code> (LaTeX/PDF
+format). A shortcut to the documentation in html format is available at
+the page <code class="docutils literal"><span class="pre">docs/index.html</span></code></p>
 </div>
 <div class="section" id="sbpipe">
 <h3>sbpipe<a class="headerlink" href="#sbpipe" title="Permalink to this headline">¶</a></h3>
@@ -210,29 +214,35 @@ Python module via the command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ python sbpipe
 </pre></div>
 </div>
+<p>Alternatively <code class="docutils literal"><span class="pre">sbpipe</span></code> can be imported as shown below:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE
+$ python
+# Python environment
+&gt;&gt;&gt; import sbpipe.main as sb
+&gt;&gt;&gt; sb.version()
+&#39;1.25.0 &#39;
+</pre></div>
+</div>
 <p>The following subsections describe sbpipe subpackages.</p>
-<div class="section" id="pipeline">
-<h4>pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h4>
-<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.pipeline</span></code> contains the class <code class="docutils literal"><span class="pre">Pipeline</span></code> in
-the file <code class="docutils literal"><span class="pre">pipeline.py</span></code>. This class represents a generic pipeline which
-is extended by SB pipe pipelines. These are organised in the following
+<div class="section" id="pl">
+<h4>pl<a class="headerlink" href="#pl" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.pl</span></code> contains the class <code class="docutils literal"><span class="pre">Pipeline</span></code> in the file
+<code class="docutils literal"><span class="pre">pipeline.py</span></code>. This class represents a generic pipeline which is
+extended by SB pipe pipelines. These are organised in the following
 subpackages:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">create_project</span></code>: creates a new project</li>
-<li><code class="docutils literal"><span class="pre">simulate</span></code>: simulates a model deterministically or stochastically,
+<li><code class="docutils literal"><span class="pre">create</span></code>: creates a new project</li>
+<li><code class="docutils literal"><span class="pre">ps1</span></code>: scan a model parameter, generate plots and report;</li>
+<li><code class="docutils literal"><span class="pre">ps2</span></code>: scan two model parameters, generate plots and report;</li>
+<li><code class="docutils literal"><span class="pre">pe</span></code>: generate a fits sequence, tables of statistics and plots.</li>
+<li><code class="docutils literal"><span class="pre">sim</span></code>: simulates a model deterministically or stochastically,
 generate plots and report;</li>
-<li><code class="docutils literal"><span class="pre">single_param_scan</span></code>: scan a model parameter, generate plots and
-report;</li>
-<li><code class="docutils literal"><span class="pre">double_param_scan</span></code>: scan two model parameters, generate plots and
-report;</li>
-<li><code class="docutils literal"><span class="pre">param_estim</span></code>: generate a fits sequence, tables of statistics and
-plots.</li>
 </ul>
-<p>All these pipelines are invoked directly via the script
+<p>All these pipelines can be invoked directly via the script
 <code class="docutils literal"><span class="pre">$SBPIPE/scripts/run_sbpipe.py</span></code>. Each SB pipe pipeline extends the
 class <code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>def run(self, config_file)
-def read_configuration(self, lines)
+def read_config(self, lines)
 </pre></div>
 </div>
 <p>The former contains the procedure to execute an INI configuration file.
@@ -251,26 +261,24 @@ data analysis.</p>
 <p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.report</span></code> contains Python modules for generating
 LaTeX/PDF reports.</p>
 </div>
-<div class="section" id="simulator">
-<h4>simulator<a class="headerlink" href="#simulator" title="Permalink to this headline">¶</a></h4>
-<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.simulator</span></code> contains the class <code class="docutils literal"><span class="pre">Simulator</span></code> in
-the file <code class="docutils literal"><span class="pre">simulator.py</span></code>. This is a generic simulator interface used by
-the pipelines in SB pipe. This mechanism uncouples pipelines from
-specific simulators which can therefore be configured in each pipeline
+<div class="section" id="simul">
+<h4>simul<a class="headerlink" href="#simul" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.simul</span></code> contains the class <code class="docutils literal"><span class="pre">Simul</span></code> in the file
+<code class="docutils literal"><span class="pre">simul.py</span></code>. This is a generic simulator interface used by the
+pipelines in SB pipe. This mechanism uncouples pipelines from specific
+simulators which can therefore be configured in each pipeline
 configuration file. As of 2016, the only available simulator is
-<code class="docutils literal"><span class="pre">Copasi</span></code> and this is available in the package
-<code class="docutils literal"><span class="pre">sbpipe.simulator.copasi</span></code>. This implements all the method of the class
-<code class="docutils literal"><span class="pre">Simulator</span></code>.</p>
+<code class="docutils literal"><span class="pre">Copasi</span></code> and this is available in the package <code class="docutils literal"><span class="pre">sbpipe.simul.copasi</span></code>.
+This implements all the method of the class <code class="docutils literal"><span class="pre">Simul</span></code>.</p>
 <p>Pipelines can dynamically load a simulator via the class method
-<code class="docutils literal"><span class="pre">Pipeline.get_simulator_object(simulator)</span></code>. This method instantiates
-an object of subtype <code class="docutils literal"><span class="pre">Simulator</span></code> by refractoring the simulator name as
+<code class="docutils literal"><span class="pre">Pipeline.get_simul_obj(simulator)</span></code>. This method instantiates an
+object of subtype <code class="docutils literal"><span class="pre">Simul</span></code> by refractoring the simulator name as
 parameter. A simulator class (e.g. <code class="docutils literal"><span class="pre">Copasi</span></code>) must have the same name
 of their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>) but start with an upper case letter.
 A simulator class must be contained in a file with the same name of
 their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>). Therefore, for each simulator package,
-exactly one simulator class can be instantiated.</p>
-<p>Simulators can be configured in the configuration file using the field
-<code class="docutils literal"><span class="pre">simulator</span></code>.</p>
+exactly one simulator class can be instantiated. Simulators can be
+configured in the configuration file using the field <code class="docutils literal"><span class="pre">simulator</span></code>.</p>
 </div>
 <div class="section" id="utils">
 <h4>utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h4>
@@ -294,7 +302,7 @@ configuring a project before running any pipeline. Projects inside the
 folder <code class="docutils literal"><span class="pre">$SBPIPE/tests/</span></code> have the SB pipe project structure:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Data</span></code>: (e.g. training / testing data sets for the model);</li>
-<li><code class="docutils literal"><span class="pre">Model</span></code>: (e.g. models, Copasi models, datasets directly used by
+<li><code class="docutils literal"><span class="pre">Model</span></code>: (e.g. models, Copasi models, data sets directly used by
 Copasi models);</li>
 <li><code class="docutils literal"><span class="pre">Working_Folder</span></code>: (e.g. pipelines configurations and parameter
 estimation results, time course, parameter scan, etc).</li>
@@ -388,10 +396,10 @@ git merge upstream/develop
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>
 <li><a class="reference internal" href="#docs">docs</a></li>
 <li><a class="reference internal" href="#sbpipe">sbpipe</a><ul>
-<li><a class="reference internal" href="#pipeline">pipeline</a></li>
+<li><a class="reference internal" href="#pl">pl</a></li>
 <li><a class="reference internal" href="#r">R</a></li>
 <li><a class="reference internal" href="#report">report</a></li>
-<li><a class="reference internal" href="#simulator">simulator</a></li>
+<li><a class="reference internal" href="#simul">simul</a></li>
 <li><a class="reference internal" href="#utils">utils</a></li>
 </ul>
 </li>
@@ -452,7 +460,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.15.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

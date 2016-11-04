@@ -29,31 +29,34 @@
 # To clean:
 # $ sudo python setup.py clean --all
 
-
 from setuptools import setup
 import os
 
 
-# Utility function to read a file.
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def read(filename):
+    """
+    Utility function to read a file.
+
+    :param filename: the name of the file to read
+    :return: the text contained in filename
+    """
+    return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
 
 setup(
-  name = 'sbpipe',
-  packages = ['sbpipe'],
-  version = read('VERSION'),
-  description = 'Pipelines for systems modelling of biological networks',  
-  author = 'Dr Piero Dalle Pezze',
-  author_email = 'piero.dallepezze@babraham.ac.uk',  
-  requires=['pp'],
-  package_data={'sbpipe': ['src/*']},
-  scripts=['scripts/run_sbpipe.py', 'scripts/cleanup_sbpipe.py'],  
-  url = 'https://github.com/pdp10/sbpipe',
-  download_url = 'https://pdp10.github.io/sbpipe',
-  keywords = ['systems biology','mathematical modelling','copasi','pipeline'],
-  include_package_data = False,
-  license = 'GNU GPL v3',
-  long_description = read('README.md')
+    name='sbpipe',
+    packages=['sbpipe'],
+    version=read('VERSION'),
+    description='Pipelines for systems modelling of biological networks',
+    author='Dr Piero Dalle Pezze',
+    author_email='piero.dallepezze@babraham.ac.uk',
+    requires=['pp'],
+    package_data={'sbpipe': ['src/*']},
+    scripts=['scripts/run_sbpipe.py', 'scripts/cleanup_sbpipe.py'],
+    url='https://github.com/pdp10/sbpipe',
+    download_url='https://pdp10.github.io/sbpipe',
+    keywords=['systems biology', 'mathematical modelling', 'copasi', 'pipeline'],
+    include_package_data=False,
+    license='GNU GPL v3',
+    long_description=read('README.md')
 )
-

@@ -29,13 +29,11 @@ import logging
 import os
 import os.path
 import subprocess
-
-logger = logging.getLogger('sbpipe')
-
 from ..pipeline import Pipeline
-
 from sbpipe.utils.io import refresh
 from sbpipe.report.latex_reports import latex_report_sps, pdf_report
+
+logger = logging.getLogger('sbpipe')
 
 
 class ParScan1(Pipeline):
@@ -59,8 +57,8 @@ class ParScan1(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par,
-             simulate__intervals, single_param_scan_simulations_number, 
-             single_param_scan_percent_levels, single_param_scan_knock_down_only, 
+             simulate__intervals, single_param_scan_simulations_number,
+             single_param_scan_percent_levels, single_param_scan_knock_down_only,
              levels_number, min_level, max_level, homogeneous_lines,
              xaxis_label, yaxis_label) = self.config_parser(config_file, "single_param_scan")
         except Exception as e:
@@ -145,11 +143,11 @@ class ParScan1(Pipeline):
 
         logger.info("Simulating Model: " + model)
         try:
-            sim = cls.get_simulator_object(simulator)
+            sim = cls.get_simul_obj(simulator)
             sim.ps1(model, scanned_par, sim_number, simulate_intervals,
                     single_param_scan_intervals, inputdir, outputdir)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")            
+            logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
             return
@@ -198,7 +196,7 @@ class ParScan1(Pipeline):
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'parscan1_analyse_data.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), str(homogeneous_lines), 
+                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level), str(max_level), str(levels_number), str(homogeneous_lines),
                                     xaxis_label, yaxis_label])
         process.wait()
 
@@ -245,7 +243,7 @@ class ParScan1(Pipeline):
         # The x axis label
         xaxis_label = "Time [min]"
         # The y axis label
-        yaxis_label = "Level [a.u.]"        
+        yaxis_label = "Level [a.u.]"
         # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
         single_param_scan_simulations_number = 1
         # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
@@ -269,7 +267,7 @@ class ParScan1(Pipeline):
         for line in lines:
             logger.info(line)
             if line[0] == "simulator":
-                simulator = line[1]            
+                simulator = line[1]
             elif line[0] == "scanned_par":
                 scanned_par = line[1]
             elif line[0] == "simulate__intervals":

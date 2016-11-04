@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.utils package &mdash; SB pipe 1.15.0 documentation</title>
+    <title>sbpipe.utils package &mdash; SB pipe 1.18.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.15.0',
+        VERSION:     '1.18.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 1.18.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe package" href="sbpipe.html" />
     <link rel="next" title="Meta information" href="../meta_info.html" />
     <link rel="prev" title="sbpipe.simul.copasi package" href="sbpipe.simul.copasi.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="sbpipe.simul.copasi.html" title="sbpipe.simul.copasi package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
       </ul>
@@ -222,15 +222,15 @@ is used by Parallel Python (pp).</p>
 <span id="sbpipe-utils-parcomp-module"></span><h2>sbpipe.utils.parcomp module<a class="headerlink" href="#module-sbpipe.utils.parcomp" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.parcomp">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic funcion to run a command in parallel</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>command</strong> &#8211; the command string to run in parallel</li>
-<li><strong>command_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
+<li><strong>cmd</strong> &#8211; the command string to run in parallel</li>
+<li><strong>cmd_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
 <li><strong>cluster_type</strong> &#8211; the cluster type among pp (multithreading), sge, or lsf</li>
 <li><strong>runs</strong> &#8211; the number of runs</li>
 <li><strong>output_dir</strong> &#8211; the output directory</li>
@@ -244,13 +244,13 @@ is used by Parallel Python (pp).</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_cmd_instance">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd_instance</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd_instance" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd_instance</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd_instance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a command using Python subprocess.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> &#8211; the string of the command to run</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> &#8211; the string of the command to run</td>
 </tr>
 </tbody>
 </table>
@@ -258,18 +258,18 @@ is used by Parallel Python (pp).</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_command_pp">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_command_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>server</em>, <em>syncCounter=&lt;sbpipe.utils.monitor.Monitor instance&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_command_pp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_command_pp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs</em>, <em>server</em>, <em>monitor=&lt;sbpipe.utils.monitor.Monitor instance&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_command_pp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run instances of a command in multithreading using parallel python (pp).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>command</strong> &#8211; the command string to run in parallel</li>
-<li><strong>command_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
+<li><strong>cmd</strong> &#8211; the command string to run in parallel</li>
+<li><strong>cmd_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
 <li><strong>runs</strong> &#8211; the number of runs</li>
 <li><strong>server</strong> &#8211; the server that pp should use</li>
-<li><strong>syncCounter</strong> &#8211; the mutex object to count the jobs</li>
+<li><strong>monitor</strong> &#8211; the mutex object to count the jobs</li>
 </ul>
 </td>
 </tr>
@@ -279,17 +279,17 @@ is used by Parallel Python (pp).</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_lsf">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Load Sharing Facility (LSF) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>command</strong> &#8211; the full command to run as a job</li>
-<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
-<li><strong>outDir</strong> &#8211; the directory containing the standard output from bsub</li>
-<li><strong>errDir</strong> &#8211; the directory containing the standard error from bsub</li>
+<li><strong>cmd</strong> &#8211; the full command to run as a job</li>
+<li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>out_dir</strong> &#8211; the directory containing the standard output from bsub</li>
+<li><strong>err_dir</strong> &#8211; the directory containing the standard error from bsub</li>
 <li><strong>runs</strong> &#8211; the number of runs to execute</li>
 </ul>
 </td>
@@ -300,15 +300,15 @@ is used by Parallel Python (pp).</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_pp">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>runs</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_pp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs</em>, <em>pp_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_pp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using parallel python (pp) locally.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>command</strong> &#8211; the full command to run as a job</li>
-<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>cmd</strong> &#8211; the full command to run as a job</li>
+<li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>runs</strong> &#8211; the number of runs to execute</li>
 <li><strong>pp_cpus</strong> &#8211; The number of available cpus. If pp_cpus &lt;=0, all the available cores will be used.</li>
 </ul>
@@ -320,17 +320,17 @@ is used by Parallel Python (pp).</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_sge">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>command</em>, <em>command_iter_substr</em>, <em>outDir</em>, <em>errDir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Sun Grid Engine (SGE) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>command</strong> &#8211; the full command to run as a job</li>
-<li><strong>command_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
-<li><strong>outDir</strong> &#8211; the directory containing the standard output from qsub</li>
-<li><strong>errDir</strong> &#8211; the directory containing the standard error from qsub</li>
+<li><strong>cmd</strong> &#8211; the full command to run as a job</li>
+<li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
+<li><strong>out_dir</strong> &#8211; the directory containing the standard output from qsub</li>
+<li><strong>err_dir</strong> &#8211; the directory containing the standard error from qsub</li>
 <li><strong>runs</strong> &#8211; the number of runs to execute</li>
 </ul>
 </td>
@@ -464,7 +464,7 @@ is used by Parallel Python (pp).</p>
         <li class="right" >
           <a href="sbpipe.simul.copasi.html" title="sbpipe.simul.copasi package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
       </ul>

@@ -22,8 +22,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2015-07-13 12:14:32 $
 
-
-
 # Utilities for randomisation
 
 import random

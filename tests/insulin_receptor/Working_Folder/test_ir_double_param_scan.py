@@ -23,30 +23,26 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
-
 import os
 import sys
-from distutils.dir_util import copy_tree
-
-SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE,'scripts'))
-
-import run_sbpipe
-
 import unittest
-
+SBPIPE = os.environ["SBPIPE"]
+sys.path.append(os.path.join(SBPIPE, 'scripts'))
+import run_sbpipe
 
 """Unit test for Insulin Receptor"""
 
+
 class TestIRDoubleParamScan(unittest.TestCase):
-  """
-  A collection of tests for this example.
-  """
-  def test_double_param_scan_inhib_only(self):    
-    """model double param scan - inhibition only"""
-    self.assertEqual(run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)     
+    """
+    A collection of tests for this example.
+    """
+
+    def test_double_param_scan_inhib_only(self):
+        """model double param scan - inhibition only"""
+        self.assertEqual(
+            run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-    
-    

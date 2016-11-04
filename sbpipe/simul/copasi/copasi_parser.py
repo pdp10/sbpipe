@@ -39,12 +39,14 @@ class CopasiParser:
         """
         pass
 
-    def get_param_estim_val(self, file_in):
+    @classmethod
+    def get_param_estim_val(cls, file_in):
         """
         Parse a Copasi file and retrieve information on the parameters to estimate.
 
         :param file_in: the Copasi file including absolute path to parse
-        :return: a tuple containing the report file name, the parameter lower bounds, names, starting values, and upper bounds
+        :return: a tuple containing the report file name, the parameter lower bounds, names, starting values,
+        and upper bounds
         """
         report_filename_template = ""
         lower_bounds = []

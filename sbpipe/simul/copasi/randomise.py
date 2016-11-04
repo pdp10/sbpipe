@@ -24,16 +24,16 @@
 import os.path
 import random
 import shutil
-
 from copasi_parser import CopasiParser
 from sbpipe.utils.io import *
+
 logger = logging.getLogger('sbpipe')
 
 
 class Randomise:
     """
-    This class generates multiple copies of a Copasi file configured for parameter estimation task, and randomises the starting
-    values of the parameters to estimate.
+    This class generates multiple copies of a Copasi file configured for parameter estimation task,
+    and randomises the starting values of the parameters to estimate.
     
     :param path: the path to filename_in
     :param filename_in: the Copasi file to process.    
@@ -59,7 +59,6 @@ class Randomise:
         self.__start_values, self.__upper_bounds = \
             self.__copasi.get_param_estim_val(os.path.join(self.__path, self.__filename_in))
 
-
     def randomise(self, num_files, idstr):
         """
         Randomise the starting values for the parameter to estimate.
@@ -77,11 +76,10 @@ class Randomise:
             logger.info(filename_out)
             new_start_values, old_str, new_str = self.__rand_start_value()
             # 2) PRINT NEW VALUES
-            #logger.info("\nInitial parameters for the output file: " + file_out)
+            # logger.info("\nInitial parameters for the output file: " + file_out)
             self.__print_params_to_estim2(new_start_values)
             # 3) REPLACE VALUES IN THE NEW FILE
             self.__replace_start_value(file_out, old_str, new_str)
-            
 
     def replicate(self, num_files, idstr):
         """
@@ -101,8 +99,7 @@ class Randomise:
             if os.path.isfile(file_out):
                 os.remove(file_out)
             shutil.copy2(file_in, file_out)
-            self.__replace_report_filename(file_out, report_filename)            
-
+            self.__replace_report_filename(file_out, report_filename)
 
     def get_copasi_obj(self):
         """
@@ -176,8 +173,8 @@ class Randomise:
         logger.info("\t\t=============\t\t==========\t\t==========\t\t==========")
         for i in range(0, len(self.__param_names)):
             logger.info("\t\t" + self.__param_names[i][self.__param_names[i].find("[") +
-                      1:self.__param_names[i].find("]")] +
-                      "\t\t" + self.__lower_bounds[i] + "\t\t" + self.__start_values[i] +
+                                                       1:self.__param_names[i].find("]")] +
+                        "\t\t" + self.__lower_bounds[i] + "\t\t" + self.__start_values[i] +
                         "\t\t" + self.__upper_bounds[i])
 
     def __print_params_to_estim2(self, new_start_values):
@@ -192,10 +189,10 @@ class Randomise:
         for i in range(0, len(self.__param_names)):
             logger.debug("\t\t" + self.__param_names[i][self.__param_names[i].find("[") +
                                                         1:self.__param_names[i].find("]")] +
-                        "\t\t" + self.__lower_bounds[i] +
-                        "\t\t" + self.__upper_bounds[i] +
-                        "\t\t" + self.__start_values[i] +
-                        "\t\t" + new_start_values[i])
+                         "\t\t" + self.__lower_bounds[i] +
+                         "\t\t" + self.__upper_bounds[i] +
+                         "\t\t" + self.__start_values[i] +
+                         "\t\t" + new_start_values[i])
 
     def __rand_start_value(self):
         """
@@ -209,18 +206,18 @@ class Randomise:
         new_str = []
         # Randomize the starting values using the respective lower and upper bounds using a uniform distibution
         for i in range(0, len(self.__param_names)):
-            if(str(self.__lower_bounds[i].find("CN=Root,Model=") != -1) or
-               str(self.__upper_bounds[i].find("CN=Root,Model=") != -1)):
+            if (str(self.__lower_bounds[i].find("CN=Root,Model=") != -1) or
+                    str(self.__upper_bounds[i].find("CN=Root,Model=") != -1)):
                 # Either the lower or the upper bound is a variable. Fix a random value in [1e-05,1]
                 new_start_values.append(str(random.uniform(0.00001, 1)))
             else:
                 # The lower and the upper bounds are constants
                 new_start_values.append(str(random.uniform(float(self.__lower_bounds[i]),
-                                                            float(self.__upper_bounds[i]))))
+                                                           float(self.__upper_bounds[i]))))
             old_str.append('<Parameter name="StartValue" type="float" value="' + self.__start_values[i] + '"/>')
             new_str.append('<Parameter name="StartValue" type="float" value="' + new_start_values[i] + '"/>')
-            #logger.debug(old_str[i])
-            #logger.debug(new_str[i])
+            # logger.debug(old_str[i])
+            # logger.debug(new_str[i])
         return new_start_values, old_str, new_str
 
     def __replace_start_value(self, file_out, old_str, new_str):
@@ -232,19 +229,20 @@ class Randomise:
         :param new_str: the list of XML strings containing the new starting values.
         """
         for i in range(0, len(self.__param_names)):
-            # Check whether the replacement of the parameter start value is exactly for the parameter estimation task
-            # and for the corresponding parameter name. So, if different parameters have same start values, the algorithm
-            # replaces only the value for the corresponding parameter and not to all the instances with equal start value.
+            # Check whether the replacement of the parameter start value is exactly for the parameter
+            # estimation task and for the corresponding parameter name. So, if different parameters
+            # have same start values, the algorithm replaces only the value for the corresponding
+            # parameter and not to all the instances with equal start value.
             # (A) Retrieve the line number of the current parameter name to edit
             s = self.__param_names[i]
 
-            ctrl_str='<Parameter name="ObjectCN" type="cn" value="' + s + '"/>'
-            #logger.debug(ctrl_str)
+            ctrl_str = '<Parameter name="ObjectCN" type="cn" value="' + s + '"/>'
+            # logger.debug(ctrl_str)
             name_line_num = get_pattern_pos(ctrl_str, file_out)
             # (B) Retrieve the line number of the current parameter start value to edit
             start_val_line_num = get_pattern_pos(old_str[i], file_out)
             # Test whether start_value of reference corresponds to the retrieved parameter name or not.
-            if int(name_line_num) == int(start_val_line_num)-1:
+            if int(name_line_num) == int(start_val_line_num) - 1:
                 # replace the parameter starting value
                 replace_str_in_file(file_out, old_str[i], new_str[i])
             else:

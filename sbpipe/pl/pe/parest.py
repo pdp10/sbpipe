@@ -21,7 +21,6 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 19:14:32 $
 
-
 # for computing the pipeline elapsed time 
 import datetime
 import glob
@@ -29,16 +28,13 @@ import logging
 import os
 import subprocess
 import tarfile
-
-logger = logging.getLogger('sbpipe')
-
 from .collect_results import get_best_fits
 from .collect_results import get_all_fits
-
 from ..pipeline import Pipeline
-
 from sbpipe.utils.io import refresh
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
+
+logger = logging.getLogger('sbpipe')
 
 
 class ParEst(Pipeline):
@@ -139,8 +135,8 @@ class ParEst(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            self.generate_report(model[:-4], 
-                                 outputdir, 
+            self.generate_report(model[:-4],
+                                 outputdir,
                                  self.get_sim_plots_folder())
 
         if generate_tarball:
@@ -148,19 +144,19 @@ class ParEst(Pipeline):
             logger.info("Store the fits sequences in a tarball:")
             logger.info("#####################################")
             # Create a gz tarball
-            origWD = os.getcwd()  # remember our original working directory
+            orig_wd = os.getcwd()  # remember our original working directory
             os.chdir(working_dir)  # change folder
             with tarfile.open(output_folder + ".tgz", "w:gz") as tar:
                 tar.add(output_folder, arcname=os.path.basename(output_folder))
-            os.chdir(origWD)  # get back to our original working directory
+            os.chdir(orig_wd)  # get back to our original working directory
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
         if os.path.isfile(os.path.join(outputdir, fileout_final_estims)) and \
-            os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
-            len(glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
+                os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
+                        len(glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
             return 0
         return 1
 
@@ -193,18 +189,18 @@ class ParEst(Pipeline):
         refresh(sim_data_dir, model[:-4])
         refresh(updated_models_dir, model[:-4])
         try:
-            sim = cls.get_simulator_object(simulator)
+            sim = cls.get_simul_obj(simulator)
             sim.pe(model, inputdir, cluster_type, pp_cpus, nfits, outputdir,
                    sim_data_dir, updated_models_dir)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")            
+            logger.error("simulator: " + simulator + " not found.")
             import traceback
             logger.debug(traceback.format_exc())
             return
 
     @classmethod
     def analyse_data(cls, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir, 
+                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir,
                      best_fits_percent, data_point_num,
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
                      logspace=True, scientific_notation=True):
@@ -216,7 +212,8 @@ class ParEst(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
         :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
-        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the
+        estimated parameters
         :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
@@ -242,11 +239,11 @@ class ParEst(Pipeline):
         logger.info("Plot results:")
         logger.info("\n")
         process = subprocess.Popen(['Rscript',
-                         os.path.join(os.path.dirname(__file__), 'main_final_fits_analysis.r'),
-                         model,
-                         os.path.join(outputdir, fileout_final_estims),
-                         sim_plots_dir,
-                         str(best_fits_percent), str(logspace), str(scientific_notation)])
+                                    os.path.join(os.path.dirname(__file__), 'main_final_fits_analysis.r'),
+                                    model,
+                                    os.path.join(outputdir, fileout_final_estims),
+                                    sim_plots_dir,
+                                    str(best_fits_percent), str(logspace), str(scientific_notation)])
         process.wait()
         process = subprocess.Popen(
             ['Rscript', os.path.join(os.path.dirname(__file__), 'main_all_fits_analysis.r'),
@@ -256,7 +253,7 @@ class ParEst(Pipeline):
              str(data_point_num),
              os.path.join(outputdir, fileout_param_estim_details),
              os.path.join(outputdir, fileout_param_estim_summary),
-             str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr), 
+             str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr),
              str(logspace), str(scientific_notation)])
         process.wait()
 
@@ -313,7 +310,7 @@ class ParEst(Pipeline):
         plot_2d_95cl_corr = False
         # Plot 2D correlations using data from 99% confidence levels
         # This can be very time/memory consuming
-        plot_2d_99cl_corr = False        
+        plot_2d_99cl_corr = False
         # True if the parameters should be plotted in log10 space.
         logspace = True
         # True if axis labels should be plotted in scientific notation
@@ -323,7 +320,7 @@ class ParEst(Pipeline):
         for line in lines:
             logger.info(line)
             if line[0] == "simulator":
-                simulator = line[1]            
+                simulator = line[1]
             elif line[0] == "generate_tarball":
                 generate_tarball = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "cluster":
@@ -343,7 +340,7 @@ class ParEst(Pipeline):
             elif line[0] == "plot_2d_95cl_corr":
                 plot_2d_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "plot_2d_99cl_corr":
-                plot_2d_99cl_corr = {'True': True, 'False': False}.get(line[1], False)                
+                plot_2d_99cl_corr = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "logspace":
                 logspace = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "scientific_notation":
@@ -351,9 +348,6 @@ class ParEst(Pipeline):
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model, cluster, pp_cpus,
-                round, runs, best_fits_percent, data_point_num, 
+                round, runs, best_fits_percent, data_point_num,
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                 logspace, scientific_notation)
-
-
-

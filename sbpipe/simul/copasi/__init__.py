@@ -31,7 +31,7 @@ path, foldername = os.path.split(dir_path)
 # dynamically load the module with the same name of this package
 for module in os.listdir(os.path.dirname(__file__)):
     if module[:-3] == foldername:
-        #print(module[:-3])
+        # print(module[:-3])
         __import__(module[:-3], locals(), globals())
     del module
 
