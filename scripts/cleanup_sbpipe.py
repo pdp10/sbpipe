@@ -35,8 +35,8 @@ def cleanup():
     Clean up the package including the tests.
     """
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-    import tests.cleanup_tests
-    tests.cleanup_tests
+    import tests.cleanup_tests as cleanup_tests
+    cleanup_tests.cleanup_tests()
     from sbpipe.utils.io import files_with_pattern_recur
     # Remove all files with suffix .pyc recursively
     for f in files_with_pattern_recur(SBPIPE, '.pyc'):
