@@ -34,23 +34,37 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSingleParamScan(unittest.TestCase):
+class TestIRParamEstim(unittest.TestCase):
     """
     A collection of tests for this example.
     """
 
-    def test_single_param_scan_ci(self):
-        """model single param scan - confidence interval"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor_conf_errors', 'Working_Folder')
 
-    def test_single_param_scan_inhib_only(self):
-        """model single param scan - inhibition only"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
 
-    def test_single_param_scan_inhib_overexp(self):
-        """model single param scan - inhibition/overexpression"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
-                         0)
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_param_estim_copasi1(self):
+        """model parameter estimation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim1.conf"]), 1)
+
+    def test_param_estim_copasi2(self):
+        """model parameter estimation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim2.conf"]), 1)
+
+    def test_param_estim_copasi3(self):
+        """model parameter estimation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim3.conf"]), 1)
+
+    def test_param_estim_copasi4(self):
+        """model parameter estimation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim4.conf"]), 1)
 
 
 if __name__ == '__main__':

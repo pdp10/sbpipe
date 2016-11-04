@@ -34,7 +34,10 @@ def cleanup_tests():
     testpath = os.path.join(SBPIPE, 'tests')
     projects = [f for f in os.listdir(testpath) if isdir(join(testpath, f))]
 
+    print('Cleaning tests:')
     for file in projects:
+        print('\nFolder ' + file)
+
         modelspath = join(testpath, file, 'Models')
         print("cleaning replicated copasi files...")
         replicated_copasi_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
@@ -63,4 +66,5 @@ def main(args=None):
     cleanup_tests()
 
 
-main(sys.argv)
+if __name__ == "__main__":
+    main(sys.argv)

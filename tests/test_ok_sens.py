@@ -38,6 +38,18 @@ class TestIRSensitivity(unittest.TestCase):
     """
     A collection of tests for this example.
     """
+
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
+
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
     # TODO TO TEST
     # print "The script sb_sensitivity.py does not run Copasi, but generates a plot for
     # each file containing a square matrix in PROJECT/simulation/MODEL/SENSITIVITIES_FOLDER (here: ins_rec_model/simulation/insulin_receptor/sensitivities/)"

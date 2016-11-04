@@ -25,24 +25,43 @@
 
 import os
 import sys
-import unittest
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
+import unittest
 
 """Unit test for Insulin Receptor"""
 
 
-class TestIRDoubleParamScan(unittest.TestCase):
+class TestIRSingleParamScan(unittest.TestCase):
     """
     A collection of tests for this example.
     """
 
-    def test_double_param_scan_inhib_only(self):
-        """model double param scan - inhibition only"""
-        self.assertEqual(
-            run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
+
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_single_param_scan_ci(self):
+        """model single param scan - confidence interval"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
+
+    def test_single_param_scan_inhib_only(self):
+        """model single param scan - inhibition only"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
+
+    def test_single_param_scan_inhib_overexp(self):
+        """model single param scan - inhibition/overexpression"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
+                         0)
 
 
 if __name__ == '__main__':

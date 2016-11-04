@@ -17,7 +17,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
+# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -35,34 +35,37 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSGE(unittest.TestCase):
+class TestIRLSF(unittest.TestCase):
     """
-    A collection of tests for this example using SGE
+    A collection of tests for this example using LSF
     """
 
-    def test_stoch_simul_copasi_sge(self):
-        """model simulation using SGE if found"""
-        try:
-            subprocess.call(["qstat"])
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sge_ir_model_stoch_simul.conf"]), 0)
-        except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
 
-    def test_param_estim_copasi_sge(self):
-        """model parameter estimation using SGE if found"""
-        try:
-            subprocess.call(["qstat"])
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "sge_ir_model_param_estim.conf"]), 0)
-        except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
 
-    def test_stoch_param_estim_copasi_sge(self):
-        """model stochastic parameter estimation using SGE if found"""
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_stoch_simul_copasi_lsf(self):
+        """model simulation using LSF if found"""
         try:
             subprocess.call(["qstat"])
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "sge_ir_model_stoch_param_estim.conf"]), 0)
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
         except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+
+    def test_param_estim_copasi_lsf(self):
+        """model parameter estimation using LSF if found"""
+        try:
+            subprocess.call(["bjobs"])
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 
 if __name__ == '__main__':

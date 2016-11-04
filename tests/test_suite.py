@@ -25,62 +25,62 @@
 import os
 import sys
 import unittest
-
 SBPIPE = os.environ["SBPIPE"]
-# folders containing the configuration files and test file
-ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
-# import paths to the resource folders
-sys.path.append(os.path.join(SBPIPE, 'tests', ir_folder))
-# import modules
-from test_ir_simulate import TestIRSimulate
-from test_ir_single_param_scan import TestIRSingleParamScan
-from test_ir_double_param_scan import TestIRDoubleParamScan
-from test_ir_param_estim import TestIRParamEstim
-from test_ir_sensitivity import TestIRSensitivity
-from test_ir_lsf import TestIRLSF
-from test_ir_sge import TestIRSGE
+sys.path.append(os.path.join(SBPIPE))
+import tests.cleanup_tests as cleanup
 
+import tests.test_ok_sim as ok_sim
+import tests.test_ok_ps1 as ok_ps1
+import tests.test_ok_ps2 as ok_ps2
+import tests.test_ok_pe as ok_pe
+import tests.test_ok_sens as ok_sens
+import tests.test_ok_lsf as ok_lsf
+import tests.test_ok_sge as ok_sge
 
-# def create_suite():
-# """
-# Test suite and runner
-# """
-# Load the tests for these test cases
-# suite1 = unittest.TestLoader().loadTestsFromTestCase(TestIR)
-# suite2 = unittest.TestLoader().loadTestsFromTestCase("SOMETHING_ELSE")
-# alltests = unittest.TestSuite([suite1, suite2])
-# alltests = unittest.TestSuite([suite1])
-# return alltests
+import tests.test_conferr_sim as conf_err_sim
+import tests.test_conferr_ps1 as conf_err_ps1
+import tests.test_conferr_ps2 as conf_err_ps2
+import tests.test_conferr_pe as conf_err_pe
+import tests.test_conferr_sge as conf_err_sge
 
-
-def run_sbpipe_tests():
-    """
-    Run a suite of tests for the sbpipe package
-    """
-    # suite = create_suite()
-    # unittest.TextTestRunner(verbosity=2).run(suite)
-
-    # For each test, we need to change directory.
-    orig_wd = os.getcwd()  # remember our original working directory
-    os.chdir(os.path.join(SBPIPE, 'tests', ir_folder))
-    suite_simulate = unittest.TestLoader().loadTestsFromTestCase(TestIRSimulate)
-    suite_sps = unittest.TestLoader().loadTestsFromTestCase(TestIRSingleParamScan)
-    suite_dps = unittest.TestLoader().loadTestsFromTestCase(TestIRDoubleParamScan)
-    suite_pe = unittest.TestLoader().loadTestsFromTestCase(TestIRParamEstim)
-    suite_sens = unittest.TestLoader().loadTestsFromTestCase(TestIRSensitivity)
-    suite_lsf = unittest.TestLoader().loadTestsFromTestCase(TestIRLSF)
-    suite_sge = unittest.TestLoader().loadTestsFromTestCase(TestIRSGE)
-    suite = unittest.TestSuite([suite_simulate, suite_sps, suite_dps, suite_pe, suite_sens, suite_lsf, suite_sge])
-    unittest.TextTestRunner(verbosity=2).run(suite)
-    os.chdir(orig_wd)  # get back to our original working directory
-
-
-def main(args):
+def run_tests_suites():
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-    import tests.cleanup_tests
-    tests.cleanup_tests
-    # Run the test suite
-    run_sbpipe_tests()
+    cleanup.main()
+
+    # Run negative test suites
+    suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestIRSimulate)
+    suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestIRSingleParamScan)
+    suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestIRDoubleParamScan)
+    suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestIRParamEstim)
+    suite_ok_sens = unittest.TestLoader().loadTestsFromTestCase(ok_sens.TestIRSensitivity)
+    suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestIRLSF)
+    suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestIRSGE)
 
 
-main(sys.argv)
+    # Run positive test suites
+    suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestIRSimulate)
+    suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestIRSingleParamScan)
+    suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestIRDoubleParamScan)
+    suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestIRParamEstim)
+    suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
+
+    # combine all the test suites
+    suite = unittest.TestSuite([suite_ok_sim,
+                                suite_ok_ps1,
+                                suite_ok_ps2,
+                                suite_ok_pe,
+                                suite_ok_sens,
+                                suite_ok_lsf,
+                                suite_ok_sge,
+                                suite_conferr_sim,
+                                suite_conferr_ps1,
+                                suite_conferr_ps2,
+                                suite_conferr_pe,
+                                suite_conferr_sge])
+
+    # run the combined test suite
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+if __name__ == "__main__":
+    run_tests_suites()

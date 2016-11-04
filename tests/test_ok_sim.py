@@ -17,14 +17,13 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
+# Object: run a list of tests for the insulin receptor model.
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
 import os
-import subprocess
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
@@ -35,26 +34,29 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRLSF(unittest.TestCase):
+class TestIRSimulate(unittest.TestCase):
     """
-    A collection of tests for this example using LSF
+    A collection of tests for this example.
     """
 
-    def test_stoch_simul_copasi_lsf(self):
-        """model simulation using LSF if found"""
-        try:
-            subprocess.call(["qstat"])
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
-        except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
 
-    def test_param_estim_copasi_lsf(self):
-        """model parameter estimation using LSF if found"""
-        try:
-            subprocess.call(["bjobs"])
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
-        except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_det_simulation(self):
+        """model deterministic simulation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul.conf"]), 0)
+
+    def test_stoch_simulation(self):
+        """model stochastic simulation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_stoch_simul.conf"]), 0)
 
 
 if __name__ == '__main__':

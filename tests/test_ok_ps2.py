@@ -25,27 +25,35 @@
 
 import os
 import sys
+import unittest
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
-import unittest
 
 """Unit test for Insulin Receptor"""
 
 
-class TestIRParamEstim(unittest.TestCase):
+class TestIRDoubleParamScan(unittest.TestCase):
     """
     A collection of tests for this example.
     """
 
-    def test_param_estim_copasi(self):
-        """model parameter estimation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim.conf"]), 0)
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
 
-    def test_non_identif_param_estim_copasi(self):
-        """model parameter estimation with identifiability issues """
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_non_identif_param_estim.conf"]), 0)
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_double_param_scan_inhib_only(self):
+        """model double param scan - inhibition only"""
+        self.assertEqual(
+            run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.conf"]), 0)
 
 
 if __name__ == '__main__':

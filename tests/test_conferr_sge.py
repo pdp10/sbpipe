@@ -17,13 +17,14 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model.
+# Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
 import os
+import subprocess
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
@@ -34,18 +35,29 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSimulate(unittest.TestCase):
+class TestIRSGE(unittest.TestCase):
     """
-    A collection of tests for this example.
+    A collection of tests for this example using SGE
     """
 
-    def test_det_simulation(self):
-        """model deterministic simulation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul.conf"]), 0)
+    _orig_wd = os.getcwd()  # remember our original working directory
+    _ir_folder = os.path.join('insulin_receptor_conf_errors', 'Working_Folder')
 
-    def test_stoch_simulation(self):
-        """model stochastic simulation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "ir_model_stoch_simul.conf"]), 0)
+    @classmethod
+    def setUp(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+
+    @classmethod
+    def tearDown(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def test_stoch_simul_copasi_sge(self):
+        """model simulation using SGE if found"""
+        try:
+            subprocess.call(["qstat"])
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sge_ir_model_det_simul.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
 
 if __name__ == '__main__':
