@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v1.28.0
+v1.30.0
 
+- added 20 tests including wrong configuration file settings.
+- extensive refactory of unit tests.
 - source code uses PEP8 standard
 - source code cleaning and reformatting.
 - improved source code by eliminating some warning highlighted by PyCharm.
