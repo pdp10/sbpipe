@@ -6,9 +6,9 @@ Subpackages
 
 .. toctree::
 
-    sbpipe.pipeline
+    sbpipe.pl
     sbpipe.report
-    sbpipe.simulator
+    sbpipe.simul
     sbpipe.utils
 
 Submodules

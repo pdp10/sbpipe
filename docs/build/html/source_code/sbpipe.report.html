@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.report package &mdash; SB pipe 1.15.0 documentation</title>
+    <title>sbpipe.report package &mdash; SB pipe 1.18.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.15.0',
+        VERSION:     '1.18.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.15.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 1.18.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe package" href="sbpipe.html" />
-    <link rel="next" title="sbpipe.simulator package" href="sbpipe.simulator.html" />
-    <link rel="prev" title="sbpipe.pipeline.single_param_scan package" href="sbpipe.pipeline.single_param_scan.html" /> 
+    <link rel="next" title="sbpipe.simul package" href="sbpipe.simul.html" />
+    <link rel="prev" title="sbpipe.pl.sim package" href="sbpipe.pl.sim.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sbpipe.simulator.html" title="sbpipe.simulator package"
+          <a href="sbpipe.simul.html" title="sbpipe.simul package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="sbpipe.pipeline.single_param_scan.html" title="sbpipe.pipeline.single_param_scan package"
+          <a href="sbpipe.pl.sim.html" title="sbpipe.pl.sim package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
       </ul>
@@ -107,8 +107,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.report.latex_reports.latex_report_double_param_scan">
-<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_double_param_scan</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par1</em>, <em>scanned_par2</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_double_param_scan" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.report.latex_reports.latex_report_dps">
+<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_dps</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par1</em>, <em>scanned_par2</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_dps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a report for a double parameter scan task.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -120,7 +120,7 @@
 <li><strong>filename_prefix</strong> &#8211; the prefix for the LaTeX file</li>
 <li><strong>model_noext</strong> &#8211; the model name</li>
 <li><strong>scanned_par1</strong> &#8211; the 1st scanned parameter</li>
-<li><strong>scanned_par1</strong> &#8211; the 2nd scanned parameter</li>
+<li><strong>scanned_par2</strong> &#8211; the 2nd scanned parameter</li>
 </ul>
 </td>
 </tr>
@@ -129,8 +129,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.report.latex_reports.latex_report_param_estim">
-<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_param_estim</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_param_estim" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.report.latex_reports.latex_report_pe">
+<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_pe</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_pe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a report for a parameter estimation task.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -149,8 +149,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.report.latex_reports.latex_report_simulate">
-<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_simulate</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_simulate" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.report.latex_reports.latex_report_sim">
+<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_sim</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>model_noext</em>, <em>filename_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_sim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a report for a time course task.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -169,8 +169,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.report.latex_reports.latex_report_single_param_scan">
-<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_single_param_scan</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_single_param_scan" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.report.latex_reports.latex_report_sps">
+<code class="descclassname">sbpipe.report.latex_reports.</code><code class="descname">latex_report_sps</code><span class="sig-paren">(</span><em>outputdir</em>, <em>sim_plots_folder</em>, <em>filename_prefix</em>, <em>model_noext</em>, <em>scanned_par</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.report.latex_reports.latex_report_sps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a report for a single parameter scan task.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -230,11 +230,11 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="sbpipe.pipeline.single_param_scan.html"
-                        title="previous chapter">sbpipe.pipeline.single_param_scan package</a></p>
+  <p class="topless"><a href="sbpipe.pl.sim.html"
+                        title="previous chapter">sbpipe.pl.sim package</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="sbpipe.simulator.html"
-                        title="next chapter">sbpipe.simulator package</a></p>
+  <p class="topless"><a href="sbpipe.simul.html"
+                        title="next chapter">sbpipe.simul package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -269,12 +269,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sbpipe.simulator.html" title="sbpipe.simulator package"
+          <a href="sbpipe.simul.html" title="sbpipe.simul package"
              >next</a> |</li>
         <li class="right" >
-          <a href="sbpipe.pipeline.single_param_scan.html" title="sbpipe.pipeline.single_param_scan package"
+          <a href="sbpipe.pl.sim.html" title="sbpipe.pl.sim package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.15.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 1.18.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
       </ul>

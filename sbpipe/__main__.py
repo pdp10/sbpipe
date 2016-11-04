@@ -23,12 +23,8 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-02 10:18:32 $
 
-
-
 import sys
-
 from sbpipe import main
 
 if __name__ == "__main__":
     sys.exit(main.main())
-
