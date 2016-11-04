@@ -224,7 +224,7 @@ class ParEst(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
         :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
-        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the
+        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
         estimated parameters
         :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots

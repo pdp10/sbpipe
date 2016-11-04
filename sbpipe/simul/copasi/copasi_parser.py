@@ -45,8 +45,8 @@ class CopasiParser:
         Parse a Copasi file and retrieve information on the parameters to estimate.
 
         :param file_in: the Copasi file including absolute path to parse
-        :return: a tuple containing the report file name, the parameter lower bounds, names, starting values,
-        and upper bounds
+        :return: a tuple containing the report file name, the parameter lower bounds, \
+        names, starting values, and upper bounds
         """
         report_filename_template = ""
         lower_bounds = []
