@@ -25,7 +25,7 @@ SB pipe documentation
    developer_manual
    source_code
    meta_info
-   
+
    
 Indices
 =======
