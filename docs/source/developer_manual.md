@@ -158,7 +158,10 @@ $ ./cleanup_doc.sh
 The complete source code documentation for this project is stored in 
 `docs/build/html` (html format) and `docs/build/latex` (LaTeX/PDF format).
 A shortcut to the documentation in html format is available at the page 
-`docs/index.html`
+`docs/index.html`. 
+
+UML class diagrams for the packages `sbpipe.pl` and `sbpipe.simul` are 
+stored in `docs/source/uml_diagrams`.
 
 
 ### sbpipe
