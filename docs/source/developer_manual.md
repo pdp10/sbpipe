@@ -191,19 +191,24 @@ by SB pipe pipelines. These are organised in the following subpackages:
 - `create`: creates a new project
 - `ps1`: scan a model parameter, generate plots and report;
 - `ps2`: scan two model parameters, generate plots and report;
-- `pe`: generate a fits sequence, tables of statistics and plots.
-- `sim`: simulates a model deterministically or stochastically, generate 
-plots and report;
+- `pe`: generate a parameter fit sequence, tables of statistics, plots 
+and report;
+- `sim`: generate deterministic or stochastic model simulations, plots 
+and report.
 
 All these pipelines can be invoked directly via the script 
 `$SBPIPE/scripts/run_sbpipe.py`. Each SB pipe pipeline extends the class 
 `Pipeline` and therefore must implement the following methods: 
 ```
+# executes a pipeline
 def run(self, config_file)
+
+# process the configuration file lines 
+# imported by Pipeline.config_parser()
 def read_config(self, lines)
 ```
 
-The former contains the procedure to execute an INI configuration file. 
+The former contains the procedure to parse an INI configuration file. 
 The latter parses the pipeline options. The `Pipeline` class implements 
 the INI parser which is therefore available to each pipeline. The INI 
 parser returns the configuration file as a list of lines.
