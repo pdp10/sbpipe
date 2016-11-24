@@ -232,6 +232,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs):
                     os.path.join(err_dir, "j" + str(i))]
         echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
         bsub_proc = subprocess.Popen(bsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+        logger.debug(bsub_cmd)
     # Check here when these jobs are finished before proceeding
     import random
     import string
