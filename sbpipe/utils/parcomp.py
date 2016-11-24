@@ -72,7 +72,7 @@ def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
     """
     logger.debug("Parallel computation using " + cluster_type)
     logger.debug("Command: " + cmd)
-    logger.debug("ID string: " + cmd_iter_substr)
+    logger.debug("Iter ID string: " + cmd_iter_substr)
     logger.debug("# runs: " + str(runs))
     if cluster_type == "sge" or cluster_type == "lsf":
         out_dir = os.path.join(output_dir, 'out')
@@ -201,11 +201,12 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     for i in xrange(1, runs + 1):
         # Now the same with qsub
         jobs = "j" + str(i) + "," + jobs
-        echo_cmd = ["echo", cmd.replace(cmd_iter_substr, str(i))]
-        qsub_cmd = ["qsub", "-cwd", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e",
-                    os.path.join(err_dir, "j" + str(i))]
-        echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
-        qsub_proc = subprocess.Popen(qsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+        # echo_cmd = ["echo", cmd.replace(cmd_iter_substr, str(i))]
+        qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
+        # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
+        # qsub_proc = subprocess.Popen(qsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+        qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+        logger.debug(qsub_cmd)
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-hold_jid",
