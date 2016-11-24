@@ -70,6 +70,10 @@ def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
     :param output_dir: the output directory
     :param pp_cpus: the number of cpus that pp should use at most
     """
+    logger.debug("Parallel computation using " + cluster_type)
+    logger.debug("Command: " + cmd)
+    logger.debug("ID string: " + cmd_iter_substr)
+    logger.debug("# runs: " + str(runs))
     if cluster_type == "sge" or cluster_type == "lsf":
         out_dir = os.path.join(output_dir, 'out')
         err_dir = os.path.join(output_dir, 'err')
