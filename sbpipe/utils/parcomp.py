@@ -197,7 +197,6 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echo_proc.stdout)
     jobs = ""
-    echo_sleep = ["echo", "sleep 1"]
     for i in xrange(1, runs + 1):
         # Now the same with qsub
         jobs = "j" + str(i) + "," + jobs
@@ -210,11 +209,10 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-b", "y",
-                "-o", "/dev/null",
-                "-e", "/dev/null",
+                #"-o", "/dev/null",
+                #"-e", "/dev/null",
                 "-hold_jid", jobs[:-1], "sleep", "1"]
-    echo_proc = subprocess.Popen(echo_sleep, stdout=subprocess.PIPE)
-    qsub_proc = subprocess.Popen(qsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+    qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
     qsub_proc.communicate()[0]
     logger.debug(qsub_cmd)
 
