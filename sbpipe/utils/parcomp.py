@@ -210,8 +210,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y",
-                "-o", "/dev/null",
-                "-e", "/dev/null",
+                #"-o", "/dev/null",
+                #"-e", "/dev/null",
                 "-hold_jid", jobs[:-1], "-b", "y", "sleep", "1"]
     echo_proc = subprocess.Popen(echo_sleep, stdout=subprocess.PIPE)
     qsub_proc = subprocess.Popen(qsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
