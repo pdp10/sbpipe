@@ -209,7 +209,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
         logger.debug(qsub_cmd)
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
-    qsub_cmd = ["qsub", "-sync", "y",
+    qsub_cmd = ["qsub", "-cwd", "-V", #"-sync", "y",
                 "-o", os.path.join(out_dir, "wait"),
                 "-e", os.path.join(err_dir, "wait"),
                 "-hold_jid", jobs[:-1], "-b", "y", "sleep", "1"]
