@@ -222,24 +222,19 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     :param runs: the number of runs to execute
     """
     jobs = ""
-    echo_sleep = ["echo", "sleep 1"]
     for i in xrange(1, runs + 1):
         jobs = "done(j" + str(i) + ")&&" + jobs
-        echo_cmd = ["echo", cmd.replace(cmd_iter_substr, str(i))]
-        bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e",
-                    os.path.join(err_dir, "j" + str(i))]
-        echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
-        bsub_proc = subprocess.Popen(bsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+        bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
+        bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
         logger.debug(bsub_cmd)
     # Check here when these jobs are finished before proceeding
     import random
     import string
     job_name = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-    bsub_cmd = ["bsub", "-J", job_name, "-w",
-                jobs[:-2]]  # , "-o", os.path.join(outDir, "wait"), "-e", os.path.join(errDir, "wait")]
-    echo_proc = subprocess.Popen(echo_sleep, stdout=subprocess.PIPE)
-    bsub_proc = subprocess.Popen(bsub_cmd, stdin=echo_proc.stdout, stdout=subprocess.PIPE)
+    bsub_cmd = ["bsub", "-J", job_name, "-o", "/dev/null", "-e", "/dev/null", "-w", jobs[:-2], "sleep", "1"]
+    bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
     bsub_proc.communicate()[0]
+    logger.debug(bsub_cmd)
     # Something better than the following would be highly desirable
     import time
     found = True
