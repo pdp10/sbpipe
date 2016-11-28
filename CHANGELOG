@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v1.30.0
+v1.31.0
 
+- improved threshold levels for Sampled PLE plots.
 - added 20 tests including wrong configuration file settings.
 - extensive refactory of unit tests.
 - source code uses PEP8 standard
