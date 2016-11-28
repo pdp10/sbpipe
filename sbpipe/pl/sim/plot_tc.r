@@ -161,7 +161,6 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
    ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
 
 
-   plot
    if(plot_exp_dataset) {
      # Let's add the experimental data set to the plot
      # ONLY PRINT THE DATA POINTS FOR THE LENGTH OF THIS SIMULATION
