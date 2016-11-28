@@ -204,6 +204,11 @@ plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, pl
         }
         g <- g + ggtitle("Sampled PLE")
         ggsave(fileout, dpi=300, width=8, height=6)
+
+        # Add density information (removed as it was not showing much more..)
+        #g <- g + stat_density2d(color="green")
+        #fileout = gsub('.png', '_density.png', fileout)
+        #ggsave(fileout, dpi=300, width=8, height=6)
     }
 }
 

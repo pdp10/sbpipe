@@ -54,7 +54,7 @@ class TestIRLSF(unittest.TestCase):
     def test_stoch_simul_copasi_lsf(self):
         """model simulation using LSF if found"""
         try:
-            subprocess.call(["qstat"])
+            subprocess.call(["bjobs"])
             self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")

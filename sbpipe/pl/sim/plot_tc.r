@@ -170,6 +170,7 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
          ggsave(gsub(".png","_w_dataset.png",filename), dpi=300,  width=8, height=6)#, bg = "transparent")   
      }
    }
+   return(g)
 }
 
 
