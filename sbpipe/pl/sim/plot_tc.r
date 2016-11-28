@@ -110,6 +110,24 @@ get_statistics_table <- function(statistics, readout, colidx=2) {
 }
 
 
+# Add experimental data points to a plot. Only add the data points for the length of the simulation.
+#
+# :param df: the simulation data set
+# :param df_exp_dataset: the experimental data set
+# :param g: the current ggplot time course to add experimental data
+# :param readout: the current readout to plot
+plot_raw_dataset <- function(df, df_exp_dataset, g, readout) {
+   # Let's add the experimental data set to the plo
+   df_max_time <- max(df$a)
+
+   time <- colnames(df_exp_dataset)[1]
+   df_exp_dataset <- df_exp_dataset[df_exp_dataset[1] <= df_max_time,]
+   if(readout %in% colnames(df_exp_dataset)) {
+       g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout), shape=1, size=2, stroke=1, colour='red2')
+   }
+   return(g)
+}
+
 
 # Plot a model readout time course. If specified error bars are also plotted for each time point.
 #
@@ -131,9 +149,10 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
       # standard error configuration
       filename = file.path(outputdir, paste(model, "_none_", readout, ".png", sep=""))
       # Let's plot this special case now as it does not require error bars
-      df <- data.frame(a=timepoints, b=data$mean)      
-      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) + 
+      df <- data.frame(a=timepoints, b=data$mean)
+      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) +
            xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout)
+
     } else { 
 
       df <- data.frame(a=timepoints, b=data$mean, c=data$sd, d=data$ci95)
@@ -160,18 +179,13 @@ plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_
    }
    ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
 
-
    if(plot_exp_dataset) {
-     # Let's add the experimental data set to the plot
-     # ONLY PRINT THE DATA POINTS FOR THE LENGTH OF THIS SIMULATION
-     df_max_time <- max(df$a)
-
-     time <- colnames(df_exp_dataset)[1]
-     df_exp_dataset <- df_exp_dataset[df_exp_dataset[1] <= df_max_time,]
-     if(readout %in% colnames(df_exp_dataset)) {
-         g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout), shape=1, size=2, stroke=1.5)
-         ggsave(gsub(".png","_w_dataset.png",filename), dpi=300,  width=8, height=6)#, bg = "transparent")   
-     }
+      g <- plot_raw_dataset(df, df_exp_dataset, g, readout)
+      if(bar_type == "none") {
+        ## JUST ONE LINE IS PLOTTED. Replot the simulation line
+        g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
+      }
+      ggsave(gsub(".png","_w_raw_dataset.png",filename), dpi=300,  width=8, height=6)#, bg = "transparent")
    }
 
    return(g)
