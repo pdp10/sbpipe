@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; SB pipe 1.18.0 documentation</title>
+    <title>Developer manual &mdash; SB pipe 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.18.0',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 1.18.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 2.0.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -236,18 +236,23 @@ subpackages:</p>
 <li><code class="docutils literal"><span class="pre">create</span></code>: creates a new project</li>
 <li><code class="docutils literal"><span class="pre">ps1</span></code>: scan a model parameter, generate plots and report;</li>
 <li><code class="docutils literal"><span class="pre">ps2</span></code>: scan two model parameters, generate plots and report;</li>
-<li><code class="docutils literal"><span class="pre">pe</span></code>: generate a fits sequence, tables of statistics and plots.</li>
-<li><code class="docutils literal"><span class="pre">sim</span></code>: simulates a model deterministically or stochastically,
-generate plots and report;</li>
+<li><code class="docutils literal"><span class="pre">pe</span></code>: generate a parameter fit sequence, tables of statistics,
+plots and report;</li>
+<li><code class="docutils literal"><span class="pre">sim</span></code>: generate deterministic or stochastic model simulations,
+plots and report.</li>
 </ul>
 <p>All these pipelines can be invoked directly via the script
 <code class="docutils literal"><span class="pre">$SBPIPE/scripts/run_sbpipe.py</span></code>. Each SB pipe pipeline extends the
 class <code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>def run(self, config_file)
+<div class="highlight-python"><div class="highlight"><pre><span></span># executes a pipeline
+def run(self, config_file)
+
+# process the configuration file lines
+# imported by Pipeline.config_parser()
 def read_config(self, lines)
 </pre></div>
 </div>
-<p>The former contains the procedure to execute an INI configuration file.
+<p>The former contains the procedure to parse an INI configuration file.
 The latter parses the pipeline options. The <code class="docutils literal"><span class="pre">Pipeline</span></code> class
 implements the INI parser which is therefore available to each pipeline.
 The INI parser returns the configuration file as a list of lines.</p>
@@ -462,7 +467,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 1.18.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

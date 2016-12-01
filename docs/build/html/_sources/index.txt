@@ -25,7 +25,6 @@ SB pipe documentation
    developer_manual
    source_code
    meta_info
-   .. figure:: uml_diagrams/pipeline_class_diagram.png
 
    
 Indices
