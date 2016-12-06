@@ -6,7 +6,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.1.0 (Venus)
+v2.1.0 (Earth)
 
 - R deSolve package can be used for model simulation in addition to Copasi.
 
