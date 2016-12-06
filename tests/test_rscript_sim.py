@@ -40,7 +40,7 @@ class TestRscriptSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _r_desolve = os.path.join('rscript', 'Working_Folder')
+    _r_desolve = os.path.join('r_models', 'Working_Folder')
 
     @classmethod
     def setUp(cls):
