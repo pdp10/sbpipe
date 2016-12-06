@@ -234,7 +234,7 @@ As of 2016, the two simulators are available in SB pipe:
 
 - `Copasi`, package `sbpipe.simul.copasi`, which implements all the methods 
 of the class `Simul`;
-- `RdeSolve`, package `sbpipe.simul.rdesolve`, which only implements the 
+- `Rscript`, package `sbpipe.simul.rscript`, which only implements the
 method `sim()` of the class `Simul`.
 
 Pipelines can dynamically load a simulator via the class method 
@@ -268,7 +268,7 @@ before running any pipeline. Projects inside the folder `$SBPIPE/tests/`
 have the SB pipe project structure:
 
 - `Data`: (e.g. training / testing data sets for the model);
-- `Model`: (e.g. models, Copasi/RdeSolve models, data sets directly used 
+- `Model`: (e.g. models, Copasi / R models, data sets directly used
 by Copasi models);
 - `Working_Folder`: (e.g. pipelines configurations and parameter 
 estimation results, time course, parameter scan, etc).

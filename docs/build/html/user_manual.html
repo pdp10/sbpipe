@@ -83,7 +83,7 @@ installed):</p>
 <ul class="simple">
 <li>Copasi 4.16+ - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a> (for model simulation, parameter
 scan, and parameter estimation)</li>
-<li>R deSolve 1.14+ (for model simulation)</li>
+<li>Any R simulator (for model simulation)</li>
 </ul>
 <p>If LaTeX/PDF reports are also desired, the following software must also
 be installed:</p>
@@ -107,7 +107,7 @@ correct environment variables.</p>
 <p>If a local installation of Python, R, or LaTeX is needed, users need to
 add the following environment variables to <code class="docutils literal"><span class="pre">$PATH</span></code> in their
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
+<div class="highlight-python"><div class="highlight"><pre># Path to R
 export PATH=$PATH:/path/to/R/binaries/
 
 # Path to Python. Scripts is the folder (if any) containing the Python
@@ -120,7 +120,7 @@ export PATH=$PATH:/path/to/LaTeX/binaries/
 </div>
 <p>The correct installation of Python, R, and LaTeX can be tested by
 running the commands:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># If variables were manually exported, reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># If variables were manually exported, reload the .bashrc file
 $ source $HOME/.bashrc
 
 $ python -V
@@ -142,13 +142,13 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 <p>As of 2016, Copasi is not available as a package in GNU/Linux
 distributions. Users must add the path to Copasi binary files manually
 editing their GNU/Linux <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to CopasiSE
+<div class="highlight-python"><div class="highlight"><pre># Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE/
 </pre></div>
 </div>
 <p>The correct installation of CopasiSE can be tested by running the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 
 $ CopasiSE -h
@@ -161,14 +161,14 @@ environment variable <code class="docutils literal"><span class="pre">$SBPIPE</s
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file. The package also needs to be added to <code class="docutils literal"><span class="pre">$PATH</span></code>.
 To do so, users need to add the following lines to their
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># SBPIPE
+<div class="highlight-python"><div class="highlight"><pre># SBPIPE
 export SBPIPE=/path/to/sbpipe
 export PATH=$PATH:$SBPIPE/scripts
 </pre></div>
 </div>
 <p>Now you should reload the .bashrc file to make the previous change
 effective:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
@@ -176,12 +176,12 @@ $ source $HOME/.bashrc
 install Python and R dependency packages used by SB pipe. Two scripts
 are provided to perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/
 $ ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -195,7 +195,7 @@ the following additional packages are installed in your machine:
 be executed again.</p>
 <p>The correct installation of SB pipe can be tested by running the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py -v
+<div class="highlight-python"><div class="highlight"><pre>$ run_sbpipe.py -v
 2.1.0
 </pre></div>
 </div>
@@ -216,14 +216,14 @@ python scripts <code class="docutils literal"><span class="pre">pip.py</span></c
 folder <code class="docutils literal"><span class="pre">Scripts</span></code> within the Python root directory. The path to this
 folder must also be added to <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 <p>Therefore, the following environment variables must also be added:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>SBPIPE=\path\to\sbpipe
+<div class="highlight-python"><div class="highlight"><pre>SBPIPE=\path\to\sbpipe
 PATH=[previous paths];%SBPIPE%\scripts
 </pre></div>
 </div>
 <p><strong>NOTE for Cygwin:</strong> Environment variables can also be configured
 directly within the .bashrc file in cygwin/home/USERNAME/. In the
 beginning of this file, users should place:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
+<div class="highlight-python"><div class="highlight"><pre># Path to R
 export PATH=$PATH:/path/to/R/binaries/
 
 # Path to Python
@@ -244,12 +244,12 @@ export PATH=$PATH:$SBPIPE/scripts
 Cygwin, the next step is to install Python and R packages used by SB
 pipe. Two scripts are provided to perform these tasks automatically.</p>
 <p>To install SB pipe Python dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd /cygdrive/PATH/TO/SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd /cygdrive/PATH/TO/SBPIPE/
 $ python.exe install_pydeps.py
 </pre></div>
 </div>
 <p>To install SB pipe R dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd /cygdrive/PATH/TO/SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd /cygdrive/PATH/TO/SBPIPE/
 $ R.exe
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -261,13 +261,13 @@ $ R.exe
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
 <p>If desired, SB pipe can be installed in your system. To do so, run the
 command inside the sbpipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE
 $ python setup.py install
 </pre></div>
 </div>
 <p>The correct installation of SB pipe and its dependencies can be checked
 by running the following commands inside the SB pipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/tests
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/tests
 $ ./test_suite.py
 </pre></div>
 </div>
@@ -303,13 +303,14 @@ but replacing the extension .cps with .csv.</li>
 but replacing the extension .cps with .csv.</li>
 </ul>
 </div>
-<div class="section" id="pipelines-using-r-desolve">
-<h4>Pipelines using R deSolve<a class="headerlink" href="#pipelines-using-r-desolve" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="pipelines-using-r">
+<h4>Pipelines using R<a class="headerlink" href="#pipelines-using-r" title="Permalink to this headline">¶</a></h4>
 <p><strong>pipeline: simulation</strong></p>
-<p>The model output must be saved to a file. This file must be the model
-name with csv or txt extension. Fields must be separated by TAB, and row
-names must be discarded:</p>
 <ul class="simple">
+<li>The R model must be a functional.</li>
+<li>The model output must be saved to a file with Time as first column.
+This file must be the model name with csv or txt extension. Fields
+must be separated by TAB, and row names must be discarded:</li>
 <li>write.table(out, file=&#8221;simple_lotka_volterra.csv&#8221;,
 sep=&#8221;<a href="#id1"><span class="problematic" id="id2">:raw-latex:`\t`</span></a>&#8221;, row.names=FALSE) .</li>
 </ul>
@@ -321,7 +322,7 @@ sep=&#8221;<a href="#id1"><span class="problematic" id="id2">:raw-latex:`\t`</sp
 this command and its complete list of options can be retrieved by
 running <em>run_sbpipe.py -h</em>.</p>
 <p>As of Sep 2016 the output is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py -h
+<div class="highlight-python"><div class="highlight"><pre>$ run_sbpipe.py -h
 Usage: run_sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
@@ -354,11 +355,11 @@ For complete documentation, see README.md .
 </div>
 <p>The first step is to create a new project. This can be done with the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py --create-project project_name
+<div class="highlight-python"><div class="highlight"><pre>$ run_sbpipe.py --create-project project_name
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>project_name/
+<div class="highlight-python"><div class="highlight"><pre>project_name/
     | - Data/
     | - Models/
     | - Working_Folder/
@@ -376,7 +377,7 @@ Working_Folder/. This folder will eventually contain all the results
 generated by SB pipe.</p>
 <p>For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py -e my_config_file.conf
+<div class="highlight-python"><div class="highlight"><pre>$ run_sbpipe.py -e my_config_file.conf
 </pre></div>
 </div>
 </div>
@@ -384,7 +385,7 @@ certain configuration file can be executed by typing:</p>
 <h3>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h3>
 <p>Pipelines are configured using files (here called configuration files).
 These files are INI files and are therefore structured as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
 <span class="n">option1</span><span class="o">=</span><span class="n">value1</span>
 <span class="n">option2</span><span class="o">=</span><span class="n">value2</span>
 <span class="o">...</span>
@@ -397,7 +398,7 @@ generate it every time, or to skip the report generation if not wanted.
 Assuming that the configuration files are placed in the Working_Folder
 of a certain project, examples are given as follow:</p>
 <p><strong>Example 1:</strong> configuration file for the pipeline <em>simulation</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[simulate]
+<div class="highlight-python"><div class="highlight"><pre>[simulate]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -406,7 +407,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi, RdeSolve)
+# The name of the configurator (e.g. Copasi, Rscript)
 simulator=Copasi
 # The Copasi model name (e.g. insulin_receptor.cps, lotka_volterra.r)
 model=insulin_receptor_stoch.cps
@@ -431,7 +432,7 @@ yaxis_label=Level [a.u.]
 </div>
 <p><strong>Example 2:</strong> configuration file for the pipeline <em>single parameter
 scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[single_param_scan]
+<div class="highlight-python"><div class="highlight"><pre>[single_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -471,7 +472,7 @@ yaxis_label=Level [a.u.]
 </div>
 <p><strong>Example 3:</strong> configuration file for the pipeline <em>double parameter
 scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[double_param_scan]
+<div class="highlight-python"><div class="highlight"><pre>[double_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -494,7 +495,7 @@ sim_length=10
 </div>
 <p><strong>Example 4:</strong> configuration file for the pipeline <em>parameter
 estimation</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[param_estim]
+<div class="highlight-python"><div class="highlight"><pre>[param_estim]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -541,7 +542,7 @@ scientific_notation=True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$SBPIPE/tests/insulin_receptor/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre>$SBPIPE/tests/insulin_receptor/Working_Folder/
 </pre></div>
 </div>
 </div>
@@ -551,7 +552,7 @@ scientific_notation=True
 <p>SB pipe is a relatively young project and there is a chance that some
 error occurs. The following mailing list should be used for general
 questions:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe AT googlegroups.com
+<div class="highlight-python"><div class="highlight"><pre>sbpipe AT googlegroups.com
 </pre></div>
 </div>
 <p>All the topics discussed in this mailing list are also available at the
@@ -588,7 +589,7 @@ tracking system for SB pipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-use-sb-pipe">How to use SB pipe</a><ul>
 <li><a class="reference internal" href="#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
 <li><a class="reference internal" href="#pipelines-using-copasi">Pipelines using Copasi</a></li>
-<li><a class="reference internal" href="#pipelines-using-r-desolve">Pipelines using R deSolve</a></li>
+<li><a class="reference internal" href="#pipelines-using-r">Pipelines using R</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running-sb-pipe">Running SB pipe</a></li>

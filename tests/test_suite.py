@@ -43,7 +43,7 @@ import tests.test_conferr_ps2 as conf_err_ps2
 import tests.test_conferr_pe as conf_err_pe
 import tests.test_conferr_sge as conf_err_sge
 
-import tests.test_rdesolve_sim as conf_rdesolve
+import tests.test_rscript_sim as conf_rscript
 
 def run_tests_suites():
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
@@ -66,8 +66,8 @@ def run_tests_suites():
     suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestIRParamEstim)
     suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
 
-    # Run R deSolve test
-    suite_rdesolve_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rdesolve.TestRdeSolveSim)
+    # Run Rscript test
+    suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript.TestRscriptSim)
 
     # combine all the test suites
     suite = unittest.TestSuite([suite_ok_sim,
@@ -82,7 +82,7 @@ def run_tests_suites():
                                 suite_conferr_ps2,
                                 suite_conferr_pe,
                                 suite_conferr_sge,
-                                suite_rdesolve_sim])
+                                suite_rscript_sim])
 
     # run the combined test suite
     unittest.TextTestRunner(verbosity=2).run(suite)

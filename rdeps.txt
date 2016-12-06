@@ -1,3 +1,2 @@
 gplots
 ggplot2
-deSolve

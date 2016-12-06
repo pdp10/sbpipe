@@ -28,7 +28,7 @@ import re
 import shutil
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
-from .rdesolve_utils import replace_str_rdesolve_sim_report
+from .rscript_utils import replace_str_rscript_sim_report
 from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
 from ..simul import Simul
@@ -36,12 +36,12 @@ from ..simul import Simul
 logger = logging.getLogger('sbpipe')
 
 
-class RdeSolve(Simul):
+class Rscript(Simul):
     """
-    R deSolve simulator.
+    R Simulator.
     """
     _rscript = None
-    _rscript_not_found_msg = "Rscript not found! Please check that Rscript and deSolve package are installed."
+    _rscript_not_found_msg = "Rscript not found! Please check that Rscript is installed."
 
     def __init__(self):
         __doc__ = Simul.__init__.__doc__
@@ -84,7 +84,7 @@ class RdeSolve(Simul):
 
         for file in report_files:
             # Replace some string in the report file
-            replace_str_rdesolve_sim_report(file)
+            replace_str_rscript_sim_report(file)
             # rename and move the output file
             shutil.move(file, os.path.join(outputdir, file.replace(groupid, "_")[:-4] + ".csv"))
 

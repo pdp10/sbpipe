@@ -4,7 +4,10 @@
 
 # import deSolve package
 # deSolve and its dependencies must be installed.
-library(deSolve)
+if(!require(deSolve)){
+    install.packages('deSolve')
+    library(deSolve)
+}
 
 
 

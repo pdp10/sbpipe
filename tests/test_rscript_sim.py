@@ -34,13 +34,13 @@ import unittest
 """Unit test for R deSolve simulator"""
 
 
-class TestRdeSolveSim(unittest.TestCase):
+class TestRscriptSim(unittest.TestCase):
     """
     A collection of tests for this example.
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _r_desolve = os.path.join('rdesolve', 'Working_Folder')
+    _r_desolve = os.path.join('rscript', 'Working_Folder')
 
     @classmethod
     def setUp(cls):
@@ -51,13 +51,20 @@ class TestRdeSolveSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_simple_lotka_volterra_simulation(self):
-        """model deterministic simulation"""
+        """Simple Lotka-Volterra model simulation"""
         self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
 
     def test_2Dpde_lotka_volterra_simulation(self):
-        """model stochastic simulation"""
+        """2D partial differential equation Lotka-Volterra model simulation"""
         self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
 
+    def test_sde_periodic_drift(self):
+        """Stochastic differential equation simulation - periodic drift"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
+
+    def test_sde_cox_ingersoll_ross_process(self):
+        """Stochastic differential equation simulation - cox_ingersoll_ross_process"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
