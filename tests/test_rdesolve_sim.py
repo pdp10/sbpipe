@@ -40,7 +40,7 @@ class TestRdeSolveSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _r_desolve = os.path.join('r_desolve', 'Working_Folder')
+    _r_desolve = os.path.join('rdesolve', 'Working_Folder')
 
     @classmethod
     def setUp(cls):
