@@ -230,9 +230,12 @@ The subpackage `sbpipe.simul` contains the class `Simul` in the file
 `simul.py`. This is a generic simulator interface used by the pipelines 
 in SB pipe. This mechanism uncouples pipelines from specific simulators 
 which can therefore be configured in each pipeline configuration file. 
-As of 2016, the only available simulator is `Copasi` and this is available 
-in the package `sbpipe.simul.copasi`. This implements all the method of 
-the class `Simul`.
+As of 2016, the two simulators are available in SB pipe: 
+
+- `Copasi`, package `sbpipe.simul.copasi`, which implements all the methods 
+of the class `Simul`;
+- `RdeSolve`, package `sbpipe.simul.rdesolve`, which only implements the 
+method `sim()` of the class `Simul`.
 
 Pipelines can dynamically load a simulator via the class method 
 `Pipeline.get_simul_obj(simulator)`. This method instantiates an 
@@ -265,8 +268,8 @@ before running any pipeline. Projects inside the folder `$SBPIPE/tests/`
 have the SB pipe project structure:
 
 - `Data`: (e.g. training / testing data sets for the model);
-- `Model`: (e.g. models, Copasi models, data sets directly used by Copasi 
-models);
+- `Model`: (e.g. models, Copasi/RdeSolve models, data sets directly used 
+by Copasi models);
 - `Working_Folder`: (e.g. pipelines configurations and parameter 
 estimation results, time course, parameter scan, etc).
 

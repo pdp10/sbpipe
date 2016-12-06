@@ -27,9 +27,14 @@ scan, and parameter estimation.
 ### Requirements
 In order to use SB pipe, the following software must be installed:
 
-- Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
 - Python 2.7+ - [https://www.python.org/](https://www.python.org/)
 - R 3.2.3+ - [https://cran.r-project.org/](https://cran.r-project.org/)
+
+SB pipe can work with the following simulators (at least one must be installed):
+
+- Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
+simulation, parameter scan, and parameter estimation)
+- R deSolve 1.14+ (for model simulation)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 
@@ -148,13 +153,13 @@ $ R
 If R package dependencies must be compiled, it is worth checking that 
 the following additional packages are installed in your machine: 
 `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, 
-`libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, 
-`install_rdeps.r` must be executed again.
+`libssl-dev`, `libcurl4-openssl-dev`, and `gfortran`. After installing 
+these packages, `install_rdeps.r` must be executed again.
 
 The correct installation of SB pipe can be tested by running the command: 
 ```
 $ run_sbpipe.py -v
-1.17.0
+2.1.0
 ```
 
 
@@ -267,6 +272,16 @@ replacing the extension .cps with .csv.
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv.
 
+#### Pipelines using R deSolve
+
+**pipeline: simulation**
+
+The model output must be saved to a file. This file must be the model name 
+with csv or txt extension. Fields must be separated by TAB, and row names 
+must be discarded: 
+
+- write.table(out, file="simple_lotka_volterra.csv", sep="\t", row.names=FALSE) .
+
 
 ### Running SB pipe
 SB pipe is executed via the command *run_sbpipe.py*. The syntax for this 
@@ -321,8 +336,8 @@ project_name/
     | - Working_Folder/
 ```
 Models must be stored in the Models/ folder. The folder Data/ is meant 
-for collecting experimental data files and analyses in one place. Once 
-the data files for Copasi (e.g. for parameter estimation) are generated, 
+for collecting experimental data files and analyses in one place. Regarding 
+Copasi, once the data files (e.g. for parameter estimation) are generated, 
 **it is advised** to move them into the Models/ folder so that the Copasi 
 (.cps) file and its associated experimental data files are stored in the 
 same folder. To run SB pipe, users need to create a configuration file 
@@ -365,9 +380,9 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, RdeSolve)
 simulator=Copasi
-# The Copasi model name
+# The Copasi model name (e.g. insulin_receptor.cps, lotka_volterra.r)
 model=insulin_receptor_stoch.cps
 # The cluster type. pp if the model is run locally, 
 # sge/lsf if run on cluster.

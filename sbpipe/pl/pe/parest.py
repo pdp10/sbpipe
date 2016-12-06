@@ -78,7 +78,7 @@ class ParEst(Pipeline):
         models_dir = os.path.join(project_dir, self.get_models_folder())
         working_dir = os.path.join(project_dir, self.get_working_folder())
 
-        output_folder = model[:-4] + "_round" + round
+        output_folder = os.path.splitext(model)[0] + "_round" + round
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
@@ -117,7 +117,7 @@ class ParEst(Pipeline):
             logger.info("\n")
             logger.info("Analyse data:")
             logger.info("#############")
-            status = ParEst.analyse_data(model[:-4],
+            status = ParEst.analyse_data(os.path.splitext(model)[0],
                                          os.path.join(outputdir, self.get_sim_data_folder()),
                                          outputdir,
                                          fileout_final_estims,
@@ -139,7 +139,7 @@ class ParEst(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            status = ParEst.generate_report(model[:-4],
+            status = ParEst.generate_report(os.path.splitext(model)[0],
                                             outputdir,
                                             self.get_sim_plots_folder())
             if not status:
@@ -162,7 +162,7 @@ class ParEst(Pipeline):
 
         if os.path.isfile(os.path.join(outputdir, fileout_final_estims)) and \
                 os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
-                        len(glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
+                        len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
             return True
         return False
 
@@ -197,8 +197,8 @@ class ParEst(Pipeline):
             return False
 
         # folder preparation
-        refresh(sim_data_dir, model[:-4])
-        refresh(updated_models_dir, model[:-4])
+        refresh(sim_data_dir, os.path.splitext(model)[0])
+        refresh(updated_models_dir, os.path.splitext(model)[0])
         try:
             sim = cls.get_simul_obj(simulator)
             sim.pe(model, inputdir, cluster_type, pp_cpus, nfits, outputdir,
@@ -249,7 +249,7 @@ class ParEst(Pipeline):
             logger.error("variable `data_point_num` must be greater than 0. Please, check your configuration file.")
             return False
 
-        refresh(sim_plots_dir, model[:-4])
+        refresh(sim_plots_dir, os.path.splitext(model)[0])
 
         logger.info("Collect results:")
         # Collect and summarises the parameter estimation results

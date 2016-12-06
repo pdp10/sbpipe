@@ -64,12 +64,12 @@ class Copasi(Simul):
 
         # Replicate the copasi file and rename its report file
         groupid = "_" + get_rand_alphanum_str(20) + "_"
-        group_model = model[:-4] + groupid
+        group_model = os.path.splitext(model)[0] + groupid
 
         for i in xrange(1, runs + 1):
             shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".cps")
             replace_str_in_file(os.path.join(inputdir, group_model) + str(i) + ".cps",
-                                model[:-4] + ".csv",
+                                os.path.splitext(model)[0] + ".csv",
                                 group_model + str(i) + ".csv")
 
         # run copasi in parallel
@@ -100,7 +100,7 @@ class Copasi(Simul):
 
         logger.info("Simulating Model: " + model)
 
-        model_noext = model[:-4]
+        model_noext = os.path.splitext(model)[0]
 
         names = []
         scanned_par_index = -1
@@ -208,7 +208,7 @@ class Copasi(Simul):
 
         logger.info("Simulating Model: " + model)
 
-        model_noext = model[:-4]
+        model_noext = os.path.splitext(model)[0]
 
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
@@ -268,7 +268,7 @@ class Copasi(Simul):
 
         logger.info("Configure Copasi:")
         groupid = "_" + get_rand_alphanum_str(20) + "_"
-        group_model = model[:-4] + groupid
+        group_model = os.path.splitext(model)[0] + groupid
         pre_param_estim = Randomise(inputdir, model)
         logger.info("Adding ID string `" + groupid + "` to replicated Copasi files.")
         pre_param_estim.replicate(nfits, groupid)
@@ -313,10 +313,10 @@ class Copasi(Simul):
         #     logger.error(self._copasi_not_found_msg)
         #     return
         #
-        # command = [self._copasi, os.path.join(inputdir, model[:-4]+".cps")]
+        # command = [self._copasi, os.path.join(inputdir, os.path.splitext(model)[0]+".cps")]
         #
         # p = subprocess.Popen(command)
         # p.wait()
         #
         # # move the output file
-        # shutil.move(os.path.join(model[:-4]+".csv"), outputdir)
+        # shutil.move(os.path.join(os.path.splitext(model)[0]+".csv"), outputdir)
