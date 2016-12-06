@@ -1,0 +1,30 @@
+sbpipe.simul.rscript package
+============================
+
+Submodules
+----------
+
+sbpipe.simul.rscript.rscript module
+-----------------------------------
+
+.. automodule:: sbpipe.simul.rscript.rscript
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe.simul.rscript.rscript_utils module
+-----------------------------------------
+
+.. automodule:: sbpipe.simul.rscript.rscript_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simul.rscript
+    :members:
+    :undoc-members:
+    :show-inheritance:
