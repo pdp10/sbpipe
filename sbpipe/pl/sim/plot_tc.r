@@ -213,12 +213,14 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     }
     
     df_exp_dataset <- data.frame()
-    # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
-    if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){     
-        df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))    
-    } else {
-        print(paste("Error: file ", exp_dataset, " does not exist. Skip plots.", sep=""))
-        plot_exp_dataset = FALSE
+    if (plot_exp_dataset) {
+        # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
+        if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){
+            df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
+        } else {
+            print(paste("Warning: experimental data set file ", exp_dataset, " does not exist or not specified. Skip.", sep=""))
+            plot_exp_dataset = FALSE
+        }
     }
     
     # collect all files in the directory

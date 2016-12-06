@@ -68,7 +68,7 @@ class ParScan1(Pipeline):
             return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
-        outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4])
+        outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -101,7 +101,7 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            status = ParScan1.analyse_data(model[:-4], scanned_par, single_param_scan_knock_down_only, outputdir,
+            status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
                                            single_param_scan_simulations_number,
                                            single_param_scan_percent_levels,
@@ -114,7 +114,7 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            status = ParScan1.generate_report(model[:-4], scanned_par, outputdir, self.get_sim_plots_folder())
+            status = ParScan1.generate_report(os.path.splitext(model)[0], scanned_par, outputdir, self.get_sim_plots_folder())
             if not status:
                 return False
 
@@ -122,8 +122,8 @@ class ParScan1(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if (len(glob.glob(os.path.join(outputdir, "*" + model[:-4] + "*.pdf"))) == 1 and
-                    len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + "*.png"))) > 0):
+        if (len(glob.glob(os.path.join(outputdir, "*" + os.path.splitext(model)[0] + "*.pdf"))) == 1 and
+                    len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), os.path.splitext(model)[0] + "*.png"))) > 0):
             return True
         return False
 
@@ -160,7 +160,7 @@ class ParScan1(Pipeline):
                          "check your configuration file.")
             return False
 
-        refresh(outputdir, model[:-4])
+        refresh(outputdir, os.path.splitext(model)[0])
 
         logger.info("Simulating Model: " + model)
         try:
@@ -231,7 +231,7 @@ class ParScan1(Pipeline):
             return False
 
         # folder preparation
-        refresh(os.path.join(outputdir, sim_plots_folder), model[:-4])
+        refresh(os.path.join(outputdir, sim_plots_folder), os.path.splitext(model)[0])
 
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'parscan1_analyse_data.r'),

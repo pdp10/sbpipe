@@ -73,7 +73,7 @@ class Sim(Pipeline):
             return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
-        outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4])
+        outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -105,7 +105,7 @@ class Sim(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("##############")
-            status = Sim.analyse_data(model[:-4],
+            status = Sim.analyse_data(os.path.splitext(model)[0],
                                       os.path.join(outputdir, self.get_sim_data_folder()),
                                       outputdir,
                                       os.path.join(outputdir, self.get_sim_plots_folder()),
@@ -120,7 +120,7 @@ class Sim(Pipeline):
             logger.info("\n")
             logger.info("Report generation:")
             logger.info("##################")
-            status = Sim.generate_report(model[:-4],
+            status = Sim.generate_report(os.path.splitext(model)[0],
                                          outputdir,
                                          self.get_sim_plots_folder())
             if not status:
@@ -130,8 +130,8 @@ class Sim(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), model[:-4] + '*.png'))) > 0 and len(
-                glob.glob(os.path.join(outputdir, '*' + model[:-4] + '*.pdf'))) == 1:
+        if len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), os.path.splitext(model)[0] + '*.png'))) > 0 and len(
+                glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
             return True
         return False
 
@@ -163,7 +163,7 @@ class Sim(Pipeline):
             return False
 
         # folder preparation
-        refresh(outputdir, model[:-4])
+        refresh(outputdir, os.path.splitext(model)[0])
 
         # execute runs simulations.
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
