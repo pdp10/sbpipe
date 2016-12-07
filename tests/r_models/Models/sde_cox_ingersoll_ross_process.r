@@ -10,6 +10,13 @@ if(!require(sde)){
 }
 
 
+# Retrieve the report file name (necessary for stochastic simulations)
+args <- commandArgs(trailingOnly=TRUE)
+report_filename = "sde_cox_ingersoll_ross_process.csv"
+if(length(args) > 0) {
+    report_filename <- args[1]
+}
+
 
 # Model definition
 # ---------------------------------------------
@@ -30,7 +37,9 @@ Cox_Ingersoll_Ross <- sde.sim(delta=delta, X0=X0, N=N, drift=d, sigma=s)
 out <- data.frame(time, Cox_Ingersoll_Ross)
 # ---------------------------------------------
 
+
+
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
-write.table(out, file="sde_cox_ingersoll_ross_process.csv", sep="\t", row.names=FALSE)
+write.table(out, file=report_filename, sep="\t", row.names=FALSE)
 

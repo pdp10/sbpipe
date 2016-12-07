@@ -62,18 +62,13 @@ class Rscript(Simul):
         groupid = "_" + get_rand_alphanum_str(20) + "_"
         group_model = os.path.splitext(model)[0] + groupid
 
-        for i in xrange(1, runs + 1):
-            shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".r")
-            replace_str_in_file(os.path.join(inputdir, group_model) + str(i) + ".r",
-                                os.path.splitext(model)[0] + ".csv",
-                                group_model + str(i) + ".csv")
-
         # run r in parallel
         # To make things simple, the last 10 character of groupid are extracted and reversed.
         # This string will be likely different from groupid and is the string to replace with
         # the iteration number.
         str_to_replace = groupid[10::-1]
-        command = self._rscript + " --vanilla " + os.path.join(inputdir, group_model + str_to_replace + ".r")
+        command = self._rscript + " --vanilla " + os.path.join(inputdir, model) + \
+                  " " + group_model + str_to_replace + ".csv"
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
 
         # move the report files from the current folder to the output folder

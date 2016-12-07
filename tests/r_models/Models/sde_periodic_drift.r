@@ -10,6 +10,13 @@ if(!require(sde)){
 }
 
 
+# Retrieve the report file name (necessary for stochastic simulations)
+args <- commandArgs(trailingOnly=TRUE)
+report_filename = "sde_periodic_drift.csv"
+if(length(args) > 0) {
+    report_filename <- args[1]
+}
+
 
 # Model definition
 # ---------------------------------------------
@@ -29,7 +36,9 @@ periodic_drift <- sde.sim(method="EA", delta=delta, X0=X0, N=N, drift=d, drift.x
 out <- data.frame(time, periodic_drift)
 # ---------------------------------------------
 
+
+
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
-write.table(out, file="sde_periodic_drift.csv", sep="\t", row.names=FALSE)
+write.table(out, file=report_filename, sep="\t", row.names=FALSE)
 

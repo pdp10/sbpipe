@@ -1,6 +1,13 @@
 import numpy as np
 from scipy.integrate import odeint
 import pandas as pd
+import sys
+
+# Retrieve the report file name (necessary for stochastic simulations)
+report_filename = "insulin_receptor.csv"
+if len(sys.argv) > 1:
+    report_filename = sys.argv[1]
+
 
 
 # Model definition
@@ -38,4 +45,4 @@ df = pd.DataFrame(d)
 
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row indexes must be discarded.
-df.to_csv('insulin_receptor.csv', sep='\t', index=False, encoding='utf-8')
+df.to_csv(report_filename, sep='\t', index=False, encoding='utf-8')

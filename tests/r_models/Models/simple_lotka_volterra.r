@@ -10,6 +10,13 @@ if(!require(deSolve)){
 }
 
 
+# Retrieve the report file name (necessary for stochastic simulations)
+args <- commandArgs(trailingOnly=TRUE)
+report_filename = "simple_lotka_volterra.csv"
+if(length(args) > 0) {
+    report_filename <- args[1]
+}
+
 
 
 # Model definition
@@ -53,5 +60,5 @@ out <- lsoda(xstart, times, SPCmod, parms)
 
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
-write.table(out, file="simple_lotka_volterra.csv", sep="\t", row.names=FALSE)
+write.table(out, file=report_filename, sep="\t", row.names=FALSE)
 

@@ -34,7 +34,7 @@ SB pipe can work with the following simulators (at least one must be installed):
 
 - Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
 simulation, parameter scan, and parameter estimation)
-- Any R / Python / Java simulator (for model simulation. Users must install their dependencies)
+- Any R / Python / Java simulator (for model simulation. Users must install the dependencies)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 
@@ -272,26 +272,15 @@ replacing the extension .cps with .csv.
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv.
 
-#### Pipelines using R / Python
+#### Pipelines using R, Python, or Java
 
 **pipeline: simulation**
 
-- The R model must be a functional.
-- The model output must be saved to a file with Time as first column. This
-file must be the model name with csv or txt extension. Fields must be 
-separated by TAB, and row names must be discarded.
-
-#### Pipelines using Java
-
-**pipeline: simulation**
-
-- The Java model must be a functional and invokable as a Jar file.
-- The Jar file must include a manifest.mf in it (it must be possible to invoke 
-the jar file without having to specify the main class). 
-- The Jar program must receive the file name of the report file as input parameter. 
-- The Jar program must save the model output to file with Time as first 
-column. The fields in this file must be separated by TAB, and row names must be 
-discarded.
+- The program must be a functional and invokable via _Rscript_, _python_, or _java -jar_, respectively.
+- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must save the report to file including the _Time_ column. Report fields must be separated by TAB,
+and row names must be discarded.
 
 
 ### Running SB pipe
