@@ -34,7 +34,7 @@ import unittest
 """Unit test for Java simulator"""
 
 
-class TestPythonSim(unittest.TestCase):
+class TestJavaSim(unittest.TestCase):
     """
     A collection of tests for this example.
     """
@@ -50,7 +50,7 @@ class TestPythonSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_python_insulin_receptor_simulation(self):
+    def test_java_simulated_queue_simulation(self):
         """A simulated queue model in java - simulation"""
         self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simulated_queue.conf"]), 0)
 
