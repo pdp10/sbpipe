@@ -232,10 +232,8 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     column <- names (timecourses)
 
     column.names <- c ("Time")
-    
-    simulate__start <- timecourses$Time[1]
-    simulate__end <- timecourses$Time[length(timecourses$Time)] 
-    timepoints <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/(length(timecourses$Time)-1))
+    timepoints <- timecourses$Time
+    #print(timepoints)
       
     time_length <- length(timepoints)
   
@@ -272,7 +270,6 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
             timepoint.values <- c ( )
 
             if ( k <= length( timepoints ) && as.character(timepoints[k]) == as.character(timecourses$Time[l]) ) {
-                #print(timepoints[k])
                 # for each Sample
                 for(m in 1:length(files)) {
                     timepoint.values <- c(timepoint.values, dataset[l,m])  

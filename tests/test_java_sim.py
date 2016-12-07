@@ -31,40 +31,28 @@ sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
 import unittest
 
-"""Unit test for R simulator"""
+"""Unit test for Java simulator"""
 
 
-class TestRscriptSim(unittest.TestCase):
+class TestPythonSim(unittest.TestCase):
     """
     A collection of tests for this example.
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _rscript = os.path.join('r_models', 'Working_Folder')
+    _java = os.path.join('python_models', 'Working_Folder')
 
     @classmethod
     def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript))
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._java))
 
     @classmethod
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_simple_lotka_volterra_simulation(self):
-        """Simple Lotka-Volterra model simulation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
-
-    def test_2Dpde_lotka_volterra_simulation(self):
-        """2D partial differential equation Lotka-Volterra model simulation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
-
-    def test_sde_periodic_drift(self):
-        """Stochastic differential equation simulation - periodic drift"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
-
-    def test_sde_cox_ingersoll_ross_process(self):
-        """Stochastic differential equation simulation - cox_ingersoll_ross_process"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
+    def test_python_insulin_receptor_simulation(self):
+        """A simulated queue model in java - simulation"""
+        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simulated_queue.conf"]), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
