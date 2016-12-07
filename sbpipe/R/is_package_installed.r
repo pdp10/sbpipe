@@ -14,56 +14,34 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: install required dependencies automatically
+# Object: A script to check whether an R package is installed. Callable from other programming languages using Rscript.
 #
 # $Revision: 1.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-07-27 11:48:32 $
+# $Date: 2016-12-07 21:14:32 $
 
 
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
 
-    
-install_r_deps <- function(x) {
+
+# Return TRUE if the package is installed, FALSE otherwise
+#
+# :param x: the package name to check
+# :return: TRUE if the x is installed.
+is_package_installed <- function(x) {
     # no need to be noisy here.
     if (!suppressMessages(suppressWarnings(require(x, character.only=TRUE)))) {
-        install.packages(x, dep=TRUE, repos='http://cran.r-project.org')
-        if(!suppressMessages(suppressWarnings(require(x,character.only = TRUE)))) {
-            print(paste("R Package", x, "not found.", sep=" "))
-            FALSE
-        }
+        FALSE
+    } else {
+        TRUE
     }
-    TRUE
 }
 
-
 main <- function(args) {
-   
-   print("Installing R dependencies...")  
-
-   rdeps_file <- file.path(SBPIPE, "rdeps.txt")
-   if(!file.exists(rdeps_file)) {
-      print(paste("Installation failed as", rdeps_file, "does not exist"))
-      return(1)
-   }
-   rpkgs <- read.table(rdeps_file, stringsAsFactors=FALSE, encoding="utf-8")[,1]
-   print(rpkgs)
-   
-   status <- TRUE
-   for(i in 1:length(rpkgs)) {
-      if(!install_r_deps(rpkgs[i])) {
-	  status <- FALSE
-      }
-   }
-   
-  if(!status) {
-      print("Some package was not found.")  
-  } else {
-      print("All packages were found. Please see the output for detail.")   
-  }
-  
+    package <- args[1]
+    print(is_package_installed(package))
 }
 
 
