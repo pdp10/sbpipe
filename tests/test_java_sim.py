@@ -41,7 +41,7 @@ class TestJavaSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _java = os.path.join('python_models', 'Working_Folder')
+    _java = os.path.join('java_models', 'Working_Folder')
 
     @classmethod
     def setUp(cls):
@@ -54,7 +54,7 @@ class TestJavaSim(unittest.TestCase):
     def test_java_simulated_queue_simulation(self):
         """A simulated queue model in java - simulation"""
         try:
-            subprocess.call(["java"])
+            subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simulated_queue.conf"]), 0)
         except OSError as e:
             print("Skipping test as no Java Virtual Machine was found.")
