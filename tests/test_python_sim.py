@@ -30,6 +30,7 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
 import run_sbpipe
 import unittest
+from sbpipe.sb_config import isPyPackageInstalled
 
 """Unit test for Python simulator"""
 
@@ -52,7 +53,14 @@ class TestPythonSim(unittest.TestCase):
 
     def test_python_insulin_receptor_simulation(self):
         """Insulin receptor model in python - simulation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "insulin_receptor.conf"]), 0)
+        if not isPyPackageInstalled("numpy"):
+            print("Skipping test as Python numpy was not found.")
+        elif not isPyPackageInstalled("scipy"):
+            print("Skipping test as Python scipy was not found.")
+        elif not isPyPackageInstalled("pandas"):
+            print("Skipping test as Python pandas was not found.")
+        else:
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "insulin_receptor.conf"]), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -23,6 +23,9 @@
 # $Date: 2016-07-11 11:14:32 $
 
 import os
+import subprocess
+import logging
+logger = logging.getLogger('sbpipe')
 
 
 def which(cmd_name):
@@ -38,3 +41,19 @@ def which(cmd_name):
         if os.path.exists(os.path.join(path, cmd_name + '.exe')):
             return os.path.join(path, cmd_name + '.exe')
     return None
+
+def isPyPackageInstalled(package):
+    """
+    Utility checking whether a Python package is installed.
+
+    :param package: a Python package name
+    :return: True if it is installed, false otherwise.
+    """
+    try:
+        installed_packages = subprocess.Popen(['pip', 'list'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if package in installed_packages:
+            return True
+        return False
+    except OSError as e:
+        logger.warning("pip is not installed")
+        return False
