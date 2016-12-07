@@ -34,7 +34,7 @@ SB pipe can work with the following simulators (at least one must be installed):
 
 - Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
 simulation, parameter scan, and parameter estimation)
-- Any R / Python / Java simulator (for model simulation)
+- Any R / Python / Java simulator (for model simulation. Users must install their dependencies)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 

@@ -1,0 +1,30 @@
+sbpipe.simul.python package
+===========================
+
+Submodules
+----------
+
+sbpipe.simul.python.python module
+---------------------------------
+
+.. automodule:: sbpipe.simul.python.python
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe.simul.python.python_utils module
+---------------------------------------
+
+.. automodule:: sbpipe.simul.python.python_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simul.python
+    :members:
+    :undoc-members:
+    :show-inheritance:
