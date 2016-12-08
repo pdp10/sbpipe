@@ -51,11 +51,11 @@ class TestJavaSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_java_simulated_queue_simulation(self):
+    def test_java_sim_queue_simulation(self):
         """A simulated queue model in java - simulation"""
         try:
             subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simulated_queue.conf"]), 0)
+            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sim_queue.conf"]), 0)
         except OSError as e:
             print("Skipping test as no Java Virtual Machine was found.")
 
