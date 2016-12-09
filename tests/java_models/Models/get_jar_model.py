@@ -39,9 +39,6 @@ def compile_simqueue():
     """
     Compile simqueue
     """
-    # need to change the main class name
-    print("editing simqueue pom.xml file\n")
-    replace_str_in_file(os.path.join('.', 'simqueue','pom.xml'),'org.simqueue.Main','org.simqueue.MainTest')
     # let's change directory
     # remember our original working directory
     orig_wd = os.getcwd()
