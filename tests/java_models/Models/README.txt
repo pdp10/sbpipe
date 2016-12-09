@@ -3,14 +3,14 @@ Author: Piero Dalle Pezze
 License: MIT
 Year: 2005
 
-This is a queue simulator based on stochastic time events.
-It aims to simulate a real queue, like a queue at the post office,
-where clients arrive in a random order. When a client arrives, s/he is
-the last one who will be served. (FIFO = First In First Out). In particular
-there are two stochastic factors:
-    1) the time of arrive,
-    2) the time of service.
-Meanwhile, clients arrive and others leave.
+This is a queue simulator based on stochastic time events. The aim is to simulate a real queue,
+like a queue at the post office, where users arrive in a random order. When a client arrives,
+s/he is the last one who will be served. Therefore, this is a FIFO (First In First Out) queue.
+
+For each client there are two stochastic events: arrival and service times. In this simulation,
+the arrival time is sampled from an exponential distribution, whereas the service time from a
+triangular distribution.
+
 This simulation shows when a person arrives, is ready to be served, and finally leaves.
 
 
