@@ -382,7 +382,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi, Rscript, Python, Java)
 simulator=Copasi
-# The model name (e.g. insulin_receptor.cps, lv.r, lv.py, abc.jar)
+# The model name
 model=insulin_receptor_stoch.cps
 # The cluster type. pp if the model is run locally, 
 # sge/lsf if run on cluster.
@@ -416,7 +416,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
@@ -456,7 +456,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par1=InsulinPercent
@@ -481,7 +481,7 @@ generate_tarball=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_param_estim.cps
 # The cluster type. pp if the model is run locally, 
 # sge/lsf if run on cluster.
