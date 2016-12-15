@@ -296,7 +296,7 @@ Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
         -h, --help
-                Shows this help.
+                Show this help.
         -c, --create-project
                 Create a project structure using the argument as name.
         -s, --simulate
@@ -308,9 +308,9 @@ List of mandatory options:
         -e, --param-estim
                 Generate a parameter fit sequence.
         -l, --license
-                Shows the license.
+                Show the license.
         -v, --version
-                Shows the version.                
+                Show the version.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
