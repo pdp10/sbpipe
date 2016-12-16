@@ -12,14 +12,6 @@ sbpipe.simul.java.java module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.simul.java.java_utils module
------------------------------------
-
-.. automodule:: sbpipe.simul.java.java_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

@@ -1,13 +1,13 @@
-sbpipe.simul.python package
+sbpipe.simul.octave package
 ===========================
 
 Submodules
 ----------
 
-sbpipe.simul.python.python module
+sbpipe.simul.octave.octave module
 ---------------------------------
 
-.. automodule:: sbpipe.simul.python.python
+.. automodule:: sbpipe.simul.octave.octave
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +16,7 @@ sbpipe.simul.python.python module
 Module contents
 ---------------
 
-.. automodule:: sbpipe.simul.python
+.. automodule:: sbpipe.simul.octave
     :members:
     :undoc-members:
     :show-inheritance:

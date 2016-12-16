@@ -83,8 +83,8 @@ installed):</p>
 <ul class="simple">
 <li>Copasi 4.16+ - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a> (for model simulation, parameter
 scan, and parameter estimation)</li>
-<li>Any R / Python / Java simulator (for model simulation. Users must
-install the dependencies)</li>
+<li>Any R / Python / Octave / Java simulator (for model simulation. Users
+must install the dependencies)</li>
 </ul>
 <p>If LaTeX/PDF reports are also desired, the following software must also
 be installed:</p>
@@ -304,12 +304,12 @@ but replacing the extension .cps with .csv.</li>
 but replacing the extension .cps with .csv.</li>
 </ul>
 </div>
-<div class="section" id="pipelines-using-r-python-or-java">
-<h4>Pipelines using R, Python, or Java<a class="headerlink" href="#pipelines-using-r-python-or-java" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="pipelines-using-r-python-octave-or-java">
+<h4>Pipelines using R, Python, Octave, or Java<a class="headerlink" href="#pipelines-using-r-python-octave-or-java" title="Permalink to this headline">¶</a></h4>
 <p><strong>pipeline: simulation</strong></p>
 <ul class="simple">
 <li>The program must be a functional and invokable via <em>Rscript</em>,
-<em>python</em>, or <em>java -jar</em>, respectively.</li>
+<em>python</em>, <em>octave</em>, or <em>java -jar</em>, respectively.</li>
 <li>The Jar file for Java models must include a manifest.mf specifying
 the main class.</li>
 <li>The program must receive the report file name as input argument (see
@@ -411,7 +411,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
 # The model name
 model=insulin_receptor_stoch.cps
@@ -593,7 +593,7 @@ tracking system for SB pipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-use-sb-pipe">How to use SB pipe</a><ul>
 <li><a class="reference internal" href="#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
 <li><a class="reference internal" href="#pipelines-using-copasi">Pipelines using Copasi</a></li>
-<li><a class="reference internal" href="#pipelines-using-r-python-or-java">Pipelines using R, Python, or Java</a></li>
+<li><a class="reference internal" href="#pipelines-using-r-python-octave-or-java">Pipelines using R, Python, Octave, or Java</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running-sb-pipe">Running SB pipe</a></li>

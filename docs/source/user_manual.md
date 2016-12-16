@@ -34,7 +34,7 @@ SB pipe can work with the following simulators (at least one must be installed):
 
 - Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
 simulation, parameter scan, and parameter estimation)
-- Any R / Python / Java simulator (for model simulation. Users must install the dependencies)
+- Any R / Python / Octave / Java simulator (for model simulation. Users must install the dependencies)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 
@@ -272,11 +272,11 @@ replacing the extension .cps with .csv.
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv.
 
-#### Pipelines using R, Python, or Java
+#### Pipelines using R, Python, Octave, or Java
 
 **pipeline: simulation**
 
-- The program must be a functional and invokable via _Rscript_, _python_, or _java -jar_, respectively.
+- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
 - The Jar file for Java models must include a manifest.mf specifying the main class.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB,
@@ -380,7 +380,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
 # The model name
 model=insulin_receptor_stoch.cps

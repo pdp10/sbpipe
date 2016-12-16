@@ -12,14 +12,6 @@ sbpipe.simul.rscript.rscript module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.simul.rscript.rscript_utils module
------------------------------------------
-
-.. automodule:: sbpipe.simul.rscript.rscript_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------
