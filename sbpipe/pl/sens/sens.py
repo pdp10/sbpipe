@@ -64,7 +64,7 @@ class Sens(Pipeline):
             return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
-        outputdir = os.path.join(project_dir, self.get_working_folder(), model[:-4], self.__sensitivities_dir)
+        outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0], self.__sensitivities_dir)
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -133,7 +133,7 @@ class Sens(Pipeline):
             return False
 
         # folder preparation
-        refresh(outputdir, model[:-4])
+        refresh(outputdir, os.path.splitext(model)[0])
 
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)

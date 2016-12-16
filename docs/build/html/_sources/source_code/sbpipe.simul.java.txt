@@ -1,0 +1,22 @@
+sbpipe.simul.java package
+=========================
+
+Submodules
+----------
+
+sbpipe.simul.java.java module
+-----------------------------
+
+.. automodule:: sbpipe.simul.java.java
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simul.java
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -39,7 +39,6 @@ install_r_deps <- function(x) {
 }
 
 
-#TODO: maybe add a log in logs/
 main <- function(args) {
    
    print("Installing R dependencies...")  

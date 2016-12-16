@@ -27,9 +27,14 @@ scan, and parameter estimation.
 ### Requirements
 In order to use SB pipe, the following software must be installed:
 
-- Copasi 4.16 - [http://copasi.org/](http://copasi.org/)
 - Python 2.7+ - [https://www.python.org/](https://www.python.org/)
 - R 3.2.3+ - [https://cran.r-project.org/](https://cran.r-project.org/)
+
+SB pipe can work with the following simulators (at least one must be installed):
+
+- Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
+simulation, parameter scan, and parameter estimation)
+- Any R / Python / Octave / Java simulator (for model simulation. Users must install the dependencies)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 
@@ -148,13 +153,13 @@ $ R
 If R package dependencies must be compiled, it is worth checking that 
 the following additional packages are installed in your machine: 
 `build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, 
-`libssl-dev`, `libcurl4-openssl-dev`. After installing these packages, 
-`install_rdeps.r` must be executed again.
+`libssl-dev`, `libcurl4-openssl-dev`, and `gfortran`. After installing 
+these packages, `install_rdeps.r` must be executed again.
 
 The correct installation of SB pipe can be tested by running the command: 
 ```
 $ run_sbpipe.py -v
-1.17.0
+2.1.0
 ```
 
 
@@ -267,6 +272,16 @@ replacing the extension .cps with .csv.
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv.
 
+#### Pipelines using R, Python, Octave, or Java
+
+**pipeline: simulation**
+
+- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
+- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must save the report to file including the _Time_ column. Report fields must be separated by TAB,
+and row names must be discarded.
+
 
 ### Running SB pipe
 SB pipe is executed via the command *run_sbpipe.py*. The syntax for this 
@@ -281,7 +296,7 @@ Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
         -h, --help
-                Shows this help.
+                Show this help.
         -c, --create-project
                 Create a project structure using the argument as name.
         -s, --simulate
@@ -293,9 +308,9 @@ List of mandatory options:
         -e, --param-estim
                 Generate a parameter fit sequence.
         -l, --license
-                Shows the license.
+                Show the license.
         -v, --version
-                Shows the version.                
+                Show the version.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
@@ -321,8 +336,8 @@ project_name/
     | - Working_Folder/
 ```
 Models must be stored in the Models/ folder. The folder Data/ is meant 
-for collecting experimental data files and analyses in one place. Once 
-the data files for Copasi (e.g. for parameter estimation) are generated, 
+for collecting experimental data files and analyses in one place. Regarding 
+Copasi, once the data files (e.g. for parameter estimation) are generated, 
 **it is advised** to move them into the Models/ folder so that the Copasi 
 (.cps) file and its associated experimental data files are stored in the 
 same folder. To run SB pipe, users need to create a configuration file 
@@ -365,9 +380,9 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_stoch.cps
 # The cluster type. pp if the model is run locally, 
 # sge/lsf if run on cluster.
@@ -401,7 +416,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
@@ -441,7 +456,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par1=InsulinPercent
@@ -466,7 +481,7 @@ generate_tarball=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_param_estim.cps
 # The cluster type. pp if the model is run locally, 
 # sge/lsf if run on cluster.

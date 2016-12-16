@@ -1,0 +1,4 @@
+clients_num=100
+clients_per_hour=25
+most_common_service_time=3.5
+maximum_service_time=10.0

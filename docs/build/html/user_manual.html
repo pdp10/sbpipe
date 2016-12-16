@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User manual &mdash; SB pipe 2.0.0 documentation</title>
+    <title>User manual &mdash; SB pipe 2.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.0.0',
+        VERSION:     '2.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.0.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 2.1.0 documentation" href="index.html" />
     <link rel="next" title="Developer manual" href="developer_manual.html" />
     <link rel="prev" title="SB pipe documentation" href="index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.0.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -75,9 +75,16 @@ scan, and parameter estimation.</p>
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>In order to use SB pipe, the following software must be installed:</p>
 <ul class="simple">
-<li>Copasi 4.16 - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a></li>
 <li>Python 2.7+ - <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></li>
 <li>R 3.2.3+ - <a class="reference external" href="https://cran.r-project.org/">https://cran.r-project.org/</a></li>
+</ul>
+<p>SB pipe can work with the following simulators (at least one must be
+installed):</p>
+<ul class="simple">
+<li>Copasi 4.16+ - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a> (for model simulation, parameter
+scan, and parameter estimation)</li>
+<li>Any R / Python / Octave / Java simulator (for model simulation. Users
+must install the dependencies)</li>
 </ul>
 <p>If LaTeX/PDF reports are also desired, the following software must also
 be installed:</p>
@@ -184,12 +191,13 @@ $ R
 <p>If R package dependencies must be compiled, it is worth checking that
 the following additional packages are installed in your machine:
 <code class="docutils literal"><span class="pre">build-essential</span></code>, <code class="docutils literal"><span class="pre">liblapack-dev</span></code>, <code class="docutils literal"><span class="pre">libblas-dev</span></code>,
-<code class="docutils literal"><span class="pre">libcairo-dev</span></code>, <code class="docutils literal"><span class="pre">libssl-dev</span></code>, <code class="docutils literal"><span class="pre">libcurl4-openssl-dev</span></code>. After
-installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must be executed again.</p>
+<code class="docutils literal"><span class="pre">libcairo-dev</span></code>, <code class="docutils literal"><span class="pre">libssl-dev</span></code>, <code class="docutils literal"><span class="pre">libcurl4-openssl-dev</span></code>, and
+<code class="docutils literal"><span class="pre">gfortran</span></code>. After installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must
+be executed again.</p>
 <p>The correct installation of SB pipe can be tested by running the
 command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py -v
-1.17.0
+2.1.0
 </pre></div>
 </div>
 </div>
@@ -296,6 +304,21 @@ but replacing the extension .cps with .csv.</li>
 but replacing the extension .cps with .csv.</li>
 </ul>
 </div>
+<div class="section" id="pipelines-using-r-python-octave-or-java">
+<h4>Pipelines using R, Python, Octave, or Java<a class="headerlink" href="#pipelines-using-r-python-octave-or-java" title="Permalink to this headline">¶</a></h4>
+<p><strong>pipeline: simulation</strong></p>
+<ul class="simple">
+<li>The program must be a functional and invokable via <em>Rscript</em>,
+<em>python</em>, <em>octave</em>, or <em>java -jar</em>, respectively.</li>
+<li>The Jar file for Java models must include a manifest.mf specifying
+the main class.</li>
+<li>The program must receive the report file name as input argument (see
+examples in $SBPIPE/tests/).</li>
+<li>The program must save the report to file including the <em>Time</em> column.
+Report fields must be separated by TAB, and row names must be
+discarded.</li>
+</ul>
+</div>
 </div>
 <div class="section" id="running-sb-pipe">
 <h3>Running SB pipe<a class="headerlink" href="#running-sb-pipe" title="Permalink to this headline">¶</a></h3>
@@ -309,7 +332,7 @@ Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
         -h, --help
-                Shows this help.
+                Show this help.
         -c, --create-project
                 Create a project structure using the argument as name.
         -s, --simulate
@@ -321,9 +344,9 @@ List of mandatory options:
         -e, --param-estim
                 Generate a parameter fit sequence.
         -l, --license
-                Shows the license.
+                Show the license.
         -v, --version
-                Shows the version.
+                Show the version.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
@@ -347,14 +370,15 @@ command:</p>
 </pre></div>
 </div>
 <p>Models must be stored in the Models/ folder. The folder Data/ is meant
-for collecting experimental data files and analyses in one place. Once
-the data files for Copasi (e.g. for parameter estimation) are generated,
-<strong>it is advised</strong> to move them into the Models/ folder so that the
-Copasi (.cps) file and its associated experimental data files are stored
-in the same folder. To run SB pipe, users need to create a configuration
-file for each pipeline they intend to run (see next section). These
-configuration files should be placed in the Working_Folder/. This
-folder will eventually contain all the results generated by SB pipe.</p>
+for collecting experimental data files and analyses in one place.
+Regarding Copasi, once the data files (e.g. for parameter estimation)
+are generated, <strong>it is advised</strong> to move them into the Models/ folder so
+that the Copasi (.cps) file and its associated experimental data files
+are stored in the same folder. To run SB pipe, users need to create a
+configuration file for each pipeline they intend to run (see next
+section). These configuration files should be placed in the
+Working_Folder/. This folder will eventually contain all the results
+generated by SB pipe.</p>
 <p>For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ run_sbpipe.py -e my_config_file.conf
@@ -387,9 +411,9 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_stoch.cps
 # The cluster type. pp if the model is run locally,
 # sge/lsf if run on cluster.
@@ -423,7 +447,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
@@ -463,7 +487,7 @@ generate_report=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par1=InsulinPercent
@@ -488,7 +512,7 @@ generate_tarball=True
 project_dir=..
 # The name of the configurator (e.g. Copasi)
 simulator=Copasi
-# The Copasi model name
+# The model name
 model=insulin_receptor_param_estim.cps
 # The cluster type. pp if the model is run locally,
 # sge/lsf if run on cluster.
@@ -569,6 +593,7 @@ tracking system for SB pipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-use-sb-pipe">How to use SB pipe</a><ul>
 <li><a class="reference internal" href="#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
 <li><a class="reference internal" href="#pipelines-using-copasi">Pipelines using Copasi</a></li>
+<li><a class="reference internal" href="#pipelines-using-r-python-octave-or-java">Pipelines using R, Python, Octave, or Java</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running-sb-pipe">Running SB pipe</a></li>
@@ -625,7 +650,7 @@ tracking system for SB pipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SB pipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.0.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

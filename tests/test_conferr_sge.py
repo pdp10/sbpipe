@@ -54,7 +54,7 @@ class TestIRSGE(unittest.TestCase):
     def test_stoch_simul_copasi_sge(self):
         """model simulation using SGE if found"""
         try:
-            subprocess.call(["qstat"])
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sge_ir_model_det_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")

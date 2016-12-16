@@ -171,7 +171,7 @@ def run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus=1):
     if monitor.get_value() is False:
         logger.error("Some computation failed. Do all output files exist?")
     else:
-        logger.info("Parallel computation terminated. If errors occur, check whether that " + cmd.split(" ")[
+        logger.info("Parallel computation terminated. If errors occur, check that " + cmd.split(" ")[
             0] + " runs correctly.")
 
     # print statistics

@@ -213,12 +213,14 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     }
     
     df_exp_dataset <- data.frame()
-    # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
-    if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){     
-        df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))    
-    } else {
-        print(paste("Error: file ", exp_dataset, " does not exist. Skip plots.", sep=""))
-        plot_exp_dataset = FALSE
+    if (plot_exp_dataset) {
+        # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
+        if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){
+            df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
+        } else {
+            print(paste("Warning: experimental data set file ", exp_dataset, " does not exist or not specified. Skip.", sep=""))
+            plot_exp_dataset = FALSE
+        }
     }
     
     # collect all files in the directory
@@ -230,10 +232,8 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     column <- names (timecourses)
 
     column.names <- c ("Time")
-    
-    simulate__start <- timecourses$Time[1]
-    simulate__end <- timecourses$Time[length(timecourses$Time)] 
-    timepoints <- seq(from=simulate__start, to=simulate__end, by=(simulate__end-simulate__start)/(length(timecourses$Time)-1))
+    timepoints <- timecourses$Time
+    #print(timepoints)
       
     time_length <- length(timepoints)
   
@@ -270,7 +270,6 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
             timepoint.values <- c ( )
 
             if ( k <= length( timepoints ) && as.character(timepoints[k]) == as.character(timecourses$Time[l]) ) {
-                #print(timepoints[k])
                 # for each Sample
                 for(m in 1:length(files)) {
                     timepoint.values <- c(timepoint.values, dataset[l,m])  

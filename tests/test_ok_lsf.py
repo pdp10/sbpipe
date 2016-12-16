@@ -54,7 +54,7 @@ class TestIRLSF(unittest.TestCase):
     def test_stoch_simul_copasi_lsf(self):
         """model simulation using LSF if found"""
         try:
-            subprocess.call(["bjobs"])
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
@@ -62,7 +62,7 @@ class TestIRLSF(unittest.TestCase):
     def test_param_estim_copasi_lsf(self):
         """model parameter estimation using LSF if found"""
         try:
-            subprocess.call(["bjobs"])
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")

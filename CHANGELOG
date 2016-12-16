@@ -6,6 +6,16 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
+v2.5.0 (devel)
+
+- Skip Java, Python, and R model tests if their dependencies are not satisfied.
+- Optimised Java, Python, and R simulators. Report file names are passed as input argument. Models do not need
+to be replicated.
+- Java models can be used for model simulation in addition to Copasi.
+- Python models can be used for model simulation in addition to Copasi.
+- R models can be used for model simulation in addition to Copasi.
+
+
 v2.0.0 (Venus)
 
 - improved threshold levels for Sampled PLE plots.

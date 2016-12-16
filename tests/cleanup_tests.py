@@ -39,10 +39,19 @@ def cleanup_tests():
         print('\nFolder ' + file)
 
         modelspath = join(testpath, file, 'Models')
-        print("cleaning replicated copasi files...")
-        replicated_copasi_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
-        for f in replicated_copasi_files:
+        print("cleaning replicated files...")
+        replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
+        for f in replicated_files:
             os.remove(f)
+        replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].py"))
+        for f in replicated_files:
+            os.remove(f)
+        replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].r"))
+        for f in replicated_files:
+            os.remove(f)
+        replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].jar"))
+        for f in replicated_files:
+            os.remove(f)            
 
         print("cleaning tmp folder...")
         # print tmppath

@@ -7,9 +7,29 @@ Subpackages
 .. toctree::
 
     sbpipe.simul.copasi
+    sbpipe.simul.java
+    sbpipe.simul.octave
+    sbpipe.simul.python
+    sbpipe.simul.rscript
 
 Submodules
 ----------
+
+sbpipe.simul.pl_simul module
+----------------------------
+
+.. automodule:: sbpipe.simul.pl_simul
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe.simul.report_utils module
+--------------------------------
+
+.. automodule:: sbpipe.simul.report_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 sbpipe.simul.simul module
 -------------------------
