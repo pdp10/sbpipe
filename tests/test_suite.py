@@ -46,6 +46,7 @@ import tests.test_conferr_sge as conf_err_sge
 import tests.test_rscript_sim as conf_rscript
 import tests.test_python_sim as conf_python
 import tests.test_java_sim as conf_java
+import tests.test_octave_sim as conf_octave
 
 def run_tests_suites():
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
@@ -77,6 +78,9 @@ def run_tests_suites():
     # Run Java test
     suite_java_sim = unittest.TestLoader().loadTestsFromTestCase(conf_java.TestJavaSim)
 
+    # Run Octave test
+    suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
+
     # combine all the test suites
     suite = unittest.TestSuite([suite_ok_sim,
                                 suite_ok_ps1,
@@ -92,7 +96,8 @@ def run_tests_suites():
                                 suite_conferr_sge,
                                 suite_rscript_sim,
                                 suite_python_sim,
-                                suite_java_sim])
+                                suite_java_sim,
+                                suite_octave_sim])
 
     # run the combined test suite
     unittest.TextTestRunner(verbosity=2).run(suite)
