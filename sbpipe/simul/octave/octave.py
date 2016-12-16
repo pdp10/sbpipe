@@ -28,14 +28,14 @@ from ..pl_simul import PLSimul
 logger = logging.getLogger('sbpipe')
 
 
-class Java(PLSimul):
+class Octave(PLSimul):
     """
-    Java Simulator.
+    Octave Simulator.
     """
 
     def __init__(self):
         __doc__ = PLSimul.__init__.__doc__
 
-        PLSimul.__init__(self, "java", "Java not found! Please check that java is installed.", "-jar")
+        PLSimul.__init__(self, "octave", "Octave not found! Please check that octave is installed.", "")
         if self._language is None:
             logger.error(self._language_not_found_msg)

@@ -20,16 +20,16 @@
 #
 # $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2015-07-13 12:14:32 $
+# $Date: 2016-12-16 12:14:32 $
 
-# Utilities for changing column names generated with Python
-
+import os
+import shutil
 import re
 
 
-def replace_str_python_sim_report(report):
+def replace_str_pl_sim_report(report):
     """
-    Replace a group of annotation strings from a generated Python report files
+    Replace a group of annotation strings from report generated with a programming language
     
     :param report: The report file with absolute path
     """
@@ -51,3 +51,23 @@ def replace_str_python_sim_report(report):
                     re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
             else:
                 file.write(lines[i].rstrip('\t'))
+
+
+def move_sim_report_files(outputdir, group_model, groupid):
+    """
+    Move the report files
+    :param outputdir: the output directory
+    :param group_model: the model file name
+    :param groupid: the group id of the reports
+    """
+    # move the report files from the current folder to the output folder
+    # Note, R executes the model from the current folder.
+    report_files = [f for f in os.listdir('.') if
+                    re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
+    # print(report_files)
+    for file in report_files:
+        # Replace some string in the report file
+        replace_str_pl_sim_report(file)
+        # rename and move the output file
+        shutil.move(file, os.path.join(outputdir, file.replace(groupid, "_")[:-4] + ".csv"))
+

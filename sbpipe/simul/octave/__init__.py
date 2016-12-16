@@ -18,24 +18,18 @@
 #
 #
 #
-# $Revision: 3.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
+# $Date: 2016-11-01 22:14:32 $
 
-import logging
-from ..pl_simul import PLSimul
+import os
 
-logger = logging.getLogger('sbpipe')
+dir_path = os.path.dirname(os.path.realpath(__file__))
+path, foldername = os.path.split(dir_path)
 
-
-class Java(PLSimul):
-    """
-    Java Simulator.
-    """
-
-    def __init__(self):
-        __doc__ = PLSimul.__init__.__doc__
-
-        PLSimul.__init__(self, "java", "Java not found! Please check that java is installed.", "-jar")
-        if self._language is None:
-            logger.error(self._language_not_found_msg)
+# dynamically load the module with the same name of this package
+for module in os.listdir(os.path.dirname(__file__)):
+    if module[:-3] == foldername:
+        # print(module[:-3])
+        __import__(module[:-3], locals(), globals())
+    del module
