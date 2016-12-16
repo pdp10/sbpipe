@@ -7,7 +7,7 @@
 # Retrieve the report file name (necessary for stochastic simulations)
 report_filename = "nonlinear_octave_model.csv";
 arg_list = argv ();
-if length(arg_list) > 1
+if length(arg_list) > 0
   report_filename = arg_list{1};
 endif
 

@@ -98,6 +98,7 @@ class PLSimul(Simul):
             opts = " " + self._options + " "
         command = self._language + opts + os.path.join(inputdir, model) + \
                   " " + group_model + str_to_replace + ".csv"
+        print(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
         move_sim_report_files(outputdir, group_model, groupid)
 
