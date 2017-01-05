@@ -99,10 +99,10 @@ git show
 
 
 ## Package structure
-This section presents the structure of the SB pipe package. The root of 
+This section presents the structure of the SBpipe package. The root of 
 the project contains general management scripts for installing Python 
 and R dependencies (install_pydeps.py and install_rdeps.r), and installing 
-SB pipe (setup.py). Additionally, the logging configuration file 
+SBpipe (setup.py). Additionally, the logging configuration file 
 (logging_config.ini) is also at this level.
 
 In order to automatically compile and run the test suite, Travis-CI is 
@@ -121,11 +121,11 @@ sbpipe:
   | - scripts/
   | - tests/
 ```
-These folders will be discussed in the next sections. In SB pipe, Python 
+These folders will be discussed in the next sections. In SBpipe, Python 
 is the project main language. Instead, R is essentially used for computing 
 statistics (see section configuration file in the user manual) and for 
 generating plots. This choice allows users to run these scripts independently 
-of SB pipe if needed using an R environment like Rstudio. This can be 
+of SBpipe if needed using an R environment like Rstudio. This can be 
 convenient if further data analysis are needed or plots need to be annotated 
 or edited.
 
@@ -133,7 +133,7 @@ or edited.
 ### docs
 The folder `docs/` contains the documentation for this project. The user 
 and developer manuals in markdown format are contained in `docs/source`. 
-In order to generate the complete documentation for SB pipe, the following 
+In order to generate the complete documentation for SBpipe, the following 
 packages must be installed: 
 
 - python-sphinx
@@ -142,7 +142,7 @@ packages must be installed:
 - texlive-latex-extra
 
 By default the documentation is generated in html and LaTeX/PDF. Instruction 
-for generating or cleaning SB pipe documentation are provided below.
+for generating or cleaning SBpipe documentation are provided below.
 
 To generate the source code documentation:
 ```
@@ -165,20 +165,21 @@ stored in `docs/source/uml_diagrams`.
 
 
 ### sbpipe
-This folder contains the source code of the project SB pipe. At this 
-level a file called `__main__.py` enables users to run SB pipe as a Python 
-module via the command: 
+This folder contains the source code of the project SBpipe. At this 
+level a file called `__main__.py` enables users to run SBpipe
+programmatically as a Python module via the command:
 ```
 $ python sbpipe
 ```
-Alternatively `sbpipe` can be imported as shown below: 
+Alternatively `sbpipe` can programmatically be imported within a
+Python environment as shown below:
 ```
 $ cd $SBPIPE
 $ python
 # Python environment
 >>> import sbpipe.main as sb
 >>> sb.version()
-'1.25.0 '
+'2.0.0 '
 ```
 The following subsections describe sbpipe subpackages.
 
@@ -186,7 +187,7 @@ The following subsections describe sbpipe subpackages.
 #### pl
 The subpackage `sbpipe.pl` contains the class `Pipeline` in the file 
 `pipeline.py`. This class represents a generic pipeline which is extended 
-by SB pipe pipelines. These are organised in the following subpackages:
+by SBpipe pipelines. These are organised in the following subpackages:
 
 - `create`: creates a new project
 - `ps1`: scan a model parameter, generate plots and report;
@@ -197,7 +198,7 @@ and report;
 and report.
 
 All these pipelines can be invoked directly via the script 
-`$SBPIPE/scripts/run_sbpipe.py`. Each SB pipe pipeline extends the class 
+`$SBPIPE/scripts/run_sbpipe.py`. Each SBpipe pipeline extends the class 
 `Pipeline` and therefore must implement the following methods: 
 ```
 # executes a pipeline
@@ -228,9 +229,9 @@ LaTeX/PDF reports.
 #### simul
 The subpackage `sbpipe.simul` contains the class `Simul` in the file 
 `simul.py`. This is a generic simulator interface used by the pipelines 
-in SB pipe. This mechanism uncouples pipelines from specific simulators 
+in SBpipe. This mechanism uncouples pipelines from specific simulators 
 which can therefore be configured in each pipeline configuration file. 
-As of 2016, the following simulators are available in SB pipe:
+As of 2016, the following simulators are available in SBpipe:
 
 - `Copasi`, package `sbpipe.simul.copasi`, which implements all the methods 
 of the class `Simul`;
@@ -253,7 +254,8 @@ configuration file using the field `simulator`.
 
 #### utils
 The subpackage `sbpipe.utils` contains a collection of Python utility 
-modules which are used by sbpipe. 
+modules which are used by sbpipe. Here are also contained the functions
+for running commands in parallel.
 
 
 ### scripts
@@ -266,9 +268,9 @@ including the test results.
 ### tests
 The package `tests` contains the script `test_suite.py` which executes 
 all sbpipe tests. It should be used for testing the correct installation 
-of SB pipe dependencies as well as reference for configuring a project 
+of SBpipe dependencies as well as reference for configuring a project 
 before running any pipeline. Projects inside the folder `$SBPIPE/tests/` 
-have the SB pipe project structure:
+have the SBpipe project structure:
 
 - `Data`: (e.g. training / testing data sets for the model);
 - `Model`: (e.g. models, Copasi models, R-Python-Octave-Java models, data sets directly used
@@ -281,14 +283,14 @@ $SBPIPE/tests/insulin_receptor/Working_Folder/.
 
 To run tests for R models, the R packages `deSolve` and `sde` must be installed.
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
-These additional dependencies should not be included to SB pipe main dependencies as they are user-specific.
+These additional dependencies should not be included to SBpipe main dependencies as they are user-specific.
 In principle, users may define their R, Python, Octave or Java models using arbitrary packages.
 
-As of 2016, the repository for SB pipe source code is `github.com`. This 
+As of 2016, the repository for SBpipe source code is `github.com`. This 
 is configured to run Travis-CI every time a `git push` into the repository 
 is performed. The exact details of execution of Travis-CI can be found in 
 Travis-CI configuration file `$SBPIPE/.travis.yml`. Importantly, Travis-CI 
-runs all SB pipe tests using `nosetests`.
+runs all SBpipe tests using `nosetests`.
 
 
 ## Miscellaneous of useful commands
