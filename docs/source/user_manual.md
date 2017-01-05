@@ -2,7 +2,7 @@
 
 Copyright © 2015-2018, Piero Dalle Pezze and Nicolas Le Novère.
 
-SB pipe and its documentation are released under the GNU Lesser General 
+SBpipe and its documentation are released under the GNU Lesser General 
 Public License v3 (LGPLv3). A copy of this license is provided with the 
 package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
@@ -25,12 +25,12 @@ scan, and parameter estimation.
 
 
 ### Requirements
-In order to use SB pipe, the following software must be installed:
+In order to use SBpipe, the following software must be installed:
 
 - Python 2.7+ - [https://www.python.org/](https://www.python.org/)
 - R 3.2.3+ - [https://cran.r-project.org/](https://cran.r-project.org/)
 
-SB pipe can work with the following simulators (at least one must be installed):
+SBpipe can work with the following simulators (at least one must be installed):
 
 - Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
 simulation, parameter scan, and parameter estimation)
@@ -113,7 +113,7 @@ COPASI 4.16 (Build 104)
 ```
 
 At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed 
-correctly. SB pipe requires the configuration of the environment variable 
+correctly. SBpipe requires the configuration of the environment variable 
 `$SBPIPE` which must also be added in the `$HOME`/.bashrc file. The 
 package also needs to be added to `$PATH`. To do so, users need to add 
 the following lines to their `$HOME`/.bashrc file:
@@ -132,17 +132,17 @@ $ source $HOME/.bashrc
 ```
 
 
-Before testing the correct installation of SB pipe, users need to install 
-Python and R dependency packages used by SB pipe. Two scripts are provided 
+Before testing the correct installation of SBpipe, users need to install 
+Python and R dependency packages used by SBpipe. Two scripts are provided 
 to perform these tasks automatically. 
 
-To install SB pipe Python dependencies on GNU/Linux, run:
+To install SBpipe Python dependencies on GNU/Linux, run:
 ```
 $ cd $SBPIPE/
 $ ./install_pydeps.py
 ```
 
-To install SB pipe R dependencies on GNU/Linux, run:
+To install SBpipe R dependencies on GNU/Linux, run:
 ```
 $ cd $SBPIPE/
 $ R
@@ -156,7 +156,7 @@ the following additional packages are installed in your machine:
 `libssl-dev`, `libcurl4-openssl-dev`, and `gfortran`. After installing 
 these packages, `install_rdeps.r` must be executed again.
 
-The correct installation of SB pipe can be tested by running the command: 
+The correct installation of SBpipe can be tested by running the command: 
 ```
 $ run_sbpipe.py -v
 2.1.0
@@ -211,16 +211,16 @@ export PATH=$PATH:$SBPIPE/scripts
 ```
 
 After configuring the environment variables directly or internally in 
-Cygwin, the next step is to install Python and R packages used by SB pipe. 
+Cygwin, the next step is to install Python and R packages used by SBpipe. 
 Two scripts are provided to perform these tasks automatically. 
 
-To install SB pipe Python dependencies using Cygwin on Windows, run:
+To install SBpipe Python dependencies using Cygwin on Windows, run:
 ```
 $ cd /cygdrive/PATH/TO/SBPIPE/
 $ python.exe install_pydeps.py
 ```
 
-To install SB pipe R dependencies using Cygwin on Windows, run:
+To install SBpipe R dependencies using Cygwin on Windows, run:
 ```
 $ cd /cygdrive/PATH/TO/SBPIPE/
 $ R.exe
@@ -230,20 +230,20 @@ $ R.exe
 
 
 ### Installation
-If desired, SB pipe can be installed in your system. To do so, run the 
+If desired, SBpipe can be installed in your system. To do so, run the 
 command inside the sbpipe folder: 
 ```
 $ cd $SBPIPE
 $ python setup.py install
 ```
-The correct installation of SB pipe and its dependencies can be checked 
-by running the following commands inside the SB pipe folder: 
+The correct installation of SBpipe and its dependencies can be checked 
+by running the following commands inside the SBpipe folder: 
 ```
 $ cd $SBPIPE/tests
 $ ./test_suite.py
 ```
 
-## How to use SB pipe
+## How to use SBpipe
 
 ### Preliminary configuration steps
 
@@ -272,6 +272,12 @@ replacing the extension .cps with .csv.
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv.
 
+For tasks such as parameter estimation using Copasi, it is
+recommended to move the data set into the folder `Models/` so
+that the Copasi model file and its associated experimental data
+files are stored in the same folder.
+
+
 #### Pipelines using R, Python, Octave, or Java
 
 **pipeline: simulation**
@@ -279,12 +285,11 @@ replacing the extension .cps with .csv.
 - The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
 - The Jar file for Java models must include a manifest.mf specifying the main class.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
-- The program must save the report to file including the _Time_ column. Report fields must be separated by TAB,
-and row names must be discarded.
+- The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
 
-### Running SB pipe
-SB pipe is executed via the command *run_sbpipe.py*. The syntax for this 
+### Running SBpipe
+SBpipe is executed via the command *run_sbpipe.py*. The syntax for this 
 command and its complete list 
 of options can be retrieved by running *run_sbpipe.py -h*. 
 
@@ -317,7 +322,7 @@ Exit status:
  2  if serious trouble (e.g., cannot access command-line argument).
 
 Report bugs to sbpipe@googlegroups.com
-SB pipe home page: <https://pdp10.github.io/sbpipe>
+SBpipe home page: <https://pdp10.github.io/sbpipe>
 For complete documentation, see README.md .
 
 ```
@@ -340,14 +345,15 @@ for collecting experimental data files and analyses in one place. Regarding
 Copasi, once the data files (e.g. for parameter estimation) are generated, 
 **it is advised** to move them into the Models/ folder so that the Copasi 
 (.cps) file and its associated experimental data files are stored in the 
-same folder. To run SB pipe, users need to create a configuration file 
+same folder. To run SBpipe, users need to create a configuration file 
 for each pipeline they intend to run (see next section). These configuration 
 files should be placed in the Working_Folder/. This folder will eventually 
-contain all the results generated by SB pipe. 
+contain all the results generated by SBpipe. 
 
 For instance, the pipeline for parameter estimation configured with a 
 certain configuration file can be executed by typing:
 ```
+$ cd project_name/Working_Folder/
 $ run_sbpipe.py -e my_config_file.conf
 ```
 
@@ -361,11 +367,44 @@ option1=value1
 option2=value2
 ...
 ```
+where `pipeline_name` can be:
+- `simulate`, for deterministic or stochastic model simulation;
+- `single_param_scan`, for scanning one model parameter;
+- `double_param_scan`, for scanning two model parameters;
+- `param_estim`, for parameter estimation.
 
-In SB pipe each pipeline executes three tasks: data generation, data 
-analysis, and report generation. Each task depends on the previous one. 
-This choice allows users to analyse the same data without having to 
-generate it every time, or to skip the report generation if not wanted. 
+In SBpipe each pipeline executes three tasks: data generation, data 
+analysis, and report generation. These tasks can be activated in each
+configuration files using the options:
+
+- generate_data=True
+- analyse_data=True
+- generate_report=True
+
+The `generate_data` task runs a simulator accordingly to the options in
+the configuration file. Hence, this task collects and organises the reports
+generated from the simulator. The `analyse_data` task processes the reports
+to generate plots and compute statistics. Finally, the `generate_report`
+task generates a LaTeX report containing the computed plots and invokes the
+utility `pdflatex` to produce a PDF file. This modularisation allows users
+to analyse the same data without having to re-generate it, or to skip the
+report generation if not wanted.
+
+Pipelines for parameter estimation or stochastic model simulation can be
+computationally intensive. SBpipe allows users to generate simulated data
+in parallel using the following options in the pipeline configuration file:
+
+- cluster=pp
+- pp_cpus=7
+- runs=250
+
+The `cluster` option defines whether the simulator should be executed
+locally (`pp`: Parallel Python), or in a computer cluster (`sge`: Sun Grid
+Engine (SGE), `lsf`: Load Sharing Facility (LSF)). If `pp` is selected, the
+`pp_cpus` option determines the maximum number of CPUs to be allocated for
+local simulations. The `runs` option specifies the number of simulations
+(or parameter estimations for the pipeline `param_estim`) to be run.
+
 Assuming that the configuration files are placed in the Working_Folder 
 of a certain project, examples are given as follow: 
 
@@ -521,7 +560,7 @@ $SBPIPE/tests/insulin_receptor/Working_Folder/
 
 
 ## Reporting bugs or requesting new features
-SB pipe is a relatively young project and there is a chance that some 
+SBpipe is a relatively young project and there is a chance that some 
 error occurs. The following mailing list should be used for general 
 questions: 
 ```
@@ -535,12 +574,12 @@ the website:
 
 
 To help us better identify and reproduce your problem, some technical 
-information is needed. This detail data can be found in SB pipe log files 
+information is needed. This detail data can be found in SBpipe log files 
 which are stored in ${HOME}/.sbpipe/logs/. When using the mailing list 
 above, it would be worth providing this extra information.
 
 Issues and feature requests can also be notified using the github issue 
-tracking system for SB pipe at the web page: 
+tracking system for SBpipe at the web page: 
 
 [https://github.com/pdp10/sbpipe/issues](https://github.com/pdp10/sbpipe/issues).
 
