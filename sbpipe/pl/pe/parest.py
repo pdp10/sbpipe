@@ -28,11 +28,12 @@ import logging
 import os
 import subprocess
 import tarfile
-from .collect_results import get_best_fits
-from .collect_results import get_all_fits
-from ..pipeline import Pipeline
-from sbpipe.utils.io import refresh
+
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
+from sbpipe.simul.copasi.collect_results import get_all_fits
+from sbpipe.simul.copasi.collect_results import get_best_fits
+from sbpipe.utils.io import refresh
+from ..pipeline import Pipeline
 
 logger = logging.getLogger('sbpipe')
 
