@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2016-10-19 14:24:53 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2017-01-11 12:06:02 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -163,7 +163,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4396" name="k1" value="0.475519"/>
+          <Constant key="Parameter_4420" name="k1" value="0.475519"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -196,7 +196,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4395" name="k1" value="0.471947"/>
+          <Constant key="Parameter_4419" name="k1" value="0.471947"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -228,7 +228,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4394" name="k1" value="0.0578119"/>
+          <Constant key="Parameter_4418" name="k1" value="0.0578119"/>
         </ListOfConstants>
         <KineticLaw function="Function_13">
           <ListOfCallParameters>
@@ -344,8 +344,8 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Subtask" type="unsignedInteger" value="1"/>
         <ParameterGroup name="ScanItems">
           <ParameterGroup name="ScanItem">
-            <Parameter name="Maximum" type="float" value="0.86"/>
-            <Parameter name="Minimum" type="float" value="0.23"/>
+            <Parameter name="Maximum" type="float" value="0.843858"/>
+            <Parameter name="Minimum" type="float" value="0.25119"/>
             <Parameter name="Number of steps" type="unsignedInteger" value="100"/>
             <Parameter name="Object" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
             <Parameter name="Type" type="unsignedInteger" value="1"/>
