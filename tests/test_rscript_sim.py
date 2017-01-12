@@ -28,7 +28,7 @@ import sys
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import sbpipe
+import run_sbpipe
 import unittest
 import subprocess
 
@@ -61,7 +61,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
+                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -75,7 +75,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
+                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -89,7 +89,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
+                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -103,7 +103,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
+                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 

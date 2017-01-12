@@ -29,7 +29,7 @@ import sys
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import sbpipe
+import run_sbpipe
 import unittest
 
 """Unit test for Insulin Receptor"""
@@ -55,7 +55,7 @@ class TestIRLSF(unittest.TestCase):
         """model simulation using LSF if found"""
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
+            self.assertEqual(run_sbpipe.main(["sbpipe", "--simulate", "lsf_ir_model_stoch_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
@@ -63,7 +63,7 @@ class TestIRLSF(unittest.TestCase):
         """model parameter estimation using LSF if found"""
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbpipe.main(["sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
+            self.assertEqual(run_sbpipe.main(["sbpipe", "--param-estim", "lsf_ir_model_param_estim.conf"]), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
 

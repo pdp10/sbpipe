@@ -26,12 +26,14 @@
 import os
 import sys
 
+
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
-import run_sbpipe.main as sbmain
+import sbpipe.main as sbpipe
+
 
 def main(argv=None):
-    return sbmain.main(argv)
+    return sbpipe.main(argv)
 
 
 if __name__ == "__main__":

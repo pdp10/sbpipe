@@ -28,7 +28,7 @@ import sys
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import sbpipe
+import run_sbpipe
 import unittest
 
 """Unit test for Insulin Receptor"""
@@ -59,7 +59,7 @@ class TestIRSensitivity(unittest.TestCase):
 
     # def test_model_sensitivity(self):
     #  """model sensitivities"""
-    #  self.assertEqual(sbpipe.main(["run_sbpipe", "--sensitivity", "ir_model_sensitivities.conf"]), 0)
+    #  self.assertEqual(run_sbpipe.main(["run_sbpipe", "--sensitivity", "ir_model_sensitivities.conf"]), 0)
 
 
 if __name__ == '__main__':
