@@ -99,19 +99,42 @@ ssq=function(parms){
 parms=c(k1=0.5,k2=0.5)
 
 # fitting
-fitval=nls.lm(par=parms,fn=ssq)
-print(fitval)
-print(summary(fitval))
+# Is there a better way to retrieve nls.lm.control ?? 
+# So far I have to capture the print lines, and then parse them...
+#----------
+tc <- textConnection("eval_functs_text","w")
+sink(tc)
 
-# residual sum-of-square (objective value)
-print(deviance(fitval))
+fitval=nls.lm(par=parms,fn=ssq,control=nls.lm.control(nprint=1))
 
-# Estimated parameter
-parest=as.list(coef(fitval))
-print(parest)
+sink()
+close(tc)
+#----------
 
 
-report <- data.frame(rss=deviance(fitval), c(parest))
+# Create the report containing the evaluated functions
+
+report <- NULL;
+for (eval_fun in eval_functs_text) {
+  items <- strsplit(eval_fun, ",")[[1]]
+  rss <- items[2]
+  rss <- gsub("[[:space:]]", "", rss)
+  rss <- strsplit(rss, "=")[[1]]
+  rss <- rss[2]
+  #print(rss)
+  
+  params <- items[3]
+  params <- strsplit(params, "=")[[1]]
+  params <- sub("^\\s+", "", params[[2]])
+  params <- sub("\\s+", " ", params)
+  params <- strsplit(params, " ")[[1]]
+  print(params)
+
+  # NEED TO DIVIDE params IN n VECTORS, WHERE n IS dim(params)/dim(rss)
+  
+  rbind(report, data.frame(rss, params)) -> report
+}
+
 print(report)
 
 # Write the output. The output file must be the model name with csv or txt extension.
@@ -122,22 +145,35 @@ write.table(report, file=report_filename, sep="\t", row.names=FALSE, quote=FALSE
 
 
 
+# # Extract interesting parameters
 
-# Plot predicted vs experimental data (for testing)
+# print(fitval)
+# print(summary(fitval))
 
-# simulated predicted profile at estimated parameter values
-cinit=c(A=1,B=0,C=0)
-t=seq(0,5,0.2)
-out=ode(y=cinit,times=t,func=my_model,parms=as.list(parest))
-outdf=data.frame(out)
-names(outdf)=c("time","a_pred","b_pred","c_pred")
+# # residual sum-of-square (objective value)
+# print(deviance(fitval))
 
-# Overlay predicted profile with experimental data
-tmppred=melt(outdf,id.var=c("time"),variable.name="species",value.name="conc")
-tmpexp=melt(df,id.var=c("time"),variable.name="species",value.name="conc")
-p=ggplot(data=tmppred,aes(x=time,y=conc,color=species,linetype=species))+geom_line()
-p=p+geom_line(data=tmpexp,aes(x=time,y=conc,color=species,linetype=species))
-p=p+geom_point(data=tmpexp,aes(x=time,y=conc,color=species))
-p=p+scale_linetype_manual(values=c(0,1,0,1,0,1))
-p=p+scale_color_manual(values=rep(c("red","blue","green"),each=2))+theme_bw()
-print(p)
+# # Estimated parameter
+# parest=as.list(coef(fitval))
+# print(parest)
+
+
+
+# # Plot predicted vs experimental data (for testing)
+# 
+# # simulated predicted profile at estimated parameter values
+# cinit=c(A=1,B=0,C=0)
+# t=seq(0,5,0.2)
+# out=ode(y=cinit,times=t,func=my_model,parms=as.list(parest))
+# outdf=data.frame(out)
+# names(outdf)=c("time","a_pred","b_pred","c_pred")
+# 
+# # Overlay predicted profile with experimental data
+# tmppred=melt(outdf,id.var=c("time"),variable.name="species",value.name="conc")
+# tmpexp=melt(df,id.var=c("time"),variable.name="species",value.name="conc")
+# p=ggplot(data=tmppred,aes(x=time,y=conc,color=species,linetype=species))+geom_line()
+# p=p+geom_line(data=tmpexp,aes(x=time,y=conc,color=species,linetype=species))
+# p=p+geom_point(data=tmpexp,aes(x=time,y=conc,color=species))
+# p=p+scale_linetype_manual(values=c(0,1,0,1,0,1))
+# p=p+scale_color_manual(values=rep(c("red","blue","green"),each=2))+theme_bw()
+# print(p)
