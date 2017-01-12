@@ -81,6 +81,32 @@ class PLSimul(Simul):
     def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = PLSimul.sim.__doc__
 
+        self._run_par_comput(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+
+    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+           updated_models_dir):
+        __doc__ = PLSimul.pe.__doc__
+
+        self._run_par_comput(model, inputdir, sim_data_dir, cluster_type, pp_cpus, nfits)
+
+    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
+        __doc__ = Simul.collect_pe_results.__doc__
+
+        get_best_fits(inputdir, outputdir, file_out_best_fits)
+        get_all_fits(inputdir, outputdir, fileout_all_fits)
+
+    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+        """
+        Run generic parallel computation.
+
+        :param model: the model to process
+        :param inputdir: the directory containing the model
+        :param outputdir: the directory to store the results
+        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
+        :param pp_cpus: the number of cpu for parallel python
+        :param nruns: the number of runs to perform
+        """
+
         if self._language is None:
             logger.error(self._language_not_found_msg)
             return
@@ -103,39 +129,3 @@ class PLSimul(Simul):
         print(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
         move_report_files(outputdir, group_model, groupid)
-
-    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
-           updated_models_dir):
-        __doc__ = PLSimul.pe.__doc__
-
-        if self._language is None:
-            logger.error(self._language_not_found_msg)
-            return
-
-        logger.info("\n")
-        logger.info("Parallel parameter estimation:")
-
-        # Replicate the r file and rename its report file
-        groupid = "_" + get_rand_alphanum_str(20) + "_"
-        group_model = os.path.splitext(model)[0] + groupid
-
-        # run in parallel
-        # To make things simple, the last 10 character of groupid are extracted and reversed.
-        # This string will be likely different from groupid and is the string to replace with
-        # the iteration number.
-        str_to_replace = groupid[10::-1]
-
-        opts = " "
-        if self._options:
-            opts = " " + self._options + " "
-        command = self._language + opts + os.path.join(inputdir, model) + \
-                  " " + group_model + str_to_replace + ".csv"
-        print(command)
-        parcomp(command, str_to_replace, cluster_type, nfits, outputdir, pp_cpus)
-        move_report_files(sim_data_dir, group_model, groupid)
-
-    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
-        __doc__ = Simul.collect_pe_results.__doc__
-
-        get_best_fits(inputdir, outputdir, file_out_best_fits)
-        get_all_fits(inputdir, outputdir, fileout_all_fits)

@@ -96,23 +96,10 @@ def get_params_list(filein):
     :param filein: a report file
     :return: the list of parameter names
     """
-    parameters = []
     with open(filein, 'r') as file:
-        lines = file.readlines()
-        line_num = -1
-        for line in lines:
-            line_num += 1
-            split_line = line.split('\t')
-            if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                # add to _data the parameter values
-                for result in lines[line_num + 1:]:
-                    split_result = result.split("\t")
-                    # Check whether this is the last sequence to read. If so, break
-                    if len(split_result) == 1 and split_result[0] == '\n':
-                        break
-                    parameters.append(str(split_result[1]))
-                # Nothing else to do
-                break
+        header = file.readline().strip('\n')
+    parameters = header.split('\t')
+    parameters.remove(parameters[0])
     return parameters
 
 
@@ -138,43 +125,17 @@ def write_best_fits(files, path_out, filename_out):
     """
     Write the final estimates to filename_out
 
-    :param files: the list of Copasi parameter estimation reports
+    :param files: the list of parameter estimation reports
     :param path_out: the path to store the file combining the final (best) estimates (filename_out)
     :param filename_out: the file containing the final (best) estimates
     """
-    file_num = -1
     logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for filein in files:
-            file_num += 1
             with open(filein, 'r') as file:
                 logger.info(os.path.basename(filein))
                 lines = file.readlines()
-                entry = []
-                line_num = -1
-                for line in lines:
-                    finished = False
-                    line_num += 1
-                    split_line = line.rstrip().split('\t')
-                    # Retrieve the estimated values of the _parameters
-                    # Retrieve the objective function value
-                    if len(split_line) > 1 and split_line[0] == 'Objective Function Value:':
-                        entry.append(os.path.basename(filein))
-                        entry.append(split_line[1].rstrip())
-
-                    if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                        param_num = 0
-                        for result in lines[line_num + 1:]:
-                            param_num += 1
-                            split_result = result.split("\t")
-                            if len(split_result) >= 0 and split_result[0] == "\n":
-                                # All the parameters are retrieved, then exit
-                                finished = True
-                                break
-                            entry.append(str(split_result[2]))
-                    if finished:
-                        fileout.write('\t'.join(map(str, entry)) + '\n')
-                        break
+                fileout.write(os.path.basename(filein) + '\t' + lines[len(lines)-1])
 
 
 def write_all_fits(files, path_out, filename_out):
@@ -185,38 +146,17 @@ def write_all_fits(files, path_out, filename_out):
     :param path_out: the path to store the file combining all the estimates
     :param filename_out: the file containing all the estimates
     """
-    file_num = -1
     # logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for file in files:
-            file_num += 1
             with open(file, 'r') as filein:
                 # logger.info(os.path.basename(file))
+                # skip the first line (header)
+                filein.readline()
+                # read the remaining lines
                 lines = filein.readlines()
-                line_num = -1
                 for line in lines:
-                    line_num += 1
-                    split_line = line.rstrip().split("\t")
-                    # Retrieve the estimated values of the parameters
-                    if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
-                                    split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
-                        # add to data the parameter values
-                        line_num += 1
-                        if line_num < len(lines):
-                            split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
-
-                        while len(split_line) > 2:
-                            for k in xrange(1, len(split_line)):
-                                if k < len(split_line) - 1:
-                                    fileout.write(str(split_line[k]) + '\t')
-                                else:
-                                    fileout.write(str(split_line[k]) + '\n')
-                            line_num += 1
-                            if line_num < len(lines):
-                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
-
-                        break
-
+                    fileout.write(line)
 
 
 # Utilities for editing and moving the report files generated by simulators

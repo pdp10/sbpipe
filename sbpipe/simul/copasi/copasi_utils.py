@@ -24,10 +24,10 @@
 
 
 import re
-import glob
 import logging
 import os
-from sbpipe.utils.re_utils import nat_sort_key
+from sbpipe.simul.pl_simul_utils import get_input_files
+from sbpipe.simul.pl_simul_utils import write_params
 
 logger = logging.getLogger('sbpipe')
 
@@ -106,18 +106,6 @@ def get_all_fits(path_in=".", path_out=".", filename_out="all_estimates.csv"):
     write_all_fits(files, path_out, filename_out)
 
 
-def get_input_files(path):
-    """
-    Retrieve the input files in a path.
-
-    :param path: the path containing the input files to retrieve
-    :return: the list of input files
-    """
-    files = glob.glob(os.path.join(path, "*.csv"))
-    files.sort(key=nat_sort_key)
-    return files
-
-
 def get_params_list(filein):
     """
     Return the list of parameter names from filein
@@ -143,24 +131,6 @@ def get_params_list(filein):
                 # Nothing else to do
                 break
     return parameters
-
-
-def write_params(col_names, path_out, filename_out):
-    """
-    Write the list of parameter names to filename_out
-
-    :param col_names: the list of parameter names
-    :param path_out: the path to store filename_out
-    :param filename_out: the output file to store the parameter names
-    """
-    with open(os.path.join(path_out, filename_out), 'w') as file:
-        i = -1
-        for param in col_names:
-            i += 1
-            if i < len(col_names) - 1:
-                file.write(param + '\t')
-            else:
-                file.write(param + '\n')
 
 
 def write_best_fits(files, path_out, filename_out):
