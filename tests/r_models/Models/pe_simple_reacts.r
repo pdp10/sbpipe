@@ -85,7 +85,7 @@ ssq=function(parms){
   # Evaluate predicted vs experimental residual
   preddf=melt(outdf,id.var="time",variable.name="species",value.name="conc")
   expdf=melt(df,id.var="time",variable.name="species",value.name="conc")
-  ssqres=preddf$conc-expdf$conc
+  ssqres=expdf$conc-preddf$conc
 
   # return predicted vs experimental residual
   return(ssqres)
@@ -96,7 +96,10 @@ ssq=function(parms){
 # Parameter fitting using levenberg marquart algorithm
 
 # initial guess for parameters
-parms=c(k1=0.5,k2=0.5)
+parms <- runif(2, 0.001, 10.0)
+names(parms) <- c("k1", "k2")
+# parms <- c(k1=0.5, k2=0.5)
+#print(parms)
 
 # fitting
 # Is there a better way to retrieve nls.lm.control ?? 
@@ -121,21 +124,21 @@ for (eval_fun in eval_functs_text) {
   rss <- gsub("[[:space:]]", "", rss)
   rss <- strsplit(rss, "=")[[1]]
   rss <- rss[2]
-  #print(rss)
+  # print(rss)
   
   params <- items[3]
   params <- strsplit(params, "=")[[1]]
   params <- sub("^\\s+", "", params[[2]])
   params <- sub("\\s+", " ", params)
   params <- strsplit(params, " ")[[1]]
-  print(params)
+  # print(params)
 
-  # NEED TO DIVIDE params IN n VECTORS, WHERE n IS dim(params)/dim(rss)
-  
-  rbind(report, data.frame(rss, params)) -> report
+  rbind(report, c(rss, params)) -> report
 }
 
-print(report)
+report <- data.frame(report)
+names(report) <- c("rss", names(parms))
+# print(report)
 
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
