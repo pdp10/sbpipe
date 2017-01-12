@@ -31,8 +31,8 @@ from itertools import islice
 from sbpipe.sb_config import which
 from randomise import Randomise
 from .copasi_utils import replace_str_copasi_sim_report
-from .collect_pe_results import get_all_fits
-from .collect_pe_results import get_best_fits
+from .copasi_utils import get_all_fits
+from .copasi_utils import get_best_fits
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
@@ -326,7 +326,6 @@ class Copasi(Simul):
     def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
         __doc__ = Simul.collect_pe_results.__doc__
 
-        # Collect and summarises the parameter estimation results
         get_best_fits(inputdir, outputdir, file_out_best_fits)
         get_all_fits(inputdir, outputdir, fileout_all_fits)
 

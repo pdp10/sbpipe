@@ -30,6 +30,10 @@ from sbpipe.utils.re_utils import nat_sort_key
 logger = logging.getLogger('sbpipe')
 
 
+# utilities for collecting parameter estimation results
+#######################################################
+
+
 def get_best_fits(path_in=".", path_out=".", filename_out="final_estimates.csv"):
     """
     Collect the final parameter estimates from the Copasi parameter estimation report. Results 

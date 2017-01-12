@@ -27,6 +27,8 @@ import os
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
+from .pl_simul_utils import get_all_fits
+from .pl_simul_utils import get_best_fits
 from .report_utils import move_sim_report_files
 from ..simul import Simul
 
@@ -102,3 +104,8 @@ class PLSimul(Simul):
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
         move_sim_report_files(outputdir, group_model, groupid)
 
+    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
+        __doc__ = Simul.collect_pe_results.__doc__
+
+        get_best_fits(inputdir, outputdir, file_out_best_fits)
+        get_all_fits(inputdir, outputdir, fileout_all_fits)
