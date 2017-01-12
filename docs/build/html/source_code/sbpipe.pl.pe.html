@@ -62,138 +62,6 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-sbpipe.pl.pe.collect_results">
-<span id="sbpipe-pl-pe-collect-results-module"></span><h2>sbpipe.pl.pe.collect_results module<a class="headerlink" href="#module-sbpipe.pl.pe.collect_results" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.get_all_fits">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">get_all_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.get_all_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect all the parameter estimates from the Copasi parameter estimation report. Results 
-are stored in filename_out.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path_in</strong> &#8211; the path to the input files</li>
-<li><strong>path_out</strong> &#8211; the path to the output files</li>
-<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.get_best_fits">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">get_best_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.get_best_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect the final parameter estimates from the Copasi parameter estimation report. Results 
-are stored in filename_out.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path_in</strong> &#8211; the path to the input files</li>
-<li><strong>path_out</strong> &#8211; the path to the output files</li>
-<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.get_input_files">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">get_input_files</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.get_input_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the input files in a path.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; the path containing the input files to retrieve</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of input files</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.get_params_list">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">get_params_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.get_params_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of parameter names from filein</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a Copasi parameter estimation report file</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.write_all_fits">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">write_all_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.write_all_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write all the estimates to filename_out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
-<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
-<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.write_best_fits">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">write_best_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.write_best_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the final estimates to filename_out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
-<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
-<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.pl.pe.collect_results.write_params">
-<code class="descclassname">sbpipe.pl.pe.collect_results.</code><code class="descname">write_params</code><span class="sig-paren">(</span><em>col_names</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.collect_results.write_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the list of parameter names to filename_out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>col_names</strong> &#8211; the list of parameter names</li>
-<li><strong>path_out</strong> &#8211; the path to store filename_out</li>
-<li><strong>filename_out</strong> &#8211; the output file to store the parameter names</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="module-sbpipe.pl.pe.parest">
 <span id="sbpipe-pl-pe-parest-module"></span><h2>sbpipe.pl.pe.parest module<a class="headerlink" href="#module-sbpipe.pl.pe.parest" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -204,13 +72,14 @@ are stored in filename_out.</p>
 model parameter estimations</p>
 <dl class="classmethod">
 <dt id="sbpipe.pl.pe.parest.ParEst.analyse_data">
-<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>fileout_final_estims</em>, <em>fileout_all_estims</em>, <em>fileout_param_estim_details</em>, <em>fileout_param_estim_summary</em>, <em>sim_plots_dir</em>, <em>best_fits_percent</em>, <em>data_point_num</em>, <em>plot_2d_66cl_corr=False</em>, <em>plot_2d_95cl_corr=False</em>, <em>plot_2d_99cl_corr=False</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.analyse_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>fileout_final_estims</em>, <em>fileout_all_estims</em>, <em>fileout_param_estim_details</em>, <em>fileout_param_estim_summary</em>, <em>sim_plots_dir</em>, <em>best_fits_percent</em>, <em>data_point_num</em>, <em>plot_2d_66cl_corr=False</em>, <em>plot_2d_95cl_corr=False</em>, <em>plot_2d_99cl_corr=False</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.analyse_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The second pipeline step: data analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
 <li><strong>model</strong> &#8211; the model name</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the simulation data</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
@@ -315,7 +184,6 @@ each estimation</li>
   <ul>
 <li><a class="reference internal" href="#">sbpipe.pl.pe package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-sbpipe.pl.pe.collect_results">sbpipe.pl.pe.collect_results module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.pl.pe.parest">sbpipe.pl.pe.parest module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.pl.pe">Module contents</a></li>
 </ul>

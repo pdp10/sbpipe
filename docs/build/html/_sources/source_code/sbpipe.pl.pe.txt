@@ -4,14 +4,6 @@ sbpipe.pl.pe package
 Submodules
 ----------
 
-sbpipe.pl.pe.collect_results module
------------------------------------
-
-.. automodule:: sbpipe.pl.pe.collect_results
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 sbpipe.pl.pe.parest module
 --------------------------
 
