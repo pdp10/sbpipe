@@ -54,6 +54,10 @@ class TestRscriptPE(unittest.TestCase):
     def test_simple_reacts_pe(self):
         """Parameter estimation of simple reactions model"""
         try:
+            reshape2 = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
             desolve = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
@@ -62,6 +66,8 @@ class TestRscriptPE(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
+            if "FALSE" in reshape2:
+                print("Skipping test as R reshape2 was not found.")
             if "FALSE" in desolve:
                 print("Skipping test as R deSolve was not found.")
             elif "FALSE" in minpacklm:

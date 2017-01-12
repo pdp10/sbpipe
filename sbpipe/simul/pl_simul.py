@@ -29,7 +29,7 @@ from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
 from .pl_simul_utils import get_all_fits
 from .pl_simul_utils import get_best_fits
-from .report_utils import move_sim_report_files
+from .pl_simul_utils import move_report_files
 from ..simul import Simul
 
 logger = logging.getLogger('sbpipe')
@@ -102,7 +102,37 @@ class PLSimul(Simul):
                   " " + group_model + str_to_replace + ".csv"
         print(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
-        move_sim_report_files(outputdir, group_model, groupid)
+        move_report_files(outputdir, group_model, groupid)
+
+    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+           updated_models_dir):
+        __doc__ = PLSimul.pe.__doc__
+
+        if self._language is None:
+            logger.error(self._language_not_found_msg)
+            return
+
+        logger.info("\n")
+        logger.info("Parallel parameter estimation:")
+
+        # Replicate the r file and rename its report file
+        groupid = "_" + get_rand_alphanum_str(20) + "_"
+        group_model = os.path.splitext(model)[0] + groupid
+
+        # run in parallel
+        # To make things simple, the last 10 character of groupid are extracted and reversed.
+        # This string will be likely different from groupid and is the string to replace with
+        # the iteration number.
+        str_to_replace = groupid[10::-1]
+
+        opts = " "
+        if self._options:
+            opts = " " + self._options + " "
+        command = self._language + opts + os.path.join(inputdir, model) + \
+                  " " + group_model + str_to_replace + ".csv"
+        print(command)
+        parcomp(command, str_to_replace, cluster_type, nfits, outputdir, pp_cpus)
+        move_report_files(sim_data_dir, group_model, groupid)
 
     def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
         __doc__ = Simul.collect_pe_results.__doc__

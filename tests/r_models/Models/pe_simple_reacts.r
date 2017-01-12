@@ -9,6 +9,11 @@
 
 # Import libraries. Note: dependencies must be installed.
 
+# library for least squares fit using levenberg-marquart algorithm
+if(!require(reshape2)){
+  install.packages('reshape2')
+  library(reshape2)
+}
 # library for solving differential equations
 if(!require(deSolve)){
   install.packages('deSolve')
@@ -37,7 +42,7 @@ if(length(args) > 0) {
 
 
 # Load concentration data
-df=read.table("abc_dataset.csv", header=TRUE, sep=",")
+df=read.table("pe_simple_reacts_dataset.csv", header=TRUE, sep=",")
 
 
 # Mathematical model
