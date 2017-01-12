@@ -287,11 +287,19 @@ files are stored in the same folder.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
+**pipeline: parameter estimation**
+
+- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
+- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must save the report to file. This includes the objective value as first column column, and the estimated
+ parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
+ names must be discarded.
 
 ### Running SBpipe
-SBpipe is executed via the command *run_sbpipe.py*. The syntax for this 
+SBpipe is executed via the command *run_sbpipe.py*. The syntax for this
 command and its complete list 
-of options can be retrieved by running *run_sbpipe.py -h*. 
+of options can be retrieved by running *run_sbpipe.py -h*.
 
 As of Sep 2016 the output is as follows:
 ```
@@ -518,7 +526,7 @@ generate_report=True
 generate_tarball=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
 # The model name
 model=insulin_receptor_param_estim.cps
