@@ -52,15 +52,15 @@ class TestIRSingleParamScan(unittest.TestCase):
 
     def test_single_param_scan_ci(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
 
     def test_single_param_scan_inhib_only(self):
         """model single param scan - inhibition only"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
 
     def test_single_param_scan_inhib_overexp(self):
         """model single param scan - inhibition/overexpression"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
                          0)
 
 

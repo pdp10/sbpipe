@@ -67,7 +67,7 @@ def help():
     :return: the help message
     """
     message = (
-        "Usage: sbpipe.py [OPTION] [FILE]\n"
+        "Usage: run_sbpipe.py [OPTION] [FILE]\n"
         "Pipelines for systems modelling of biological networks.\n\n"
         "List of mandatory options:\n"
         "\t-h, --help\n\t\tShow this help.\n"

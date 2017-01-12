@@ -51,19 +51,19 @@ class TestIRSimulate(unittest.TestCase):
 
     def test_det_simulation1(self):
         """model deterministic simulation"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "ir_model_det_simul1.conf"]), 0)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul1.conf"]), 0)
 
     def test_det_simulation2(self):
         """model deterministic simulation"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "ir_model_det_simul2.conf"]), 1)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul2.conf"]), 1)
 
     def test_det_simulation3(self):
         """model deterministic simulation"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "ir_model_det_simul3.conf"]), 1)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul3.conf"]), 1)
 
     def test_det_simulation4(self):
         """model deterministic simulation"""
-        self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "ir_model_det_simul4.conf"]), 1)
+        self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "ir_model_det_simul4.conf"]), 1)
 
 
 if __name__ == '__main__':

@@ -55,7 +55,7 @@ class TestIRSGE(unittest.TestCase):
         """model simulation using SGE if found"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbpipe.main(["sbpipe", "--simulate", "sge_ir_model_stoch_simul.conf"]), 0)
+            self.assertEqual(sbpipe.main(["run_sbpipe", "--simulate", "sge_ir_model_stoch_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
@@ -63,7 +63,7 @@ class TestIRSGE(unittest.TestCase):
         """model parameter estimation using SGE if found"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbpipe.main(["sbpipe", "--param-estim", "sge_ir_model_param_estim.conf"]), 0)
+            self.assertEqual(sbpipe.main(["run_sbpipe", "--param-estim", "sge_ir_model_param_estim.conf"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
@@ -71,7 +71,7 @@ class TestIRSGE(unittest.TestCase):
         """model stochastic parameter estimation using SGE if found"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbpipe.main(["sbpipe", "--param-estim", "sge_ir_model_stoch_param_estim.conf"]), 0)
+            self.assertEqual(sbpipe.main(["run_sbpipe", "--param-estim", "sge_ir_model_stoch_param_estim.conf"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 

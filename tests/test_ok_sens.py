@@ -59,7 +59,7 @@ class TestIRSensitivity(unittest.TestCase):
 
     # def test_model_sensitivity(self):
     #  """model sensitivities"""
-    #  self.assertEqual(sbpipe.main(["sbpipe", "--sensitivity", "ir_model_sensitivities.conf"]), 0)
+    #  self.assertEqual(sbpipe.main(["run_sbpipe", "--sensitivity", "ir_model_sensitivities.conf"]), 0)
 
 
 if __name__ == '__main__':
