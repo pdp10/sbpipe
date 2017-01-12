@@ -30,8 +30,6 @@ import subprocess
 import tarfile
 
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
-from sbpipe.simul.copasi.collect_results import get_all_fits
-from sbpipe.simul.copasi.collect_results import get_best_fits
 from sbpipe.utils.io import refresh
 from ..pipeline import Pipeline
 
@@ -118,7 +116,8 @@ class ParEst(Pipeline):
             logger.info("\n")
             logger.info("Analyse data:")
             logger.info("#############")
-            status = ParEst.analyse_data(os.path.splitext(model)[0],
+            status = ParEst.analyse_data(simulator,
+                                         os.path.splitext(model)[0],
                                          os.path.join(outputdir, self.get_sim_data_folder()),
                                          outputdir,
                                          fileout_final_estims,
@@ -162,8 +161,8 @@ class ParEst(Pipeline):
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
         if os.path.isfile(os.path.join(outputdir, fileout_final_estims)) and \
-                os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
-                        len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
+            os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
+            len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
             return True
         return False
 
@@ -212,7 +211,7 @@ class ParEst(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
+    def analyse_data(cls, simulator, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
                      fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir,
                      best_fits_percent, data_point_num,
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
@@ -220,6 +219,7 @@ class ParEst(Pipeline):
         """
         The second pipeline step: data analysis.
 
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model name
         :param inputdir: the directory containing the simulation data
         :param outputdir: the directory to store the results
@@ -254,8 +254,14 @@ class ParEst(Pipeline):
 
         logger.info("Collect results:")
         # Collect and summarises the parameter estimation results
-        get_best_fits(inputdir, outputdir, fileout_final_estims)
-        get_all_fits(inputdir, outputdir, fileout_all_estims)
+        try:
+            sim = cls.get_simul_obj(simulator)
+            sim.collect_pe_results(inputdir, outputdir, fileout_all_estims, fileout_final_estims)
+        except Exception as e:
+            logger.error("simulator: " + simulator + " not found.")
+            import traceback
+            logger.debug(traceback.format_exc())
+            return False
 
         logger.info("\n")
         logger.info("Plot results:")
