@@ -228,8 +228,8 @@ subpackages:
    plots and report.
 
 All these pipelines can be invoked directly via the script
-``$SBPIPE/scripts/run_sbpipe.py``. Each SBpipe pipeline extends the
-class ``Pipeline`` and therefore must implement the following methods:
+``$SBPIPE/scripts/sbpipe.py``. Each SBpipe pipeline extends the class
+``Pipeline`` and therefore must implement the following methods:
 
 ::
 
@@ -276,8 +276,9 @@ in SBpipe:
 -  ``Java``, package ``sbpipe.simul.java``.
 
 ``Rscript``, ``Python``, ``Octave``, and ``Java`` only implement the
-``Sim()`` method of Simul. Pipelines can dynamically load a simulator
-via the class method ``Pipeline.get_simul_obj(simulator)``. This method
+methods ``sim()`` and ``pe()`` of Simul (time course simulation and
+parameter estimation). Pipelines can dynamically load a simulator via
+the class method ``Pipeline.get_simul_obj(simulator)``. This method
 instantiates an object of subtype ``Simul`` by refractoring the
 simulator name as parameter. A simulator class (e.g. ``Copasi``) must
 have the same name of their package (e.g. ``copasi``) but start with an
@@ -298,9 +299,9 @@ scripts
 ~~~~~~~
 
 The folder ``scripts`` contains the scripts: ``cleanup_sbpipe.py`` and
-``run_sbpipe.py``. ``run_sbpipe.py`` is the main script and is used to
-run the pipelines. ``cleanup_sbpipe.py`` is used for cleaning the
-package including the test results.
+``sbpipe.py``. ``sbpipe.py`` is the main script and is used to run the
+pipelines. ``cleanup_sbpipe.py`` is used for cleaning the package
+including the test results.
 
 tests
 ~~~~~
@@ -320,12 +321,13 @@ a project before running any pipeline. Projects inside the folder
 Examples of configuration files (\*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin\_receptor/Working\_Folder/.
 
-To run tests for R models, the R packages ``deSolve`` and ``sde`` must
-be installed. To run tests for Python models, the Python packages
-``numpy``, ``scipy``, and ``pandas`` must be installed. These additional
-dependencies should not be included to SBpipe main dependencies as they
-are user-specific. In principle, users may define their R, Python,
-Octave or Java models using arbitrary packages.
+To run tests for R models, the R packages ``deSolve``, ``sde``,
+``rshape2``, and ``minpack.lm`` must be installed. To run tests for
+Python models, the Python packages ``numpy``, ``scipy``, and ``pandas``
+must be installed. These additional dependencies should not be included
+to SBpipe main dependencies as they are user-specific. In principle,
+users may define their R, Python, Octave or Java models using arbitrary
+packages.
 
 As of 2016, the repository for SBpipe source code is ``github.com``.
 This is configured to run Travis-CI every time a ``git push`` into the

@@ -43,7 +43,8 @@ import tests.test_conferr_ps2 as conf_err_ps2
 import tests.test_conferr_pe as conf_err_pe
 import tests.test_conferr_sge as conf_err_sge
 
-import tests.test_rscript_sim as conf_rscript
+import tests.test_rscript_sim as conf_rscript_sim
+import tests.test_rscript_pe as conf_rscript_pe
 import tests.test_python_sim as conf_python
 import tests.test_java_sim as conf_java
 import tests.test_octave_sim as conf_octave
@@ -70,7 +71,8 @@ def run_tests_suites():
     suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
 
     # Run Rscript test
-    suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript.TestRscriptSim)
+    suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRscriptSim)
+    suite_rscript_pe = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_pe.TestRscriptPE)
 
     # Run Python test
     suite_python_sim = unittest.TestLoader().loadTestsFromTestCase(conf_python.TestPythonSim)
@@ -95,6 +97,7 @@ def run_tests_suites():
                                 suite_conferr_pe,
                                 suite_conferr_sge,
                                 suite_rscript_sim,
+                                suite_rscript_pe,
                                 suite_python_sim,
                                 suite_java_sim,
                                 suite_octave_sim])

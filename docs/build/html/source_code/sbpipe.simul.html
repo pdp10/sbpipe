@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.simul package &mdash; SB pipe 2.1.0 documentation</title>
+    <title>sbpipe.simul package &mdash; SB pipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.1.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 2.7.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe package" href="sbpipe.html" />
     <link rel="next" title="sbpipe.simul.copasi package" href="sbpipe.simul.copasi.html" />
     <link rel="prev" title="sbpipe.report package" href="sbpipe.report.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="sbpipe.report.html" title="sbpipe.report package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.1.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
       </ul>
@@ -109,6 +109,11 @@
 <dd><p>Bases: <a class="reference internal" href="#sbpipe.simul.simul.Simul" title="sbpipe.simul.simul.Simul"><code class="xref py py-class docutils literal"><span class="pre">sbpipe.simul.simul.Simul</span></code></a></p>
 <p>A generic simulator for models coded in a programming language.</p>
 <dl class="method">
+<dt id="sbpipe.simul.pl_simul.PLSimul.collect_pe_results">
+<code class="descname">collect_pe_results</code><span class="sig-paren">(</span><em>inputdir</em>, <em>outputdir</em>, <em>fileout_all_fits</em>, <em>file_out_best_fits</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.collect_pe_results" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.get_lang">
 <code class="descname">get_lang</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.get_lang" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the programming language name
@@ -130,6 +135,11 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="sbpipe.simul.pl_simul.PLSimul.pe">
+<code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.pe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.sim">
 <code class="descname">sim</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='pp'</em>, <em>pp_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.sim" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -137,11 +147,83 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-sbpipe.simul.report_utils">
-<span id="sbpipe-simul-report-utils-module"></span><h2>sbpipe.simul.report_utils module<a class="headerlink" href="#module-sbpipe.simul.report_utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-sbpipe.simul.pl_simul_utils">
+<span id="sbpipe-simul-pl-simul-utils-module"></span><h2>sbpipe.simul.pl_simul_utils module<a class="headerlink" href="#module-sbpipe.simul.pl_simul_utils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.simul.report_utils.move_sim_report_files">
-<code class="descclassname">sbpipe.simul.report_utils.</code><code class="descname">move_sim_report_files</code><span class="sig-paren">(</span><em>outputdir</em>, <em>group_model</em>, <em>groupid</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.report_utils.move_sim_report_files" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.simul.pl_simul_utils.get_all_fits">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">get_all_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.get_all_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect all the parameter estimates. Results
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.get_best_fits">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">get_best_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.get_best_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the final parameter estimates. Results
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.get_input_files">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">get_input_files</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.get_input_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the input files in a path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; the path containing the input files to retrieve</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of input files</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.get_params_list">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">get_params_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.get_params_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of parameter names from filein</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a report file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.move_report_files">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">move_report_files</code><span class="sig-paren">(</span><em>outputdir</em>, <em>group_model</em>, <em>groupid</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.move_report_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the report files
 :param outputdir: the output directory
 :param group_model: the model file name
@@ -149,14 +231,71 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.simul.report_utils.replace_str_pl_sim_report">
-<code class="descclassname">sbpipe.simul.report_utils.</code><code class="descname">replace_str_pl_sim_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.report_utils.replace_str_pl_sim_report" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.simul.pl_simul_utils.replace_str_pl_report">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">replace_str_pl_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.replace_str_pl_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace a group of annotation strings from report generated with a programming language</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> &#8211; The report file with absolute path</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.write_all_fits">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">write_all_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.write_all_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all the estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
+<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.write_best_fits">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">write_best_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.write_best_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the final estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
+<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.pl_simul_utils.write_params">
+<code class="descclassname">sbpipe.simul.pl_simul_utils.</code><code class="descname">write_params</code><span class="sig-paren">(</span><em>col_names</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul_utils.write_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the list of parameter names to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>col_names</strong> &#8211; the list of parameter names</li>
+<li><strong>path_out</strong> &#8211; the path to store filename_out</li>
+<li><strong>filename_out</strong> &#8211; the output file to store the parameter names</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -169,6 +308,26 @@
 <dt id="sbpipe.simul.simul.Simul">
 <em class="property">class </em><code class="descclassname">sbpipe.simul.simul.</code><code class="descname">Simul</code><a class="headerlink" href="#sbpipe.simul.simul.Simul" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic simulator.</p>
+<dl class="method">
+<dt id="sbpipe.simul.simul.Simul.collect_pe_results">
+<code class="descname">collect_pe_results</code><span class="sig-paren">(</span><em>inputdir</em>, <em>outputdir</em>, <em>fileout_all_fits</em>, <em>file_out_best_fits</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.collect_pe_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the parameter estimation results in two files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputdir</strong> &#8211; input folder containing the independent parameter estimation files</li>
+<li><strong>outputdir</strong> &#8211; the output folder to store the new files to create</li>
+<li><strong>fileout_all_fits</strong> &#8211; a global file containing all fits from the independent parameter estimations.</li>
+<li><strong>file_out_best_fits</strong> &#8211; a global file containing the best fits from the independent parameter estimations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.pe">
 <code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.pe" title="Permalink to this definition">¶</a></dt>
@@ -298,7 +457,7 @@ each estimation</li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.pl_simul">sbpipe.simul.pl_simul module</a></li>
-<li><a class="reference internal" href="#module-sbpipe.simul.report_utils">sbpipe.simul.report_utils module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.simul.pl_simul_utils">sbpipe.simul.pl_simul_utils module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.simul">sbpipe.simul.simul module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul">Module contents</a></li>
 </ul>
@@ -350,7 +509,7 @@ each estimation</li>
         <li class="right" >
           <a href="sbpipe.report.html" title="sbpipe.report package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.1.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
       </ul>

@@ -27,8 +27,8 @@ import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 import subprocess
 
@@ -61,7 +61,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -75,7 +75,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -89,7 +89,7 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -103,9 +103,36 @@ class TestRscriptSim(unittest.TestCase):
             if "FALSE" in output:
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
+
+    def test_sim_simple_reacts(self):
+        """A simple R model whose parameters have been estimated using sbpipe"""
+        try:
+            reshape2 = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            desolve = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            minpacklm = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            if "FALSE" in reshape2:
+                print("Skipping test as R reshape2 was not found.")
+            if "FALSE" in desolve:
+                print("Skipping test as R deSolve was not found.")
+            elif "FALSE" in minpacklm:
+                print("Skipping test as R minpack.lm was not found.")
+            else:
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sim_simple_reacts.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as R was not found.")
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

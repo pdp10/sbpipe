@@ -23,10 +23,10 @@ sbpipe.simul.pl_simul module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.simul.report_utils module
---------------------------------
+sbpipe.simul.pl_simul_utils module
+----------------------------------
 
-.. automodule:: sbpipe.simul.report_utils
+.. automodule:: sbpipe.simul.pl_simul_utils
     :members:
     :undoc-members:
     :show-inheritance:

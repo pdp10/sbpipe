@@ -25,14 +25,20 @@
 import glob
 import logging
 import os
+import shutil
+import re
 from sbpipe.utils.re_utils import nat_sort_key
 
 logger = logging.getLogger('sbpipe')
 
 
+# utilities for collecting parameter estimation results
+#######################################################
+
+
 def get_best_fits(path_in=".", path_out=".", filename_out="final_estimates.csv"):
     """
-    Collect the final parameter estimates from the Copasi parameter estimation report. Results 
+    Collect the final parameter estimates. Results
     are stored in filename_out.
 
     :param path_in: the path to the input files
@@ -53,7 +59,7 @@ def get_best_fits(path_in=".", path_out=".", filename_out="final_estimates.csv")
 
 def get_all_fits(path_in=".", path_out=".", filename_out="all_estimates.csv"):
     """
-    Collect all the parameter estimates from the Copasi parameter estimation report. Results 
+    Collect all the parameter estimates. Results
     are stored in filename_out.
 
     :param path_in: the path to the input files
@@ -87,26 +93,13 @@ def get_params_list(filein):
     """
     Return the list of parameter names from filein
 
-    :param filein: a Copasi parameter estimation report file
+    :param filein: a report file
     :return: the list of parameter names
     """
-    parameters = []
     with open(filein, 'r') as file:
-        lines = file.readlines()
-        line_num = -1
-        for line in lines:
-            line_num += 1
-            split_line = line.split('\t')
-            if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                # add to _data the parameter values
-                for result in lines[line_num + 1:]:
-                    split_result = result.split("\t")
-                    # Check whether this is the last sequence to read. If so, break
-                    if len(split_result) == 1 and split_result[0] == '\n':
-                        break
-                    parameters.append(str(split_result[1]))
-                # Nothing else to do
-                break
+        header = file.readline().strip('\n')
+    parameters = header.split('\t')
+    parameters.remove(parameters[0])
     return parameters
 
 
@@ -132,81 +125,85 @@ def write_best_fits(files, path_out, filename_out):
     """
     Write the final estimates to filename_out
 
-    :param files: the list of Copasi parameter estimation reports
+    :param files: the list of parameter estimation reports
     :param path_out: the path to store the file combining the final (best) estimates (filename_out)
     :param filename_out: the file containing the final (best) estimates
     """
-    file_num = -1
     logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for filein in files:
-            file_num += 1
             with open(filein, 'r') as file:
                 logger.info(os.path.basename(filein))
                 lines = file.readlines()
-                entry = []
-                line_num = -1
-                for line in lines:
-                    finished = False
-                    line_num += 1
-                    split_line = line.rstrip().split('\t')
-                    # Retrieve the estimated values of the _parameters
-                    # Retrieve the objective function value
-                    if len(split_line) > 1 and split_line[0] == 'Objective Function Value:':
-                        entry.append(os.path.basename(filein))
-                        entry.append(split_line[1].rstrip())
-
-                    if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                        param_num = 0
-                        for result in lines[line_num + 1:]:
-                            param_num += 1
-                            split_result = result.split("\t")
-                            if len(split_result) >= 0 and split_result[0] == "\n":
-                                # All the parameters are retrieved, then exit
-                                finished = True
-                                break
-                            entry.append(str(split_result[2]))
-                    if finished:
-                        fileout.write('\t'.join(map(str, entry)) + '\n')
-                        break
+                fileout.write(os.path.basename(filein) + '\t' + lines[len(lines)-1])
 
 
 def write_all_fits(files, path_out, filename_out):
     """
     Write all the estimates to filename_out
 
-    :param files: the list of Copasi parameter estimation reports
+    :param files: the list of parameter estimation reports
     :param path_out: the path to store the file combining all the estimates
     :param filename_out: the file containing all the estimates
     """
-    file_num = -1
     # logger.info("\nCollecting results:")
     with open(os.path.join(path_out, filename_out), 'a') as fileout:
         for file in files:
-            file_num += 1
             with open(file, 'r') as filein:
                 # logger.info(os.path.basename(file))
+                # skip the first line (header)
+                filein.readline()
+                # read the remaining lines
                 lines = filein.readlines()
-                line_num = -1
                 for line in lines:
-                    line_num += 1
-                    split_line = line.rstrip().split("\t")
-                    # Retrieve the estimated values of the parameters
-                    if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
-                                    split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
-                        # add to data the parameter values
-                        line_num += 1
-                        if line_num < len(lines):
-                            split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
+                    fileout.write(line)
 
-                        while len(split_line) > 2:
-                            for k in xrange(1, len(split_line)):
-                                if k < len(split_line) - 1:
-                                    fileout.write(str(split_line[k]) + '\t')
-                                else:
-                                    fileout.write(str(split_line[k]) + '\n')
-                            line_num += 1
-                            if line_num < len(lines):
-                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
 
-                        break
+# Utilities for editing and moving the report files generated by simulators
+###########################################################################
+
+
+def replace_str_pl_report(report):
+    """
+    Replace a group of annotation strings from report generated with a programming language
+
+    :param report: The report file with absolute path
+    """
+
+    # `with` ensures that the file is closed correctly
+    # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+    with open(report, "r") as file:
+        lines = file.readlines()
+    with open(report, "w") as file:
+        # for idx, line in lines:
+        for i in range(len(lines)):
+            if i < 1:
+                # First remove non-alphanumerics and non-underscores.
+                # Then replaces whites with TAB.
+                # Finally use rstrip to remove the TAB at the end.
+                # [^\w] matches anything that is not alphanumeric or underscore
+                lines[i] = lines[i].replace("\"", "").replace("time", "Time")
+                file.write(
+                    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+            else:
+                file.write(lines[i].rstrip('\t'))
+
+
+def move_report_files(outputdir, group_model, groupid):
+    """
+    Move the report files
+    :param outputdir: the output directory
+    :param group_model: the model file name
+    :param groupid: the group id of the reports
+    """
+    # move the report files from the current folder to the output folder
+    # Note, R executes the model from the current folder.
+    report_files = [f for f in os.listdir('.') if
+                    re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
+    # print(report_files)
+    for file in report_files:
+        # Replace some string in the report file
+        replace_str_pl_report(file)
+        # rename and move the output file
+        shutil.move(file, os.path.join(outputdir, file.replace(groupid, "_")[:-4] + ".csv"))
+

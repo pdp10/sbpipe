@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; SB pipe 2.1.0 documentation</title>
+    <title>Developer manual &mdash; SB pipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.1.0',
+        VERSION:     '2.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.1.0 documentation" href="index.html" />
+    <link rel="top" title="SB pipe 2.7.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.7.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -243,8 +243,8 @@ plots and report;</li>
 plots and report.</li>
 </ul>
 <p>All these pipelines can be invoked directly via the script
-<code class="docutils literal"><span class="pre">$SBPIPE/scripts/run_sbpipe.py</span></code>. Each SBpipe pipeline extends the
-class <code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
+<code class="docutils literal"><span class="pre">$SBPIPE/scripts/sbpipe.py</span></code>. Each SBpipe pipeline extends the class
+<code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span># executes a pipeline
 def run(self, config_file)
 
@@ -286,8 +286,9 @@ methods of the class <code class="docutils literal"><span class="pre">Simul</spa
 <li><code class="docutils literal"><span class="pre">Java</span></code>, package <code class="docutils literal"><span class="pre">sbpipe.simul.java</span></code>.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">Rscript</span></code>, <code class="docutils literal"><span class="pre">Python</span></code>, <code class="docutils literal"><span class="pre">Octave</span></code>, and <code class="docutils literal"><span class="pre">Java</span></code> only implement the
-<code class="docutils literal"><span class="pre">Sim()</span></code> method of Simul. Pipelines can dynamically load a simulator
-via the class method <code class="docutils literal"><span class="pre">Pipeline.get_simul_obj(simulator)</span></code>. This method
+methods <code class="docutils literal"><span class="pre">sim()</span></code> and <code class="docutils literal"><span class="pre">pe()</span></code> of Simul (time course simulation and
+parameter estimation). Pipelines can dynamically load a simulator via
+the class method <code class="docutils literal"><span class="pre">Pipeline.get_simul_obj(simulator)</span></code>. This method
 instantiates an object of subtype <code class="docutils literal"><span class="pre">Simul</span></code> by refractoring the
 simulator name as parameter. A simulator class (e.g. <code class="docutils literal"><span class="pre">Copasi</span></code>) must
 have the same name of their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>) but start with an
@@ -307,9 +308,9 @@ for running commands in parallel.</p>
 <div class="section" id="scripts">
 <h3>scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
 <p>The folder <code class="docutils literal"><span class="pre">scripts</span></code> contains the scripts: <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> and
-<code class="docutils literal"><span class="pre">run_sbpipe.py</span></code>. <code class="docutils literal"><span class="pre">run_sbpipe.py</span></code> is the main script and is used to
-run the pipelines. <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> is used for cleaning the
-package including the test results.</p>
+<code class="docutils literal"><span class="pre">sbpipe.py</span></code>. <code class="docutils literal"><span class="pre">sbpipe.py</span></code> is the main script and is used to run the
+pipelines. <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> is used for cleaning the package
+including the test results.</p>
 </div>
 <div class="section" id="tests">
 <h3>tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
@@ -327,12 +328,13 @@ estimation results, time course, parameter scan, etc).</li>
 </ul>
 <p>Examples of configuration files (*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/Working_Folder/.</p>
-<p>To run tests for R models, the R packages <code class="docutils literal"><span class="pre">deSolve</span></code> and <code class="docutils literal"><span class="pre">sde</span></code> must
-be installed. To run tests for Python models, the Python packages
-<code class="docutils literal"><span class="pre">numpy</span></code>, <code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code> must be installed. These additional
-dependencies should not be included to SBpipe main dependencies as they
-are user-specific. In principle, users may define their R, Python,
-Octave or Java models using arbitrary packages.</p>
+<p>To run tests for R models, the R packages <code class="docutils literal"><span class="pre">deSolve</span></code>, <code class="docutils literal"><span class="pre">sde</span></code>,
+<code class="docutils literal"><span class="pre">rshape2</span></code>, and <code class="docutils literal"><span class="pre">minpack.lm</span></code> must be installed. To run tests for
+Python models, the Python packages <code class="docutils literal"><span class="pre">numpy</span></code>, <code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code>
+must be installed. These additional dependencies should not be included
+to SBpipe main dependencies as they are user-specific. In principle,
+users may define their R, Python, Octave or Java models using arbitrary
+packages.</p>
 <p>As of 2016, the repository for SBpipe source code is <code class="docutils literal"><span class="pre">github.com</span></code>.
 This is configured to run Travis-CI every time a <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> into the
 repository is performed. The exact details of execution of Travis-CI can
@@ -484,7 +486,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.7.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

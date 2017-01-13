@@ -28,8 +28,8 @@ import subprocess
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 
 """Unit test for Insulin Receptor"""
@@ -55,7 +55,7 @@ class TestIRSGE(unittest.TestCase):
         """model simulation using SGE if found"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "sge_ir_model_det_simul.conf"]), 0)
+            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sge_ir_model_det_simul.conf"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 

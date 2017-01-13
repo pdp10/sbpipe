@@ -49,14 +49,14 @@ def logo():
     """
     sb_logo = (
         "\n"
-        "                            _             \n"
-        "          /\               (_)            \n"
-        "    ___  / /_        ____    ____  ___    \n"
-        "   / __\/ __ \      / __ \/\/ __ \/ _ \   \n"
-        "  _\ \_/ /_/ /     / /_/ / / /_/ /  __/   \n"
-        " \____/\____/     / ____/_/ ____/\____/   \n"
-        "            -----/ /     / /              \n"
-        "                /_/     /_/               \n"
+        "                      _             \n"
+        "          /\         (_)            \n"
+        "    ___  / /_  ____    ____  ___    \n"
+        "   / __\/ __ \/ __ \/\/ __ \/ _ \   \n"
+        "  _\ \_/ /_/ / /_/ / / /_/ /  __/   \n"
+        " \____/\____/ ____/_/ ____/\____/   \n"
+        "           / /     / /              \n"
+        "          /_/     /_/               \n"
     )
     return sb_logo
 
@@ -68,7 +68,7 @@ def help():
     :return: the help message
     """
     message = (
-        "Usage: run_sbpipe.py [OPTION] [FILE]\n"
+        "Usage: sbpipe.py [OPTION] [FILE]\n"
         "Pipelines for systems modelling of biological networks.\n\n"
         "List of mandatory options:\n"
         "\t-h, --help\n\t\tShow this help.\n"

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.simul.copasi package &mdash; SB pipe 2.1.0 documentation</title>
+    <title>sbpipe.simul.copasi package &mdash; SB pipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.1.0 documentation" href="../index.html" />
+    <link rel="top" title="SB pipe 2.7.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe.simul package" href="sbpipe.simul.html" />
     <link rel="next" title="sbpipe.simul.java package" href="sbpipe.simul.java.html" />
     <link rel="prev" title="sbpipe.simul package" href="sbpipe.simul.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="sbpipe.simul.html" title="sbpipe.simul package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.1.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.simul.html" accesskey="U">sbpipe.simul package</a> &raquo;</li> 
@@ -69,6 +69,11 @@
 <em class="property">class </em><code class="descclassname">sbpipe.simul.copasi.copasi.</code><code class="descname">Copasi</code><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="sbpipe.simul.html#sbpipe.simul.simul.Simul" title="sbpipe.simul.simul.Simul"><code class="xref py py-class docutils literal"><span class="pre">sbpipe.simul.simul.Simul</span></code></a></p>
 <p>Copasi simulator.</p>
+<dl class="method">
+<dt id="sbpipe.simul.copasi.copasi.Copasi.collect_pe_results">
+<code class="descname">collect_pe_results</code><span class="sig-paren">(</span><em>inputdir</em>, <em>outputdir</em>, <em>fileout_all_fits</em>, <em>file_out_best_fits</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.collect_pe_results" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="sbpipe.simul.copasi.copasi.Copasi.pe">
 <code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.pe" title="Permalink to this definition">¶</a></dt>
@@ -125,6 +130,62 @@
 <div class="section" id="module-sbpipe.simul.copasi.copasi_utils">
 <span id="sbpipe-simul-copasi-copasi-utils-module"></span><h2>sbpipe.simul.copasi.copasi_utils module<a class="headerlink" href="#module-sbpipe.simul.copasi.copasi_utils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="sbpipe.simul.copasi.copasi_utils.get_all_fits">
+<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_all_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_all_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect all the parameter estimates from the Copasi parameter estimation report. Results
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.copasi.copasi_utils.get_best_fits">
+<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_best_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_best_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the final parameter estimates from the Copasi parameter estimation report. Results
+are stored in filename_out.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.copasi.copasi_utils.get_params_list">
+<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_params_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_params_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of parameter names from filein</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a Copasi parameter estimation report file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.simul.copasi.copasi_utils.replace_str_copasi_sim_report">
 <code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">replace_str_copasi_sim_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.replace_str_copasi_sim_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace a group of annotation strings from a generated copasi report file</p>
@@ -133,6 +194,44 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> &#8211; The report file with absolute path</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.copasi.copasi_utils.write_all_fits">
+<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">write_all_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.write_all_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all the estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
+<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.copasi.copasi_utils.write_best_fits">
+<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">write_best_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.write_best_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the final estimates to filename_out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
+<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
+<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -384,7 +483,7 @@ and randomises the starting values of the parameters to estimate.</p>
         <li class="right" >
           <a href="sbpipe.simul.html" title="sbpipe.simul package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.1.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.simul.html" >sbpipe.simul package</a> &raquo;</li> 

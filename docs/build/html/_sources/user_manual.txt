@@ -173,7 +173,7 @@ The correct installation of SBpipe can be tested by running the command:
 
 ::
 
-    $ run_sbpipe.py -v
+    $ sbpipe.py -v
     2.1.0
 
 Windows
@@ -315,19 +315,32 @@ Pipelines using R, Python, Octave, or Java
    Report fields must be separated by TAB, and row names must be
    discarded.
 
+**pipeline: parameter estimation**
+
+-  The program must be a functional and invokable via *Rscript*,
+   *python*, *octave*, or *java -jar*, respectively.
+-  The Jar file for Java models must include a manifest.mf specifying
+   the main class.
+-  The program must receive the report file name as input argument (see
+   examples in $SBPIPE/tests/).
+-  The program must save the report to file. This includes the objective
+   value as first column column, and the estimated parameters as
+   following columns. Rows are the evaluated functions. Report fields
+   must be separated by TAB, and row names must be discarded.
+
 Running SBpipe
 ~~~~~~~~~~~~~~
 
-SBpipe is executed via the command *run\_sbpipe.py*. The syntax for this
+SBpipe is executed via the command *sbpipe.py*. The syntax for this
 command and its complete list of options can be retrieved by running
-*run\_sbpipe.py -h*.
+*sbpipe.py -h*.
 
 As of Sep 2016 the output is as follows:
 
 ::
 
-    $ run_sbpipe.py -h
-    Usage: run_sbpipe.py [OPTION] [FILE]
+    $ sbpipe.py -h
+    Usage: sbpipe.py [OPTION] [FILE]
     Pipelines for systems modelling of biological networks.
 
     List of mandatory options:
@@ -361,7 +374,7 @@ command:
 
 ::
 
-    $ run_sbpipe.py --create-project project_name
+    $ sbpipe.py --create-project project_name
 
 This generates the following structure:
 
@@ -389,7 +402,7 @@ certain configuration file can be executed by typing:
 ::
 
     $ cd project_name/Working_Folder/
-    $ run_sbpipe.py -e my_config_file.conf
+    $ sbpipe.py -e my_config_file.conf
 
 Pipeline configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -565,7 +578,7 @@ estimation*
     generate_tarball=True
     # The relative path to the project directory (from Working_Folder)
     project_dir=..
-    # The name of the configurator (e.g. Copasi)
+    # The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
     simulator=Copasi
     # The model name
     model=insulin_receptor_param_estim.cps

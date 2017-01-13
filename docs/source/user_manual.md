@@ -158,7 +158,7 @@ these packages, `install_rdeps.r` must be executed again.
 
 The correct installation of SBpipe can be tested by running the command: 
 ```
-$ run_sbpipe.py -v
+$ sbpipe.py -v
 2.1.0
 ```
 
@@ -287,16 +287,24 @@ files are stored in the same folder.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
+**pipeline: parameter estimation**
+
+- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
+- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must save the report to file. This includes the objective value as first column column, and the estimated
+ parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
+ names must be discarded.
 
 ### Running SBpipe
-SBpipe is executed via the command *run_sbpipe.py*. The syntax for this 
+SBpipe is executed via the command *sbpipe.py*. The syntax for this
 command and its complete list 
-of options can be retrieved by running *run_sbpipe.py -h*. 
+of options can be retrieved by running *sbpipe.py -h*.
 
 As of Sep 2016 the output is as follows:
 ```
-$ run_sbpipe.py -h
-Usage: run_sbpipe.py [OPTION] [FILE]
+$ sbpipe.py -h
+Usage: sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
 List of mandatory options:
@@ -330,7 +338,7 @@ For complete documentation, see README.md .
 The first step is to create a new project. This can be done with the 
 command:
 ```
-$ run_sbpipe.py --create-project project_name
+$ sbpipe.py --create-project project_name
 ```
 
 This generates the following structure:
@@ -354,7 +362,7 @@ For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:
 ```
 $ cd project_name/Working_Folder/
-$ run_sbpipe.py -e my_config_file.conf
+$ sbpipe.py -e my_config_file.conf
 ```
 
 
@@ -518,7 +526,7 @@ generate_report=True
 generate_tarball=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
 simulator=Copasi
 # The model name
 model=insulin_receptor_param_estim.cps
