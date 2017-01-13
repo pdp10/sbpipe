@@ -42,25 +42,27 @@ if(length(args) > 0) {
 
 
 # Load concentration data
-df=read.table("pe_simple_reacts_dataset.csv", header=TRUE, sep=",")
+# Retrieve the environment variable SBPIPE
+# Load this file from Models, not the configuration file folder
+SBPIPE <- Sys.getenv(c("SBPIPE"))
+df <- read.table(file.path(SBPIPE, 'tests','r_models','Models','pe_simple_reacts_dataset.csv'), header=TRUE, sep="\t")
+#df <- read.table("pe_simple_reacts_dataset.csv", header=TRUE, sep=",")
 
 
 # Mathematical model
-my_model=function(t,c,parms){
+my_model <- function(t,x,parms){
   # t: time
-  # c: initial concentrations  
+  # x: initial concentrations
   # parms: kinetic rate constant
-  
-  k1=parms$k1
-  k2=parms$k2
-  
-  r=rep(0,length(c))
-  r[1]=-k1*c["A"]  #dcA/dt
-  r[2]=k1*c["A"]-k2*c["B"] #dcB/dt
-  r[3]=k2*c["B"] #dcC/dt
-
-  return(list(r))
+  with(as.list(c(parms, x)), {
+      dA <- -k1*A
+      dB <- k1*A - k2*B
+      dC <- k2*B
+      res <- c(dA, dB, dC)
+      list(res)
+  })
 }
+
 
 
 # Calculate the residual sum of squares (RSS)
@@ -96,7 +98,7 @@ ssq=function(parms){
 # Parameter fitting using levenberg marquart algorithm
 
 # initial guess for parameters
-parms <- runif(2, 0.001, 10.0)
+parms <- runif(2, 0.0001, 10.0)
 names(parms) <- c("k1", "k2")
 # parms <- c(k1=0.5, k2=0.5)
 #print(parms)

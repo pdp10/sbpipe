@@ -107,5 +107,32 @@ class TestRscriptSim(unittest.TestCase):
         except OSError as e:
             print("Skipping test as R was not found.")
 
+    def test_sim_simple_reacts(self):
+        """A simple R model whose parameters have been estimated using sbpipe"""
+        try:
+            reshape2 = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            desolve = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            minpacklm = subprocess.Popen(['Rscript', \
+                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE).communicate()[0]
+            if "FALSE" in reshape2:
+                print("Skipping test as R reshape2 was not found.")
+            if "FALSE" in desolve:
+                print("Skipping test as R deSolve was not found.")
+            elif "FALSE" in minpacklm:
+                print("Skipping test as R minpack.lm was not found.")
+            else:
+                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sim_simple_reacts.conf"]), 0)
+        except OSError as e:
+            print("Skipping test as R was not found.")
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
