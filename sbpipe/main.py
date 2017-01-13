@@ -48,6 +48,7 @@ def logo():
     :return: sbpipe logo
     """
     sb_logo = (
+        "\n"
         "                      _             \n"
         "          /\         (_)            \n"
         "    ___  / /_  ____    ____  ___    \n"
