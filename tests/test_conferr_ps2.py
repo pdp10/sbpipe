@@ -28,8 +28,8 @@ import sys
 import unittest
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 
 """Unit test for Insulin Receptor"""
 
@@ -53,12 +53,12 @@ class TestIRDoubleParamScan(unittest.TestCase):
     def test_double_param_scan_inhib_only1(self):
         """model double param scan - inhibition only"""
         self.assertEqual(
-            run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib1.conf"]), 1)
+            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib1.conf"]), 1)
 
     def test_double_param_scan_inhib_only2(self):
         """model double param scan - inhibition only"""
         self.assertEqual(
-            run_sbpipe.main(["run_sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib2.conf"]), 0)
+            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib2.conf"]), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

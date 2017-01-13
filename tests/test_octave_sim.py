@@ -27,8 +27,8 @@ import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 import subprocess
 
@@ -55,7 +55,7 @@ class TestOctaveSim(unittest.TestCase):
         """A non linear octave model - simulation"""
         try:
             subprocess.Popen(['octave', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(run_sbpipe.main(["sbpipe", "--simulate", "nonlinear_octave_model_sim.conf"]), 0)
+            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "nonlinear_octave_model_sim.conf"]), 0)
         except OSError as e:
             print("Skipping test as Octave was not found.")
 
