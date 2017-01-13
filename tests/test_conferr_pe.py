@@ -27,8 +27,8 @@ import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 
 """Unit test for Insulin Receptor"""
@@ -52,19 +52,19 @@ class TestIRParamEstim(unittest.TestCase):
 
     def test_param_estim_copasi1(self):
         """model parameter estimation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim1.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim1.conf"]), 1)
 
     def test_param_estim_copasi2(self):
         """model parameter estimation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim2.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim2.conf"]), 1)
 
     def test_param_estim_copasi3(self):
         """model parameter estimation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim3.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim3.conf"]), 1)
 
     def test_param_estim_copasi4(self):
         """model parameter estimation"""
-        self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "ir_model_param_estim4.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim4.conf"]), 1)
 
 
 if __name__ == '__main__':

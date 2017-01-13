@@ -198,7 +198,7 @@ and report;
 and report.
 
 All these pipelines can be invoked directly via the script 
-`$SBPIPE/scripts/run_sbpipe.py`. Each SBpipe pipeline extends the class 
+`$SBPIPE/scripts/sbpipe.py`. Each SBpipe pipeline extends the class
 `Pipeline` and therefore must implement the following methods: 
 ```
 # executes a pipeline
@@ -260,7 +260,7 @@ for running commands in parallel.
 
 ### scripts
 The folder `scripts` contains the scripts: `cleanup_sbpipe.py` and 
-`run_sbpipe.py`. `run_sbpipe.py` is the main script and is used to run 
+`sbpipe.py`. `sbpipe.py` is the main script and is used to run
 the pipelines. `cleanup_sbpipe.py` is used for cleaning the package 
 including the test results. 
 

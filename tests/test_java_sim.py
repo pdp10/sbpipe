@@ -27,8 +27,8 @@ import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 import subprocess
 
@@ -55,7 +55,7 @@ class TestJavaSim(unittest.TestCase):
         """A simulated queue model in java - simulation"""
         try:
             subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "simqueue.conf"]), 0)
+            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simqueue.conf"]), 0)
         except OSError as e:
             print("Skipping test as no Java Virtual Machine was found.")
 
