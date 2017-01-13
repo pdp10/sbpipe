@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.7.0 (devel)
+v2.8.0 (devel)
 
+- added plots reproducing all the single simulations per species.
 - changed main script name from run_sbpipe.py to sbpipe.py.
 - Added support for parameter estimation using non-Copasi models. Test using R model.
 - Skip Java, Python, and R model tests if their dependencies are not satisfied.
