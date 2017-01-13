@@ -26,6 +26,7 @@
 import os
 import sys
 
+
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 import sbpipe.main as sbpipe

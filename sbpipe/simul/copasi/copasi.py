@@ -31,6 +31,8 @@ from itertools import islice
 from sbpipe.sb_config import which
 from randomise import Randomise
 from .copasi_utils import replace_str_copasi_sim_report
+from .copasi_utils import get_all_fits
+from .copasi_utils import get_best_fits
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
@@ -306,7 +308,7 @@ class Copasi(Simul):
 
         # execute runs simulations.
         logger.info("Sensitivity analysis for " + model)
-
+        pass
         # TODO
         # run copasi
         # if self._copasi is None:
@@ -320,3 +322,10 @@ class Copasi(Simul):
         #
         # # move the output file
         # shutil.move(os.path.join(os.path.splitext(model)[0]+".csv"), outputdir)
+
+    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
+        __doc__ = Simul.collect_pe_results.__doc__
+
+        get_best_fits(inputdir, outputdir, file_out_best_fits)
+        get_all_fits(inputdir, outputdir, fileout_all_fits)
+

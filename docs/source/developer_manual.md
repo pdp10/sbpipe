@@ -198,7 +198,7 @@ and report;
 and report.
 
 All these pipelines can be invoked directly via the script 
-`$SBPIPE/scripts/run_sbpipe.py`. Each SBpipe pipeline extends the class 
+`$SBPIPE/scripts/run_sbpipe.py`. Each SBpipe pipeline extends the class
 `Pipeline` and therefore must implement the following methods: 
 ```
 # executes a pipeline
@@ -240,8 +240,9 @@ of the class `Simul`;
 - `Octave`, package `sbpipe.simul.octave`;
 - `Java`, package `sbpipe.simul.java`.
 
-`Rscript`, `Python`, `Octave`, and `Java` only implement the `Sim()` method
-of Simul. Pipelines can dynamically load a simulator via the class method
+`Rscript`, `Python`, `Octave`, and `Java` only implement the methods `sim()` and
+`pe()` of Simul (time course simulation and parameter estimation).
+Pipelines can dynamically load a simulator via the class method
 `Pipeline.get_simul_obj(simulator)`. This method instantiates an 
 object of subtype `Simul` by refractoring the simulator name as parameter. 
 A simulator class (e.g. `Copasi`) must have the same name of their package 
@@ -260,7 +261,7 @@ for running commands in parallel.
 
 ### scripts
 The folder `scripts` contains the scripts: `cleanup_sbpipe.py` and 
-`run_sbpipe.py`. `run_sbpipe.py` is the main script and is used to run 
+`run_sbpipe.py`. `run_sbpipe.py` is the main script and is used to run
 the pipelines. `cleanup_sbpipe.py` is used for cleaning the package 
 including the test results. 
 
@@ -281,7 +282,7 @@ estimation results, time course, parameter scan, etc).
 Examples of configuration files (*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/Working_Folder/.
 
-To run tests for R models, the R packages `deSolve` and `sde` must be installed.
+To run tests for R models, the R packages `deSolve`, `sde`, `rshape2`, and `minpack.lm` must be installed.
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
 These additional dependencies should not be included to SBpipe main dependencies as they are user-specific.
 In principle, users may define their R, Python, Octave or Java models using arbitrary packages.

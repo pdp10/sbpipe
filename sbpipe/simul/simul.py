@@ -103,3 +103,14 @@ class Simul:
         :param outputdir: the directory to store the results
         """
         pass
+
+    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
+        """
+        Collect the parameter estimation results in two files.
+
+        :param inputdir: input folder containing the independent parameter estimation files
+        :param outputdir: the output folder to store the new files to create
+        :param fileout_all_fits: a global file containing all fits from the independent parameter estimations.
+        :param file_out_best_fits: a global file containing the best fits from the independent parameter estimations.
+        """
+        pass

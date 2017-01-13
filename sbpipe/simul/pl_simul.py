@@ -27,7 +27,9 @@ import os
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
-from .report_utils import move_sim_report_files
+from .pl_simul_utils import get_all_fits
+from .pl_simul_utils import get_best_fits
+from .pl_simul_utils import move_report_files
 from ..simul import Simul
 
 logger = logging.getLogger('sbpipe')
@@ -79,6 +81,32 @@ class PLSimul(Simul):
     def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = PLSimul.sim.__doc__
 
+        self._run_par_comput(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+
+    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+           updated_models_dir):
+        __doc__ = PLSimul.pe.__doc__
+
+        self._run_par_comput(model, inputdir, sim_data_dir, cluster_type, pp_cpus, nfits)
+
+    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
+        __doc__ = Simul.collect_pe_results.__doc__
+
+        get_best_fits(inputdir, outputdir, file_out_best_fits)
+        get_all_fits(inputdir, outputdir, fileout_all_fits)
+
+    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+        """
+        Run generic parallel computation.
+
+        :param model: the model to process
+        :param inputdir: the directory containing the model
+        :param outputdir: the directory to store the results
+        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
+        :param pp_cpus: the number of cpu for parallel python
+        :param nruns: the number of runs to perform
+        """
+
         if self._language is None:
             logger.error(self._language_not_found_msg)
             return
@@ -100,5 +128,4 @@ class PLSimul(Simul):
                   " " + group_model + str_to_replace + ".csv"
         print(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
-        move_sim_report_files(outputdir, group_model, groupid)
-
+        move_report_files(outputdir, group_model, groupid)

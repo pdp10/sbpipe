@@ -55,7 +55,7 @@ class TestOctaveSim(unittest.TestCase):
         """A non linear octave model - simulation"""
         try:
             subprocess.Popen(['octave', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(run_sbpipe.main(["run_sbpipe", "--simulate", "nonlinear_octave_model_sim.conf"]), 0)
+            self.assertEqual(run_sbpipe.main(["sbpipe", "--simulate", "nonlinear_octave_model_sim.conf"]), 0)
         except OSError as e:
             print("Skipping test as Octave was not found.")
 
