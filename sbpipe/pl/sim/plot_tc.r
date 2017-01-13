@@ -20,6 +20,7 @@
 # $Date: 2016-07-7 11:14:32 $
 
 
+library(reshape2)
 library(ggplot2)
 
 
@@ -242,7 +243,6 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
     statistics[,1] <- timepoints
     colidx <- 2
-    linewidth=14
     
     # an empty colum that we need for creating a data.frame of length(timecourses$Time) rows
     na <- c(rep(NA, length(timecourses$Time)))
@@ -305,4 +305,80 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     write.table(statistics, outputfile, sep="\t", col.names = column.names, row.names = FALSE) 
 }
 
+
+
+
+################################################################################
+
+
+
+
+# Plots the simulations
+#
+# :param inputdir: the input directory containing the time course files
+# :param outputdir: the output directory
+# :param model: the model name
+# :param outputfile: the name of the file to store the simulations
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+plot_sep_sims <- function(inputdir, outputdir, model, xaxis_label="", yaxis_label="") {
+
+  theme_set(tc_theme(36)) #28
+
+  # create the directory of output
+  if (!file.exists(outputdir)){
+    dir.create(outputdir)
+  }
+
+  # collect all files in the directory
+  files <- list.files( path=inputdir, pattern=model )
+  #print(files)
+
+  for(i in 1:length(files)) {
+    df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
+    title <- gsub(paste('sim_', model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
+    g <- ggplot(data=mdf,aes(x=Time,y=conc,color=species))+geom_line(aes(color=species), size=1.0)
+    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title)
+    g <- g + theme(legend.position="none")
+    fileout <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])) )
+    ggsave(fileout, dpi=300,  width=8, height=6)#, bg = "transparent")
+  }
+}
+
+
+# Summarise the simulations
+#
+# :param inputdir: the input directory containing the time course files
+# :param model: the model name
+# :param outputfile: the name of the file to store the simulations
+sep_sims <- function(inputdir, model, outputfile) {
+
+  # collect all files in the directory
+  files <- list.files( path=inputdir, pattern=model )
+  #print(files)
+
+  # Read the simulated time course data sets
+  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+  column <- names (timecourses)
+
+  timepoints <- timecourses$Time
+  #print(timepoints)
+  time_length <- length(timepoints)
+
+  for(i in 1:length(column)){
+      if(column[i] != "Time") {
+        print(column[i])
+        summary <- NULL
+        cbind(summary, timepoints) -> summary
+        for(j in 1:length(files)) {
+          sim_file <- read.table( file.path(inputdir, files[j]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+          cbind(summary, subset(sim_file, select=c(column[i])) ) -> summary
+        }
+        summary <- data.frame(summary)
+        names(summary) <- c("Time", paste('X', seq(1, length(files), 1), sep=""))
+        write.table(summary, gsub('.csv', paste('_', column[i], '.csv', sep=""), outputfile), sep="\t", row.names=FALSE, quote=FALSE)
+      }
+  }
+}
 
