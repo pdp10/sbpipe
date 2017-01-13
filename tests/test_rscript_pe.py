@@ -27,8 +27,8 @@ import os
 import sys
 
 SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE, 'scripts'))
-import run_sbpipe
+sys.path.append(SBPIPE)
+from sbpipe import main as sbmain
 import unittest
 import subprocess
 
@@ -73,7 +73,7 @@ class TestRscriptPE(unittest.TestCase):
             elif "FALSE" in minpacklm:
                 print("Skipping test as R minpack.lm was not found.")
             else:
-                self.assertEqual(run_sbpipe.main(["run_sbpipe", "--param-estim", "pe_simple_reacts.conf"]), 0)
+                self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "pe_simple_reacts.conf"]), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
