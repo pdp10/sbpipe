@@ -173,7 +173,7 @@ The correct installation of SBpipe can be tested by running the command:
 
 ::
 
-    $ run_sbpipe.py -v
+    $ sbpipe.py -v
     2.1.0
 
 Windows
@@ -331,16 +331,16 @@ Pipelines using R, Python, Octave, or Java
 Running SBpipe
 ~~~~~~~~~~~~~~
 
-SBpipe is executed via the command *run\_sbpipe.py*. The syntax for this
+SBpipe is executed via the command *sbpipe.py*. The syntax for this
 command and its complete list of options can be retrieved by running
-*run\_sbpipe.py -h*.
+*sbpipe.py -h*.
 
 As of Sep 2016 the output is as follows:
 
 ::
 
-    $ run_sbpipe.py -h
-    Usage: run_sbpipe.py [OPTION] [FILE]
+    $ sbpipe.py -h
+    Usage: sbpipe.py [OPTION] [FILE]
     Pipelines for systems modelling of biological networks.
 
     List of mandatory options:
@@ -374,7 +374,7 @@ command:
 
 ::
 
-    $ run_sbpipe.py --create-project project_name
+    $ sbpipe.py --create-project project_name
 
 This generates the following structure:
 
@@ -402,7 +402,7 @@ certain configuration file can be executed by typing:
 ::
 
     $ cd project_name/Working_Folder/
-    $ run_sbpipe.py -e my_config_file.conf
+    $ sbpipe.py -e my_config_file.conf
 
 Pipeline configuration files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
