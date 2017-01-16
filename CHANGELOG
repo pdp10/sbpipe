@@ -6,8 +6,12 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.8.0 (devel)
+v2.12.0 (devel)
 
+- redesign of simulation plots. Improvements plus based on melt function.
+- removed remaining old gplots dependent code. Sbpipe only uses ggplot2 now.
+- added two new plots useful for stochastic simulation
+- improved reuse for all R plots.
 - added plots reproducing all the single simulations per species.
 - changed main script name from run_sbpipe.py to sbpipe.py.
 - Added support for parameter estimation using non-Copasi models. Test using R model.
