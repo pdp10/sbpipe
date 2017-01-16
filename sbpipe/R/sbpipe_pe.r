@@ -23,7 +23,7 @@
 library(ggplot2)
 #library(scales)
 source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
-source(file.path(SBPIPE, 'sbpipe','R','plots.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 
 
 
