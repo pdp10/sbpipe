@@ -169,7 +169,7 @@ def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
         folder.sort()
         for infile in folder:
             if infile.find(model_noext) != -1:
-                if infile.find('_sd_n_ci95_') != -1:
+                if infile.find('mean_sd_ci95') != -1:
                     logger.info(infile)
                     file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
         file_out.write("\\end{document}\n")

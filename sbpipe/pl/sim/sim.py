@@ -211,15 +211,16 @@ class Sim(Pipeline):
 
         logger.info("Analysing generated simulations:")
         process = subprocess.Popen(
-            ['Rscript', os.path.join(os.path.dirname(__file__), 'sim_plot_error_bars.r'),
+            ['Rscript', os.path.join(os.path.dirname(__file__), 'gen_stats_table.r'),
              model, inputdir, sim_plots_dir,
-             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), exp_dataset, str(plot_exp_dataset), xaxis_label,
+             os.path.join(outputdir, 'sim_stats_' + model + '.csv'), xaxis_label,
              yaxis_label])
         process.wait()
+        logger.info("Plotting simulations:")
         process = subprocess.Popen(
             ['Rscript', os.path.join(os.path.dirname(__file__), 'plot_sep_sims.r'),
              model, inputdir, sim_plots_dir,
-             os.path.join(sim_data_per_var_dir, 'sim_' + model + '.csv'), xaxis_label,
+             os.path.join(sim_data_per_var_dir, model + '.csv'), exp_dataset, str(plot_exp_dataset), xaxis_label,
              yaxis_label])
         process.wait()
         return True

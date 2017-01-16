@@ -21,6 +21,7 @@
 # $Date: 2016-07-01 14:14:32 $
 
 
+library(reshape2)
 library(ggplot2)
 library(scales)
 #library(gridExtra)
@@ -142,6 +143,65 @@ scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
        ylab(paste("log10(", colNameY, ")", sep="")) +          
        annotation_logticks() 
 }
+
+
+
+# Add experimental data points to a plot. The length of the experimental time course to plot is limited by the length of the simulated time course (=max_sim_tp).
+#
+# :param df_exp_dataset: the experimental data set
+# :param g: the current ggplot to overlap
+# :param readout: the name of the readout
+# :param max_sim_tp: the maximum simulated time point
+plot_raw_dataset <- function(df_exp_dataset, g=ggplot(), readout="time", max_sim_tp=0) {
+    # Let's add the experimental data set to the plot
+    time <- colnames(df_exp_dataset)[1]
+    df_exp_dataset <- df_exp_dataset[df_exp_dataset[1] <= max_sim_tp,]
+    g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout), shape=1, size=2, stroke=1, colour='red2')
+    return(g)
+}
+
+
+
+# Plot repeated time courses in the same plot with mean, 1 standard deviation, and 95% confidence intervals.
+#
+# :param df: a data frame
+# :param g: the current ggplot to overlap
+# :param title: the title
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+# :param bar_type: the type of bar ("mean", "mean_sd", "mean_sd_ci95")
+plot_combined_tc <- function(df, g=ggplot(), title="", xaxis_label="", yaxis_label="", bar_type="mean") {
+    mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
+    if(bar_type == "mean_sd" || bar_type == "mean_sd_ci95") {
+        g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="ribbon", fun.data = mean_sdl, fill="#99CCFF")
+        if(bar_type == "mean_sd_ci95") {
+            g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="ribbon", fun.data=mean_cl_normal,
+                     fun.args=list(conf.int=0.95), fill="#CCFFFF")
+        }
+    }
+    g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="line", fun.y=mean, size=1.0, color="black") +
+         xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title) +
+         theme(plot.title = element_text(hjust = 0.5))
+    return(g)
+}
+
+
+
+# Plot repeated time courses in the same plot separately. First column is Time.
+#
+# :param df: a data frame
+# :param g: the current ggplot to overlap
+# :param title: the title
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+plot_repeated_tc <- function(df, g=ggplot(), title='', xaxis_label="", yaxis_label="") {
+    mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
+    g <- g + geom_line(data=mdf,aes(x=Time,y=conc,color=species), size=1.0) +
+         xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title) +
+         theme(legend.position="none", plot.title = element_text(hjust = 0.5))
+    return(g)
+}
+
 
 
 

@@ -32,19 +32,24 @@ source(file.path(SBPIPE, 'sbpipe','pl','sim','plot_tc.r'))
 # :args[2]: the input directory
 # :args[3]: the output directory
 # :args[4]: the output file name
-# :args[5]: the label for the x axis (e.g. Time [min])
-# :args[6]: the label for the y axis (e.g. Level [a.u.])
+# :args[5]: the file containing the experimental data.
+# :args[6]: TRUE if the experimental data should also be plotted
+# :args[7]: the label for the x axis (e.g. Time [min])
+# :args[8]: the label for the y axis (e.g. Level [a.u.])
 main <- function(args) {
     # The model model_noext
     model_noext <- args[1]
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    xaxis_label <- args[5]
-    yaxis_label <- args[6]
+    exp_dataset <- args[5]
+    plot_exp_dataset <- args[6]
+    xaxis_label <- args[7]
+    yaxis_label <- args[8]
 
-    sep_sims(inputdir, model_noext, outputfile)
-    plot_sep_sims(dirname(outputfile), outputdir, model_noext, xaxis_label, yaxis_label)
+    summarise_simulations(inputdir, model_noext, outputfile)
+    plot_sep_sims(dirname(outputfile), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
+    plot_comb_sims(dirname(outputfile), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
 }
 
 
