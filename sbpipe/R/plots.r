@@ -32,10 +32,12 @@ require(graphics)
 # Plot a generic histogram
 #
 # :param dfCol: a data frame with exactly one column.
-histogramplot <- function(dfCol) {
-  ggplot(dfCol, aes_string(x=colnames(dfCol))) +
-    geom_histogram(binwidth=density(dfCol[,])$bw, colour="black", fill="blue") + 
-    theme(axis.text.x=element_text(vjust = 1))    
+# :param g: the current ggplot to overlap
+histogramplot <- function(dfCol, g=ggplot()) {
+    g <- g +
+        geom_histogram(data=dfCol, aes_string(x=colnames(dfCol)), binwidth=density(dfCol[,])$bw, colour="black", fill="blue") +
+        theme(axis.text.x=element_text(vjust = 1))
+    return(g)
 }
 
 
@@ -43,13 +45,14 @@ histogramplot <- function(dfCol) {
 # Plot a scatter plot using a coloured palette
 #
 # :param df: a data frame
+# :param g: the current ggplot to overlap
 # :param colNameX: the name of the column for the X axis
 # :param colNameY: the name of the column for the Y axis
 # :param colNameColor: the name of the column whose values are used as 3rd dimension
 # :param dot_size: the size of the dots in the scatterplot
 # :param colours: the palette to use
 # :param limits: the limits for the palette (NULL if no limit is used)
-scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=1.0, colours=colorRampPalette(c("blue4", "blue", "cyan", "green", "yellow", "orange", "red", "red4"))(100), limits=NULL) {
+scatterplot_w_colour <- function(df, g=ggplot(), colNameX, colNameY, colNameColor, dot_size=1.0, colours=colorRampPalette(c("blue4", "blue", "cyan", "green", "yellow", "orange", "red", "red4"))(100), limits=NULL) {
 
 # If the third coordinate has equal values, then use the first value (default: red)
   colorCol <- df[,c(colNameColor)]
@@ -58,13 +61,13 @@ scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=
     colours <- colours[0:1]
   }
 
-  g <- ggplot(df, aes_string(x=colNameX, y=colNameY, color=colNameColor))
-  g <- g + geom_point(size=dot_size) +
+  g <- g + geom_point(data=df, aes_string(x=colNameX, y=colNameY, color=colNameColor), size=dot_size) +
        scale_colour_gradientn(colours=colours, limits) +
        #geom_rug(col="darkblue",alpha=.1) +    
        theme(axis.text.x=element_text(vjust = 1))  
   # #add marginal histograms
   #ggExtra::ggMarginal(g, type = "histogram")
+  return(g)
 }
 
 
@@ -72,20 +75,22 @@ scatterplot_w_colour <- function(df, colNameX, colNameY, colNameColor, dot_size=
 # Plot a profile likelihood estimation (PLE) scatter plot
 #
 # :param df: a data frame
+# :param g: the current ggplot to overlap
 # :param colNameX: the name of the column for the X axis
 # :param colNameY: the name of the column for the Y axis
 # :param conf_level_66: the 66% confidence level to plot
 # :param conf_level_95: the 95% confidence level to plot
 # :param dot_size: the size of the dots in the scatterplot
-scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95, dot_size=0.1) {
-  ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-      geom_point(size=dot_size) + 
-      geom_hline(aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
-      geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) + 
+scatterplot_ple <- function(df, g=ggplot(), colNameX, colNameY, conf_level_66, conf_level_95, dot_size=0.1) {
+  g <- g +
+      geom_point(data=df, aes_string(x=colNameX, y=colNameY), size=dot_size) +
+      geom_hline(df.last, aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
+      geom_hline(df.last, aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
       scale_colour_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="blue","_66"="red")) +
       scale_linetype_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="dashed", "_66"="dotted")) +
       ylab(expression(chi^{2})) +
-      theme(axis.text.x=element_text(vjust = 1)) 
+      theme(axis.text.x=element_text(vjust = 1))
+  return(g)
 }
 
 
@@ -93,24 +98,28 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
 # Plot a profile likelihood estimation (PLE) scatter plot
 #
 # :param df: a data frame
+# :param g: the current ggplot to overlap
 # :param colNameX: the name of the column for the X axis
 # :param colNameY: the name of the column for the Y axis
 # :param conf_level_66: the 66% confidence level to plot
 # :param conf_level_95: the 95% confidence level to plot
 # :param conf_level_99: the 99% confidence level to plot
 # :param dot_size: the size of the dots in the scatterplot
-scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95, conf_level_99, dot_size=0.1) {
-  ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-      geom_point(size=dot_size) + 
-      geom_hline(aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
-      geom_hline(aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
-      geom_hline(aes(yintercept=conf_level_99, color="_99", linetype="_99"), size=2, show.legend=TRUE) +
+scatterplot_ple <- function(df, g=ggplot(), colNameX, colNameY, conf_level_66, conf_level_95, conf_level_99, dot_size=0.1) {
+  df.thresholds <- data.frame(conf_level_66, conf_level_95, conf_level_99)
+  g <- g +
+      geom_point(data=df, aes_string(x=colNameX, y=colNameY), size=dot_size) +
+      geom_hline(data=df.thresholds, aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
+      geom_hline(data=df.thresholds, aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
+      geom_hline(data=df.thresholds, aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
+      geom_hline(data=df.thresholds, aes(yintercept=conf_level_99, color="_99", linetype="_99"), size=2, show.legend=TRUE) +
       scale_colour_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="dodgerblue","_95"="green2","_66"="magenta1")) +
 #      scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="solid", "_95"="solid", "_66"="solid")) +
       scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="dashed", "_95"="dashed", "_66"="dashed")) +
       guides(colour = guide_legend(reverse=T), linetype = guide_legend(reverse=T)) +
       ylab(expression(chi^{2})) +
-      theme(axis.text.x=element_text(vjust = 1)) 
+      theme(axis.text.x=element_text(vjust = 1))
+  return(g)
 }
 
 
@@ -118,30 +127,67 @@ scatterplot_ple <- function(df, colNameX, colNameY, conf_level_66, conf_level_95
 # Plot a generic scatter plot
 #
 # :param df: a data frame
+# :param g: the current ggplot to overlap
 # :param colNameX: the name of the column for the X axis
 # :param colNameY: the name of the column for the Y axis
 # :param dot_size: the size of the dots in the scatterplot
-scatterplot <-function(df, colNameX, colNameY, dot_size=0.5) {
-  ggplot(df, aes_string(x=colNameX, y=colNameY)) +
-       geom_point(size=dot_size) +    
-       theme(axis.text.x=element_text(vjust = 1)) 
+scatterplot <-function(df, g=ggplot(), colNameX, colNameY, dot_size=0.5) {
+  g <- g +
+       geom_point(data=df, aes_string(x=colNameX, y=colNameY), size=dot_size) +
+       theme(axis.text.x=element_text(vjust = 1))
+  return(g)
 }
 
 
 
 # Plot a generic scatter plot in log10 scale
 #
-# :param df: a data frame
+# :param df: a data frame to trasform to log10 scale
+# :param g: the current ggplot to overlap
 # :param colNameX: the name of the column for the X axis
 # :param colNameY: the name of the column for the Y axis
 # :param dot_size: the size of the dots in the scatterplot
-scatterplot_log10 <-function(df, colNameX, colNameY, dot_size=0.5) {
-  scatterplot(df, colNameX, colNameY, dot_size) + 
-       scale_x_log10() + #continuous(trans=log10_trans()) +
-       scale_y_log10() + #continuous(trans=log10_trans()) +
-       xlab(paste("log10(", colNameX, ")", sep="")) +       
-       ylab(paste("log10(", colNameY, ")", sep="")) +          
-       annotation_logticks() 
+scatterplot_log10 <-function(df, g=ggplot(), colNameX, colNameY, dot_size=0.5) {
+  df <- log10(df)
+  g <- scatterplot(df, g, colNameX, colNameY, dot_size) +
+       #scale_x_log10() +
+       #scale_y_log10() +
+       xlab(paste("log10(", colNameX, ")", sep="")) +
+       ylab(paste("log10(", colNameY, ")", sep="")) #+
+       #annotation_logticks()
+  return(g)
+}
+
+
+
+# Plot the number of iterations vs Chi^2 in log10 scale.
+#
+# :param g: the current ggplot to overlap
+# :param chi2_array: the array of Chi^2.
+plot_fits <- function(chi2_array, g=ggplot()) {
+  iters <- c()
+  j <- 0
+  k <- 0
+
+  # We intentionally consider only the Chi^2 above 100*median(Chi2_array).
+  # Often the very first Chi^2 can be extremely large (e^[hundreds]). When so,
+  # ggsave() does not process correctly, potentially due to a bug.
+  med_chi2 <- median(chi2_array[is.finite(chi2_array)])
+  chi2_array <- chi2_array[chi2_array < med_chi2*100]
+
+  for(i in 1:length(chi2_array)) {
+    if(k < chi2_array[i]) {
+      j <- 0
+    }
+    iters <- c(iters, j)
+    j <- j+1
+    k <- chi2_array[i]
+  }
+  df <- data.frame(Iter=iters, Chi2=chi2_array)
+  g <- scatterplot_log10(df, g, "Iter", "Chi2") +
+            # Re paint the y lab as we want to use the Greek letter chi.
+            ylab(expression(paste("log10(",chi^{2},")", sep="")))
+  return(g)
 }
 
 
