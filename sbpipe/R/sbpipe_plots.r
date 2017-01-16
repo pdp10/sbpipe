@@ -226,8 +226,7 @@ plot_combined_tc <- function(df, g=ggplot(), title="", xaxis_label="", yaxis_lab
         }
     }
     g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="line", fun.y=mean, size=1.0, color="black") +
-         xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title) +
-         theme(plot.title = element_text(hjust = 0.5))
+         xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title)
     return(g)
 }
 
@@ -244,7 +243,7 @@ plot_repeated_tc <- function(df, g=ggplot(), title='', xaxis_label="", yaxis_lab
     mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
     g <- g + geom_line(data=mdf,aes(x=Time,y=conc,color=species), size=1.0) +
          xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title) +
-         theme(legend.position="none", plot.title = element_text(hjust = 0.5))
+         theme(legend.position="none")
     return(g)
 }
 
