@@ -96,7 +96,7 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
         }
         palette.plot <- palette.generic[colour.minidx:colour.maxidx]
 
-        g <- scatterplot_w_colour(df.plot, scanned_par1, scanned_par2, columns[i], colours=palette.plot) + 
+        g <- scatterplot_w_colour(df.plot, ggplot(), scanned_par1, scanned_par2, columns[i], colours=palette.plot) +
             ggtitle(paste(columns[i], ", time=", k-1, sep="")) + 
             theme(legend.key.height = unit(0.5, "in"))
         ggsave(file.path(outputdir, paste(model, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
