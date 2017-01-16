@@ -23,7 +23,7 @@
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
 # Add a collection of R functions
-source(file.path(SBPIPE, 'sbpipe','pl','ps2','parscan2_plots_func.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ps2.r'))
 
 
 
