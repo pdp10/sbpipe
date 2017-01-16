@@ -98,7 +98,7 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
 
         g <- scatterplot_w_colour(df.plot, ggplot(), scanned_par1, scanned_par2, columns[i], colours=palette.plot) +
             ggtitle(paste(columns[i], ", t=", k-1, sep="")) +
-            theme(legend.key.height = unit(0.5, "in"))
+            theme(legend.key.height = unit(0.5, "in"), plot.title = element_text(hjust = 0.5))
         ggsave(file.path(outputdir, paste(model, "__eval_", columns[i], "__tp_", k-1, ".png", sep="" )), 
             dpi=300,  width=8, height=6)
       }
