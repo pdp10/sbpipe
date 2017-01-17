@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.13.0 (devel)
+v2.14.0 (devel)
 
+- added heatmap plot representing stochastic repeats for the time course simulation.
 - moved R code from pipelines to R/
 - redesign of simulation plots. Improvements plus based on melt function.
 - removed remaining old gplots dependent code. Sbpipe only uses ggplot2 now.
@@ -17,8 +18,7 @@ v2.13.0 (devel)
 - changed main script name from run_sbpipe.py to sbpipe.py.
 - Added support for parameter estimation using non-Copasi models. Test using R model.
 - Skip Java, Python, and R model tests if their dependencies are not satisfied.
-- Optimised Java, Python, and R simulators. Report file names are passed as input argument. Models do not need
-to be replicated.
+- Optimised Java, Python, and R simulators. Report file names are passed as input argument. Models do not need to be replicated.
 - Java models can be used for model simulation in addition to Copasi.
 - Python models can be used for model simulation in addition to Copasi.
 - R models can be used for model simulation in addition to Copasi.
