@@ -17,37 +17,42 @@
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2015-11-16 12:14:32 $
+# $Date: 2016-07-7 16:14:32 $
 
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
 # Add a collection of R functions
-source(file.path(SBPIPE, 'sbpipe','pl','ps2','parscan2_plots_func.r'))
+source(file.path(SBPIPE, 'sbpipe','R','plots.r'))
 
 
 
-# R Script to plot model double parameter scan time courses.
+
+# R Script to plot model sensitivities analysis.
 #
-# :args[1]: the model name without extension
-# :args[2]: the 1st scanned parameter
-# :args[3]: the 2nd scanned parameter
-# :args[4]: the input directory
-# :args[5]: the output directory
+# :args[1]: the directory containing the sensitivity analysis report.
 main <- function(args) {
-    model_noext <- args[1]
-    scanned_par1 <- args[2]
-    scanned_par2 <- args[3]
-    inputdir <- args[4]
-    outputdir <- args[5]
-
-    # Add controls here if any
-    
-    plot_double_param_scan_data(model_noext, scanned_par1, scanned_par2, 
-				inputdir, outputdir)    
+    # the model_noext of the model
+    sensitivities_dir <- args[1]
+ 
+    # timepoints
+    inputdir <- sensitivities_dir
+    # collect all *.csv files in the directory
+    files <- dir(path=inputdir, pattern="*.csv",full.names=TRUE, ignore.case = TRUE)
+    columns <- 1
+    for(i in 1:length(files)) {
+      print(files[i])
+      # NOTE: the pipe-cut allows to select only the first line of the files[i] [ pipe("cut -f1,5,28 myFile.txt") ]
+      if(length(grep("kin-rates", files[i], value=TRUE)) == 0) {
+        # TODO
+        #plot_sensitivities(files[i], kinetics=FALSE)
+      } else {
+        #plot_sensitivities(files[i], kinetics=TRUE)
+      }
+    }
 }
 
 
 main(commandArgs(TRUE))
 # Clean the environment
-rm ( list=ls ( ) )
+rm (list=ls())

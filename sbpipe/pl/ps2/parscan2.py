@@ -179,7 +179,7 @@ class ParScan2(Pipeline):
         refresh(outputdir, os.path.splitext(model)[0])
 
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
-                                                            'parscan2_analyse_data.r'),
+                                                            'ps2_analysis.r'),
                                     model, scanned_par1, scanned_par2, inputdir, outputdir])
         process.wait()
         return True

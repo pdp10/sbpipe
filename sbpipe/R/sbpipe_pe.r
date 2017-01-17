@@ -23,7 +23,7 @@
 library(ggplot2)
 #library(scales)
 source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
-source(file.path(SBPIPE, 'sbpipe','R','plots.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 
 
 
@@ -81,35 +81,6 @@ rightCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2
 
 
 
-# Plot the number of iterations vs Chi^2 in log10 scale.
-#
-# :param chi2_array: the array of Chi^2.
-plot_fits <- function(chi2_array) {
-  iters <- c()
-  j <- 0
-  k <- 0
-
-  # We intentionally consider only the Chi^2 above 100*median(Chi2_array). 
-  # Often the very first Chi^2 can be extremely large (e^[hundreds]). When so, 
-  # ggsave() does not process correctly, potentially due to a bug. 
-  med_chi2 <- median(chi2_array[is.finite(chi2_array)])
-  chi2_array <- chi2_array[chi2_array < med_chi2*100]
-
-  for(i in 1:length(chi2_array)) {
-    if(k < chi2_array[i]) {
-      j <- 0
-    }
-    iters <- c(iters, j)
-    j <- j+1    
-    k <- chi2_array[i]   
-  }
-  df <- data.frame(Iter=iters, Chi2=chi2_array)
-  scatterplot_log10(df, "Iter", "Chi2") + 
-            # Re paint the y lab as we want to use the Greek letter chi.
-            ylab(expression(paste("log10(",chi^{2},")", sep="")))    
-}
-
-
 
 # Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue.` are 
 # removed. 
@@ -138,15 +109,16 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
   fileout <- ""
   for (i in seq(chi2_col_idx+1,length(dfCols))) { 
     for (j in seq(i, length(dfCols))) {
+      g <- ggplot()
       if(i==j) {
         fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-        g <- histogramplot(df[i]) + ggtitle(title)
+        g <- histogramplot(df[i], g) + ggtitle(title)
         if(logspace) {
             g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
         }
       } else {
         fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-        g <- scatterplot_w_colour(df, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
+        g <- scatterplot_w_colour(df, g, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
              ggtitle(bquote(chi^2: .(title))) +
              theme(legend.key.height = unit(0.5, "in"))
         if(logspace) {
@@ -170,7 +142,7 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 # :param model: the model name
 plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {  
     # save the chi2 vs iteration
-    g <- plot_fits(df[,chi2_col]) + ggtitle(expression(paste(chi^{2}, " vs iters", sep="")))
+    g <- plot_fits(df[,chi2_col], ggplot()) + ggtitle(expression(paste(chi^{2}, " vs iters", sep="")))
     ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
 }
 
@@ -192,9 +164,9 @@ plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, pl
     for (i in seq(2,length(dfCols))) {
         # extract statistics  
         fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
-        g <- scatterplot_ple(df99, dfCols[i], chi2_col, cl66_chi2, cl95_chi2, cl99_chi2) + 
+        g <- scatterplot_ple(df99, ggplot(), dfCols[i], chi2_col, cl66_chi2, cl95_chi2, cl99_chi2) +
             theme(legend.key.height = unit(0.5, "in"))    
-#       g <- scatterplot_ple(df95, dfCols[i], chi2_col, cl66_chi2, cl95_chi2) + 
+#       g <- scatterplot_ple(df95, ggplot(), dfCols[i], chi2_col, cl66_chi2, cl95_chi2) +
 #            theme(legend.key.height = unit(0.5, "in"))
         if(logspace) {
             g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
@@ -377,7 +349,7 @@ compute_bic <- function(chi2, k, n) {
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
 all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_param_estim_details, fileout_param_estim_summary, plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE, logspace=TRUE, scientific_notation=TRUE) {
-  
+
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
     error("data_point_num is non positive.")
@@ -414,7 +386,7 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   theme_set(basic_theme(36))
  
   # Plot the Chi^2 vs Iterations
-  plot_chi2_vs_iters(df, chi2_col, plots_dir, model) 
+  plot_chi2_vs_iters(df, chi2_col, plots_dir, model)
 
   # Write the summary for the parameter estimation analysis
   fileoutPLE <- sink(fileout_param_estim_summary)
@@ -459,8 +431,8 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 # :param best_fits_percent: the percent of best fits to analyse.
 # :param logspace: true if parameters should be plotted in logspace.
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE, scientific_notation= TRUE) {
-  
+final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE, scientific_notation=TRUE) {
+
   best_fits_percent <- as.numeric(best_fits_percent)
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
     warning("best_fits_percent is not in (0, 100]. Now set to 100")

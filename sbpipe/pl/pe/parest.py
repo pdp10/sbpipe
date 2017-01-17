@@ -267,14 +267,14 @@ class ParEst(Pipeline):
         logger.info("Plot results:")
         logger.info("\n")
         process = subprocess.Popen(['Rscript',
-                                    os.path.join(os.path.dirname(__file__), 'main_final_fits_analysis.r'),
+                                    os.path.join(os.path.dirname(__file__), 'pe_analysis_final_fits.r'),
                                     model,
                                     os.path.join(outputdir, fileout_final_estims),
                                     sim_plots_dir,
                                     str(best_fits_percent), str(logspace), str(scientific_notation)])
         process.wait()
         process = subprocess.Popen(
-            ['Rscript', os.path.join(os.path.dirname(__file__), 'main_all_fits_analysis.r'),
+            ['Rscript', os.path.join(os.path.dirname(__file__), 'pe_analysis_all_fits.r'),
              model,
              os.path.join(outputdir, fileout_all_estims),
              sim_plots_dir,

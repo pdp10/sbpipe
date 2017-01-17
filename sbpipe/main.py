@@ -176,16 +176,15 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(argv[1:],
-                                       'hcspenlv',
+                                       'hlvcspde',
                                        ['help',
+                                        'license',
+                                        'version'
                                         'create-project',
                                         'simulate',
                                         'single-param-scan',
                                         'double-param-scan',
-                                        'param-estim',
-                                        'sensitivity',
-                                        'license',
-                                        'version'
+                                        'param-estim'
                                         ])
 
             for opt, arg in opts:
@@ -233,13 +232,13 @@ def main(argv=None):
                     s = ParEst()
                     exit_status = 0 if s.run(args[0]) else 1
 
-                elif opt in ('-n', '--sensitivity'):
-                    check_args(args, no_conf_file_msg)
-                    print(logo())
-                    print('Not yet available. Apologise.')
-                    exit_status = 0
-                    from sbpipe.pl.sens.sens import Sens
-                    s = Sens()
+                # elif opt in ('-n', '--sensitivity'):
+                #     check_args(args, no_conf_file_msg)
+                #     print(logo())
+                #     print('Not yet available. Apologise.')
+                #     exit_status = 0
+                #     from sbpipe.pl.sens.sens import Sens
+                #     s = Sens()
                     # exit_status = 0 if s.run(args[0]) else 1
 
             if len(opts) < 1:

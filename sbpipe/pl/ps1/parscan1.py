@@ -234,7 +234,7 @@ class ParScan1(Pipeline):
         refresh(os.path.join(outputdir, sim_plots_folder), os.path.splitext(model)[0])
 
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
-                                                            'parscan1_analyse_data.r'),
+                                                            'ps1_analysis.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
                                     sim_plots_folder, simulations_number, str(percent_levels), str(min_level),
                                     str(max_level), str(levels_number), str(homogeneous_lines),
