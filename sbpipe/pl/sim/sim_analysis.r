@@ -23,7 +23,7 @@
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
-source(file.path(SBPIPE, 'sbpipe','pl','sim','plot_tc.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_sim.r'))
 
 
 # R Script to plot time courses and collect statistics.
@@ -31,23 +31,32 @@ source(file.path(SBPIPE, 'sbpipe','pl','sim','plot_tc.r'))
 # :args[1]: the model name without extension
 # :args[2]: the input directory
 # :args[3]: the output directory
-# :args[4]: the output file name
-# :args[5]: the file containing the experimental data.
-# :args[6]: TRUE if the experimental data should also be plotted
-# :args[7]: the label for the x axis (e.g. Time [min])
-# :args[8]: the label for the y axis (e.g. Level [a.u.])
+# :args[4]: the output file name containing the statistics
+# :args[5]: the output template file storing the summary of model simulation repeats
+# :args[6]: the file containing the experimental data.
+# :args[7]: TRUE if the experimental data should also be plotted
+# :args[8]: the label for the x axis (e.g. Time [min])
+# :args[9]: the label for the y axis (e.g. Level [a.u.])
 main <- function(args) {
-    # The model model_noext
     model_noext <- args[1]
     inputdir <- args[2]
     outputdir <- args[3]
     outputfile <- args[4]
-    exp_dataset <- args[5]     
-    plot_exp_dataset <- args[6]
-    xaxis_label <- args[7]
-    yaxis_label <- args[8]
-    
-    plot_error_bars_plus_statistics(inputdir, outputdir, model_noext, outputfile, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
+    repeats_file_template <- args[5]
+    exp_dataset <- args[6]
+    plot_exp_dataset <- args[7]
+    xaxis_label <- args[8]
+    yaxis_label <- args[9]
+
+    # generate a table of statistics
+    gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
+
+    # summarise the time course repeats in tables
+    summarise_simulations(inputdir, model_noext, repeats_file_template)
+
+    # plot the time courses
+    plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
+    plot_comb_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
 }
 
 

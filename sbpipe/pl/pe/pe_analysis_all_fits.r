@@ -22,7 +22,7 @@
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
-source(file.path(SBPIPE, 'sbpipe','pl','pe','parest_utils.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_pe.r'))
 
 
 

@@ -25,7 +25,13 @@ library(ggplot2)
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 source(file.path(SBPIPE,'sbpipe','R','sbpipe_ggplot2_themes.r'))
+
+
+
+
+#### STATISTICS #####
 
 
 
@@ -92,7 +98,7 @@ get_column_names_statistics <- function(column.names, readout) {
 # :param readout: the statistics for this readout.
 # :param colidx: the position in the table to put the readout statistics
 # :return: The table of statistics including this readout.
-get_statistics_table <- function(statistics, readout, colidx=2) {    
+get_stats <- function(statistics, readout, colidx=2) {
     #print(readout$mean) 
     statistics[,colidx]   <- readout$mean
     statistics[,colidx+1] <- readout$sd
@@ -110,117 +116,21 @@ get_statistics_table <- function(statistics, readout, colidx=2) {
 }
 
 
-# Add experimental data points to a plot. Only add the data points for the length of the simulation.
-#
-# :param df: the simulation data set
-# :param df_exp_dataset: the experimental data set
-# :param g: the current ggplot time course to add experimental data
-# :param readout: the current readout to plot
-plot_raw_dataset <- function(df, df_exp_dataset, g, readout) {
-   # Let's add the experimental data set to the plo
-   df_max_time <- max(df$a)
-
-   time <- colnames(df_exp_dataset)[1]
-   df_exp_dataset <- df_exp_dataset[df_exp_dataset[1] <= df_max_time,]
-   if(readout %in% colnames(df_exp_dataset)) {
-       g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout), shape=1, size=2, stroke=1, colour='red2')
-   }
-   return(g)
-}
-
-
-# Plot a model readout time course. If specified error bars are also plotted for each time point.
-#
-# :param outputdir: The output directory
-# :param model: the model name
-# :param readout: the name of the readout
-# :param data: the data to plot (time point means at least)
-# :param timepoints: the Time vector
-# :param df_exp_dataset: an experimental data set data frame.
-# :param plot_exp_dataset: TRUE if the experimental data set should be added
-# :param xaxis_label: the xaxis label 
-# :param yaxis_label: the yaxis label 
-# :param bar_type: the type of bar ("none", "sd", "sd_n_ci95")
-plot_error_bars <- function(outputdir, model, readout, data, timepoints, df_exp_dataset, plot_exp_dataset=FALSE, xaxis_label="", yaxis_label="", bar_type="sd") {
-    filename = ""
-    
-    g <- ggplot()
-    if(bar_type == "none") {
-      # standard error configuration
-      filename = file.path(outputdir, paste(model, "_none_", readout, ".png", sep=""))
-      # Let's plot this special case now as it does not require error bars
-      df <- data.frame(a=timepoints, b=data$mean)
-      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) +
-           xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout)
-
-    } else { 
-
-      df <- data.frame(a=timepoints, b=data$mean, c=data$sd, d=data$ci95)
-      #print(df)
-
-      # plot the error bars
-      g <- g + geom_errorbar(data=df, aes(x=a, ymin=b-c, ymax=b+c), colour="blue", size=1.0, width=0.1)    
-        
-      if(bar_type == "sd") {
-        # standard deviation configuration
-        filename = file.path(outputdir, paste(model, "_sd_", readout, ".png", sep=""))
-      } else {
-        # standard deviation + confidence interval configuration
-        filename = file.path(outputdir, paste(model, "_sd_n_ci95_", readout, ".png", sep=""))
-        # plot the C.I.
-        g <- g + geom_errorbar(data=df, aes(x=a, ymin=b-d, ymax=b+d), colour="lightblue", size=1.0, width=0.1)	
-      }   
-
-      # plot the line
-      g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0) 
-      
-      # decorate
-      g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(readout) + theme(legend.position = "none")
-   }
-   ggsave(filename, dpi=300,  width=8, height=6)#, bg = "transparent")
-
-   if(plot_exp_dataset) {
-      g <- plot_raw_dataset(df, df_exp_dataset, g, readout)
-      if(bar_type == "none") {
-        ## JUST ONE LINE IS PLOTTED. Replot the simulation line
-        g <- g + geom_line(data=df, aes(x=a, y=b), color="black", size=1.0)
-      }
-      ggsave(gsub(".png","_w_raw_dataset.png",filename), dpi=300,  width=8, height=6)#, bg = "transparent")
-   }
-
-   return(g)
-}
-
-
-
 # Plot model readouts with statistics for each time point.
 #
 # :param inputdir: the input directory containing the time course files
 # :param outputdir: the output directory
 # :param model: the model name
 # :param outputfile: the name of the file to store the statistics
-# :param exp_dataset: a full path file containing the experimental data.
-# :param plot_exp_dataset: TRUE if the experimental data should also be plotted
 # :param xaxis_label: the xaxis label 
 # :param yaxis_label: the yaxis label 
-plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfile, exp_dataset, plot_exp_dataset=FALSE, xaxis_label="", yaxis_label="") {
+gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label="", yaxis_label="") {
     
     theme_set(tc_theme(36)) #28
     
     # create the directory of output
     if (!file.exists(outputdir)){ 
         dir.create(outputdir) 
-    }
-    
-    df_exp_dataset <- data.frame()
-    if (plot_exp_dataset) {
-        # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
-        if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){
-            df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
-        } else {
-            print(paste("Warning: experimental data set file ", exp_dataset, " does not exist or not specified. Skip.", sep=""))
-            plot_exp_dataset = FALSE
-        }
     }
     
     # collect all files in the directory
@@ -242,14 +152,13 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
     statistics <- matrix( nrow=time_length, ncol=(((length(column)-1)*13)+1) )
     statistics[,1] <- timepoints
     colidx <- 2
-    linewidth=14
     
     # an empty colum that we need for creating a data.frame of length(timecourses$Time) rows
     na <- c(rep(NA, length(timecourses$Time)))
 
     for(j in 1:length(column)) {
       if(column[j] != "Time") {
-        print(column[j])
+        #print(column[j])
 
         # Extract column[j] for each file.
         dataset <- data.frame(na)
@@ -294,15 +203,202 @@ plot_error_bars_plus_statistics <- function(inputdir, outputdir, model, outputfi
             }
         }
         column.names <- get_column_names_statistics(column.names, column[j])
-        statistics <- get_statistics_table(statistics, data, colidx)
+        statistics <- get_stats(statistics, data, colidx)
         colidx <- colidx+13
-        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "none")
-        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "sd")  
-        plot_error_bars(outputdir, model, column[j], data, timepoints, df_exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, "sd_n_ci95")  	
       }
     }
     #print (statistics)
     write.table(statistics, outputfile, sep="\t", col.names = column.names, row.names = FALSE) 
 }
 
+
+
+
+################################################################################
+
+
+#### PLOTS #####
+
+
+# Check the experimental data set.
+#
+# :param exp_dataset: a full path file containing the experimental data.
+check_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
+    if (plot_exp_dataset) {
+        # check that exp_dataset exists and that the file ends with .csv (it is not a dir!)
+        if (file.exists(exp_dataset) && grepl('.csv$', exp_dataset)){
+            return(TRUE)
+        } else {
+            print(paste("Warning: experimental data set file ", exp_dataset, " does not exist or not specified. Skip.", sep=""))
+            return(FALSE)
+        }
+    }
+    return(FALSE)
+}
+
+
+
+# Load the experimental data set.
+#
+# :param exp_dataset: a full path file containing the experimental data.
+# :param plot_exp_dataset: TRUE if the experimental data should also be plotted
+load_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
+    df_exp_dataset <- data.frame()
+    if(check_exp_dataset(exp_dataset, plot_exp_dataset)) {
+        df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
+    }
+    return (df_exp_dataset)
+}
+
+
+
+
+# Plots the simulation time courses in a combined representation
+#
+# :param inputdir: the input directory containing the time course files
+# :param outputdir: the output directory
+# :param model: the model name
+# :param exp_dataset: a full path file containing the experimental data.
+# :param plot_exp_dataset: TRUE if the experimental data should also be plotted
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='') {
+
+  theme_set(tc_theme(36)) #28
+
+  # create the directory of output
+  if (!file.exists(outputdir)){
+    dir.create(outputdir)
+  }
+  # collect all files in the directory
+  files <- list.files( path=inputdir, pattern=model )
+  #print(files)
+
+  df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
+
+  for(i in 1:length(files)) {
+    df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
+    template_filename <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
+
+    # mean
+    fileoutM <- gsub('.png', '_mean.png', template_filename)
+    gM <- ggplot()
+    gM <- plot_combined_tc(df, gM, readout, xaxis_label, yaxis_label, 'mean')
+    ggsave(fileoutM, dpi=300, width=8, height=6)#, bg = "transparent")
+
+    # mean_sd
+    fileoutMSD <- gsub('.png', '_mean_sd.png', template_filename)
+    gMSD <- ggplot()
+    gMSD <- plot_combined_tc(df, gMSD, readout, xaxis_label, yaxis_label, 'mean_sd')
+    ggsave(fileoutMSD, dpi=300, width=8, height=6)#, bg = "transparent")
+
+    # mean_sd_ci95
+    fileoutMSDCI <- gsub('.png', '_mean_sd_ci95.png', template_filename)
+    gMSDCI <- ggplot()
+    gMSDCI <- plot_combined_tc(df, gMSDCI, readout, xaxis_label, yaxis_label, 'mean_sd_ci95')
+    ggsave(fileoutMSDCI, dpi=300, width=8, height=6)#, bg = "transparent")
+
+    if(readout %in% colnames(df_exp_dataset)) {
+        # mean
+        # we make this plot again because we want the line in front.
+        gM <- ggplot()
+        gM <- plot_raw_dataset(df_exp_dataset, gM, readout, max(df$Time))
+        gM <- plot_combined_tc(df, gM, readout, xaxis_label, yaxis_label, 'mean')
+        ggsave(gsub('.png', '_w_exp_data.png', fileoutM), dpi=300, width=8, height=6)#, bg = "transparent")
+
+        # mean_sd
+        gMSD <- plot_raw_dataset(df_exp_dataset, gMSD, readout, max(df$Time))
+        ggsave(gsub('.png', '_w_exp_data.png', fileoutMSD), dpi=300, width=8, height=6)#, bg = "transparent")
+
+        # mean_sd_ci95
+        gMSDCI <- plot_raw_dataset(df_exp_dataset, gMSDCI, readout, max(df$Time))
+        ggsave(gsub('.png', '_w_exp_data.png', fileoutMSDCI), dpi=300, width=8, height=6)#, bg = "transparent")
+    }
+  }
+}
+
+
+
+
+# Plots the simulations time course separately
+#
+# :param inputdir: the input directory containing the time course files
+# :param outputdir: the output directory
+# :param model: the model name
+# :param exp_dataset: a full path file containing the experimental data.
+# :param plot_exp_dataset: TRUE if the experimental data should also be plotted
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='') {
+
+  theme_set(tc_theme(36)) #28
+
+  # create the directory of output
+  if (!file.exists(outputdir)){
+    dir.create(outputdir)
+  }
+  # collect all files in the directory
+  files <- list.files( path=inputdir, pattern=model )
+  #print(files)
+
+  df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
+
+  for(i in 1:length(files)) {
+    df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
+    fileout <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
+
+    g <- plot_repeated_tc(df, ggplot(), readout, xaxis_label, yaxis_label)
+    ggsave(fileout, dpi=300,  width=8, height=6)#, bg = "transparent")
+
+    if(readout %in% colnames(df_exp_dataset)) {
+        g <- plot_raw_dataset(df_exp_dataset, g, readout, max(df$Time))
+        ggsave(gsub('.png', '_w_exp_data.png', fileout), dpi=300, width=8, height=6)#, bg = "transparent")
+    }
+
+    g <- plot_heatmap_tc(df, ggplot(), TRUE, readout, xaxis_label, 'repeats')
+    ggsave(gsub('.png', '_heatmap_scaled.png', fileout), dpi=300,  width=8, height=6)#, bg = "transparent")
+
+    g <- plot_heatmap_tc(df, ggplot(), FALSE, readout, xaxis_label, 'repeats')
+    ggsave(gsub('.png', '_heatmap.png', fileout), dpi=300,  width=8, height=6)#, bg = "transparent")
+
+  }
+}
+
+
+# Summarise the simulations
+#
+# :param inputdir: the input directory containing the time course files
+# :param model: the model name
+# :param outputfile: the name of the file to store the simulations
+summarise_simulations <- function(inputdir, model, outputfile) {
+
+  # collect all files in the directory
+  files <- list.files( path=inputdir, pattern=model )
+  #print(files)
+
+  # Read the simulated time course data sets
+  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+  column <- names (timecourses)
+
+  timepoints <- timecourses$Time
+  #print(timepoints)
+  time_length <- length(timepoints)
+
+  for(i in 1:length(column)){
+      if(column[i] != "Time") {
+        print(column[i])
+        summary <- NULL
+        cbind(summary, timepoints) -> summary
+        for(j in 1:length(files)) {
+          sim_file <- read.table( file.path(inputdir, files[j]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+          cbind(summary, subset(sim_file, select=c(column[i])) ) -> summary
+        }
+        summary <- data.frame(summary)
+        names(summary) <- c("Time", paste('X', seq(1, length(files), 1), sep=""))
+        write.table(summary, file=gsub('.csv', paste('_', column[i], '.csv', sep=""), outputfile), sep="\t", row.names=FALSE, quote=FALSE)
+      }
+  }
+}
 

@@ -157,7 +157,7 @@ class Sens(Pipeline):
         :param outputdir: the directory to store the performed analysis.
         :return: True if the task was completed successfully, False otherwise.
         """
-        p = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__), 'sens_plot.r'),
+        p = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__), 'sens_analysis.r'),
                               outputdir])
         p.wait()
         return True
