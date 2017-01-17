@@ -23,7 +23,7 @@
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
-source(file.path(SBPIPE, 'sbpipe','R','sbpipe_tcsim.r'))
+source(file.path(SBPIPE, 'sbpipe','R','sbpipe_sim.r'))
 
 
 # R Script to plot time courses and collect statistics.

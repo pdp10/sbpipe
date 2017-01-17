@@ -349,14 +349,20 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
     readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
     fileout <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
 
-    g <- ggplot()
-    g <- plot_repeated_tc(df, g, readout, xaxis_label, yaxis_label)
+    g <- plot_repeated_tc(df, ggplot(), readout, xaxis_label, yaxis_label)
     ggsave(fileout, dpi=300,  width=8, height=6)#, bg = "transparent")
 
     if(readout %in% colnames(df_exp_dataset)) {
         g <- plot_raw_dataset(df_exp_dataset, g, readout, max(df$Time))
         ggsave(gsub('.png', '_w_exp_data.png', fileout), dpi=300, width=8, height=6)#, bg = "transparent")
     }
+
+    g <- plot_heatmap_tc(df, ggplot(), TRUE, readout, xaxis_label, 'repeats')
+    ggsave(gsub('.png', '_heatmap_scaled.png', fileout), dpi=300,  width=8, height=6)#, bg = "transparent")
+
+    g <- plot_heatmap_tc(df, ggplot(), FALSE, readout, xaxis_label, 'repeats')
+    ggsave(gsub('.png', '_heatmap.png', fileout), dpi=300,  width=8, height=6)#, bg = "transparent")
+
   }
 }
 

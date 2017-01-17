@@ -24,6 +24,8 @@
 library(reshape2)
 library(ggplot2)
 library(scales)
+library(plyr)
+library(Hmisc)
 #library(gridExtra)
 
 require(graphics)
@@ -247,3 +249,39 @@ plot_repeated_tc <- function(df, g=ggplot(), title='', xaxis_label="", yaxis_lab
     return(g)
 }
 
+
+
+# Plot time courses organised as data frame columns with a heatmap. First column is Time.
+#
+# :param df: a data frame
+# :param g: the current ggplot to overlap
+# :param scaled: TRUE if the time course values should be scaled within [0,1]
+# :param title: the title
+# :param xaxis_label: the xaxis label
+# :param yaxis_label: the yaxis label
+plot_heatmap_tc <- function(df, g=ggplot(), scaled=TRUE, title='', xaxis_label='', yaxis_label='') {
+
+    mdf <- melt(df,id.vars="Time")
+    if(scaled) {
+        # ddply for adding an extra column (rescale). rescale normalises the column `value` within [0,1].
+        # `value` contain the time course values.
+        # ddply is applied by `variable`, the column containing the time course names after melt().
+        mdf <- ddply(mdf, .(variable), transform, rescale=rescale(value))
+        # use geom_raster() for generating a heatmap
+        g <- g + geom_raster(data=mdf, aes(variable, Time, fill=rescale))
+    } else {
+        # use geom_raster() for generating a heatmap
+        g <- g + geom_raster(data=mdf, aes(variable, Time, fill=value))
+    }
+    g <- g + scale_fill_gradient(low = "white", high = "steelblue") +
+             # NOTE we will flip the coordinates later.
+             xlab(yaxis_label) + ylab(xaxis_label) + ggtitle(title) +
+             # guides(fill = guide_legend(title=legend_label,
+             #                            title.position='left',
+             #                            title.theme = element_text(size = 25, angle = 90))) +
+             guides(fill = guide_legend(title=NULL,
+                                        label.theme = element_text(size=20, angle=0))) +
+             theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+             coord_flip()
+    return(g)
+}
