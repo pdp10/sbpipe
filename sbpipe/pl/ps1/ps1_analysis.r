@@ -50,13 +50,13 @@ main <- function(args) {
     sim_data_folder <- args[5]
     sim_plots_folder <- args[6]
     simulations_number <- args[7]
-    percent_levels <- args[8]    
+    percent_levels <- args[8]
     min_level <- args[9]
     max_level <- args[10]
     levels_number <- args[11]
     homogeneous_lines <- args[12]
     xaxis_label <- args[13]
-    yaxis_label <- args[14]    
+    yaxis_label <- args[14]
 
     
     # Add controls here if any
@@ -77,8 +77,8 @@ main <- function(args) {
     } else {
       percent_levels <- FALSE      
     }
-    
-    
+
+
     if(homogeneous_lines) {
 	plot_single_param_scan_data_homogen(model_noext, variable, 
 				    outputdir, sim_data_folder, 
