@@ -245,13 +245,6 @@ class Copasi(Simul):
             shutil.move(os.path.join(inputdir, file),
                         os.path.join(updated_models_dir, file.replace(groupid, "_")))
 
-    def sens(self, model, inputdir, outputdir):
-        __doc__ = Simul.sens.__doc__
-
-        # execute runs simulations.
-        logger.info("Sensitivity analysis for " + model)
-        pass
-
     def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
         __doc__ = Simul.collect_pe_results.__doc__
 

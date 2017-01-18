@@ -99,16 +99,6 @@ class Simul:
         """
         pass
 
-    def sens(self, model, inputdir, outputdir):
-        """
-        Sensitivity analysis.
-        
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory to store the results
-        """
-        pass
-
     def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
         """
         Collect the parameter estimation results in two files.
