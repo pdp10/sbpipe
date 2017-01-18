@@ -100,8 +100,6 @@ class Copasi(Simul):
             single_param_scan_intervals, inputdir, outputdir):
         __doc__ = Simul.ps1.__doc__
 
-        logger.info("Simulating Model: " + model)
-
         model_noext = os.path.splitext(model)[0]
 
         names = []
@@ -116,52 +114,51 @@ class Copasi(Simul):
             logger.error(self._copasi_not_found_msg)
             return
 
+        # RUN Copasi
         for i in xrange(0, int(sim_number)):
-
             logger.info("Simulation No.: " + str(i))
             # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
             process = subprocess.Popen([self._copasi, '--nologo', os.path.join(inputdir, model)])
             process.wait()
-
             if (not os.path.isfile(os.path.join(inputdir, model_noext + ".csv")) and
                     not os.path.isfile(os.path.join(inputdir, model_noext + ".txt"))):
                 logger.warn(os.path.join(inputdir, model_noext + ".csv") + " (or .txt) does not exist!")
                 continue
-
             # Replace some string in the report file
             replace_str_copasi_sim_report(os.path.join(inputdir, model_noext + ".csv"))
 
-            # initialise the table header
+            # HEADER INITIALISATION
+            # TODO: this can be optimised as it is the same for each simulation.
+            # IT would be good to run this just one time.
             header = ['Time']
-
             # Find the index of scanned_par in the header file, so it is possible to read the amount at
             # the second line.
-            if i == 0:
-                logger.info("Retrieving column index for " + scanned_par +
-                            " from file " + os.path.join(inputdir, model_noext + ".csv"))
-                # Read the first line of a file.
-                with open(os.path.join(inputdir, model_noext + ".csv")) as myfile:
-                    # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
-                    header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
-                logger.debug(header)
-                for j, name in enumerate(header):
-                    logger.info(str(j) + " " + name + " " + scanned_par)
-                    if name == scanned_par:
-                        scanned_par_index = j
-                        break
-                if scanned_par_index == -1:
-                    logger.error("Column index for " + scanned_par + ": " + str(
-                        scanned_par_index) + ". Species not found! You must add " + scanned_par +
-                                 " to the Copasi report.")
-                    return
-                else:
-                    logger.info("Column index for " + scanned_par + ": " + str(scanned_par_index))
+            logger.debug("Retrieving column index for " + scanned_par +
+                        " from file " + os.path.join(inputdir, model_noext + ".csv"))
+            # Read the first line of a file.
+            with open(os.path.join(inputdir, model_noext + ".csv")) as myfile:
+                # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
+                header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
+            logger.debug(header)
+            for j, name in enumerate(header):
+                logger.debug(str(j) + " " + name + " " + scanned_par)
+                if name == scanned_par:
+                    scanned_par_index = j
+                    break
+            if scanned_par_index == -1:
+                logger.error("Column index for " + scanned_par + ": " + str(
+                    scanned_par_index) + ". Species not found! You must add " + scanned_par +
+                             " to the Copasi report.")
+                return
+            else:
+                logger.debug("Column index for " + scanned_par + ": " + str(scanned_par_index))
 
             # Prepare the Header for the output files
             # Add a \t at the end of each element of the header
             header = [h + '\t' for h in header]
             # Remove the \t for the last element.
             header[-1] = header[-1].strip()
+            # END header initialisation
 
             # Prepare the table content for the output files
             for j in xrange(0, intervals):
@@ -176,7 +173,7 @@ class Copasi(Simul):
                     logger.error("scanned_par_level not configured!")
                     return
                 else:
-                    logger.info(
+                    logger.debug(
                         scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(
                             scanned_par_index) + ")")
 
@@ -207,8 +204,6 @@ class Copasi(Simul):
 
     def ps2(self, model, sim_length, inputdir, outputdir):
         __doc__ = Simul.ps2.__doc__
-
-        logger.info("Simulating Model: " + model)
 
         model_noext = os.path.splitext(model)[0]
 
