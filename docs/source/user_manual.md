@@ -32,7 +32,7 @@ In order to use SBpipe, the following software must be installed:
 
 SBpipe can work with the following simulators (at least one must be installed):
 
-- Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
+- Copasi 4.19+ - [http://copasi.org/](http://copasi.org/) (for model
 simulation, parameter scan, and parameter estimation)
 - Any R / Python / Octave / Java simulator (for model simulation. Users must install the dependencies)
 
