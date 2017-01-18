@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2017-01-18 19:27:19 UTC -->
+<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2017-01-18 21:33:53 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -375,15 +375,14 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Output Event" type="bool" value="0"/>
         <Parameter name="Continue on Simultaneous Events" type="bool" value="0"/>
       </Problem>
-      <Method name="Deterministic (LSODA)" type="Deterministic(LSODA)">
-        <Parameter name="Integrate Reduced Model" type="bool" value="0"/>
-        <Parameter name="Relative Tolerance" type="unsignedFloat" value="1e-06"/>
-        <Parameter name="Absolute Tolerance" type="unsignedFloat" value="1e-12"/>
-        <Parameter name="Max Internal Steps" type="unsignedInteger" value="10000"/>
+      <Method name="Stochastic (Direct method)" type="Stochastic">
+        <Parameter name="Max Internal Steps" type="integer" value="1000000"/>
+        <Parameter name="Use Random Seed" type="bool" value="0"/>
+        <Parameter name="Random Seed" type="unsignedInteger" value="1"/>
       </Method>
     </Task>
     <Task key="Task_16" name="Scan" type="scan" scheduled="true" updateModel="false">
-      <Report reference="Report_18" target="insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.csv" append="0" confirmOverwrite="0"/>
+      <Report reference="Report_18" target="insulin_receptor_inhib_dbl_stoch_scan_InsulinPercent__IRbetaPercent.csv" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="Subtask" type="unsignedInteger" value="1"/>
         <ParameterGroup name="ScanItems">
