@@ -252,7 +252,7 @@ class ParScan1(Pipeline):
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'ps1_analysis.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, runs, str(percent_levels), str(min_level),
+                                    sim_plots_folder, str(runs), str(percent_levels), str(min_level),
                                     str(max_level), str(levels_number), str(homogeneous_lines),
                                     xaxis_label, yaxis_label])
         process.wait()
