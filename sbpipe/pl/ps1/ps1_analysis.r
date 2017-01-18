@@ -61,36 +61,36 @@ main <- function(args) {
     
     # Add controls here if any
     if(homogeneous_lines=="true" || homogeneous_lines=="True" || homogeneous_lines=="TRUE") {
-      homogeneous_lines <- TRUE
+        homogeneous_lines <- TRUE
     } else {
-      homogeneous_lines <- FALSE      
+        homogeneous_lines <- FALSE
     }
     
     if(inhibition_only=="true" || inhibition_only=="True" || inhibition_only=="TRUE") {
-      inhibition_only <- TRUE
+        inhibition_only <- TRUE
     } else {
-      inhibition_only <- FALSE
+        inhibition_only <- FALSE
     }
       
     if(percent_levels=="true" || percent_levels=="True" || percent_levels=="TRUE") {
-      percent_levels <- TRUE
+        percent_levels <- TRUE
     } else {
-      percent_levels <- FALSE      
+        percent_levels <- FALSE
     }
 
 
     if(homogeneous_lines) {
-	plot_single_param_scan_data_homogen(model_noext, variable, 
-				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulations_number,
-				    xaxis_label, yaxis_label)
+        plot_single_param_scan_data_homogen(model_noext, variable,
+                        outputdir, sim_data_folder,
+                        sim_plots_folder, simulations_number,
+                        xaxis_label, yaxis_label)
     } else {    
-	plot_single_param_scan_data(model_noext, variable, inhibition_only, 
-				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulations_number, 
-				    percent_levels, min_level, 
-				    max_level, levels_number,
-				    xaxis_label, yaxis_label)
+        plot_single_param_scan_data(model_noext, variable, inhibition_only,
+                        outputdir, sim_data_folder,
+                        sim_plots_folder, simulations_number,
+                        percent_levels, min_level,
+                        max_level, levels_number,
+                        xaxis_label, yaxis_label)
     }
 }
 
