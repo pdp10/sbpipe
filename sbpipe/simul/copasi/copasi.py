@@ -86,6 +86,10 @@ class Copasi(Simul):
         for report in repeated_copasi_files:
             os.remove(os.path.join(inputdir, report))
 
+
+
+
+
         # TODO MOVE THE FOLLOWING CODE TO A FUNCTION in simul.py probably
 
         model_noext = os.path.splitext(model)[0]
@@ -106,7 +110,6 @@ class Copasi(Simul):
         header = Copasi._ps1_header_init(report_files[0], scanned_par)
         if not header:
             return
-
 
         for j, name in enumerate(header):
             # remove \n and \t from name
