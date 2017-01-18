@@ -6,8 +6,11 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.18.0 (devel)
+v2.21.0 (devel)
 
+- added test case for stochastic double parameter scan.
+- double parameter scans can be executed in parallel as repeats.
+- added support for stochastic double parameter scans.
 - added test case for stochastic single parameter scan.
 - single parameter scans can be executed in parallel as repeats.
 - added support for stochastic single parameter scans.
