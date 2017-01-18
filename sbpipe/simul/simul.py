@@ -51,24 +51,24 @@ class Simul:
         """
         pass
 
-    def ps1(self, model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
-            single_param_scan_intervals, inputdir, outputdir):
+    def ps1(self, model, scanned_par, simulate_intervals,
+            single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         """
         Single parameter scan.
         
         :param model: the model to process
         :param scanned_par: the scanned parameter
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
-        :param runs: the number of model simulation
         :param simulate_intervals: the time step of each simulation
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
+        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param runs: the number of model simulation
         """
         pass
 
-    def ps2(self, model, sim_length, inputdir, outputdir):
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         """
         Double paramter scan.
         
@@ -76,6 +76,9 @@ class Simul:
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
+        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param runs: the number of model simulation
         """
         pass
 

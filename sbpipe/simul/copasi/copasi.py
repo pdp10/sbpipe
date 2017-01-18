@@ -71,8 +71,8 @@ class Copasi(Simul):
         for report in repeated_copasi_files:
             os.remove(os.path.join(inputdir, report))
 
-    def ps1(self, model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
-            single_param_scan_intervals, inputdir, outputdir):
+    def ps1(self, model, scanned_par, simulate_intervals,
+            single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.ps1.__doc__
 
         if self._copasi is None:
@@ -174,58 +174,60 @@ class Copasi(Simul):
             os.remove(report)
 
 
-    def ps2(self, model, sim_length, inputdir, outputdir):
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.ps2.__doc__
-
-        model_noext = os.path.splitext(model)[0]
 
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
             return
 
-        # run CopasiSE. Copasi must generate a (TIME COURSE) report
-        process = subprocess.Popen([self._copasi, '--nologo', os.path.join(inputdir, model)])
-        process.wait()
+        # run copasi in parallel
+        (groupid, group_model) = self._par_comp(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        # removed repeated copasi files
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
+        for report in repeated_copasi_files:
+            os.remove(os.path.join(inputdir, report))
 
-        if (not os.path.isfile(os.path.join(inputdir, model_noext + ".csv")) and
-                not os.path.isfile(os.path.join(inputdir, model_noext + ".txt"))):
-            logger.warn(os.path.join(inputdir, model_noext + ".csv") + " (or .txt) does not exist!")
+        # TODO: CONSIDER TO MOVE THE CODE BELOW in Simul.ps2()
+        model_noext = os.path.splitext(model)[0]
+
+        # Re-structure the reports
+        report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
+                        re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
+        if not report_files:
             return
 
-        if os.path.isfile(os.path.join(inputdir, model_noext + ".txt")):
-            os.rename(os.path.join(inputdir, model_noext + ".txt"), os.path.join(inputdir, model_noext + ".csv"))
+        for i, report in enumerate(report_files):
+            logger.debug(report)
 
-        # Replace some string in the report file
-        replace_str_copasi_sim_report(os.path.join(inputdir, model_noext + ".csv"))
+            # copy file removing empty lines
+            with open(report, 'r') as filein, \
+                    open(report + "~", 'w') as fileout:
+                for line in filein:
+                    if not line.isspace():
+                        fileout.write(line)
+            shutil.move(report + '~', report)
 
-        # copy file removing empty lines
-        with open(os.path.join(inputdir, model_noext + ".csv"), 'r') as filein, \
-                open(os.path.join(outputdir, model_noext + ".csv"), 'w') as fileout:
-            for line in filein:
-                if not line.isspace():
-                    fileout.write(line)
-        os.remove(os.path.join(inputdir, model_noext + ".csv"))
-
-        # Extract a selected time point from all perturbed time courses contained in the report file
-        with open(os.path.join(outputdir, model_noext + ".csv"), 'r') as filein:
-            lines = filein.readlines()
-            header = lines[0]
-            lines = lines[1:]
-            timepoints = range(0, sim_length + 1)
-            filesout = []
-            try:
-                filesout = [open(os.path.join(outputdir, model_noext + "__tp_%d.csv" % i), "w") for i in timepoints]
-                # copy the header
-                for fileout in filesout:
-                    fileout.write(header)
-                # extract the i-th time point and copy it to the corresponding i-th file
-                for line in lines:
-                    tp = line.rstrip().split('\t')[0]
-                    if '.' not in tp and int(tp) in timepoints:
-                        filesout[int(tp)].write(line)
-            finally:
-                for fileout in filesout:
-                    fileout.close()
+            # Extract a selected time point from all perturbed time courses contained in the report file
+            with open(report, 'r') as filein:
+                lines = filein.readlines()
+                header = lines[0]
+                lines = lines[1:]
+                timepoints = range(0, sim_length + 1)
+                filesout = []
+                try:
+                    filesout = [open(report[:-4] + "__tp_%d.csv" % i, "w") for i in timepoints]
+                    # copy the header
+                    for fileout in filesout:
+                        fileout.write(header)
+                    # extract the i-th time point and copy it to the corresponding i-th file
+                    for line in lines:
+                        tp = line.rstrip().split('\t')[0]
+                        if '.' not in tp and int(tp) in timepoints:
+                            filesout[int(tp)].write(line)
+                finally:
+                    for fileout in filesout:
+                        fileout.close()
 
     def pe(self, model, inputdir, cluster_type, pp_cpus, runs, outputdir, sim_data_dir,
            updated_models_dir):
