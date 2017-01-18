@@ -35,13 +35,14 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ps1.r'))
 # :args[4]: the output directory
 # :args[5]: the name of the folder containing the simulated data
 # :args[6]: the name of the folder containing the simulated plots
-# :args[7]: the label for the x axis (e.g. Time (min))
-# :args[8]: the simulation number
-# :args[9]: true if scanning levels are in percent
-# :args[10]: the minimum level
-# :args[11]: the maximum level
-# :args[12]: the number of levels
-# :args[13]: true if lines should be plotted homogeneously
+# :args[7]: the simulation number
+# :args[8]: true if scanning levels are in percent
+# :args[9]: the minimum level
+# :args[10]: the maximum level
+# :args[11]: the number of levels
+# :args[12]: true if lines should be plotted homogeneously
+# :args[13]: the label for the x axis (e.g. Time [min])
+# :args[14]: the label for the y axis (e.g. Level [a.u.])
 main <- function(args) {
     model_noext <- args[1]
     variable <- args[2]
@@ -49,48 +50,48 @@ main <- function(args) {
     outputdir <- args[4]
     sim_data_folder <- args[5]
     sim_plots_folder <- args[6]
-    simulations_number <- args[7]
-    percent_levels <- args[8]    
+    runs <- args[7]
+    percent_levels <- args[8]
     min_level <- args[9]
     max_level <- args[10]
     levels_number <- args[11]
     homogeneous_lines <- args[12]
     xaxis_label <- args[13]
-    yaxis_label <- args[14]    
+    yaxis_label <- args[14]
 
     
     # Add controls here if any
     if(homogeneous_lines=="true" || homogeneous_lines=="True" || homogeneous_lines=="TRUE") {
-      homogeneous_lines <- TRUE
+        homogeneous_lines <- TRUE
     } else {
-      homogeneous_lines <- FALSE      
+        homogeneous_lines <- FALSE
     }
     
     if(inhibition_only=="true" || inhibition_only=="True" || inhibition_only=="TRUE") {
-      inhibition_only <- TRUE
+        inhibition_only <- TRUE
     } else {
-      inhibition_only <- FALSE
+        inhibition_only <- FALSE
     }
       
     if(percent_levels=="true" || percent_levels=="True" || percent_levels=="TRUE") {
-      percent_levels <- TRUE
+        percent_levels <- TRUE
     } else {
-      percent_levels <- FALSE      
+        percent_levels <- FALSE
     }
-    
-    
+
+
     if(homogeneous_lines) {
-	plot_single_param_scan_data_homogen(model_noext, variable, 
-				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulations_number,
-				    xaxis_label, yaxis_label)
+        plot_single_param_scan_data_homogen(model_noext, variable,
+                        outputdir, sim_data_folder,
+                        sim_plots_folder, runs,
+                        xaxis_label, yaxis_label)
     } else {    
-	plot_single_param_scan_data(model_noext, variable, inhibition_only, 
-				    outputdir, sim_data_folder, 
-				    sim_plots_folder, simulations_number, 
-				    percent_levels, min_level, 
-				    max_level, levels_number,
-				    xaxis_label, yaxis_label)
+        plot_single_param_scan_data(model_noext, variable, inhibition_only,
+                        outputdir, sim_data_folder,
+                        sim_plots_folder, runs,
+                        percent_levels, min_level,
+                        max_level, levels_number,
+                        xaxis_label, yaxis_label)
     }
 }
 

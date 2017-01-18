@@ -202,9 +202,9 @@ class Sim(Pipeline):
         for f in files_to_delete:
             os.remove(f)
 
-        sim_data_per_var_dir = os.path.join(outputdir, "simulate_data_per_var")
-        if not os.path.exists(sim_data_per_var_dir):
-            os.mkdir(sim_data_per_var_dir)
+        sim_data_by_var_dir = os.path.join(outputdir, "simulate_data_by_var")
+        if not os.path.exists(sim_data_by_var_dir):
+            os.mkdir(sim_data_by_var_dir)
 
         if not os.path.exists(sim_plots_dir):
             os.mkdir(sim_plots_dir)
@@ -214,7 +214,7 @@ class Sim(Pipeline):
             ['Rscript', os.path.join(os.path.dirname(__file__), 'sim_analysis.r'),
              model, inputdir, sim_plots_dir,
              os.path.join(outputdir, 'sim_stats_' + model + '.csv'),
-             os.path.join(sim_data_per_var_dir, model + '.csv'),
+             os.path.join(sim_data_by_var_dir, model + '.csv'),
              exp_dataset, str(plot_exp_dataset), xaxis_label,
              yaxis_label])
         process.wait()

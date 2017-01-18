@@ -22,10 +22,41 @@
 
  
 library(ggplot2)
+library(reshape2)
 
 # Retrieve the environment variable SBPIPE
 SBPIPE <- Sys.getenv(c("SBPIPE"))
 source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
+
+
+
+
+
+# Return the indexes of the files as sorted by levels.
+#
+# :param files: the scanned files.
+get_sorted_level_indexes <- function(files) {
+  levels <- c()
+  levels.index <- c()
+
+  # the array files MUST be sorted. Required to convert the string into numeric.
+  # this is important because the legend must represent variable's knockdown in order.
+  for(i in 1:length(files)) {
+      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
+      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
+  }
+  levels.temp <- c(levels)
+  newmax <- max(levels)+1
+  for(i in 1:length(levels)) {
+      min <- which.min(levels.temp)
+      #print(min(levels.temp))
+      levels.index <- c(levels.index, min)
+      levels.temp[min] <- newmax
+  }
+  return(levels.index)
+}
+
+
 
 
 
@@ -38,7 +69,7 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
 # :param xaxis_label: the label for the x axis (e.g. Time (min))
-# :param simulations_number: the simulation number
+# :param runs: the number of repeated simulations
 # :param percent_levels: true if scanning levels are in percent (default: TRUE)
 # :param min_level: the minimum level (default: 0)
 # :param max_level: the maximum level (default: 100)
@@ -46,7 +77,7 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data <- function(model, variable, inhibition_only, 
-					outputdir, sim_data_folder, sim_plots_folder, simulations_number, 
+					outputdir, sim_data_folder, sim_plots_folder, runs,
 					percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10, 
 					xaxis_label="", yaxis_label="") {
@@ -91,41 +122,26 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 
     theme_set(tc_theme(36)) #28
     
-    for(k_sim in 1:simulations_number) {    
-    
-	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, sep=""))
-	  levels <- c()
-	  levels.index <- c()
-	  
-	  # the array files MUST be sorted. Required to convert the string into numeric.
-	  # this is important because the legend must represent variable's knockdown in order.
-	  for(i in 1:length(files)) {
-	      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
-	      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
-	  }
-	  levels.temp <- c(levels)
-	  newmax <- max(levels)+1
-	  for(i in 1:length(levels)) {
-	    min <- which.min(levels.temp)
-	    #writeLines(min(levels.temp))
-	    levels.index <- c(levels.index, min)
-	    levels.temp[min] <- newmax
-	  }
-	  levels <- sort(levels)
+    for(k_sim in 1:runs) {
+      print(paste('Processing simulation:', k_sim))
+
+	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, '__', sep=""))
+	  #print(files)
+	  levels.index <- get_sorted_level_indexes(files)
+	  #print(levels.index)
 
 	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 
-	  levels <- paste(variable, levels, sep=" ")
-	  writeLines(levels)
-	  
 	  # let's plot now! :) 
-	  library(reshape2)
-	  
+
 	  for(j in 2:length(column)) {
+        print(column[j])
+
    	    g <- ggplot()
-	    for(m in 1:length(files)) {
+	    for(m in 1:length(levels.index)) {
+	        #print(files[levels.index[m]])
             dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
             df <- data.frame(time=timecourses[,1], b=dataset)
@@ -137,7 +153,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
             #print(df$variable)
             g <- g + geom_line(data=df, 
                     aes(x=time, y=value, color=variable, linetype=variable), 
-                    size=1.0)   
+                    size=1.0)
 	    }
 	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) + 
 	         theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
@@ -161,12 +177,12 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 # :param outputdir: the output directory
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
-# :param simulations_number: the simulation number
+# :param runs: the number of repeated simulations
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data_homogen <- function(model, variable, 
 					outputdir, sim_data_folder, 
-					sim_plots_folder, simulations_number,
+					sim_plots_folder, runs,
 					xaxis_label="", yaxis_label="") {
 					
     writeLines(paste("Model: ", model, ".cps", sep=""))
@@ -182,8 +198,8 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     
     theme_set(tc_theme(36)) #28
     
-    for(k_sim in 1:simulations_number) { 
-	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, sep=""))	  
+    for(k_sim in 1:runs) {
+	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, '__', sep=""))
 	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
@@ -203,5 +219,4 @@ plot_single_param_scan_data_homogen <- function(model, variable,
   }
   
 }
-
 

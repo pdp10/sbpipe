@@ -372,7 +372,7 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
 # :param inputdir: the input directory containing the time course files
 # :param model: the model name
 # :param outputfile: the name of the file to store the simulations
-summarise_simulations <- function(inputdir, model, outputfile) {
+summarise_data <- function(inputdir, model, outputfile) {
 
   # collect all files in the directory
   files <- list.files( path=inputdir, pattern=model )

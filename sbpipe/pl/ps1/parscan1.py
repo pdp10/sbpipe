@@ -57,7 +57,7 @@ class ParScan1(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par,
-             simulate__intervals, single_param_scan_simulations_number,
+             cluster, pp_cpus, runs, simulate__intervals,
              single_param_scan_percent_levels, single_param_scan_knock_down_only,
              levels_number, min_level, max_level, homogeneous_lines,
              xaxis_label, yaxis_label) = self.config_parser(config_file, "single_param_scan")
@@ -65,6 +65,14 @@ class ParScan1(Pipeline):
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
+            return False
+
+        runs = int(runs)
+        pp_cpus = int(pp_cpus)
+
+        # Some controls
+        if runs < 1:
+            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
@@ -89,7 +97,9 @@ class ParScan1(Pipeline):
             status = ParScan1.generate_data(simulator,
                                             model,
                                             scanned_par,
-                                            single_param_scan_simulations_number,
+                                            cluster,
+                                            pp_cpus,
+                                            runs,
                                             simulate__intervals,
                                             levels_number,
                                             models_dir,
@@ -103,7 +113,7 @@ class ParScan1(Pipeline):
             logger.info("##############")
             status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
-                                           single_param_scan_simulations_number,
+                                           runs,
                                            single_param_scan_percent_levels,
                                            min_level, max_level, levels_number,
                                            homogeneous_lines, xaxis_label, yaxis_label)
@@ -128,7 +138,7 @@ class ParScan1(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, scanned_par, sim_number, simulate_intervals,
+    def generate_data(cls, simulator, model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
                       single_param_scan_intervals, inputdir, outputdir):
         """
         The first pipeline step: data generation.
@@ -136,7 +146,9 @@ class ParScan1(Pipeline):
         :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param scanned_par: the scanned parameter
-        :param sim_number: the number of simulations (for det sim: 1, for stoch sim: n>1)
+        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param runs: the number of model simulation
         :param simulate_intervals: the time step of each simulation
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
@@ -147,8 +159,12 @@ class ParScan1(Pipeline):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return False
 
-        if int(sim_number) < 1:
-            logger.error("variable sim_number must be greater than 0. Please, check your configuration file.")
+        if int(pp_cpus) < 1:
+            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
+        if runs < 1:
+            logger.error("variable runs must be greater than 0. Please, check your configuration file.")
             return False
 
         if int(simulate_intervals) < 1:
@@ -165,7 +181,7 @@ class ParScan1(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.ps1(model, scanned_par, sim_number, simulate_intervals,
+            sim.ps1(model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
                     single_param_scan_intervals, inputdir, outputdir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
@@ -176,7 +192,7 @@ class ParScan1(Pipeline):
 
     @classmethod
     def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
-                     sim_data_folder, sim_plots_folder, simulations_number,
+                     sim_data_folder, sim_plots_folder, runs,
                      percent_levels, min_level, max_level, levels_number,
                      homogeneous_lines, xaxis_label, yaxis_label):
         """
@@ -188,7 +204,7 @@ class ParScan1(Pipeline):
         :param outputdir: the directory containing the results
         :param sim_data_folder: the folder containing the simulated data sets
         :param sim_plots_folder: the folder containing the generated plots
-        :param simulations_number: the number of simulations
+        :param runs: the number of simulations
         :param percent_levels: True if the levels are percents.
         :param min_level: the minimum level
         :param max_level: the maximum level
@@ -217,8 +233,8 @@ class ParScan1(Pipeline):
             logger.error("min_level MUST BE lower than max_level. Please, check your configuration file.")
             return False
 
-        if int(simulations_number) < 1:
-            logger.error("variable simulations_number must be greater than 0. Please, check your configuration file.")
+        if int(runs) < 1:
+            logger.error("variable runs must be greater than 0. Please, check your configuration file.")
             return False
 
         if int(levels_number) < 1:
@@ -236,7 +252,7 @@ class ParScan1(Pipeline):
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'ps1_analysis.r'),
                                     model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, simulations_number, str(percent_levels), str(min_level),
+                                    sim_plots_folder, str(runs), str(percent_levels), str(min_level),
                                     str(max_level), str(levels_number), str(homogeneous_lines),
                                     xaxis_label, yaxis_label])
         process.wait()
@@ -279,7 +295,10 @@ class ParScan1(Pipeline):
         # default values
         simulator = 'Copasi'
         # The model species to scan (e.g. mTORC1)
-        scanned_par = ""
+        scanned_par = ''
+        cluster = 'pp'
+        pp_cpus = 1
+        runs = 1
         # The number of intervals for one simulation
         simulate__intervals = 100
         # The plot x axis label (e.g. Time[min])
@@ -287,8 +306,6 @@ class ParScan1(Pipeline):
         xaxis_label = "Time [min]"
         # The y axis label
         yaxis_label = "Level [a.u.]"
-        # The number of simulations (e.g. 1 for deterministic simulations, n for stochastic simulations)
-        single_param_scan_simulations_number = 1
         # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
         single_param_scan_percent_levels = False
         # if True then, plot only kd (blue), otherwise plot kd and overexpression
@@ -313,10 +330,14 @@ class ParScan1(Pipeline):
                 simulator = line[1]
             elif line[0] == "scanned_par":
                 scanned_par = line[1]
+            elif line[0] == "cluster":
+                cluster = line[1]
+            elif line[0] == "pp_cpus":
+                pp_cpus = line[1]
+            elif line[0] == "runs":
+                runs = line[1]
             elif line[0] == "simulate__intervals":
                 simulate__intervals = line[1]
-            elif line[0] == "single_param_scan_simulations_number":
-                single_param_scan_simulations_number = line[1]
             elif line[0] == "single_param_scan_percent_levels":
                 single_param_scan_percent_levels = {'True': True, 'False': False}.get(line[1], False)
             elif line[0] == "single_param_scan_knock_down_only":
@@ -336,6 +357,7 @@ class ParScan1(Pipeline):
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par,
-                simulate__intervals, single_param_scan_simulations_number, single_param_scan_percent_levels,
+                cluster, pp_cpus, runs,
+                simulate__intervals, single_param_scan_percent_levels,
                 single_param_scan_knock_down_only, levels_number, min_level, max_level,
                 homogeneous_lines, xaxis_label, yaxis_label)

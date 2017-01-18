@@ -32,7 +32,7 @@ In order to use SBpipe, the following software must be installed:
 
 SBpipe can work with the following simulators (at least one must be installed):
 
-- Copasi 4.16+ - [http://copasi.org/](http://copasi.org/) (for model 
+- Copasi 4.19+ - [http://copasi.org/](http://copasi.org/) (for model
 simulation, parameter scan, and parameter estimation)
 - Any R / Python / Octave / Java simulator (for model simulation. Users must install the dependencies)
 
@@ -467,10 +467,16 @@ simulator=Copasi
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
+# The cluster type. pp if the model is run locally,
+# sge/lsf if run on cluster.
+cluster=pp
+# The number of CPU if pp is used, ignored otherwise
+pp_cpus=7
+# The number of simulations to perform per run.
+# n>=1 for stochastic simulations.
+runs=1
 # The number of intervals in the simulation
 simulate__intervals=100
-# The number of simulations to perform for each scan
-single_param_scan_simulations_number=1
 # True if the variable is only reduced (knock down), False otherwise.
 single_param_scan_knock_down_only=True
 # True if the scanning represents percent levels.
@@ -481,7 +487,7 @@ min_level=0
 max_level=100
 # The number of scans (as set in Copasi Parameter Scan Task)
 levels_number=10
-# True if plot lines are the same between scans 
+# True if plot lines are the same between scans
 # (e.g. full lines, same colour)
 homogeneous_lines=False
 # The label for the x axis.

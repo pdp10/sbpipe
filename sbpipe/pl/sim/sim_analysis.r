@@ -52,7 +52,7 @@ main <- function(args) {
     gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
 
     # summarise the time course repeats in tables
-    summarise_simulations(inputdir, model_noext, repeats_file_template)
+    summarise_data(inputdir, model_noext, repeats_file_template)
 
     # plot the time courses
     plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)

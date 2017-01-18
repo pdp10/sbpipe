@@ -72,7 +72,7 @@
 single parameter scans.</p>
 <dl class="classmethod">
 <dt id="sbpipe.pl.ps1.parscan1.ParScan1.analyse_data">
-<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>knock_down_only</em>, <em>outputdir</em>, <em>sim_data_folder</em>, <em>sim_plots_folder</em>, <em>simulations_number</em>, <em>percent_levels</em>, <em>min_level</em>, <em>max_level</em>, <em>levels_number</em>, <em>homogeneous_lines</em>, <em>xaxis_label</em>, <em>yaxis_label</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps1.parscan1.ParScan1.analyse_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>knock_down_only</em>, <em>outputdir</em>, <em>sim_data_folder</em>, <em>sim_plots_folder</em>, <em>runs</em>, <em>percent_levels</em>, <em>min_level</em>, <em>max_level</em>, <em>levels_number</em>, <em>homogeneous_lines</em>, <em>xaxis_label</em>, <em>yaxis_label</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps1.parscan1.ParScan1.analyse_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The second pipeline step: data analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -85,7 +85,7 @@ single parameter scans.</p>
 <li><strong>outputdir</strong> &#8211; the directory containing the results</li>
 <li><strong>sim_data_folder</strong> &#8211; the folder containing the simulated data sets</li>
 <li><strong>sim_plots_folder</strong> &#8211; the folder containing the generated plots</li>
-<li><strong>simulations_number</strong> &#8211; the number of simulations</li>
+<li><strong>runs</strong> &#8211; the number of simulations</li>
 <li><strong>percent_levels</strong> &#8211; True if the levels are percents.</li>
 <li><strong>min_level</strong> &#8211; the minimum level</li>
 <li><strong>max_level</strong> &#8211; the maximum level</li>
@@ -105,7 +105,7 @@ single parameter scans.</p>
 
 <dl class="classmethod">
 <dt id="sbpipe.pl.ps1.parscan1.ParScan1.generate_data">
-<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>scanned_par</em>, <em>sim_number</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps1.parscan1.ParScan1.generate_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>scanned_par</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>runs</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps1.parscan1.ParScan1.generate_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The first pipeline step: data generation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -115,7 +115,9 @@ single parameter scans.</p>
 <li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
-<li><strong>sim_number</strong> &#8211; the number of simulations (for det sim: 1, for stoch sim: n&gt;1)</li>
+<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
 <li><strong>simulate_intervals</strong> &#8211; the time step of each simulation</li>
 <li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
