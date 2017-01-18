@@ -6,8 +6,12 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.14.0 (devel)
+v2.18.0 (devel)
 
+- added test case for stochastic single parameter scan.
+- single parameter scans can be executed in parallel as repeats.
+- added support for stochastic single parameter scans.
+- modularised parallel computation within Copasi simulator
 - added heatmap plot representing stochastic repeats for the time course simulation.
 - moved R code from pipelines to R/
 - redesign of simulation plots. Improvements plus based on melt function.
