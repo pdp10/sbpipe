@@ -67,6 +67,14 @@ class ParScan1(Pipeline):
             logger.debug(traceback.format_exc())
             return False
 
+        runs = int(runs)
+        pp_cpus = int(pp_cpus)
+
+        # Some controls
+        if runs < 1:
+            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
+            return False
+
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
 
