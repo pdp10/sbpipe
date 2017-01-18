@@ -96,7 +96,7 @@ class Copasi(Simul):
         for file in repeated_copasi_files:
             os.remove(os.path.join(inputdir, file))
 
-    def ps1(self, model, scanned_par, sim_number, simulate_intervals,
+    def ps1(self, model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
             single_param_scan_intervals, inputdir, outputdir):
         __doc__ = Simul.ps1.__doc__
 
@@ -115,7 +115,7 @@ class Copasi(Simul):
             return
 
         # RUN Copasi
-        for i in xrange(0, int(sim_number)):
+        for i in xrange(0, int(runs)):
             logger.info("Simulation No.: " + str(i))
             # run CopasiSE. Copasi must generate a (TIME COURSE) report called ${model_noext}.csv
             process = subprocess.Popen([self._copasi, '--nologo', os.path.join(inputdir, model)])
