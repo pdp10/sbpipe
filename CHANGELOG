@@ -6,8 +6,14 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.21.0 (devel)
+v2.27.0 (devel)
 
+- Copasi and PL-based simulators now share a large amount of code.
+- adapted programming language-based simulators to use ps1 and ps2 post-processing code. All simulators support all the pipelines.
+- moved post-processing code for ps1 and ps2 from Copasi to Simul.
+- improved code cohesion by moving utility code into Simul class().
+- improved output name consistency for report and plot files
+- improved sorting of plots in latex/pdf report for ps1 pipeline
 - added test case for stochastic double parameter scan.
 - double parameter scans can be executed in parallel as repeats.
 - added support for stochastic double parameter scans.
