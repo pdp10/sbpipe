@@ -57,6 +57,7 @@ class ParScan2(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par1, scanned_par2,
+             cluster, pp_cpus, runs,
              sim_length) = self.config_parser(config_file, "double_param_scan")
         except Exception as e:
             logger.error(e.message)
@@ -64,7 +65,17 @@ class ParScan2(Pipeline):
             logger.debug(traceback.format_exc())
             return False
 
+        runs = int(runs)
+        pp_cpus = int(pp_cpus)
         sim_length = int(sim_length)
+
+        # Some controls
+        if runs < 1:
+            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
+            return False
+        if sim_length < 1:
+            logger.error("variable `sim_length` must be greater than 0. Please, check your configuration file.")
+            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
@@ -89,7 +100,10 @@ class ParScan2(Pipeline):
                                             model,
                                             sim_length,
                                             models_dir,
-                                            os.path.join(outputdir, self.get_sim_data_folder()))
+                                            os.path.join(outputdir, self.get_sim_data_folder()),
+                                            cluster,
+                                            pp_cpus,
+                                            runs)
             if not status:
                 return False
 
@@ -101,7 +115,8 @@ class ParScan2(Pipeline):
                                            scanned_par1,
                                            scanned_par2,
                                            os.path.join(outputdir, self.get_sim_data_folder()),
-                                           os.path.join(outputdir, self.get_sim_plots_folder()))
+                                           os.path.join(outputdir, self.get_sim_plots_folder()),
+                                           runs)
             if not status:
                 return False
 
@@ -127,7 +142,7 @@ class ParScan2(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir):
+    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster_type, pp_cpus, runs):
         """
         The first pipeline step: data generation.
 
@@ -136,12 +151,19 @@ class ParScan2(Pipeline):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
+        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
+
+        # Some controls
         if not os.path.isfile(os.path.join(inputdir, model)):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return False
-
+        if runs < 1:
+            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
+            return False
         if int(sim_length) < 1:
             logger.error("variable sim_length must be greater than 0. Please, check your configuration file.")
             return False
@@ -151,7 +173,7 @@ class ParScan2(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.ps2(model, sim_length, inputdir, outputdir)
+            sim.ps2(model, sim_length, inputdir, outputdir, cluster_type, pp_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -160,7 +182,7 @@ class ParScan2(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir):
+    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, runs):
         """
         The second pipeline step: data analysis.
 
@@ -169,6 +191,7 @@ class ParScan2(Pipeline):
         :param scanned_par2: the second scanned parameter
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
+        :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
         if not os.path.exists(inputdir):
@@ -177,10 +200,13 @@ class ParScan2(Pipeline):
 
         # folder preparation
         refresh(outputdir, os.path.splitext(model)[0])
+        if runs < 1:
+            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
+            return False
 
         process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
                                                             'ps2_analysis.r'),
-                                    model, scanned_par1, scanned_par2, inputdir, outputdir])
+                                    model, scanned_par1, scanned_par2, inputdir, outputdir, str(runs)])
         process.wait()
         return True
 
@@ -224,6 +250,9 @@ class ParScan2(Pipeline):
         scanned_par1 = ""
         # the second scanned param
         scanned_par2 = ""
+        cluster = 'pp'
+        pp_cpus = 1
+        runs = 1
         # the simulation length
         sim_length = 1
 
@@ -236,9 +265,15 @@ class ParScan2(Pipeline):
                 scanned_par1 = line[1]
             elif line[0] == "scanned_par2":
                 scanned_par2 = line[1]
+            elif line[0] == "cluster":
+                cluster = line[1]
+            elif line[0] == "pp_cpus":
+                pp_cpus = line[1]
+            elif line[0] == "runs":
+                runs = line[1]
             elif line[0] == "sim_length":
                 sim_length = line[1]
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par1, scanned_par2,
-                sim_length)
+                cluster, pp_cpus, runs, sim_length)

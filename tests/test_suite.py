@@ -33,7 +33,6 @@ import tests.test_ok_sim as ok_sim
 import tests.test_ok_ps1 as ok_ps1
 import tests.test_ok_ps2 as ok_ps2
 import tests.test_ok_pe as ok_pe
-import tests.test_ok_sens as ok_sens
 import tests.test_ok_lsf as ok_lsf
 import tests.test_ok_sge as ok_sge
 
@@ -58,7 +57,6 @@ def run_tests_suites():
     suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestIRSingleParamScan)
     suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestIRDoubleParamScan)
     suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestIRParamEstim)
-    suite_ok_sens = unittest.TestLoader().loadTestsFromTestCase(ok_sens.TestIRSensitivity)
     suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestIRLSF)
     suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestIRSGE)
 
@@ -88,7 +86,6 @@ def run_tests_suites():
                                 suite_ok_ps1,
                                 suite_ok_ps2,
                                 suite_ok_pe,
-                                suite_ok_sens,
                                 suite_ok_lsf,
                                 suite_ok_sge,
                                 suite_conferr_sim,

@@ -232,15 +232,6 @@ def main(argv=None):
                     s = ParEst()
                     exit_status = 0 if s.run(args[0]) else 1
 
-                # elif opt in ('-n', '--sensitivity'):
-                #     check_args(args, no_conf_file_msg)
-                #     print(logo())
-                #     print('Not yet available. Apologise.')
-                #     exit_status = 0
-                #     from sbpipe.pl.sens.sens import Sens
-                #     s = Sens()
-                    # exit_status = 0 if s.run(args[0]) else 1
-
             if len(opts) < 1:
                 raise Usage('no option received')
 

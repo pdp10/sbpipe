@@ -355,7 +355,7 @@ each estimation</li>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.ps1">
-<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>runs</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='pp'</em>, <em>pp_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Single parameter scan.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -364,13 +364,13 @@ each estimation</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
-<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
-<li><strong>runs</strong> &#8211; the number of model simulation</li>
 <li><strong>simulate_intervals</strong> &#8211; the time step of each simulation</li>
 <li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
 </ul>
 </td>
 </tr>
@@ -380,7 +380,7 @@ each estimation</li>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.ps2">
-<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='pp'</em>, <em>pp_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Double paramter scan.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -391,25 +391,9 @@ each estimation</li>
 <li><strong>sim_length</strong> &#8211; the length of the simulation</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sbpipe.simul.simul.Simul.sens">
-<code class="descname">sens</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.sens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sensitivity analysis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> &#8211; the model to process</li>
-<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
-<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
 </ul>
 </td>
 </tr>
