@@ -24,6 +24,7 @@
 
 import logging
 from xml.dom.minidom import parse
+import warnings
 
 logger = logging.getLogger('sbpipe')
 
@@ -37,12 +38,13 @@ class CopasiParser:
         """
         Constructor.
         """
+        warnings.warn("deprecated class", DeprecationWarning, stacklevel=2)
         pass
 
     @classmethod
     def get_param_estim_val(cls, file_in):
         """
-        Parse a Copasi file and retrieve information on the parameters to estimate.
+        Parse a Copasi file and retrieve information about the parameters to estimate.
 
         :param file_in: the Copasi file including absolute path to parse
         :return: a tuple containing the report file name, the parameter lower bounds, \

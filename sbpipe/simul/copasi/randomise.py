@@ -26,6 +26,7 @@ import random
 import shutil
 from copasi_parser import CopasiParser
 from sbpipe.utils.io import *
+import warnings
 
 logger = logging.getLogger('sbpipe')
 
@@ -43,7 +44,7 @@ class Randomise:
         """
         Constructor. Initialise the Copasi parser on filename_in.
         """
-
+        warnings.warn("deprecated class", DeprecationWarning, stacklevel=2)
         # A Copasi Object
         self.__copasi = CopasiParser()
         # Path containing the template Copasi file
