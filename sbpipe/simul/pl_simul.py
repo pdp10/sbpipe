@@ -24,12 +24,9 @@
 
 import logging
 import os
+import re
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
-from sbpipe.utils.rand import get_rand_alphanum_str
-from .pl_simul_utils import get_all_fits
-from .pl_simul_utils import get_best_fits
-from .pl_simul_utils import move_report_files
 from ..simul import Simul
 
 logger = logging.getLogger('sbpipe')
@@ -56,6 +53,8 @@ class PLSimul(Simul):
         self._language_not_found_msg = lang_err_msg
         self._options = options
         logger.debug("Invoking simulator " + self._language + " with options " + self._options)
+        if self._language is None:
+            logger.error(self._language_not_found_msg)
 
     def get_lang(self):
         """
@@ -79,40 +78,38 @@ class PLSimul(Simul):
         return self._options
 
     def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
-        __doc__ = PLSimul.sim.__doc__
+        __doc__ = Simul.sim.__doc__
 
         self._run_par_comput(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
 
+    def ps1(self, model, scanned_par, simulate_intervals,
+            single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+        __doc__ = Simul.ps1.__doc__
+
+        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        self._ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
+
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+        __doc__ = Simul.ps2.__doc__
+
+        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        self._ps2_postproc(model, sim_length, outputdir)
+
     def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
            updated_models_dir):
-        __doc__ = PLSimul.pe.__doc__
+        __doc__ = Simul.pe.__doc__
 
         self._run_par_comput(model, inputdir, sim_data_dir, cluster_type, pp_cpus, nfits)
 
-    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
-        __doc__ = Simul.collect_pe_results.__doc__
-
-        get_best_fits(inputdir, outputdir, file_out_best_fits)
-        get_all_fits(inputdir, outputdir, fileout_all_fits)
-
     def _run_par_comput(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
-        """
-        Run generic parallel computation.
-
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory to store the results
-        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
-        :param pp_cpus: the number of cpu for parallel python
-        :param nruns: the number of runs to perform
-        """
+        __doc__ = Simul._run_par_comput.__doc__
 
         if self._language is None:
             logger.error(self._language_not_found_msg)
             return
 
         # Replicate the r file and rename its report file
-        groupid = "_" + get_rand_alphanum_str(20) + "_"
+        groupid = self._get_groupid()
         group_model = os.path.splitext(model)[0] + groupid
 
         # run in parallel
@@ -126,6 +123,28 @@ class PLSimul(Simul):
             opts = " " + self._options + " "
         command = self._language + opts + os.path.join(inputdir, model) + \
                   " " + group_model + str_to_replace + ".csv"
-        print(command)
+        logger.debug(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
-        move_report_files(outputdir, group_model, groupid)
+        self._move_reports('.', outputdir, model, groupid)
+        return groupid, group_model
+
+    def _replace_str_in_report(self, report):
+        __doc__ = Simul._replace_str_in_report.__doc__
+
+        # `with` ensures that the file is closed correctly
+        # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+        with open(report, "r") as file:
+            lines = file.readlines()
+        with open(report, "w") as file:
+            # for idx, line in lines:
+            for i in range(len(lines)):
+                if i < 1:
+                    # First remove non-alphanumerics and non-underscores.
+                    # Then replaces whites with TAB.
+                    # Finally use rstrip to remove the TAB at the end.
+                    # [^\w] matches anything that is not alphanumeric or underscore
+                    lines[i] = lines[i].replace("\"", "").replace("time", "Time")
+                    file.write(
+                        re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+                else:
+                    file.write(lines[i].rstrip('\t'))

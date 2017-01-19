@@ -26,15 +26,8 @@ import logging
 import os
 import re
 import shutil
-import subprocess
-from itertools import islice
 from sbpipe.sb_config import which
-from randomise import Randomise
-from .copasi_utils import replace_str_copasi_sim_report
-from .copasi_utils import get_all_fits
-from .copasi_utils import get_best_fits
 from sbpipe.utils.parcomp import parcomp
-from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.utils.io import replace_str_in_file
 from ..simul import Simul
 
@@ -60,12 +53,7 @@ class Copasi(Simul):
     def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.sim.__doc__
 
-        if self._copasi is None:
-            logger.error(self._copasi_not_found_msg)
-            return
-
-        # run copasi in parallel
-        (groupid, group_model) = self._par_comp(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        (groupid, group_model) = self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
@@ -75,227 +63,46 @@ class Copasi(Simul):
             single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.ps1.__doc__
 
-        if self._copasi is None:
-            logger.error(self._copasi_not_found_msg)
-            return
-
-        # run copasi in parallel
-        (groupid, group_model) = self._par_comp(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        (groupid, group_model) = self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
             os.remove(os.path.join(inputdir, report))
-
-
-
-
-
-        # TODO MOVE THE FOLLOWING CODE TO A FUNCTION in simul.py probably
-
-        model_noext = os.path.splitext(model)[0]
-        scanned_par_index = -1
-        scanned_par_level = -1
-        # Set the number of intervals
-        intervals = int(single_param_scan_intervals) + 1
-        # Set the number of timepoints
-        timepoints = int(simulate_intervals) + 1
-
-
-        # Re-structure the reports
-        report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
-        if not report_files:
-            return
-
-        header = Copasi._ps1_header_init(report_files[0], scanned_par)
-        if not header:
-            return
-
-        for j, name in enumerate(header):
-            # remove \n and \t from name
-            name = ''.join(name.split())
-            logger.debug(str(j) + " " + name + " " + scanned_par)
-            if name == scanned_par:
-                scanned_par_index = j
-                break
-        if scanned_par_index == -1:
-            logger.error("Column index for " + scanned_par + ": " + str(
-                scanned_par_index) + ". Species not found! You must add " + scanned_par +
-                         " to the Copasi report.")
-            return
-        else:
-            logger.debug("Column index for " + scanned_par + ": " + str(scanned_par_index))
-
-        for i, report in enumerate(report_files):
-            logger.debug(report)
-
-            # Prepare the table content for the output files
-            for j in xrange(0, intervals):
-                # Read the scanned_par level
-                # Read the second line of a file.
-
-                with open(report, 'r') as myfile:
-                    # 2 is the number of lines to read, 1 is the i-th element to extract from the list.
-                    initial_configuration = list(islice(myfile, 2))[1].replace("\n", "").split('\t')
-                    # print(initial_configuration)
-                    scanned_par_level = initial_configuration[scanned_par_index]
-
-                if scanned_par_level == -1:
-                    logger.error("scanned_par_level not configured!")
-                    return
-                else:
-                    logger.debug(
-                        scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(
-                            scanned_par_index) + ")")
-
-                # copy the -th run to a new file: add 1 to timepoints because of the header.
-                round_scanned_par_level = scanned_par_level
-                # Read the first timepoints+1 lines of a file.
-                with open(report, 'r') as myfile:
-                    table = list(islice(myfile, timepoints + 1))
-
-                # Write the extracted table to a separate file
-                with open(os.path.join(outputdir, model_noext) + "__scan_" + scanned_par + "__rep_" + str(i + 1) + "__level_" + str(
-                        round_scanned_par_level) + ".csv", 'w') as myfile:
-                    for line in table:
-                        myfile.write(line)
-
-                with open(report, 'r') as myfile:
-                    # read all lines
-                    lines = myfile.readlines()
-
-                with open(report + "~", 'w') as myfile:
-                    myfile.writelines(header)
-                    myfile.writelines(lines[timepoints + 1:])
-
-                shutil.move(report + "~", report)
-
-            # remove the file
-            #os.remove(report)
-
+        self._ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
 
     def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
         __doc__ = Simul.ps2.__doc__
 
-        if self._copasi is None:
-            logger.error(self._copasi_not_found_msg)
-            return
-
-        # run copasi in parallel
-        (groupid, group_model) = self._par_comp(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        (groupid, group_model) = self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
             os.remove(os.path.join(inputdir, report))
-
-        # TODO: CONSIDER TO MOVE THE CODE BELOW in Simul.ps2()
-        model_noext = os.path.splitext(model)[0]
-
-        # Re-structure the reports
-        report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
-        if not report_files:
-            return
-
-        for i, report in enumerate(report_files):
-            logger.debug(report)
-
-            # copy file removing empty lines
-            with open(report, 'r') as filein, \
-                    open(report + "~", 'w') as fileout:
-                for line in filein:
-                    if not line.isspace():
-                        fileout.write(line)
-            shutil.move(report + '~', report)
-
-            # Extract a selected time point from all perturbed time courses contained in the report file
-            with open(report, 'r') as filein:
-                lines = filein.readlines()
-                header = lines[0]
-                lines = lines[1:]
-                timepoints = range(0, sim_length + 1)
-                filesout = []
-                try:
-                    filesout = [open(os.path.join(outputdir, model_noext + '__rep_' + str(i+1) + '__tp_%d.csv' % k), 'w') for k in timepoints]
-                    # copy the header
-                    for fileout in filesout:
-                        fileout.write(header)
-                    # extract the i-th time point and copy it to the corresponding i-th file
-                    for line in lines:
-                        tp = line.rstrip().split('\t')[0]
-                        if '.' not in tp and int(tp) in timepoints:
-                            filesout[int(tp)].write(line)
-                finally:
-                    for fileout in filesout:
-                        fileout.close()
+        self._ps2_postproc(model, sim_length, outputdir)
 
     def pe(self, model, inputdir, cluster_type, pp_cpus, runs, outputdir, sim_data_dir,
            updated_models_dir):
         __doc__ = Simul.pe.__doc__
 
-        if self._copasi is None:
-            logger.error(self._copasi_not_found_msg)
-            return
-
-        # run copasi in parallel
-        (groupid, group_model) = self._par_comp(inputdir, model, sim_data_dir, cluster_type, runs, pp_cpus)
+        (groupid, group_model) = self._run_par_comput(inputdir, model, sim_data_dir, cluster_type, runs, pp_cpus)
         # move_models
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.cps', f)]
         for file in repeated_copasi_files:
             shutil.move(os.path.join(inputdir, file),
                         os.path.join(updated_models_dir, file.replace(groupid, "_")))
 
-    def collect_pe_results(self, inputdir, outputdir, fileout_all_fits, file_out_best_fits):
-        __doc__ = Simul.collect_pe_results.__doc__
+    def _run_par_comput(self, inputdir, model, outputdir, cluster_type, runs, pp_cpus):
+        __doc__ = Simul._run_par_comput.__doc__
 
-        get_best_fits(inputdir, outputdir, file_out_best_fits)
-        get_all_fits(inputdir, outputdir, fileout_all_fits)
-
-    @classmethod
-    def _ps1_header_init(cls, report, scanned_par):
-        """
-        Header report initialisation for single parameter scan pipeline.
-
-        :param report: a report
-        :param scanned_par: the scanned parameter
-
-        :return a list containing the header or an empty list if no header was created.
-        """
-
-
-        header = ['Time']
-        # Find the index of scanned_par in the header file, so it is possible to read the amount at
-        # the second line.
-        logger.debug("Retrieving column index for " + scanned_par +
-                     " from file " + report)
-        # Read the first line of a file.
-        with open(report) as myfile:
-            # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
-            header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
-        logger.debug(header)
-        # Prepare the Header for the output files
-        # Add a \t at the end of each element of the header
-        header = [h + '\t' for h in header]
-        # Remove the \t for the last element.
-        header[-1] = header[-1].strip()
-        return header
-
-    def _par_comp(self, inputdir, model, outputdir, cluster_type, runs, pp_cpus):
-        """
-        Run parallel computation for Copasi
-
-        :param model: the model to process
-        :param inputdir: the directory containing the model
-        :param outputdir: the directory containing the output files
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
-        :param runs: the number of model simulation
-        """
+        if self._copasi is None:
+            logger.error(self._copasi_not_found_msg)
+            return
 
         # Replicate the copasi file and rename its report file
-        groupid = "_" + get_rand_alphanum_str(20) + "_"
+        groupid = self._get_groupid()
         group_model = os.path.splitext(model)[0] + groupid
 
+        # replicate the models
         for i in xrange(1, runs + 1):
             shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".cps")
             replace_str_in_file(os.path.join(inputdir, group_model) + str(i) + ".cps",
@@ -308,16 +115,141 @@ class Copasi(Simul):
         # the iteration number.
         str_to_replace = groupid[10::-1]
         command = self._copasi + " " + os.path.join(inputdir, group_model + str_to_replace + ".cps")
+        logger.debug(command)
         parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
+        self._move_reports(inputdir, outputdir, model, groupid)
+        return groupid, group_model
 
-        # move the report files
-        report_files = [f for f in os.listdir(inputdir) if
-                        re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
-        for report in report_files:
-            # Replace some string in the report file
-            replace_str_copasi_sim_report(os.path.join(inputdir, report))
-            # rename and move the output file
-            shutil.move(os.path.join(inputdir, report), os.path.join(outputdir, report.replace(groupid, "_")))
+    def _replace_str_in_report(self, report):
+        __doc__ = Simul._replace_str_in_report.__doc__
 
-        return (groupid, group_model)
+        # `with` ensures that the file is closed correctly
+        # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+        with open(report, 'r') as file:
+            lines = file.readlines()
+        with open(report, 'w') as file:
+            # for idx, line in lines:
+            for i in range(len(lines)):
+                if i < 1:
+                    # First remove non-alphanumerics and non-underscores.
+                    # Then replaces whites with TAB.
+                    # Finally use rstrip to remove the TAB at the end.
+                    # [^\w] matches anything that is not alphanumeric or underscore
+                    lines[i] = lines[i].replace("Values[", "").replace("]", "")
+                    file.write(
+                        re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+                else:
+                    file.write(lines[i].rstrip('\t'))
+
+    # utilities for collecting parameter estimation results
+    #######################################################
+
+    def _get_params_list(self, filein):
+        """
+        Return the list of parameter names from filein
+
+        :param filein: a Copasi parameter estimation report file
+        :return: the list of parameter names
+        """
+        parameters = []
+        with open(filein, 'r') as file:
+            lines = file.readlines()
+            line_num = -1
+            for line in lines:
+                line_num += 1
+                split_line = line.split('\t')
+                if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
+                    # add to _data the parameter values
+                    for result in lines[line_num + 1:]:
+                        split_result = result.split("\t")
+                        # Check whether this is the last sequence to read. If so, break
+                        if len(split_result) == 1 and split_result[0] == '\n':
+                            break
+                        parameters.append(str(split_result[1]))
+                    # Nothing else to do
+                    break
+        return parameters
+
+    def _write_best_fits(self, files, path_out, filename_out):
+        """
+        Write the final estimates to filename_out
+
+        :param files: the list of Copasi parameter estimation reports
+        :param path_out: the path to store the file combining the final (best) estimates (filename_out)
+        :param filename_out: the file containing the final (best) estimates
+        """
+        file_num = -1
+        logger.info("\nCollecting results:")
+        with open(os.path.join(path_out, filename_out), 'a') as fileout:
+            for filein in files:
+                file_num += 1
+                with open(filein, 'r') as file:
+                    logger.info(os.path.basename(filein))
+                    lines = file.readlines()
+                    entry = []
+                    line_num = -1
+                    for line in lines:
+                        finished = False
+                        line_num += 1
+                        split_line = line.rstrip().split('\t')
+                        # Retrieve the estimated values of the _parameters
+                        # Retrieve the objective function value
+                        if len(split_line) > 1 and split_line[0] == 'Objective Function Value:':
+                            entry.append(os.path.basename(filein))
+                            entry.append(split_line[1].rstrip())
+
+                        if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
+                            param_num = 0
+                            for result in lines[line_num + 1:]:
+                                param_num += 1
+                                split_result = result.split("\t")
+                                if len(split_result) >= 0 and split_result[0] == "\n":
+                                    # All the parameters are retrieved, then exit
+                                    finished = True
+                                    break
+                                entry.append(str(split_result[2]))
+                        if finished:
+                            fileout.write('\t'.join(map(str, entry)) + '\n')
+                            break
+
+    def _write_all_fits(self, files, path_out, filename_out):
+        """
+        Write all the estimates to filename_out
+
+        :param files: the list of Copasi parameter estimation reports
+        :param path_out: the path to store the file combining all the estimates
+        :param filename_out: the file containing all the estimates
+        """
+        file_num = -1
+        # logger.info("\nCollecting results:")
+        with open(os.path.join(path_out, filename_out), 'a') as fileout:
+            for file in files:
+                file_num += 1
+                with open(file, 'r') as filein:
+                    # logger.info(os.path.basename(file))
+                    lines = filein.readlines()
+                    line_num = -1
+                    for line in lines:
+                        line_num += 1
+                        split_line = line.rstrip().split("\t")
+                        # Retrieve the estimated values of the parameters
+                        if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
+                                        split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
+                            # add to data the parameter values
+                            line_num += 1
+                            if line_num < len(lines):
+                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
+
+                            while len(split_line) > 2:
+                                for k in xrange(1, len(split_line)):
+                                    if k < len(split_line) - 1:
+                                        fileout.write(str(split_line[k]) + '\t')
+                                    else:
+                                        fileout.write(str(split_line[k]) + '\n')
+                                line_num += 1
+                                if line_num < len(lines):
+                                    split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
+
+                            break
+
 
