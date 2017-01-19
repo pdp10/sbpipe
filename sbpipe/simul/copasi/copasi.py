@@ -155,7 +155,7 @@ class Copasi(Simul):
                     table = list(islice(myfile, timepoints + 1))
 
                 # Write the extracted table to a separate file
-                with open(os.path.join(outputdir, model_noext) + "__sim_" + str(i + 1) + "__level_" + str(
+                with open(os.path.join(outputdir, model_noext) + "__scan_" + scanned_par + "__rep_" + str(i + 1) + "__level_" + str(
                         round_scanned_par_level) + ".csv", 'w') as myfile:
                     for line in table:
                         myfile.write(line)
@@ -171,7 +171,7 @@ class Copasi(Simul):
                 shutil.move(report + "~", report)
 
             # remove the file
-            os.remove(report)
+            #os.remove(report)
 
 
     def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):

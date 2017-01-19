@@ -31,7 +31,7 @@ import os.path
 import subprocess
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
-from sbpipe.report.latex_reports import latex_report_dps, pdf_report
+from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
 
 logger = logging.getLogger('sbpipe')
 
@@ -230,7 +230,7 @@ class ParScan2(Pipeline):
         logger.info("Generating LaTeX report")
         logger.info(model)
         filename_prefix = "report__double_param_scan_"
-        latex_report_dps(outputdir, sim_plots_folder, filename_prefix,
+        latex_report_ps2(outputdir, sim_plots_folder, filename_prefix,
                          model, scanned_par1, scanned_par2)
 
         logger.info("Generating PDF report")

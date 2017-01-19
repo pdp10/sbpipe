@@ -58,7 +58,7 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
     )
 
 
-def latex_report_sps(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+def latex_report_ps1(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
     """
     Generate a report for a single parameter scan task.
     
@@ -81,9 +81,11 @@ def latex_report_sps(outputdir, sim_plots_folder, filename_prefix, model_noext, 
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameter " + scanned_par_name + "}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
-        folder.sort()
-        for infile in folder:
+        files = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        files.sort()
+        # we sort using the __eval_ pattern in files
+        files.sort(key=lambda x: x.split("__eval_")[1])
+        for infile in files:
             if infile.find(model_noext) != -1:
                 scanned_par_pos = infile.find(scanned_par)
                 eval_marker = infile.find("__eval_")
@@ -94,7 +96,7 @@ def latex_report_sps(outputdir, sim_plots_folder, filename_prefix, model_noext, 
         file_out.write("\\end{document}\n")
 
 
-def latex_report_dps(outputdir, sim_plots_folder, filename_prefix, model_noext,
+def latex_report_ps2(outputdir, sim_plots_folder, filename_prefix, model_noext,
                      scanned_par1, scanned_par2):
     """
     Generate a report for a double parameter scan task.
@@ -242,12 +244,12 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
-        folder.sort()
+        files = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        files.sort()
         begin_figure = False
         figure_num = 0
         figures_per_page = 9
-        for infile in folder:
+        for infile in files:
             logger.info(infile)
             figure_num += 1
             if not begin_figure:
