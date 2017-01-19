@@ -23,14 +23,6 @@ sbpipe.simul.pl_simul module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.simul.pl_simul_utils module
-----------------------------------
-
-.. automodule:: sbpipe.simul.pl_simul_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 sbpipe.simul.simul module
 -------------------------
 

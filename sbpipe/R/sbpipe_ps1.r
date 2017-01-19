@@ -125,7 +125,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
     for(k_sim in 1:runs) {
       print(paste('Processing simulation:', k_sim))
 
-	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, '__', sep=""))
+	  files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', k_sim, '__level_', sep=""))
 	  #print(files)
 	  levels.index <- get_sorted_level_indexes(files)
 	  #print(levels.index)
@@ -159,7 +159,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 	         theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
 	         scale_colour_manual("Levels", values=colors, labels=labels) + 
 	         scale_linetype_manual("Levels", values=linetype, labels=labels)
-        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", k_sim, "__eval_", column[j], ".png", sep="" )),
 		   dpi=300,  width=8, height=8)#, bg = "transparent")
    
 	  }
@@ -199,7 +199,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     theme_set(tc_theme(36)) #28
     
     for(k_sim in 1:runs) {
-	  files <- list.files( path=inputdir, pattern=paste(model, '__sim_', k_sim, '__', sep=""))
+	  files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', k_sim, '__level_', sep=""))
 	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
@@ -213,7 +213,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
 	    }
 	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
-        ggsave(file.path(outputdir, paste(model, "__eval_", column[j], "__sim_", k_sim, ".png", sep="" )), 
+        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", k_sim, "__eval_", column[j], ".png", sep="" )),
 		   dpi=300,  width=8, height=8)#, bg = "transparent")
 	  }
   }

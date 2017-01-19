@@ -12,30 +12,6 @@ sbpipe.simul.copasi.copasi module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.simul.copasi.copasi_parser module
-----------------------------------------
-
-.. automodule:: sbpipe.simul.copasi.copasi_parser
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-sbpipe.simul.copasi.copasi_utils module
----------------------------------------
-
-.. automodule:: sbpipe.simul.copasi.copasi_utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-sbpipe.simul.copasi.randomise module
-------------------------------------
-
-.. automodule:: sbpipe.simul.copasi.randomise
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

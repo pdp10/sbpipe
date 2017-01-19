@@ -60,5 +60,10 @@ class TestIRDoubleParamScan(unittest.TestCase):
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib2.conf"]), 0)
 
+    def test_double_param_scan_inhib_only3(self):
+        """model double param scan - inhibition only"""
+        self.assertEqual(
+            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib3.conf"]), 1)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
