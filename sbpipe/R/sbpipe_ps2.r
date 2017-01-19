@@ -69,7 +69,7 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
         # READ the files containing the time points. These will be plotted.
 
         # Iterate for each file representing time point data
-        files <- list.files(path=inputdir, pattern=paste(model, '_', i, '__tp_', sep=""))
+        files <- list.files(path=inputdir, pattern=paste(model, '__rep_', i, '__tp_', sep=""))
         files <- sort(files)
 
         if(length(files) < 1) {
@@ -112,7 +112,7 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
             g <- scatterplot_w_colour(df.plot, ggplot(), scanned_par1, scanned_par2, columns[k], colours=palette.plot) +
                 ggtitle(paste(columns[k], ", t=", j-1, sep="")) +
                 theme(legend.key.height = unit(0.5, "in"), plot.title = element_text(hjust = 0.5))
-            ggsave(file.path(outputdir, paste(model, "__eval_", columns[k], '_', i, "__tp_", j-1, ".png", sep="" )),
+            ggsave(file.path(outputdir, paste(model, "__eval_", columns[k], '__rep_', i, "__tp_", j-1, ".png", sep="" )),
                 dpi=300,  width=8, height=6)
           }
       }

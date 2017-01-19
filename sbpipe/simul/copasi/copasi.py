@@ -216,7 +216,7 @@ class Copasi(Simul):
                 timepoints = range(0, sim_length + 1)
                 filesout = []
                 try:
-                    filesout = [open(report[:-4] + "__tp_%d.csv" % i, "w") for i in timepoints]
+                    filesout = [open(os.path.join(outputdir, model_noext + '__rep_' + str(i+1) + '__tp_%d.csv' % k), 'w') for k in timepoints]
                     # copy the header
                     for fileout in filesout:
                         fileout.write(header)
