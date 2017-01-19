@@ -70,11 +70,6 @@
 <dd><p>Bases: <a class="reference internal" href="sbpipe.simul.html#sbpipe.simul.simul.Simul" title="sbpipe.simul.simul.Simul"><code class="xref py py-class docutils literal"><span class="pre">sbpipe.simul.simul.Simul</span></code></a></p>
 <p>Copasi simulator.</p>
 <dl class="method">
-<dt id="sbpipe.simul.copasi.copasi.Copasi.collect_pe_results">
-<code class="descname">collect_pe_results</code><span class="sig-paren">(</span><em>inputdir</em>, <em>outputdir</em>, <em>fileout_all_fits</em>, <em>file_out_best_fits</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.collect_pe_results" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="sbpipe.simul.copasi.copasi.Copasi.pe">
 <code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>runs</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.pe" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -106,7 +101,7 @@
 <dl class="classmethod">
 <dt id="sbpipe.simul.copasi.copasi_parser.CopasiParser.get_param_estim_val">
 <em class="property">classmethod </em><code class="descname">get_param_estim_val</code><span class="sig-paren">(</span><em>file_in</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_parser.CopasiParser.get_param_estim_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse a Copasi file and retrieve information on the parameters to estimate.</p>
+<dd><p>Parse a Copasi file and retrieve information about the parameters to estimate.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -119,117 +114,6 @@
 </table>
 </dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="module-sbpipe.simul.copasi.copasi_utils">
-<span id="sbpipe-simul-copasi-copasi-utils-module"></span><h2>sbpipe.simul.copasi.copasi_utils module<a class="headerlink" href="#module-sbpipe.simul.copasi.copasi_utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.get_all_fits">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_all_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='all_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_all_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect all the parameter estimates from the Copasi parameter estimation report. Results
-are stored in filename_out.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path_in</strong> &#8211; the path to the input files</li>
-<li><strong>path_out</strong> &#8211; the path to the output files</li>
-<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.get_best_fits">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_best_fits</code><span class="sig-paren">(</span><em>path_in='.'</em>, <em>path_out='.'</em>, <em>filename_out='final_estimates.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_best_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect the final parameter estimates from the Copasi parameter estimation report. Results
-are stored in filename_out.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path_in</strong> &#8211; the path to the input files</li>
-<li><strong>path_out</strong> &#8211; the path to the output files</li>
-<li><strong>filename_out</strong> &#8211; the filename to store the final estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.get_params_list">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">get_params_list</code><span class="sig-paren">(</span><em>filein</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.get_params_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the list of parameter names from filein</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filein</strong> &#8211; a Copasi parameter estimation report file</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of parameter names</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.replace_str_copasi_sim_report">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">replace_str_copasi_sim_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.replace_str_copasi_sim_report" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replace a group of annotation strings from a generated copasi report file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> &#8211; The report file with absolute path</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.write_all_fits">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">write_all_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.write_all_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write all the estimates to filename_out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
-<li><strong>path_out</strong> &#8211; the path to store the file combining all the estimates</li>
-<li><strong>filename_out</strong> &#8211; the file containing all the estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sbpipe.simul.copasi.copasi_utils.write_best_fits">
-<code class="descclassname">sbpipe.simul.copasi.copasi_utils.</code><code class="descname">write_best_fits</code><span class="sig-paren">(</span><em>files</em>, <em>path_out</em>, <em>filename_out</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi_utils.write_best_fits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the final estimates to filename_out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>files</strong> &#8211; the list of Copasi parameter estimation reports</li>
-<li><strong>path_out</strong> &#8211; the path to store the file combining the final (best) estimates (filename_out)</li>
-<li><strong>filename_out</strong> &#8211; the file containing the final (best) estimates</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </div>
@@ -426,7 +310,6 @@ and randomises the starting values of the parameters to estimate.</p>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi.copasi">sbpipe.simul.copasi.copasi module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi.copasi_parser">sbpipe.simul.copasi.copasi_parser module</a></li>
-<li><a class="reference internal" href="#module-sbpipe.simul.copasi.copasi_utils">sbpipe.simul.copasi.copasi_utils module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi.randomise">sbpipe.simul.copasi.randomise module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi">Module contents</a></li>
 </ul>
