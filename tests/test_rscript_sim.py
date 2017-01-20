@@ -58,7 +58,7 @@ class TestRscriptSim(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in output:
+            if "FALSE" in str(output):
                 print("Skipping test as R deSolve was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simple_lotka_volterra.conf"]), 0)
@@ -72,7 +72,7 @@ class TestRscriptSim(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in output:
+            if "FALSE" in str(output):
                 print("Skipping test as R deSolve was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--simulate", "2Dpde_lotka_volterra.conf"]), 0)
@@ -86,7 +86,7 @@ class TestRscriptSim(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in output:
+            if "FALSE" in str(output):
                 print("Skipping test as R sde was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_periodic_drift.conf"]), 0)
@@ -100,7 +100,7 @@ class TestRscriptSim(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in output:
+            if "FALSE" in str(output):
                 print("Skipping test as R sde was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.conf"]), 0)
@@ -122,11 +122,11 @@ class TestRscriptSim(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in reshape2:
+            if "FALSE" in str(reshape2):
                 print("Skipping test as R reshape2 was not found.")
-            if "FALSE" in desolve:
+            if "FALSE" in str(desolve):
                 print("Skipping test as R deSolve was not found.")
-            elif "FALSE" in minpacklm:
+            elif "FALSE" in str(minpacklm):
                 print("Skipping test as R minpack.lm was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sim_simple_reacts.conf"]), 0)

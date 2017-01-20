@@ -66,11 +66,11 @@ class TestRscriptPE(unittest.TestCase):
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in reshape2:
+            if "FALSE" in str(reshape2):
                 print("Skipping test as R reshape2 was not found.")
-            if "FALSE" in desolve:
+            if "FALSE" in str(desolve):
                 print("Skipping test as R deSolve was not found.")
-            elif "FALSE" in minpacklm:
+            elif "FALSE" in str(minpacklm):
                 print("Skipping test as R minpack.lm was not found.")
             else:
                 self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "pe_simple_reacts.conf"]), 0)
