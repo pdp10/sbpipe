@@ -12,14 +12,6 @@ sbpipe.utils.io module
     :undoc-members:
     :show-inheritance:
 
-sbpipe.utils.monitor module
----------------------------
-
-.. automodule:: sbpipe.utils.monitor
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 sbpipe.utils.parcomp module
 ---------------------------
 

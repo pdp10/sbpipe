@@ -407,7 +407,7 @@ in parallel using the following options in the pipeline configuration file:
 - runs=250
 
 The `cluster` option defines whether the simulator should be executed
-locally (`pp`: Parallel Python), or in a computer cluster (`sge`: Sun Grid
+locally (`pp`: Python multiprocessing), or in a computer cluster (`sge`: Sun Grid
 Engine (SGE), `lsf`: Load Sharing Facility (LSF)). If `pp` is selected, the
 `pp_cpus` option determines the maximum number of CPUs to be allocated for
 local simulations. The `runs` option specifies the number of simulations
