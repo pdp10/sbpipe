@@ -443,12 +443,12 @@ configuration file:</p>
 <li>runs=250</li>
 </ul>
 <p>The <code class="docutils literal"><span class="pre">cluster</span></code> option defines whether the simulator should be executed
-locally (<code class="docutils literal"><span class="pre">pp</span></code>: Parallel Python), or in a computer cluster (<code class="docutils literal"><span class="pre">sge</span></code>:
-Sun Grid Engine (SGE), <code class="docutils literal"><span class="pre">lsf</span></code>: Load Sharing Facility (LSF)). If <code class="docutils literal"><span class="pre">pp</span></code>
-is selected, the <code class="docutils literal"><span class="pre">pp_cpus</span></code> option determines the maximum number of
-CPUs to be allocated for local simulations. The <code class="docutils literal"><span class="pre">runs</span></code> option
-specifies the number of simulations (or parameter estimations for the
-pipeline <code class="docutils literal"><span class="pre">param_estim</span></code>) to be run.</p>
+locally (<code class="docutils literal"><span class="pre">pp</span></code>: Python multiprocessing), or in a computer cluster
+(<code class="docutils literal"><span class="pre">sge</span></code>: Sun Grid Engine (SGE), <code class="docutils literal"><span class="pre">lsf</span></code>: Load Sharing Facility (LSF)).
+If <code class="docutils literal"><span class="pre">pp</span></code> is selected, the <code class="docutils literal"><span class="pre">pp_cpus</span></code> option determines the maximum
+number of CPUs to be allocated for local simulations. The <code class="docutils literal"><span class="pre">runs</span></code>
+option specifies the number of simulations (or parameter estimations for
+the pipeline <code class="docutils literal"><span class="pre">param_estim</span></code>) to be run.</p>
 <p>Assuming that the configuration files are placed in the Working_Folder
 of a certain project, examples are given as follow:</p>
 <p><strong>Example 1:</strong> configuration file for the pipeline <em>simulation</em></p>

@@ -450,12 +450,12 @@ configuration file:
 -  runs=250
 
 The ``cluster`` option defines whether the simulator should be executed
-locally (``pp``: Parallel Python), or in a computer cluster (``sge``:
-Sun Grid Engine (SGE), ``lsf``: Load Sharing Facility (LSF)). If ``pp``
-is selected, the ``pp_cpus`` option determines the maximum number of
-CPUs to be allocated for local simulations. The ``runs`` option
-specifies the number of simulations (or parameter estimations for the
-pipeline ``param_estim``) to be run.
+locally (``pp``: Python multiprocessing), or in a computer cluster
+(``sge``: Sun Grid Engine (SGE), ``lsf``: Load Sharing Facility (LSF)).
+If ``pp`` is selected, the ``pp_cpus`` option determines the maximum
+number of CPUs to be allocated for local simulations. The ``runs``
+option specifies the number of simulations (or parameter estimations for
+the pipeline ``param_estim``) to be run.
 
 Assuming that the configuration files are placed in the Working\_Folder
 of a certain project, examples are given as follow:

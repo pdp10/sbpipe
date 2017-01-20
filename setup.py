@@ -50,7 +50,7 @@ setup(
     description='Pipelines for systems modelling of biological networks',
     author='Dr Piero Dalle Pezze',
     author_email='piero.dallepezze@babraham.ac.uk',
-    requires=['pp'],
+    requires=[],
     package_data={'sbpipe': ['src/*']},
     scripts=['scripts/sbpipe.py', 'scripts/cleanup_sbpipe.py'],
     url='https://github.com/pdp10/sbpipe',
