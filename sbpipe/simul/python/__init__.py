@@ -31,5 +31,5 @@ path, foldername = os.path.split(dir_path)
 for module in os.listdir(os.path.dirname(__file__)):
     if module[:-3] == foldername:
         # print(module[:-3])
-        __import__(module[:-3], locals(), globals())
+        __import__('sbpipe.simul.'+module[:-3], locals(), globals())
     del module

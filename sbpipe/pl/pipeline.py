@@ -23,8 +23,8 @@
 # $Date: 2016-06-23 21:43:32 $
 
 import logging
-from ConfigParser import ConfigParser
-from StringIO import StringIO
+from configparser import ConfigParser
+from io import StringIO
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
 
@@ -129,7 +129,7 @@ class Pipeline:
 
         with open(config_file) as stream:
             stream = StringIO(stream.read())
-            parser.readfp(stream)
+            parser.read_file(stream)
 
         return self.read_config(parser.items(section))
 

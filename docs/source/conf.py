@@ -41,7 +41,7 @@ try:
     if os.environ['SBPIPE']:
         SBPIPE = os.environ['SBPIPE']
 except KeyError:
-    print 'Unable to obtain $SBPIPE from the environment.'
+    print('Unable to obtain $SBPIPE from the environment.')
     exit(-1)
 
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
@@ -77,8 +77,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'SB pipe'
-copyright = u'2016, Piero Dalle Pezze and Nicolas Le Novère'
+project = 'SB pipe'
+copyright = '2016, Piero Dalle Pezze and Nicolas Le Novère'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -230,8 +230,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'sbpipe.tex', u'SB pipe documentation',
-     u'Piero Dalle Pezze and Nicolas Le Novère', 'manual'),
+    ('index', 'sbpipe.tex', 'SB pipe documentation',
+     'Piero Dalle Pezze and Nicolas Le Novère', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -260,8 +260,8 @@ latex_show_urls = True
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sbpipe', u'SB pipe documentation',
-     [u'Piero Dalle Pezze and Nicolas Le Novère'], 1)
+    ('index', 'sbpipe', 'SB pipe documentation',
+     ['Piero Dalle Pezze and Nicolas Le Novère'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -274,8 +274,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'sbpipe', u'SB pipe documentation',
-     u'Piero Dalle Pezze and Nicolas Le Novère', 'sbpipe', 'One line description of project.',
+    ('index', 'sbpipe', 'SB pipe documentation',
+     'Piero Dalle Pezze and Nicolas Le Novère', 'sbpipe', 'One line description of project.',
      'Miscellaneous'),
 ]
 

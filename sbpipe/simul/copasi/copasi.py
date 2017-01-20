@@ -103,7 +103,7 @@ class Copasi(Simul):
         group_model = os.path.splitext(model)[0] + groupid
 
         # replicate the models
-        for i in xrange(1, runs + 1):
+        for i in range(1, runs + 1):
             shutil.copyfile(os.path.join(inputdir, model), os.path.join(inputdir, group_model) + str(i) + ".cps")
             replace_str_in_file(os.path.join(inputdir, group_model) + str(i) + ".cps",
                                 os.path.splitext(model)[0] + ".csv",
@@ -241,7 +241,7 @@ class Copasi(Simul):
                                 split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
 
                             while len(split_line) > 2:
-                                for k in xrange(1, len(split_line)):
+                                for k in range(1, len(split_line)):
                                     if k < len(split_line) - 1:
                                         fileout.write(str(split_line[k]) + '\t')
                                     else:

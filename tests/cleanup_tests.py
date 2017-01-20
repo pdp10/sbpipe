@@ -36,7 +36,11 @@ def cleanup_tests():
 
     print('Cleaning tests:')
     for file in projects:
-        print('\nFolder ' + file)
+        if file == '__pycache__':
+            shutil.rmtree(os.path.join(testpath, file))
+            continue
+
+        print(('\nFolder ' + file))
 
         modelspath = join(testpath, file, 'Models')
         print("cleaning replicated files...")
