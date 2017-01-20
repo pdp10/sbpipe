@@ -8,7 +8,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 v2.30.0 (devel)
 
-- porting to Python 3.
+- added support for Python 3. The code is now expected to work for Python 2.7+, 3.2, and 3.6.
 - replaced parallel python with python multiprocessing package. This should facilitate the transition to Python 3.
 - removed deprecated source code for manually randomising parameters before parameter estimation in Copasi files.
 - Copasi and PL-based simulators now share a large amount of code.

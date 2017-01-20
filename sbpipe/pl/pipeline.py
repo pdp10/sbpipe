@@ -23,10 +23,13 @@
 # $Date: 2016-06-23 21:43:32 $
 
 import logging
-from configparser import ConfigParser
-from io import StringIO
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
+
+try:
+    import configparser # Python 3
+except ImportError:
+    import ConfigParser as configparser # Python 2
 
 logger = logging.getLogger('sbpipe')
 
@@ -125,12 +128,17 @@ class Pipeline:
         :param section: the section in the configuration file to parse
         :return: the configuration for the parsed section in the config_file
         """
-        parser = ConfigParser()
-
-        with open(config_file) as stream:
-            stream = StringIO(stream.read())
-            parser.read_file(stream)
-
+        parser = configparser.ConfigParser()
+        with open(config_file) as myfile:
+            # TODO - Legacy code for Python 2.7.
+            # Although readfp() works for Python 3, it is deprecated.
+            # In the future the code below will be just
+            # parser.read_file(myfile)
+            import sys
+            if sys.version_info < (3,):
+                parser.readfp(myfile)
+            else:
+                parser.read_file(myfile)
         return self.read_config(parser.items(section))
 
     def read_config(self, lines):

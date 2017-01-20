@@ -58,5 +58,9 @@ setup(
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
     include_package_data=False,
     license='GNU GPL v3',
-    long_description=read('README.md')
+    long_description=read('README.md'),
+    classifiers=[
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3"],
+    test_suite='tests.test_suite',
 )
