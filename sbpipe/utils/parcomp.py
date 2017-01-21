@@ -96,8 +96,13 @@ def run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus=1):
     # Create a Pool.
     pool = multiprocessing.Pool(1)
     if local_cpus > 0:
-        # Create a pool with local_cpus
-        pool = multiprocessing.Pool(local_cpus)
+        if local_cpus <= multiprocessing.cpu_count():
+            # Create a pool with local_cpus
+            pool = multiprocessing.Pool(local_cpus)
+        else:
+            logger.warning('`local_cpus` set to value higher than the physical number of CPUS (' +
+                           str(multiprocessing.cpu_count()) + '). Resetting it to max value.')
+            pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
     logger.info("Starting parallel computation:")
 
