@@ -55,7 +55,7 @@ class Sim(Pipeline):
         # variable initialisation
         try:
             (generate_data, analyse_data, generate_report,
-             project_dir, simulator, model, cluster, pp_cpus, runs,
+             project_dir, simulator, model, cluster, local_cpus, runs,
              exp_dataset, plot_exp_dataset,
              xaxis_label, yaxis_label) = self.config_parser(config_file, "simulate")
         except Exception as e:
@@ -65,7 +65,7 @@ class Sim(Pipeline):
             return False
 
         runs = int(runs)
-        pp_cpus = int(pp_cpus)
+        local_cpus = int(local_cpus)
 
         # Some controls
         if runs < 1:
@@ -96,7 +96,7 @@ class Sim(Pipeline):
                                        models_dir,
                                        os.path.join(outputdir, self.get_sim_data_folder()),
                                        cluster,
-                                       pp_cpus,
+                                       local_cpus,
                                        runs)
             if not status:
                 return False
@@ -136,7 +136,7 @@ class Sim(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def generate_data(cls, simulator, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         """
         The first pipeline step: data generation.
 
@@ -144,14 +144,14 @@ class Sim(Pipeline):
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPUs.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
 
-        if int(pp_cpus) < 1:
-            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
 
         if runs < 1:
@@ -169,7 +169,7 @@ class Sim(Pipeline):
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.sim(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+            sim.sim(model, inputdir, outputdir, cluster_type, local_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -252,8 +252,8 @@ class Sim(Pipeline):
 
         # default values
         simulator = 'Copasi'
-        cluster = 'pp'
-        pp_cpus = 1
+        cluster = 'local'
+        local_cpus = 1
         runs = 1
         exp_dataset = ''
         plot_exp_dataset = False
@@ -267,8 +267,8 @@ class Sim(Pipeline):
                 simulator = line[1]
             elif line[0] == "cluster":
                 cluster = line[1]
-            elif line[0] == "pp_cpus":
-                pp_cpus = line[1]
+            elif line[0] == "local_cpus":
+                local_cpus = line[1]
             elif line[0] == "runs":
                 runs = line[1]
             elif line[0] == "exp_dataset":
@@ -282,6 +282,6 @@ class Sim(Pipeline):
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model,
-                cluster, pp_cpus, runs,
+                cluster, local_cpus, runs,
                 exp_dataset, plot_exp_dataset,
                 xaxis_label, yaxis_label)

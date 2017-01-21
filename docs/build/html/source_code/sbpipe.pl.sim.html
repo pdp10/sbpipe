@@ -99,7 +99,7 @@ model simulations</p>
 
 <dl class="classmethod">
 <dt id="sbpipe.pl.sim.sim.Sim.generate_data">
-<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='pp'</em>, <em>pp_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.sim.sim.Sim.generate_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.sim.sim.Sim.generate_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The first pipeline step: data generation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -110,8 +110,8 @@ model simulations</p>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory containing the output files</li>
-<li><strong>cluster_type</strong> &#8211; pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>pp_cpus</strong> &#8211; the number of CPU used by Parallel Python.</li>
+<li><strong>cluster_type</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>local_cpus</strong> &#8211; the number of CPUs.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
 </ul>
 </td>
