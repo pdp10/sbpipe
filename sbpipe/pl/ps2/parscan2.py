@@ -57,7 +57,7 @@ class ParScan2(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par1, scanned_par2,
-             cluster, pp_cpus, runs,
+             cluster, local_cpus, runs,
              sim_length) = self.config_parser(config_file, "double_param_scan")
         except Exception as e:
             logger.error(e.message)
@@ -66,7 +66,7 @@ class ParScan2(Pipeline):
             return False
 
         runs = int(runs)
-        pp_cpus = int(pp_cpus)
+        local_cpus = int(local_cpus)
         sim_length = int(sim_length)
 
         # Some controls
@@ -102,7 +102,7 @@ class ParScan2(Pipeline):
                                             models_dir,
                                             os.path.join(outputdir, self.get_sim_data_folder()),
                                             cluster,
-                                            pp_cpus,
+                                            local_cpus,
                                             runs)
             if not status:
                 return False
@@ -142,7 +142,7 @@ class ParScan2(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster_type, pp_cpus, runs):
+    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster_type, local_cpus, runs):
         """
         The first pipeline step: data generation.
 
@@ -151,8 +151,8 @@ class ParScan2(Pipeline):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
@@ -173,7 +173,7 @@ class ParScan2(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.ps2(model, sim_length, inputdir, outputdir, cluster_type, pp_cpus, runs)
+            sim.ps2(model, sim_length, inputdir, outputdir, cluster_type, local_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -250,8 +250,8 @@ class ParScan2(Pipeline):
         scanned_par1 = ""
         # the second scanned param
         scanned_par2 = ""
-        cluster = 'pp'
-        pp_cpus = 1
+        cluster = 'local'
+        local_cpus = 1
         runs = 1
         # the simulation length
         sim_length = 1
@@ -267,8 +267,8 @@ class ParScan2(Pipeline):
                 scanned_par2 = line[1]
             elif line[0] == "cluster":
                 cluster = line[1]
-            elif line[0] == "pp_cpus":
-                pp_cpus = line[1]
+            elif line[0] == "local_cpus":
+                local_cpus = line[1]
             elif line[0] == "runs":
                 runs = line[1]
             elif line[0] == "sim_length":
@@ -276,4 +276,4 @@ class ParScan2(Pipeline):
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par1, scanned_par2,
-                cluster, pp_cpus, runs, sim_length)
+                cluster, local_cpus, runs, sim_length)

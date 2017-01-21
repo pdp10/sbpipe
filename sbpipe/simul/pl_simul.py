@@ -77,31 +77,31 @@ class PLSimul(Simul):
         """
         return self._options
 
-    def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def sim(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         __doc__ = Simul.sim.__doc__
 
-        self._run_par_comput(model, inputdir, outputdir, cluster_type, pp_cpus, runs)
+        self._run_par_comput(model, inputdir, outputdir, cluster_type, local_cpus, runs)
 
     def ps1(self, model, scanned_par, simulate_intervals,
-            single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+            single_param_scan_intervals, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         __doc__ = Simul.ps1.__doc__
 
-        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, local_cpus)
         self._ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
 
-    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         __doc__ = Simul.ps2.__doc__
 
-        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, pp_cpus)
+        self._run_par_comput(inputdir, model, outputdir, cluster_type, runs, local_cpus)
         self._ps2_postproc(model, sim_length, outputdir)
 
-    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+    def pe(self, model, inputdir, cluster_type, local_cpus, nfits, outputdir, sim_data_dir,
            updated_models_dir):
         __doc__ = Simul.pe.__doc__
 
-        self._run_par_comput(model, inputdir, sim_data_dir, cluster_type, pp_cpus, nfits)
+        self._run_par_comput(model, inputdir, sim_data_dir, cluster_type, local_cpus, nfits)
 
-    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         __doc__ = Simul._run_par_comput.__doc__
 
         if self._language is None:
@@ -124,7 +124,7 @@ class PLSimul(Simul):
         command = self._language + opts + os.path.join(inputdir, model) + \
                   " " + group_model + str_to_replace + ".csv"
         logger.debug(command)
-        parcomp(command, str_to_replace, cluster_type, runs, outputdir, pp_cpus)
+        parcomp(command, str_to_replace, cluster_type, runs, outputdir, local_cpus)
         self._move_reports('.', outputdir, model, groupid)
         return groupid, group_model
 

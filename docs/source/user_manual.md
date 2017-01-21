@@ -402,14 +402,14 @@ Pipelines for parameter estimation or stochastic model simulation can be
 computationally intensive. SBpipe allows users to generate simulated data
 in parallel using the following options in the pipeline configuration file:
 
-- cluster=pp
-- pp_cpus=7
+- cluster=local
+- local_cpus=7
 - runs=250
 
 The `cluster` option defines whether the simulator should be executed
-locally (`pp`: Python multiprocessing), or in a computer cluster (`sge`: Sun Grid
-Engine (SGE), `lsf`: Load Sharing Facility (LSF)). If `pp` is selected, the
-`pp_cpus` option determines the maximum number of CPUs to be allocated for
+locally (`local`: Python multiprocessing), or in a computer cluster (`sge`: Sun Grid
+Engine (SGE), `lsf`: Load Sharing Facility (LSF)). If `local` is selected, the
+`local_cpus` option determines the maximum number of CPUs to be allocated for
 local simulations. The `runs` option specifies the number of simulations
 (or parameter estimations for the pipeline `param_estim`) to be run.
 
@@ -431,11 +431,11 @@ project_dir=..
 simulator=Copasi
 # The model name
 model=insulin_receptor_stoch.cps
-# The cluster type. pp if the model is run locally, 
+# The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=pp
-# The number of CPU if pp is used, ignored otherwise
-pp_cpus=7
+cluster=local
+# The number of CPU if local is used, ignored otherwise
+local_cpus=7
 # The number of simulations to perform. 
 # n>=1 for stochastic simulations.
 runs=40
@@ -467,11 +467,11 @@ simulator=Copasi
 model=insulin_receptor_inhib_scan_IR_beta.cps
 # The variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par=IR_beta
-# The cluster type. pp if the model is run locally,
+# The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=pp
-# The number of CPU if pp is used, ignored otherwise
-pp_cpus=7
+cluster=local
+# The number of CPU if local is used, ignored otherwise
+local_cpus=7
 # The number of simulations to perform per run.
 # n>=1 for stochastic simulations.
 runs=1
@@ -515,11 +515,11 @@ model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
 scanned_par1=InsulinPercent
 # The 2nd variable to scan (as set in Copasi Parameter Scan Task)
 scanned_par2=IRbetaPercent
-# The cluster type. pp if the model is run locally,
+# The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=pp
-# The number of CPU if pp is used, ignored otherwise
-pp_cpus=7
+cluster=local
+# The number of CPU if local is used, ignored otherwise
+local_cpus=7
 # The number of simulations to perform.
 # n>=1 for stochastic simulations.
 runs=1
@@ -544,11 +544,11 @@ project_dir=..
 simulator=Copasi
 # The model name
 model=insulin_receptor_param_estim.cps
-# The cluster type. pp if the model is run locally, 
+# The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=pp
-# The number of CPU if pp is used, ignored otherwise
-pp_cpus=7
+cluster=local
+# The number of CPU if local is used, ignored otherwise
+local_cpus=7
 # The parameter estimation round which is used to distinguish 
 # phases of parameter estimations when parameters cannot be 
 # estimated at the same time

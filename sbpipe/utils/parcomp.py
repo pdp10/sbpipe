@@ -32,16 +32,16 @@ import shlex
 logger = logging.getLogger('sbpipe')
 
 
-def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
+def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, local_cpus=1):
     """
     Generic funcion to run a command in parallel
 
     :param cmd: the command string to run in parallel
     :param cmd_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
-    :param cluster_type: the cluster type among pp (Python multiprocessing), sge, or lsf
+    :param cluster_type: the cluster type among local (Python multiprocessing), sge, or lsf
     :param runs: the number of runs
     :param output_dir: the output directory
-    :param pp_cpus: the number of cpus that pp should use at most
+    :param local_cpus: the number of cpus to use at most
     """
     logger.debug("Parallel computation using " + cluster_type)
     logger.debug("Command: " + cmd)
@@ -61,12 +61,12 @@ def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
         elif cluster_type == "lsf":  # use LSF (Platform Load Sharing Facility)
             run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs)
 
-    else:  # use pp by default (parallel python). This is configured to work locally using multi-core.
-        if cluster_type != "pp":
+    else:  # use local by default (python multiprocessing). This is configured to work locally using multi-core.
+        if cluster_type != "local":
             logger.warning(
                 "Variable cluster_type is not set correctly in the configuration file. "
-                "Values are: pp, lsf, sge. Running pp by default")
-        run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus)
+                "Values are: `local`, `lsf`, `sge`. Running `local` by default")
+        run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus)
 
 
 def call_proc(params):
@@ -83,21 +83,26 @@ def call_proc(params):
     return out, err
 
 
-def run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus=1):
+def run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus=1):
     """
     Run jobs using python multiprocessing locally.
 
     :param cmd: the full command to run as a job
     :param cmd_iter_substr: the substring in command to be replaced with a number
     :param runs: the number of runs to execute
-    :param pp_cpus: The number of available cpus. If pp_cpus <=0, all the available cores will be used.
+    :param local_cpus: The number of available cpus. If local_cpus <=0, all the available cores will be used.
     """
 
     # Create a Pool.
     pool = multiprocessing.Pool(1)
-    if pp_cpus > 0:
-        # Create a pool with pp_cpus
-        pool = multiprocessing.Pool(pp_cpus)
+    if local_cpus > 0:
+        if local_cpus <= multiprocessing.cpu_count():
+            # Create a pool with local_cpus
+            pool = multiprocessing.Pool(local_cpus)
+        else:
+            logger.warning('`local_cpus` set to value higher than the physical number of CPUS (' +
+                           str(multiprocessing.cpu_count()) + '). Resetting it to max value.')
+            pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
     logger.info("Starting parallel computation:")
 
