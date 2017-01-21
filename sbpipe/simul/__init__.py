@@ -22,7 +22,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-01 22:14:32 $
 
-from simul import Simul
+from .simul import Simul
 
 # USEFUL 
 # dynamically load the modules in this package

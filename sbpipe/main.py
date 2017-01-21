@@ -146,7 +146,7 @@ def check_args(args, msg):
     :return: no output
     """
     if len(args) < 1:
-        raise (Usage(msg))
+        raise Usage
 
 
 def main(argv=None):
@@ -190,13 +190,13 @@ def main(argv=None):
             for opt, arg in opts:
 
                 if opt in ('-h', '--help'):
-                    print(help())
+                    print((help()))
 
                 elif opt in ('-l', '--license'):
-                    print(license())
+                    print((license()))
 
                 elif opt in ('-v', '--version'):
-                    print(version())
+                    print((version()))
 
                 elif opt in ('-c', '--create-project'):
                     check_args(args, no_project_name_msg)
@@ -206,28 +206,28 @@ def main(argv=None):
 
                 elif opt in ('-s', '--simulate'):
                     check_args(args, no_conf_file_msg)
-                    print(logo())
+                    print((logo()))
                     from sbpipe.pl.sim.sim import Sim
                     s = Sim()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-p', '--single-param-scan'):
                     check_args(args, no_conf_file_msg)
-                    print(logo())
+                    print((logo()))
                     from sbpipe.pl.ps1.parscan1 import ParScan1
                     s = ParScan1()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-d', '--double-param-scan'):
                     check_args(args, no_conf_file_msg)
-                    print(logo())
+                    print((logo()))
                     from sbpipe.pl.ps2.parscan2 import ParScan2
                     s = ParScan2()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-e', '--param-estim'):
                     check_args(args, no_conf_file_msg)
-                    print(logo())
+                    print((logo()))
                     from sbpipe.pl.pe.parest import ParEst
                     s = ParEst()
                     exit_status = 0 if s.run(args[0]) else 1
@@ -239,8 +239,8 @@ def main(argv=None):
             raise Usage(msg)
 
     except Usage as err:
-        print >> sys.stderr, err.msg
-        print >> sys.stderr, 'for help use -h, --help'
+        print((err.msg))
+        print('for help use -h, --help')
         exit_status = 2
 
     return exit_status

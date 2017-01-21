@@ -356,7 +356,7 @@ class Simul(object):
             logger.debug(report)
 
             # Prepare the table content for the output files
-            for j in xrange(0, intervals):
+            for j in range(0, intervals):
                 # Read the scanned_par level
                 # Read the second line of a file.
 
@@ -433,7 +433,7 @@ class Simul(object):
                 lines = filein.readlines()
                 header = lines[0]
                 lines = lines[1:]
-                timepoints = range(0, sim_length + 1)
+                timepoints = list(range(0, sim_length + 1))
                 filesout = []
                 try:
                     filesout = [open(os.path.join(outputdir, model_noext + '__rep_' + str(i+1) + '__tp_%d.csv' % k), 'w') for k in timepoints]

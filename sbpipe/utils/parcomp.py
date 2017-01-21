@@ -63,7 +63,7 @@ def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
 
     else:  # use pp by default (parallel python). This is configured to work locally using multi-core.
         if cluster_type != "pp":
-            logger.warn(
+            logger.warning(
                 "Variable cluster_type is not set correctly in the configuration file. "
                 "Values are: pp, lsf, sge. Running pp by default")
         run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus)
@@ -102,7 +102,7 @@ def run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus=1):
     logger.info("Starting parallel computation:")
 
     results = []
-    for i in xrange(1, runs + 1):
+    for i in range(1, runs + 1):
         params = (cmd.replace(cmd_iter_substr, str(i)), str(i))
         results.append(pool.apply_async(call_proc, (params,)))
 
@@ -140,7 +140,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echo_proc.stdout)
     jobs = ""
-    for i in xrange(1, runs + 1):
+    for i in range(1, runs + 1):
         # Now the same with qsub
         jobs = "j" + str(i) + "," + jobs
         qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
@@ -165,7 +165,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     :param runs: the number of runs to execute
     """
     jobs = ""
-    for i in xrange(1, runs + 1):
+    for i in range(1, runs + 1):
         jobs = "done(j" + str(i) + ")&&" + jobs
         bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
         bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
