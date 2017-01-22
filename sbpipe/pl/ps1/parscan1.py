@@ -57,7 +57,7 @@ class ParScan1(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              project_dir, simulator, model, scanned_par,
-             cluster, pp_cpus, runs, simulate__intervals,
+             cluster, local_cpus, runs, simulate__intervals,
              single_param_scan_percent_levels, single_param_scan_knock_down_only,
              levels_number, min_level, max_level, homogeneous_lines,
              xaxis_label, yaxis_label) = self.config_parser(config_file, "single_param_scan")
@@ -68,7 +68,7 @@ class ParScan1(Pipeline):
             return False
 
         runs = int(runs)
-        pp_cpus = int(pp_cpus)
+        local_cpus = int(local_cpus)
 
         # Some controls
         if runs < 1:
@@ -98,7 +98,7 @@ class ParScan1(Pipeline):
                                             model,
                                             scanned_par,
                                             cluster,
-                                            pp_cpus,
+                                            local_cpus,
                                             runs,
                                             simulate__intervals,
                                             levels_number,
@@ -138,7 +138,7 @@ class ParScan1(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, scanned_par, cluster_type, pp_cpus, runs, simulate_intervals,
+    def generate_data(cls, simulator, model, scanned_par, cluster_type, local_cpus, runs, simulate_intervals,
                       single_param_scan_intervals, inputdir, outputdir):
         """
         The first pipeline step: data generation.
@@ -146,8 +146,8 @@ class ParScan1(Pipeline):
         :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param scanned_par: the scanned parameter
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :param simulate_intervals: the time step of each simulation
         :param single_param_scan_intervals: the number of scans to perform
@@ -159,8 +159,8 @@ class ParScan1(Pipeline):
             logger.error(os.path.join(inputdir, model) + " does not exist.")
             return False
 
-        if int(pp_cpus) < 1:
-            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
 
         if runs < 1:
@@ -183,7 +183,7 @@ class ParScan1(Pipeline):
             sim = cls.get_simul_obj(simulator)
             sim.ps1(model, scanned_par, simulate_intervals,
                     single_param_scan_intervals, inputdir, outputdir,
-                    cluster_type, pp_cpus, runs)
+                    cluster_type, local_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -297,8 +297,8 @@ class ParScan1(Pipeline):
         simulator = 'Copasi'
         # The model species to scan (e.g. mTORC1)
         scanned_par = ''
-        cluster = 'pp'
-        pp_cpus = 1
+        cluster = 'local'
+        local_cpus = 1
         runs = 1
         # The number of intervals for one simulation
         simulate__intervals = 100
@@ -333,8 +333,8 @@ class ParScan1(Pipeline):
                 scanned_par = line[1]
             elif line[0] == "cluster":
                 cluster = line[1]
-            elif line[0] == "pp_cpus":
-                pp_cpus = line[1]
+            elif line[0] == "local_cpus":
+                local_cpus = line[1]
             elif line[0] == "runs":
                 runs = line[1]
             elif line[0] == "simulate__intervals":
@@ -358,7 +358,7 @@ class ParScan1(Pipeline):
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par,
-                cluster, pp_cpus, runs,
+                cluster, local_cpus, runs,
                 simulate__intervals, single_param_scan_percent_levels,
                 single_param_scan_knock_down_only, levels_number, min_level, max_level,
                 homogeneous_lines, xaxis_label, yaxis_label)

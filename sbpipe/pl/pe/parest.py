@@ -59,7 +59,7 @@ class ParEst(Pipeline):
         try:
             (generate_data, analyse_data, generate_report,
              generate_tarball, project_dir, simulator, model,
-             cluster, pp_cpus, round, runs,
+             cluster, local_cpus, round, runs,
              best_fits_percent, data_point_num,
              plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
              logspace, scientific_notation) = self.config_parser(config_file, "param_estim")
@@ -70,7 +70,7 @@ class ParEst(Pipeline):
             return False
 
         runs = int(runs)
-        pp_cpus = int(pp_cpus)
+        local_cpus = int(local_cpus)
         best_fits_percent = int(best_fits_percent)
         data_point_num = int(data_point_num)
 
@@ -104,7 +104,7 @@ class ParEst(Pipeline):
                                           model,
                                           models_dir,
                                           cluster,
-                                          pp_cpus,
+                                          local_cpus,
                                           runs,
                                           outputdir,
                                           os.path.join(outputdir, self.get_sim_data_folder()),
@@ -167,7 +167,7 @@ class ParEst(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+    def generate_data(cls, simulator, model, inputdir, cluster_type, local_cpus, nfits, outputdir, sim_data_dir,
                       updated_models_dir):
         """
         The first pipeline step: data generation.
@@ -175,8 +175,8 @@ class ParEst(Pipeline):
         :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
-        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
-        :param pp_cpus: the number of cpu for parallel python
+        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param local_cpus: the number of cpu
         :param nfits: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
@@ -184,8 +184,8 @@ class ParEst(Pipeline):
                each estimation
         :return: True if the task was completed successfully, False otherwise.
         """
-        if int(pp_cpus) < 1:
-            logger.error("variable pp_cpus must be greater than 0. Please, check your configuration file.")
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
 
         if int(nfits) < 1:
@@ -201,7 +201,7 @@ class ParEst(Pipeline):
         refresh(updated_models_dir, os.path.splitext(model)[0])
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.pe(model, inputdir, cluster_type, pp_cpus, nfits, outputdir,
+            sim.pe(model, inputdir, cluster_type, local_cpus, nfits, outputdir,
                    sim_data_dir, updated_models_dir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
@@ -322,10 +322,10 @@ class ParEst(Pipeline):
         simulator = 'Copasi'
         # Generate a zipped tarball
         generate_tarball = False
-        # The parallel mechanism to use (pp | sge | lsf).
-        cluster = 'pp'
-        # The number of cpus for pp
-        pp_cpus = 1
+        # The parallel mechanism to use (local | sge | lsf).
+        cluster = 'local'
+        # The number of cpus
+        local_cpus = 1
         # The parameter estimation round
         round = 1
         # The number of jobs to be executed
@@ -361,8 +361,8 @@ class ParEst(Pipeline):
                 round = line[1]
             elif line[0] == "runs":
                 runs = line[1]
-            elif line[0] == "pp_cpus":
-                pp_cpus = line[1]
+            elif line[0] == "local_cpus":
+                local_cpus = line[1]
             elif line[0] == "best_fits_percent":
                 best_fits_percent = line[1]
             elif line[0] == "data_point_num":
@@ -379,7 +379,7 @@ class ParEst(Pipeline):
                 scientific_notation = {'True': True, 'False': False}.get(line[1], False)
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
-                project_dir, simulator, model, cluster, pp_cpus,
+                project_dir, simulator, model, cluster, local_cpus,
                 round, runs, best_fits_percent, data_point_num,
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                 logspace, scientific_notation)

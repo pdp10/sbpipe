@@ -51,7 +51,7 @@ def isPyPackageInstalled(package):
     """
     try:
         installed_packages = subprocess.Popen(['pip', 'list'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-        if package in installed_packages:
+        if package in str(installed_packages):
             return True
         return False
     except OSError as e:

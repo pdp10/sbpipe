@@ -5,8 +5,8 @@ sudo: required
 dist: trusty
 python:
   - "2.7"
-  # Python package pp is not currently compatible with 3.2. Skip Python 3 for now.
-  #- "3.2"
+  - "3.2"
+  - "3.6"
 env:
   - SBPIPE=$(pwd)
 # necessary for installing Python dependencies

@@ -45,21 +45,21 @@ class Simul(object):
         """
         pass
 
-    def sim(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def sim(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         """
         Time course simulator.
         
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         """
         pass
 
     def ps1(self, model, scanned_par, simulate_intervals,
-            single_param_scan_intervals, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+            single_param_scan_intervals, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         """
         Single parameter scan.
         
@@ -69,13 +69,13 @@ class Simul(object):
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU used.
         :param runs: the number of model simulation
         """
         pass
 
-    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         """
         Double paramter scan.
         
@@ -83,21 +83,21 @@ class Simul(object):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: pp for local Parallel Python, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-        :param pp_cpus: the number of CPU used by Parallel Python.
+        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         """
         pass
 
-    def pe(self, model, inputdir, cluster_type, pp_cpus, nfits, outputdir, sim_data_dir,
+    def pe(self, model, inputdir, cluster_type, local_cpus, nfits, outputdir, sim_data_dir,
            updated_models_dir):
         """
         parameter estimation.
         
         :param model: the model to process
         :param inputdir: the directory containing the model
-        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
-        :param pp_cpus: the number of cpu for parallel python
+        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param local_cpus: the number of cpu
         :param nfits: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
@@ -149,15 +149,15 @@ class Simul(object):
     # utilities for parallel computation and post processing #
     ##########################################################
 
-    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="pp", pp_cpus=2, runs=1):
+    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
         """
         Run generic parallel computation.
 
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: pp for parallel python, lsf for load sharing facility, sge for sun grid engine
-        :param pp_cpus: the number of cpu for parallel python
+        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param local_cpus: the number of cpus
         :param nruns: the number of runs to perform
         """
         pass
@@ -356,7 +356,7 @@ class Simul(object):
             logger.debug(report)
 
             # Prepare the table content for the output files
-            for j in xrange(0, intervals):
+            for j in range(0, intervals):
                 # Read the scanned_par level
                 # Read the second line of a file.
 
@@ -433,7 +433,7 @@ class Simul(object):
                 lines = filein.readlines()
                 header = lines[0]
                 lines = lines[1:]
-                timepoints = range(0, sim_length + 1)
+                timepoints = list(range(0, sim_length + 1))
                 filesout = []
                 try:
                     filesout = [open(os.path.join(outputdir, model_noext + '__rep_' + str(i+1) + '__tp_%d.csv' % k), 'w') for k in timepoints]

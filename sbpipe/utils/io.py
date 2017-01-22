@@ -29,9 +29,6 @@ import sys
 
 logger = logging.getLogger('sbpipe')
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 
 def refresh(path, file_pattern):
     """

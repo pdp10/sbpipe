@@ -107,7 +107,7 @@ model parameter estimations</p>
 
 <dl class="classmethod">
 <dt id="sbpipe.pl.pe.parest.ParEst.generate_data">
-<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>pp_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.generate_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">generate_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>local_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.generate_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The first pipeline step: data generation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -117,8 +117,8 @@ model parameter estimations</p>
 <li><strong>simulator</strong> &#8211; the name of the simulator (e.g. Copasi)</li>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
-<li><strong>cluster_type</strong> &#8211; pp for parallel python, lsf for load sharing facility, sge for sun grid engine</li>
-<li><strong>pp_cpus</strong> &#8211; the number of cpu for parallel python</li>
+<li><strong>cluster_type</strong> &#8211; local, lsf for load sharing facility, sge for sun grid engine</li>
+<li><strong>local_cpus</strong> &#8211; the number of cpu</li>
 <li><strong>nfits</strong> &#8211; the number of fits to perform</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 <li><strong>sim_data_dir</strong> &#8211; the directory containing the simulation data sets</li>

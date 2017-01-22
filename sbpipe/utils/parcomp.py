@@ -17,7 +17,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: Execute the model several times for deterministic or stochastical analysis
+# Object: Execute the model several times for deterministic or stochastic analysis
 #
 #
 # $Revision: 3.0 $
@@ -26,49 +26,22 @@
 
 import logging
 import os
+import multiprocessing
 import subprocess
-from sbpipe.utils.monitor import Monitor
-import pp
-
+import shlex
 logger = logging.getLogger('sbpipe')
 
 
-# Desc: This program runs parallel estimation computations with pp module
-
-# For more information, see: http://www.parallelpython.com/content/view/15/30/#QUICKCLUSTERS
-###############################################################
-# You can put this into a script and run it on server side..
-# on server side (here: 127.0.0.1), start:
-# ppserver.py -p 65000 -i 127.0.0.1 -s "donald_duck" -w 5 &
-#
-# NB: -w is the number of core YOU can use. If a server is used by more users, 
-# set the number lower than the number of cpus
-#
-# Command line options, ppserver.py
-# Usage: ppserver.py [-hda] [-i interface] [-b broadcast] [-p port] [-w nworkers] [-s secret] [-t seconds]
-# Options:
-# -h                 : this help message
-# -d                 : debug
-# -a                 : enable auto-discovery service
-# -i interface       : interface to listen
-# -b broadcast       : broadcast address for auto-discovery service
-# -p port            : port to listen
-# -w nworkers        : number of workers to start
-# -s secret          : secret for authentication
-# -t seconds         : timeout to exit if no connections with clients exist
-###############################################################
-
-
-def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
+def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, local_cpus=1):
     """
     Generic funcion to run a command in parallel
 
     :param cmd: the command string to run in parallel
     :param cmd_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
-    :param cluster_type: the cluster type among pp (multithreading), sge, or lsf
+    :param cluster_type: the cluster type among local (Python multiprocessing), sge, or lsf
     :param runs: the number of runs
     :param output_dir: the output directory
-    :param pp_cpus: the number of cpus that pp should use at most
+    :param local_cpus: the number of cpus to use at most
     """
     logger.debug("Parallel computation using " + cluster_type)
     logger.debug("Command: " + cmd)
@@ -88,95 +61,70 @@ def parcomp(cmd, cmd_iter_substr, cluster_type, runs, output_dir, pp_cpus=1):
         elif cluster_type == "lsf":  # use LSF (Platform Load Sharing Facility)
             run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs)
 
-    else:  # use pp by default (parallel python). This is configured to work locally using multi-core.
-        if cluster_type != "pp":
-            logger.warn(
+    else:  # use local by default (python multiprocessing). This is configured to work locally using multi-core.
+        if cluster_type != "local":
+            logger.warning(
                 "Variable cluster_type is not set correctly in the configuration file. "
-                "Values are: pp, lsf, sge. Running pp by default")
-        run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus)
+                "Values are: `local`, `lsf`, `sge`. Running `local` by default")
+        run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus)
 
 
-def run_cmd_instance(cmd):
+def call_proc(params):
     """
     Run a command using Python subprocess.
 
-    :param cmd: the string of the command to run
+    :param params: A tuple containing (the string of the command to run, the command id)
     """
-    p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    p1.communicate()[0]
+    cmd, id = params
+    logger.info('Starting Task ' + id)
+    # p = subprocess.call(shlex.split(cmd))  # Block until cmd finishes
+    p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    return out, err
 
 
-def run_command_pp(cmd, cmd_iter_substr, runs, server, monitor=Monitor()):
+def run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus=1):
     """
-    Run instances of a command in multithreading using parallel python (pp).
-
-    :param cmd: the command string to run in parallel
-    :param cmd_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
-    :param runs: the number of runs
-    :param server: the server that pp should use
-    :param monitor: the mutex object to count the jobs
-    """
-    for i in xrange(1, runs + 1):
-        cmd_list = cmd.replace(cmd_iter_substr, str(i)).split(" ")
-        callbackargs = (i,)
-        server.submit(run_cmd_instance,
-                      (cmd_list,),
-                      depfuncs=(),
-                      modules=("subprocess",),
-                      callback=monitor.add,
-                      callbackargs=callbackargs,
-                      group="my_processes")
-
-
-def run_jobs_pp(cmd, cmd_iter_substr, runs, pp_cpus=1):
-    """
-    Run jobs using parallel python (pp) locally.
+    Run jobs using python multiprocessing locally.
 
     :param cmd: the full command to run as a job
     :param cmd_iter_substr: the substring in command to be replaced with a number
     :param runs: the number of runs to execute
-    :param pp_cpus: The number of available cpus. If pp_cpus <=0, all the available cores will be used.
+    :param local_cpus: The number of available cpus. If local_cpus <=0, all the available cores will be used.
     """
 
-    # If this computation is performed on a cluster_type, start pp-server on each node.
-    # The list of servers and ports must be updated in the configuration file
-
-    # ppserver configuration
-    # servers: A string containing a list of servers:ports to connect (e.g. "localhost:65000,my-node.abc.ac.uk:65000")
-    # secret: The secret key to communicate for the above server
-    # servers = ''  # we run this locally and we didn't start ppserver process. so no need for this.
-    secret = ''
-    # ppservers=tuple(servers.split(','))
-    ppservers = ()
-
-    # Create the Job Server.
-    if pp_cpus > 0:
-        # Creates jobserver with ncpus workers
-        job_server = pp.Server(ncpus=pp_cpus, ppservers=ppservers, secret=secret)
-    else:
-        # Creates jobserver with automatically detected number of workers
-        job_server = pp.Server(ppservers=ppservers, secret=secret)
-    logger.info("ppserver will use " + str(job_server.get_ncpus()) + " cpus on these nodes: " + str(
-        job_server.get_active_nodes()) + "\n")
-
-    # Create an instance of callback class
-    monitor = Monitor()
+    # Create a Pool.
+    pool = multiprocessing.Pool(1)
+    if local_cpus > 0:
+        if local_cpus <= multiprocessing.cpu_count():
+            # Create a pool with local_cpus
+            pool = multiprocessing.Pool(local_cpus)
+        else:
+            logger.warning('`local_cpus` set to value higher than the physical number of CPUS (' +
+                           str(multiprocessing.cpu_count()) + '). Resetting it to max value.')
+            pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
     logger.info("Starting parallel computation:")
-    run_command_pp(cmd, cmd_iter_substr, runs, server=job_server, monitor=monitor)
-    # Wait for jobs in all groups to finish
-    job_server.wait(group="my_processes")
 
-    # Print the status of the parallel computation. Everything different from 0 means error.
-    if monitor.get_value() is False:
+    results = []
+    for i in range(1, runs + 1):
+        params = (cmd.replace(cmd_iter_substr, str(i)), str(i))
+        results.append(pool.apply_async(call_proc, (params,)))
+
+    # Close the pool and wait for each running task to complete
+    pool.close()
+    pool.join()
+
+    # Print the status of the parallel computation.
+    if len(results) != runs:
         logger.error("Some computation failed. Do all output files exist?")
     else:
-        logger.info("Parallel computation terminated. If errors occur, check that " + cmd.split(" ")[
-            0] + " runs correctly.")
+        logger.info("Parallel computation terminated.")
+        logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
 
-    # print statistics
-    job_server.print_stats()
-    job_server.destroy()
+    for result in results:
+        out, err = result.get()
+        logger.debug("out: {} err: {}".format(out, err))
 
 
 def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
@@ -197,7 +145,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echo_proc.stdout)
     jobs = ""
-    for i in xrange(1, runs + 1):
+    for i in range(1, runs + 1):
         # Now the same with qsub
         jobs = "j" + str(i) + "," + jobs
         qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
@@ -222,7 +170,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs):
     :param runs: the number of runs to execute
     """
     jobs = ""
-    for i in xrange(1, runs + 1):
+    for i in range(1, runs + 1):
         jobs = "done(j" + str(i) + ")&&" + jobs
         bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
         bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)

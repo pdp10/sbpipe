@@ -6,8 +6,12 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.28.0 (devel)
+v2.32.0 (devel)
 
+- renamed option `pp_cpus` to `local_cpus`, after removal of parallel python.
+- renamed value `pp` to `local` for option `cluster` after removal of parallel python.
+- added support for Python 3. The code is now expected to work for Python 2.7+, 3.2, and 3.6.
+- replaced parallel python with python multiprocessing package. This should facilitate the transition to Python 3.
 - removed deprecated source code for manually randomising parameters before parameter estimation in Copasi files.
 - Copasi and PL-based simulators now share a large amount of code.
 - adapted programming language-based simulators to use ps1 and ps2 post-processing code. All simulators support all the pipelines.
