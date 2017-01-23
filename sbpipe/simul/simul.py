@@ -45,21 +45,22 @@ class Simul(object):
         """
         pass
 
-    def sim(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
+    def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         """
         Time course simulator.
         
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
+        :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
 
     def ps1(self, model, scanned_par, simulate_intervals,
-            single_param_scan_intervals, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
+            single_param_scan_intervals, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         """
         Single parameter scan.
         
@@ -69,13 +70,14 @@ class Simul(object):
         :param single_param_scan_intervals: the number of scans to perform
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPU used.
         :param runs: the number of model simulation
+        :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
 
-    def ps2(self, model, sim_length, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
+    def ps2(self, model, sim_length, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         """
         Double paramter scan.
         
@@ -83,26 +85,28 @@ class Simul(object):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
+        :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
 
-    def pe(self, model, inputdir, cluster_type, local_cpus, nfits, outputdir, sim_data_dir,
-           updated_models_dir):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
+           updated_models_dir, output_msg=False):
         """
         parameter estimation.
         
         :param model: the model to process
         :param inputdir: the directory containing the model
-        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param cluster: local, lsf for load sharing facility, sge for sun grid engine
         :param local_cpus: the number of cpu
-        :param nfits: the number of fits to perform
+        :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
         :param updated_models_dir: the directory containing the models with updated parameters for
                each estimation
+        :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
 
@@ -149,16 +153,17 @@ class Simul(object):
     # utilities for parallel computation and post processing #
     ##########################################################
 
-    def _run_par_comput(self, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
+    def _run_par_comput(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         """
         Run generic parallel computation.
 
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param cluster: local, lsf for load sharing facility, sge for sun grid engine
         :param local_cpus: the number of cpus
-        :param nruns: the number of runs to perform
+        :param runs: the number of runs to perform
+        :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
 

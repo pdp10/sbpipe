@@ -27,9 +27,9 @@ import datetime
 import glob
 import logging
 import os
-import subprocess
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
+from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
 
 logger = logging.getLogger('sbpipe')
@@ -50,6 +50,10 @@ class Sim(Pipeline):
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
 
+        logger.info("================================")
+        logger.info("Pipeline: time course simulation")
+        logger.info("================================")
+        logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
         # variable initialisation
@@ -78,11 +82,6 @@ class Sim(Pipeline):
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
 
-        logger.info("\n")
-        logger.info("Processing model " + model)
-        logger.info("#############################################################")
-        logger.info("")
-
         # preprocessing
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
@@ -90,7 +89,7 @@ class Sim(Pipeline):
         if generate_data:
             logger.info("\n")
             logger.info("Data generation:")
-            logger.info("################")
+            logger.info("================")
             status = Sim.generate_data(simulator,
                                        model,
                                        models_dir,
@@ -104,13 +103,14 @@ class Sim(Pipeline):
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
-            logger.info("##############")
+            logger.info("==============")
             status = Sim.analyse_data(os.path.splitext(model)[0],
                                       os.path.join(outputdir, self.get_sim_data_folder()),
                                       outputdir,
                                       os.path.join(outputdir, self.get_sim_plots_folder()),
                                       os.path.join(models_dir, exp_dataset),
                                       plot_exp_dataset,
+                                      cluster,
                                       xaxis_label,
                                       yaxis_label)
             if not status:
@@ -119,7 +119,7 @@ class Sim(Pipeline):
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
-            logger.info("##################")
+            logger.info("==================")
             status = Sim.generate_report(os.path.splitext(model)[0],
                                          outputdir,
                                          self.get_sim_plots_folder())
@@ -136,7 +136,7 @@ class Sim(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, inputdir, outputdir, cluster_type="local", local_cpus=2, runs=1):
+    def generate_data(cls, simulator, model, inputdir, outputdir, cluster="local", local_cpus=2, runs=1):
         """
         The first pipeline step: data generation.
 
@@ -144,7 +144,7 @@ class Sim(Pipeline):
         :param model: the model to process
         :param inputdir: the directory containing the model
         :param outputdir: the directory containing the output files
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPUs.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
@@ -169,7 +169,7 @@ class Sim(Pipeline):
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.sim(model, inputdir, outputdir, cluster_type, local_cpus, runs)
+            sim.sim(model, inputdir, outputdir, cluster, local_cpus, runs, False)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -178,8 +178,8 @@ class Sim(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset, xaxis_label,
-                     yaxis_label):
+    def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
+                     cluster="local", xaxis_label='', yaxis_label=''):
         """
         The second pipeline step: data analysis.
 
@@ -189,6 +189,7 @@ class Sim(Pipeline):
         :param sim_plots_dir: the directory to save the plots
         :param exp_dataset: the full path of the experimental data set
         :param plot_exp_dataset: True if the experimental data set should also be plotted
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param xaxis_label: the label for the x axis (e.g. Time [min])
         :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
         :return: True if the task was completed successfully, False otherwise.
@@ -210,14 +211,15 @@ class Sim(Pipeline):
             os.mkdir(sim_plots_dir)
 
         logger.info("Analysing generated simulations:")
-        process = subprocess.Popen(
-            ['Rscript', os.path.join(os.path.dirname(__file__), 'sim_analysis.r'),
-             model, inputdir, sim_plots_dir,
-             os.path.join(outputdir, 'sim_stats_' + model + '.csv'),
-             os.path.join(sim_data_by_var_dir, model + '.csv'),
-             exp_dataset, str(plot_exp_dataset), xaxis_label,
-             yaxis_label])
-        process.wait()
+        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sim_analysis.r') + \
+            ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
+            ' ' + os.path.join(outputdir, 'sim_stats_' + model + '.csv') + \
+            ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
+            ' ' + exp_dataset + ' ' + str(plot_exp_dataset) + ' ' + xaxis_label + \
+            ' ' + yaxis_label
+        # we don't replace any string in files. So let's use a substring which won't even be in any file.
+        str_to_replace = '//////////'
+        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
         return True
 
     @classmethod

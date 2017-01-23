@@ -28,9 +28,9 @@ import glob
 import logging
 import os
 import os.path
-import subprocess
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
+from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_ps1, pdf_report
 
 logger = logging.getLogger('sbpipe')
@@ -51,6 +51,10 @@ class ParScan1(Pipeline):
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
 
+        logger.info("===============================")
+        logger.info("Pipeline: single parameter scan")
+        logger.info("===============================")
+        logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
         # variable initialisation
@@ -81,11 +85,6 @@ class ParScan1(Pipeline):
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
 
-        logger.info("\n")
-        logger.info("Processing model " + model)
-        logger.info("#############################################################")
-        logger.info("")
-
         # preprocessing
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
@@ -93,7 +92,7 @@ class ParScan1(Pipeline):
         if generate_data:
             logger.info("\n")
             logger.info("Data generation:")
-            logger.info("################")
+            logger.info("================")
             status = ParScan1.generate_data(simulator,
                                             model,
                                             scanned_par,
@@ -110,20 +109,20 @@ class ParScan1(Pipeline):
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
-            logger.info("##############")
+            logger.info("==============")
             status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
                                            runs,
                                            single_param_scan_percent_levels,
                                            min_level, max_level, levels_number,
-                                           homogeneous_lines, xaxis_label, yaxis_label)
+                                           homogeneous_lines, cluster, xaxis_label, yaxis_label)
             if not status:
                 return False
 
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
-            logger.info("##################")
+            logger.info("==================")
             status = ParScan1.generate_report(os.path.splitext(model)[0], scanned_par, outputdir, self.get_sim_plots_folder())
             if not status:
                 return False
@@ -138,7 +137,7 @@ class ParScan1(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, scanned_par, cluster_type, local_cpus, runs, simulate_intervals,
+    def generate_data(cls, simulator, model, scanned_par, cluster, local_cpus, runs, simulate_intervals,
                       single_param_scan_intervals, inputdir, outputdir):
         """
         The first pipeline step: data generation.
@@ -146,7 +145,7 @@ class ParScan1(Pipeline):
         :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param scanned_par: the scanned parameter
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :param simulate_intervals: the time step of each simulation
@@ -183,7 +182,7 @@ class ParScan1(Pipeline):
             sim = cls.get_simul_obj(simulator)
             sim.ps1(model, scanned_par, simulate_intervals,
                     single_param_scan_intervals, inputdir, outputdir,
-                    cluster_type, local_cpus, runs)
+                    cluster, local_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -195,7 +194,7 @@ class ParScan1(Pipeline):
     def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
                      sim_data_folder, sim_plots_folder, runs,
                      percent_levels, min_level, max_level, levels_number,
-                     homogeneous_lines, xaxis_label, yaxis_label):
+                     homogeneous_lines, cluster="local", xaxis_label='', yaxis_label=''):
         """
         The second pipeline step: data analysis.
 
@@ -211,6 +210,7 @@ class ParScan1(Pipeline):
         :param max_level: the maximum level
         :param levels_number: the number of levels
         :param homogeneous_lines: True if generated line style should be homogeneous
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param xaxis_label: the name of the x axis (e.g. Time [min])
         :param yaxis_label: the name of the y axis (e.g. Level [a.u.])
         :return: True if the task was completed successfully, False otherwise.
@@ -250,13 +250,14 @@ class ParScan1(Pipeline):
         # folder preparation
         refresh(os.path.join(outputdir, sim_plots_folder), os.path.splitext(model)[0])
 
-        process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
-                                                            'ps1_analysis.r'),
-                                    model, scanned_par, str(knock_down_only), outputdir, sim_data_folder,
-                                    sim_plots_folder, str(runs), str(percent_levels), str(min_level),
-                                    str(max_level), str(levels_number), str(homogeneous_lines),
-                                    xaxis_label, yaxis_label])
-        process.wait()
+        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps1_analysis.r') + \
+            ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + ' ' + sim_data_folder + \
+            ' ' + sim_plots_folder  + ' ' + str(runs) + ' ' + str(percent_levels) + ' ' + str(min_level) + \
+            ' ' + str(max_level) + ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
+            ' ' + xaxis_label  + ' ' + yaxis_label
+        # we don't replace any string in files. So let's use a substring which won't even be in any file.
+        str_to_replace = '//////////'
+        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
         return True
 
     @classmethod

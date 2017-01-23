@@ -180,7 +180,7 @@
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.parcomp">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>cluster_type</em>, <em>runs</em>, <em>output_dir</em>, <em>local_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>output_dir</em>, <em>cluster='local'</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic funcion to run a command in parallel</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -189,10 +189,11 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>cmd</strong> &#8211; the command string to run in parallel</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
-<li><strong>cluster_type</strong> &#8211; the cluster type among local (Python multiprocessing), sge, or lsf</li>
-<li><strong>runs</strong> &#8211; the number of runs</li>
 <li><strong>output_dir</strong> &#8211; the output directory</li>
+<li><strong>cluster</strong> &#8211; the cluster type among local (Python multiprocessing), sge, or lsf</li>
+<li><strong>runs</strong> &#8211; the number of runs</li>
 <li><strong>local_cpus</strong> &#8211; the number of cpus to use at most</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -202,7 +203,7 @@
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_local">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_local</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs</em>, <em>local_cpus=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_local" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_local</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_local" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using python multiprocessing locally.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -212,7 +213,8 @@
 <li><strong>cmd</strong> &#8211; the full command to run as a job</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>runs</strong> &#8211; the number of runs to execute</li>
-<li><strong>local_cpus</strong> &#8211; The number of available cpus. If local_cpus &lt;=0, all the available cores will be used.</li>
+<li><strong>local_cpus</strong> &#8211; The number of available cpus. If local_cpus &lt;=0, only one core will be used.</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster_type=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -222,7 +224,7 @@
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_lsf">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Load Sharing Facility (LSF) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -243,7 +245,7 @@
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_sge">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Sun Grid Engine (SGE) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

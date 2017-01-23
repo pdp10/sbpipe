@@ -28,9 +28,9 @@ import glob
 import logging
 import os
 import os.path
-import subprocess
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
+from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
 
 logger = logging.getLogger('sbpipe')
@@ -51,6 +51,10 @@ class ParScan2(Pipeline):
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
 
+        logger.info("===============================")
+        logger.info("Pipeline: double parameter scan")
+        logger.info("===============================")
+        logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
         # variable initialisation
@@ -83,11 +87,6 @@ class ParScan2(Pipeline):
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
 
-        logger.info("\n")
-        logger.info("Processing model " + model)
-        logger.info("#############################################################")
-        logger.info("")
-
         # preprocessing
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
@@ -95,7 +94,7 @@ class ParScan2(Pipeline):
         if generate_data:
             logger.info("\n")
             logger.info("Data generation:")
-            logger.info("################")
+            logger.info("================")
             status = ParScan2.generate_data(simulator,
                                             model,
                                             sim_length,
@@ -110,12 +109,13 @@ class ParScan2(Pipeline):
         if analyse_data:
             logger.info("\n")
             logger.info("Data analysis:")
-            logger.info("##############")
+            logger.info("==============")
             status = ParScan2.analyse_data(os.path.splitext(model)[0],
                                            scanned_par1,
                                            scanned_par2,
                                            os.path.join(outputdir, self.get_sim_data_folder()),
                                            os.path.join(outputdir, self.get_sim_plots_folder()),
+                                           cluster,
                                            runs)
             if not status:
                 return False
@@ -123,7 +123,7 @@ class ParScan2(Pipeline):
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
-            logger.info("##################")
+            logger.info("==================")
             status = ParScan2.generate_report(os.path.splitext(model)[0],
                                               scanned_par1,
                                               scanned_par2,
@@ -142,7 +142,7 @@ class ParScan2(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster_type, local_cpus, runs):
+    def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster, local_cpus, runs):
         """
         The first pipeline step: data generation.
 
@@ -151,7 +151,7 @@ class ParScan2(Pipeline):
         :param sim_length: the length of the simulation
         :param inputdir: the directory containing the model
         :param outputdir: the directory to store the results
-        :param cluster_type: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
@@ -173,7 +173,7 @@ class ParScan2(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.ps2(model, sim_length, inputdir, outputdir, cluster_type, local_cpus, runs)
+            sim.ps2(model, sim_length, inputdir, outputdir, cluster, local_cpus, runs)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -182,7 +182,7 @@ class ParScan2(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, runs):
+    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', runs=1):
         """
         The second pipeline step: data analysis.
 
@@ -191,6 +191,7 @@ class ParScan2(Pipeline):
         :param scanned_par2: the second scanned parameter
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
@@ -204,10 +205,12 @@ class ParScan2(Pipeline):
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
-        process = subprocess.Popen(['Rscript', os.path.join(os.path.dirname(__file__),
-                                                            'ps2_analysis.r'),
-                                    model, scanned_par1, scanned_par2, inputdir, outputdir, str(runs)])
-        process.wait()
+        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps2_analysis.r') + \
+            ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
+            ' ' + outputdir + ' ' + str(runs)
+        # we don't replace any string in files. So let's use a substring which won't even be in any file.
+        str_to_replace = '//////////'
+        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
         return True
 
     @classmethod
