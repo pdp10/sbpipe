@@ -107,7 +107,9 @@ replace_colnames <- function(dfCols) {
 plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", chi2_col_idx=1, 
                                         logspace=TRUE, scientific_notation=TRUE) {
   fileout <- ""
-  for (i in seq(chi2_col_idx+1,length(dfCols))) { 
+  for (i in seq(chi2_col_idx+1,length(dfCols))) {
+    print(paste('sampled param corr (', title, ') for ', dfCols[i], sep=''))
+    for (j in seq(i, length(dfCols))) {
     for (j in seq(i, length(dfCols))) {
       g <- ggplot()
       if(i==j) {
@@ -140,7 +142,8 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 # :param chi2_col: the chi2 column name
 # :param plots_dir: the directory to save the generated plots
 # :param model: the model name
-plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {  
+plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {
+    print('plotting chi^2 vs iterations')
     # save the chi2 vs iteration
     g <- plot_fits(df[,chi2_col], ggplot()) + ggtitle(expression(paste(chi^{2}, " vs iters", sep="")))
     ggsave(file.path(plots_dir, paste(model, "_chi2_vs_iters.png", sep="")), dpi=300, width=8, height=6)
@@ -162,6 +165,7 @@ plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, pl
                             logspace=TRUE, scientific_notation=TRUE) { 
     dfCols <- colnames(df99)
     for (i in seq(2,length(dfCols))) {
+        print(paste('sampled PLE for', dfCols[i]))
         # extract statistics  
         fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
         g <- scatterplot_ple(df99, ggplot(), dfCols[i], chi2_col, cl66_chi2, cl95_chi2, cl99_chi2) +
@@ -416,7 +420,9 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   sink()
   
   # plot parameter correlations using the 66%, 95%, or 99% confidence level data sets  
-  plot_2d_cl_corr(df66, df95, df99, chi2_col, plots_dir, model, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr, logspace, scientific_notation)
+  plot_2d_cl_corr(df66, df95, df99, chi2_col, plots_dir, model,
+                  plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+                  logspace, scientific_notation)
   
 }
 

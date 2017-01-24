@@ -26,11 +26,10 @@ import datetime
 import glob
 import logging
 import os
-import subprocess
 import tarfile
-
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
+from sbpipe.utils.parcomp import parcomp
 from ..pipeline import Pipeline
 
 logger = logging.getLogger('sbpipe')
@@ -53,6 +52,10 @@ class ParEst(Pipeline):
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
 
+        logger.info("==============================")
+        logger.info("Pipeline: parameter estimation")
+        logger.info("==============================")
+        logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
         # variable initialisation
@@ -87,19 +90,14 @@ class ParEst(Pipeline):
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
 
-        logger.info("\n")
-        logger.info("Parameter estimation for model " + model)
-        logger.info("#############################################################")
-        logger.info("")
-
         # preprocessing
         if not os.path.exists(outputdir):
             os.makedirs(outputdir)
 
         if generate_data:
             logger.info("\n")
-            logger.info("Generate data:")
-            logger.info("##############")
+            logger.info("Data generation:")
+            logger.info("================")
             status = ParEst.generate_data(simulator,
                                           model,
                                           models_dir,
@@ -114,8 +112,8 @@ class ParEst(Pipeline):
 
         if analyse_data:
             logger.info("\n")
-            logger.info("Analyse data:")
-            logger.info("#############")
+            logger.info("Data analysis:")
+            logger.info("==============")
             status = ParEst.analyse_data(simulator,
                                          os.path.splitext(model)[0],
                                          os.path.join(outputdir, self.get_sim_data_folder()),
@@ -127,6 +125,7 @@ class ParEst(Pipeline):
                                          os.path.join(outputdir, self.get_sim_plots_folder()),
                                          best_fits_percent,
                                          data_point_num,
+                                         cluster,
                                          plot_2d_66cl_corr,
                                          plot_2d_95cl_corr,
                                          plot_2d_99cl_corr,
@@ -138,7 +137,7 @@ class ParEst(Pipeline):
         if generate_report:
             logger.info("\n")
             logger.info("Report generation:")
-            logger.info("##################")
+            logger.info("==================")
             status = ParEst.generate_report(os.path.splitext(model)[0],
                                             outputdir,
                                             self.get_sim_plots_folder())
@@ -147,8 +146,8 @@ class ParEst(Pipeline):
 
         if generate_tarball:
             logger.info("\n")
-            logger.info("Store the fits sequences in a tarball:")
-            logger.info("#####################################")
+            logger.info("Zipping parameter estimation results:")
+            logger.info("=====================================")
             # Create a gz tarball
             orig_wd = os.getcwd()  # remember our original working directory
             os.chdir(working_dir)  # change folder
@@ -167,7 +166,7 @@ class ParEst(Pipeline):
         return False
 
     @classmethod
-    def generate_data(cls, simulator, model, inputdir, cluster_type, local_cpus, nfits, outputdir, sim_data_dir,
+    def generate_data(cls, simulator, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
                       updated_models_dir):
         """
         The first pipeline step: data generation.
@@ -175,9 +174,9 @@ class ParEst(Pipeline):
         :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model to process
         :param inputdir: the directory containing the model
-        :param cluster_type: local, lsf for load sharing facility, sge for sun grid engine
+        :param cluster: local, lsf for load sharing facility, sge for sun grid engine
         :param local_cpus: the number of cpu
-        :param nfits: the number of fits to perform
+        :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
         :param updated_models_dir: the directory containing the models with updated parameters for
@@ -188,7 +187,7 @@ class ParEst(Pipeline):
             logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
 
-        if int(nfits) < 1:
+        if int(runs) < 1:
             logger.error("variable nfits must be greater than 0. Please, check your configuration file.")
             return False
 
@@ -201,7 +200,7 @@ class ParEst(Pipeline):
         refresh(updated_models_dir, os.path.splitext(model)[0])
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.pe(model, inputdir, cluster_type, local_cpus, nfits, outputdir,
+            sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
                    sim_data_dir, updated_models_dir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
@@ -213,7 +212,7 @@ class ParEst(Pipeline):
     @classmethod
     def analyse_data(cls, simulator, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
                      fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir,
-                     best_fits_percent, data_point_num,
+                     best_fits_percent, data_point_num, cluster='local',
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
                      logspace=True, scientific_notation=True):
         """
@@ -231,6 +230,7 @@ class ParEst(Pipeline):
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
         :param data_point_num: the number of data points
+        :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param plot_2d_66cl_corr: True if 2 dim plots for the parameter sets within 66% should be plotted
         :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
         :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted        
@@ -265,26 +265,24 @@ class ParEst(Pipeline):
             return False
 
         logger.info("\n")
-        logger.info("Plot results:")
+        logger.info("Final fits analysis:")
+        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'pe_analysis_final_fits.r') + \
+            ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + ' ' + sim_plots_dir + \
+            ' ' + str(best_fits_percent) + ' ' + str(logspace) + ' ' + str(scientific_notation)
+        # we don't replace any string in files. So let's use a substring which won't even be in any file.
+        str_to_replace = '//////////'
+        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+
         logger.info("\n")
-        process = subprocess.Popen(['Rscript',
-                                    os.path.join(os.path.dirname(__file__), 'pe_analysis_final_fits.r'),
-                                    model,
-                                    os.path.join(outputdir, fileout_final_estims),
-                                    sim_plots_dir,
-                                    str(best_fits_percent), str(logspace), str(scientific_notation)])
-        process.wait()
-        process = subprocess.Popen(
-            ['Rscript', os.path.join(os.path.dirname(__file__), 'pe_analysis_all_fits.r'),
-             model,
-             os.path.join(outputdir, fileout_all_estims),
-             sim_plots_dir,
-             str(data_point_num),
-             os.path.join(outputdir, fileout_param_estim_details),
-             os.path.join(outputdir, fileout_param_estim_summary),
-             str(plot_2d_66cl_corr), str(plot_2d_95cl_corr), str(plot_2d_99cl_corr),
-             str(logspace), str(scientific_notation)])
-        process.wait()
+        logger.info("All fits analysis:")
+        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'pe_analysis_all_fits.r') + \
+            ' ' + model + ' ' + os.path.join(outputdir, fileout_all_estims) + ' ' + sim_plots_dir + \
+            ' ' + str(data_point_num) + ' ' + os.path.join(outputdir, fileout_param_estim_details) + \
+            ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \
+            ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
+            ' ' + str(logspace) + ' ' + str(scientific_notation)
+        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+
         return True
 
     @classmethod

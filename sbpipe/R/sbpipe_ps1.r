@@ -199,13 +199,17 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     theme_set(tc_theme(36)) #28
     
     for(k_sim in 1:runs) {
+      print(paste('Processing simulation:', k_sim))
+
 	  files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', k_sim, '__level_', sep=""))
 	  # Read variable
 	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
 	  column <- names(timecourses)
 	  
 	  for(j in 2:length(column)) {
-   	    g <- ggplot()
+        print(column[j])
+
+        g <- ggplot()
 	    for(m in 1:length(files)) {
             df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]

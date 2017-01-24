@@ -128,22 +128,22 @@
 
 <dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.pe">
-<code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>local_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.pe" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster</em>, <em>local_cpus</em>, <em>runs</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.pe" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.ps1">
-<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.ps1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.ps1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.ps2">
-<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.ps2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.ps2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="sbpipe.simul.pl_simul.PLSimul.sim">
-<code class="descname">sim</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.sim" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sim</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.pl_simul.PLSimul.sim" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -198,7 +198,7 @@ are stored in filename_out.</p>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.pe">
-<code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster_type</em>, <em>local_cpus</em>, <em>nfits</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.pe" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster</em>, <em>local_cpus</em>, <em>runs</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>updated_models_dir</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.pe" title="Permalink to this definition">¶</a></dt>
 <dd><p>parameter estimation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -207,13 +207,14 @@ are stored in filename_out.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
-<li><strong>cluster_type</strong> &#8211; local, lsf for load sharing facility, sge for sun grid engine</li>
+<li><strong>cluster</strong> &#8211; local, lsf for load sharing facility, sge for sun grid engine</li>
 <li><strong>local_cpus</strong> &#8211; the number of cpu</li>
-<li><strong>nfits</strong> &#8211; the number of fits to perform</li>
+<li><strong>runs</strong> &#8211; the number of fits to perform</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 <li><strong>sim_data_dir</strong> &#8211; the directory containing the simulation data sets</li>
 <li><strong>updated_models_dir</strong> &#8211; the directory containing the models with updated parameters for
 each estimation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -223,7 +224,7 @@ each estimation</li>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.ps1">
-<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps1</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Single parameter scan.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -236,9 +237,10 @@ each estimation</li>
 <li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
-<li><strong>cluster_type</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
 <li><strong>local_cpus</strong> &#8211; the number of CPU used.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -248,7 +250,7 @@ each estimation</li>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.ps2">
-<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Double paramter scan.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -259,9 +261,10 @@ each estimation</li>
 <li><strong>sim_length</strong> &#8211; the length of the simulation</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the results</li>
-<li><strong>cluster_type</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
 <li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -271,7 +274,7 @@ each estimation</li>
 
 <dl class="method">
 <dt id="sbpipe.simul.simul.Simul.sim">
-<code class="descname">sim</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster_type='local'</em>, <em>local_cpus=2</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.sim" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sim</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.sim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Time course simulator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -281,9 +284,10 @@ each estimation</li>
 <li><strong>model</strong> &#8211; the model to process</li>
 <li><strong>inputdir</strong> &#8211; the directory containing the model</li>
 <li><strong>outputdir</strong> &#8211; the directory containing the output files</li>
-<li><strong>cluster_type</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
 <li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>

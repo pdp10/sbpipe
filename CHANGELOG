@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.32.0 (devel)
+v2.34.0 (devel)
 
+- added prints to r plotting functions
+- pipeline analyses are executed on cluster (local, sge, lsf) using sbpipe parcomp module.
 - renamed option `pp_cpus` to `local_cpus`, after removal of parallel python.
 - renamed value `pp` to `local` for option `cluster` after removal of parallel python.
 - added support for Python 3. The code is now expected to work for Python 2.7+, 3.2, and 3.6.
