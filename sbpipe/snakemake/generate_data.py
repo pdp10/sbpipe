@@ -31,48 +31,45 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from utils import call_proc
+from sbpipe.snakemake.utils import call_proc
 
 
-def run_copasi_model(inputdir, model):
+def run_copasi_model(infile):
     """
     Run a Copasi model
 
-    :param inputdir: the directory containing the model
-    :param model: the model to process
+    :param infile: the input file
     """
-    command = "CopasiSE " + os.path.join(inputdir, model)
+    command = "CopasiSE " + infile
     call_proc(command)
 
 
-def run_generic_model(inputdir, model, simulator, opts):
+def run_generic_model(infile, simulator, opts):
     """
     Run a generic model
 
-    :param inputdir: the directory containing the model
-    :param model: the model to process
+    :param infile: the input file
     :param simulator: the simulator name (e.g. Rscript, python, java, octave)
     :param opts: the simulator options
     """
-    command = simulator + " " + opts + " " + os.path.join(inputdir, model) + \
-              " " + model[:-4] + ".csv"
+    command = simulator + " " + opts + " " + infile + \
+              " " + os.path.basename(infile)[:-4] + ".csv"
     call_proc(command)
 
 
-# python ps2_gen_data.py -i Models -o preproc -m insulin_receptor.cps -r 5 -c
-
+# python generate_data.py -i preproc/insulin_receptor.cps -c
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--inputdir', default='Models')
-    parser.add_argument('-m', '--model', default='model')
+    parser.add_argument('-i', '--input-file')
     parser.add_argument('-c', '--copasi', action='store_true')
-    parser.add_argument('-s', '--sim-opts', default=' ')
+    parser.add_argument('-s', '--sim', default='CopasiSE')
+    parser.add_argument('-o', '--sim-opts', default='')
     args = parser.parse_args()
     if args.copasi:
-        run_copasi_model(args.inputdir, args.model)
+        run_copasi_model(args.input_file)
     else:
-        run_generic_model(args.inputdir, args.model, args.sim_opts)
+        run_generic_model(args.input_file, args.sim, args.sim_opts)
     return 0
 
 

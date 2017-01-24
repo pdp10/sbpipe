@@ -27,6 +27,7 @@ import os
 import subprocess
 import shlex
 
+import re
 import logging
 logger = logging.getLogger('sbpipe')
 
@@ -43,6 +44,31 @@ def call_proc(cmd):
     out, err = p.communicate()
     return out, err
 
+
+def replace_str_in_report(report):
+
+    # `with` ensures that the file is closed correctly
+    # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+    with open(report, 'r') as file:
+        lines = file.readlines()
+    with open(report, 'w') as file:
+        # for idx, line in lines:
+        for i in range(len(lines)):
+            if i < 1:
+                # First remove non-alphanumerics and non-underscores.
+                # Then replaces whites with TAB.
+                # Finally use rstrip to remove the TAB at the end.
+                # [^\w] matches anything that is not alphanumeric or underscore
+                lines[i] = lines[i].replace("Values[", "").replace("]", "")
+                file.write(
+                    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+            else:
+                file.write(lines[i].rstrip('\t'))
+
+
+def clean_copasi_files(inputdir, files):
+    for report in files:
+        os.remove(os.path.join(inputdir, report))
 
 
 def makedir(outputdir):
