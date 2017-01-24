@@ -1,7 +1,7 @@
 
 rule all:
     input:
-        file="*.pdf"
+        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
 
 
 rule preproc:
@@ -45,15 +45,15 @@ rule ps2_analysis:
     input:
         file="postproc/insulin_receptor_1.csv"
     output:
-        file="plots/insulin_receptor_1__tp_1.png"
+        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
     shell:
         "Rscript --vanilla /home/pdp/local_software/sbpipe/sbpipe/snakemake/ps2_analysis.r insulin_receptor "
-        "InsulinPercent IRbetaPercent postproc plots 10"
+        "InsulinPercent IRbetaPercent postproc plots 1"
 
 
 rule ps2_latex_report:
     input:
-        file="plots/insulin_receptor_1__tp_1.png",
+        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
         outputdir='',
         sim_plots_folder='plots',
         filename_prefix='',
@@ -65,6 +65,6 @@ rule ps2_latex_report:
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
-        from sbpipe.report.latex_reports import latex_report_ps2
-        latex_report_ps2({input.outputdir}, {input.sim_plots_folder}, {input.filename_prefix}, {input.model_noext},
-                     {input.scanned_par1}, {input.scanned_par2})
+        #from sbpipe.report.latex_reports import latex_report_ps2
+        #latex_report_ps2({input.outputdir}, {input.sim_plots_folder}, {input.filename_prefix}, {input.model_noext},
+        #             {input.scanned_par1}, {input.scanned_par2})
