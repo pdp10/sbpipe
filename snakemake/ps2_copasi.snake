@@ -1,7 +1,8 @@
 
 rule all:
     input:
-        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
+        "Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
+        "Working_Folder/report__double_param_scan_insulin_receptor.pdf"
 
 
 rule preproc:
@@ -43,9 +44,9 @@ rule ps2_postproc:
 
 rule ps2_analysis:
     input:
-        file="Working_Folder/ps2_postproc/insulin_receptor_1.csv"
+        file='Working_Folder/ps2_postproc/insulin_receptor_1.csv'
     output:
-        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
+        file='Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png'
     shell:
         "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r insulin_receptor "
         "InsulinPercent IRbetaPercent Working_Folder/ps2_postproc Working_Folder/ps2_plots 1"
@@ -53,19 +54,25 @@ rule ps2_analysis:
 
 rule ps2_latex_report:
     input:
-        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
-        outputdir='',
-        sim_plots_folder='plots',
-        filename_prefix='',
-        model_noext='insulin_receptor',
-        scanned_par1='InsulinPercent',
-        scanned_par2='IRbetaPercent'
+        file='Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png'
     output:
-        file="*.pdf"
+        file='Working_Folder/report__double_param_scan_insulin_receptor.tex'
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
-        #from sbpipe.report.latex_reports import latex_report_ps2
-        #latex_report_ps2({input.outputdir}, {input.sim_plots_folder}, {input.filename_prefix}, {input.model_noext},
-        #             {input.scanned_par1}, {input.scanned_par2})
+        from sbpipe.report.latex_reports import latex_report_ps2
+        latex_report_ps2('Working_Folder', 'ps2_plots', 'report__double_param_scan_', 'insulin_receptor',
+                     'InsulinPercent', 'IRbetaPercent')
+
+
+rule ps2_pdf_report:
+    input:
+        file='Working_Folder/report__double_param_scan_insulin_receptor.tex'
+    output:
+        file='Working_Folder/report__double_param_scan_insulin_receptor.pdf'
+    run:
+        SBPIPE = os.environ["SBPIPE"]
+        sys.path.insert(0, SBPIPE)
+        from sbpipe.report.latex_reports import pdf_report
+        pdf_report('Working_Folder', 'report__double_param_scan_insulin_receptor.tex')
 
