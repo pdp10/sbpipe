@@ -164,14 +164,7 @@ $ sbpipe.py -v
 
 
 #### Windows
-Windows users are also strongly advised to install the package: 
-
-- Cygwin 2.6.0 [https://www.cygwin.com/](https://www.cygwin.com/)
-
-Cygwin offers a GNU/Linux-like shell. This makes the installation of 
-dependencies easier as this follows the configuration for GNU/Linux users.
-
-Windows users may need to edit the `PATH` environment variable so that 
+Windows users will need to edit the `PATH` environment variable so that 
 the binary files for the previous packages (Copasi, Python, R, and 
 (optionally) LaTeX) are correctly found. Specifically for Python, the 
 python scripts `pip.py` and `easy_install.py` are located inside the 
@@ -184,49 +177,9 @@ Therefore, the following environment variables must also be added:
 SBPIPE=\path\to\sbpipe
 PATH=[previous paths];%SBPIPE%\scripts
 ```
+Note: R packages might require many extra dependencies. A C++ compiler might 
+also be needed.
 
-
-**NOTE for Cygwin:**
-Environment variables can also be configured directly within the .bashrc 
-file in cygwin/home/USERNAME/. 
-In the beginning of this file, users should place: 
-
-```
-# Path to R
-export PATH=$PATH:/path/to/R/binaries/
-
-# Path to Python
-export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
-
-# Path to LaTeX
-export PATH=$PATH:/path/to/LaTeX/binaries/
-
-# Path to CopasiSE
-export PATH=$PATH:/path/to/CopasiSE/binaries/
-
-# SBPIPE
-export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
-
-```
-
-After configuring the environment variables directly or internally in 
-Cygwin, the next step is to install Python and R packages used by SBpipe. 
-Two scripts are provided to perform these tasks automatically. 
-
-To install SBpipe Python dependencies using Cygwin on Windows, run:
-```
-$ cd /cygdrive/PATH/TO/SBPIPE/
-$ python.exe install_pydeps.py
-```
-
-To install SBpipe R dependencies using Cygwin on Windows, run:
-```
-$ cd /cygdrive/PATH/TO/SBPIPE/
-$ R.exe
-# Inside R environment, answer 'y' to install packages locally
-> source('install_rdeps.r')
-```
 
 
 ### Installation
