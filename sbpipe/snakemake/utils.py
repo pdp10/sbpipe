@@ -38,7 +38,7 @@ def call_proc(cmd):
 
     :param cmd: The string of the command to run
     """
-    logger.info('Running ' + cmd)
+    #logger.info('Running ' + cmd)
     # p = subprocess.call(shlex.split(cmd))  # Block until cmd finishes
     p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()

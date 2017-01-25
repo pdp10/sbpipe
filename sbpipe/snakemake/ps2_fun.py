@@ -30,12 +30,6 @@ import glob
 import logging
 import os
 import os.path
-import shutil
-import re
-from sbpipe.utils.io import refresh
-from sbpipe.utils.parcomp import parcomp
-from sbpipe.utils.rand import get_rand_alphanum_str
-from sbpipe.utils.io import replace_str_in_file
 from parsing_configfile import config_parser
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
 
@@ -145,37 +139,6 @@ def run(self, config_file):
         return True
     return False
 
-
-def analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', runs=1):
-    """
-    The second pipeline step: data analysis.
-
-    :param model: the model name
-    :param scanned_par1: the first scanned parameter
-    :param scanned_par2: the second scanned parameter
-    :param inputdir: the directory containing the simulated data sets to process
-    :param outputdir: the directory to store the performed analysis
-    :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
-    :param runs: the number of model simulation
-    :return: True if the task was completed successfully, False otherwise.
-    """
-    if not os.path.exists(inputdir):
-        logger.error("input_dir " + inputdir + " does not exist. Generate some data first.")
-        return False
-
-    # folder preparation
-    refresh(outputdir, os.path.splitext(model)[0])
-    if runs < 1:
-        logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
-        return False
-
-    command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps2_analysis.r') + \
-        ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-        ' ' + outputdir + ' ' + str(runs)
-    # we don't replace any string in files. So let's use a substring which won't even be in any file.
-    str_to_replace = '//////////'
-    parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
-    return True
 
 
 def generate_report(model, scanned_par1, scanned_par2, outputdir, sim_plots_folder):
