@@ -270,7 +270,7 @@ class ParEst(Pipeline):
 
         logger.info("\n")
         logger.info("Final fits analysis:")
-        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'psbpipe_pe_main_final_fits.r') + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_final_fits.r') + \
             ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + ' ' + sim_plots_dir + \
             ' ' + str(best_fits_percent) + ' ' + str(logspace) + ' ' + str(scientific_notation)
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
