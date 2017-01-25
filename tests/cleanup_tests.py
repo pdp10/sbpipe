@@ -37,7 +37,11 @@ def cleanup_tests():
     print('Cleaning tests:')
     for file in projects:
         if file == '__pycache__':
-            shutil.rmtree(os.path.join(testpath, file))
+            shutil.rmtree(os.path.join(testpath, file), ignore_errors=True)
+            continue
+
+        if file == 'snakemake':
+            shutil.rmtree(os.path.join(testpath, file), ignore_errors=True)
             continue
 
         print(('\nFolder ' + file))
