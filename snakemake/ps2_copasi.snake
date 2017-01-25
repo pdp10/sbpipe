@@ -1,14 +1,14 @@
 
 rule all:
     input:
-        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
+        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
 
 
 rule preproc:
     input:
         file="Models/insulin_receptor.cps"
     output:
-        file="preproc/insulin_receptor_1.cps"
+        file="Working_Folder/ps2_preproc/insulin_receptor_1.cps"
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -18,9 +18,9 @@ rule preproc:
 
 rule gen_data:
     input:
-        file="preproc/insulin_receptor_1.cps"
+        file="Working_Folder/ps2_preproc/insulin_receptor_1.cps"
     output:
-        file="preproc/insulin_receptor_1.csv"
+        file="Working_Folder/ps2_preproc/insulin_receptor_1.csv"
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -31,9 +31,9 @@ rule gen_data:
 
 rule ps2_postproc:
     input:
-        file="preproc/insulin_receptor_1.csv"
+        file="Working_Folder/ps2_preproc/insulin_receptor_1.csv"
     output:
-        file="postproc/insulin_receptor_1.csv"
+        file="Working_Folder/ps2_postproc/insulin_receptor_1.csv"
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -43,17 +43,17 @@ rule ps2_postproc:
 
 rule ps2_analysis:
     input:
-        file="postproc/insulin_receptor_1.csv"
+        file="Working_Folder/ps2_postproc/insulin_receptor_1.csv"
     output:
-        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
+        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png"
     shell:
-        "Rscript --vanilla /home/pdp/local_software/sbpipe/sbpipe/snakemake/ps2_analysis.r insulin_receptor "
-        "InsulinPercent IRbetaPercent postproc plots 1"
+        "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r insulin_receptor "
+        "InsulinPercent IRbetaPercent Working_Folder/ps2_postproc Working_Folder/ps2_plots 1"
 
 
 rule ps2_latex_report:
     input:
-        file="plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
+        file="Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
         outputdir='',
         sim_plots_folder='plots',
         filename_prefix='',
@@ -68,3 +68,4 @@ rule ps2_latex_report:
         #from sbpipe.report.latex_reports import latex_report_ps2
         #latex_report_ps2({input.outputdir}, {input.sim_plots_folder}, {input.filename_prefix}, {input.model_noext},
         #             {input.scanned_par1}, {input.scanned_par2})
+
