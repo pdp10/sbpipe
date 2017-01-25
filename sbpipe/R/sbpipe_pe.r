@@ -28,7 +28,7 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 
 
 
-# Compute the fratio threshold for the confidence level. 
+# Compute the fratio threshold for the confidence level.
 #
 # :param m: number of model parameters
 # :param n: number of data points
@@ -48,8 +48,8 @@ compute_fratio_threshold <- function(m, n, p=0.05) {
 # :param chi2_conf_level: the Chi^2 confidence level
 leftCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2_conf_level) {
   # retrieve the minimum parameter value for cut_dataset
-  min_ci <- min(cut_dataset[,param_col_idx])    
-  # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset. 
+  min_ci <- min(cut_dataset[,param_col_idx])
+  # retrieve the Chi^2 of the parameters with value smaller than the minimum value retrieved from the cut_dataset, within the full dataset.
   # ...[min95, )  (we are retrieving those ...)
   lt_min_chi2s <- full_dataset[full_dataset[,param_col_idx] < min_ci, chi2_col_idx]
   if(length(lt_min_chi2s) == 0 || min(lt_min_chi2s) <= chi2_conf_level) {
@@ -69,10 +69,10 @@ leftCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2_
 # :param chi2_conf_level: the Chi^2 confidence level
 rightCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2_conf_level) {
   # retrieve the minimum parameter value for cut_dataset
-  max_ci <- max(cut_dataset[,param_col_idx])    
-  # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset. 
+  max_ci <- max(cut_dataset[,param_col_idx])
+  # retrieve the Chi^2 of the parameters with value greater than the maximum value retrieved from the cut_dataset, within the full dataset.
   # (, max95]...  (we are retrieving those ...)
-  gt_max_chi2s <- full_dataset[full_dataset[,param_col_idx] > max_ci, chi2_col_idx] 
+  gt_max_chi2s <- full_dataset[full_dataset[,param_col_idx] > max_ci, chi2_col_idx]
   if(length(gt_max_chi2s) == 0 || min(gt_max_chi2s) <= chi2_conf_level) {
     max_ci <- "+inf"
   }
@@ -82,9 +82,9 @@ rightCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2
 
 
 
-# Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue.` are 
-# removed. 
-# 
+# Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue.` are
+# removed.
+#
 # :param dfCols: The columns of a data frame.
 replace_colnames <- function(dfCols) {
   dfCols <- gsub("ObjectiveValue", "chi2", dfCols)
@@ -94,50 +94,51 @@ replace_colnames <- function(dfCols) {
 
 
 
-# Plot parameter correlations. 
-# 
+# Plot parameter correlations.
+#
 # :param df: the data frame
-# :param dfCols: the columns of the data frame. Each column is a parameter. Only parameters to the left of chi2_col_idx are plotted. 
+# :param dfCols: the columns of the data frame. Each column is a parameter. Only parameters to the left of chi2_col_idx are plotted.
 # :param plots_dir: the directory for storing the plots
 # :param plot_filename_prefix: the prefix for the plot filename
 # :param title: the plot title (default: "")
 # :param chi2_col_idx: the index of the column containing the Chi^2 (default: 1)
 # :param logspace: true if the parameters should be plotted in logspace (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", chi2_col_idx=1, 
+plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", chi2_col_idx=1,
                                         logspace=TRUE, scientific_notation=TRUE) {
-  fileout <- ""
-  for (i in seq(chi2_col_idx+1,length(dfCols))) {
-    print(paste('sampled param corr (', title, ') for ', dfCols[i], sep=''))
-    for (j in seq(i, length(dfCols))) {
-    for (j in seq(i, length(dfCols))) {
-      g <- ggplot()
-      if(i==j) {
-        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-        g <- histogramplot(df[i], g) + ggtitle(title)
-        if(logspace) {
-            g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
+      fileout <- ""
+      for (i in seq(chi2_col_idx+1,length(dfCols))) {
+        print(paste('sampled param corr (', title, ') for ', dfCols[i], sep=''))
+        for (j in seq(i, length(dfCols))) {
+            for (j in seq(i, length(dfCols))) {
+              g <- ggplot()
+              if(i==j) {
+                fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+                g <- histogramplot(df[i], g) + ggtitle(title)
+                if(logspace) {
+                    g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
+                }
+              } else {
+                fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
+                g <- scatterplot_w_colour(df, g, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
+                     ggtitle(bquote(chi^2: .(title))) +
+                     theme(legend.key.height = unit(0.5, "in"))
+                if(logspace) {
+                    g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
+                }
+              }
+              if(scientific_notation) {
+                 g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
+              }
+              ggsave(fileout, dpi=300, width=8, height=6)
+            }
         }
-      } else {
-        fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-        g <- scatterplot_w_colour(df, g, colnames(df)[i], colnames(df)[j], colnames(df)[chi2_col_idx]) +
-             ggtitle(bquote(chi^2: .(title))) +
-             theme(legend.key.height = unit(0.5, "in"))
-        if(logspace) {
-            g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
-        }        
-      }
-      if(scientific_notation) {
-         g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
-      }
-      ggsave(fileout, dpi=300, width=8, height=6)
-    }    
-  }
+    }
 }
 
 
 # Plot the Chi^2 vs Iterations
-# 
+#
 # :param df: the complete data frame
 # :param chi2_col: the chi2 column name
 # :param plots_dir: the directory to save the generated plots
@@ -151,7 +152,7 @@ plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {
 
 
 # Plot the sampled profile likelihood estimations (PLE)
-# 
+#
 # :param df99: the 99% confidence level data frame
 # :param chi2_col: the chi2 column name
 # :param cl66_chi2: the 66% confidence level chi2
@@ -162,14 +163,14 @@ plot_chi2_vs_iters <- function(df, chi2_col, plots_dir, model) {
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
 plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model,
-                            logspace=TRUE, scientific_notation=TRUE) { 
+                            logspace=TRUE, scientific_notation=TRUE) {
     dfCols <- colnames(df99)
     for (i in seq(2,length(dfCols))) {
         print(paste('sampled PLE for', dfCols[i]))
-        # extract statistics  
+        # extract statistics
         fileout <- file.path(plots_dir, paste(model, "_approx_ple_", dfCols[i], ".png", sep=""))
         g <- scatterplot_ple(df99, ggplot(), dfCols[i], chi2_col, cl66_chi2, cl95_chi2, cl99_chi2) +
-            theme(legend.key.height = unit(0.5, "in"))    
+            theme(legend.key.height = unit(0.5, "in"))
 #       g <- scatterplot_ple(df95, ggplot(), dfCols[i], chi2_col, cl66_chi2, cl95_chi2) +
 #            theme(legend.key.height = unit(0.5, "in"))
         if(logspace) {
@@ -189,19 +190,19 @@ plot_sampled_ple <- function(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, pl
 }
 
 
-# Compute the confidence level based on the minimum chi^2. 
+# Compute the confidence level based on the minimum chi^2.
 #
 # :param min_chi2: the minimum chi^2
 # :param params: the number of parameters
 # :param data_points: the number of data points
 # :param level: the confidence level threshold (e.g. 0.1, 0.5)
 compute_cl_chi2 <- function(min_chi2, params, data_points, level=0.5) {
-    min_chi2 * compute_fratio_threshold(params, data_points, level) 
+    min_chi2 * compute_fratio_threshold(params, data_points, level)
 }
 
 
 # Plot parameter correlations using the 66%, 95%, or 99% confidence level data sets
-# 
+#
 # :param df66: the data frame filtered at 66%
 # :param df95: the data frame filtered at 95%
 # :param df99: the data frame filtered at 95%
@@ -213,8 +214,8 @@ compute_cl_chi2 <- function(min_chi2, params, data_points, level=0.5) {
 # :param plot_2d_99cl_corr: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted. This is time consuming. (default: FALSE)
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model, 
-                            plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE, 
+plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
+                            plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
                             logspace=TRUE, scientific_notation=TRUE) {
   dfCols <- colnames(df99)
   if(plot_2d_66cl_corr) {
@@ -225,11 +226,11 @@ plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
   }
   if(plot_2d_99cl_corr) {
     plot_parameter_correlations(df99[order(-df99[,chi2_col]),], dfCols, plots_dir, paste(model, "_ci99_fits_", sep=""), "CI99 fits", which(dfCols==chi2_col), logspace, scientific_notation)
-  }  
+  }
 }
 
 
-    
+
 # Compute the table for the sampled PLE statistics.
 #
 # :param df66: the data frame filtered at 66%
@@ -243,35 +244,35 @@ plot_2d_cl_corr <- function(df66, df95, df99, chi2_col, plots_dir, model,
 # :param cl95_chi2: the 95% confidence level chi2
 # :param cl99_chi2: the 99% confidence level chi2
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
-compute_sampled_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_idx, param_col_idx, 
+compute_sampled_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_idx, param_col_idx,
                                         cl66_chi2, cl95_chi2, cl99_chi2, logspace=TRUE) {
 
-    min_chi2 <- min(df99[,chi2_col])                                         
+    min_chi2 <- min(df99[,chi2_col])
     par_value <- sample(df99[df99[,chi2_col] <= min_chi2, param_col_idx], 1)
-    
+
     min_ci_66 <- leftCI(df66, df95, chi2_col_idx, param_col_idx, cl66_chi2)
-    max_ci_66 <- rightCI(df66, df95, chi2_col_idx, param_col_idx, cl66_chi2)    
+    max_ci_66 <- rightCI(df66, df95, chi2_col_idx, param_col_idx, cl66_chi2)
     min_ci_95 <- "-inf"
-    max_ci_95 <- "+inf"    
+    max_ci_95 <- "+inf"
     min_ci_99 <- "-inf"
     max_ci_99 <- "+inf"
     if(is.numeric(min_ci_66)) { min_ci_95 <- leftCI(df95, df99, chi2_col_idx, param_col_idx, cl95_chi2) }
     if(is.numeric(max_ci_66)) { max_ci_95 <- rightCI(df95, df99, chi2_col_idx, param_col_idx, cl95_chi2) }
     if(is.numeric(min_ci_95)) { min_ci_99 <- leftCI(df99, df, chi2_col_idx, param_col_idx, cl99_chi2) }
     if(is.numeric(max_ci_95)) { max_ci_99 <- rightCI(df99, df, chi2_col_idx, param_col_idx, cl99_chi2) }
-    
+
     if(logspace) {
         # log10 inverse
         par_value <- 10^par_value
         if(is.numeric(min_ci_99)) { min_ci_99 <- 10^min_ci_99 }
-        if(is.numeric(max_ci_99)) { max_ci_99 <- 10^max_ci_99 }      
+        if(is.numeric(max_ci_99)) { max_ci_99 <- 10^max_ci_99 }
         if(is.numeric(min_ci_95)) { min_ci_95 <- 10^min_ci_95 }
         if(is.numeric(max_ci_95)) { max_ci_95 <- 10^max_ci_95 }
         if(is.numeric(min_ci_66)) { min_ci_66 <- 10^min_ci_66 }
-        if(is.numeric(max_ci_66)) { max_ci_66 <- 10^max_ci_66 }      
+        if(is.numeric(max_ci_66)) { max_ci_66 <- 10^max_ci_66 }
     }
     min_ci_99_par_value_ratio <- "-inf"
-    max_ci_99_par_value_ratio <- "+inf"    
+    max_ci_99_par_value_ratio <- "+inf"
     min_ci_95_par_value_ratio <- "-inf"
     max_ci_95_par_value_ratio <- "+inf"
     min_ci_66_par_value_ratio <- "-inf"
@@ -281,7 +282,7 @@ compute_sampled_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_i
     }
     if(is.numeric(max_ci_99) && par_value != 0) {
         max_ci_99_par_value_ratio <- round(max_ci_99/par_value, digits=6)
-    }    
+    }
     if(is.numeric(min_ci_95) && min_ci_95 != 0) {
         min_ci_95_par_value_ratio <- round(par_value/min_ci_95, digits=6)
     }
@@ -295,20 +296,20 @@ compute_sampled_ple_stats <- function(df66, df95, df99, df, chi2_col, chi2_col_i
         max_ci_66_par_value_ratio <- round(max_ci_66/par_value, digits=6)
     }
 
-    ret_list <- list("par_value"=par_value, 
-                "min_ci_66"=min_ci_66, "max_ci_66"=max_ci_66,  
-                "min_ci_95"=min_ci_95, "max_ci_95"=max_ci_95,  
-                "min_ci_99"=min_ci_99, "max_ci_99"=max_ci_99,                  
-                "min_ci_66_par_value_ratio"=min_ci_66_par_value_ratio, "max_ci_66_par_value_ratio"=max_ci_66_par_value_ratio, 
-                "min_ci_95_par_value_ratio"=min_ci_95_par_value_ratio, "max_ci_95_par_value_ratio"=max_ci_95_par_value_ratio, 
+    ret_list <- list("par_value"=par_value,
+                "min_ci_66"=min_ci_66, "max_ci_66"=max_ci_66,
+                "min_ci_95"=min_ci_95, "max_ci_95"=max_ci_95,
+                "min_ci_99"=min_ci_99, "max_ci_99"=max_ci_99,
+                "min_ci_66_par_value_ratio"=min_ci_66_par_value_ratio, "max_ci_66_par_value_ratio"=max_ci_66_par_value_ratio,
+                "min_ci_95_par_value_ratio"=min_ci_95_par_value_ratio, "max_ci_95_par_value_ratio"=max_ci_95_par_value_ratio,
                 "min_ci_99_par_value_ratio"=min_ci_99_par_value_ratio, "max_ci_99_par_value_ratio"=max_ci_99_par_value_ratio)
     return(ret_list)
 }
 
 
-# Compute the Akaike Information Criterion. Assuming additive Gaussian 
+# Compute the Akaike Information Criterion. Assuming additive Gaussian
 # measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
-# 
+#
 # :param chi2: the Chi^2 for the model
 # :param k: the number of model parameters
 compute_aic <- function(chi2, k) {
@@ -316,9 +317,9 @@ compute_aic <- function(chi2, k) {
 }
 
 
-# Compute the corrected Akaike Information Criterion. Assuming additive Gaussian 
+# Compute the corrected Akaike Information Criterion. Assuming additive Gaussian
 # measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
-# 
+#
 # :param chi2: the Chi^2 for the model
 # :param k: the number of model parameters
 # :param n: the number of data points
@@ -327,9 +328,9 @@ compute_aicc <- function(chi2, k, n) {
 }
 
 
-# Compute the Bayesian Information Criterion. Assuming additive Gaussian 
+# Compute the Bayesian Information Criterion. Assuming additive Gaussian
 # measurement noise of width 1, the term -2ln(L(theta|y)) ~ SSR ~ Chi^2
-# 
+#
 # :param chi2: the Chi^2 for the model
 # :param k: the number of model parameters
 # :param n: the number of data points
@@ -359,36 +360,36 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
     error("data_point_num is non positive.")
     return
   }
-  
+
   df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
-   
+
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
   chi2_col_idx <- 1
   chi2_col <- dfCols[chi2_col_idx]
 
   if(logspace) {
-    # Transform the parameter space to a log10 parameter space. 
-    # The column for the Chi^2 score is maintained instead. 
+    # Transform the parameter space to a log10 parameter space.
+    # The column for the Chi^2 score is maintained instead.
     df[,-chi2_col_idx] <- log10(df[,-chi2_col_idx])
   }
-  
+
   parameter_num = length(colnames(df)) - 1
   # compute the confidence levels
   cl99_chi2 <- compute_cl_chi2(min(df[,chi2_col]), parameter_num, data_point_num, .01)
-  cl95_chi2 <- compute_cl_chi2(min(df[,chi2_col]), parameter_num, data_point_num, .05)    
-  cl66_chi2 <- compute_cl_chi2(min(df[,chi2_col]), parameter_num, data_point_num, .33)  
+  cl95_chi2 <- compute_cl_chi2(min(df[,chi2_col]), parameter_num, data_point_num, .05)
+  cl66_chi2 <- compute_cl_chi2(min(df[,chi2_col]), parameter_num, data_point_num, .33)
 
   # select the rows with chi^2 smaller than our max threshold
-  df99 <- df[df[,chi2_col] <= cl99_chi2, ]  
+  df99 <- df[df[,chi2_col] <= cl99_chi2, ]
   df95 <- df[df[,chi2_col] <= cl95_chi2, ]
-  df66 <- df[df[,chi2_col] <= cl66_chi2, ]  
-  
-  min_chi2 <- min(df99[,chi2_col])  
-  
+  df66 <- df[df[,chi2_col] <= cl66_chi2, ]
+
+  min_chi2 <- min(df99[,chi2_col])
+
   # Set my ggplot theme here
   theme_set(basic_theme(36))
- 
+
   # Plot the Chi^2 vs Iterations
   plot_chi2_vs_iters(df, chi2_col, plots_dir, model)
 
@@ -396,34 +397,34 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
   fileoutPLE <- sink(fileout_param_estim_summary)
   cat(paste("MinChi2", "AIC", "AICc", "BIC", "ParamNum", "DataPointNum", "CL66Chi2", "CL66FitsNum", "CL95Chi2", "CL95FitsNum", "CL99Chi2", "CL99FitsNum\n", sep="\t"))
   cat(paste(min_chi2, compute_aic(min_chi2, parameter_num), compute_aicc(min_chi2, parameter_num, data_point_num), compute_bic(min_chi2, parameter_num, data_point_num), parameter_num, data_point_num, cl66_chi2, nrow(df66), cl95_chi2, nrow(df95), cl99_chi2, nrow(df99), sep="\t"), append=TRUE)
-  cat("\n", append=TRUE)   
+  cat("\n", append=TRUE)
   sink()
 
   # Plot the sampled profile likelihood estimations (PLE)
   plot_sampled_ple(df99, chi2_col, cl66_chi2, cl95_chi2, cl99_chi2, plots_dir, model, logspace, scientific_notation)
-  
+
   # Write the table containing the parameter estimation details.
   fileoutPLE <- sink(fileout_param_estim_details)
   cat(paste("Parameter", "Value", "LeftCI66", "RightCI66", "LeftCI95", "RightCI95", "LeftCI99", "RightCI99", "Value_LeftCI66_ratio", "RightCI66_Value_ratio", "Value_LeftCI95_ratio", "RightCI95_Value_ratio", "Value_LeftCI99_ratio", "RightCI99_Value_ratio\n", sep="\t"), append=TRUE)
   for (i in seq(2,length(dfCols))) {
     # compute the confidence levels and the value for the best parameter
-    ci_obj <- compute_sampled_ple_stats(df66, df95, df99, df, chi2_col, chi2_col_idx, i, 
+    ci_obj <- compute_sampled_ple_stats(df66, df95, df99, df, chi2_col, chi2_col_idx, i,
                                         cl66_chi2, cl95_chi2, cl99_chi2, logspace)
 
     # write on file
-    cat(paste(dfCols[i], ci_obj$par_value, ci_obj$min_ci_66, ci_obj$max_ci_66, ci_obj$min_ci_95, ci_obj$max_ci_95, 
+    cat(paste(dfCols[i], ci_obj$par_value, ci_obj$min_ci_66, ci_obj$max_ci_66, ci_obj$min_ci_95, ci_obj$max_ci_95,
     ci_obj$min_ci_99, ci_obj$max_ci_99, ci_obj$min_ci_66_par_value_ratio, ci_obj$max_ci_66_par_value_ratio,
     ci_obj$min_ci_95_par_value_ratio, ci_obj$max_ci_95_par_value_ratio, ci_obj$min_ci_99_par_value_ratio,
     ci_obj$max_ci_99_par_value_ratio, sep="\t"), append=TRUE)
-    cat("\n", append=TRUE)    
+    cat("\n", append=TRUE)
   }
   sink()
-  
-  # plot parameter correlations using the 66%, 95%, or 99% confidence level data sets  
+
+  # plot parameter correlations using the 66%, 95%, or 99% confidence level data sets
   plot_2d_cl_corr(df66, df95, df99, chi2_col, plots_dir, model,
                   plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                   logspace, scientific_notation)
-  
+
 }
 
 
@@ -444,32 +445,31 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent,
     warning("best_fits_percent is not in (0, 100]. Now set to 100")
     best_fits_percent = 100
   }
-  
+
   df = read.csv(filenamein, head=TRUE,sep="\t")
-  
+
   if(logspace) {
-    # Transform the parameter space to a log10 parameter space. 
-    # The 2nd column containing the Chi^2 score is maintained 
-    # as well as the 1st containing the parameter estimation name. 
+    # Transform the parameter space to a log10 parameter space.
+    # The 2nd column containing the Chi^2 score is maintained
+    # as well as the 1st containing the parameter estimation name.
     df[,c(-1,-2)] <- log10(df[,c(-1,-2)])
   }
-    
+
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
-  
+
   # Calculate the number of rows to extract.
   selected_rows <- nrow(df)*best_fits_percent/100
-  # sort by Chi^2 (descending) so that the low Chi^2 parameter tuples 
-  # (which are the most important) are plotted in front. 
-  # Then extract the tail from the data frame. 
+  # sort by Chi^2 (descending) so that the low Chi^2 parameter tuples
+  # (which are the most important) are plotted in front.
+  # Then extract the tail from the data frame.
   df <- df[order(-df[,2]),]
   df <- tail(df, selected_rows)
-  
+
   # Set my ggplot theme here
   theme_set(basic_theme(36))
-  
-  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), "best fits", 2, logspace, scientific_notation)
-  
-}
 
+  plot_parameter_correlations(df, dfCols, plots_dir, paste(model, "_best_fits_", sep=""), "best fits", 2, logspace, scientific_notation)
+
+}
 
