@@ -26,19 +26,37 @@
 # where FILE is a config.yaml file
 
 
+import os
+
+MODEL           = os.path.join("Models", config['model'])
+MODEL_NAME      = config['model'].split('.')[0]
+REPORT_PREFIX   = "report_ps2_"
+WORKING_FOLDER  = os.path.join("Working_Folder", MODEL_NAME)
+PREPROC_FOLDER  = "ps2_preproc"
+POSTPROC_FOLDER = "ps2_postproc"
+PLOTS_FOLDER    = "ps2_plots"
+
+MODEL_EXT       = "." + config['model'].split('.')[1]
+CSV_EXT         = ".csv"
+PNG_EXT         = ".png"
+LATEX_EXT       = ".tex"
+PDF_EXT         = ".pdf"
+LOG_EXT         = ".log"
+
+
 rule all:
     input:
-        config["plot"],
-        config["pdf_report"]
+        plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT),
+        report=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
 
 rule preproc:
     input:
-        file=config["model"]
+        file=MODEL
     output:
-        file=config["preproc_model"]
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + MODEL_EXT)
     log:
-        file=config["log"]
+        file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -48,11 +66,11 @@ rule preproc:
 
 rule gen_data:
     input:
-        file=config["preproc_model"]
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + MODEL_EXT)
     output:
-        file=config["preproc_report"]
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
     log:
-        file=config["log"]
+        file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -62,14 +80,14 @@ rule gen_data:
 
 rule ps2_postproc:
     input:
-        file=config["preproc_report"]
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
     output:
-        file=config["postproc_report"]
+        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
     params:
         sim_length=config["sim_length"],
         runs=config["runs"]
     log:
-        config["log"]
+        file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -79,18 +97,18 @@ rule ps2_postproc:
 
 rule ps2_analysis:
     input:
-        file=config["postproc_report"]
+        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
     output:
-        file=config["plot"]
+        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT)
     params:
-        model_name=config["model_name"],
-        postproc_dir=config["postproc_dir"],
+        model_name=MODEL_NAME,
+        postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         scanned_par1=config["scanned_par1"],
         scanned_par2=config["scanned_par2"],
-        plots_dir=config["plots_dir"],
+        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         runs=config["runs"]
     log:
-        file=config["log"]
+        file=MODEL_NAME + LOG_EXT
     shell:
         # NOTE: for this analysis, one can iterate over params.runs
         "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r {params.model_name} "
@@ -99,39 +117,39 @@ rule ps2_analysis:
 
 rule ps2_latex_report:
     input:
-        file=config["plot"]
+        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT)
     output:
-        file=config["latex_report"]
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:
-        model_name=config["model_name"],
-        working_folder_dir=config["working_folder_dir"],
-        plots_dir=config["plots_dir"],
+        working_folder_dir=WORKING_FOLDER,
+        plots_folder=PLOTS_FOLDER,
+        report_prefix=REPORT_PREFIX,
+        model_name=MODEL_NAME,
         scanned_par1=config["scanned_par1"],
-        scanned_par2=config["scanned_par2"],
+        scanned_par2=config["scanned_par2"]
     log:
-        file=config["log"]
+        file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import latex_report_ps2
-        plots_folder = params.plots_dir.replace(params.working_folder_dir,"")
-        latex_report_ps2(params.working_folder_dir, plots_folder, 'report__ps2_', params.model_name,
+        latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
                      params.scanned_par1, params.scanned_par2)
 
 
 rule ps2_pdf_report:
     input:
-        file=config["latex_report"]
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     output:
-        file=config["pdf_report"]
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
     params:
-        working_folder_dir=config["working_folder_dir"],
+        working_folder_dir=WORKING_FOLDER,
+        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     log:
-        file=config["log"]
+        file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import pdf_report
-        latex_file = input.file.replace(params.working_folder_dir, '')
-        pdf_report(params.working_folder_dir, latex_file)
+        pdf_report(params.working_folder_dir, params.latex_file)
 
