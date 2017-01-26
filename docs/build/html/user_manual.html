@@ -202,15 +202,8 @@ be executed again.</p>
 </div>
 <div class="section" id="windows">
 <h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
-<p>Windows users are also strongly advised to install the package:</p>
-<ul class="simple">
-<li>Cygwin 2.6.0 <a class="reference external" href="https://www.cygwin.com/">https://www.cygwin.com/</a></li>
-</ul>
-<p>Cygwin offers a GNU/Linux-like shell. This makes the installation of
-dependencies easier as this follows the configuration for GNU/Linux
-users.</p>
-<p>Windows users may need to edit the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable so that
-the binary files for the previous packages (Copasi, Python, R, and
+<p>Windows users will need to edit the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable so
+that the binary files for the previous packages (Copasi, Python, R, and
 (optionally) LaTeX) are correctly found. Specifically for Python, the
 python scripts <code class="docutils literal"><span class="pre">pip.py</span></code> and <code class="docutils literal"><span class="pre">easy_install.py</span></code> are located inside the
 folder <code class="docutils literal"><span class="pre">Scripts</span></code> within the Python root directory. The path to this
@@ -220,41 +213,8 @@ folder must also be added to <code class="docutils literal"><span class="pre">PA
 PATH=[previous paths];%SBPIPE%\scripts
 </pre></div>
 </div>
-<p><strong>NOTE for Cygwin:</strong> Environment variables can also be configured
-directly within the .bashrc file in cygwin/home/USERNAME/. In the
-beginning of this file, users should place:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
-export PATH=$PATH:/path/to/R/binaries/
-
-# Path to Python
-export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
-
-# Path to LaTeX
-export PATH=$PATH:/path/to/LaTeX/binaries/
-
-# Path to CopasiSE
-export PATH=$PATH:/path/to/CopasiSE/binaries/
-
-# SBPIPE
-export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
-</pre></div>
-</div>
-<p>After configuring the environment variables directly or internally in
-Cygwin, the next step is to install Python and R packages used by
-SBpipe. Two scripts are provided to perform these tasks automatically.</p>
-<p>To install SBpipe Python dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd /cygdrive/PATH/TO/SBPIPE/
-$ python.exe install_pydeps.py
-</pre></div>
-</div>
-<p>To install SBpipe R dependencies using Cygwin on Windows, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd /cygdrive/PATH/TO/SBPIPE/
-$ R.exe
-# Inside R environment, answer &#39;y&#39; to install packages locally
-&gt; source(&#39;install_rdeps.r&#39;)
-</pre></div>
-</div>
+<p>Note: R packages might require many extra dependencies. A C++ compiler
+might also be needed.</p>
 </div>
 </div>
 <div class="section" id="installation">

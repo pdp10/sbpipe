@@ -6,7 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v2.34.0 (devel)
+v4.0.0 (devel)
+?
+
+v3.0.0 (Earth)
 
 - added prints to r plotting functions
 - pipeline analyses are executed on cluster (local, sge, lsf) using sbpipe parcomp module.
