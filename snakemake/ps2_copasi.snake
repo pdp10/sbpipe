@@ -22,17 +22,23 @@
 # $Date: 2017-01-23 23:43:32 $
 
 
+# CALL: snakemake -s ps2_copasi.snake --configfile FILE
+# where FILE is a config.yaml file
+
+
 rule all:
     input:
-        "Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png",
-        "Working_Folder/report__double_param_scan_insulin_receptor.pdf"
+        config["plot"],
+        config["pdf_report"]
 
 
 rule preproc:
     input:
-        file="Models/insulin_receptor.cps"
+        file=config["model"]
     output:
-        file="Working_Folder/ps2_preproc/insulin_receptor_1.cps"
+        file=config["preproc_model"]
+    log:
+        file=config["log"]
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
@@ -42,60 +48,89 @@ rule preproc:
 
 rule gen_data:
     input:
-        file="Working_Folder/ps2_preproc/insulin_receptor_1.cps"
+        file=config["preproc_model"]
     output:
-        file="Working_Folder/ps2_preproc/insulin_receptor_1.csv"
+        file=config["preproc_report"]
+    log:
+        file=config["log"]
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.generate_data import run_copasi_model
-        print(input.file)
         run_copasi_model(input.file)
 
 
 rule ps2_postproc:
     input:
-        file="Working_Folder/ps2_preproc/insulin_receptor_1.csv"
+        file=config["preproc_report"]
     output:
-        file="Working_Folder/ps2_postproc/insulin_receptor_1.csv"
+        file=config["postproc_report"]
+    params:
+        sim_length=config["sim_length"],
+        runs=config["runs"]
+    log:
+        config["log"]
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.ps2_postproc import generic_postproc
-        generic_postproc(input.file, output.file, 10)
+        generic_postproc(input.file, output.file, params.sim_length)
 
 
 rule ps2_analysis:
     input:
-        file='Working_Folder/ps2_postproc/insulin_receptor_1.csv'
+        file=config["postproc_report"]
     output:
-        file='Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png'
+        file=config["plot"]
+    params:
+        model_name=config["model_name"],
+        postproc_dir=config["postproc_dir"],
+        scanned_par1=config["scanned_par1"],
+        scanned_par2=config["scanned_par2"],
+        plots_dir=config["plots_dir"],
+        runs=config["runs"]
+    log:
+        file=config["log"]
     shell:
-        "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r insulin_receptor "
-        "InsulinPercent IRbetaPercent Working_Folder/ps2_postproc Working_Folder/ps2_plots 1"
+        "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r {params.model_name} "
+        "{params.scanned_par1} {params.scanned_par2} {params.postproc_dir} {params.plots_dir} {params.runs}"
 
 
 rule ps2_latex_report:
     input:
-        file='Working_Folder/ps2_plots/insulin_receptor__eval_Insulin__rep_1__tp_0.png'
+        file=config["plot"]
     output:
-        file='Working_Folder/report__double_param_scan_insulin_receptor.tex'
+        file=config["latex_report"]
+    params:
+        model_name=config["model_name"],
+        working_folder_dir=config["working_folder_dir"],
+        plots_dir=config["plots_dir"],
+        scanned_par1=config["scanned_par1"],
+        scanned_par2=config["scanned_par2"],
+    log:
+        file=config["log"]
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import latex_report_ps2
-        latex_report_ps2('Working_Folder', 'ps2_plots', 'report__double_param_scan_', 'insulin_receptor',
-                     'InsulinPercent', 'IRbetaPercent')
+        plots_folder = params.plots_dir.replace(params.working_folder_dir,"")
+        latex_report_ps2(params.working_folder_dir, plots_folder, 'report__ps2_', params.model_name,
+                     params.scanned_par1, params.scanned_par2)
 
 
 rule ps2_pdf_report:
     input:
-        file='Working_Folder/report__double_param_scan_insulin_receptor.tex'
+        file=config["latex_report"]
     output:
-        file='Working_Folder/report__double_param_scan_insulin_receptor.pdf'
+        file=config["pdf_report"]
+    params:
+        working_folder_dir=config["working_folder_dir"],
+    log:
+        file=config["log"]
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report('Working_Folder', 'report__double_param_scan_insulin_receptor.tex')
+        latex_file = input.file.replace(params.working_folder_dir, '')
+        pdf_report(params.working_folder_dir, latex_file)
 
