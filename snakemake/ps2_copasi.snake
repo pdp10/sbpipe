@@ -39,12 +39,24 @@ PREPROC_FOLDER  = "ps2_preproc"
 POSTPROC_FOLDER = "ps2_postproc"
 PLOTS_FOLDER    = "ps2_plots"
 
+# Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
 CSV_EXT         = ".csv"
 PNG_EXT         = ".png"
 LATEX_EXT       = ".tex"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
+
+# Generate a sequence
+REPEATS = range(1, config['runs'])
+TIME_POINTS = range(1, config['sim_length'])
+
+
+## TODO NOW REPLACE WITH THE FOLLOWING:
+#expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
+#expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + str(rep) + MODEL_EXT), rep=REPEATS)
+#expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + str(rep) + CSV_EXT), rep=REPEATS)
+#expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_" + str(rep) + CSV_EXT), rep=REPEATS)
 
 
 rule all:
