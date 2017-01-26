@@ -92,6 +92,7 @@ rule ps2_analysis:
     log:
         file=config["log"]
     shell:
+        # NOTE: for this analysis, one can iterate over params.runs
         "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r {params.model_name} "
         "{params.scanned_par1} {params.scanned_par2} {params.postproc_dir} {params.plots_dir} {params.runs}"
 
