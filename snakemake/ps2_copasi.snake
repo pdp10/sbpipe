@@ -47,57 +47,65 @@ LATEX_EXT       = ".tex"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
 
-# Generate a sequence
-REPEATS = range(1, config['runs'])
-TIME_POINTS = range(1, config['sim_length'])
+# Generate sequences
+REPEATS     = range(1, int(config['runs'])+1)
+TIME_POINTS = range(0, config['sim_length'])
 
-
-## TODO NOW REPLACE WITH THE FOLLOWING:
-#expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
-#expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + str(rep) + MODEL_EXT), rep=REPEATS)
-#expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + str(rep) + CSV_EXT), rep=REPEATS)
-#expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_" + str(rep) + CSV_EXT), rep=REPEATS)
-
+# Snakemake input / output files
+PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + MODEL_EXT), rep=REPEATS)
+PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + CSV_EXT), rep=REPEATS)
+POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + CSV_EXT), rep=REPEATS)
+PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
+LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
+PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
 rule all:
     input:
-        plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT),
-        report=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
+        models=PREPROC_MODELS,
+        reports1=PREPROC_REPORTS,
+        reports2=POSTPROC_REPORTS,
+        plots=PLOTS,
+        latex=LATEX_REPORT,
+        pdf=PDF_REPORT
 
 
 rule preproc:
     input:
         file=MODEL
     output:
-        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + MODEL_EXT)
+        files=PREPROC_MODELS
     log:
         file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.preproc import copasi_preproc
-        copasi_preproc(input.file, output.file)
+        #TODO is there a way to replace the loop with `{rep}` directly?
+        for output in output.files:
+            copasi_preproc(input.file, output)
 
 
 rule gen_data:
     input:
-        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + MODEL_EXT)
+        files=PREPROC_MODELS
     output:
-        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
+        files=PREPROC_REPORTS
     log:
         file=MODEL_NAME + LOG_EXT
     run:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.generate_data import run_copasi_model
-        run_copasi_model(input.file)
+        #TODO is there a way to replace the loop with `{rep}` directly?
+        for input in input.files:
+            run_copasi_model(input)
 
 
 rule ps2_postproc:
     input:
-        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
+        files=PREPROC_REPORTS
     output:
-        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
+        files=POSTPROC_REPORTS
     params:
         sim_length=config["sim_length"],
         runs=config["runs"]
@@ -107,14 +115,16 @@ rule ps2_postproc:
         SBPIPE = os.environ["SBPIPE"]
         sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.ps2_postproc import generic_postproc
-        generic_postproc(input.file, output.file, params.sim_length)
+        #TODO is there a way to replace the loop with `{rep}` directly?
+        for i in REPEATS:
+            generic_postproc(input.files[i-1], output.files[i-1], params.sim_length)
 
 
 rule ps2_analysis:
     input:
-        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_1" + CSV_EXT)
+        files=POSTPROC_REPORTS
     output:
-        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT)
+        files=PLOTS
     params:
         rscript=os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r'),
         model_name=MODEL_NAME,
@@ -133,9 +143,9 @@ rule ps2_analysis:
 
 rule ps2_latex_report:
     input:
-        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT)
+        files=PLOTS
     output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
+        file=LATEX_REPORT
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -155,9 +165,9 @@ rule ps2_latex_report:
 
 rule ps2_pdf_report:
     input:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
+        file=LATEX_REPORT
     output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
+        file=PDF_REPORT
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
