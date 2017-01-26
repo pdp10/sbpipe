@@ -26,7 +26,10 @@
 # where FILE is a config.yaml file
 
 
+import sys
 import os
+
+SBPIPE = os.environ["SBPIPE"]
 
 MODEL           = os.path.join("Models", config['model'])
 MODEL_NAME      = config['model'].split('.')[0]
@@ -101,6 +104,7 @@ rule ps2_analysis:
     output:
         file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_1__tp_0" + PNG_EXT)
     params:
+        rscript=os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r'),
         model_name=MODEL_NAME,
         postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         scanned_par1=config["scanned_par1"],
@@ -111,7 +115,7 @@ rule ps2_analysis:
         file=MODEL_NAME + LOG_EXT
     shell:
         # NOTE: for this analysis, one can iterate over params.runs
-        "Rscript --vanilla ~/local_software/sbpipe/sbpipe/R/sbpipe_ps2_main.r {params.model_name} "
+        "Rscript --vanilla {params.rscript} {params.model_name} "
         "{params.scanned_par1} {params.scanned_par2} {params.postproc_dir} {params.plots_dir} {params.runs}"
 
 
