@@ -376,7 +376,7 @@ summarise_data <- function(inputdir, model, outputfile) {
 
   # collect all files in the directory
   files <- list.files( path=inputdir, pattern=model )
-  print(files)
+  #print(files)
 
   # Read the simulated time course data sets
   timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
