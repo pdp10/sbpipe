@@ -210,6 +210,7 @@ class Sim(Pipeline):
         if not os.path.exists(sim_plots_dir):
             os.mkdir(sim_plots_dir)
 
+        logger.info("\n")
         logger.info("Analysing generated simulations:")
         command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sim_analysis.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
