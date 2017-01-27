@@ -48,6 +48,12 @@ main <- function(args) {
     xaxis_label <- args[8]
     yaxis_label <- args[9]
 
+    if(plot_exp_dataset == 'True' || plot_exp_dataset == 'TRUE' || plot_exp_dataset == 'true') {
+       plot_exp_dataset = TRUE
+    } else {
+       plot_exp_dataset = FALSE
+    }    
+    
     # generate a table of statistics
     gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
 
