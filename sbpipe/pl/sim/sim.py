@@ -29,6 +29,7 @@ import logging
 import os
 import sys
 from ..pipeline import Pipeline
+from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
@@ -213,6 +214,11 @@ class Sim(Pipeline):
         if not os.path.exists(sim_plots_dir):
             os.mkdir(sim_plots_dir)
 
+        # We do this to make sure that characters like [ or ] don't cause troubles.
+        xaxis_label = escape_special_chars(xaxis_label)
+        yaxis_label = escape_special_chars(yaxis_label)
+
+        logger.info("\n")
         logger.info("Analysing generated simulations:")
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
