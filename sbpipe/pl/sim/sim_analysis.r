@@ -53,7 +53,7 @@ main <- function(args) {
 
     # summarise the time course repeats in tables
     summarise_data(inputdir, model_noext, repeats_file_template)
-
+    print(repeats_file_template)
     # plot the time courses
     plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
     plot_comb_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
