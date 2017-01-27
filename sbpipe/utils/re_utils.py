@@ -37,3 +37,22 @@ def nat_sort_key(str):
     _nsre = re.compile('([0-9]+)')
     return [int(str) if str.isdigit() else str.lower()
             for str in re.split(_nsre, str)]
+
+
+def escape_special_chars(text):
+    """
+    Escape ^,%, ,[,],(,),{,} from text
+    :param text: the command to escape special characters inside
+    :return: the command with escaped special characters
+    """
+    text = text.replace('^', '\\^')
+    text = text.replace('%', '\\%')
+    text = text.replace(' ', '\\ ')
+    text = text.replace('[', '\\[')
+    text = text.replace(']', '\\]')
+    text = text.replace('(', '\\(')
+    text = text.replace(')', '\\)')
+    text = text.replace('{', '\\{')
+    text = text.replace('}', '\\}')
+    return text
+
