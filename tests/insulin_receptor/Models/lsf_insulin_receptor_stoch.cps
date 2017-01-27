@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.19 (Build 140) (http://www.copasi.org) at 2017-01-18 17:22:03 UTC -->
+<!-- generated with COPASI 4.19 (Build 140) (http://www.copasi.org) at 2017-01-27 10:42:26 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="19" versionDevel="140" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -143,7 +143,7 @@ Reaction scheme where the products are created from the reactants and the change
       </ModelValue>
     </ListOfModelValues>
     <ListOfReactions>
-      <Reaction key="Reaction_0" name="IR_beta_phos" reversible="false" fast="false">
+      <Reaction key="Reaction_0" name="IR_beta_phosph" reversible="false" fast="false">
         <MiriamAnnotation>
 <rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Reaction_0">
@@ -177,7 +177,7 @@ Reaction scheme where the products are created from the reactants and the change
           </ListOfCallParameters>
         </KineticLaw>
       </Reaction>
-      <Reaction key="Reaction_1" name="IR_beta_pY1146_dephos" reversible="false" fast="false">
+      <Reaction key="Reaction_1" name="IR_beta_pY1146_dephosph" reversible="false" fast="false">
         <MiriamAnnotation>
 <rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Reaction_1">
@@ -262,15 +262,15 @@ Reaction scheme where the products are created from the reactants and the change
           <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Values[k3]" value="0.0578119" type="ModelValue" simulationType="fixed"/>
         </ModelParameterGroup>
         <ModelParameterGroup cn="String=Kinetic Parameters" type="Group">
-          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phos],ParameterGroup=Parameters,Parameter=k1" value="0.475519" type="ReactionParameter" simulationType="assignment">
+          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phosph]" type="Reaction">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phosph],ParameterGroup=Parameters,Parameter=k1" value="0.475519" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue>
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
-          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos]" type="Reaction">
-            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephos],ParameterGroup=Parameters,Parameter=k1" value="0.471947" type="ReactionParameter" simulationType="assignment">
+          <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephosph]" type="Reaction">
+            <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephosph],ParameterGroup=Parameters,Parameter=k1" value="0.471947" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
                 &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue>
               </InitialExpression>
@@ -320,15 +320,15 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Maximum duration for backward integration" type="unsignedFloat" value="1000000"/>
       </Method>
     </Task>
-    <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="false" updateModel="false">
-      <Report reference="Report_18" target="" append="0" confirmOverwrite="0"/>
+    <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="true" updateModel="false">
+      <Report reference="Report_18" target="lsf_insulin_receptor_stoch.csv" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="AutomaticStepSize" type="bool" value="0"/>
-        <Parameter name="StepNumber" type="unsignedInteger" value="1200"/>
+        <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
         <Parameter name="StepSize" type="float" value="0.1"/>
-        <Parameter name="Duration" type="float" value="120"/>
+        <Parameter name="Duration" type="float" value="10"/>
         <Parameter name="TimeSeriesRequested" type="bool" value="1"/>
-        <Parameter name="OutputStartTime" type="float" value="-60"/>
+        <Parameter name="OutputStartTime" type="float" value="0"/>
         <Parameter name="Output Event" type="bool" value="0"/>
         <Parameter name="Start in Steady State" type="bool" value="0"/>
         <Parameter name="Continue on Simultaneous Events" type="bool" value="0"/>
@@ -378,43 +378,13 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Seed" type="unsignedInteger" value="0"/>
       </Method>
     </Task>
-    <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="true" updateModel="false">
-      <Report reference="Report_12" target="insulin_receptor_stoch_param_estim.csv" append="0" confirmOverwrite="0"/>
+    <Task key="Task_19" name="Parameter Estimation" type="parameterFitting" scheduled="false" updateModel="false">
+      <Report reference="Report_12" target="" append="1" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="Maximize" type="bool" value="0"/>
-        <Parameter name="Randomize Start Values" type="bool" value="1"/>
-        <Parameter name="Calculate Statistics" type="bool" value="0"/>
+        <Parameter name="Randomize Start Values" type="bool" value="0"/>
+        <Parameter name="Calculate Statistics" type="bool" value="1"/>
         <ParameterGroup name="OptimizationItemList">
-          <ParameterGroup name="FitItem">
-            <ParameterGroup name="Affected Cross Validation Experiments">
-            </ParameterGroup>
-            <ParameterGroup name="Affected Experiments">
-            </ParameterGroup>
-            <Parameter name="LowerBound" type="cn" value="1e-04"/>
-            <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.0236352"/>
-            <Parameter name="UpperBound" type="cn" value="1e+01"/>
-          </ParameterGroup>
-          <ParameterGroup name="FitItem">
-            <ParameterGroup name="Affected Cross Validation Experiments">
-            </ParameterGroup>
-            <ParameterGroup name="Affected Experiments">
-            </ParameterGroup>
-            <Parameter name="LowerBound" type="cn" value="1e-04"/>
-            <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="0.06086836992633276"/>
-            <Parameter name="UpperBound" type="cn" value="1e+01"/>
-          </ParameterGroup>
-          <ParameterGroup name="FitItem">
-            <ParameterGroup name="Affected Cross Validation Experiments">
-            </ParameterGroup>
-            <ParameterGroup name="Affected Experiments">
-            </ParameterGroup>
-            <Parameter name="LowerBound" type="cn" value="1e-04"/>
-            <Parameter name="ObjectCN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue"/>
-            <Parameter name="StartValue" type="float" value="1.601773756162152"/>
-            <Parameter name="UpperBound" type="cn" value="1e+01"/>
-          </ParameterGroup>
         </ParameterGroup>
         <ParameterGroup name="OptimizationConstraintList">
         </ParameterGroup>
@@ -422,38 +392,15 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Time-Course" type="cn" value="CN=Root,Vector=TaskList[Time-Course]"/>
         <Parameter name="Create Parameter Sets" type="bool" value="0"/>
         <ParameterGroup name="Experiment Set">
-          <ParameterGroup name="Experiment">
-            <Parameter name="Data is Row Oriented" type="bool" value="1"/>
-            <Parameter name="Experiment Type" type="unsignedInteger" value="1"/>
-            <Parameter name="File Name" type="file" value="insulin_receptor_dataset.csv"/>
-            <Parameter name="First Row" type="unsignedInteger" value="1"/>
-            <Parameter name="Key" type="key" value="Experiment_0"/>
-            <Parameter name="Last Row" type="unsignedInteger" value="34"/>
-            <Parameter name="Normalize Weights per Experiment" type="bool" value="1"/>
-            <Parameter name="Number of Columns" type="unsignedInteger" value="2"/>
-            <ParameterGroup name="Object Map">
-              <ParameterGroup name="0">
-                <Parameter name="Role" type="unsignedInteger" value="3"/>
-              </ParameterGroup>
-              <ParameterGroup name="1">
-                <Parameter name="Object CN" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146],Reference=Concentration"/>
-                <Parameter name="Role" type="unsignedInteger" value="2"/>
-              </ParameterGroup>
-            </ParameterGroup>
-            <Parameter name="Row containing Names" type="unsignedInteger" value="1"/>
-            <Parameter name="Separator" type="string" value="&#x09;"/>
-            <Parameter name="Weight Method" type="unsignedInteger" value="2"/>
-          </ParameterGroup>
         </ParameterGroup>
         <ParameterGroup name="Validation Set">
           <Parameter name="Threshold" type="unsignedInteger" value="5"/>
           <Parameter name="Weight" type="unsignedFloat" value="1"/>
         </ParameterGroup>
       </Problem>
-      <Method name="Particle Swarm" type="ParticleSwarm">
-        <Parameter name="Iteration Limit" type="unsignedInteger" value="2000"/>
-        <Parameter name="Swarm Size" type="unsignedInteger" value="50"/>
-        <Parameter name="Std. Deviation" type="unsignedFloat" value="1e-06"/>
+      <Method name="Evolutionary Programming" type="EvolutionaryProgram">
+        <Parameter name="Number of Generations" type="unsignedInteger" value="200"/>
+        <Parameter name="Population Size" type="unsignedInteger" value="20"/>
         <Parameter name="Random Number Generator" type="unsignedInteger" value="1"/>
         <Parameter name="Seed" type="unsignedInteger" value="0"/>
       </Method>
@@ -544,10 +491,10 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="PositiveDirection" type="bool" value="1"/>
         <Parameter name="NumOutCrossingsLimit" type="unsignedInteger" value="0"/>
         <Parameter name="LimitUntilConvergence" type="bool" value="0"/>
-        <Parameter name="ConvergenceTolerance" type="float" value="0"/>
+        <Parameter name="ConvergenceTolerance" type="float" value="1e-06"/>
         <Parameter name="Threshold" type="float" value="0"/>
         <Parameter name="DelayOutputUntilConvergence" type="bool" value="0"/>
-        <Parameter name="OutputConvergenceTolerance" type="float" value="0"/>
+        <Parameter name="OutputConvergenceTolerance" type="float" value="1e-06"/>
         <ParameterText name="TriggerExpression" type="expression">
           
         </ParameterText>
@@ -747,48 +694,6 @@ Reaction scheme where the products are created from the reactants and the change
           <ListOfChannels>
             <ChannelSpec cn="CN=Root,Model=Insulin Receptor,Reference=Time"/>
             <ChannelSpec cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_refractory],Reference=Concentration"/>
-          </ListOfChannels>
-        </PlotItem>
-      </ListOfPlotItems>
-    </PlotSpecification>
-    <PlotSpecification name="Parameter Estimation Result" type="Plot2D" active="1">
-      <Parameter name="log X" type="bool" value="0"/>
-      <Parameter name="log Y" type="bool" value="0"/>
-      <ListOfPlotItems>
-        <PlotItem name="Experiment,[IR_beta_pY1146](Fitted Value)" type="Curve2D">
-          <Parameter name="Color" type="string" value="#FF0000"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line type" type="unsignedInteger" value="0"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Recording Activity" type="string" value="after"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="0"/>
-          <ListOfChannels>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Fitted Value"/>
-          </ListOfChannels>
-        </PlotItem>
-        <PlotItem name="Experiment,[IR_beta_pY1146](Measured Value)" type="Curve2D">
-          <Parameter name="Color" type="string" value="#FF0000"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="1"/>
-          <Parameter name="Line type" type="unsignedInteger" value="3"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Recording Activity" type="string" value="after"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="1"/>
-          <ListOfChannels>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Measured Value"/>
-          </ListOfChannels>
-        </PlotItem>
-        <PlotItem name="Experiment,[IR_beta_pY1146](Weighted Error)" type="Curve2D">
-          <Parameter name="Color" type="string" value="#FF0000"/>
-          <Parameter name="Line subtype" type="unsignedInteger" value="0"/>
-          <Parameter name="Line type" type="unsignedInteger" value="2"/>
-          <Parameter name="Line width" type="unsignedFloat" value="1"/>
-          <Parameter name="Recording Activity" type="string" value="after"/>
-          <Parameter name="Symbol subtype" type="unsignedInteger" value="2"/>
-          <ListOfChannels>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Independent Value"/>
-            <ChannelSpec cn="CN=Root,Vector=TaskList[Parameter Estimation],Problem=Parameter Estimation,ParameterGroup=Experiment Set,ParameterGroup=Experiment,Vector=Fitted Points[0],Reference=Weighted Error"/>
           </ListOfChannels>
         </PlotItem>
       </ListOfPlotItems>
