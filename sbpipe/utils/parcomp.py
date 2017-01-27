@@ -136,6 +136,24 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
         logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
 
 
+def escape_special_chars(cmd):
+    """
+    Escape ^,%, ,[,],(,),{,} from cmd
+    :param cmd: the command to escape special characters inside
+    :return: the command with escaped special characters
+    """
+    cmd = cmd.replace('^', '\\^')
+    cmd = cmd.replace('%', '\\%')
+    cmd = cmd.replace(' ', '\\ ')
+    cmd = cmd.replace('[', '\\[')
+    cmd = cmd.replace(']', '\\]')
+    cmd = cmd.replace('(', '\\(')
+    cmd = cmd.replace(')', '\\)')
+    cmd = cmd.replace('{', '\\{')
+    cmd = cmd.replace('}', '\\}')
+    return cmd
+
+
 def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     """
     Run jobs using a Sun Grid Engine (SGE) cluster.
@@ -153,6 +171,9 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     # xargsCMD=["xargs", "xargs"]
     # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echo_proc.stdout)
+
+    # we escape special characters first, otherwise SGE fails
+    cmd = escape_special_chars(cmd)
     jobs = ""
     for i in range(1, runs + 1):
         # Now the same with qsub
@@ -178,6 +199,8 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param err_dir: the directory containing the standard error from bsub
     :param runs: the number of runs to execute
     """
+    # we escape special characters first, otherwise LSF fails
+    cmd = escape_special_chars(cmd)
     jobs = ""
     for i in range(1, runs + 1):
         jobs = "done(j" + str(i) + ")&&" + jobs
