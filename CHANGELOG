@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.0.0 (devel)
-?
+v4.2.0 (devel)
+
+- removed support for running R, Octave, and Java models directly as these can be run via a Python model wrapper.
+- bug fixes
 
 v3.0.0 (Earth)
 
