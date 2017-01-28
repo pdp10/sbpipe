@@ -235,13 +235,8 @@ As of 2016, the following simulators are available in SBpipe:
 
 - `Copasi`, package `sbpipe.simul.copasi`, which implements all the methods 
 of the class `Simul`;
-- `Rscript`, package `sbpipe.simul.rscript`;
-- `Python`, package `sbpipe.simul.python`;
-- `Octave`, package `sbpipe.simul.octave`;
-- `Java`, package `sbpipe.simul.java`.
+- `Python`, package `sbpipe.simul.python`.
 
-`Rscript`, `Python`, `Octave`, and `Java` only implement the methods `sim()` and
-`pe()` of Simul (time course simulation and parameter estimation).
 Pipelines can dynamically load a simulator via the class method
 `Pipeline.get_simul_obj(simulator)`. This method instantiates an 
 object of subtype `Simul` by refractoring the simulator name as parameter. 
@@ -274,7 +269,7 @@ before running any pipeline. Projects inside the folder `$SBPIPE/tests/`
 have the SBpipe project structure:
 
 - `Data`: (e.g. training / testing data sets for the model);
-- `Model`: (e.g. models, Copasi models, R-Python-Octave-Java models, data sets directly used
+- `Model`: (e.g. models, Copasi models, Python models, data sets directly used
 by Copasi models);
 - `Working_Folder`: (e.g. pipelines configurations and parameter 
 estimation results, time course, parameter scan, etc).
@@ -282,10 +277,9 @@ estimation results, time course, parameter scan, etc).
 Examples of configuration files (*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/Working_Folder/.
 
-To run tests for R models, the R packages `deSolve`, `sde`, `rshape2`, and `minpack.lm` must be installed.
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
 These additional dependencies should not be included to SBpipe main dependencies as they are user-specific.
-In principle, users may define their R, Python, Octave or Java models using arbitrary packages.
+In principle, users may define their Python models using arbitrary packages.
 
 As of 2016, the repository for SBpipe source code is `github.com`. This 
 is configured to run Travis-CI every time a `git push` into the repository 

@@ -78,13 +78,12 @@ scan, and parameter estimation.</p>
 <li>Python 2.7+ or 3.2+ - <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></li>
 <li>R 3.3.0+ - <a class="reference external" href="https://cran.r-project.org/">https://cran.r-project.org/</a></li>
 </ul>
-<p>SBpipe can work with the following simulators (at least one must be
-installed):</p>
+<p>SBpipe can work with the following simulators:</p>
 <ul class="simple">
 <li>Copasi 4.19+ - <a class="reference external" href="http://copasi.org/">http://copasi.org/</a> (for model simulation, parameter
 scan, and parameter estimation)</li>
-<li>Any R / Python / Octave / Java simulator (for model simulation. Users
-must install the dependencies)</li>
+<li>Python (directly or as a wrapper to call models coded in any
+programming language)</li>
 </ul>
 <p>If LaTeX/PDF reports are also desired, the following software must also
 be installed:</p>
@@ -108,7 +107,7 @@ correct environment variables.</p>
 <p>If a local installation of Python, R, or LaTeX is needed, users need to
 add the following environment variables to <code class="docutils literal"><span class="pre">$PATH</span></code> in their
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to R
+<div class="highlight-python"><div class="highlight"><pre># Path to R
 export PATH=$PATH:/path/to/R/binaries/
 
 # Path to Python. Scripts is the folder (if any) containing the Python
@@ -121,7 +120,7 @@ export PATH=$PATH:/path/to/LaTeX/binaries/
 </div>
 <p>The correct installation of Python, R, and LaTeX can be tested by
 running the commands:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># If variables were manually exported, reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># If variables were manually exported, reload the .bashrc file
 $ source $HOME/.bashrc
 
 $ python -V
@@ -143,13 +142,13 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 <p>As of 2016, Copasi is not available as a package in GNU/Linux
 distributions. Users must add the path to Copasi binary files manually
 editing their GNU/Linux <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Path to CopasiSE
+<div class="highlight-python"><div class="highlight"><pre># Path to CopasiSE
 export PATH=$PATH:/path/to/CopasiSE/
 </pre></div>
 </div>
 <p>The correct installation of CopasiSE can be tested by running the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 
 $ CopasiSE -h
@@ -162,14 +161,14 @@ environment variable <code class="docutils literal"><span class="pre">$SBPIPE</s
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file. The package also needs to be added to <code class="docutils literal"><span class="pre">$PATH</span></code>.
 To do so, users need to add the following lines to their
 <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># SBPIPE
+<div class="highlight-python"><div class="highlight"><pre># SBPIPE
 export SBPIPE=/path/to/sbpipe
 export PATH=$PATH:$SBPIPE/scripts
 </pre></div>
 </div>
 <p>Now you should reload the .bashrc file to make the previous change
 effective:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
@@ -177,12 +176,12 @@ $ source $HOME/.bashrc
 Python and R dependency packages used by SBpipe. Two scripts are
 provided to perform these tasks automatically.</p>
 <p>To install SBpipe Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/
 $ ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SBpipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
@@ -195,7 +194,7 @@ the following additional packages are installed in your machine:
 <code class="docutils literal"><span class="pre">gfortran</span></code>. After installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must
 be executed again.</p>
 <p>The correct installation of SBpipe can be tested by running the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ sbpipe.py -v
+<div class="highlight-python"><div class="highlight"><pre>$ sbpipe.py -v
 2.1.0
 </pre></div>
 </div>
@@ -209,7 +208,7 @@ python scripts <code class="docutils literal"><span class="pre">pip.py</span></c
 folder <code class="docutils literal"><span class="pre">Scripts</span></code> within the Python root directory. The path to this
 folder must also be added to <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 <p>Therefore, the following environment variables must also be added:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>SBPIPE=\path\to\sbpipe
+<div class="highlight-python"><div class="highlight"><pre>SBPIPE=\path\to\sbpipe
 PATH=[previous paths];%SBPIPE%\scripts
 </pre></div>
 </div>
@@ -221,13 +220,13 @@ might also be needed.</p>
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
 <p>If desired, SBpipe can be installed in your system. To do so, run the
 command inside the sbpipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE
 $ python setup.py install
 </pre></div>
 </div>
 <p>The correct installation of SBpipe and its dependencies can be checked
 by running the following commands inside the SBpipe folder:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/tests
+<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/tests
 $ ./test_suite.py
 </pre></div>
 </div>
@@ -267,14 +266,12 @@ to move the data set into the folder <code class="docutils literal"><span class=
 model file and its associated experimental data files are stored in the
 same folder.</p>
 </div>
-<div class="section" id="pipelines-using-r-python-octave-or-java">
-<h4>Pipelines using R, Python, Octave, or Java<a class="headerlink" href="#pipelines-using-r-python-octave-or-java" title="Permalink to this headline">¶</a></h4>
-<p><strong>pipeline: simulation</strong></p>
+<div class="section" id="pipelines-running-python-models">
+<h4>Pipelines running Python models<a class="headerlink" href="#pipelines-running-python-models" title="Permalink to this headline">¶</a></h4>
+<p><strong>pipelines: model simulation</strong></p>
 <ul class="simple">
-<li>The program must be a functional and invokable via <em>Rscript</em>,
-<em>python</em>, <em>octave</em>, or <em>java -jar</em>, respectively.</li>
-<li>The Jar file for Java models must include a manifest.mf specifying
-the main class.</li>
+<li>The model coded in Python must be functional and invokable via
+<em>python</em> command.</li>
 <li>The program must receive the report file name as input argument (see
 examples in $SBPIPE/tests/).</li>
 <li>The program must save the report to file including the <em>Time</em> column.
@@ -283,10 +280,8 @@ discarded.</li>
 </ul>
 <p><strong>pipeline: parameter estimation</strong></p>
 <ul class="simple">
-<li>The program must be a functional and invokable via <em>Rscript</em>,
-<em>python</em>, <em>octave</em>, or <em>java -jar</em>, respectively.</li>
-<li>The Jar file for Java models must include a manifest.mf specifying
-the main class.</li>
+<li>The model coded in Python must be functional and invokable via
+<em>python</em> command.</li>
 <li>The program must receive the report file name as input argument (see
 examples in $SBPIPE/tests/).</li>
 <li>The program must save the report to file. This includes the objective
@@ -294,6 +289,55 @@ value as first column column, and the estimated parameters as
 following columns. Rows are the evaluated functions. Report fields
 must be separated by TAB, and row names must be discarded.</li>
 </ul>
+<p><strong>Python as a wrapper</strong> Users can use Python as a wrapper to execute
+models coded in ANY programming language. The following Python model is
+essentially a wrapper invoking an R model called
+<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code>. This Python wrapper and
+<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code> are stored in the <code class="docutils literal"><span class="pre">Models/</span></code> folder. The
+configuration file calls the Python wrapper. This wrapper code must
+receive the report file name as input argument and forward it to the R
+script. This R script will run a model and store the results in the
+received report file name. These data must be stored as described above.</p>
+<p>Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code>. This runs
+<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">shlex</span>
+
+<span class="c1"># This is a Python wrapper used to run an R model.</span>
+<span class="c1"># The R model receives the report_filename as input</span>
+<span class="c1"># and must add the results to it.</span>
+
+<span class="c1"># Retrieve the report file name</span>
+<span class="n">report_filename</span> <span class="o">=</span> <span class="s2">&quot;sde_periodic_drift.csv&quot;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
+          <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
+
+<span class="c1"># Block until command is finished</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Configuration file invoking the Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>[simulate]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+simulator=Python
+model=sde_periodic_drift.py
+cluster=local
+local_cpus=7
+runs=14
+exp_dataset=
+plot_exp_dataset=False
+xaxis_label=Time
+yaxis_label=#
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="running-sbpipe">
@@ -302,7 +346,7 @@ must be separated by TAB, and row names must be discarded.</li>
 command and its complete list of options can be retrieved by running
 <em>sbpipe.py -h</em>.</p>
 <p>As of Sep 2016 the output is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ sbpipe.py -h
+<div class="highlight-python"><div class="highlight"><pre>$ sbpipe.py -h
 Usage: sbpipe.py [OPTION] [FILE]
 Pipelines for systems modelling of biological networks.
 
@@ -335,11 +379,11 @@ For complete documentation, see README.md .
 </div>
 <p>The first step is to create a new project. This can be done with the
 command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ sbpipe.py --create-project project_name
+<div class="highlight-python"><div class="highlight"><pre>$ sbpipe.py --create-project project_name
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>project_name/
+<div class="highlight-python"><div class="highlight"><pre>project_name/
     | - Data/
     | - Models/
     | - Working_Folder/
@@ -357,7 +401,7 @@ Working_Folder/. This folder will eventually contain all the results
 generated by SBpipe.</p>
 <p>For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd project_name/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre>$ cd project_name/Working_Folder/
 $ sbpipe.py -e my_config_file.conf
 </pre></div>
 </div>
@@ -366,7 +410,7 @@ $ sbpipe.py -e my_config_file.conf
 <h3>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h3>
 <p>Pipelines are configured using files (here called configuration files).
 These files are INI files and are therefore structured as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
 <span class="n">option1</span><span class="o">=</span><span class="n">value1</span>
 <span class="n">option2</span><span class="o">=</span><span class="n">value2</span>
 <span class="o">...</span>
@@ -412,7 +456,7 @@ estimations for the pipeline <code class="docutils literal"><span class="pre">pa
 <p>Assuming that the configuration files are placed in the Working_Folder
 of a certain project, examples are given as follow:</p>
 <p><strong>Example 1:</strong> configuration file for the pipeline <em>simulation</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[simulate]
+<div class="highlight-python"><div class="highlight"><pre>[simulate]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -421,7 +465,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_stoch.cps
@@ -446,7 +490,7 @@ yaxis_label=Level [a.u.]
 </div>
 <p><strong>Example 2:</strong> configuration file for the pipeline <em>single parameter
 scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[single_param_scan]
+<div class="highlight-python"><div class="highlight"><pre>[single_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -455,7 +499,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
@@ -492,7 +536,7 @@ yaxis_label=Level [a.u.]
 </div>
 <p><strong>Example 3:</strong> configuration file for the pipeline <em>double parameter
 scan</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[double_param_scan]
+<div class="highlight-python"><div class="highlight"><pre>[double_param_scan]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -501,7 +545,7 @@ analyse_data=True
 generate_report=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
@@ -523,7 +567,7 @@ sim_length=10
 </div>
 <p><strong>Example 4:</strong> configuration file for the pipeline <em>parameter
 estimation</em></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[param_estim]
+<div class="highlight-python"><div class="highlight"><pre>[param_estim]
 # True if data should be generated, False otherwise
 generate_data=True
 # True if data should be analysed, False otherwise
@@ -534,7 +578,7 @@ generate_report=True
 generate_tarball=True
 # The relative path to the project directory (from Working_Folder)
 project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_param_estim.cps
@@ -570,7 +614,7 @@ scientific_notation=True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$SBPIPE/tests/insulin_receptor/Working_Folder/
+<div class="highlight-python"><div class="highlight"><pre>$SBPIPE/tests/insulin_receptor/Working_Folder/
 </pre></div>
 </div>
 </div>
@@ -580,7 +624,7 @@ scientific_notation=True
 <p>SBpipe is a relatively young project and there is a chance that some
 error occurs. The following mailing list should be used for general
 questions:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe AT googlegroups.com
+<div class="highlight-python"><div class="highlight"><pre>sbpipe AT googlegroups.com
 </pre></div>
 </div>
 <p>All the topics discussed in this mailing list are also available at the
@@ -617,7 +661,7 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-use-sbpipe">How to use SBpipe</a><ul>
 <li><a class="reference internal" href="#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
 <li><a class="reference internal" href="#pipelines-using-copasi">Pipelines using Copasi</a></li>
-<li><a class="reference internal" href="#pipelines-using-r-python-octave-or-java">Pipelines using R, Python, Octave, or Java</a></li>
+<li><a class="reference internal" href="#pipelines-running-python-models">Pipelines running Python models</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#running-sbpipe">Running SBpipe</a></li>
