@@ -41,7 +41,6 @@ def cleanup_tests():
             continue
 
         if file == 'snakemake':
-            shutil.rmtree(os.path.join(testpath, file), ignore_errors=True)
             continue
 
         print(('\nFolder ' + file))
