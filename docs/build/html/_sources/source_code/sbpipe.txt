@@ -9,7 +9,6 @@ Subpackages
     sbpipe.pl
     sbpipe.report
     sbpipe.simul
-    sbpipe.snakemake
     sbpipe.utils
 
 Submodules
