@@ -24,9 +24,9 @@ install:
   # install other dependencies
   
   # install copasi
-  - wget https://github.com/copasi/COPASI/releases/download/Build-104/COPASI-4.16.104-Linux-64bit.tar.gz
-  - tar xvzf COPASI-4.16.104-Linux-64bit.tar.gz
-  - PATH=$PATH:$(pwd)/COPASI-4.16.104-Linux-64bit/bin/
+  - wget https://github.com/copasi/COPASI/releases/download/Build-140/COPASI-4.19.140-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.19.140-Linux-64bit.tar.gz
+  - PATH=$PATH:$(pwd)/COPASI-4.19.140-Linux-64bit/bin/
    
   # install R dependencies
   - mkdir -p $(pwd)/r_libs/  
