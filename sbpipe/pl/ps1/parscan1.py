@@ -28,11 +28,15 @@ import glob
 import logging
 import os
 import os.path
+import sys
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_ps1, pdf_report
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
 logger = logging.getLogger('sbpipe')
 
@@ -255,8 +259,8 @@ class ParScan1(Pipeline):
         xaxis_label = escape_special_chars(xaxis_label)
         yaxis_label = escape_special_chars(yaxis_label)
 
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps1_analysis.r') + \
-            ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + ' ' + sim_data_folder + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
+                  ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + ' ' + sim_data_folder + \
             ' ' + sim_plots_folder  + ' ' + str(runs) + ' ' + str(percent_levels) + ' ' + str(min_level) + \
             ' ' + str(max_level) + ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
             ' ' + xaxis_label  + ' ' + yaxis_label

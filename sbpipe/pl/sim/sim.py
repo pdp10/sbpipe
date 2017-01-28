@@ -27,12 +27,15 @@ import datetime
 import glob
 import logging
 import os
+import sys
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
 
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 logger = logging.getLogger('sbpipe')
 
 
@@ -217,7 +220,7 @@ class Sim(Pipeline):
 
         logger.info("\n")
         logger.info("Analysing generated simulations:")
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sim_analysis.r') + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
             ' ' + os.path.join(outputdir, 'sim_stats_' + model + '.csv') + \
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \

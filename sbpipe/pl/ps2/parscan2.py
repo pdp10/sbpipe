@@ -28,10 +28,14 @@ import glob
 import logging
 import os
 import os.path
+import sys
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
 logger = logging.getLogger('sbpipe')
 
@@ -205,7 +209,7 @@ class ParScan2(Pipeline):
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps2_analysis.r') + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
             ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
             ' ' + outputdir + ' ' + str(runs)
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
