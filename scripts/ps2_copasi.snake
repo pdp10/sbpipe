@@ -129,14 +129,12 @@ rule ps2_analysis:
         scanned_par1=config["scanned_par1"],
         scanned_par2=config["scanned_par2"],
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+        #runs="{rep}"
         runs=config["runs"]
     log:
         file=MODEL_NAME + LOG_EXT
     shell:
-        # TODO: for this analysis, one can iterate over params.runs
-        # The {params.runs} must be removed.
-        # Pass a file pattern instead. Doing so, you can pass input here. For the standard execution of sbpipe,
-        # leave Python do the loop, instead of R.
+        # TODO: I need to iterate over {rep}
         # Doing so, the analysis can be run in parallel (by repeat)
         "Rscript --vanilla {params.rscript} {params.model_name} "
         "{params.scanned_par1} {params.scanned_par2} {params.postproc_dir} {params.plots_dir} {params.runs}"
