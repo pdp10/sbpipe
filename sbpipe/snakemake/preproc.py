@@ -57,6 +57,20 @@ def copasi_preproc(infile, outfile):
                         os.path.splitext(os.path.basename(outfile))[0] + ".csv")
 
 
+def preproc(infile, outfile, copasi=False):
+    """
+    Replicate a copasi model and adds an id.
+
+    :param infile: the input file
+    :param outfile: the output file
+    :param copasi: True if the model is a Copasi model
+    """
+    if copasi:
+        copasi_preproc(infile, outfile)
+    else:
+        generic_preproc(infile, outfile)
+
+
 # python preproc.py -i Models/insulin_receptor.cps -o preproc/insulin_receptor_1.cps -c
 
 def main(argv=None):
@@ -65,10 +79,7 @@ def main(argv=None):
     parser.add_argument('-o', '--output-file')
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    if args.copasi:
-        copasi_preproc(args.input_file, args.output_file)
-    else:
-        generic_preproc(args.input_file, args.output_file)
+    copasi_preproc(args.input_file, args.output_file, args.copasi)
     return 0
 
 
