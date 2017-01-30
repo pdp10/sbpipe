@@ -26,6 +26,16 @@
 # where FILE is a config.yaml file
 
 
+
+### TODO:
+# REPLACE LOOPS BELOW, by using wildcards in input / output
+#
+
+
+
+
+
+
 import sys
 import os
 
@@ -59,9 +69,9 @@ REPEATS     = range(1, int(config['runs'])+1)
 TIME_POINTS = range(0, config['sim_length'])
 
 # Snakemake input / output files
-PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + MODEL_EXT), rep=REPEATS)
-PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + CSV_EXT), rep=REPEATS)
-POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_" + "{rep}" + CSV_EXT), rep=REPEATS)
+PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
+PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
+POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
 PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
 LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
@@ -77,39 +87,37 @@ rule all:
         pdf=PDF_REPORT
 
 
+# Use wildcards to implicitly execute this rule "rep" times
 rule preproc:
     input:
         file=MODEL
     output:
-        files=PREPROC_MODELS
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     log:
         file=MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.preproc import preproc
-        #TODO is there a way to replace the loop with `{rep}` directly?
-        for output in output.files:
-            preproc(input.file, output, COPASI)
+        preproc(input.file, output.file, COPASI)
+
 
 
 rule gen_data:
     input:
-        files=PREPROC_MODELS
+        files=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
-        files=PREPROC_REPORTS
+        files=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     log:
         file=MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.generate_data import generate_data
-        #TODO is there a way to replace the loop with `{rep}` directly?
-        for input in input.files:
-            generate_data(input, COPASI)
+        generate_data(input.files, COPASI)
 
 
 rule ps2_postproc:
     input:
-        files=PREPROC_REPORTS
+        files=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        files=POSTPROC_REPORTS
+        files=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     params:
         sim_length=config["sim_length"],
         runs=config["runs"]
@@ -117,16 +125,14 @@ rule ps2_postproc:
         file=MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.ps2_postproc import ps2_postproc
-        #TODO is there a way to replace the loop with `{rep}` directly?
-        for i in REPEATS:
-            ps2_postproc(input.files[i-1], output.files[i-1], params.sim_length, COPASI)
+        ps2_postproc(input.files, output.files, params.sim_length, COPASI)
 
 
 rule ps2_analysis:
     input:
-        files=POSTPROC_REPORTS
+        os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        files=PLOTS
+        os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT)
     params:
         rscript=os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r'),
         model_name=MODEL_NAME,
