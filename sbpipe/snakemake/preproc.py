@@ -79,7 +79,7 @@ def main(argv=None):
     parser.add_argument('-o', '--output-file')
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    copasi_preproc(args.input_file, args.output_file, args.copasi)
+    preproc(args.input_file, args.output_file, args.copasi)
     return 0
 
 

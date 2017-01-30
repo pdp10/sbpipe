@@ -44,17 +44,28 @@ def run_copasi_model(infile):
     call_proc(command)
 
 
-def run_generic_model(infile, simulator, opts):
+def run_generic_model(infile):
     """
     Run a generic model
 
     :param infile: the input file
-    :param simulator: the simulator name (e.g. Rscript, python, java, octave)
-    :param opts: the simulator options
     """
-    command = simulator + " " + opts + " " + infile + \
+    command = "python " + infile + \
               " " + os.path.basename(infile)[:-4] + ".csv"
     call_proc(command)
+
+
+def generate_data(infile, copasi=False):
+    """
+    Replicate a copasi model and adds an id.
+
+    :param infile: the input file
+    :param copasi: True if the model is a Copasi model
+    """
+    if copasi:
+        run_copasi_model(infile)
+    else:
+        run_generic_model(infile)
 
 
 # python generate_data.py -i preproc/insulin_receptor.cps -c
@@ -63,13 +74,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-file')
     parser.add_argument('-c', '--copasi', action='store_true')
-    parser.add_argument('-s', '--sim', default='CopasiSE')
-    parser.add_argument('-o', '--sim-opts', default='')
     args = parser.parse_args()
-    if args.copasi:
-        run_copasi_model(args.input_file)
-    else:
-        run_generic_model(args.input_file, args.sim, args.sim_opts)
+    generate_data(args.input_file, args.copasi)
     return 0
 
 

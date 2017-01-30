@@ -79,14 +79,30 @@ def generic_postproc(infile, outfile, sim_length):
                 fileout.close()
 
 
+def ps2_postproc(infile, outfile, sim_length, copasi=False):
+    """
+    Perform post processing organisation to double parameter scan report files.
+
+    :param infile: the model to process
+    :param outfile: the directory to store the results
+    :param sim_length: the length of the simulation
+    :param copasi: True if the model is a Copasi model
+    """
+    generic_postproc(infile, outfile, sim_length)
+    #if copasi:
+    #    generic_postproc(infile, outfile, sim_length)
+    #else:
+    #    generic_postproc(infile, outfile, sim_length)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-file')
     parser.add_argument('-o', '--output-file')
-    parser.add_argument('-c', '--copasi', action="store_true")
     parser.add_argument('-l', '--sim-length', default=1)
+    parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    generic_postproc(args.input_file, args.output_file, int(args.sim_length))
+    ps2_postproc(args.input_file, args.output_file, int(args.sim_length), args.copasi)
     return 0
 
 
