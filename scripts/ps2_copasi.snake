@@ -30,7 +30,14 @@ import sys
 import os
 
 SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
+# Simulator
+COPASI = False
+if config['simulator'] == 'Copasi':
+    COPASI = True
+
+# Model and results folders
 MODEL           = os.path.join("Models", config['model'])
 MODEL_NAME      = config['model'].split('.')[0]
 REPORT_PREFIX   = "report_ps2_"
@@ -59,6 +66,7 @@ PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME 
 LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
+
 rule all:
     input:
         models=PREPROC_MODELS,
@@ -77,12 +85,10 @@ rule preproc:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        SBPIPE = os.environ["SBPIPE"]
-        sys.path.insert(0, SBPIPE)
-        from sbpipe.snakemake.preproc import copasi_preproc
+        from sbpipe.snakemake.preproc import preproc
         #TODO is there a way to replace the loop with `{rep}` directly?
         for output in output.files:
-            copasi_preproc(input.file, output)
+            preproc(input.file, output, COPASI)
 
 
 rule gen_data:
@@ -93,8 +99,6 @@ rule gen_data:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        SBPIPE = os.environ["SBPIPE"]
-        sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.generate_data import run_copasi_model
         #TODO is there a way to replace the loop with `{rep}` directly?
         for input in input.files:
@@ -112,8 +116,6 @@ rule ps2_postproc:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        SBPIPE = os.environ["SBPIPE"]
-        sys.path.insert(0, SBPIPE)
         from sbpipe.snakemake.ps2_postproc import generic_postproc
         #TODO is there a way to replace the loop with `{rep}` directly?
         for i in REPEATS:
@@ -156,8 +158,6 @@ rule ps2_latex_report:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        SBPIPE = os.environ["SBPIPE"]
-        sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import latex_report_ps2
         latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
                      params.scanned_par1, params.scanned_par2)
@@ -174,8 +174,6 @@ rule ps2_pdf_report:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        SBPIPE = os.environ["SBPIPE"]
-        sys.path.insert(0, SBPIPE)
         from sbpipe.report.latex_reports import pdf_report
         pdf_report(params.working_folder_dir, params.latex_file)
 
