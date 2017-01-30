@@ -99,10 +99,10 @@ rule gen_data:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.generate_data import run_copasi_model
+        from sbpipe.snakemake.generate_data import generate_data
         #TODO is there a way to replace the loop with `{rep}` directly?
         for input in input.files:
-            run_copasi_model(input)
+            generate_data(input, COPASI)
 
 
 rule ps2_postproc:
@@ -116,10 +116,10 @@ rule ps2_postproc:
     log:
         file=MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.ps2_postproc import generic_postproc
+        from sbpipe.snakemake.ps2_postproc import ps2_postproc
         #TODO is there a way to replace the loop with `{rep}` directly?
         for i in REPEATS:
-            generic_postproc(input.files[i-1], output.files[i-1], params.sim_length)
+            ps2_postproc(input.files[i-1], output.files[i-1], params.sim_length, COPASI)
 
 
 rule ps2_analysis:
