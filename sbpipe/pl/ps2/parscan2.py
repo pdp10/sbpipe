@@ -209,12 +209,14 @@ class ParScan2(Pipeline):
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
-        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
-            ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-            ' ' + outputdir + ' ' + str(runs)
-        # we don't replace any string in files. So let's use a substring which won't even be in any file.
-        str_to_replace = '//////////'
-        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        for id in range(1, runs+1):
+            logger.info('Simulation No.:' + str(id))
+            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
+                ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
+                ' ' + outputdir + ' ' + str(id)
+            # we don't replace any string in files. So let's use a substring which won't even be in any file.
+            str_to_replace = '//////////'
+            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
         return True
 
     @classmethod

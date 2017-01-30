@@ -34,19 +34,19 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ps2.r'))
 # :args[3]: the 2nd scanned parameter
 # :args[4]: the input directory
 # :args[5]: the output directory
-# :args[6]: the number of simulations
+# :args[6]: the simulation number
 main <- function(args) {
     model_noext <- args[1]
     scanned_par1 <- args[2]
     scanned_par2 <- args[3]
     inputdir <- args[4]
     outputdir <- args[5]
-    runs <- args[6]
+    run <- args[6]
 
     # Add controls here if any
     
     plot_double_param_scan_data(model_noext, scanned_par1, scanned_par2, 
-				inputdir, outputdir, runs)
+				inputdir, outputdir, run)
 }
 
 
