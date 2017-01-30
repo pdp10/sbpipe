@@ -1,3 +1,5 @@
+# The simulator (e.g. Copasi, Python)
+simulator: "Copasi"
 # The model name
 model: "insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps"
 # The 1st variable to scan
