@@ -48,10 +48,15 @@ class TestPs2Snake(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_double_param_scan_inhib_only(self):
-        """model double param scan - inhibition only"""
+    def test_ps2_det_snake(self):
+        """ps2 - det - snakemake"""
         self.assertTrue(
             snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True))
+
+    def test_ps2_stoch_snake(self):
+        """ps2 - stoch - snakemake"""
+        self.assertTrue(
+            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True))
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
