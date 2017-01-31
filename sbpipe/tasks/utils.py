@@ -70,11 +70,3 @@ def clean_copasi_files(inputdir, files):
     for report in files:
         os.remove(os.path.join(inputdir, report))
 
-
-def makedir(outputdir):
-    """
-    Make a dir if this does not exist
-    :param outputdir: the dir to create
-    """
-    if not os.path.exists(outputdir):
-        os.makedirs(outputdir)

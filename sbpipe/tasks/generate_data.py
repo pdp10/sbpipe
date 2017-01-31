@@ -31,7 +31,7 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.snakemake.utils import call_proc
+from sbpipe.tasks.utils import call_proc
 
 
 def run_copasi_model(infile):

@@ -33,7 +33,7 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.snakemake.utils import replace_str_in_report
+from sbpipe.tasks.utils import replace_str_in_report
 
 
 def generic_postproc(infile, outfile, sim_length):
