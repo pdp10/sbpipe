@@ -25,8 +25,10 @@
 
 import os
 import sys
-import argparse
 import shutil
+import argparse
+import logging
+logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
