@@ -53,13 +53,13 @@ class TestPs1Snake(unittest.TestCase):
         self.assertTrue(
             snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True))
 
-    def test_ps1_det1_snake(self):
-        """ps1 - det1 - snakemake"""
+    def test_ps1_det2_snake(self):
+        """ps1 - det2 - snakemake"""
         self.assertTrue(
             snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True))
 
-    def test_ps1_det1_snake(self):
-        """ps1 - det1 - snakemake"""
+    def test_ps1_det3_snake(self):
+        """ps1 - det3 - snakemake"""
         self.assertTrue(
             snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True))
 
