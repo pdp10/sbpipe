@@ -14,13 +14,17 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2017-01-23 23:43:32 $
 
+
+"""
+Author: Piero Dalle Pezze
+Affiliation: The Babraham Institute (Cambridge, UK)
+Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
+Date: 31 Jan 2017
+Run: snakemake -s ps2.snake
+Latest modification:
+  - todo
+"""
 
 # CALL: snakemake -s ps2_copasi.snake --configfile FILE
 # where FILE is a config.yaml file
