@@ -121,12 +121,9 @@ rule sbpipe_ps1_postproc:
 
 rule sbpipe_ps1_analysis:
     input:
-        # Run each repeat report as separate input
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        # {rep} is the previously defined wildcard. Therefore {{rep}}
-        # {{rep}} ensures that no two rules want to write the same file.
-        #file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS)
+        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_IR_beta__rep_{rep}__eval_Insulin" + PNG_EXT)
     params:
         model_name=MODEL_NAME,
         scanned_par=config["scanned_par"],
@@ -146,9 +143,10 @@ rule sbpipe_ps1_analysis:
         "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.ps1_analyse_data import ps1_analyse_data
-        ps1_analyse_data(params.model_name, params.scanned_par, params.inhibition_only, params.outputdir, \
-        params.sim_data_folder, params.sim_plots_folder, params.repeat, params.percent_levels, params.min_level, \
-        params.max_level, params.levels_number, params.homogeneous_lines, params.xaxis_label, params.yaxis_label)
+        ps1_analyse_data(params.model_name, params.scanned_par, str(params.inhibition_only), params.outputdir, \
+        params.sim_data_folder, params.sim_plots_folder, params.repeat, str(params.percent_levels), \
+        str(params.min_level), str(params.max_level), str(params.levels_number), str(params.homogeneous_lines), \
+        params.xaxis_label, params.yaxis_label)
 
 
 rule sbpipe_ps1_latex_report:
