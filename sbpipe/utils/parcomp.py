@@ -70,6 +70,15 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
         run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg)
 
 
+def call_proc_block(cmd):
+    """
+    Run a command using Python subprocess. Block the call until the command has finished.
+
+    :param cmd: A tuple containing the string of the command to run
+    """
+    p = subprocess.call(shlex.split(cmd))
+
+
 def call_proc(params):
     """
     Run a command using Python subprocess.
@@ -78,7 +87,6 @@ def call_proc(params):
     """
     cmd, id = params
     logger.info('Starting Task ' + id)
-    # p = subprocess.call(shlex.split(cmd))  # Block until cmd finishes
     p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     return out, err
