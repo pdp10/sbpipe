@@ -7,7 +7,7 @@ python:
 # snakemake only works with Python3+
   #- "2.7"
   #- "3.2"
-  - "3.6"
+  - "3.4"
 env:
   - SBPIPE=$(pwd)
 # necessary for installing Python dependencies
