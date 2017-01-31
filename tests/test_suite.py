@@ -48,8 +48,8 @@ import tests.test_python_sim as conf_python
 import tests.test_java_sim as conf_java
 import tests.test_octave_sim as conf_octave
 
+import tests.test_ok_ps1_snake as ok_ps1_snake
 import tests.test_ok_ps2_snake as ok_ps2_snake
-
 
 def run_tests_suites():
     # Clean the tests (note cleanup_tests has a main() so it runs when imported.
@@ -84,6 +84,7 @@ def run_tests_suites():
     suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
 
     # Run Snakemake tests
+    suite_ok_ps1_snake = unittest.TestLoader().loadTestsFromTestCase(ok_ps1_snake.TestPs1Snake)
     suite_ok_ps2_snake = unittest.TestLoader().loadTestsFromTestCase(ok_ps2_snake.TestPs2Snake)
 
     # combine all the test suites
@@ -103,6 +104,7 @@ def run_tests_suites():
                                 suite_python_sim,
                                 suite_java_sim,
                                 suite_octave_sim,
+                                suite_ok_ps1_snake,
                                 suite_ok_ps2_snake])
 
     # run the combined test suite
