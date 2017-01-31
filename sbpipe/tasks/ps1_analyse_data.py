@@ -31,6 +31,7 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
+from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.tasks.utils import call_proc
 
 
@@ -55,6 +56,9 @@ def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
     :param xaxis_label: the label for the x axis (e.g. Time [min])
     :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     """
+    # We do this to make sure that characters like [ or ] don't cause troubles.
+    xaxis_label = escape_special_chars(xaxis_label)
+    yaxis_label = escape_special_chars(yaxis_label)
 
     command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
         ' ' + model_name + ' ' + scanned_par + ' ' + inhibition_only + ' ' + outputdir + \
