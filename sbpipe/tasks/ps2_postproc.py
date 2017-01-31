@@ -88,11 +88,8 @@ def ps2_postproc(infile, outfile, sim_length, copasi=False):
     :param sim_length: the length of the simulation
     :param copasi: True if the model is a Copasi model
     """
+
     generic_postproc(infile, outfile, sim_length)
-    #if copasi:
-    #    generic_postproc(infile, outfile, sim_length)
-    #else:
-    #    generic_postproc(infile, outfile, sim_length)
 
 
 def main(argv=None):
