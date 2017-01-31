@@ -34,7 +34,7 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ps2.r'))
 # :args[3]: the 2nd scanned parameter
 # :args[4]: the input directory
 # :args[5]: the output directory
-# :args[6]: the simulation number
+# :args[6]: the simulation run
 main <- function(args) {
     model_noext <- args[1]
     scanned_par1 <- args[2]

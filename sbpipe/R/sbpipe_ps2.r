@@ -37,7 +37,7 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 # :param scanned_par2: the 2nd scanned parameter
 # :param inputdir: the input directory
 # :param outputdir: the output directory
-# :param run: the simulation number
+# :param run: the simulation run
 plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, inputdir, outputdir, run) {
 	
     theme_set(basic_theme(36))    

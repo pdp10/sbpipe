@@ -84,7 +84,7 @@ rule preproc:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     log:
-        file=MODEL_NAME + LOG_EXT
+        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.preproc import preproc
         preproc(input.file, output.file, COPASI)
@@ -96,7 +96,7 @@ rule gen_data:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     log:
-        file=MODEL_NAME + LOG_EXT
+        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.generate_data import generate_data
         generate_data(input.file, COPASI)
@@ -111,7 +111,7 @@ rule ps2_postproc:
         sim_length=config["sim_length"],
         runs=config["runs"]
     log:
-        file=MODEL_NAME + LOG_EXT
+        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.snakemake.ps2_postproc import ps2_postproc
         ps2_postproc(input.file, output.file, params.sim_length, COPASI)
@@ -119,32 +119,32 @@ rule ps2_postproc:
 
 rule ps2_analysis:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
+        # Run each repeat report as separate input
+        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
+        # {rep} is the previously defined wildcard. Therefore {{rep}}
+        # {{rep}} ensures that no two rules want to write the same file.
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS)
     params:
-        rscript=os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r'),
         model_name=MODEL_NAME,
-        postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         scanned_par1=config["scanned_par1"],
         scanned_par2=config["scanned_par2"],
+        postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        #runs="{rep}"
-        runs=config["runs"]
+        repeat='{rep}'
     log:
-        file=MODEL_NAME + LOG_EXT
-    shell:
-        # TODO: I need to iterate over {rep}
-        # Doing so, the analysis can be run in parallel (by repeat)
-        "Rscript --vanilla {params.rscript} {params.model_name} "
-        "{params.scanned_par1} {params.scanned_par2} {params.postproc_dir} {params.plots_dir} {params.runs}"
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.snakemake.ps2_analyse_data import ps2_analyse_data
+        ps2_analyse_data(params.model_name, params.scanned_par1, params.scanned_par2, params.postproc_dir, params.plots_dir, params.repeat)
+
 
 
 rule ps2_latex_report:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
+        file=PLOTS
     output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
+        file=LATEX_REPORT
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -153,7 +153,7 @@ rule ps2_latex_report:
         scanned_par1=config["scanned_par1"],
         scanned_par2=config["scanned_par2"]
     log:
-        file=MODEL_NAME + LOG_EXT
+        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import latex_report_ps2
         latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
@@ -162,14 +162,14 @@ rule ps2_latex_report:
 
 rule ps2_pdf_report:
     input:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
+        file=LATEX_REPORT
     output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
+        file=PDF_REPORT
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     log:
-        file=MODEL_NAME + LOG_EXT
+        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
         pdf_report(params.working_folder_dir, params.latex_file)
