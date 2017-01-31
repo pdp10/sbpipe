@@ -21,13 +21,10 @@ Author: Piero Dalle Pezze
 Affiliation: The Babraham Institute (Cambridge, UK)
 Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
 Date: 31 Jan 2017
-Run: snakemake -s ps2.snake
+Run: snakemake -s ps2.snake --configfile FILE
 Latest modification:
-  - todo
+    - first draft
 """
-
-# CALL: snakemake -s ps2_copasi.snake --configfile FILE
-# where FILE is a config.yaml file
 
 
 
@@ -72,6 +69,7 @@ LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".t
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
 
+
 rule all:
     input:
         models=PREPROC_MODELS,
@@ -82,7 +80,7 @@ rule all:
         pdf=PDF_REPORT
 
 
-rule preproc:
+rule sbpipe_preproc:
     input:
         file=MODEL
     output:
@@ -94,7 +92,7 @@ rule preproc:
         preproc(input.file, output.file, COPASI)
 
 
-rule gen_data:
+rule sbpipe_gen_data:
     input:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
@@ -106,7 +104,7 @@ rule gen_data:
         generate_data(input.file, COPASI)
 
 
-rule ps2_postproc:
+rule sbpipe_ps2_postproc:
     input:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
@@ -121,7 +119,7 @@ rule ps2_postproc:
         ps2_postproc(input.file, output.file, params.sim_length, COPASI)
 
 
-rule ps2_analysis:
+rule sbpipe_ps2_analysis:
     input:
         # Run each repeat report as separate input
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
@@ -144,7 +142,7 @@ rule ps2_analysis:
 
 
 
-rule ps2_latex_report:
+rule sbpipe_ps2_latex_report:
     input:
         file=PLOTS
     output:
@@ -164,7 +162,7 @@ rule ps2_latex_report:
                      params.scanned_par1, params.scanned_par2)
 
 
-rule ps2_pdf_report:
+rule sbpipe_pdf_report:
     input:
         file=LATEX_REPORT
     output:
