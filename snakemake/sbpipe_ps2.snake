@@ -23,6 +23,7 @@ Aim: A Snakemake workflow to process double parameter scans of a mathematical mo
 Date: 31 Jan 2017
 Run: snakemake -s ps2.snake --configfile FILE
 Latest modification:
+    - TODO: replace __eval_Insulin with arbitrary text
     - first draft
 """
 
