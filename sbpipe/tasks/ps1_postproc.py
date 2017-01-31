@@ -82,6 +82,8 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
     intervals = int(single_param_scan_intervals) + 1
     # Set the number of timepoints
     timepoints = int(simulate_intervals) + 1
+    # repeat number (this is the number before the file extension)
+    rep = re.findall('\d+', os.path.basename(infile))[-1]
 
     shutil.copy(infile, outfile)
 
@@ -134,8 +136,9 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
             table = list(islice(myfile, timepoints + 1))
 
         # Write the extracted table to a separate file
-        with open(os.path.splitext(outfile)[0] + "__scan_" + scanned_par + "__level_" + str(
-                round_scanned_par_level) + ".csv", 'w') as myfile:
+        filename = os.path.splitext(outfile)[0].replace('_'+rep, '') + "__scan_" + scanned_par + \
+            "__rep_" + rep + "__level_" + str(round_scanned_par_level) + ".csv"
+        with open(filename, 'w') as myfile:
             for line in table:
                 myfile.write(line)
 

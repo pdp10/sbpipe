@@ -74,9 +74,9 @@ rule all:
         models=PREPROC_MODELS,
         reports1=PREPROC_REPORTS,
         reports2=POSTPROC_REPORTS,
-        #plots=PLOTS,
-        #latex=LATEX_REPORT,
-        #pdf=PDF_REPORT
+        plots=PLOTS,
+        latex=LATEX_REPORT,
+        pdf=PDF_REPORT
 
 
 rule sbpipe_preproc:
