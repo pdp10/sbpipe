@@ -86,7 +86,7 @@ rule preproc:
     log:
         "log/" + MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.preproc import preproc
+        from sbpipe.tasks.preproc import preproc
         preproc(input.file, output.file, COPASI)
 
 
@@ -98,7 +98,7 @@ rule gen_data:
     log:
         "log/" + MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.generate_data import generate_data
+        from sbpipe.tasks.generate_data import generate_data
         generate_data(input.file, COPASI)
 
 
@@ -113,7 +113,7 @@ rule ps2_postproc:
     log:
         "log/" + MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.ps2_postproc import ps2_postproc
+        from sbpipe.tasks.ps2_postproc import ps2_postproc
         ps2_postproc(input.file, output.file, params.sim_length, COPASI)
 
 
@@ -135,7 +135,7 @@ rule ps2_analysis:
     log:
         "log/" + MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.snakemake.ps2_analyse_data import ps2_analyse_data
+        from sbpipe.tasks.ps2_analyse_data import ps2_analyse_data
         ps2_analyse_data(params.model_name, params.scanned_par1, params.scanned_par2, params.postproc_dir, params.plots_dir, params.repeat)
 
 
