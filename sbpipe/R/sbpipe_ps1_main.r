@@ -50,7 +50,7 @@ main <- function(args) {
     outputdir <- args[4]
     sim_data_folder <- args[5]
     sim_plots_folder <- args[6]
-    runs <- args[7]
+    run <- args[7]
     percent_levels <- args[8]
     min_level <- args[9]
     max_level <- args[10]
@@ -83,12 +83,12 @@ main <- function(args) {
     if(homogeneous_lines) {
         plot_single_param_scan_data_homogen(model_noext, variable,
                         outputdir, sim_data_folder,
-                        sim_plots_folder, runs,
+                        sim_plots_folder, run,
                         xaxis_label, yaxis_label)
     } else {    
         plot_single_param_scan_data(model_noext, variable, inhibition_only,
                         outputdir, sim_data_folder,
-                        sim_plots_folder, runs,
+                        sim_plots_folder, run,
                         percent_levels, min_level,
                         max_level, levels_number,
                         xaxis_label, yaxis_label)
