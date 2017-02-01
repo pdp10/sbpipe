@@ -27,14 +27,14 @@ scan, and parameter estimation.
 ### Requirements
 In order to use SBpipe, the following software must be installed:
 
-- Python 2.7+ or 3.2+ - [https://www.python.org/](https://www.python.org/)
+- Python 2.7+ or 3.4+ - [https://www.python.org/](https://www.python.org/)
 - R 3.3.0+ - [https://cran.r-project.org/](https://cran.r-project.org/)
 
-SBpipe can work with the following simulators (at least one must be installed):
+SBpipe can work with the following simulators:
 
 - Copasi 4.19+ - [http://copasi.org/](http://copasi.org/) (for model
 simulation, parameter scan, and parameter estimation)
-- Any R / Python / Octave / Java simulator (for model simulation. Users must install the dependencies)
+- Python (directly or as a wrapper to call models coded in any programming language)
 
 
 If LaTeX/PDF reports are also desired, the following software must also 
@@ -231,30 +231,77 @@ that the Copasi model file and its associated experimental data
 files are stored in the same folder.
 
 
-#### Pipelines using R, Python, Octave, or Java
+#### Pipelines running Python models
 
-**pipeline: simulation**
+**pipelines: model simulation**
 
-- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
-- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The model coded in Python must be functional and invokable via _python_ command.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
 **pipeline: parameter estimation**
 
-- The program must be a functional and invokable via _Rscript_, _python_, _octave_, or _java -jar_, respectively.
-- The Jar file for Java models must include a manifest.mf specifying the main class.
+- The model coded in Python must be functional and invokable via _python_ command.
 - The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
 - The program must save the report to file. This includes the objective value as first column column, and the estimated
  parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
  names must be discarded.
+
+**Python as a wrapper**
+Users can use Python as a wrapper to execute models coded in ANY programming language. The following Python model is
+essentially a wrapper invoking an R model called `sde_periodic_drift.r`. This Python wrapper and `sde_periodic_drift.r`
+are stored in the `Models/` folder. The configuration file calls the Python wrapper. This wrapper code must receive the report
+file name as input argument and forward it to the R script. This R script will run a model and store the results in
+the received report file name. These data must be stored as described above.
+
+Python wrapper `sde_periodic_drift.py`. This runs `sde_periodic_drift.r`
+```
+import os
+import sys
+import subprocess
+import shlex
+
+# This is a Python wrapper used to run an R model.
+# The R model receives the report_filename as input
+# and must add the results to it.
+
+# Retrieve the report file name
+report_filename = "sde_periodic_drift.csv"
+if len(sys.argv) > 1:
+    report_filename = sys.argv[1]
+
+command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sde_periodic_drift.r') + \
+          ' ' + report_filename
+
+# Block until command is finished
+subprocess.call(shlex.split(command))
+```
+
+Configuration file invoking the Python wrapper `sde_periodic_drift.py`
+```
+[simulate]
+generate_data=True
+analyse_data=True
+generate_report=True
+project_dir=..
+simulator=Python
+model=sde_periodic_drift.py
+cluster=local
+local_cpus=7
+runs=14
+exp_dataset=
+plot_exp_dataset=False
+xaxis_label=Time
+yaxis_label=#
+```
+
 
 ### Running SBpipe
 SBpipe is executed via the command *sbpipe.py*. The syntax for this
 command and its complete list 
 of options can be retrieved by running *sbpipe.py -h*.
 
-As of Sep 2016 the output is as follows:
+As of Jan 2017 the output is as follows:
 ```
 $ sbpipe.py -h
 Usage: sbpipe.py [OPTION] [FILE]
@@ -297,24 +344,19 @@ $ sbpipe.py --create-project project_name
 This generates the following structure:
 ```
 project_name/
-    | - Data/
     | - Models/
-    | - Working_Folder/
+    | - Results/
 ```
-Models must be stored in the Models/ folder. The folder Data/ is meant 
-for collecting experimental data files and analyses in one place. Regarding 
-Copasi, once the data files (e.g. for parameter estimation) are generated, 
-**it is advised** to move them into the Models/ folder so that the Copasi 
-(.cps) file and its associated experimental data files are stored in the 
-same folder. To run SBpipe, users need to create a configuration file 
+Models must be stored in the Models/ folder. Copasi data sets used by a model
+should also be stored in Models. To run SBpipe, users need to create a configuration file
 for each pipeline they intend to run (see next section). These configuration 
-files should be placed in the Working_Folder/. This folder will eventually 
-contain all the results generated by SBpipe. 
+files should be placed in the root project folder. In Results/ users
+will eventually find all the results generated by SBpipe.
 
 For instance, the pipeline for parameter estimation configured with a 
 certain configuration file can be executed by typing:
 ```
-$ cd project_name/Working_Folder/
+$ cd project_name/
 $ sbpipe.py -e my_config_file.conf
 ```
 
@@ -366,8 +408,8 @@ Engine (SGE), `lsf`: Load Sharing Facility (LSF)). If `local` is selected, the
 local simulations. The `runs` option specifies the number of simulations
 (or parameter estimations for the pipeline `param_estim`) to be run.
 
-Assuming that the configuration files are placed in the Working_Folder 
-of a certain project, examples are given as follow: 
+Assuming that the configuration files are placed in the root directory
+of a certain project (e.g. project_name/), examples are given as follow:
 
 **Example 1:** configuration file for the pipeline *simulation*
 ```
@@ -378,9 +420,9 @@ generate_data=True
 analyse_data=True
 # True if a report should be generated, False otherwise
 generate_report=True
-# The relative path to the project directory (from Working_Folder)
-project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
+# The relative path to the project directory
+project_dir=.
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_stoch.cps
@@ -412,9 +454,9 @@ generate_data=True
 analyse_data=True
 # True if a report should be generated, False otherwise
 generate_report=True
-# The relative path to the project directory (from Working_Folder)
-project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The relative path to the project directory
+project_dir=.
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_inhib_scan_IR_beta.cps
@@ -458,9 +500,9 @@ generate_data=True
 analyse_data=True
 # True if a report should be generated, False otherwise
 generate_report=True
-# The relative path to the project directory (from Working_Folder)
-project_dir=..
-# The name of the configurator (e.g. Copasi)
+# The relative path to the project directory
+project_dir=.
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
@@ -491,9 +533,9 @@ analyse_data=True
 generate_report=True
 # True if a zipped tarball should be generated, False otherwise
 generate_tarball=True
-# The relative path to the project directory (from Working_Folder)
-project_dir=..
-# The name of the configurator (e.g. Copasi, Rscript, Python, Octave, Java)
+# The relative path to the project directory
+project_dir=.
+# The name of the configurator (e.g. Copasi, Python)
 simulator=Copasi
 # The model name
 model=insulin_receptor_param_estim.cps
@@ -530,7 +572,7 @@ scientific_notation=True
 
 Additional examples of configuration files can be found in:
 ```
-$SBPIPE/tests/insulin_receptor/Working_Folder/ 
+$SBPIPE/tests/insulin_receptor/
 ```
 
 

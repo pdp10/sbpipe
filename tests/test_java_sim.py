@@ -41,7 +41,7 @@ class TestJavaSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _java = os.path.join('java_models', 'Working_Folder')
+    _java = os.path.join('java_models')
 
     @classmethod
     def setUp(cls):

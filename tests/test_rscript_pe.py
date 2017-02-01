@@ -41,7 +41,7 @@ class TestRscriptPE(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _rscript = os.path.join('r_models', 'Working_Folder')
+    _rscript = os.path.join('r_models')
 
     @classmethod
     def setUp(cls):

@@ -36,24 +36,24 @@ source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
 #
 # :param files: the scanned files.
 get_sorted_level_indexes <- function(files) {
-  levels <- c()
-  levels.index <- c()
+    levels <- c()
+    levels.index <- c()
 
-  # the array files MUST be sorted. Required to convert the string into numeric.
-  # this is important because the legend must represent variable's knockdown in order.
-  for(i in 1:length(files)) {
-      num_of_underscores <- length(gregexpr("_", files[i])[[1]])
-      levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
-  }
-  levels.temp <- c(levels)
-  newmax <- max(levels)+1
-  for(i in 1:length(levels)) {
-      min <- which.min(levels.temp)
-      #print(min(levels.temp))
-      levels.index <- c(levels.index, min)
-      levels.temp[min] <- newmax
-  }
-  return(levels.index)
+    # the array files MUST be sorted. Required to convert the string into numeric.
+    # this is important because the legend must represent variable's knockdown in order.
+    for(i in 1:length(files)) {
+        num_of_underscores <- length(gregexpr("_", files[i])[[1]])
+        levels <- c(levels, as.numeric(gsub(".csv", "", strsplit( files[i], "_")[[1]][num_of_underscores + 1]) ))
+    }
+    levels.temp <- c(levels)
+    newmax <- max(levels)+1
+    for(i in 1:length(levels)) {
+        min <- which.min(levels.temp)
+        #print(min(levels.temp))
+        levels.index <- c(levels.index, min)
+        levels.temp[min] <- newmax
+    }
+    return(levels.index)
 }
 
 
@@ -69,7 +69,7 @@ get_sorted_level_indexes <- function(files) {
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
 # :param xaxis_label: the label for the x axis (e.g. Time (min))
-# :param runs: the number of repeated simulations
+# :param run: the simulation number
 # :param percent_levels: true if scanning levels are in percent (default: TRUE)
 # :param min_level: the minimum level (default: 0)
 # :param max_level: the maximum level (default: 100)
@@ -77,24 +77,24 @@ get_sorted_level_indexes <- function(files) {
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data <- function(model, variable, inhibition_only, 
-					outputdir, sim_data_folder, sim_plots_folder, runs,
+					outputdir, sim_data_folder, sim_plots_folder, run,
 					percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10, 
 					xaxis_label="", yaxis_label="") {
     
     # Set the labels for the plot legend
-    labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))    
+    labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))
     labels <- round(labels, digits = 0)
-    
+
     # Set the color and linetype for the plot
     colors <- c()
     linetype <- c()
-    
+
     # Add percentages to the labels
     if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
-    # Scanning using a virtual variable (A_percent_level) defining the percent level of its corresponding real variable (A). 
+    # Scanning using a virtual variable (A_percent_level) defining the percent level of its corresponding real variable (A).
     # The scanninig is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
     if(inhibition_only) {
@@ -106,8 +106,8 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
       colors <- colors()[c(27,28,29,30,24,99,115,95,98,97,96)]
       linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
     }
-    
-    
+
+
     writeLines(paste("Model: ", model, ".cps", sep=""))
     writeLines(paste("Scanning variable: ", variable, sep=""))
     #writeLines(outputdir)
@@ -116,56 +116,49 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
     outputdir <- c(file.path(outputdir, sim_plots_folder))
     #writeLines(inputdir)
     #writeLines(outputdir)
-    
+
     # create the directory of output
-    if (!file.exists(outputdir)){ dir.create(outputdir) }    
+    if (!file.exists(outputdir)){ dir.create(outputdir) }
 
     theme_set(tc_theme(36)) #28
-    
-    for(k_sim in 1:runs) {
-      print(paste('Processing simulation:', k_sim))
 
-	  files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', k_sim, '__level_', sep=""))
-	  #print(files)
-	  levels.index <- get_sorted_level_indexes(files)
-	  #print(levels.index)
+    files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', run, '__level_', sep=""))
+    #print(files)
+    levels.index <- get_sorted_level_indexes(files)
+    #print(levels.index)
 
-	  # Read variable
-	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-	  column <- names(timecourses)
+    # Read variable
+    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    column <- names(timecourses)
 
-	  # let's plot now! :) 
+    # let's plot now! :)
 
-	  for(j in 2:length(column)) {
+    for(j in 2:length(column)) {
         print(column[j])
 
-   	    g <- ggplot()
-	    for(m in 1:length(levels.index)) {
-	        #print(files[levels.index[m]])
+        g <- ggplot()
+        for(m in 1:length(levels.index)) {
+            #print(files[levels.index[m]])
             dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
             df <- data.frame(time=timecourses[,1], b=dataset)
-            # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)	
+            # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)
             df <- melt(df, id=c("time"))
             df$value <- dataset
-            df$variable <- as.character(m+10) # No idea why, but it works if m+10 ... 
-            
+            df$variable <- as.character(m+10) # No idea why, but it works if m+10 ...
+
             #print(df$variable)
-            g <- g + geom_line(data=df, 
-                    aes(x=time, y=value, color=variable, linetype=variable), 
+            g <- g + geom_line(data=df,
+                    aes(x=time, y=value, color=variable, linetype=variable),
                     size=1.0)
-	    }
-	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) + 
-	         theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
-	         scale_colour_manual("Levels", values=colors, labels=labels) + 
-	         scale_linetype_manual("Levels", values=linetype, labels=labels)
-        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", k_sim, "__eval_", column[j], ".png", sep="" )),
-		   dpi=300,  width=8, height=8)#, bg = "transparent")
-   
-	  }
-	  
-  }
-  
+        }
+        g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) +
+             theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
+             scale_colour_manual("Levels", values=colors, labels=labels) +
+             scale_linetype_manual("Levels", values=linetype, labels=labels)
+        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
+           dpi=300,  width=8, height=8)#, bg = "transparent")
+    }
 }
 
 
@@ -177,12 +170,12 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 # :param outputdir: the output directory
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
-# :param runs: the number of repeated simulations
+# :param run: the simulation number
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
 plot_single_param_scan_data_homogen <- function(model, variable, 
 					outputdir, sim_data_folder, 
-					sim_plots_folder, runs,
+					sim_plots_folder, run,
 					xaxis_label="", yaxis_label="") {
 					
     writeLines(paste("Model: ", model, ".cps", sep=""))
@@ -197,30 +190,25 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     if (!file.exists(outputdir)){ dir.create(outputdir) }
     
     theme_set(tc_theme(36)) #28
-    
-    for(k_sim in 1:runs) {
-      print(paste('Processing simulation:', k_sim))
 
-	  files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', k_sim, '__level_', sep=""))
-	  # Read variable
-	  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-	  column <- names(timecourses)
-	  
-	  for(j in 2:length(column)) {
+    files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', run, '__level_', sep=""))
+    # Read variable
+    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    column <- names(timecourses)
+
+    for(j in 2:length(column)) {
         print(column[j])
 
         g <- ggplot()
-	    for(m in 1:length(files)) {
+        for(m in 1:length(files)) {
             df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
             df <- data.frame(time=timecourses[,1], value=df)
-            g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)   
-	    }
-	    g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
-        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", k_sim, "__eval_", column[j], ".png", sep="" )),
-		   dpi=300,  width=8, height=8)#, bg = "transparent")
-	  }
-  }
-  
+            g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)
+        }
+        g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
+        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
+           dpi=300,  width=8, height=8)#, bg = "transparent")
+    }
 }
 

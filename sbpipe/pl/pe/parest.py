@@ -26,11 +26,15 @@ import datetime
 import glob
 import logging
 import os
+import sys
 import tarfile
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from ..pipeline import Pipeline
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
 logger = logging.getLogger('sbpipe')
 
@@ -41,11 +45,11 @@ class ParEst(Pipeline):
     model parameter estimations
     """
 
-    def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='param_estim_data', sim_plots_folder='param_estim_plots'):
         __doc__ = Pipeline.__init__.__doc__
 
-        Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
+        Pipeline.__init__(self, models_folder, working_folder, sim_data_folder, sim_plots_folder)
         # The folder containing the models with estimated parameters
         self.__updated_models_folder = 'updated_models'
 
@@ -266,7 +270,7 @@ class ParEst(Pipeline):
 
         logger.info("\n")
         logger.info("Final fits analysis:")
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'pe_analysis_final_fits.r') + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_final_fits.r') + \
             ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + ' ' + sim_plots_dir + \
             ' ' + str(best_fits_percent) + ' ' + str(logspace) + ' ' + str(scientific_notation)
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
@@ -275,7 +279,7 @@ class ParEst(Pipeline):
 
         logger.info("\n")
         logger.info("All fits analysis:")
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'pe_analysis_all_fits.r') + \
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_all_fits.r') + \
             ' ' + model + ' ' + os.path.join(outputdir, fileout_all_estims) + ' ' + sim_plots_dir + \
             ' ' + str(data_point_num) + ' ' + os.path.join(outputdir, fileout_param_estim_details) + \
             ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \

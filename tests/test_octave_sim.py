@@ -41,7 +41,7 @@ class TestOctaveSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _octave = os.path.join('octave_models', 'Working_Folder')
+    _octave = os.path.join('octave_models')
 
     @classmethod
     def setUp(cls):

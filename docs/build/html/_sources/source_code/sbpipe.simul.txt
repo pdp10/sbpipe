@@ -7,10 +7,7 @@ Subpackages
 .. toctree::
 
     sbpipe.simul.copasi
-    sbpipe.simul.java
-    sbpipe.simul.octave
     sbpipe.simul.python
-    sbpipe.simul.rscript
 
 Submodules
 ----------

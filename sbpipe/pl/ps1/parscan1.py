@@ -28,11 +28,15 @@ import glob
 import logging
 import os
 import os.path
+import sys
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_ps1, pdf_report
+
+SBPIPE = os.environ["SBPIPE"]
+sys.path.insert(0, SBPIPE)
 
 logger = logging.getLogger('sbpipe')
 
@@ -43,11 +47,11 @@ class ParScan1(Pipeline):
     single parameter scans.
     """
 
-    def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='single_param_scan_data', sim_plots_folder='single_param_scan_plots'):
         __doc__ = Pipeline.__init__.__doc__
 
-        Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
+        Pipeline.__init__(self, models_folder, working_folder, sim_data_folder, sim_plots_folder)
 
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
@@ -255,14 +259,17 @@ class ParScan1(Pipeline):
         xaxis_label = escape_special_chars(xaxis_label)
         yaxis_label = escape_special_chars(yaxis_label)
 
-        command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'ps1_analysis.r') + \
-            ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + ' ' + sim_data_folder + \
-            ' ' + sim_plots_folder  + ' ' + str(runs) + ' ' + str(percent_levels) + ' ' + str(min_level) + \
-            ' ' + str(max_level) + ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
-            ' ' + xaxis_label  + ' ' + yaxis_label
-        # we don't replace any string in files. So let's use a substring which won't even be in any file.
-        str_to_replace = '//////////'
-        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        for id in range(1, runs+1):
+            logger.info('Simulation No.:' + str(id))
+            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
+                      ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + \
+                      ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str(id) + \
+                      ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
+                      ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
+                      ' ' + xaxis_label + ' ' + yaxis_label
+            # we don't replace any string in files. So let's use a substring which won't even be in any file.
+            str_to_replace = '//////////'
+            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
         return True
 
     @classmethod

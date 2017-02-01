@@ -43,27 +43,14 @@ def cleanup_tests():
         print(('\nFolder ' + file))
 
         modelspath = join(testpath, file, 'Models')
-        print("cleaning replicated files...")
+        print("cleaning replicated Copasi files if any...")
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicated_files:
             os.remove(f)
 
-        print("cleaning tmp folder...")
-        # print tmppath
-        tmppath = join(testpath, file, 'tmp')
-        shutil.rmtree(tmppath, ignore_errors=True)
-
-        print("cleaning output files...")
-        wfpath = join(testpath, file, 'Working_Folder')
-
-        # Delete tgz files
-        wflist = [f for f in os.listdir(wfpath) if f.endswith(".tgz")]
-        for f in wflist:
-            os.remove(os.path.join(wfpath, f))
-        # delete sub-directories
-        wflist = [d for d in os.listdir(wfpath) if os.path.isdir(os.path.join(wfpath, d))]
-        for d in wflist:
-            shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)
+        print("cleaning results...")
+        wfpath = join(testpath, file, 'Results')
+        shutil.rmtree(wfpath, ignore_errors=True)
 
 
 def main(args=None):

@@ -25,7 +25,6 @@
 import glob
 import logging
 import os
-import sys
 
 logger = logging.getLogger('sbpipe')
 
