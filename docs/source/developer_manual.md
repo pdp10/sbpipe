@@ -160,9 +160,6 @@ The complete source code documentation for this project is stored in
 A shortcut to the documentation in html format is available at the page 
 `docs/index.html`. 
 
-UML class diagrams for the packages `sbpipe.pl` and `sbpipe.simul` are 
-stored in `docs/source/uml_diagrams`.
-
 
 ### sbpipe
 This folder contains the source code of the project SBpipe. At this 
@@ -268,10 +265,9 @@ of SBpipe dependencies as well as reference for configuring a project
 before running any pipeline. Projects inside the folder `$SBPIPE/tests/` 
 have the SBpipe project structure:
 
-- `Data`: (e.g. training / testing data sets for the model);
 - `Models`: (e.g. models, Copasi models, Python models, data sets directly used
 by Copasi models);
-- `Working_Folder`: (e.g. pipelines results, etc).
+- `Results`: (e.g. pipelines results, etc).
 
 Examples of configuration files (*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/.

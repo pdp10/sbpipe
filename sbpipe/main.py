@@ -239,7 +239,7 @@ def main(argv=None):
             raise Usage(msg)
 
     except Usage as err:
-        print((err.msg))
+        print(err.msg)
         print('for help use -h, --help')
         exit_status = 2
 

@@ -44,7 +44,7 @@ def cleanup_tests():
 
         if file == 'snakemake':
             print("cleaning output files...")
-            shutil.rmtree(os.path.join(testpath, file, 'Working_Folder'), ignore_errors=True)
+            shutil.rmtree(os.path.join(testpath, file, 'Results'), ignore_errors=True)
             shutil.rmtree(os.path.join(testpath, file, 'log'), ignore_errors=True)
             continue
 
@@ -53,9 +53,9 @@ def cleanup_tests():
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicated_files:
             os.remove(f)
-            
-        print("cleaning output files...")
-        wfpath = join(testpath, file, 'Working_Folder')
+
+        print("cleaning results...")
+        wfpath = join(testpath, file, 'Results')
         shutil.rmtree(wfpath, ignore_errors=True)
 
 
