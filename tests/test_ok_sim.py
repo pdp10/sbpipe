@@ -40,7 +40,7 @@ class TestIRSimulate(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor', 'Working_Folder')
+    _ir_folder = os.path.join('insulin_receptor')
 
     @classmethod
     def setUp(cls):
