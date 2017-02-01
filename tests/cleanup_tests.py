@@ -43,7 +43,7 @@ def cleanup_tests():
         print(('\nFolder ' + file))
 
         modelspath = join(testpath, file, 'Models')
-        print("cleaning replicated files...")
+        print("cleaning replicated Copasi files if any...")
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicated_files:
             os.remove(f)
