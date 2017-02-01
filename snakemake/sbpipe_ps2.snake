@@ -44,7 +44,7 @@ if config['simulator'] == 'Copasi':
 MODEL           = os.path.join("Models", config['model'])
 MODEL_NAME      = config['model'].split('.')[0]
 REPORT_PREFIX   = "report_ps2_"
-WORKING_FOLDER  = os.path.join("Working_Folder", MODEL_NAME)
+WORKING_FOLDER  = os.path.join("Results", MODEL_NAME)
 PREPROC_FOLDER  = "ps2_preproc"
 POSTPROC_FOLDER = "ps2_postproc"
 PLOTS_FOLDER    = "ps2_plots"
