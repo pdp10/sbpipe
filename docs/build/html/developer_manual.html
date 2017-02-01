@@ -94,13 +94,13 @@ called hotfixNUMBER and is forked from <em>master</em>.</li>
 <h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
 <p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
 is:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ git checkout -b feature10 develop
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git checkout -b feature10 develop
 </pre></div>
 </div>
 <p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
 discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
 work, run:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
 description of the changes, if any.&quot;
 $ git push origin feature10       # sometimes and at the end.
 </pre></div>
@@ -114,14 +114,14 @@ new branch and, once committed and pushed, <strong>merge</strong> it to <code cl
 <code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
 <code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
 Requests:</p>
-<div class="highlight-python"><div class="highlight"><pre>base:develop  compare:feature10   Able to merge. These branches can be
+<div class="highlight-python"><div class="highlight"><pre><span></span>base:develop  compare:feature10   Able to merge. These branches can be
 automatically merged.
 </pre></div>
 </div>
 <p>A small discussion about feature10 should also be included to allow
 other users to understand the feature.</p>
 <p>Finally delete the branch:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ git branch -d feature10      # delete the branch feature10 (locally)
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git branch -d feature10      # delete the branch feature10 (locally)
 </pre></div>
 </div>
 </div>
@@ -134,15 +134,15 @@ Only bugfixes or hotfixes are applied to this branch. When this
 testing/correction phase is completed, the <code class="docutils literal"><span class="pre">master</span></code> branch will merge
 with the <code class="docutils literal"><span class="pre">release-x.x.x</span></code> branch, using the commands above. To record
 the release add a tag:</p>
-<div class="highlight-python"><div class="highlight"><pre>git tag -a v1.3 -m &quot;PROGRAM_NAME v1.3&quot;
+<div class="highlight-python"><div class="highlight"><pre><span></span>git tag -a v1.3 -m &quot;PROGRAM_NAME v1.3&quot;
 </pre></div>
 </div>
 <p>To transfer the tag to the remote server:</p>
-<div class="highlight-python"><div class="highlight"><pre>git push origin v1.3   # Note: it goes in a separate &#39;branch&#39;
+<div class="highlight-python"><div class="highlight"><pre><span></span>git push origin v1.3   # Note: it goes in a separate &#39;branch&#39;
 </pre></div>
 </div>
 <p>To see all the releases:</p>
-<div class="highlight-python"><div class="highlight"><pre>git show
+<div class="highlight-python"><div class="highlight"><pre><span></span>git show
 </pre></div>
 </div>
 </div>
@@ -157,7 +157,7 @@ file (logging_config.ini) is also at this level.</p>
 <p>In order to automatically compile and run the test suite, Travis-CI is
 used and configured accordingly (.travis.yml).</p>
 <p>The project is structured as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre>sbpipe:
+<div class="highlight-python"><div class="highlight"><pre><span></span>sbpipe:
   | - docs/
   | - sbpipe/
         | - pl
@@ -192,12 +192,12 @@ SBpipe, the following packages must be installed:</p>
 Instruction for generating or cleaning SBpipe documentation are provided
 below.</p>
 <p>To generate the source code documentation:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/docs
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/docs
 $ ./gen_doc.sh
 </pre></div>
 </div>
 <p>To clean the documentation:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE/docs
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE/docs
 $ ./cleanup_doc.sh
 </pre></div>
 </div>
@@ -213,12 +213,12 @@ are stored in <code class="docutils literal"><span class="pre">docs/source/uml_d
 <p>This folder contains the source code of the project SBpipe. At this
 level a file called <code class="docutils literal"><span class="pre">__main__.py</span></code> enables users to run SBpipe
 programmatically as a Python module via the command:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ python sbpipe
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ python sbpipe
 </pre></div>
 </div>
 <p>Alternatively <code class="docutils literal"><span class="pre">sbpipe</span></code> can programmatically be imported within a
 Python environment as shown below:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ cd $SBPIPE
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE
 $ python
 # Python environment
 &gt;&gt;&gt; import sbpipe.main as sb
@@ -245,7 +245,7 @@ plots and report.</li>
 <p>All these pipelines can be invoked directly via the script
 <code class="docutils literal"><span class="pre">$SBPIPE/scripts/sbpipe.py</span></code>. Each SBpipe pipeline extends the class
 <code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
-<div class="highlight-python"><div class="highlight"><pre># executes a pipeline
+<div class="highlight-python"><div class="highlight"><pre><span></span># executes a pipeline
 def run(self, config_file)
 
 # process the configuration file lines
@@ -315,13 +315,12 @@ a project before running any pipeline. Projects inside the folder
 <code class="docutils literal"><span class="pre">$SBPIPE/tests/</span></code> have the SBpipe project structure:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Data</span></code>: (e.g. training / testing data sets for the model);</li>
-<li><code class="docutils literal"><span class="pre">Model</span></code>: (e.g. models, Copasi models, Python models, data sets
+<li><code class="docutils literal"><span class="pre">Models</span></code>: (e.g. models, Copasi models, Python models, data sets
 directly used by Copasi models);</li>
-<li><code class="docutils literal"><span class="pre">Working_Folder</span></code>: (e.g. pipelines configurations and parameter
-estimation results, time course, parameter scan, etc).</li>
+<li><code class="docutils literal"><span class="pre">Working_Folder</span></code>: (e.g. pipelines results, etc).</li>
 </ul>
 <p>Examples of configuration files (*.conf) using Copasi can be found in
-$SBPIPE/tests/insulin_receptor/Working_Folder/.</p>
+$SBPIPE/tests/insulin_receptor/.</p>
 <p>To run tests for Python models, the Python packages <code class="docutils literal"><span class="pre">numpy</span></code>,
 <code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code> must be installed. These additional
 dependencies should not be included to SBpipe main dependencies as they
@@ -339,7 +338,7 @@ Importantly, Travis-CI runs all SBpipe tests using <code class="docutils literal
 <div class="section" id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
 <p><strong>Startup</strong></p>
-<div class="highlight-python"><div class="highlight"><pre># clone master
+<div class="highlight-python"><div class="highlight"><pre><span></span># clone master
 $ git clone https://github.com/pdp10/sbpipe.git
 # get develop branch
 $ git checkout -b develop origin/develop
@@ -351,7 +350,7 @@ $ git fetch --all
 </pre></div>
 </div>
 <p><strong>Update</strong></p>
-<div class="highlight-python"><div class="highlight"><pre># ONLY use --rebase for private branches. Never use it for shared
+<div class="highlight-python"><div class="highlight"><pre><span></span># ONLY use --rebase for private branches. Never use it for shared
 # branches otherwise it breaks the history. --rebase moves your
 # commits ahead. For shared branches, you should use
 # `git fetch &amp;&amp; git merge --no-ff`
@@ -359,34 +358,34 @@ $ git pull [--rebase] origin BRANCH
 </pre></div>
 </div>
 <p><strong>File system</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>$ git rm [--cache] filename
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
 $ git add filename
 </pre></div>
 </div>
 <p><strong>Information</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>$ git status
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git status
 $ git log [--stat]
 $ git branch       # list the branches
 </pre></div>
 </div>
 <p><strong>Maintenance</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>$ git fsck      # check errors
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git fsck      # check errors
 $ git gc        # clean up
 </pre></div>
 </div>
 <p><strong>Rename a branch locally and remotely</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>git branch -m old_branch new_branch         # Rename branch locally
+<div class="highlight-python"><div class="highlight"><pre><span></span>git branch -m old_branch new_branch         # Rename branch locally
 git push origin :old_branch                 # Delete the old branch
 git push --set-upstream origin new_branch   # Push the new branch, set
 local branch to track the new remote
 </pre></div>
 </div>
 <p><strong>Reset</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>git reset --hard HEAD    # to undo all the local uncommitted changes
+<div class="highlight-python"><div class="highlight"><pre><span></span>git reset --hard HEAD    # to undo all the local uncommitted changes
 </pre></div>
 </div>
 <p><strong>Syncing a fork (assuming upstreams are set)</strong></p>
-<div class="highlight-python"><div class="highlight"><pre>git fetch upstream
+<div class="highlight-python"><div class="highlight"><pre><span></span>git fetch upstream
 git checkout develop
 git merge upstream/develop
 </pre></div>

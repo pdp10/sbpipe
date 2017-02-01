@@ -269,13 +269,12 @@ before running any pipeline. Projects inside the folder `$SBPIPE/tests/`
 have the SBpipe project structure:
 
 - `Data`: (e.g. training / testing data sets for the model);
-- `Model`: (e.g. models, Copasi models, Python models, data sets directly used
+- `Models`: (e.g. models, Copasi models, Python models, data sets directly used
 by Copasi models);
-- `Working_Folder`: (e.g. pipelines configurations and parameter 
-estimation results, time course, parameter scan, etc).
+- `Working_Folder`: (e.g. pipelines results, etc).
 
 Examples of configuration files (*.conf) using Copasi can be found in
-$SBPIPE/tests/insulin_receptor/Working_Folder/.
+$SBPIPE/tests/insulin_receptor/.
 
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
 These additional dependencies should not be included to SBpipe main dependencies as they are user-specific.

@@ -41,7 +41,7 @@ class TestPythonSim(unittest.TestCase):
     """
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _python = os.path.join('python_models', 'Working_Folder')
+    _python = os.path.join('python_models')
 
     @classmethod
     def setUp(cls):

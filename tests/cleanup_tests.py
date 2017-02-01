@@ -55,15 +55,7 @@ def cleanup_tests():
 
         print("cleaning output files...")
         wfpath = join(testpath, file, 'Working_Folder')
-
-        # Delete tgz files
-        wflist = [f for f in os.listdir(wfpath) if f.endswith(".tgz")]
-        for f in wflist:
-            os.remove(os.path.join(wfpath, f))
-        # delete sub-directories
-        wflist = [d for d in os.listdir(wfpath) if os.path.isdir(os.path.join(wfpath, d))]
-        for d in wflist:
-            shutil.rmtree(os.path.join(wfpath, d), ignore_errors=True)
+        shutil.rmtree(wfpath, ignore_errors=True)
 
 
 def main(args=None):
