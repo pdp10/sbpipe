@@ -46,11 +46,11 @@ class ParScan2(Pipeline):
     double parameter scans.
     """
 
-    def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='double_param_scan_data', sim_plots_folder='double_param_scan_plots'):
         __doc__ = Pipeline.__init__.__doc__
 
-        Pipeline.__init__(self, data_folder, models_folder, working_folder, sim_data_folder, sim_plots_folder)
+        Pipeline.__init__(self, models_folder, working_folder, sim_data_folder, sim_plots_folder)
 
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__

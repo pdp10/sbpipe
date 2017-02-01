@@ -38,17 +38,14 @@ class Pipeline:
     """
     Generic pipeline.
 
-    :param data_folder: the folder containing the experimental (wet) data sets
     :param models_folder: the folder containing the models
     :param working_folder: the folder to store the results
     :param sim_data_folder: the folder to store the simulation data
     :param sim_plots_folder: the folder to store the graphic results
     """
 
-    def __init__(self, data_folder='Data', models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Working_Folder',
                  sim_data_folder='sim_data', sim_plots_folder='sim_plots'):
-        # The data folder containing the dataset
-        self.__data_folder = data_folder
         # The folder containing the models
         self.__models_folder = models_folder
         # The folder containing the working results
@@ -66,14 +63,6 @@ class Pipeline:
         :return: True if the pipeline was executed correctly, False otherwise.
         """
         pass
-
-    def get_data_folder(self):
-        """
-        Return the folder containing the experimental (wet) data sets.
-        
-        :return: the experimental data sets folder.
-        """
-        return self.__data_folder
 
     def get_models_folder(self):
         """

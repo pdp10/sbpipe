@@ -160,9 +160,6 @@ The complete source code documentation for this project is stored in
 A shortcut to the documentation in html format is available at the page 
 `docs/index.html`. 
 
-UML class diagrams for the packages `sbpipe.pl` and `sbpipe.simul` are 
-stored in `docs/source/uml_diagrams`.
-
 
 ### sbpipe
 This folder contains the source code of the project SBpipe. At this 
