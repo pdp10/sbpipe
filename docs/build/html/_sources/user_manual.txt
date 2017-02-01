@@ -30,7 +30,7 @@ Requirements
 
 In order to use SBpipe, the following software must be installed:
 
--  Python 2.7+ or 3.2+ - https://www.python.org/
+-  Python 2.7+ or 3.4+ - https://www.python.org/
 -  R 3.3.0+ - https://cran.r-project.org/
 
 SBpipe can work with the following simulators:

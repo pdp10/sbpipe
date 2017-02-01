@@ -6,7 +6,7 @@ dist: trusty
 python:
 # snakemake only works with Python3+
   #- "2.7"
-  #- "3.2"
+  #- "3.4"
   - "3.6"
 env:
   - SBPIPE=$(pwd)
@@ -32,8 +32,12 @@ install:
   - mkdir -p $(pwd)/r_libs/  
   - export R_LIBS_USER=$(pwd)/r_libs/
   - Rscript install_rdeps.r
-  # We use pip 3
-  - pip3 install -r requirements.txt
+  
+  # install python dependencies
+  # Travis-CI does not accept "--user" option within the pip command. 
+  # So use the standard pip install command instead.
+  #- python install_pydeps.py
+  - pip install -r requirements.txt
   
   # install sbpipe
   - python setup.py install
