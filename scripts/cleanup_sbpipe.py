@@ -44,9 +44,6 @@ def cleanup():
     # Remove all temporary files (*~) recursively
     for f in files_with_pattern_recur(SBPIPE, '~'):
         os.remove(f)
-    # delete this silly file
-    if os.path.isfile(os.path.join(SBPIPE, 'tests', 'insulin_receptor', 'Working_Folder', 'Rplots.pdf')):
-        os.remove(os.path.join(SBPIPE, 'tests', 'insulin_receptor', 'Working_Folder', 'Rplots.pdf'))
 
 
 def main(argv=None):
