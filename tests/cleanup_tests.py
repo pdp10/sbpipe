@@ -48,13 +48,8 @@ def cleanup_tests():
         for f in replicated_files:
             os.remove(f)
 
-        print("cleaning tmp folder...")
-        # print tmppath
-        tmppath = join(testpath, file, 'tmp')
-        shutil.rmtree(tmppath, ignore_errors=True)
-
-        print("cleaning output files...")
-        wfpath = join(testpath, file, 'Working_Folder')
+        print("cleaning results...")
+        wfpath = join(testpath, file, 'Results')
         shutil.rmtree(wfpath, ignore_errors=True)
 
 

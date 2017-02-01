@@ -45,7 +45,7 @@ class ParEst(Pipeline):
     model parameter estimations
     """
 
-    def __init__(self, models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='param_estim_data', sim_plots_folder='param_estim_plots'):
         __doc__ = Pipeline.__init__.__doc__
 

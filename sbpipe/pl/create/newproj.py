@@ -38,7 +38,7 @@ class NewProj(Pipeline):
     :param working_folder: the folder to store the results    
     """
 
-    def __init__(self, models_folder='Models', working_folder='Working_Folder'):
+    def __init__(self, models_folder='Models', working_folder='Results'):
         """
         Constructor.
         """
@@ -54,38 +54,10 @@ class NewProj(Pipeline):
         if not os.path.exists(project_name):
             os.mkdir(project_name)
 
-        #if not os.path.exists(os.path.join(project_name, self.get_data_folder())):
-        #    os.mkdir(os.path.join(project_name, self.get_data_folder()))
         if not os.path.exists(os.path.join(project_name, self.get_models_folder())):
             os.mkdir(os.path.join(project_name, self.get_models_folder()))
         if not os.path.exists(os.path.join(project_name, self.get_working_folder())):
             os.mkdir(os.path.join(project_name, self.get_working_folder()))
-
-        #if not os.path.exists(os.path.join(project_name, self.get_models_folder(), 'previous_models')):
-        #    os.mkdir(os.path.join(project_name, self.get_models_folder(), 'previous_models'))
-        #if not os.path.exists(os.path.join(project_name, 'Manuscript')):
-        #    os.mkdir(os.path.join(project_name, 'Manuscript'))
-        #if not os.path.exists(os.path.join(project_name, 'Manuscript', 'figures')):
-        #    os.mkdir(os.path.join(project_name, 'Manuscript', 'figures'))
-        #if not os.path.exists(os.path.join(project_name, 'SBGN_graphic_models')):
-        #    os.mkdir(os.path.join(project_name, 'SBGN_graphic_models'))
-        #if not os.path.exists(os.path.join(project_name, 'SBGN_graphic_models', 'previous_models')):
-        #    os.mkdir(os.path.join(project_name, 'SBGN_graphic_models', 'previous_models'))
-
-        # if not os.path.exists(os.path.join(project_name,'GENSSI_struct_identif')):
-        # os.mkdir(os.path.join(project_name,'GENSSI_struct_identif'))
-        # if not os.path.exists(os.path.join(project_name,'MOTA_identif')):
-        # os.mkdir(os.path.join(project_name,'MOTA_identif'))
-        # if not os.path.exists(os.path.join(project_name,'sbtoolbox2')):
-        # os.mkdir(os.path.join(project_name,'sbtoolbox2'))
-        # if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name')):
-        # os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name'))
-        # if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','estimations')):
-        # os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','estimations'))
-        # if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','experiments')):
-        # os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','experiments'))
-        # if not os.path.exists(os.path.join(project_name,'sbtoolbox2','project_name','models')):
-        # os.mkdir(os.path.join(project_name,'sbtoolbox2','project_name','models'))
 
         logger.info("Project " + project_name + " created.")
         return True

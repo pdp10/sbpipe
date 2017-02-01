@@ -45,7 +45,7 @@ class Sim(Pipeline):
     model simulations
     """
 
-    def __init__(self, models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='simulate_data', sim_plots_folder='simulate_plots'):
         __doc__ = Pipeline.__init__.__doc__
 

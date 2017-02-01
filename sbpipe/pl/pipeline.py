@@ -44,7 +44,7 @@ class Pipeline:
     :param sim_plots_folder: the folder to store the graphic results
     """
 
-    def __init__(self, models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='sim_data', sim_plots_folder='sim_plots'):
         # The folder containing the models
         self.__models_folder = models_folder

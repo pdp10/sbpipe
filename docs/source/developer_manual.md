@@ -265,10 +265,9 @@ of SBpipe dependencies as well as reference for configuring a project
 before running any pipeline. Projects inside the folder `$SBPIPE/tests/` 
 have the SBpipe project structure:
 
-- `Data`: (e.g. training / testing data sets for the model);
 - `Models`: (e.g. models, Copasi models, Python models, data sets directly used
 by Copasi models);
-- `Working_Folder`: (e.g. pipelines results, etc).
+- `Results`: (e.g. pipelines results, etc).
 
 Examples of configuration files (*.conf) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/.

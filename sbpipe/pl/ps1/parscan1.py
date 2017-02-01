@@ -47,7 +47,7 @@ class ParScan1(Pipeline):
     single parameter scans.
     """
 
-    def __init__(self, models_folder='Models', working_folder='Working_Folder',
+    def __init__(self, models_folder='Models', working_folder='Results',
                  sim_data_folder='single_param_scan_data', sim_plots_folder='single_param_scan_plots'):
         __doc__ = Pipeline.__init__.__doc__
 
