@@ -4,10 +4,8 @@ language: python
 sudo: required
 dist: trusty
 python:
-# snakemake only works with Python3+
   #- "2.7"
-  #- "3.4"
-  - "3.6"
+  - "3.4"
 env:
   - SBPIPE=$(pwd)
 # necessary for installing Python dependencies
