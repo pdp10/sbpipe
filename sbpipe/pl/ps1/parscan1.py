@@ -347,7 +347,7 @@ class ParScan1(Pipeline):
         homogeneous_lines = False
 
         # Initialises the variables
-        for key, value in my_dict.iteritems():
+        for key, value in my_dict.items():
             logger.info(key + ": " + str(value))
             if key == "simulator":
                 simulator = value

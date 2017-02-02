@@ -26,7 +26,6 @@ import logging
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
 import yaml
-from collections import OrderedDict
 
 logger = logging.getLogger('sbpipe')
 
@@ -117,7 +116,6 @@ class Pipeline:
         """
         with open(config, 'r') as stream:
             config_dict = yaml.safe_load(stream)
-            config_dict = OrderedDict(sorted(config_dict.items()))
         return config_dict
 
     def parse(self, config_dict):
@@ -149,7 +147,7 @@ class Pipeline:
         model = "model"
 
         # Initialises the variables
-        for key, value in my_dict.iteritems():
+        for key, value in my_dict.items():
             # logger.info(line)
             if key == "generate_data":
                 generate_data = value

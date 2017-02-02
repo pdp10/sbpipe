@@ -270,7 +270,7 @@ class ParScan2(Pipeline):
         sim_length = 1
 
         # Initialises the variables
-        for key, value in my_dict.iteritems():
+        for key, value in my_dict.items():
             logger.info(key + ": " + str(value))
             if key == "simulator":
                 simulator = value
