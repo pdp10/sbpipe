@@ -48,63 +48,63 @@ import tests.test_python_sim as conf_python
 import tests.test_java_sim as conf_java
 import tests.test_octave_sim as conf_octave
 
-def run_tests_suites():
-    # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-    cleanup.main()
 
-    # Run negative test suites
-    suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestIRSimulate)
-    suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestIRSingleParamScan)
-    suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestIRDoubleParamScan)
-    suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestIRParamEstim)
-    suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestIRLSF)
-    suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestIRSGE)
+class TestSuite(unittest.TestCase):
+
+    def run_tests_suites(self):
+        # Clean the tests (note cleanup_tests has a main() so it runs when imported.
+        cleanup.main()
+
+        # Run negative test suites
+        suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestIRSimulate)
+        suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestIRSingleParamScan)
+        suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestIRDoubleParamScan)
+        suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestIRParamEstim)
+        suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestIRLSF)
+        suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestIRSGE)
 
 
-    # Run positive test suites
-    suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestIRSimulate)
-    suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestIRSingleParamScan)
-    suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestIRDoubleParamScan)
-    suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestIRParamEstim)
-    suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
+        # Run positive test suites
+        suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestIRSimulate)
+        suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestIRSingleParamScan)
+        suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestIRDoubleParamScan)
+        suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestIRParamEstim)
+        suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
 
-    # Run Rscript test
-    suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRscriptSim)
-    suite_rscript_pe = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_pe.TestRscriptPE)
+        # Run Rscript test
+        suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRscriptSim)
+        suite_rscript_pe = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_pe.TestRscriptPE)
 
-    # Run Python test
-    suite_python_sim = unittest.TestLoader().loadTestsFromTestCase(conf_python.TestPythonSim)
+        # Run Python test
+        suite_python_sim = unittest.TestLoader().loadTestsFromTestCase(conf_python.TestPythonSim)
 
-    # Run Java test
-    suite_java_sim = unittest.TestLoader().loadTestsFromTestCase(conf_java.TestJavaSim)
+        # Run Java test
+        suite_java_sim = unittest.TestLoader().loadTestsFromTestCase(conf_java.TestJavaSim)
 
-    # Run Octave test
-    suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
+        # Run Octave test
+        suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
 
-    # combine all the test suites
-    suite = unittest.TestSuite([suite_ok_sim,
-                                suite_ok_ps1,
-                                suite_ok_ps2,
-                                suite_ok_pe,
-                                suite_ok_lsf,
-                                suite_ok_sge,
-                                suite_conferr_sim,
-                                suite_conferr_ps1,
-                                suite_conferr_ps2,
-                                suite_conferr_pe,
-                                suite_conferr_sge,
-                                suite_rscript_sim,
-                                suite_rscript_pe,
-                                suite_python_sim,
-                                suite_java_sim,
-                                suite_octave_sim])
+        # combine all the test suites
+        suite = unittest.TestSuite([suite_ok_sim,
+                                    suite_ok_ps1,
+                                    suite_ok_ps2,
+                                    suite_ok_pe,
+                                    suite_ok_lsf,
+                                    suite_ok_sge,
+                                    suite_conferr_sim,
+                                    suite_conferr_ps1,
+                                    suite_conferr_ps2,
+                                    suite_conferr_pe,
+                                    suite_conferr_sge,
+                                    suite_rscript_sim,
+                                    suite_rscript_pe,
+                                    suite_python_sim,
+                                    suite_java_sim,
+                                    suite_octave_sim])
 
-#    suite = unittest.TestSuite([suite_octave_sim])
+        # run the combined test suite
+        self.assertTrue(unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful())
 
-    # run the combined test suite
-    return unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful()
 
 if __name__ == "__main__":
-    if run_tests_suites():
-        sys.exit(0)
-    sys.exit(1)
+    unittest.main()
