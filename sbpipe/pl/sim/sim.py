@@ -28,6 +28,7 @@ import glob
 import logging
 import os
 import sys
+import yaml
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
@@ -60,17 +61,20 @@ class Sim(Pipeline):
         logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
-        # variable initialisation
+        # load the configuration file
         try:
-            (generate_data, analyse_data, generate_report,
-             project_dir, simulator, model, cluster, local_cpus, runs,
-             exp_dataset, plot_exp_dataset,
-             xaxis_label, yaxis_label) = self.config_parser(config_file, "simulate")
-        except Exception as e:
+            config_dict = Pipeline.load(config_file)
+        except yaml.YAMLError as e:
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
             return False
+
+        # variable initialisation
+        (generate_data, analyse_data, generate_report,
+         project_dir, simulator, model, cluster, local_cpus, runs,
+         exp_dataset, plot_exp_dataset,
+         xaxis_label, yaxis_label) = self.parse(config_dict)
 
         runs = int(runs)
         local_cpus = int(local_cpus)
@@ -254,12 +258,12 @@ class Sim(Pipeline):
         pdf_report(outputdir, filename_prefix + model + ".tex")
         return True
 
-    def read_config(self, lines):
-        __doc__ = Pipeline.read_config.__doc__
+    def parse(self, my_dict):
+        __doc__ = Pipeline.parse.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_config(lines)
+         project_dir, model) = self.parse_common_config(my_dict)
 
         # default values
         simulator = 'Copasi'
@@ -272,24 +276,24 @@ class Sim(Pipeline):
         yaxis_label = 'Level [a.u.]'
 
         # Initialises the variables
-        for line in lines:
-            logger.info(line)
-            if line[0] == "simulator":
-                simulator = line[1]
-            elif line[0] == "cluster":
-                cluster = line[1]
-            elif line[0] == "local_cpus":
-                local_cpus = line[1]
-            elif line[0] == "runs":
-                runs = line[1]
-            elif line[0] == "exp_dataset":
-                exp_dataset = line[1]
-            elif line[0] == "plot_exp_dataset":
-                plot_exp_dataset = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "xaxis_label":
-                xaxis_label = line[1]
-            elif line[0] == "yaxis_label":
-                yaxis_label = line[1]
+        for key, value in my_dict.iteritems():
+            logger.info(key + ": " + str(value))
+            if key == "simulator":
+                simulator = value
+            elif key == "cluster":
+                cluster = value
+            elif key == "local_cpus":
+                local_cpus = value
+            elif key == "runs":
+                runs = value
+            elif key == "exp_dataset":
+                exp_dataset = value
+            elif key == "plot_exp_dataset":
+                plot_exp_dataset = value
+            elif key == "xaxis_label":
+                xaxis_label = value
+            elif key == "yaxis_label":
+                yaxis_label = value
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model,

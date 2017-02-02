@@ -1,0 +1,19 @@
+generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: "."
+simulator: "Copasi"
+model: "insulin_receptor_k1_scan.cps"
+scanned_par: "k1"
+cluster: "local"
+local_cpus: 7
+runs: 1
+simulate__intervals: 100
+single_param_scan_knock_down_only: False
+single_param_scan_percent_levels: False
+min_level: 0.23
+max_level: 0.86
+levels_number: -100
+homogeneous_lines: True
+xaxis_label: "Time [min]"
+yaxis_label: "Level [a.u.]"

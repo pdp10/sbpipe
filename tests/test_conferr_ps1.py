@@ -52,47 +52,47 @@ class TestIRSingleParamScan(unittest.TestCase):
 
     def test_single_param_scan_ci1(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan1.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan1.yaml"]), 1)
 
 
     def test_single_param_scan_ci2(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan2.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan2.yaml"]), 1)
 
 
     def test_single_param_scan_ci3(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan3.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan3.yaml"]), 1)
 
 
     def test_single_param_scan_ci4(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan4.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan4.yaml"]), 1)
 
 
     def test_single_param_scan_ci5(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan5.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan5.yaml"]), 1)
 
 
     def test_single_param_scan_ci6(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan6.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan6.yaml"]), 1)
 
 
     def test_single_param_scan_ci7(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan7.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan7.yaml"]), 1)
 
 
     def test_single_param_scan_ci8(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan8.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan8.yaml"]), 1)
 
 
     def test_single_param_scan_ci9(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan9.conf"]), 1)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan9.yaml"]), 1)
 
 
 if __name__ == '__main__':
