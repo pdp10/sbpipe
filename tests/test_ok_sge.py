@@ -32,13 +32,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRSGE(unittest.TestCase):
-    """
-    A collection of tests for this example using SGE
-    """
+class TestCopasiSGE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
@@ -51,24 +46,21 @@ class TestIRSGE(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_stoch_simul_copasi_sge(self):
-        """model simulation using SGE if found"""
+    def test_stoch_sim_copasi_sge(self):
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sge_ir_model_stoch_simul.yaml"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
-    def test_param_estim_copasi_sge(self):
-        """model parameter estimation using SGE if found"""
+    def test_pe_copasi_sge(self):
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "sge_ir_model_param_estim.yaml"]), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
-    def test_stoch_param_estim_copasi_sge(self):
-        """model stochastic parameter estimation using SGE if found"""
+    def test_stoch_pe_copasi_sge(self):
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "sge_ir_model_stoch_param_estim.yaml"]), 0)

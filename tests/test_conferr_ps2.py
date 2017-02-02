@@ -34,7 +34,7 @@ from sbpipe import main as sbmain
 """Unit test for Insulin Receptor"""
 
 
-class TestIRDoubleParamScan(unittest.TestCase):
+class TestCopasiPS2(unittest.TestCase):
     """
     A collection of tests for this example.
     """
@@ -51,17 +51,17 @@ class TestIRDoubleParamScan(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_double_param_scan_inhib_only1(self):
-        """model double param scan - inhibition only"""
+        """test_double_param_scan_inhib_only1"""
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib1.yaml"]), 1)
 
     def test_double_param_scan_inhib_only2(self):
-        """model double param scan - inhibition only"""
+        """test_double_param_scan_inhib_only2"""
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib2.yaml"]), 0)
 
     def test_double_param_scan_inhib_only3(self):
-        """model double param scan - inhibition only"""
+        """test_double_param_scan_inhib_only3"""
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib3.yaml"]), 1)
 

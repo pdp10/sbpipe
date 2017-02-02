@@ -52,7 +52,7 @@ class TestOctaveSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_octave_model_simulation(self):
-        """A non linear octave model - simulation"""
+        """test_octave_model_simulation"""
         try:
             subprocess.Popen(['octave', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "nonlinear_octave_model_sim.yaml"]), 0)

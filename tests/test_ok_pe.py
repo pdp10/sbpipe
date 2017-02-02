@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRParamEstim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestCopasiPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
@@ -50,12 +45,10 @@ class TestIRParamEstim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_param_estim_copasi(self):
-        """model parameter estimation"""
+    def test_pe_copasi1(self):
         self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim.yaml"]), 0)
 
-    def test_non_identif_param_estim_copasi(self):
-        """model parameter estimation with identifiability issues """
+    def test_pe_copasi2(self):
         self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_non_identif_param_estim.yaml"]), 0)
 
 

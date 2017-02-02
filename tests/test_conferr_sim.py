@@ -34,7 +34,7 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSimulate(unittest.TestCase):
+class TestCopasiSim(unittest.TestCase):
     """
     A collection of tests for this example.
     """
@@ -50,19 +50,19 @@ class TestIRSimulate(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_det_simulation1(self):
-        """model deterministic simulation"""
+        """test_det_simulation1"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul1.yaml"]), 0)
 
     def test_det_simulation2(self):
-        """model deterministic simulation"""
+        """test_det_simulation2"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul2.yaml"]), 1)
 
     def test_det_simulation3(self):
-        """model deterministic simulation"""
+        """test_det_simulation3"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul3.yaml"]), 1)
 
     def test_det_simulation4(self):
-        """model deterministic simulation"""
+        """test_det_simulation4"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul4.yaml"]), 1)
 
 
