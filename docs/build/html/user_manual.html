@@ -322,20 +322,19 @@ received report file name. These data must be stored as described above.</p>
 </pre></div>
 </div>
 <p>Configuration file invoking the Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[simulate]
-generate_data=True
-analyse_data=True
-generate_report=True
-project_dir=.
-simulator=Python
-model=sde_periodic_drift.py
-cluster=local
-local_cpus=7
-runs=14
-exp_dataset=
-plot_exp_dataset=False
-xaxis_label=Time
-yaxis_label=#
+<div class="highlight-python"><div class="highlight"><pre><span></span>generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: &quot;.&quot;
+simulator: &quot;Python&quot;
+model: &quot;sde_periodic_drift.py&quot;
+cluster: &quot;local&quot;
+local_cpus: 7
+runs: 14
+exp_dataset: &quot;&quot;
+plot_exp_dataset: False
+xaxis_label: &quot;Time&quot;
+yaxis_label: &quot;#&quot;
 </pre></div>
 </div>
 </div>

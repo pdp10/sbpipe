@@ -279,20 +279,19 @@ subprocess.call(shlex.split(command))
 
 Configuration file invoking the Python wrapper `sde_periodic_drift.py`
 ```
-[simulate]
-generate_data=True
-analyse_data=True
-generate_report=True
-project_dir=.
-simulator=Python
-model=sde_periodic_drift.py
-cluster=local
-local_cpus=7
-runs=14
-exp_dataset=
-plot_exp_dataset=False
-xaxis_label=Time
-yaxis_label=#
+generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: "."
+simulator: "Python"
+model: "sde_periodic_drift.py"
+cluster: "local"
+local_cpus: 7
+runs: 14
+exp_dataset: ""
+plot_exp_dataset: False
+xaxis_label: "Time"
+yaxis_label: "#"
 ```
 
 
