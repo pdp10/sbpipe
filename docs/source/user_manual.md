@@ -109,7 +109,7 @@ The correct installation of CopasiSE can be tested by running the command:
 $ source $HOME/.bashrc
 
 $ CopasiSE -h
-COPASI 4.16 (Build 104)
+COPASI 4.19 (Build 140)
 ```
 
 At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed 
@@ -283,7 +283,7 @@ Configuration file invoking the Python wrapper `sde_periodic_drift.py`
 generate_data=True
 analyse_data=True
 generate_report=True
-project_dir=..
+project_dir=.
 simulator=Python
 model=sde_periodic_drift.py
 cluster=local
