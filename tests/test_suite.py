@@ -99,7 +99,7 @@ def run_tests_suites():
                                 suite_java_sim,
                                 suite_octave_sim])
 
-    suite = unittest.TestSuite([suite_octave_sim])
+#    suite = unittest.TestSuite([suite_octave_sim])
 
     # run the combined test suite
     return unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful()
