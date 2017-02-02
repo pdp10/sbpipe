@@ -83,7 +83,7 @@ class ParEst(Pipeline):
         runs = int(runs)
         round = int(round)
         local_cpus = int(local_cpus)
-        best_fits_percent = int(best_fits_percent)
+        best_fits_percent = float(best_fits_percent)
         data_point_num = int(data_point_num)
 
         models_dir = os.path.join(project_dir, self.get_models_folder())

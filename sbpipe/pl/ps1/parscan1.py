@@ -83,8 +83,8 @@ class ParScan1(Pipeline):
         runs = int(runs)
         local_cpus = int(local_cpus)
         simulate__intervals = int(simulate__intervals)
-        min_level = int(min_level)
-        max_level = int(max_level)
+        min_level = float(min_level)
+        max_level = float(max_level)
         levels_number = int(levels_number)
 
 
