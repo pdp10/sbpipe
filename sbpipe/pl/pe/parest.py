@@ -27,6 +27,7 @@ import glob
 import logging
 import os
 import sys
+import yaml
 import tarfile
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
@@ -62,29 +63,33 @@ class ParEst(Pipeline):
         logger.info("\n")
         logger.info("Reading file " + config_file + " : \n")
 
-        # variable initialisation
+        # load the configuration file
         try:
-            (generate_data, analyse_data, generate_report,
-             generate_tarball, project_dir, simulator, model,
-             cluster, local_cpus, round, runs,
-             best_fits_percent, data_point_num,
-             plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
-             logspace, scientific_notation) = self.config_parser(config_file, "param_estim")
-        except Exception as e:
+            config_dict = Pipeline.load(config_file)
+        except yaml.YAMLError as e:
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
             return False
 
+        # variable initialisation
+        (generate_data, analyse_data, generate_report,
+         generate_tarball, project_dir, simulator, model,
+         cluster, local_cpus, round, runs,
+         best_fits_percent, data_point_num,
+         plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+         logspace, scientific_notation) = self.parse(config_dict)
+
         runs = int(runs)
+        round = int(round)
         local_cpus = int(local_cpus)
-        best_fits_percent = int(best_fits_percent)
+        best_fits_percent = float(best_fits_percent)
         data_point_num = int(data_point_num)
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         working_dir = os.path.join(project_dir, self.get_working_folder())
 
-        output_folder = os.path.splitext(model)[0] + "_round" + round
+        output_folder = os.path.splitext(model)[0] + "_round" + str(round)
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
@@ -312,12 +317,12 @@ class ParEst(Pipeline):
         pdf_report(outputdir, filename_prefix + model + ".tex")
         return True
 
-    def read_config(self, lines):
-        __doc__ = Pipeline.read_config.__doc__
+    def parse(self, my_dict):
+        __doc__ = Pipeline.parse.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_config(lines)
+         project_dir, model) = self.parse_common_config(my_dict)
 
         # default values
         # The simulator
@@ -351,34 +356,34 @@ class ParEst(Pipeline):
         scientific_notation = True
 
         # Initialises the variables
-        for line in lines:
-            logger.info(line)
-            if line[0] == "simulator":
-                simulator = line[1]
-            elif line[0] == "generate_tarball":
-                generate_tarball = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "cluster":
-                cluster = line[1]
-            elif line[0] == "round":
-                round = line[1]
-            elif line[0] == "runs":
-                runs = line[1]
-            elif line[0] == "local_cpus":
-                local_cpus = line[1]
-            elif line[0] == "best_fits_percent":
-                best_fits_percent = line[1]
-            elif line[0] == "data_point_num":
-                data_point_num = line[1]
-            elif line[0] == "plot_2d_66cl_corr":
-                plot_2d_66cl_corr = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "plot_2d_95cl_corr":
-                plot_2d_95cl_corr = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "plot_2d_99cl_corr":
-                plot_2d_99cl_corr = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "logspace":
-                logspace = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "scientific_notation":
-                scientific_notation = {'True': True, 'False': False}.get(line[1], False)
+        for key, value in my_dict.items():
+            logger.info(key + ": " + str(value))
+            if key == "simulator":
+                simulator = value
+            elif key == "generate_tarball":
+                generate_tarball = value
+            elif key == "cluster":
+                cluster = value
+            elif key == "round":
+                round = value
+            elif key == "runs":
+                runs = value
+            elif key == "local_cpus":
+                local_cpus = value
+            elif key == "best_fits_percent":
+                best_fits_percent = value
+            elif key == "data_point_num":
+                data_point_num = value
+            elif key == "plot_2d_66cl_corr":
+                plot_2d_66cl_corr = value
+            elif key == "plot_2d_95cl_corr":
+                plot_2d_95cl_corr = value
+            elif key == "plot_2d_99cl_corr":
+                plot_2d_99cl_corr = value
+            elif key == "logspace":
+                logspace = value
+            elif key == "scientific_notation":
+                scientific_notation = value
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model, cluster, local_cpus,
