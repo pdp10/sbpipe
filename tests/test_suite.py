@@ -99,9 +99,12 @@ def run_tests_suites():
                                 suite_java_sim,
                                 suite_octave_sim])
 
-    # run the combined test suite
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    suite = unittest.TestSuite([suite_octave_sim])
 
+    # run the combined test suite
+    return unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful()
 
 if __name__ == "__main__":
-    run_tests_suites()
+    if run_tests_suites():
+        sys.exit(0)
+    sys.exit(1)
