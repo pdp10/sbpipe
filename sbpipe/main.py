@@ -28,13 +28,14 @@ import os
 import sys
 
 try:  # Python 2.7+
-    from logging import NullHandler
+    from logging import NullHandler, StreamHandler
 except ImportError:
     class NullHandler(logging.Handler):
         def emit(self, record):
             pass
-# Add a default empty handler
-logging.getLogger(__name__).addHandler(NullHandler())
+# Add a default empty handler (developing mode)
+logging.getLogger('sbpipe').addHandler(NullHandler())
+
 from logging.config import fileConfig
 
 SBPIPE = os.environ["SBPIPE"]
@@ -165,9 +166,18 @@ def main(argv=None):
     if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
         os.makedirs(os.path.join(home, '.sbpipe', 'logs'))
     # disable_existing_loggers=False to enable logging for Python third-party packages
-    fileConfig(os.path.join(SBPIPE, 'logging_config.ini'),
-               defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
-               disable_existing_loggers=False)
+    logging_config_file = os.path.join(SBPIPE, 'logging_config.ini')
+    if os.path.isfile(logging_config_file):
+        fileConfig(logging_config_file,
+                   defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
+                   disable_existing_loggers=False)
+    else:
+        # Add a stream handler (production mode)
+        logger = logging.getLogger('sbpipe')
+        logger.addHandler(StreamHandler(sys.stdout))
+        logger.setLevel("INFO")
+        logger.warning('Logging configuration file not found.')
+        logger.warning('Setting up new stream logger (level: INFO) for this session.')
 
     exit_status = 0
     no_conf_file_msg = 'no configuration file received'
