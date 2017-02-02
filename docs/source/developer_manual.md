@@ -201,15 +201,14 @@ All these pipelines can be invoked directly via the script
 # executes a pipeline
 def run(self, config_file)
 
-# process the configuration file lines 
-# imported by Pipeline.config_parser()
-def read_config(self, lines)
+# process the dictionary of the configuration file loaded by Pipeline.load()
+def parse(self, config_dict)
 ```
 
-The former contains the procedure to parse an INI configuration file. 
-The latter parses the pipeline options. The `Pipeline` class implements 
-the INI parser which is therefore available to each pipeline. The INI 
-parser returns the configuration file as a list of lines.
+- The method run() can invoke Pipeline.load() to load the YAML config_file as a dictionary.
+Once the configuration is loaded and the parameters are imported, run() executes
+the pipeline.
+- The method parse() parses the dictionary and collects the values.
 
 
 #### R
@@ -269,11 +268,10 @@ have the SBpipe project structure:
 by Copasi models);
 - `Results`: (e.g. pipelines results, etc).
 
-Examples of configuration files (*.conf) using Copasi can be found in
+Examples of configuration files (*.yaml) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/.
 
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
-These additional dependencies should not be included to SBpipe main dependencies as they are user-specific.
 In principle, users may define their Python models using arbitrary packages.
 
 As of 2016, the repository for SBpipe source code is `github.com`. This 

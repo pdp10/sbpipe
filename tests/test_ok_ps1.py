@@ -52,19 +52,19 @@ class TestIRSingleParamScan(unittest.TestCase):
 
     def test_single_param_scan_ci(self):
         """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.yaml"]), 0)
 
     def test_single_param_scan_inhib_only(self):
         """model single param scan - inhibition only"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.yaml"]), 0)
 
     def test_single_param_scan_inhib_only_stoch(self):
         """model single param scan - inhibition only (stochastic repeats) """
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_stoch.conf"]), 0)
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_stoch.yaml"]), 0)
 
     def test_single_param_scan_inhib_overexp(self):
         """model single param scan - inhibition/overexpression"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
+        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.yaml"]),
                          0)
 
 

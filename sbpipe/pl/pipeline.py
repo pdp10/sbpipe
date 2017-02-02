@@ -25,11 +25,7 @@
 import logging
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
-
-try:
-    import configparser # Python 3
-except ImportError:
-    import ConfigParser as configparser # Python 2
+import yaml
 
 logger = logging.getLogger('sbpipe')
 
@@ -109,41 +105,33 @@ class Pipeline:
         # use reflection to dynamically load the simulator class by name
         return locate('sbpipe.simul.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
 
-    def config_parser(self, config_file, section):
+    @classmethod
+    def load(cls, config):
         """
-        Return the configuration for the parsed section in the config_file
-        
-        :param config_file: the configuration file to parse
-        :param section: the section in the configuration file to parse
-        :return: the configuration for the parsed section in the config_file
-        """
-        parser = configparser.ConfigParser()
-        with open(config_file) as myfile:
-            # TODO - Legacy code for Python 2.7.
-            # Although readfp() works for Python 3, it is deprecated.
-            # In the future the code below will be just
-            # parser.read_file(myfile)
-            import sys
-            if sys.version_info < (3,):
-                parser.readfp(myfile)
-            else:
-                parser.read_file(myfile)
-        return self.read_config(parser.items(section))
+        Safely load a YAML configuration file and return its structure as a dictionary object.
 
-    def read_config(self, lines):
+        :param config: a YAML configuration file
+        :return the dictionary structure of the configuration file
+        :raise yaml.YAMLError if the config cannot be loaded.
         """
-        Read the section lines from the configuration file. This method is abstract.
+        with open(config, 'r') as stream:
+            config_dict = yaml.safe_load(stream)
+        return config_dict
+
+    def parse(self, config_dict):
+        """
+        Read a dictionary structure containing the pipeline configuration. This method is abstract.
         
         :return: a tuple containing the configuration
         """
         pass
 
     @classmethod
-    def read_common_config(cls, lines):
+    def parse_common_config(cls, my_dict):
         """
-        Parse the common parameters from the configuration file
+        Parse the common parameters from dict
 
-        :param lines: the lines to parse.
+        :param my_dict: a dictionary structure to parse
         :return: return a tuple containing the common parameters
         """
         # default values
@@ -154,23 +142,23 @@ class Pipeline:
         # Boolean flag
         generate_report = True
         # the project directory
-        project_dir = ""
+        project_dir = "."
         # the  model
         model = "model"
 
         # Initialises the variables
-        for line in lines:
+        for key, value in my_dict.items():
             # logger.info(line)
-            if line[0] == "generate_data":
-                generate_data = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "analyse_data":
-                analyse_data = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "generate_report":
-                generate_report = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "project_dir":
-                project_dir = line[1]
-            elif line[0] == "model":
-                model = line[1]
+            if key == "generate_data":
+                generate_data = value
+            elif key == "analyse_data":
+                analyse_data = value
+            elif key == "generate_report":
+                generate_report = value
+            elif key == "project_dir":
+                project_dir = value
+            elif key == "model":
+                model = value
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, model)
