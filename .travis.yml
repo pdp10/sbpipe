@@ -29,7 +29,7 @@ install:
   # install R dependencies
 #  - mkdir -p $(pwd)/r_libs/
 #  - export R_LIBS_USER=$(pwd)/r_libs/
-  - Rscript install_rdeps.r
+#  - Rscript install_rdeps.r
   
   # install python dependencies
   # Travis-CI does not accept "--user" option within the pip command. 
@@ -38,7 +38,7 @@ install:
   - pip install -r requirements.txt
   
   # install sbpipe
-  - python setup.py install
+#  - python setup.py install
 # command to run tests
 script:
   # It would be nice to have this change in nose test setup.cfg
