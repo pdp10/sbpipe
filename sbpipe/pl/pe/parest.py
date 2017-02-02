@@ -60,8 +60,10 @@ class ParEst(Pipeline):
         logger.info("==============================")
         logger.info("Pipeline: parameter estimation")
         logger.info("==============================")
+
         logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
 
         # load the configuration file
         try:

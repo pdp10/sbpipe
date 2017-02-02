@@ -60,8 +60,10 @@ class ParScan1(Pipeline):
         logger.info("===============================")
         logger.info("Pipeline: single parameter scan")
         logger.info("===============================")
+
         logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
 
         # load the configuration file
         try:
@@ -269,7 +271,7 @@ class ParScan1(Pipeline):
         yaxis_label = escape_special_chars(yaxis_label)
 
         for id in range(1, runs+1):
-            logger.info('Simulation No.:' + str(id))
+            logger.info('Simulation No.' + str(id))
             command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
                       ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + \
                       ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str(id) + \

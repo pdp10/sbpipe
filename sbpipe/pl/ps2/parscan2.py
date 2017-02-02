@@ -59,8 +59,10 @@ class ParScan2(Pipeline):
         logger.info("===============================")
         logger.info("Pipeline: double parameter scan")
         logger.info("===============================")
+
         logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
 
         # load the configuration file
         try:
@@ -214,7 +216,7 @@ class ParScan2(Pipeline):
             return False
 
         for id in range(1, runs+1):
-            logger.info('Simulation No.:' + str(id))
+            logger.info('Simulation No.' + str(id))
             command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
                 ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
                 ' ' + outputdir + ' ' + str(id)
