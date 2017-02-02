@@ -35,7 +35,7 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSGE(unittest.TestCase):
+class TestCopasiSGE(unittest.TestCase):
     """
     A collection of tests for this example using SGE
     """

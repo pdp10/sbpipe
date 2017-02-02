@@ -52,29 +52,29 @@ import tests.test_octave_sim as conf_octave
 class TestSuite(unittest.TestCase):
 
     def run_tests_suites(self):
-        """SBpipe test suite"""
+
         # Clean the tests (note cleanup_tests has a main() so it runs when imported.
         #cleanup.main()
 
         # Run negative test suites
-        suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestIRSimulate)
-        suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestIRSingleParamScan)
-        suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestIRDoubleParamScan)
-        suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestIRParamEstim)
-        suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestIRLSF)
-        suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestIRSGE)
+        suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestCopasiSim)
+        suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestCopasiPS1)
+        suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestCopasiPS2)
+        suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestCopasiPE)
+        suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestCopasiLSF)
+        suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestCopasiSGE)
 
 
         # Run positive test suites
-        suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestIRSimulate)
-        suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestIRSingleParamScan)
-        suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestIRDoubleParamScan)
-        suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestIRParamEstim)
-        suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestIRSGE)
+        suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestCopasiSim)
+        suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestCopasiPS1)
+        suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestCopasiPS2)
+        suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestCopasiPE)
+        suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestCopasiSGE)
 
         # Run Rscript test
-        suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRscriptSim)
-        suite_rscript_pe = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_pe.TestRscriptPE)
+        suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRSim)
+        suite_rscript_pe = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_pe.TestRPE)
 
         # Run Python test
         suite_python_sim = unittest.TestLoader().loadTestsFromTestCase(conf_python.TestPythonSim)

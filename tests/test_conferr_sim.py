@@ -34,7 +34,7 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSimulate(unittest.TestCase):
+class TestCopasiSim(unittest.TestCase):
     """
     A collection of tests for this example.
     """

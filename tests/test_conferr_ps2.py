@@ -34,7 +34,7 @@ from sbpipe import main as sbmain
 """Unit test for Insulin Receptor"""
 
 
-class TestIRDoubleParamScan(unittest.TestCase):
+class TestCopasiPS2(unittest.TestCase):
     """
     A collection of tests for this example.
     """

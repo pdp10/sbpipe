@@ -34,7 +34,7 @@ import unittest
 """Unit test for Insulin Receptor"""
 
 
-class TestIRSingleParamScan(unittest.TestCase):
+class TestCopasiPS1(unittest.TestCase):
     """
     A collection of tests for this example.
     """

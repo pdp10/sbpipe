@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRSingleParamScan(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestCopasiPS1(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
@@ -50,23 +45,18 @@ class TestIRSingleParamScan(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_single_param_scan_ci(self):
-        """test_single_param_scan_ci"""
+    def test_ps1_ci(self):
         self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.yaml"]), 0)
 
-    def test_single_param_scan_inhib_only(self):
-        """test_single_param_scan_inhib_only"""
+    def test_ps1_inhib_only(self):
         self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.yaml"]), 0)
 
-    def test_single_param_scan_inhib_only_stoch(self):
-        """test_single_param_scan_inhib_only_stoch"""
+    def test_stoch_ps1_inhib_only(self):
         self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_stoch.yaml"]), 0)
 
-    def test_single_param_scan_inhib_overexp(self):
-        """test_single_param_scan_inhib_overexp"""
+    def test_ps1_inhib_overexp(self):
         self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.yaml"]),
                          0)
-
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -32,13 +32,8 @@ from sbpipe import main as sbmain
 import unittest
 import subprocess
 
-"""Unit test for R simulator"""
 
-
-class TestRscriptSim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestRSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _rscript = os.path.join('r_models')
@@ -51,8 +46,7 @@ class TestRscriptSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_simple_lotka_volterra_simulation(self):
-        """test_simple_lotka_volterra_simulation"""
+    def test_sim_r_lotka_volterra(self):
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
@@ -65,8 +59,7 @@ class TestRscriptSim(unittest.TestCase):
         except OSError as e:
             print("Skipping test as R was not found.")
 
-    def test_2Dpde_lotka_volterra_simulation(self):
-        """test_2Dpde_lotka_volterra_simulation"""
+    def test_sim_r_pde_lotka_volterra(self):
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
@@ -79,8 +72,7 @@ class TestRscriptSim(unittest.TestCase):
         except OSError as e:
             print("Skipping test as R was not found.")
 
-    def test_sde_periodic_drift(self):
-        """test_sde_periodic_drift"""
+    def test_stoch_sim_r_periodic_drift(self):
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
@@ -93,8 +85,7 @@ class TestRscriptSim(unittest.TestCase):
         except OSError as e:
             print("Skipping test as R was not found.")
 
-    def test_sde_cox_ingersoll_ross_process(self):
-        """test_sde_cox_ingersoll_ross_process"""
+    def test_stoch_sim_r_cox_ingersoll_ross_process(self):
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
@@ -107,8 +98,7 @@ class TestRscriptSim(unittest.TestCase):
         except OSError as e:
             print("Skipping test as R was not found.")
 
-    def test_sim_simple_reacts(self):
-        """test_sim_simple_reacts"""
+    def test_sim_r(self):
         try:
             reshape2 = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
