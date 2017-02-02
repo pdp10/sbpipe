@@ -40,6 +40,6 @@ install:
 # command to run tests
 script:
   # Override SBpipe logging configuration
-  - sed -i 's/level=INFO/level=WARNING/g' logging_config.ini
-  - sed -i 's/level=DEBUG/level=WARNING/g' logging_config.ini
+  - sed -i 's/level=INFO/level=ERROR/g' logging_config.ini
+  - sed -i 's/level=DEBUG/level=ERROR/g' logging_config.ini
   - nosetests test_suite.py
