@@ -51,12 +51,12 @@ class TestIRDoubleParamScan(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_double_param_scan_inhib_only(self):
-        """model double param scan - inhibition only"""
+        """test_double_param_scan_inhib_only"""
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib.yaml"]), 0)
 
     def test_double_param_scan_stoch_inhib_only(self):
-        """model double param scan - inhibition only - stochastic"""
+        """test_double_param_scan_stoch_inhib_only"""
         self.assertEqual(
             sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"]), 0)
 

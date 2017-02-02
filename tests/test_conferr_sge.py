@@ -52,7 +52,7 @@ class TestIRSGE(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_stoch_simul_copasi_sge(self):
-        """model simulation using SGE if found"""
+        """test_stoch_simul_copasi_sge"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sge_ir_model_det_simul.yaml"]), 0)

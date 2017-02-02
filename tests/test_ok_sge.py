@@ -52,7 +52,7 @@ class TestIRSGE(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_stoch_simul_copasi_sge(self):
-        """model simulation using SGE if found"""
+        """test_stoch_simul_copasi_sge"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sge_ir_model_stoch_simul.yaml"]), 0)
@@ -60,7 +60,7 @@ class TestIRSGE(unittest.TestCase):
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
     def test_param_estim_copasi_sge(self):
-        """model parameter estimation using SGE if found"""
+        """test_param_estim_copasi_sge"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "sge_ir_model_param_estim.yaml"]), 0)
@@ -68,7 +68,7 @@ class TestIRSGE(unittest.TestCase):
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
     def test_stoch_param_estim_copasi_sge(self):
-        """model stochastic parameter estimation using SGE if found"""
+        """test_stoch_param_estim_copasi_sge"""
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "sge_ir_model_stoch_param_estim.yaml"]), 0)

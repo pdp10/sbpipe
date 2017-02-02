@@ -52,6 +52,7 @@ import tests.test_octave_sim as conf_octave
 class TestSuite(unittest.TestCase):
 
     def run_tests_suites(self):
+        """SBpipe test suite"""
         # Clean the tests (note cleanup_tests has a main() so it runs when imported.
         #cleanup.main()
 

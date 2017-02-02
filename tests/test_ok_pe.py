@@ -51,11 +51,11 @@ class TestIRParamEstim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_param_estim_copasi(self):
-        """model parameter estimation"""
+        """test_param_estim_copasi"""
         self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim.yaml"]), 0)
 
     def test_non_identif_param_estim_copasi(self):
-        """model parameter estimation with identifiability issues """
+        """test_non_identif_param_estim_copasi"""
         self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_non_identif_param_estim.yaml"]), 0)
 
 

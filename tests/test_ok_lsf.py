@@ -52,7 +52,7 @@ class TestIRLSF(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_stoch_simul_copasi_lsf(self):
-        """model simulation using LSF if found"""
+        """test_stoch_simul_copasi_lsf"""
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "lsf_ir_model_stoch_simul.yaml"]), 0)
@@ -60,7 +60,7 @@ class TestIRLSF(unittest.TestCase):
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
     def test_param_estim_copasi_lsf(self):
-        """model parameter estimation using LSF if found"""
+        """test_param_estim_copasi_lsf"""
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "lsf_ir_model_param_estim.yaml"]), 0)
@@ -68,7 +68,7 @@ class TestIRLSF(unittest.TestCase):
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
             
     def test_stoch_param_estim_copasi_lsf(self):
-        """model stochastic parameter estimation using LSF if found"""
+        """test_stoch_param_estim_copasi_lsf"""
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "lsf_ir_model_stoch_param_estim.yaml"]), 0)

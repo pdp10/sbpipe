@@ -52,7 +52,7 @@ class TestJavaSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_java_simqueue_simulation(self):
-        """A simulated queue model in java - simulation"""
+        """test_java_simqueue_simulation"""
         try:
             subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simqueue.yaml"]), 0)

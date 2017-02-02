@@ -52,7 +52,7 @@ class TestRscriptSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_simple_lotka_volterra_simulation(self):
-        """Simple Lotka-Volterra model simulation"""
+        """test_simple_lotka_volterra_simulation"""
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
@@ -66,7 +66,7 @@ class TestRscriptSim(unittest.TestCase):
             print("Skipping test as R was not found.")
 
     def test_2Dpde_lotka_volterra_simulation(self):
-        """2D partial differential equation Lotka-Volterra model simulation"""
+        """test_2Dpde_lotka_volterra_simulation"""
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
@@ -80,7 +80,7 @@ class TestRscriptSim(unittest.TestCase):
             print("Skipping test as R was not found.")
 
     def test_sde_periodic_drift(self):
-        """Stochastic differential equation simulation - periodic drift"""
+        """test_sde_periodic_drift"""
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
@@ -94,7 +94,7 @@ class TestRscriptSim(unittest.TestCase):
             print("Skipping test as R was not found.")
 
     def test_sde_cox_ingersoll_ross_process(self):
-        """Stochastic differential equation simulation - cox_ingersoll_ross_process"""
+        """test_sde_cox_ingersoll_ross_process"""
         try:
             output = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
@@ -108,7 +108,7 @@ class TestRscriptSim(unittest.TestCase):
             print("Skipping test as R was not found.")
 
     def test_sim_simple_reacts(self):
-        """A simple R model whose parameters have been estimated using sbpipe"""
+        """test_sim_simple_reacts"""
         try:
             reshape2 = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \

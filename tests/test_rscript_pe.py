@@ -52,7 +52,7 @@ class TestRscriptPE(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_simple_reacts_pe(self):
-        """Parameter estimation of simple reactions model"""
+        """test_simple_reacts_pe"""
         try:
             reshape2 = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \

@@ -52,7 +52,7 @@ class TestPythonSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_python_insulin_receptor_simulation(self):
-        """Insulin receptor model in python - simulation"""
+        """test_python_insulin_receptor_simulation"""
         if not isPyPackageInstalled("numpy"):
             print("Skipping test as Python numpy was not found.")
         elif not isPyPackageInstalled("scipy"):

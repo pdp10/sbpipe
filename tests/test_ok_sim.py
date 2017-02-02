@@ -51,11 +51,11 @@ class TestIRSimulate(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_det_simulation(self):
-        """model deterministic simulation"""
+        """test_det_simulation"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul.yaml"]), 0)
 
     def test_stoch_simulation(self):
-        """model stochastic simulation"""
+        """test_stoch_simulation"""
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_stoch_simul.yaml"]), 0)
 
 
