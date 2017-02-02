@@ -29,9 +29,11 @@ import logging
 import os
 import os.path
 import sys
+import yaml
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
+from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
 
 SBPIPE = os.environ["SBPIPE"]
@@ -58,20 +60,25 @@ class ParScan2(Pipeline):
         logger.info("===============================")
         logger.info("Pipeline: double parameter scan")
         logger.info("===============================")
-        logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
 
-        # variable initialisation
+        logger.info("\n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
+
+        # load the configuration file
         try:
-            (generate_data, analyse_data, generate_report,
-             project_dir, simulator, model, scanned_par1, scanned_par2,
-             cluster, local_cpus, runs,
-             sim_length) = self.config_parser(config_file, "double_param_scan")
-        except Exception as e:
+            config_dict = Pipeline.load(config_file)
+        except yaml.YAMLError as e:
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
             return False
+
+        # variable initialisation
+        (generate_data, analyse_data, generate_report,
+         project_dir, simulator, model, scanned_par1, scanned_par2,
+         cluster, local_cpus, runs,
+         sim_length) = self.parse(config_dict)
 
         runs = int(runs)
         local_cpus = int(local_cpus)
@@ -120,6 +127,7 @@ class ParScan2(Pipeline):
                                            os.path.join(outputdir, self.get_sim_data_folder()),
                                            os.path.join(outputdir, self.get_sim_plots_folder()),
                                            cluster,
+                                           local_cpus,
                                            runs)
             if not status:
                 return False
@@ -186,7 +194,7 @@ class ParScan2(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', runs=1):
+    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', local_cpus=1, runs=1):
         """
         The second pipeline step: data analysis.
 
@@ -196,6 +204,7 @@ class ParScan2(Pipeline):
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
         :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
@@ -209,14 +218,15 @@ class ParScan2(Pipeline):
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
-        for id in range(1, runs+1):
-            logger.info('Simulation No.:' + str(id))
-            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
+        str_to_replace = get_rand_alphanum_str(10)
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
                 ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-                ' ' + outputdir + ' ' + str(id)
-            # we don't replace any string in files. So let's use a substring which won't even be in any file.
-            str_to_replace = '//////////'
-            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+                ' ' + outputdir + ' ' + str_to_replace
+        parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
         return True
 
     @classmethod
@@ -246,12 +256,12 @@ class ParScan2(Pipeline):
         pdf_report(outputdir, filename_prefix + model + ".tex")
         return True
 
-    def read_config(self, lines):
-        __doc__ = Pipeline.read_config.__doc__
+    def parse(self, my_dict):
+        __doc__ = Pipeline.parse.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_config(lines)
+         project_dir, model) = self.parse_common_config(my_dict)
 
         # default values
         simulator = 'Copasi'
@@ -266,22 +276,22 @@ class ParScan2(Pipeline):
         sim_length = 1
 
         # Initialises the variables
-        for line in lines:
-            logger.info(line)
-            if line[0] == "simulator":
-                simulator = line[1]
-            elif line[0] == "scanned_par1":
-                scanned_par1 = line[1]
-            elif line[0] == "scanned_par2":
-                scanned_par2 = line[1]
-            elif line[0] == "cluster":
-                cluster = line[1]
-            elif line[0] == "local_cpus":
-                local_cpus = line[1]
-            elif line[0] == "runs":
-                runs = line[1]
-            elif line[0] == "sim_length":
-                sim_length = line[1]
+        for key, value in my_dict.items():
+            logger.info(key + ": " + str(value))
+            if key == "simulator":
+                simulator = value
+            elif key == "scanned_par1":
+                scanned_par1 = value
+            elif key == "scanned_par2":
+                scanned_par2 = value
+            elif key == "cluster":
+                cluster = value
+            elif key == "local_cpus":
+                local_cpus = value
+            elif key == "runs":
+                runs = value
+            elif key == "sim_length":
+                sim_length = value
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par1, scanned_par2,

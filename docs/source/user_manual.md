@@ -109,7 +109,7 @@ The correct installation of CopasiSE can be tested by running the command:
 $ source $HOME/.bashrc
 
 $ CopasiSE -h
-COPASI 4.16 (Build 104)
+COPASI 4.19 (Build 140)
 ```
 
 At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed 
@@ -279,20 +279,19 @@ subprocess.call(shlex.split(command))
 
 Configuration file invoking the Python wrapper `sde_periodic_drift.py`
 ```
-[simulate]
-generate_data=True
-analyse_data=True
-generate_report=True
-project_dir=..
-simulator=Python
-model=sde_periodic_drift.py
-cluster=local
-local_cpus=7
-runs=14
-exp_dataset=
-plot_exp_dataset=False
-xaxis_label=Time
-yaxis_label=#
+generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: "."
+simulator: "Python"
+model: "sde_periodic_drift.py"
+cluster: "local"
+local_cpus: 7
+runs: 14
+exp_dataset: ""
+plot_exp_dataset: False
+xaxis_label: "Time"
+yaxis_label: "#"
 ```
 
 
@@ -324,6 +323,8 @@ List of mandatory options:
                 Show the license.
         -v, --version
                 Show the version.
+            --logo
+                Show the logo.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
@@ -357,32 +358,20 @@ For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:
 ```
 $ cd project_name/
-$ sbpipe.py -e my_config_file.conf
+$ sbpipe.py -e my_config_file.yaml
 ```
 
 
 ### Pipeline configuration files
 Pipelines are configured using files (here called configuration files). 
-These files are INI files and are therefore structured as follows: 
-```
-[pipeline_name]
-option1=value1
-option2=value2
-...
-```
-where `pipeline_name` can be:
-- `simulate`, for deterministic or stochastic model simulation;
-- `single_param_scan`, for scanning one model parameter;
-- `double_param_scan`, for scanning two model parameters;
-- `param_estim`, for parameter estimation.
-
-In SBpipe each pipeline executes three tasks: data generation, data 
+These files are YAML files.
+In SBpipe each pipeline executes three tasks: data generation, data
 analysis, and report generation. These tasks can be activated in each
 configuration files using the options:
 
-- generate_data=True
-- analyse_data=True
-- generate_report=True
+- generate_data: True
+- analyse_data: True
+- generate_report: True
 
 The `generate_data` task runs a simulator accordingly to the options in
 the configuration file. Hence, this task collects and organises the reports
@@ -397,9 +386,9 @@ Pipelines for parameter estimation or stochastic model simulation can be
 computationally intensive. SBpipe allows users to generate simulated data
 in parallel using the following options in the pipeline configuration file:
 
-- cluster=local
-- local_cpus=7
-- runs=250
+- cluster: "local"
+- local_cpus: 7
+- runs: 250
 
 The `cluster` option defines whether the simulator should be executed
 locally (`local`: Python multiprocessing), or in a computer cluster (`sge`: Sun Grid
@@ -413,161 +402,157 @@ of a certain project (e.g. project_name/), examples are given as follow:
 
 **Example 1:** configuration file for the pipeline *simulation*
 ```
-[simulate]
 # True if data should be generated, False otherwise
-generate_data=True
+generate_data: True
 # True if data should be analysed, False otherwise
-analyse_data=True
+analyse_data: True
 # True if a report should be generated, False otherwise
-generate_report=True
+generate_report: True
 # The relative path to the project directory
-project_dir=.
-# The name of the configurator (e.g. Copasi, Python)
-simulator=Copasi
+project_dir: "."
+# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+simulator: "Copasi"
 # The model name
-model=insulin_receptor_stoch.cps
+model: "insulin_receptor_stoch.cps"
 # The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=local
+cluster: "local"
 # The number of CPU if local is used, ignored otherwise
-local_cpus=7
-# The number of simulations to perform. 
-# n>=1 for stochastic simulations.
-runs=40
-# An experimental data set (or blank) to add to the 
+local_cpus: 7
+# The number of simulations to perform.
+# n>: 1 for stochastic simulations.
+runs: 40
+# An experimental data set (or blank) to add to the
 # simulated plots as additional layer
-exp_dataset=insulin_receptor_dataset.csv
+exp_dataset: "insulin_receptor_dataset.csv"
 # True if the experimental data set should be plotted.
-plot_exp_dataset=True
+plot_exp_dataset: True
 # The label for the x axis.
-xaxis_label=Time [min]
+xaxis_label: "Time [min]"
 # The label for the y axis.
-yaxis_label=Level [a.u.]
+yaxis_label: "Level [a.u.]"
 ```
 
 **Example 2:** configuration file for the pipeline *single parameter scan*
 ```
-[single_param_scan]
 # True if data should be generated, False otherwise
-generate_data=True
+generate_data: True
 # True if data should be analysed, False otherwise
-analyse_data=True
+analyse_data: True
 # True if a report should be generated, False otherwise
-generate_report=True
+generate_report: True
 # The relative path to the project directory
-project_dir=.
-# The name of the configurator (e.g. Copasi, Python)
-simulator=Copasi
+project_dir: "."
+# The name of the configurator (e.g. Copasi)
+simulator: "Copasi"
 # The model name
-model=insulin_receptor_inhib_scan_IR_beta.cps
+model: "insulin_receptor_inhib_scan_IR_beta.cps"
 # The variable to scan (as set in Copasi Parameter Scan Task)
-scanned_par=IR_beta
+scanned_par: "IR_beta"
 # The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=local
+cluster: "local"
 # The number of CPU if local is used, ignored otherwise
-local_cpus=7
+local_cpus: 7
 # The number of simulations to perform per run.
-# n>=1 for stochastic simulations.
-runs=1
+# n>: 1 for stochastic simulations.
+runs: 1
 # The number of intervals in the simulation
-simulate__intervals=100
+simulate__intervals: 100
 # True if the variable is only reduced (knock down), False otherwise.
-single_param_scan_knock_down_only=True
+single_param_scan_knock_down_only: True
 # True if the scanning represents percent levels.
-single_param_scan_percent_levels=True
+single_param_scan_percent_levels: True
 # The minimum level (as set in Copasi Parameter Scan Task)
-min_level=0
+min_level: 0
 # The maximum level (as set in Copasi Parameter Scan Task)
-max_level=100
+max_level: 100
 # The number of scans (as set in Copasi Parameter Scan Task)
-levels_number=10
+levels_number: 10
 # True if plot lines are the same between scans
 # (e.g. full lines, same colour)
-homogeneous_lines=False
+homogeneous_lines: False
 # The label for the x axis.
-xaxis_label=Time [min]
+xaxis_label: "Time [min]"
 # The label for the y axis.
-yaxis_label=Level [a.u.]
+yaxis_label: "Level [a.u.]"
 ```
 
 **Example 3:** configuration file for the pipeline *double parameter scan*
 ```
-[double_param_scan]
 # True if data should be generated, False otherwise
-generate_data=True
+generate_data: True
 # True if data should be analysed, False otherwise
-analyse_data=True
+analyse_data: True
 # True if a report should be generated, False otherwise
-generate_report=True
+generate_report: True
 # The relative path to the project directory
-project_dir=.
-# The name of the configurator (e.g. Copasi, Python)
-simulator=Copasi
+project_dir: "."
+# The name of the configurator (e.g. Copasi)
+simulator: "Copasi"
 # The model name
-model=insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps
+model: "insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps"
 # The 1st variable to scan (as set in Copasi Parameter Scan Task)
-scanned_par1=InsulinPercent
+scanned_par1: "InsulinPercent"
 # The 2nd variable to scan (as set in Copasi Parameter Scan Task)
-scanned_par2=IRbetaPercent
+scanned_par2: "IRbetaPercent"
 # The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=local
+cluster: "local"
 # The number of CPU if local is used, ignored otherwise
-local_cpus=7
+local_cpus: 7
 # The number of simulations to perform.
-# n>=1 for stochastic simulations.
-runs=1
+# n>: 1 for stochastic simulations.
+runs: 1
 # The simulation length (as set in Copasi Time Course Task)
-sim_length=10
+sim_length: 10
 ```
 
 **Example 4:** configuration file for the pipeline *parameter estimation*
 ```
-[param_estim]
 # True if data should be generated, False otherwise
-generate_data=True
+generate_data: True
 # True if data should be analysed, False otherwise
-analyse_data=True
+analyse_data: True
 # True if a report should be generated, False otherwise
-generate_report=True
+generate_report: True
 # True if a zipped tarball should be generated, False otherwise
-generate_tarball=True
+generate_tarball: True
 # The relative path to the project directory
-project_dir=.
-# The name of the configurator (e.g. Copasi, Python)
-simulator=Copasi
+project_dir: "."
+# The name of the configurator (e.g. Copasi)
+simulator: "Copasi"
 # The model name
-model=insulin_receptor_param_estim.cps
+model: "insulin_receptor_param_estim.cps"
 # The cluster type. local if the model is run locally,
 # sge/lsf if run on cluster.
-cluster=local
+cluster: "local"
 # The number of CPU if local is used, ignored otherwise
-local_cpus=7
-# The parameter estimation round which is used to distinguish 
-# phases of parameter estimations when parameters cannot be 
+local_cpus: 7
+# The parameter estimation round which is used to distinguish
+# phases of parameter estimations when parameters cannot be
 # estimated at the same time
-round=1
-# The number of parameter estimations 
+round: 1
+# The number of parameter estimations
 # (the length of the fit sequence)
-runs=250
+runs: 250
 # The threshold percentage of the best fits to consider
-best_fits_percent=75
+best_fits_percent: 75
 # The number of available data points
-data_point_num=33
-# True if 2D all fits plots for 66% confidence levels 
+data_point_num: 33
+# True if 2D all fits plots for 66% confidence levels
 # should be plotted. This can be computationally expensive.
-plot_2d_66cl_corr=True
-# True if 2D all fits plots for 95% confidence levels 
+plot_2d_66cl_corr: True
+# True if 2D all fits plots for 95% confidence levels
 # should be plotted. This can be computationally expensive.
-plot_2d_95cl_corr=True
-# True if 2D all fits plots for 99% confidence levels 
+plot_2d_95cl_corr: True
+# True if 2D all fits plots for 99% confidence levels
 # should be plotted. This can be computationally expensive.
-plot_2d_99cl_corr=True
+plot_2d_99cl_corr: True
 # True if parameter values should be plotted in log space.
-logspace=True
+logspace: True
 # True if plot axis labels should be plotted in scientific notation.
-scientific_notation=True
+scientific_notation: True
 ```
 
 Additional examples of configuration files can be found in:
