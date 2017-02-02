@@ -53,7 +53,7 @@ class TestSuite(unittest.TestCase):
 
     def run_tests_suites(self):
         # Clean the tests (note cleanup_tests has a main() so it runs when imported.
-        cleanup.main()
+        #cleanup.main()
 
         # Run negative test suites
         suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestIRSimulate)

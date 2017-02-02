@@ -43,7 +43,6 @@ install:
 script:
   # It would be nice to have this change in nose test setup.cfg
   - sed 's/INFO/WARNING/g' logging_config.ini > logging_config.ini
-  - sed 's/DEBUG/WARNING/g' logging_config.ini > logging_config.ini
   #  Use nosetests so that travis output depends on the return value from the test_suite
   # it would be nice to run tests/test_suite.py , but even if the full name of the conf files is passed,
   # nosetest return ERROR for each test (even though these actually work correctly..)
