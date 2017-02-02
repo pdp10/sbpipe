@@ -77,9 +77,9 @@ def help():
         "\t-p, --single-param-scan\n\t\tSimulate a single parameter scan.\n"
         "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
         "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
-        # "\t-n, --sensitivity\n\t\tRun a sensitivity analysis (in progress).\n\n"
         "\t-l, --license\n\t\tShow the license.\n"
         "\t-v, --version\n\t\tShow the version.\n"
+        "\t    --logo\n\t\tShow the logo.\n"
         "Exit status:\n"
         " 0  if OK,\n"
         " 1  if minor problems (e.g. a pipeline did not execute correctly),\n"
@@ -179,7 +179,8 @@ def main(argv=None):
                                        'hlvcspde',
                                        ['help',
                                         'license',
-                                        'version'
+                                        'version',
+                                        'logo',
                                         'create-project',
                                         'simulate',
                                         'single-param-scan',
@@ -190,13 +191,16 @@ def main(argv=None):
             for opt, arg in opts:
 
                 if opt in ('-h', '--help'):
-                    print((help()))
+                    print(help())
 
                 elif opt in ('-l', '--license'):
-                    print((license()))
+                    print(license())
 
                 elif opt in ('-v', '--version'):
-                    print((version()))
+                    print(version())
+
+                elif opt in ('--logo'):
+                    print(logo())
 
                 elif opt in ('-c', '--create-project'):
                     check_args(args, no_project_name_msg)
@@ -206,28 +210,24 @@ def main(argv=None):
 
                 elif opt in ('-s', '--simulate'):
                     check_args(args, no_conf_file_msg)
-                    print((logo()))
                     from sbpipe.pl.sim.sim import Sim
                     s = Sim()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-p', '--single-param-scan'):
                     check_args(args, no_conf_file_msg)
-                    print((logo()))
                     from sbpipe.pl.ps1.parscan1 import ParScan1
                     s = ParScan1()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-d', '--double-param-scan'):
                     check_args(args, no_conf_file_msg)
-                    print((logo()))
                     from sbpipe.pl.ps2.parscan2 import ParScan2
                     s = ParScan2()
                     exit_status = 0 if s.run(args[0]) else 1
 
                 elif opt in ('-e', '--param-estim'):
                     check_args(args, no_conf_file_msg)
-                    print((logo()))
                     from sbpipe.pl.pe.parest import ParEst
                     s = ParEst()
                     exit_status = 0 if s.run(args[0]) else 1

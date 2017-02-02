@@ -324,6 +324,8 @@ List of mandatory options:
                 Show the license.
         -v, --version
                 Show the version.
+            --logo
+                Show the logo.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),
