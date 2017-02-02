@@ -34,6 +34,7 @@ from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
+from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.report.latex_reports import latex_report_ps1, pdf_report
 
 SBPIPE = os.environ["SBPIPE"]
@@ -128,7 +129,7 @@ class ParScan1(Pipeline):
             logger.info("==============")
             status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
-                                           runs,
+                                           runs, local_cpus,
                                            single_param_scan_percent_levels,
                                            min_level, max_level, levels_number,
                                            homogeneous_lines, cluster, xaxis_label, yaxis_label)
@@ -208,7 +209,7 @@ class ParScan1(Pipeline):
 
     @classmethod
     def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
-                     sim_data_folder, sim_plots_folder, runs,
+                     sim_data_folder, sim_plots_folder, runs, local_cpus,
                      percent_levels, min_level, max_level, levels_number,
                      homogeneous_lines, cluster="local", xaxis_label='', yaxis_label=''):
         """
@@ -221,6 +222,7 @@ class ParScan1(Pipeline):
         :param sim_data_folder: the folder containing the simulated data sets
         :param sim_plots_folder: the folder containing the generated plots
         :param runs: the number of simulations
+        :param local_cpus: the number of cpus
         :param percent_levels: True if the levels are percents.
         :param min_level: the minimum level
         :param max_level: the maximum level
@@ -250,6 +252,10 @@ class ParScan1(Pipeline):
             logger.error("min_level MUST BE lower than max_level. Please, check your configuration file.")
             return False
 
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
         if int(runs) < 1:
             logger.error("variable runs must be greater than 0. Please, check your configuration file.")
             return False
@@ -270,17 +276,14 @@ class ParScan1(Pipeline):
         xaxis_label = escape_special_chars(xaxis_label)
         yaxis_label = escape_special_chars(yaxis_label)
 
-        for id in range(1, runs+1):
-            logger.info('Simulation No.' + str(id))
-            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
+        str_to_replace = get_rand_alphanum_str(10)
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
                       ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + \
-                      ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str(id) + \
+                      ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str_to_replace + \
                       ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
                       ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
                       ' ' + xaxis_label + ' ' + yaxis_label
-            # we don't replace any string in files. So let's use a substring which won't even be in any file.
-            str_to_replace = '//////////'
-            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
         return True
 
     @classmethod

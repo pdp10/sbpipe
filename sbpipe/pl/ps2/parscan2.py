@@ -33,6 +33,7 @@ import yaml
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
+from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
 
 SBPIPE = os.environ["SBPIPE"]
@@ -126,6 +127,7 @@ class ParScan2(Pipeline):
                                            os.path.join(outputdir, self.get_sim_data_folder()),
                                            os.path.join(outputdir, self.get_sim_plots_folder()),
                                            cluster,
+                                           local_cpus,
                                            runs)
             if not status:
                 return False
@@ -192,7 +194,7 @@ class ParScan2(Pipeline):
         return True
 
     @classmethod
-    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', runs=1):
+    def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', local_cpus=1, runs=1):
         """
         The second pipeline step: data analysis.
 
@@ -202,6 +204,7 @@ class ParScan2(Pipeline):
         :param inputdir: the directory containing the simulated data sets to process
         :param outputdir: the directory to store the performed analysis
         :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPU.
         :param runs: the number of model simulation
         :return: True if the task was completed successfully, False otherwise.
         """
@@ -215,14 +218,15 @@ class ParScan2(Pipeline):
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
 
-        for id in range(1, runs+1):
-            logger.info('Simulation No.' + str(id))
-            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
+        str_to_replace = get_rand_alphanum_str(10)
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
                 ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-                ' ' + outputdir + ' ' + str(id)
-            # we don't replace any string in files. So let's use a substring which won't even be in any file.
-            str_to_replace = '//////////'
-            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+                ' ' + outputdir + ' ' + str_to_replace
+        parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
         return True
 
     @classmethod
