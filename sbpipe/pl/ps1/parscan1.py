@@ -29,10 +29,12 @@ import logging
 import os
 import os.path
 import sys
+import yaml
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
+from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.report.latex_reports import latex_report_ps1, pdf_report
 
 SBPIPE = os.environ["SBPIPE"]
@@ -59,25 +61,35 @@ class ParScan1(Pipeline):
         logger.info("===============================")
         logger.info("Pipeline: single parameter scan")
         logger.info("===============================")
-        logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
 
-        # variable initialisation
+        logger.info("\n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
+
+        # load the configuration file
         try:
-            (generate_data, analyse_data, generate_report,
-             project_dir, simulator, model, scanned_par,
-             cluster, local_cpus, runs, simulate__intervals,
-             single_param_scan_percent_levels, single_param_scan_knock_down_only,
-             levels_number, min_level, max_level, homogeneous_lines,
-             xaxis_label, yaxis_label) = self.config_parser(config_file, "single_param_scan")
-        except Exception as e:
+            config_dict = Pipeline.load(config_file)
+        except yaml.YAMLError as e:
             logger.error(e.message)
             import traceback
             logger.debug(traceback.format_exc())
             return False
 
+        # variable initialisation
+        (generate_data, analyse_data, generate_report,
+         project_dir, simulator, model, scanned_par,
+         cluster, local_cpus, runs, simulate__intervals,
+         single_param_scan_percent_levels, single_param_scan_knock_down_only,
+         levels_number, min_level, max_level, homogeneous_lines,
+         xaxis_label, yaxis_label) = self.parse(config_dict)
+
         runs = int(runs)
         local_cpus = int(local_cpus)
+        simulate__intervals = int(simulate__intervals)
+        min_level = float(min_level)
+        max_level = float(max_level)
+        levels_number = int(levels_number)
+
 
         # Some controls
         if runs < 1:
@@ -117,7 +129,7 @@ class ParScan1(Pipeline):
             logger.info("==============")
             status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
-                                           runs,
+                                           runs, local_cpus,
                                            single_param_scan_percent_levels,
                                            min_level, max_level, levels_number,
                                            homogeneous_lines, cluster, xaxis_label, yaxis_label)
@@ -197,7 +209,7 @@ class ParScan1(Pipeline):
 
     @classmethod
     def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
-                     sim_data_folder, sim_plots_folder, runs,
+                     sim_data_folder, sim_plots_folder, runs, local_cpus,
                      percent_levels, min_level, max_level, levels_number,
                      homogeneous_lines, cluster="local", xaxis_label='', yaxis_label=''):
         """
@@ -210,6 +222,7 @@ class ParScan1(Pipeline):
         :param sim_data_folder: the folder containing the simulated data sets
         :param sim_plots_folder: the folder containing the generated plots
         :param runs: the number of simulations
+        :param local_cpus: the number of cpus
         :param percent_levels: True if the levels are percents.
         :param min_level: the minimum level
         :param max_level: the maximum level
@@ -239,6 +252,10 @@ class ParScan1(Pipeline):
             logger.error("min_level MUST BE lower than max_level. Please, check your configuration file.")
             return False
 
+        if int(local_cpus) < 1:
+            logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
+            return False
+
         if int(runs) < 1:
             logger.error("variable runs must be greater than 0. Please, check your configuration file.")
             return False
@@ -259,17 +276,14 @@ class ParScan1(Pipeline):
         xaxis_label = escape_special_chars(xaxis_label)
         yaxis_label = escape_special_chars(yaxis_label)
 
-        for id in range(1, runs+1):
-            logger.info('Simulation No.:' + str(id))
-            command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
+        str_to_replace = get_rand_alphanum_str(10)
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
                       ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + \
-                      ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str(id) + \
+                      ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str_to_replace + \
                       ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
                       ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
                       ' ' + xaxis_label + ' ' + yaxis_label
-            # we don't replace any string in files. So let's use a substring which won't even be in any file.
-            str_to_replace = '//////////'
-            parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
         return True
 
     @classmethod
@@ -299,12 +313,12 @@ class ParScan1(Pipeline):
         pdf_report(outputdir, filename_prefix + model + ".tex")
         return True
 
-    def read_config(self, lines):
-        __doc__ = Pipeline.read_config.__doc__
+    def parse(self, my_dict):
+        __doc__ = Pipeline.parse.__doc__
 
         # parse common options
         (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.read_common_config(lines)
+         project_dir, model) = self.parse_common_config(my_dict)
 
         # default values
         simulator = 'Copasi'
@@ -338,36 +352,36 @@ class ParScan1(Pipeline):
         homogeneous_lines = False
 
         # Initialises the variables
-        for line in lines:
-            logger.info(line)
-            if line[0] == "simulator":
-                simulator = line[1]
-            elif line[0] == "scanned_par":
-                scanned_par = line[1]
-            elif line[0] == "cluster":
-                cluster = line[1]
-            elif line[0] == "local_cpus":
-                local_cpus = line[1]
-            elif line[0] == "runs":
-                runs = line[1]
-            elif line[0] == "simulate__intervals":
-                simulate__intervals = line[1]
-            elif line[0] == "single_param_scan_percent_levels":
-                single_param_scan_percent_levels = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "single_param_scan_knock_down_only":
-                single_param_scan_knock_down_only = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "min_level":
-                min_level = line[1]
-            elif line[0] == "max_level":
-                max_level = line[1]
-            elif line[0] == "levels_number":
-                levels_number = line[1]
-            elif line[0] == "homogeneous_lines":
-                homogeneous_lines = {'True': True, 'False': False}.get(line[1], False)
-            elif line[0] == "xaxis_label":
-                xaxis_label = line[1]
-            elif line[0] == "yaxis_label":
-                yaxis_label = line[1]
+        for key, value in my_dict.items():
+            logger.info(key + ": " + str(value))
+            if key == "simulator":
+                simulator = value
+            elif key == "scanned_par":
+                scanned_par = value
+            elif key == "cluster":
+                cluster = value
+            elif key == "local_cpus":
+                local_cpus = value
+            elif key == "runs":
+                runs = value
+            elif key == "simulate__intervals":
+                simulate__intervals = value
+            elif key == "single_param_scan_percent_levels":
+                single_param_scan_percent_levels = value
+            elif key == "single_param_scan_knock_down_only":
+                single_param_scan_knock_down_only = value
+            elif key == "min_level":
+                min_level = value
+            elif key == "max_level":
+                max_level = value
+            elif key == "levels_number":
+                levels_number = value
+            elif key == "homogeneous_lines":
+                homogeneous_lines = value
+            elif key == "xaxis_label":
+                xaxis_label = value
+            elif key == "yaxis_label":
+                yaxis_label = value
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par,
