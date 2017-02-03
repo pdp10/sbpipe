@@ -95,7 +95,7 @@ v1.0.0 (Mercury)
 
 - completed source code documentation
 - completed user and developer manuals.
-- configured Python Sphinx for documenting SB pipe
+- configured Python Sphinx for documenting SBpipe
 - bug fixes.
 - separation of pdf report code from pipelines.
 - configuration sessions integrated in pipeline classes.
