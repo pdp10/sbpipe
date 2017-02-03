@@ -56,14 +56,14 @@ class TestCopasiLSF(unittest.TestCase):
     def test_pe_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(param_estim="lsf_ir_model_param_estim.yaml"), 0)
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml"), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
             
     def test_stoch_pe_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(param_estim="lsf_ir_model_stoch_param_estim.yaml"), 0)
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml"), 0)
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
 

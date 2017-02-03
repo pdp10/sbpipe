@@ -46,10 +46,10 @@ class TestCopasiPS2(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(double_param_scan="ir_model_insulin_ir_beta_dbl_inhib.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml"), 0)
 
     def test_stoch_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(double_param_scan="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

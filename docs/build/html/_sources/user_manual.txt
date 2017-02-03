@@ -173,7 +173,7 @@ The correct installation of SBpipe can be tested by running the command:
 ::
 
     $ sbpipe.py -v
-    2.1.0
+    sbpipe.py v3.0.0
 
 Windows
 ^^^^^^^
@@ -334,47 +334,8 @@ Running SBpipe
 
 SBpipe is executed via the command *sbpipe.py*. The syntax for this
 command and its complete list of options can be retrieved by running
-*sbpipe.py -h*.
-
-As of Jan 2017 the output is as follows:
-
-::
-
-    usage: sbpipe.py [-h] [-q] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                     [-V] [--license] [--logo] [-c FILE] [-s FILE] [-p FILE]
-                     [-d FILE] [-e FILE]
-
-    Pipelines for systems modelling of biological networks.
-
-    optional arguments:
-      -h, --help            show this help message and exit
-      -q, --quiet           run sbpipe.py quietly
-      --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-                            override the log level
-      -V, --version         show the version
-      --license             show the license
-      --logo                show the logo
-      -c FILE, --create-project FILE
-                            create a project structure using the argument as name
-      -s FILE, --simulate FILE
-                            simulate a model
-      -p FILE, --single-param-scan FILE
-                            simulate a single parameter scan
-      -d FILE, --double-param-scan FILE
-                            simulate a double parameter scan
-      -e FILE, --param-estim FILE
-                            generate a parameter fit sequence
-
-    Exit status:
-    0  if OK,
-    1  if trouble (e.g. a pipeline did not execute correctly).
-
-    Report bugs to sbpipe@googlegroups.com
-    SBpipe home page: <https://pdp10.github.io/sbpipe>
-    For complete documentation, see README.md .
-
-The first step is to create a new project. This can be done with the
-command:
+*sbpipe.py -h*. The first step is to create a new project. This can be
+done with the command:
 
 ::
 
@@ -510,9 +471,9 @@ scan*
     # The number of intervals in the simulation
     simulate__intervals: 100
     # True if the variable is only reduced (knock down), False otherwise.
-    single_param_scan_knock_down_only: True
+    ps1_knock_down_only: True
     # True if the scanning represents percent levels.
-    single_param_scan_percent_levels: True
+    ps1_percent_levels: True
     # The minimum level (as set in Copasi Parameter Scan Task)
     min_level: 0
     # The maximum level (as set in Copasi Parameter Scan Task)
