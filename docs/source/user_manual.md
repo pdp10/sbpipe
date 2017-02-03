@@ -159,7 +159,7 @@ these packages, `install_rdeps.r` must be executed again.
 The correct installation of SBpipe can be tested by running the command: 
 ```
 $ sbpipe.py -v
-2.1.0
+sbpipe.py v3.0.0
 ```
 
 
@@ -297,46 +297,8 @@ yaxis_label: "#"
 
 ### Running SBpipe
 SBpipe is executed via the command *sbpipe.py*. The syntax for this
-command and its complete list 
-of options can be retrieved by running *sbpipe.py -h*.
-
-As of Jan 2017 the output is as follows:
-```
-$ sbpipe.py -h
-Usage: sbpipe.py [OPTION] [FILE]
-Pipelines for systems modelling of biological networks.
-
-List of mandatory options:
-        -h, --help
-                Show this help.
-        -c, --create-project
-                Create a project structure using the argument as name.
-        -s, --simulate
-                Simulate a model.
-        -p, --single-param-scan
-                Simulate a single parameter scan.
-        -d, --double-param-scan
-                Simulate a double parameter scan.
-        -e, --param-estim
-                Generate a parameter fit sequence.
-        -l, --license
-                Show the license.
-        -v, --version
-                Show the version.
-            --logo
-                Show the logo.
-Exit status:
- 0  if OK,
- 1  if minor problems (e.g., a pipeline did not execute correctly),
- 2  if serious trouble (e.g., cannot access command-line argument).
-
-Report bugs to sbpipe@googlegroups.com
-SBpipe home page: <https://pdp10.github.io/sbpipe>
-For complete documentation, see README.md .
-
-```
-
-The first step is to create a new project. This can be done with the 
+command and its complete list of options can be retrieved by running *sbpipe.py -h*.
+The first step is to create a new project. This can be done with the
 command:
 ```
 $ sbpipe.py --create-project project_name
@@ -460,9 +422,9 @@ runs: 1
 # The number of intervals in the simulation
 simulate__intervals: 100
 # True if the variable is only reduced (knock down), False otherwise.
-single_param_scan_knock_down_only: True
+ps1_knock_down_only: True
 # True if the scanning represents percent levels.
-single_param_scan_percent_levels: True
+ps1_percent_levels: True
 # The minimum level (as set in Copasi Parameter Scan Task)
 min_level: 0
 # The maximum level (as set in Copasi Parameter Scan Task)

@@ -67,7 +67,7 @@ class TestRPE(unittest.TestCase):
             elif "FALSE" in str(minpacklm):
                 print("Skipping test as R minpack.lm was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "pe_simple_reacts.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 

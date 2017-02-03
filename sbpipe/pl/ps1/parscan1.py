@@ -79,7 +79,7 @@ class ParScan1(Pipeline):
         (generate_data, analyse_data, generate_report,
          project_dir, simulator, model, scanned_par,
          cluster, local_cpus, runs, simulate__intervals,
-         single_param_scan_percent_levels, single_param_scan_knock_down_only,
+         ps1_percent_levels, ps1_knock_down_only,
          levels_number, min_level, max_level, homogeneous_lines,
          xaxis_label, yaxis_label) = self.parse(config_dict)
 
@@ -127,10 +127,10 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("==============")
-            status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, single_param_scan_knock_down_only, outputdir,
+            status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, ps1_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
                                            runs, local_cpus,
-                                           single_param_scan_percent_levels,
+                                           ps1_percent_levels,
                                            min_level, max_level, levels_number,
                                            homogeneous_lines, cluster, xaxis_label, yaxis_label)
             if not status:
@@ -335,9 +335,9 @@ class ParScan1(Pipeline):
         # The y axis label
         yaxis_label = "Level [a.u.]"
         # The scanning is performed on percent levels (true) or through a modelled inhibitor/expressor (false)
-        single_param_scan_percent_levels = False
+        ps1_percent_levels = False
         # if True then, plot only kd (blue), otherwise plot kd and overexpression
-        single_param_scan_knock_down_only = True
+        ps1_knock_down_only = True
         # The number of levels of inhibition/over-expression
         levels_number = 10
         # minimum level
@@ -347,8 +347,8 @@ class ParScan1(Pipeline):
         # True if lines should have the same colour, no linetype, no legend.
         # Useful for scanning from a confidence interval
         # If this is true, it overrides:
-        # - single_param_scan_percent_levels and
-        # - single_param_scan_knock_down_only
+        # - ps1_percent_levels and
+        # - ps1_knock_down_only
         homogeneous_lines = False
 
         # Initialises the variables
@@ -366,10 +366,10 @@ class ParScan1(Pipeline):
                 runs = value
             elif key == "simulate__intervals":
                 simulate__intervals = value
-            elif key == "single_param_scan_percent_levels":
-                single_param_scan_percent_levels = value
-            elif key == "single_param_scan_knock_down_only":
-                single_param_scan_knock_down_only = value
+            elif key == "ps1_percent_levels":
+                ps1_percent_levels = value
+            elif key == "ps1_knock_down_only":
+                ps1_knock_down_only = value
             elif key == "min_level":
                 min_level = value
             elif key == "max_level":
@@ -386,6 +386,6 @@ class ParScan1(Pipeline):
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par,
                 cluster, local_cpus, runs,
-                simulate__intervals, single_param_scan_percent_levels,
-                single_param_scan_knock_down_only, levels_number, min_level, max_level,
+                simulate__intervals, ps1_percent_levels,
+                ps1_knock_down_only, levels_number, min_level, max_level,
                 homogeneous_lines, xaxis_label, yaxis_label)

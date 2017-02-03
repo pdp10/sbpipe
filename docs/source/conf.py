@@ -41,7 +41,7 @@ try:
     if os.environ['SBPIPE']:
         SBPIPE = os.environ['SBPIPE']
 except KeyError:
-    print 'Unable to obtain $SBPIPE from the environment.'
+    print('Unable to obtain $SBPIPE from the environment.')
     exit(-1)
 
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
