@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
-
 
 class TestCopasiPS1(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor_conf_errors')
@@ -50,49 +45,32 @@ class TestCopasiPS1(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_single_param_scan_ci1(self):
-        """test_single_param_scan_ci1"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan1.yaml"]), 1)
+    def test_ps1_ci1(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan1.yaml"), 1)
 
+    def test_ps1_ci2(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan2.yaml"), 1)
 
-    def test_single_param_scan_ci2(self):
-        """test_single_param_scan_ci2"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan2.yaml"]), 1)
+    def test_ps1_ci3(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml"), 1)
 
+    def test_ps1_ci4(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan4.yaml"), 1)
 
-    def test_single_param_scan_ci3(self):
-        """test_single_param_scan_ci3"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan3.yaml"]), 1)
+    def test_ps1_ci5(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan5.yaml"), 1)
 
+    def test_ps1_ci6(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan6.yaml"), 1)
 
-    def test_single_param_scan_ci4(self):
-        """test_single_param_scan_ci4"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan4.yaml"]), 1)
+    def test_ps1_ci7(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan7.yaml"), 1)
 
+    def test_ps1_ci8(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan8.yaml"), 1)
 
-    def test_single_param_scan_ci5(self):
-        """test_single_param_scan_ci5"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan5.yaml"]), 1)
-
-
-    def test_single_param_scan_ci6(self):
-        """test_single_param_scan_ci6"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan6.yaml"]), 1)
-
-
-    def test_single_param_scan_ci7(self):
-        """test_single_param_scan_ci7"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan7.yaml"]), 1)
-
-
-    def test_single_param_scan_ci8(self):
-        """test_single_param_scan_ci8"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan8.yaml"]), 1)
-
-
-    def test_single_param_scan_ci9(self):
-        """test_single_param_scan_ci9"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan9.yaml"]), 1)
+    def test_ps1_ci9(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan9.yaml"), 1)
 
 
 if __name__ == '__main__':

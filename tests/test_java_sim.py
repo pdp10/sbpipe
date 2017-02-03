@@ -32,13 +32,8 @@ from sbpipe import main as sbmain
 import unittest
 import subprocess
 
-"""Unit test for Java simulator"""
-
 
 class TestJavaSim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _java = os.path.join('java_models')
@@ -52,10 +47,9 @@ class TestJavaSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_java_simqueue_simulation(self):
-        """test_java_simqueue_simulation"""
         try:
             subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simqueue.yaml"]), 0)
+            self.assertEqual(sbmain.sbpipe(simulate="simqueue.yaml"), 0)
         except OSError as e:
             print("Skipping test as no Java Virtual Machine was found.")
 

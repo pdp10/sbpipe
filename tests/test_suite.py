@@ -54,7 +54,7 @@ import tests.test_ok_ps2_snake as ok_ps2_snake
 
 class TestSuite(unittest.TestCase):
 
-    def run_tests_suites(self):
+    def test_suites(self):
 
         # Clean the tests (note cleanup_tests has a main() so it runs when imported.
         #cleanup.main()
@@ -117,4 +117,4 @@ class TestSuite(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
