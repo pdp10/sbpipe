@@ -29,15 +29,10 @@ import unittest
 SBPIPE = os.environ["SBPIPE"]
 from snakemake import snakemake
 
-"""Unit test for Insulin Receptor using Snakemake"""
-
 
 class TestPs2Snake(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
 
-    _orig_wd = os.getcwd()  # remember our original working directory
+    _orig_wd = os.getcwd()
     _snakemake = os.path.join('snakemake')
 
     @classmethod
@@ -49,14 +44,13 @@ class TestPs2Snake(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_ps2_det_snake(self):
-        """ps2 - det - snakemake"""
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True))
+            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True, quiet=True))
 
     def test_ps2_stoch_snake(self):
-        """ps2 - stoch - snakemake"""
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True))
+            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True, quiet=True))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
