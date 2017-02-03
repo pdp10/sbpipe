@@ -22,7 +22,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-02 10:18:32 $
 
-import getopt
+import argparse
 import logging
 import os
 import sys
@@ -62,37 +62,7 @@ def logo():
     return sb_logo
 
 
-def help():
-    """
-    Return help message.
-
-    :return: the help message
-    """
-    message = (
-        "Usage: sbpipe.py [OPTION] [FILE]\n"
-        "Pipelines for systems modelling of biological networks.\n\n"
-        "List of mandatory options:\n"
-        "\t-h, --help\n\t\tShow this help.\n"
-        "\t-c, --create-project\n\t\tCreate a project structure using the argument as name.\n"
-        "\t-s, --simulate\n\t\tSimulate a model.\n"
-        "\t-p, --single-param-scan\n\t\tSimulate a single parameter scan.\n"
-        "\t-d, --double-param-scan\n\t\tSimulate a double parameter scan.\n"
-        "\t-e, --param-estim\n\t\tGenerate a parameter fit sequence.\n"
-        "\t-l, --license\n\t\tShow the license.\n"
-        "\t-v, --version\n\t\tShow the version.\n"
-        "\t    --logo\n\t\tShow the logo.\n"
-        "Exit status:\n"
-        " 0  if OK,\n"
-        " 1  if minor problems (e.g. a pipeline did not execute correctly),\n"
-        " 2  if serious trouble (e.g. cannot access command-line argument).\n\n"
-        "Report bugs to sbpipe@googlegroups.com\n"
-        "sbpipe home page: <https://pdp10.github.io/sbpipe>\n"
-        "For complete documentation, see README.md .\n"
-    )
-    return message
-
-
-def _read_file_header(filename):
+def read_file_header(filename):
     """
     Read the first line of a file
 
@@ -105,63 +75,10 @@ def _read_file_header(filename):
     return line
 
 
-def license():
+def set_logger():
     """
-    Return the license
-
-    :return: the license
+    Set the logger
     """
-    return _read_file_header('LICENSE')
-
-
-def version():
-    """
-    Return the version
-
-    :return: the version
-    """
-    return _read_file_header('VERSION')
-
-
-class Usage(Exception):
-    """
-    This class is used for printing a generic exception
-    """
-
-    def __init__(self, msg):
-        """
-        Constructor
-
-        :param msg: the message to print
-        """
-        self.msg = msg
-
-
-def check_args(args, msg):
-    """
-    Check that at least one argument is passed.
-
-    :param args: the list of arguments
-    :param msg: the message to print
-    :raise: Usage exception if less than one argument is passed
-    :return: no output
-    """
-    if len(args) < 1:
-        raise Usage
-
-
-def main(argv=None):
-    """
-    SBpipe main function.
-
-    :param argv: options for sbpipe. Type python -m sbpipe -h for a full list of options.
-    :return: 0 if OK, 1 if minor problems, or 2 if serious trouble.
-    """
-
-    if argv is None:
-        argv = sys.argv
-
-    # logging settings
     home = os.path.expanduser('~')
     if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
         os.makedirs(os.path.join(home, '.sbpipe', 'logs'))
@@ -179,78 +96,153 @@ def main(argv=None):
         logger.warning('Logging configuration file not found.')
         logger.warning('Setting up new stream logger (level: INFO) for this session.')
 
+
+def sbpipe(create_project='', simulate='', single_param_scan='', double_param_scan='', param_estim='',
+           logo='', license='', log_level='INFO', quiet=False):
+    """
+    SBpipe function.
+
+    :param create_project: a file
+    :param simulate: a file
+    :param single_param_scan: a file
+    :param double_param_scan: a file
+    :param param_estim: a file
+    :param logo: the logo
+    :param license: the license
+    :param log_level: the logging level
+    :param quiet: True if quiet
+    :return: 0 if OK, 1  if trouble (e.g. a pipeline did not execute correctly).
+    """
+
+    set_logger()
+
     exit_status = 0
-    no_conf_file_msg = 'no configuration file received'
-    no_project_name_msg = 'no project name received'
 
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:],
-                                       'hlvcspde',
-                                       ['help',
-                                        'license',
-                                        'version',
-                                        'logo',
-                                        'create-project',
-                                        'simulate',
-                                        'single-param-scan',
-                                        'double-param-scan',
-                                        'param-estim'
-                                        ])
+    if quiet:
+        logger = logging.getLogger('sbpipe')
+        logger.setLevel("WARNING")
 
-            for opt, arg in opts:
+    if log_level:
+        logger = logging.getLogger('sbpipe')
+        logger.setLevel(log_level)
 
-                if opt in ('-h', '--help'):
-                    print(help())
+    if license:
+        print(license)
 
-                elif opt in ('-l', '--license'):
-                    print(license())
+    if logo:
+        print(logo)
 
-                elif opt in ('-v', '--version'):
-                    print(version())
+    if create_project:
+        from sbpipe.pl.create.newproj import NewProj
+        s = NewProj()
+        exit_status = 0 if s.run(create_project) else 1
 
-                elif opt in ('--logo'):
-                    print(logo())
+    elif simulate:
+        from sbpipe.pl.sim.sim import Sim
+        s = Sim()
+        exit_status = 0 if s.run(simulate) else 1
 
-                elif opt in ('-c', '--create-project'):
-                    check_args(args, no_project_name_msg)
-                    from sbpipe.pl.create.newproj import NewProj
-                    s = NewProj()
-                    exit_status = 0 if s.run(args[0]) else 1
+    elif single_param_scan:
+        from sbpipe.pl.ps1.parscan1 import ParScan1
+        s = ParScan1()
+        exit_status = 0 if s.run(single_param_scan) else 1
 
-                elif opt in ('-s', '--simulate'):
-                    check_args(args, no_conf_file_msg)
-                    from sbpipe.pl.sim.sim import Sim
-                    s = Sim()
-                    exit_status = 0 if s.run(args[0]) else 1
+    elif double_param_scan:
+        from sbpipe.pl.ps2.parscan2 import ParScan2
+        s = ParScan2()
+        exit_status = 0 if s.run(double_param_scan) else 1
 
-                elif opt in ('-p', '--single-param-scan'):
-                    check_args(args, no_conf_file_msg)
-                    from sbpipe.pl.ps1.parscan1 import ParScan1
-                    s = ParScan1()
-                    exit_status = 0 if s.run(args[0]) else 1
-
-                elif opt in ('-d', '--double-param-scan'):
-                    check_args(args, no_conf_file_msg)
-                    from sbpipe.pl.ps2.parscan2 import ParScan2
-                    s = ParScan2()
-                    exit_status = 0 if s.run(args[0]) else 1
-
-                elif opt in ('-e', '--param-estim'):
-                    check_args(args, no_conf_file_msg)
-                    from sbpipe.pl.pe.parest import ParEst
-                    s = ParEst()
-                    exit_status = 0 if s.run(args[0]) else 1
-
-            if len(opts) < 1:
-                raise Usage('no option received')
-
-        except getopt.error as msg:
-            raise Usage(msg)
-
-    except Usage as err:
-        print(err.msg)
-        print('for help use -h, --help')
-        exit_status = 2
+    elif param_estim:
+        from sbpipe.pl.pe.parest import ParEst
+        s = ParEst()
+        exit_status = 0 if s.run(param_estim) else 1
 
     return exit_status
+
+
+def main(argv=None):
+    """
+    SBpipe main function.
+
+    :return: 0 if OK, 1 if trouble
+    """
+
+    # PARSER
+    parser = argparse.ArgumentParser(prog='sbpipe.py',
+                                     description='Pipelines for systems modelling of biological networks.',
+                                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog='''
+Exit status:
+0  if OK,
+1  if trouble (e.g. a pipeline did not execute correctly).
+
+Report bugs to sbpipe@googlegroups.com
+SBpipe home page: <https://pdp10.github.io/sbpipe>
+For complete documentation, see README.md .
+    ''')
+
+    parser.add_argument('-q', '--quiet',
+                        help='run %(prog)s quietly',
+                        action='store_true')
+    parser.add_argument('--log-level',
+                        help='override the log level',
+                        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
+    parser.add_argument('-V', '--version',
+                        help='show the version',
+                        action='version',
+                        version='%(prog)s v' + read_file_header('VERSION'))
+    parser.add_argument('--license',
+                        help='show the license',
+                        action='store_const',
+                        const=read_file_header('LICENSE'))
+    parser.add_argument('--logo',
+                        help='show the logo',
+                        action = 'store_const',
+                        const = logo())
+    parser.add_argument('-c', '--create-project',
+                        help='create a project structure using the argument as name',
+                        metavar = 'FILE',
+                        nargs=1)
+    parser.add_argument('-s', '--simulate',
+                        help='simulate a model',
+                        metavar='FILE',
+                        nargs=1)
+    parser.add_argument('-p', '--single-param-scan',
+                        help='simulate a single parameter scan',
+                        metavar='FILE',
+                        nargs=1)
+    parser.add_argument('-d', '--double-param-scan',
+                        help='simulate a double parameter scan',
+                        metavar='FILE',
+                        nargs=1)
+    parser.add_argument('-e', '--param-estim',
+                        help='generate a parameter fit sequence',
+                        metavar='FILE',
+                        nargs=1)
+
+    args = parser.parse_args()
+
+    create_project = ''
+    if args.create_project:
+        create_project = args.create_project[0]
+
+    simulate = ''
+    if args.simulate:
+        simulate = args.simulate[0]
+
+    single_param_scan = ''
+    if args.single_param_scan:
+        single_param_scan = args.single_param_scan[0]
+
+    double_param_scan = ''
+    if args.double_param_scan:
+        double_param_scan = args.double_param_scan[0]
+
+    param_estim = ''
+    if args.param_estim:
+        param_estim = args.param_estim[0]
+
+    return sbpipe(create_project=create_project, simulate=simulate,
+                  single_param_scan=single_param_scan, double_param_scan=double_param_scan,
+                  param_estim=param_estim,
+                  logo=args.logo, license=args.license, log_level=args.log_level, quiet=args.quiet)
