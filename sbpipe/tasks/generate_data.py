@@ -31,7 +31,7 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.tasks.utils import call_proc
+from sbpipe.utils.parcomp import run_cmd
 
 
 def run_copasi_model(infile):
@@ -41,7 +41,7 @@ def run_copasi_model(infile):
     :param infile: the input file
     """
     command = "CopasiSE " + infile
-    call_proc(command)
+    run_cmd(command)
 
 
 def run_generic_model(infile):
@@ -52,7 +52,7 @@ def run_generic_model(infile):
     """
     command = "python " + infile + \
               " " + os.path.basename(infile)[:-4] + ".csv"
-    call_proc(command)
+    run_cmd(command)
 
 
 def generate_data(infile, copasi=False):

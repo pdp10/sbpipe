@@ -32,17 +32,18 @@ logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
+from sbpipe.simul.copasi import copasi as copasi_simul
+from sbpipe.simul import pl_simul
 
-from sbpipe.tasks.utils import replace_str_in_report
 
-
-def generic_postproc(infile, outfile, sim_length):
+def generic_postproc(infile, outfile, sim_length, copasi=True):
     """
     Perform post processing organisation to double parameter scan report files.
 
     :param infile: the model to process
     :param outfile: the directory to store the results
     :param sim_length: the length of the simulation
+    :param copasi: True if the model is a Copasi model
     """
 
     # copy file removing empty lines
@@ -52,7 +53,11 @@ def generic_postproc(infile, outfile, sim_length):
             if not line.isspace():
                 fileout.write(line)
 
-    replace_str_in_report(outfile)
+    if copasi:
+        simulator = copasi_simul.Copasi()
+    else:
+        simulator = pl_simul.PLSimul()
+    simulator.replace_str_in_report(outfile)
 
     # Extract a selected time point from all perturbed time courses contained in the report file
     with open(outfile, 'r') as filein:
@@ -79,7 +84,7 @@ def generic_postproc(infile, outfile, sim_length):
                 fileout.close()
 
 
-def ps2_postproc(infile, outfile, sim_length, copasi=False):
+def ps2_postproc(infile, outfile, sim_length, copasi=True):
     """
     Perform post processing organisation to double parameter scan report files.
 
@@ -88,8 +93,7 @@ def ps2_postproc(infile, outfile, sim_length, copasi=False):
     :param sim_length: the length of the simulation
     :param copasi: True if the model is a Copasi model
     """
-
-    generic_postproc(infile, outfile, sim_length)
+    generic_postproc(infile, outfile, sim_length, copasi)
 
 
 def main(argv=None):

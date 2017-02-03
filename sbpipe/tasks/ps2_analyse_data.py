@@ -31,7 +31,7 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.tasks.utils import call_proc
+from sbpipe.utils.parcomp import run_cmd
 
 
 def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id):
@@ -48,7 +48,7 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
               ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
               ' ' + outputdir + ' ' + str(id)
-    call_proc(command)
+    run_cmd(command)
 
 
 # this is a Python wrapper for ps2 analysis in R.

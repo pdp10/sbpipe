@@ -25,6 +25,7 @@
 import glob
 import logging
 import os
+import re
 
 logger = logging.getLogger('sbpipe')
 
@@ -106,3 +107,24 @@ def replace_str_in_file(filename_out, old_string, new_string):
     # Write the file out again
     with open(filename_out, 'w') as file:
         file.write(filedata)
+
+
+def replace_str_in_report(report):
+
+    # `with` ensures that the file is closed correctly
+    # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
+    with open(report, 'r') as file:
+        lines = file.readlines()
+    with open(report, 'w') as file:
+        # for idx, line in lines:
+        for i in range(len(lines)):
+            if i < 1:
+                # First remove non-alphanumerics and non-underscores.
+                # Then replaces whites with TAB.
+                # Finally use rstrip to remove the TAB at the end.
+                # [^\w] matches anything that is not alphanumeric or underscore
+                lines[i] = lines[i].replace("Values[", "").replace("]", "")
+                file.write(
+                    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
+            else:
+                file.write(lines[i].rstrip('\t'))

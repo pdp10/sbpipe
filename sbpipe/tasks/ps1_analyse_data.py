@@ -32,7 +32,7 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.re_utils import escape_special_chars
-from sbpipe.tasks.utils import call_proc
+from sbpipe.utils.parcomp import run_cmd
 
 
 def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
@@ -64,7 +64,7 @@ def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
         ' ' + model_name + ' ' + scanned_par + ' ' + inhibition_only + ' ' + outputdir + \
         ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + repeat + ' ' + percent_levels + ' ' + min_level + \
         ' ' + max_level + ' ' + levels_number + ' ' + homogeneous_lines + ' ' + xaxis_label + ' ' + yaxis_label
-    call_proc(command)
+    run_cmd(command)
 
 
 # this is a Python wrapper for ps1 analysis in R.

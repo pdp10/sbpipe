@@ -29,12 +29,13 @@ import re
 from itertools import islice
 import shutil
 import argparse
-from sbpipe.tasks.utils import replace_str_in_report
 import logging
 logger = logging.getLogger('sbpipe')
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
+from sbpipe.simul.copasi import copasi as copasi_simul
+from sbpipe.simul import pl_simul
 
 
 def ps1_header_init(report, scanned_par):
@@ -65,7 +66,7 @@ def ps1_header_init(report, scanned_par):
     return header
 
 
-def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals):
+def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi=True):
     """
     Perform post processing organisation to single parameter scan report files.
 
@@ -74,6 +75,7 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
     :param scanned_par: the scanned parameter
     :param simulate_intervals: the time step of each simulation
     :param single_param_scan_intervals: the number of scans to perform
+    :param copasi: True if the model is a Copasi model
     """
 
     scanned_par_index = -1
@@ -87,7 +89,11 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
 
     shutil.copy(infile, outfile)
 
-    replace_str_in_report(outfile)
+    if copasi:
+        simulator = copasi_simul.Copasi()
+    else:
+        simulator = pl_simul.PLSimul()
+    simulator.replace_str_in_report(outfile)
 
     header = ps1_header_init(outfile, scanned_par)
     if not header:
@@ -153,7 +159,7 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
         shutil.move(outfile + "~", outfile)
 
 
-def ps1_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi=False):
+def ps1_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi=True):
     """
     Perform post processing organisation to single parameter scan report files.
 
@@ -164,11 +170,7 @@ def ps1_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_
     :param single_param_scan_intervals: the number of scans to perform
     :param copasi: True if the model is a Copasi model
     """
-    generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals)
-    #if copasi:
-    #    copasi_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals)
-    #else:
-    #    generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals)
+    generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi)
 
 
 def main(argv=None):
