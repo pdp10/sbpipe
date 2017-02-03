@@ -17,8 +17,7 @@ of stable releases, the latter contains the history of development. The
 `master` branch contains checkout points for production hotfixes 
 or merge points for release-x.x.x branches. The `develop` branch is used 
 for feature-bugfix integration and checkout point in development. Nobody 
-should directly develop in here. The `develop` branch is versionless 
-(just call it *-dev*).
+should directly develop in here.
 
 
 ### Conventions
@@ -174,9 +173,8 @@ Python environment as shown below:
 $ cd $SBPIPE
 $ python
 # Python environment
->>> import sbpipe.main as sb
->>> sb.version()
-'2.0.0 '
+>>> from sbpipe import main as sb
+>>> sb.sbpipe(simulate="ir_model_det_simul.yaml")
 ```
 The following subsections describe sbpipe subpackages.
 

@@ -149,20 +149,6 @@
 <div class="section" id="module-sbpipe.main">
 <span id="id1"></span><h2>sbpipe.main module<a class="headerlink" href="#module-sbpipe.main" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="sbpipe.main.logo">
-<code class="descclassname">sbpipe.main.</code><code class="descname">logo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.logo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return sbpipe logo.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">sbpipe logo</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="sbpipe.main.main">
 <code class="descclassname">sbpipe.main.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>SBpipe main function.</p>
@@ -194,7 +180,7 @@
 
 <dl class="function">
 <dt id="sbpipe.main.sbpipe">
-<code class="descclassname">sbpipe.main.</code><code class="descname">sbpipe</code><span class="sig-paren">(</span><em>create_project=''</em>, <em>simulate=''</em>, <em>parameter_scan1=''</em>, <em>parameter_scan2=''</em>, <em>parameter_estimation=''</em>, <em>logo=''</em>, <em>license=''</em>, <em>log_level='INFO'</em>, <em>quiet=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.sbpipe" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.main.</code><code class="descname">sbpipe</code><span class="sig-paren">(</span><em>create_project=''</em>, <em>simulate=''</em>, <em>parameter_scan1=''</em>, <em>parameter_scan2=''</em>, <em>parameter_estimation=''</em>, <em>logo=False</em>, <em>license=False</em>, <em>log_level=''</em>, <em>quiet=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.sbpipe" title="Permalink to this definition">¶</a></dt>
 <dd><p>SBpipe function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -216,6 +202,20 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">0 if OK, 1  if trouble (e.g. a pipeline did not execute correctly).</p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.sbpipe_logo">
+<code class="descclassname">sbpipe.main.</code><code class="descname">sbpipe_logo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.sbpipe_logo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return sbpipe logo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">sbpipe logo</td>
 </tr>
 </tbody>
 </table>
