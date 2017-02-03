@@ -279,20 +279,19 @@ subprocess.call(shlex.split(command))
 
 Configuration file invoking the Python wrapper `sde_periodic_drift.py`
 ```
-[simulate]
-generate_data=True
-analyse_data=True
-generate_report=True
-project_dir=.
-simulator=Python
-model=sde_periodic_drift.py
-cluster=local
-local_cpus=7
-runs=14
-exp_dataset=
-plot_exp_dataset=False
-xaxis_label=Time
-yaxis_label=#
+generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: "."
+simulator: "Python"
+model: "sde_periodic_drift.py"
+cluster: "local"
+local_cpus: 7
+runs: 14
+exp_dataset: ""
+plot_exp_dataset: False
+xaxis_label: "Time"
+yaxis_label: "#"
 ```
 
 
@@ -324,6 +323,8 @@ List of mandatory options:
                 Show the license.
         -v, --version
                 Show the version.
+            --logo
+                Show the logo.
 Exit status:
  0  if OK,
  1  if minor problems (e.g., a pipeline did not execute correctly),

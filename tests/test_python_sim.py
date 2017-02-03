@@ -32,13 +32,8 @@ from sbpipe import main as sbmain
 import unittest
 from sbpipe.sb_config import isPyPackageInstalled
 
-"""Unit test for Python simulator"""
-
 
 class TestPythonSim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _python = os.path.join('python_models')
@@ -51,8 +46,7 @@ class TestPythonSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_python_insulin_receptor_simulation(self):
-        """Insulin receptor model in python - simulation"""
+    def test_sim_python_ir(self):
         if not isPyPackageInstalled("numpy"):
             print("Skipping test as Python numpy was not found.")
         elif not isPyPackageInstalled("scipy"):

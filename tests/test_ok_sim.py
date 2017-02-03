@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRSimulate(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestCopasiSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
@@ -50,12 +45,10 @@ class TestIRSimulate(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_det_simulation(self):
-        """model deterministic simulation"""
+    def test_sim_copasi(self):
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul.yaml"]), 0)
 
-    def test_stoch_simulation(self):
-        """model stochastic simulation"""
+    def test_stoch_sim_copasi(self):
         self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_stoch_simul.yaml"]), 0)
 
 

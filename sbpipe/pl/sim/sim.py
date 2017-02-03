@@ -58,8 +58,10 @@ class Sim(Pipeline):
         logger.info("================================")
         logger.info("Pipeline: time course simulation")
         logger.info("================================")
+
         logger.info("\n")
-        logger.info("Reading file " + config_file + " : \n")
+        logger.info("Loading file: " + config_file)
+        logger.info("=============\n")
 
         # load the configuration file
         try:
@@ -222,7 +224,6 @@ class Sim(Pipeline):
         xaxis_label = escape_special_chars(xaxis_label)
         yaxis_label = escape_special_chars(yaxis_label)
 
-        logger.info("\n")
         logger.info("Analysing generated simulations:")
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
