@@ -15,7 +15,7 @@
    along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SB pipe documentation
+SBpipe documentation
 =====================
 
 .. toctree::

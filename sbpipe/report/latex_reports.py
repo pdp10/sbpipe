@@ -33,7 +33,7 @@ from sbpipe.sb_config import which
 logger = logging.getLogger('sbpipe')
 
 
-def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract="Generic report."):
+def get_latex_header(pdftitle="SBpipe report", title="SBpipe report", abstract="Generic report."):
     """
     Initialize a Latex header with a title and an abstract.
     
@@ -47,9 +47,9 @@ def get_latex_header(pdftitle="SB pipe report", title="SB pipe report", abstract
         "\\usepackage[english]{babel}\n"
         "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
         "\\usepackage{graphicx}\n"
-        "\\usepackage[plainpages=false,pdfauthor={Generated with SB pipe},pdftitle={" + pdftitle + "},pdftex]"
+        "\\usepackage[plainpages=false,pdfauthor={Generated with SBpipe},pdftitle={" + pdftitle + "},pdftex]"
                                                                                                    "{hyperref}\n"
-                                                                                                   "\\author{Generated with SB pipe} \n"
+                                                                                                   "\\author{Generated with SBpipe} \n"
                                                                                                    "\\title{" + title + "}\n"
                                                                                                                         "\\date{\\today}\n"
                                                                                                                         "\\begin{document}\n"
