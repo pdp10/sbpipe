@@ -9,8 +9,8 @@ cluster: "local"
 local_cpus: 7
 runs: 1
 simulate__intervals: 100
-single_param_scan_knock_down_only: False
-single_param_scan_percent_levels: False
+ps1_knock_down_only: False
+ps1_percent_levels: False
 min_level: 0.23
 max_level: -0.86
 levels_number: 100

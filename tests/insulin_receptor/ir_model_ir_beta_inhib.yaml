@@ -23,9 +23,9 @@ runs: 1
 # The number of intervals in the simulation
 simulate__intervals: 100
 # True if the variable is only reduced (knock down), False otherwise.
-single_param_scan_knock_down_only: True
+ps1_knock_down_only: True
 # True if the scanning represents percent levels.
-single_param_scan_percent_levels: True
+ps1_percent_levels: True
 # The minimum level (as set in Copasi Parameter Scan Task)
 min_level: 0
 # The maximum level (as set in Copasi Parameter Scan Task)

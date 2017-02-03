@@ -31,13 +31,9 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
-
 
 class TestCopasiSim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor_conf_errors')
     
@@ -49,21 +45,17 @@ class TestCopasiSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_det_simulation1(self):
-        """test_det_simulation1"""
-        self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul1.yaml"]), 0)
+    def test_sim1(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml"), 0)
 
-    def test_det_simulation2(self):
-        """test_det_simulation2"""
-        self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul2.yaml"]), 1)
+    def test_sim2(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml"), 1)
 
-    def test_det_simulation3(self):
-        """test_det_simulation3"""
-        self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul3.yaml"]), 1)
+    def test_sim3(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml"), 1)
 
-    def test_det_simulation4(self):
-        """test_det_simulation4"""
-        self.assertEqual(sbmain.main(["sbpipe", "--simulate", "ir_model_det_simul4.yaml"]), 1)
+    def test_sim4(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml"), 1)
 
 
 if __name__ == '__main__':

@@ -54,7 +54,7 @@ class TestPythonSim(unittest.TestCase):
         elif not isPyPackageInstalled("pandas"):
             print("Skipping test as Python pandas was not found.")
         else:
-            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "insulin_receptor.yaml"]), 0)
+            self.assertEqual(sbmain.sbpipe(simulate="insulin_receptor.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
