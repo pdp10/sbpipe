@@ -32,13 +32,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
-
 
 class TestCopasiSGE(unittest.TestCase):
-    """
-    A collection of tests for this example using SGE
-    """
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor_conf_errors')
@@ -51,11 +46,10 @@ class TestCopasiSGE(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_stoch_simul_copasi_sge(self):
-        """test_stoch_simul_copasi_sge"""
+    def test_stoch_sim_copasi_sge(self):
         try:
             subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sge_ir_model_det_simul.yaml"]), 0)
+            self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_det_simul.yaml"), 0)
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 

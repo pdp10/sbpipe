@@ -46,17 +46,16 @@ class TestCopasiPS1(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_ps1_ci(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.yaml"]), 0)
+        self.assertEqual(sbmain.sbpipe(single_param_scan="ir_model_k1_scan.yaml"), 0)
 
     def test_ps1_inhib_only(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.yaml"]), 0)
+        self.assertEqual(sbmain.sbpipe(single_param_scan="ir_model_ir_beta_inhib.yaml"), 0)
 
     def test_stoch_ps1_inhib_only(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_stoch.yaml"]), 0)
+        self.assertEqual(sbmain.sbpipe(single_param_scan="ir_model_ir_beta_inhib_stoch.yaml"), 0)
 
     def test_ps1_inhib_overexp(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.yaml"]),
-                         0)
+        self.assertEqual(sbmain.sbpipe(single_param_scan="ir_model_ir_beta_inhib_overexp.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

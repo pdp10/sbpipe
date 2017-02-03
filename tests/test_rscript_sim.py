@@ -55,7 +55,7 @@ class TestRSim(unittest.TestCase):
             if "FALSE" in str(output):
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "simple_lotka_volterra.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(simulate="simple_lotka_volterra.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -68,7 +68,7 @@ class TestRSim(unittest.TestCase):
             if "FALSE" in str(output):
                 print("Skipping test as R deSolve was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "2Dpde_lotka_volterra.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(simulate="2Dpde_lotka_volterra.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -81,7 +81,7 @@ class TestRSim(unittest.TestCase):
             if "FALSE" in str(output):
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_periodic_drift.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(simulate="sde_periodic_drift.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -94,7 +94,7 @@ class TestRSim(unittest.TestCase):
             if "FALSE" in str(output):
                 print("Skipping test as R sde was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sde_cox_ingersoll_ross_process.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 
@@ -119,7 +119,7 @@ class TestRSim(unittest.TestCase):
             elif "FALSE" in str(minpacklm):
                 print("Skipping test as R minpack.lm was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--simulate", "sim_simple_reacts.yaml"]), 0)
+                self.assertEqual(sbmain.sbpipe(simulate="sim_simple_reacts.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 

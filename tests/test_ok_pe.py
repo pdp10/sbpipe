@@ -46,10 +46,10 @@ class TestCopasiPE(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_pe_copasi1(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim.yaml"]), 0)
+        self.assertEqual(sbmain.sbpipe(param_estim="ir_model_param_estim.yaml"), 0)
 
     def test_pe_copasi2(self):
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_non_identif_param_estim.yaml"]), 0)
+        self.assertEqual(sbmain.sbpipe(param_estim="ir_model_non_identif_param_estim.yaml"), 0)
 
 
 if __name__ == '__main__':

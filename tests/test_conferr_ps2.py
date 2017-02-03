@@ -31,13 +31,8 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 
-"""Unit test for Insulin Receptor"""
-
 
 class TestCopasiPS2(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor_conf_errors')
@@ -50,20 +45,17 @@ class TestCopasiPS2(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_double_param_scan_inhib_only1(self):
-        """test_double_param_scan_inhib_only1"""
+    def test_ps2_inhib_only1(self):
         self.assertEqual(
-            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib1.yaml"]), 1)
+            sbmain.sbpipe(double_param_scan="ir_model_insulin_ir_beta_dbl_inhib1.yaml"), 1)
 
-    def test_double_param_scan_inhib_only2(self):
-        """test_double_param_scan_inhib_only2"""
+    def test_ps2_inhib_only2(self):
         self.assertEqual(
-            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib2.yaml"]), 0)
+            sbmain.sbpipe(double_param_scan="ir_model_insulin_ir_beta_dbl_inhib2.yaml"), 0)
 
-    def test_double_param_scan_inhib_only3(self):
-        """test_double_param_scan_inhib_only3"""
+    def test_ps2_inhib_only3(self):
         self.assertEqual(
-            sbmain.main(["sbpipe", "--double-param-scan", "ir_model_insulin_ir_beta_dbl_inhib3.yaml"]), 1)
+            sbmain.sbpipe(double_param_scan="ir_model_insulin_ir_beta_dbl_inhib3.yaml"), 1)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

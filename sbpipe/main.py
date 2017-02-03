@@ -118,21 +118,20 @@ def sbpipe(create_project='', simulate='', single_param_scan='', double_param_sc
 
     exit_status = 0
 
-    if quiet:
-        logger = logging.getLogger('sbpipe')
-        logger.setLevel("WARNING")
-
     if log_level:
         logger = logging.getLogger('sbpipe')
         logger.setLevel(log_level)
+    elif quiet:
+        logger = logging.getLogger('sbpipe')
+        logger.setLevel("WARNING")
 
     if license:
         print(license)
 
-    if logo:
+    elif logo:
         print(logo)
 
-    if create_project:
+    elif create_project:
         from sbpipe.pl.create.newproj import NewProj
         s = NewProj()
         exit_status = 0 if s.run(create_project) else 1
@@ -182,41 +181,41 @@ For complete documentation, see README.md .
     ''')
 
     parser.add_argument('-q', '--quiet',
-                        help='run %(prog)s quietly',
+                        help='be less verbose',
                         action='store_true')
     parser.add_argument('--log-level',
                         help='override the log level',
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
     parser.add_argument('-V', '--version',
-                        help='show the version',
+                        help='show the version and exit',
                         action='version',
                         version='%(prog)s v' + read_file_header('VERSION'))
     parser.add_argument('--license',
-                        help='show the license',
+                        help='show the license and exit',
                         action='store_const',
                         const=read_file_header('LICENSE'))
     parser.add_argument('--logo',
-                        help='show the logo',
+                        help='show the logo and exit',
                         action = 'store_const',
                         const = logo())
     parser.add_argument('-c', '--create-project',
-                        help='create a project structure using the argument as name',
-                        metavar = 'FILE',
+                        help='create a project structure',
+                        metavar = 'NAME',
                         nargs=1)
     parser.add_argument('-s', '--simulate',
-                        help='simulate a model',
+                        help='run time course simulations',
                         metavar='FILE',
                         nargs=1)
     parser.add_argument('-p', '--single-param-scan',
-                        help='simulate a single parameter scan',
+                        help='run single parameter scans',
                         metavar='FILE',
                         nargs=1)
     parser.add_argument('-d', '--double-param-scan',
-                        help='simulate a double parameter scan',
+                        help='run double parameter scans',
                         metavar='FILE',
                         nargs=1)
     parser.add_argument('-e', '--param-estim',
-                        help='generate a parameter fit sequence',
+                        help='run parameter estimations',
                         metavar='FILE',
                         nargs=1)
 
