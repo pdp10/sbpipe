@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRSingleParamScan(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestCopasiPS1(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
@@ -50,23 +45,17 @@ class TestIRSingleParamScan(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_single_param_scan_ci(self):
-        """model single param scan - confidence interval"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_k1_scan.conf"]), 0)
+    def test_ps1_ci(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan.yaml"), 0)
 
-    def test_single_param_scan_inhib_only(self):
-        """model single param scan - inhibition only"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib.conf"]), 0)
+    def test_ps1_inhib_only(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml"), 0)
 
-    def test_single_param_scan_inhib_only_stoch(self):
-        """model single param scan - inhibition only (stochastic repeats) """
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_stoch.conf"]), 0)
+    def test_stoch_ps1_inhib_only(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_stoch.yaml"), 0)
 
-    def test_single_param_scan_inhib_overexp(self):
-        """model single param scan - inhibition/overexpression"""
-        self.assertEqual(sbmain.main(["sbpipe", "--single-param-scan", "ir_model_ir_beta_inhib_overexp.conf"]),
-                         0)
-
+    def test_ps1_inhib_overexp(self):
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_overexp.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

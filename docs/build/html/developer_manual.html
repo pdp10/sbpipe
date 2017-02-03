@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &mdash; SB pipe 2.7.0 documentation</title>
+    <title>Developer manual &mdash; SBpipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.7.0 documentation" href="index.html" />
+    <link rel="top" title="SBpipe 2.7.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.7.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 2.7.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -246,15 +246,16 @@ plots and report.</li>
 <div class="highlight-python"><div class="highlight"><pre><span></span># executes a pipeline
 def run(self, config_file)
 
-# process the configuration file lines
-# imported by Pipeline.config_parser()
-def read_config(self, lines)
+# process the dictionary of the configuration file loaded by Pipeline.load()
+def parse(self, config_dict)
 </pre></div>
 </div>
-<p>The former contains the procedure to parse an INI configuration file.
-The latter parses the pipeline options. The <code class="docutils literal"><span class="pre">Pipeline</span></code> class
-implements the INI parser which is therefore available to each pipeline.
-The INI parser returns the configuration file as a list of lines.</p>
+<ul class="simple">
+<li>The method run() can invoke Pipeline.load() to load the YAML
+config_file as a dictionary. Once the configuration is loaded and
+the parameters are imported, run() executes the pipeline.</li>
+<li>The method parse() parses the dictionary and collects the values.</li>
+</ul>
 </div>
 <div class="section" id="r">
 <h4>R<a class="headerlink" href="#r" title="Permalink to this headline">¶</a></h4>
@@ -316,13 +317,11 @@ a project before running any pipeline. Projects inside the folder
 directly used by Copasi models);</li>
 <li><code class="docutils literal"><span class="pre">Results</span></code>: (e.g. pipelines results, etc).</li>
 </ul>
-<p>Examples of configuration files (*.conf) using Copasi can be found in
+<p>Examples of configuration files (*.yaml) using Copasi can be found in
 $SBPIPE/tests/insulin_receptor/.</p>
 <p>To run tests for Python models, the Python packages <code class="docutils literal"><span class="pre">numpy</span></code>,
-<code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code> must be installed. These additional
-dependencies should not be included to SBpipe main dependencies as they
-are user-specific. In principle, users may define their Python models
-using arbitrary packages.</p>
+<code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code> must be installed. In principle, users may
+define their Python models using arbitrary packages.</p>
 <p>As of 2016, the repository for SBpipe source code is <code class="docutils literal"><span class="pre">github.com</span></code>.
 This is configured to run Travis-CI every time a <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> into the
 repository is performed. The exact details of execution of Travis-CI can
@@ -474,7 +473,7 @@ git merge upstream/develop
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SB pipe 2.7.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 2.7.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

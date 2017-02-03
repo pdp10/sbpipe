@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.pl.ps2 package &mdash; SB pipe 2.7.0 documentation</title>
+    <title>sbpipe.pl.ps2 package &mdash; SBpipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SB pipe 2.7.0 documentation" href="../index.html" />
+    <link rel="top" title="SBpipe 2.7.0 documentation" href="../index.html" />
     <link rel="up" title="sbpipe.pl package" href="sbpipe.pl.html" />
     <link rel="next" title="sbpipe.pl.sim package" href="sbpipe.pl.sim.html" />
     <link rel="prev" title="sbpipe.pl.ps1 package" href="sbpipe.pl.ps1.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="sbpipe.pl.ps1.html" title="sbpipe.pl.ps1 package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.pl.html" accesskey="U">sbpipe.pl package</a> &raquo;</li> 
@@ -72,7 +72,7 @@
 double parameter scans.</p>
 <dl class="classmethod">
 <dt id="sbpipe.pl.ps2.parscan2.ParScan2.analyse_data">
-<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par1</em>, <em>scanned_par2</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps2.parscan2.ParScan2.analyse_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par1</em>, <em>scanned_par2</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps2.parscan2.ParScan2.analyse_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The second pipeline step: data analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -85,6 +85,7 @@ double parameter scans.</p>
 <li><strong>inputdir</strong> &#8211; the directory containing the simulated data sets to process</li>
 <li><strong>outputdir</strong> &#8211; the directory to store the performed analysis</li>
 <li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
 </ul>
 </td>
@@ -148,8 +149,8 @@ double parameter scans.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="sbpipe.pl.ps2.parscan2.ParScan2.read_config">
-<code class="descname">read_config</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps2.parscan2.ParScan2.read_config" title="Permalink to this definition">¶</a></dt>
+<dt id="sbpipe.pl.ps2.parscan2.ParScan2.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><em>my_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.ps2.parscan2.ParScan2.parse" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -226,7 +227,7 @@ double parameter scans.</p>
         <li class="right" >
           <a href="sbpipe.pl.ps1.html" title="sbpipe.pl.ps1 package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SB pipe 2.7.0 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="sbpipe.pl.html" >sbpipe.pl package</a> &raquo;</li> 

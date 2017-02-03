@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.3.0 (devel)
+v4.5.0 (devel)
 
+- Improved unit tests and nosetests with Travis-CI.
+- Replaced INI configuration files with YAML configuration files.
 - Skip heatmap and multiple time course plot if only one simulation is run. These plots are just redundant.
 - removed support for running R, Octave, and Java models directly as these can be run via a Python model wrapper.
 - bug fixes
@@ -93,7 +95,7 @@ v1.0.0 (Mercury)
 
 - completed source code documentation
 - completed user and developer manuals.
-- configured Python Sphinx for documenting SB pipe
+- configured Python Sphinx for documenting SBpipe
 - bug fixes.
 - separation of pdf report code from pipelines.
 - configuration sessions integrated in pipeline classes.

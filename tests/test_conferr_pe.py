@@ -31,13 +31,8 @@ sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
 
-"""Unit test for Insulin Receptor"""
 
-
-class TestIRParamEstim(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestCopasiPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor_conf_errors')
@@ -50,21 +45,17 @@ class TestIRParamEstim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_param_estim_copasi1(self):
-        """model parameter estimation"""
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim1.conf"]), 1)
+    def test_pe_copasi1(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim1.yaml"), 1)
 
-    def test_param_estim_copasi2(self):
-        """model parameter estimation"""
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim2.conf"]), 1)
+    def test_pe_copasi2(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim2.yaml"), 1)
 
-    def test_param_estim_copasi3(self):
-        """model parameter estimation"""
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim3.conf"]), 1)
+    def test_pe_copasi3(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim3.yaml"), 1)
 
-    def test_param_estim_copasi4(self):
-        """model parameter estimation"""
-        self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "ir_model_param_estim4.conf"]), 1)
+    def test_pe_copasi4(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim4.yaml"), 1)
 
 
 if __name__ == '__main__':

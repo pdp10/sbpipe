@@ -32,13 +32,8 @@ from sbpipe import main as sbmain
 import unittest
 import subprocess
 
-"""Unit test for R simulator"""
 
-
-class TestRscriptPE(unittest.TestCase):
-    """
-    A collection of tests for this example.
-    """
+class TestRPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _rscript = os.path.join('r_models')
@@ -51,8 +46,7 @@ class TestRscriptPE(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_simple_reacts_pe(self):
-        """Parameter estimation of simple reactions model"""
+    def test_pe_r(self):
         try:
             reshape2 = subprocess.Popen(['Rscript', \
                                        os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
@@ -73,7 +67,7 @@ class TestRscriptPE(unittest.TestCase):
             elif "FALSE" in str(minpacklm):
                 print("Skipping test as R minpack.lm was not found.")
             else:
-                self.assertEqual(sbmain.main(["sbpipe", "--param-estim", "pe_simple_reacts.conf"]), 0)
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml"), 0)
         except OSError as e:
             print("Skipping test as R was not found.")
 

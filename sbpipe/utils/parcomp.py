@@ -34,7 +34,7 @@ logger = logging.getLogger('sbpipe')
 
 def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpus=1, output_msg=False):
     """
-    Generic funcion to run a command in parallel
+    Generic function to run a command in parallel
 
     :param cmd: the command string to run in parallel
     :param cmd_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
