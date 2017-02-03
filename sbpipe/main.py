@@ -151,7 +151,7 @@ def check_args(args, msg):
 
 def main(argv=None):
     """
-    SB pipe main function.
+    SBpipe main function.
 
     :param argv: options for sbpipe. Type python -m sbpipe -h for a full list of options.
     :return: 0 if OK, 1 if minor problems, or 2 if serious trouble.
