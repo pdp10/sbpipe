@@ -42,7 +42,7 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
 
-def logo():
+def sbpipe_logo():
     """
     Return sbpipe logo.
 
@@ -98,7 +98,7 @@ def set_logger():
 
 
 def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='', parameter_estimation='',
-           logo='', license='', log_level='INFO', quiet=False, verbose=False):
+           logo=False, license=False, log_level='', quiet=False, verbose=False):
     """
     SBpipe function.
 
@@ -130,10 +130,10 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
         logger.setLevel("DEBUG")
 
     if license:
-        print(license)
+        print(read_file_header('LICENSE'))
 
     elif logo:
-        print(logo)
+        print(sbpipe_logo())
 
     elif create_project:
         from sbpipe.pl.create.newproj import NewProj
@@ -204,12 +204,10 @@ For complete documentation, see README.md .
                         nargs=1)
     parser.add_argument('--license',
                         help='show the license and exit',
-                        action='store_const',
-                        const=read_file_header('LICENSE'))
+                        action='store_true')
     parser.add_argument('--logo',
                         help='show the logo and exit',
-                        action='store_const',
-                        const=logo())
+                        action='store_true')
     parser.add_argument('-q', '--quiet',
                         help='print warning and error message only',
                         action='store_true')

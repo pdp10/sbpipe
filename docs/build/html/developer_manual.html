@@ -70,8 +70,7 @@ history of stable releases, the latter contains the history of
 development. The <code class="docutils literal"><span class="pre">master</span></code> branch contains checkout points for
 production hotfixes or merge points for release-x.x.x branches. The
 <code class="docutils literal"><span class="pre">develop</span></code> branch is used for feature-bugfix integration and checkout
-point in development. Nobody should directly develop in here. The
-<code class="docutils literal"><span class="pre">develop</span></code> branch is versionless (just call it <em>-dev</em>).</p>
+point in development. Nobody should directly develop in here.</p>
 <div class="section" id="conventions">
 <h3>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h3>
 <p>To manage the project in a more consistent way, here is a list of
@@ -219,9 +218,8 @@ Python environment as shown below:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ cd $SBPIPE
 $ python
 # Python environment
-&gt;&gt;&gt; import sbpipe.main as sb
-&gt;&gt;&gt; sb.version()
-&#39;2.0.0 &#39;
+&gt;&gt;&gt; from sbpipe import main as sb
+&gt;&gt;&gt; sb.sbpipe(simulate=&quot;ir_model_det_simul.yaml&quot;)
 </pre></div>
 </div>
 <p>The following subsections describe sbpipe subpackages.</p>
