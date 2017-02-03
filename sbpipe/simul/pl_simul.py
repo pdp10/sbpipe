@@ -127,8 +127,8 @@ class PLSimul(Simul):
         self._move_reports('.', outputdir, model, groupid)
         return groupid, group_model
 
-    def _replace_str_in_report(self, report):
-        __doc__ = Simul._replace_str_in_report.__doc__
+    def replace_str_in_report(self, report):
+        __doc__ = Simul.replace_str_in_report.__doc__
 
         # `with` ensures that the file is closed correctly
         # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.

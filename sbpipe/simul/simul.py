@@ -189,11 +189,11 @@ class Simul(object):
                         re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
         for report in report_files:
             # Replace some string in the report file
-            self._replace_str_in_report(os.path.join(inputdir, report))
+            self.replace_str_in_report(os.path.join(inputdir, report))
             # rename and move the output file
             shutil.move(os.path.join(inputdir, report), os.path.join(outputdir, report.replace(groupid, "_")[:-4] + ".csv"))
 
-    def _replace_str_in_report(self, report):
+    def replace_str_in_report(self, report):
         """
         Replaces strings in a report file.
 
