@@ -254,3 +254,7 @@ def main(argv=None):
         exit_status = 2
 
     return exit_status
+
+
+if __name__ == "__main__":
+    sys.exit(main.main())
