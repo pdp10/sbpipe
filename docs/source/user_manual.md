@@ -158,7 +158,7 @@ these packages, `install_rdeps.r` must be executed again.
 
 The correct installation of SBpipe can be tested by running the command: 
 ```
-$ sbpipe.py -v
+$ sbpipe.py -V
 sbpipe.py v3.0.0
 ```
 

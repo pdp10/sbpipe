@@ -236,6 +236,27 @@ each estimation</li>
 </dd></dl>
 
 <dl class="method">
+<dt id="sbpipe.simul.simul.Simul.ps1_postproc">
+<code class="descname">ps1_postproc</code><span class="sig-paren">(</span><em>model</em>, <em>scanned_par</em>, <em>simulate_intervals</em>, <em>single_param_scan_intervals</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps1_postproc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform post processing organisation to single parameter scan report files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
+<li><strong>simulate_intervals</strong> &#8211; the time step of each simulation</li>
+<li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="sbpipe.simul.simul.Simul.ps2">
 <code class="descname">ps2</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>inputdir</em>, <em>outputdir</em>, <em>cluster='local'</em>, <em>local_cpus=1</em>, <em>runs=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Double paramter scan.</p>
@@ -252,6 +273,25 @@ each estimation</li>
 <li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
 <li><strong>runs</strong> &#8211; the number of model simulation</li>
 <li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sbpipe.simul.simul.Simul.ps2_postproc">
+<code class="descname">ps2_postproc</code><span class="sig-paren">(</span><em>model</em>, <em>sim_length</em>, <em>outputdir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.simul.Simul.ps2_postproc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform post processing organisation to double parameter scan report files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>sim_length</strong> &#8211; the length of the simulation</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 </ul>
 </td>
 </tr>

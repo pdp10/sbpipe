@@ -112,8 +112,8 @@ The project is structured as follows:
 sbpipe:
   | - docs/
   | - sbpipe/
-        | - pl
         | - R
+        | - pl
         | - report
         | - simul
         | - utils
@@ -173,10 +173,16 @@ Python environment as shown below:
 $ cd $SBPIPE
 $ python
 # Python environment
->>> from sbpipe import main as sb
->>> sb.sbpipe(simulate="ir_model_det_simul.yaml")
+>>> from sbpipe.main import sbpipe
+>>> sbpipe(simulate="my_model.yaml")
 ```
 The following subsections describe sbpipe subpackages.
+
+
+#### R
+This folder contains a collection of R utility methods for plotting and
+generating statistics. These utilities are used by the pipelines during
+data analysis.
 
 
 #### pl
@@ -207,12 +213,6 @@ def parse(self, config_dict)
 Once the configuration is loaded and the parameters are imported, run() executes
 the pipeline.
 - The method parse() parses the dictionary and collects the values.
-
-
-#### R
-This folder contains a collection of R utility methods for plotting and 
-generating statistics. These utilities are used by the pipelines during 
-data analysis.
 
 
 #### report
