@@ -103,7 +103,10 @@ class Pipeline:
         :return: the simulator object.
         """
         # use reflection to dynamically load the simulator class by name
-        return locate('sbpipe.simul.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+        logger.debug('Loading simulator: ' + simulator)
+        simul = locate('sbpipe.simul.' + simulator.lower() + '.' + simulator.lower() + '.' + simulator)()
+        logger.debug('Simulator loaded: ' + str(simul.__class__))
+        return simul
 
     @classmethod
     def load(cls, config):
@@ -116,6 +119,7 @@ class Pipeline:
         """
         with open(config, 'r') as stream:
             config_dict = yaml.safe_load(stream)
+        logger.debug('Loaded configuration dictionary: ' + str(config_dict))
         return config_dict
 
     def parse(self, config_dict):
@@ -125,40 +129,3 @@ class Pipeline:
         :return: a tuple containing the configuration
         """
         pass
-
-    @classmethod
-    def parse_common_config(cls, my_dict):
-        """
-        Parse the common parameters from dict
-
-        :param my_dict: a dictionary structure to parse
-        :return: return a tuple containing the common parameters
-        """
-        # default values
-        # Boolean flag
-        generate_data = True
-        # Boolean flag
-        analyse_data = True
-        # Boolean flag
-        generate_report = True
-        # the project directory
-        project_dir = "."
-        # the  model
-        model = "model"
-
-        # Initialises the variables
-        for key, value in my_dict.items():
-            # logger.info(line)
-            if key == "generate_data":
-                generate_data = value
-            elif key == "analyse_data":
-                analyse_data = value
-            elif key == "generate_report":
-                generate_report = value
-            elif key == "project_dir":
-                project_dir = value
-            elif key == "model":
-                model = value
-
-        return (generate_data, analyse_data, generate_report,
-                project_dir, model)

@@ -30,6 +30,7 @@ import os
 import os.path
 import sys
 import yaml
+import traceback
 from ..pipeline import Pipeline
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
@@ -70,7 +71,10 @@ class ParScan2(Pipeline):
             config_dict = Pipeline.load(config_file)
         except yaml.YAMLError as e:
             logger.error(e.message)
-            import traceback
+            logger.debug(traceback.format_exc())
+            return False
+        except IOError:
+            logger.error('File `' + config_file + '` does not exist.')
             logger.debug(traceback.format_exc())
             return False
 
@@ -83,14 +87,6 @@ class ParScan2(Pipeline):
         runs = int(runs)
         local_cpus = int(local_cpus)
         sim_length = int(sim_length)
-
-        # Some controls
-        if runs < 1:
-            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
-            return False
-        if sim_length < 1:
-            logger.error("variable `sim_length` must be greater than 0. Please, check your configuration file.")
-            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
@@ -185,13 +181,16 @@ class ParScan2(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.ps2(model, sim_length, inputdir, outputdir, cluster, local_cpus, runs)
-        except Exception as e:
+        except TypeError as e:
             logger.error("simulator: " + simulator + " not found.")
-            import traceback
             logger.debug(traceback.format_exc())
             return False
-        return True
+        try:
+            return sim.ps2(model, sim_length, inputdir, outputdir, cluster, local_cpus, runs)
+        except Exception as e:
+            logger.error(str(e))
+            logger.debug(traceback.format_exc())
+            return False
 
     @classmethod
     def analyse_data(cls, model, scanned_par1, scanned_par2, inputdir, outputdir, cluster='local', local_cpus=1, runs=1):
@@ -224,10 +223,9 @@ class ParScan2(Pipeline):
 
         str_to_replace = get_rand_alphanum_str(10)
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
-                ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-                ' ' + outputdir + ' ' + str_to_replace
-        parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
-        return True
+            ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
+            ' ' + outputdir + ' ' + str_to_replace
+        return parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
 
     @classmethod
     def generate_report(cls, model, scanned_par1, scanned_par2, outputdir, sim_plots_folder):
@@ -259,10 +257,11 @@ class ParScan2(Pipeline):
     def parse(self, my_dict):
         __doc__ = Pipeline.parse.__doc__
 
-        # parse common options
-        (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.parse_common_config(my_dict)
-
+        generate_data = True
+        analyse_data = True
+        generate_report = True
+        project_dir = '.'
+        model = 'model'
         # default values
         simulator = 'Copasi'
         # the first scanned param
@@ -277,8 +276,20 @@ class ParScan2(Pipeline):
 
         # Initialises the variables
         for key, value in my_dict.items():
+
             logger.info(key + ": " + str(value))
-            if key == "simulator":
+
+            if key == "generate_data":
+                generate_data = value
+            elif key == "analyse_data":
+                analyse_data = value
+            elif key == "generate_report":
+                generate_report = value
+            elif key == "project_dir":
+                project_dir = value
+            elif key == "model":
+                model = value
+            elif key == "simulator":
                 simulator = value
             elif key == "scanned_par1":
                 scanned_par1 = value
@@ -292,6 +303,8 @@ class ParScan2(Pipeline):
                 runs = value
             elif key == "sim_length":
                 sim_length = value
+            else:
+                logger.warning('Found unknown option: `' + key + '`')
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, scanned_par1, scanned_par2,
