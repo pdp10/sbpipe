@@ -181,9 +181,14 @@ class ParScan2(Pipeline):
         logger.info("Simulating Model: " + model)
         try:
             sim = cls.get_simul_obj(simulator)
+        except TypeError as e:
+            logger.error("simulator: " + simulator + " not found.")
+            logger.debug(traceback.format_exc())
+            return False
+        try:
             return sim.ps2(model, sim_length, inputdir, outputdir, cluster, local_cpus, runs)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")
+            logger.error(str(e))
             logger.debug(traceback.format_exc())
             return False
 

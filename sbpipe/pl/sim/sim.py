@@ -178,9 +178,14 @@ class Sim(Pipeline):
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
         try:
             sim = cls.get_simul_obj(simulator)
+        except TypeError as e:
+            logger.error("simulator: " + simulator + " not found.")
+            logger.debug(traceback.format_exc())
+            return False
+        try:
             return sim.sim(model, inputdir, outputdir, cluster, local_cpus, runs, False)
         except Exception as e:
-            logger.error("simulator: " + simulator + " not found.")
+            logger.error(str(e))
             logger.debug(traceback.format_exc())
             return False
 

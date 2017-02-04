@@ -215,10 +215,15 @@ class ParEst(Pipeline):
         refresh(updated_models_dir, os.path.splitext(model)[0])
         try:
             sim = cls.get_simul_obj(simulator)
-            return sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
-                   sim_data_dir, updated_models_dir)
-        except Exception as e:
+        except TypeError as e:
             logger.error("simulator: " + simulator + " not found.")
+            logger.debug(traceback.format_exc())
+            return False
+        try:
+            return sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
+                        sim_data_dir, updated_models_dir)
+        except Exception as e:
+            logger.error(str(e))
             logger.debug(traceback.format_exc())
             return False
 
