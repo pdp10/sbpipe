@@ -6,8 +6,11 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.7.0 (devel)
+v3.10.0 (devel)
 
+- Added additional arguments to sbpipe.py
+- Output is now coloured.
+- Improved logging messages. Added log.debug() calls.
 - Added sbpipe() function in main.py to facilitate programmatic use of sbpipe.
 - Replaced Python getopt with argparse.
 - Improved unit tests and nosetests with Travis-CI.
