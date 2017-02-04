@@ -28,6 +28,7 @@ import logging
 import os
 import sys
 import yaml
+import traceback
 import tarfile
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
@@ -70,7 +71,10 @@ class ParEst(Pipeline):
             config_dict = Pipeline.load(config_file)
         except yaml.YAMLError as e:
             logger.error(e.message)
-            import traceback
+            logger.debug(traceback.format_exc())
+            return False
+        except IOError:
+            logger.error('File `' + config_file + '` does not exist.')
             logger.debug(traceback.format_exc())
             return False
 
@@ -211,14 +215,12 @@ class ParEst(Pipeline):
         refresh(updated_models_dir, os.path.splitext(model)[0])
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
+            return sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
                    sim_data_dir, updated_models_dir)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
-            import traceback
             logger.debug(traceback.format_exc())
             return False
-        return True
 
     @classmethod
     def analyse_data(cls, simulator, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
@@ -282,7 +284,8 @@ class ParEst(Pipeline):
             ' ' + str(best_fits_percent) + ' ' + str(logspace) + ' ' + str(scientific_notation)
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
-        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
+            return False
 
         logger.info("\n")
         logger.info("All fits analysis:")
@@ -292,9 +295,8 @@ class ParEst(Pipeline):
             ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \
             ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
             ' ' + str(logspace) + ' ' + str(scientific_notation)
-        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        return parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
 
-        return True
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -322,11 +324,11 @@ class ParEst(Pipeline):
     def parse(self, my_dict):
         __doc__ = Pipeline.parse.__doc__
 
-        # parse common options
-        (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.parse_common_config(my_dict)
-
-        # default values
+        generate_data = True
+        analyse_data = True
+        generate_report = True
+        project_dir = '.'
+        model = 'model'
         # The simulator
         simulator = 'Copasi'
         # Generate a zipped tarball
@@ -359,8 +361,20 @@ class ParEst(Pipeline):
 
         # Initialises the variables
         for key, value in my_dict.items():
+
             logger.info(key + ": " + str(value))
-            if key == "simulator":
+
+            if key == "generate_data":
+                generate_data = value
+            elif key == "analyse_data":
+                analyse_data = value
+            elif key == "generate_report":
+                generate_report = value
+            elif key == "project_dir":
+                project_dir = value
+            elif key == "model":
+                model = value
+            elif key == "simulator":
                 simulator = value
             elif key == "generate_tarball":
                 generate_tarball = value
@@ -386,6 +400,8 @@ class ParEst(Pipeline):
                 logspace = value
             elif key == "scientific_notation":
                 scientific_notation = value
+            else:
+                logger.warning('Found unknown option: `' + key + '`')
 
         return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model, cluster, local_cpus,

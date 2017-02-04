@@ -29,6 +29,7 @@ import logging
 import os
 import sys
 import yaml
+import traceback
 from ..pipeline import Pipeline
 from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.io import refresh
@@ -68,7 +69,10 @@ class Sim(Pipeline):
             config_dict = Pipeline.load(config_file)
         except yaml.YAMLError as e:
             logger.error(e.message)
-            import traceback
+            logger.debug(traceback.format_exc())
+            return False
+        except IOError:
+            logger.error('File `' + config_file + '` does not exist.')
             logger.debug(traceback.format_exc())
             return False
 
@@ -80,11 +84,6 @@ class Sim(Pipeline):
 
         runs = int(runs)
         local_cpus = int(local_cpus)
-
-        # Some controls
-        if runs < 1:
-            logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
-            return False
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
@@ -179,13 +178,11 @@ class Sim(Pipeline):
         logger.info("Simulating model " + model + " for " + str(runs) + " time(s)")
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.sim(model, inputdir, outputdir, cluster, local_cpus, runs, False)
+            return sim.sim(model, inputdir, outputdir, cluster, local_cpus, runs, False)
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
-            import traceback
             logger.debug(traceback.format_exc())
             return False
-        return True
 
     @classmethod
     def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
@@ -233,8 +230,7 @@ class Sim(Pipeline):
             ' ' + yaxis_label
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
-        parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
-        return True
+        return parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -262,11 +258,11 @@ class Sim(Pipeline):
     def parse(self, my_dict):
         __doc__ = Pipeline.parse.__doc__
 
-        # parse common options
-        (generate_data, analyse_data, generate_report,
-         project_dir, model) = self.parse_common_config(my_dict)
-
-        # default values
+        generate_data = True
+        analyse_data = True
+        generate_report = True
+        project_dir = '.'
+        model = 'model'
         simulator = 'Copasi'
         cluster = 'local'
         local_cpus = 1
@@ -278,8 +274,20 @@ class Sim(Pipeline):
 
         # Initialises the variables
         for key, value in my_dict.items():
+
             logger.info(key + ": " + str(value))
-            if key == "simulator":
+
+            if key == "generate_data":
+                generate_data = value
+            elif key == "analyse_data":
+                analyse_data = value
+            elif key == "generate_report":
+                generate_report = value
+            elif key == "project_dir":
+                project_dir = value
+            elif key == "model":
+                model = value
+            elif key == "simulator":
                 simulator = value
             elif key == "cluster":
                 cluster = value
@@ -295,6 +303,8 @@ class Sim(Pipeline):
                 xaxis_label = value
             elif key == "yaxis_label":
                 yaxis_label = value
+            else:
+                logger.warning('Found unknown option: `' + key + '`')
 
         return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model,

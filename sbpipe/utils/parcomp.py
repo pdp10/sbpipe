@@ -43,6 +43,7 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param runs: the number of runs
     :param local_cpus: the number of cpus to use at most
     :param output_msg: print the output messages on screen (available for cluster='local' only)
+    :return True if the computation succeeded.
     """
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
@@ -57,17 +58,17 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
             os.makedirs(err_dir)
 
         if cluster == "sge":  # use SGE (Sun Grid Engine)
-            run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs)
+            return run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs)
 
         elif cluster == "lsf":  # use LSF (Platform Load Sharing Facility)
-            run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs)
+            return run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs)
 
     else:  # use local by default (python multiprocessing). This is configured to work locally using multi-core.
         if cluster != "local":
             logger.warning(
                 "Variable cluster is not set correctly in the configuration file. "
                 "Values are: `local`, `lsf`, `sge`. Running `local` by default")
-        run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg)
+        return run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg)
 
 
 def call_proc(params):
@@ -93,6 +94,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     :param runs: the number of runs to execute
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
+    :return True if the computation succeeded.
     """
 
     # Create a Pool.
@@ -101,6 +103,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
         if local_cpus <= multiprocessing.cpu_count():
             # Create a pool with local_cpus
             pool = multiprocessing.Pool(local_cpus)
+            logger.debug('Initialised multiprocessing.Pool with ' + str(local_cpus))
         else:
             logger.warning('`local_cpus` is higher than the physical number of CPUs (' +
                            str(multiprocessing.cpu_count()) + '). Resetting it to max value.')
@@ -119,21 +122,43 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     pool.close()
     pool.join()
 
+    succeeded = True
     for result in results:
+
         out, err = result.get()
-        if output_msg:
-            logger.info("std error:\n{}".format(err))
-            logger.info("std output:\n{}".format(out))
+
+        if 'error' in err.lower():
+            logger.error('\n' + err)
+            succeeded = False
+        elif 'warning' in err.lower():
+            logger.warning('\n' + err)
         else:
-            logger.debug("std error:\n{}".format(err))
-            logger.debug("std output:\n{}".format(out))
+            logger.debug('\n' + err)
+
+        if 'error' in out.lower():
+            logger.error('\n' + out)
+            succeeded = False
+        elif 'warning' in out.lower():
+            logger.warning('\n' + out)
+        else:
+            if output_msg:
+                logger.info('\n' + out)
+            else:
+                logger.debug('\n' + out)
+
+        if not succeeded:
+            # Let's interrupt here. There is no point to print the same
+            # every time. They all failed.
+            return False
 
     # Print the status of the parallel computation.
     logger.info("Computation terminated.")
     if len(results) != runs:
         logger.error("Some computation failed. Do all output files exist?")
+        return False
     else:
         logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
+    return True
 
 
 def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
@@ -145,6 +170,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from qsub
     :param err_dir: the directory containing the standard error from qsub
     :param runs: the number of runs to execute
+    :return True if the computation succeeded.
     """
     # Test this with echo "ls -la" | xargs xargs using Python environment.
     # The following works:
@@ -153,12 +179,15 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     # xargsCMD=["xargs", "xargs"]
     # echo_proc = subprocess.Popen(echo_cmd, stdout=subprocess.PIPE)
     # xargsProc = subprocess.Popen(xargsCMD, stdin=echo_proc.stdout)
+
+    logger.info("Starting computation...")
     jobs = ""
     for i in range(1, runs + 1):
         # Now the same with qsub
         jobs = "j" + str(i) + "," + jobs
         qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
         logger.debug(qsub_cmd)
+        logger.info('Starting Task ' + str(i))
         qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
@@ -166,6 +195,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
     qsub_proc.communicate()[0]
     logger.debug(qsub_cmd)
+    logger.info("Computation terminated.")
+    return quick_debug(cmd, out_dir, err_dir)
 
 
 def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
@@ -177,13 +208,16 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from bsub
     :param err_dir: the directory containing the standard error from bsub
     :param runs: the number of runs to execute
+    :return True if the computation succeeded.
     """
+    logger.info("Starting computation...")
     jobs = ""
     for i in range(1, runs + 1):
         jobs = "done(j" + str(i) + ")&&" + jobs
         bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
-        bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
         logger.debug(bsub_cmd)
+        logger.info('Starting Task ' + str(i))
+        bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
     # Check here when these jobs are finished before proceeding
     import random
     import string
@@ -201,3 +235,52 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
         output = my_poll.communicate()[0]
         if job_name not in output:
             found = False
+    logger.info("Computation terminated.")
+    return quick_debug(cmd, out_dir, err_dir)
+
+
+def quick_debug(cmd, out_dir, err_dir):
+    """
+    A simple debugging function checking the generated log files.
+    :param cmd: the executed command
+    :param out_dir: the directory containing the standard output files
+    :param err_dir: the directory contining the standard error files
+    :return: True if the debug passed, False otherwise.
+    """
+    outcome = True
+    filename = os.path.join(err_dir, "j1")
+    if os.path.isfile(filename):
+        outcome = outcome and check_output_file(filename)
+    else:
+        outcome = False
+    filename = os.path.join(out_dir, "j1")
+    if os.path.isfile(filename):
+        outcome = outcome and check_output_file(filename)
+    else:
+        outcome = False
+    logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
+    logger.info("Further details can be found in the log files in these folders: ")
+    logger.info("\t" + out_dir + ' (standard output)')
+    logger.info("\t" + err_dir + ' (standard error)')
+    if not outcome:
+        logger.error("Some computation failed. Do output files exist?")
+    return outcome
+
+
+def check_output_file(filename):
+    """
+    Check whether a file contains 'error' or 'warning'
+
+    :param filename: a file
+    :return: True if the file does not contain 'error'
+    """
+    with open(filename) as my_file:
+        content = my_file.read().replace('\n', ' ').lower()
+        if 'error' in content:
+            logger.error('\n' + content)
+            return False
+        elif 'warning' in content:
+            logger.warning('\n' + content)
+        else:
+            logger.debug('\n' + content)
+    return True

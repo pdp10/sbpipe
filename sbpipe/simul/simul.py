@@ -38,6 +38,10 @@ class Simul(object):
     """
     Generic simulator.
     """
+    """
+    A string identifier to attach to the generated file names so that they can be recognised using pattern matching.
+    """
+    _groupid = "_" + get_rand_alphanum_str(20) + "_"
 
     def __init__(self):
         """
@@ -119,12 +123,15 @@ class Simul(object):
         :param path_out: the path to the output files
         :param filename_out: a global file containing the best fits from independent parameter estimations.
         """
+        logger.debug('PE post-processing: Simul.get_bets_fits()')
+
         # The path containing the results .csv files
         path = path_in
         # The collection of .csv files
         files = self._get_input_files(path)
         # List of estimated parameters
         col_names = self._get_params_list(files[0])
+        logger.debug('Estimated parameters: ' + str(col_names))
         col_names.insert(0, 'Estimation')
         col_names.insert(1, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
@@ -139,6 +146,8 @@ class Simul(object):
         :param path_out: the path to the output files
         :param filename_out: a global file containing all fits from independent parameter estimations.
         """
+        logger.debug('PE post-processing: Simul.get_all_fits()')
+
         # The path containing the results .csv files
         path = path_in
         # The collection of .csv files
@@ -164,16 +173,17 @@ class Simul(object):
         :param local_cpus: the number of cpus
         :param runs: the number of runs to perform
         :param output_msg: print the output messages on screen (available for cluster='local' only)
+        :return (groupid, group_model)
         """
         pass
 
-    def _get_groupid(self):
+    def _get_model_group(self, model):
         """
-        Get a string identifier to attach to the generated file names so that they can be recognised using pattern matching.
-
-        :return: the identifier string of the generated files.
+        Return the model without extension concatenated with the groupid string
+        :param model: the model name
+        :return: the concatenated string
         """
-        return "_" + get_rand_alphanum_str(20) + "_"
+        return os.path.splitext(model)[0] + self._groupid
 
     def _move_reports(self, inputdir, outputdir, model, groupid):
         """
@@ -187,6 +197,7 @@ class Simul(object):
         group_model = os.path.splitext(model)[0] + groupid
         report_files = [f for f in os.listdir(inputdir) if
                         re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
+        logger.debug("Moving reports: " + str(report_files))
         for report in report_files:
             # Replace some string in the report file
             self.replace_str_in_report(os.path.join(inputdir, report))
@@ -305,7 +316,7 @@ class Simul(object):
         with open(report) as myfile:
             # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
             header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
-        logger.debug(header)
+        logger.debug('Header ' + str(header))
         # Prepare the Header for the output files
         # Add a \t at the end of each element of the header
         header = [h + '\t' for h in header]
@@ -313,7 +324,7 @@ class Simul(object):
         header[-1] = header[-1].strip()
         return header
 
-    def _ps1_postproc(self, model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir):
+    def ps1_postproc(self, model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir):
         """
         Perform post processing organisation to single parameter scan report files.
 
@@ -323,6 +334,7 @@ class Simul(object):
         :param single_param_scan_intervals: the number of scans to perform
         :param outputdir: the directory to store the results
         """
+        logger.debug('PS1 post-processing')
 
         model_noext = os.path.splitext(model)[0]
         scanned_par_index = -1
@@ -336,6 +348,7 @@ class Simul(object):
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
                         re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
         if not report_files:
+            logger.warning('no report was found!')
             return
 
         header = self._ps1_header_init(report_files[0], scanned_par)
@@ -405,7 +418,7 @@ class Simul(object):
     # utilities for collecting double parameter scan results #
     ##########################################################
 
-    def _ps2_postproc(self, model, sim_length, outputdir):
+    def ps2_postproc(self, model, sim_length, outputdir):
         """
         Perform post processing organisation to double parameter scan report files.
 
@@ -413,6 +426,7 @@ class Simul(object):
         :param sim_length: the length of the simulation
         :param outputdir: the directory to store the results
         """
+        logger.debug('PS2 post-processing')
 
         model_noext = os.path.splitext(model)[0]
 
@@ -420,6 +434,7 @@ class Simul(object):
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
                         re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
         if not report_files:
+            logger.warning('no report was found!')
             return
 
         for i, report in enumerate(report_files):
