@@ -17,8 +17,7 @@ of stable releases, the latter contains the history of development. The
 `master` branch contains checkout points for production hotfixes 
 or merge points for release-x.x.x branches. The `develop` branch is used 
 for feature-bugfix integration and checkout point in development. Nobody 
-should directly develop in here. The `develop` branch is versionless 
-(just call it *-dev*).
+should directly develop in here.
 
 
 ### Conventions
@@ -113,8 +112,8 @@ The project is structured as follows:
 sbpipe:
   | - docs/
   | - sbpipe/
-        | - pl
         | - R
+        | - pl
         | - report
         | - simul
         | - utils
@@ -174,11 +173,16 @@ Python environment as shown below:
 $ cd $SBPIPE
 $ python
 # Python environment
->>> import sbpipe.main as sb
->>> sb.version()
-'2.0.0 '
+>>> from sbpipe.main import sbpipe
+>>> sbpipe(simulate="my_model.yaml")
 ```
 The following subsections describe sbpipe subpackages.
+
+
+#### R
+This folder contains a collection of R utility methods for plotting and
+generating statistics. These utilities are used by the pipelines during
+data analysis.
 
 
 #### pl
@@ -209,12 +213,6 @@ def parse(self, config_dict)
 Once the configuration is loaded and the parameters are imported, run() executes
 the pipeline.
 - The method parse() parses the dictionary and collects the values.
-
-
-#### R
-This folder contains a collection of R utility methods for plotting and 
-generating statistics. These utilities are used by the pipelines during 
-data analysis.
 
 
 #### report
