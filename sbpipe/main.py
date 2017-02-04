@@ -214,10 +214,10 @@ For complete documentation, see README.md .
     parser.add_argument('--log-level',
                         help='override the log level',
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-    parser.add_argument('--verbose',
+    parser.add_argument('-v', '--verbose',
                         help='print debugging output',
                         action='store_true')
-    parser.add_argument('-v', '--version',
+    parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
                         version='%(prog)s v' + read_file_header('VERSION'))
