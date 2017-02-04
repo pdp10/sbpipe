@@ -3,4 +3,5 @@ numpy
 scipy
 pandas
 pyaml
+colorlog
 snakemake

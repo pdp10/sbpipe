@@ -22,6 +22,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-02 10:18:32 $
 
+import platform
 import argparse
 import logging
 import os
@@ -75,9 +76,67 @@ def read_file_header(filename):
     return line
 
 
-def set_logger():
+def set_basic_logger(level='NOTSET'):
+    """
+    Set a basic StreamHandler logger.
+    :param level: the level for this console logger
+    """
+    # Add a stream handler (production mode)
+    logger = logging.getLogger('sbpipe')
+    logger.handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+    handler.setLevel(level)
+    logger.addHandler(handler)
+    logger.setLevel('DEBUG')
+    logger.debug('Set basic logger')
+
+
+def set_color_logger(level='NOTSET'):
+    """
+    Replace the current logging.StreamHandler with colorlog.StreamHandler.
+    :param level: the level for this console logger
+    """
+    logger = logging.getLogger('sbpipe')
+    try:
+        import colorlog
+    except ImportError as e:
+        logger.warning("Python package `colorlog` not found. Skipping color logs.")
+        set_basic_logger()
+        return
+    # Remove all handlers except for instances of logging.FileHandler
+    logger.handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
+    # Add a new colour stream handler
+    handler = colorlog.StreamHandler()
+    handler.setFormatter(colorlog.ColoredFormatter('%(log_color)s%(levelname)s - %(message)s'))
+    handler.setLevel(level)
+    logger.addHandler(handler)
+    logger.setLevel('DEBUG')
+    logger.debug('Set color logger')
+
+
+def set_console_logger(new_level='NOTSET', current_level='NOTSET', nocolor=False):
+    """
+    Set the console logger to a new level if this is different from NOTSET
+
+    :param new_level: the new level to set for the console logger
+    :param current_level: the current level to set for the console logger
+    :param nocolor: True if no colors shouls be used
+    """
+    if new_level == 'NOTSET':
+        new_level = current_level
+
+    if nocolor:
+        set_basic_logger(new_level)
+    else:
+        set_color_logger(new_level)
+
+
+def set_logger(level='NOTSET', nocolor=False):
     """
     Set the logger
+    :param level: the level for the console logger
+    :param nocolor: True if no colors shouls be used
     """
     home = os.path.expanduser('~')
     if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
@@ -85,76 +144,80 @@ def set_logger():
     # disable_existing_loggers=False to enable logging for Python third-party packages
     logging_config_file = os.path.join(SBPIPE, 'logging_config.ini')
     if os.path.isfile(logging_config_file):
-        fileConfig(logging_config_file,
-                   defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
-                   disable_existing_loggers=False)
+        try:
+            fileConfig(logging_config_file,
+                       defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
+                       disable_existing_loggers=False)
+            set_console_logger(level, logging.getLogger('sbpipe').getEffectiveLevel(), nocolor)
+        except Exception:
+            set_console_logger(level, 'INFO', nocolor)
+            logger = logging.getLogger('sbpipe')
+            logger.warning('Logging configuration file ' + logging_config_file + ' is corrupted')
     else:
-        # Add a stream handler (production mode)
+        set_console_logger(level, 'INFO', nocolor)
         logger = logging.getLogger('sbpipe')
-        logger.addHandler(StreamHandler(sys.stdout))
-        logger.setLevel("INFO")
-        logger.warning('Logging configuration file not found.')
-        logger.warning('Setting up new stream logger (level: INFO) for this session.')
+        logger.warning('Logging configuration file ' + logging_config_file + ' is missing')
 
 
 def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='', parameter_estimation='',
-           logo=False, license=False, log_level='', quiet=False, verbose=False):
+           logo=False, license=False, nocolor=False, log_level='', quiet=False, verbose=False):
     """
     SBpipe function.
 
-    :param create_project: a file
-    :param simulate: a file
-    :param parameter_scan1: a file
-    :param parameter_scan2: a file
-    :param parameter_estimation: a file
-    :param logo: the logo
-    :param license: the license
-    :param log_level: the logging level
+    :param create_project: create a project with the name as argument
+    :param simulate: model simulation using a configuration file as argument
+    :param parameter_scan1: model one parameter scan using a configuration file as argument
+    :param parameter_scan2: model two parameters scan using a configuration file as argument
+    :param parameter_estimation: model parameter estimation using a configuration file as argument
+    :param logo: True to print the logo
+    :param license: True to print the license
+    :param nocolor: True to print logging messages without colors
+    :param log_level: Set the logging level
     :param quiet: True if quiet (WARNING+)
     :param verbose: True if verbose (DEBUG+)
     :return: 0 if OK, 1  if trouble (e.g. a pipeline did not execute correctly).
     """
 
-    set_logger()
-
     exit_status = 0
 
+    # setup the logger
     if log_level:
-        logger = logging.getLogger('sbpipe')
-        logger.setLevel(log_level)
+        set_logger(log_level, nocolor=nocolor)
     elif quiet:
-        logger = logging.getLogger('sbpipe')
-        logger.setLevel("WARNING")
+        set_logger('WARNING', nocolor=nocolor)
     elif verbose:
-        logger = logging.getLogger('sbpipe')
-        logger.setLevel("DEBUG")
+        set_logger('DEBUG', nocolor=nocolor)
+    else:
+        set_logger()
+
+    logger = logging.getLogger('sbpipe')
+
+    # add platform information
+    logger.debug('SBpipe v' + read_file_header('VERSION'))
+    logger.debug(platform.platform())
+    logger.debug(platform.version())
+    logger.debug(platform.machine())
 
     if license:
         print(read_file_header('LICENSE'))
-
     elif logo:
         print(sbpipe_logo())
-
     elif create_project:
         from sbpipe.pl.create.newproj import NewProj
         s = NewProj()
         exit_status = 0 if s.run(create_project) else 1
-
     elif simulate:
         from sbpipe.pl.sim.sim import Sim
         s = Sim()
         exit_status = 0 if s.run(simulate) else 1
-
     elif parameter_scan1:
         from sbpipe.pl.ps1.parscan1 import ParScan1
         s = ParScan1()
         exit_status = 0 if s.run(parameter_scan1) else 1
-
     elif parameter_scan2:
         from sbpipe.pl.ps2.parscan2 import ParScan2
         s = ParScan2()
         exit_status = 0 if s.run(parameter_scan2) else 1
-
     elif parameter_estimation:
         from sbpipe.pl.pe.parest import ParEst
         s = ParEst()
@@ -205,6 +268,9 @@ For complete documentation, see README.md .
     parser.add_argument('--license',
                         help='show the license and exit',
                         action='store_true')
+    parser.add_argument('--nocolor',
+                        help='print logging messages without colors',
+                        action='store_true')
     parser.add_argument('--logo',
                         help='show the logo and exit',
                         action='store_true')
@@ -214,10 +280,10 @@ For complete documentation, see README.md .
     parser.add_argument('--log-level',
                         help='override the log level',
                         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-    parser.add_argument('--verbose',
+    parser.add_argument('-v', '--verbose',
                         help='print debugging output',
                         action='store_true')
-    parser.add_argument('-v', '--version',
+    parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
                         version='%(prog)s v' + read_file_header('VERSION'))
@@ -247,7 +313,7 @@ For complete documentation, see README.md .
     return sbpipe(create_project=create_project, simulate=simulate,
                   parameter_scan1=parameter_scan1, parameter_scan2=parameter_scan2,
                   parameter_estimation=parameter_estimation,
-                  logo=args.logo, license=args.license,
+                  logo=args.logo, license=args.license, nocolor=args.nocolor,
                   log_level=args.log_level, quiet=args.quiet, verbose=args.verbose)
 
 
