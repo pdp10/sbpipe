@@ -37,11 +37,14 @@ def refresh(path, file_pattern):
     :param file_pattern: the string pattern of the files to remove
     """
     if not os.path.exists(path):
+        logger.debug('Creating folder ' + path)
         os.mkdir(path)
     else:
+        logger.debug('Folder ' + path + ' already exist')
         files2delete = glob.glob(os.path.join(path, file_pattern + "*"))
         for f in files2delete:
             os.remove(f)
+        logger.debug('Folder has been cleaned')
 
 
 def get_pattern_pos(pattern, filename):

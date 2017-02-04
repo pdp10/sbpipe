@@ -80,52 +80,55 @@ class PLSimul(Simul):
     def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.sim.__doc__
 
-        self._run_par_comput(model, inputdir, outputdir, cluster, local_cpus, runs, output_msg)
+        return self._run_par_comput(model, inputdir, outputdir, cluster, local_cpus, runs, output_msg)
 
     def ps1(self, model, scanned_par, simulate_intervals,
             single_param_scan_intervals, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.ps1.__doc__
 
-        self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg)
-        self._ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
+        if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
+            return False
+        self.ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
+        return True
 
     def ps2(self, model, sim_length, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.ps2.__doc__
 
-        self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg)
-        self._ps2_postproc(model, sim_length, outputdir)
+        if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
+            return False
+        self.ps2_postproc(model, sim_length, outputdir)
+        return True
 
     def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
            updated_models_dir, output_msg=False):
         __doc__ = Simul.pe.__doc__
 
-        self._run_par_comput(model, inputdir, sim_data_dir, cluster, local_cpus, runs, output_msg)
+        return self._run_par_comput(model, inputdir, sim_data_dir, cluster, local_cpus, runs, output_msg)
 
     def _run_par_comput(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul._run_par_comput.__doc__
 
         if self._language is None:
             logger.error(self._language_not_found_msg)
-            return
+            return False
 
-        # Replicate the r file and rename its report file
-        groupid = self._get_groupid()
-        group_model = os.path.splitext(model)[0] + groupid
+        model_group = self._get_model_group(model)
 
         # run in parallel
         # To make things simple, the last 10 character of groupid are extracted and reversed.
         # This string will be likely different from groupid and is the string to replace with
         # the iteration number.
-        str_to_replace = groupid[10::-1]
+        str_to_replace = self._groupid[10::-1]
 
         opts = " "
         if self._options:
             opts = " " + self._options + " "
         command = self._language + opts + os.path.join(inputdir, model) + \
-                  " " + group_model + str_to_replace + ".csv"
-        parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg)
-        self._move_reports('.', outputdir, model, groupid)
-        return groupid, group_model
+                  " " + model_group + str_to_replace + ".csv"
+        if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
+            return False
+        self._move_reports('.', outputdir, model, self._groupid)
+        return True
 
     def replace_str_in_report(self, report):
         __doc__ = Simul.replace_str_in_report.__doc__
