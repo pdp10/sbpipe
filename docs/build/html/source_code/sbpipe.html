@@ -180,21 +180,22 @@
 
 <dl class="function">
 <dt id="sbpipe.main.sbpipe">
-<code class="descclassname">sbpipe.main.</code><code class="descname">sbpipe</code><span class="sig-paren">(</span><em>create_project=''</em>, <em>simulate=''</em>, <em>parameter_scan1=''</em>, <em>parameter_scan2=''</em>, <em>parameter_estimation=''</em>, <em>logo=False</em>, <em>license=False</em>, <em>log_level=''</em>, <em>quiet=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.sbpipe" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.main.</code><code class="descname">sbpipe</code><span class="sig-paren">(</span><em>create_project=''</em>, <em>simulate=''</em>, <em>parameter_scan1=''</em>, <em>parameter_scan2=''</em>, <em>parameter_estimation=''</em>, <em>logo=False</em>, <em>license=False</em>, <em>nocolor=False</em>, <em>log_level=''</em>, <em>quiet=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.sbpipe" title="Permalink to this definition">¶</a></dt>
 <dd><p>SBpipe function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>create_project</strong> &#8211; a file</li>
-<li><strong>simulate</strong> &#8211; a file</li>
-<li><strong>parameter_scan1</strong> &#8211; a file</li>
-<li><strong>parameter_scan2</strong> &#8211; a file</li>
-<li><strong>parameter_estimation</strong> &#8211; a file</li>
-<li><strong>logo</strong> &#8211; the logo</li>
-<li><strong>license</strong> &#8211; the license</li>
-<li><strong>log_level</strong> &#8211; the logging level</li>
+<li><strong>create_project</strong> &#8211; create a project with the name as argument</li>
+<li><strong>simulate</strong> &#8211; model simulation using a configuration file as argument</li>
+<li><strong>parameter_scan1</strong> &#8211; model one parameter scan using a configuration file as argument</li>
+<li><strong>parameter_scan2</strong> &#8211; model two parameters scan using a configuration file as argument</li>
+<li><strong>parameter_estimation</strong> &#8211; model parameter estimation using a configuration file as argument</li>
+<li><strong>logo</strong> &#8211; True to print the logo</li>
+<li><strong>license</strong> &#8211; True to print the license</li>
+<li><strong>nocolor</strong> &#8211; True to print logging messages without colors</li>
+<li><strong>log_level</strong> &#8211; Set the logging level</li>
 <li><strong>quiet</strong> &#8211; True if quiet (WARNING+)</li>
 <li><strong>verbose</strong> &#8211; True if verbose (DEBUG+)</li>
 </ul>
@@ -222,9 +223,33 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="sbpipe.main.set_basic_logger">
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_basic_logger</code><span class="sig-paren">(</span><em>level=20</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_basic_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a basic StreamHandler logger.
+:param level: the level for this console logger</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.set_color_logger">
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_color_logger</code><span class="sig-paren">(</span><em>level=20</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_color_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the current logging.StreamHandler with colorlog.StreamHandler.
+:param level: the level for this console logger</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.main.set_console_logger">
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_console_logger</code><span class="sig-paren">(</span><em>level=20</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_console_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the logger
+:param level: the level for the console logger
+:param nocolor: True if no colors shouls be used</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.main.set_logger">
-<code class="descclassname">sbpipe.main.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the logger</p>
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>level=20</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the logger
+:param level: the level for the console logger
+:param nocolor: True if no colors shouls be used</p>
 </dd></dl>
 
 </div>
