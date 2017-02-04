@@ -224,29 +224,40 @@
 
 <dl class="function">
 <dt id="sbpipe.main.set_basic_logger">
-<code class="descclassname">sbpipe.main.</code><code class="descname">set_basic_logger</code><span class="sig-paren">(</span><em>level=20</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_basic_logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_basic_logger</code><span class="sig-paren">(</span><em>level='NOTSET'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_basic_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a basic StreamHandler logger.
 :param level: the level for this console logger</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="sbpipe.main.set_color_logger">
-<code class="descclassname">sbpipe.main.</code><code class="descname">set_color_logger</code><span class="sig-paren">(</span><em>level=20</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_color_logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_color_logger</code><span class="sig-paren">(</span><em>level='NOTSET'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_color_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace the current logging.StreamHandler with colorlog.StreamHandler.
 :param level: the level for this console logger</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="sbpipe.main.set_console_logger">
-<code class="descclassname">sbpipe.main.</code><code class="descname">set_console_logger</code><span class="sig-paren">(</span><em>level=20</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_console_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the logger
-:param level: the level for the console logger
-:param nocolor: True if no colors shouls be used</p>
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_console_logger</code><span class="sig-paren">(</span><em>new_level='NOTSET'</em>, <em>current_level='NOTSET'</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_console_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the console logger to a new level if this is different from NOTSET</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>new_level</strong> &#8211; the new level to set for the console logger</li>
+<li><strong>current_level</strong> &#8211; the current level to set for the console logger</li>
+<li><strong>nocolor</strong> &#8211; True if no colors shouls be used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="sbpipe.main.set_logger">
-<code class="descclassname">sbpipe.main.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>level=20</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.main.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>level='NOTSET'</em>, <em>nocolor=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.main.set_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the logger
 :param level: the level for the console logger
 :param nocolor: True if no colors shouls be used</p>

@@ -76,7 +76,7 @@ def read_file_header(filename):
     return line
 
 
-def set_basic_logger(level=logging.INFO):
+def set_basic_logger(level='NOTSET'):
     """
     Set a basic StreamHandler logger.
     :param level: the level for this console logger
@@ -88,11 +88,11 @@ def set_basic_logger(level=logging.INFO):
     handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
     handler.setLevel(level)
     logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel('DEBUG')
     logger.debug('Set basic logger')
 
 
-def set_color_logger(level=logging.INFO):
+def set_color_logger(level='NOTSET'):
     """
     Replace the current logging.StreamHandler with colorlog.StreamHandler.
     :param level: the level for this console logger
@@ -111,23 +111,28 @@ def set_color_logger(level=logging.INFO):
     handler.setFormatter(colorlog.ColoredFormatter('%(log_color)s%(levelname)s - %(message)s'))
     handler.setLevel(level)
     logger.addHandler(handler)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel('DEBUG')
     logger.debug('Set color logger')
 
 
-def set_console_logger(level=logging.INFO, nocolor=False):
+def set_console_logger(new_level='NOTSET', current_level='NOTSET', nocolor=False):
     """
-    Set the logger
-    :param level: the level for the console logger
+    Set the console logger to a new level if this is different from NOTSET
+
+    :param new_level: the new level to set for the console logger
+    :param current_level: the current level to set for the console logger
     :param nocolor: True if no colors shouls be used
     """
+    if new_level == 'NOTSET':
+        new_level = current_level
+
     if nocolor:
-        set_basic_logger(level)
+        set_basic_logger(new_level)
     else:
-        set_color_logger(level)
+        set_color_logger(new_level)
 
 
-def set_logger(level=logging.INFO, nocolor=False):
+def set_logger(level='NOTSET', nocolor=False):
     """
     Set the logger
     :param level: the level for the console logger
@@ -143,13 +148,13 @@ def set_logger(level=logging.INFO, nocolor=False):
             fileConfig(logging_config_file,
                        defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
                        disable_existing_loggers=False)
-            set_console_logger(level, nocolor)
+            set_console_logger(level, logging.getLogger('sbpipe').getEffectiveLevel(), nocolor)
         except Exception:
-            set_console_logger(level, nocolor)
+            set_console_logger(level, 'INFO', nocolor)
             logger = logging.getLogger('sbpipe')
             logger.warning('Logging configuration file ' + logging_config_file + ' is corrupted')
     else:
-        set_console_logger(level, nocolor)
+        set_console_logger(level, 'INFO', nocolor)
         logger = logging.getLogger('sbpipe')
         logger.warning('Logging configuration file ' + logging_config_file + ' is missing')
 
@@ -179,9 +184,9 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     if log_level:
         set_logger(log_level, nocolor=nocolor)
     elif quiet:
-        set_logger(logging.WARNING, nocolor=nocolor)
+        set_logger('WARNING', nocolor=nocolor)
     elif verbose:
-        set_logger(logging.DEBUG, nocolor=nocolor)
+        set_logger('DEBUG', nocolor=nocolor)
     else:
         set_logger()
 
