@@ -122,14 +122,14 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     pool.close()
     pool.join()
 
-    succeeded = True
+    failed = 0
     for result in results:
 
         out, err = result.get()
 
         if 'error' in err.lower():
             logger.error('\n' + err)
-            succeeded = False
+            failed += 1
         elif 'warning' in err.lower():
             logger.warning('\n' + err)
         else:
@@ -137,7 +137,6 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
 
         if 'error' in out.lower():
             logger.error('\n' + out)
-            succeeded = False
         elif 'warning' in out.lower():
             logger.warning('\n' + out)
         else:
@@ -146,16 +145,13 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
             else:
                 logger.debug('\n' + out)
 
-        if not succeeded:
-            # Let's interrupt here. There is no point to print the same
-            # every time. They all failed.
-            return False
-
     # Print the status of the parallel computation.
     logger.info("Computation terminated.")
-    if len(results) != runs:
-        logger.error("Some computation failed. Do all output files exist?")
+    if failed == runs:
+        logger.error('All computations seem to have errors in the standard error.')
         return False
+    elif failed > 0:
+        logger.warning("Some computation might have failed. Do all output files exist?")
     else:
         logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
     return True
@@ -251,13 +247,9 @@ def quick_debug(cmd, out_dir, err_dir):
     filename = os.path.join(err_dir, "j1")
     if os.path.isfile(filename):
         outcome = outcome and check_output_file(filename)
-    else:
-        outcome = False
     filename = os.path.join(out_dir, "j1")
     if os.path.isfile(filename):
-        outcome = outcome and check_output_file(filename)
-    else:
-        outcome = False
+        check_output_file(filename)
     logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
     logger.info("Further details can be found in the log files in these folders: ")
     logger.info("\t" + out_dir + ' (standard output)')
