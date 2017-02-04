@@ -106,7 +106,8 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
             logger.debug('Initialised multiprocessing.Pool with ' + str(local_cpus))
         else:
             logger.warning('`local_cpus` is higher than the physical number of CPUs (' +
-                           str(multiprocessing.cpu_count()) + '). Resetting it to max value.')
+                           str(multiprocessing.cpu_count()) + '). Setting `local_cpus` to ' +
+                           str(multiprocessing.cpu_count()))
             pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
     logger.info("Starting computation...")
@@ -126,6 +127,10 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     for result in results:
 
         out, err = result.get()
+        # convert byte to str. Necessary for Python 3+.
+        # this is also compatible with Python 2.7
+        out = out.decode('utf-8')
+        err = err.decode('utf-8')
 
         if 'error' in err.lower():
             logger.error('\n' + err)
