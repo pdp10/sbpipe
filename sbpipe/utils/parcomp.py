@@ -94,7 +94,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     :param runs: the number of runs to execute
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
-    :return True if the computation succeeded.
+    :return True
     """
 
     # Create a Pool.
@@ -153,8 +153,8 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     # Print the status of the parallel computation.
     logger.info("Computation terminated.")
     if failed == runs:
-        logger.error('All computations seem to have errors in the standard error.')
-        return False
+        logger.warning('All computations seem to have errors in the standard error.')
+        # return False
     elif failed > 0:
         logger.warning("Some computation might have failed. Do all output files exist?")
     else:
