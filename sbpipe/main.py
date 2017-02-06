@@ -76,7 +76,7 @@ def read_file_header(filename):
     return line
 
 
-def set_basic_logger(level='NOTSET'):
+def set_basic_logger(level='INFO'):
     """
     Set a basic StreamHandler logger.
     :param level: the level for this console logger
@@ -92,7 +92,7 @@ def set_basic_logger(level='NOTSET'):
     logger.debug('Set basic logger')
 
 
-def set_color_logger(level='NOTSET'):
+def set_color_logger(level='INFO'):
     """
     Replace the current logging.StreamHandler with colorlog.StreamHandler.
     :param level: the level for this console logger
@@ -115,7 +115,7 @@ def set_color_logger(level='NOTSET'):
     logger.debug('Set color logger')
 
 
-def set_console_logger(new_level='NOTSET', current_level='NOTSET', nocolor=False):
+def set_console_logger(new_level='NOTSET', current_level='INFO', nocolor=False):
     """
     Set the console logger to a new level if this is different from NOTSET
 
@@ -160,7 +160,7 @@ def set_logger(level='NOTSET', nocolor=False):
 
 
 def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='', parameter_estimation='',
-           logo=False, license=False, nocolor=False, log_level='', quiet=False, verbose=False):
+           logo=False, license=False, nocolor=False, log_level='NOTSET', quiet=False, verbose=False):
     """
     SBpipe function.
 
