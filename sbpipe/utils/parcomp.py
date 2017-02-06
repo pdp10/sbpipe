@@ -154,11 +154,14 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     logger.info("Computation terminated.")
     if failed == runs:
         logger.warning('All computations seem to have errors in the standard error.')
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
         # return False
     elif failed > 0:
         logger.warning("Some computation might have failed. Do all output files exist?")
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
     else:
         logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
+        logger.info("For additional information, run SBpipe using the `--verbose` option.")
     return True
 
 
@@ -267,11 +270,13 @@ def quick_debug(cmd, out_dir, err_dir):
         logger.warning("\nSome computation might have failed. Please check the output in the folders:")
         logger.warning("\t" + out_dir + ' (standard output)')
         logger.warning("\t" + err_dir + ' (standard error)')
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
         logger.warning("(ignore previous warnings if results are generated as expected)")
     else:
         logger.info("If errors occur, please check the output in the folders: ")
         logger.info("\t" + out_dir + ' (standard output)')
         logger.info("\t" + err_dir + ' (standard error)')
+        logger.info("For additional information, run SBpipe using the `--verbose` option.")
     # return outcome
     return True
 
