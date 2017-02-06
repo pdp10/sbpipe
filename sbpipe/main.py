@@ -160,7 +160,7 @@ def set_logger(level='NOTSET', nocolor=False):
 
 
 def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='', parameter_estimation='',
-           logo=False, license=False, nocolor=False, log_level='NOTSET', quiet=False, verbose=False):
+           logo=False, license=False, nocolor=False, log_level='', quiet=False, verbose=False):
     """
     SBpipe function.
 
