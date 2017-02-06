@@ -6,7 +6,7 @@ simulator: "Python"
 model: "sde_periodic_drift.py"
 cluster: "local"
 local_cpus: 7
-runs: 14
+runs: 10
 exp_dataset: ""
 plot_exp_dataset: False
 xaxis_label: "Time"

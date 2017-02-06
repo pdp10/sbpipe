@@ -76,7 +76,7 @@ def read_file_header(filename):
     return line
 
 
-def set_basic_logger(level='NOTSET'):
+def set_basic_logger(level='INFO'):
     """
     Set a basic StreamHandler logger.
     :param level: the level for this console logger
@@ -92,7 +92,7 @@ def set_basic_logger(level='NOTSET'):
     logger.debug('Set basic logger')
 
 
-def set_color_logger(level='NOTSET'):
+def set_color_logger(level='INFO'):
     """
     Replace the current logging.StreamHandler with colorlog.StreamHandler.
     :param level: the level for this console logger
@@ -102,7 +102,7 @@ def set_color_logger(level='NOTSET'):
         import colorlog
     except ImportError as e:
         logger.warning("Python package `colorlog` not found. Skipping color logs.")
-        set_basic_logger()
+        set_basic_logger(level)
         return
     # Remove all handlers except for instances of logging.FileHandler
     logger.handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
@@ -115,7 +115,7 @@ def set_color_logger(level='NOTSET'):
     logger.debug('Set color logger')
 
 
-def set_console_logger(new_level='NOTSET', current_level='NOTSET', nocolor=False):
+def set_console_logger(new_level='NOTSET', current_level='INFO', nocolor=False):
     """
     Set the console logger to a new level if this is different from NOTSET
 

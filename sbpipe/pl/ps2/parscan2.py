@@ -211,8 +211,6 @@ class ParScan2(Pipeline):
             logger.error("input_dir " + inputdir + " does not exist. Generate some data first.")
             return False
 
-        # folder preparation
-        refresh(outputdir, os.path.splitext(model)[0])
         if runs < 1:
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
@@ -220,6 +218,9 @@ class ParScan2(Pipeline):
         if int(local_cpus) < 1:
             logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
+
+        # folder preparation
+        refresh(outputdir, os.path.splitext(model)[0])
 
         str_to_replace = get_rand_alphanum_str(10)
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \

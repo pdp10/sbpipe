@@ -94,7 +94,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     :param runs: the number of runs to execute
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
-    :return True if the computation succeeded.
+    :return True
     """
 
     # Create a Pool.
@@ -153,12 +153,15 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     # Print the status of the parallel computation.
     logger.info("Computation terminated.")
     if failed == runs:
-        logger.error('All computations seem to have errors in the standard error.')
-        return False
+        logger.warning('All computations seem to have errors in the standard error.')
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
+        # return False
     elif failed > 0:
         logger.warning("Some computation might have failed. Do all output files exist?")
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
     else:
         logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
+        logger.info("For additional information, run SBpipe using the `--verbose` option.")
     return True
 
 
@@ -242,41 +245,58 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
 
 def quick_debug(cmd, out_dir, err_dir):
     """
-    A simple debugging function checking the generated log files.
+    Look up for `error` and `warning` in the standard output and error files.
+    A simple debugging function checking the generated log files. We don't stop the computation because it happens
+    that these messages are more `warnings` than real errors.
+
     :param cmd: the executed command
     :param out_dir: the directory containing the standard output files
     :param err_dir: the directory contining the standard error files
-    :return: True if the debug passed, False otherwise.
+    :return: True
     """
     outcome = True
+
+    logger.debug("Running parcomp.quick_debug()")
+
     filename = os.path.join(err_dir, "j1")
     if os.path.isfile(filename):
-        outcome = outcome and check_output_file(filename)
+        if not is_output_file_clean(filename, 'standard error'):
+            outcome = False
     filename = os.path.join(out_dir, "j1")
     if os.path.isfile(filename):
-        check_output_file(filename)
-    logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
-    logger.info("Further details can be found in the log files in these folders: ")
-    logger.info("\t" + out_dir + ' (standard output)')
-    logger.info("\t" + err_dir + ' (standard error)')
+        if not is_output_file_clean(filename, 'standard output'):
+            outcome = False
     if not outcome:
-        logger.error("Some computation failed. Do output files exist?")
-    return outcome
+        logger.warning("\nSome computation might have failed. Please check the output in the folders:")
+        logger.warning("\t" + out_dir + ' (standard output)')
+        logger.warning("\t" + err_dir + ' (standard error)')
+        logger.warning("For additional information, run SBpipe using the `--verbose` option.")
+        logger.warning("(ignore previous warnings if results are generated as expected)")
+    else:
+        logger.info("If errors occur, please check the output in the folders: ")
+        logger.info("\t" + out_dir + ' (standard output)')
+        logger.info("\t" + err_dir + ' (standard error)')
+        logger.info("For additional information, run SBpipe using the `--verbose` option.")
+    # return outcome
+    return True
 
 
-def check_output_file(filename):
+def is_output_file_clean(filename, stream_type='standard output'):
     """
-    Check whether a file contains 'error' or 'warning'
+    Check whether a file contains the string 'error' or 'warning'. If so a message is printed.
 
     :param filename: a file
-    :return: True if the file does not contain 'error'
+    :param stream_type: 'stderr' for standard error, 'stdout' for standard output.
+    :return: True
     """
     with open(filename) as my_file:
         content = my_file.read().replace('\n', ' ').lower()
         if 'error' in content:
-            logger.error('\n' + content)
+            logger.warning('Found word `error` in ' + stream_type)
+            logger.warning('\n' + content)
             return False
         elif 'warning' in content:
+            logger.warning('Found word `warning` in ' + stream_type)
             logger.warning('\n' + content)
         else:
             logger.debug('\n' + content)

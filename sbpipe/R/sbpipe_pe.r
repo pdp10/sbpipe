@@ -82,14 +82,14 @@ rightCI <- function(cut_dataset, full_dataset, chi2_col_idx, param_col_idx, chi2
 
 
 
-# Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue.` are
+# Rename data frame columns. `ObjectiveValue` is renamed as `Chi2`. Substrings `Values.` and `..InitialValue` are
 # removed.
 #
 # :param dfCols: The columns of a data frame.
 replace_colnames <- function(dfCols) {
   dfCols <- gsub("ObjectiveValue", "chi2", dfCols)
   dfCols <- gsub("Values.", "", dfCols)
-  dfCols <- gsub("..InitialValue.", "", dfCols)
+  dfCols <- gsub("..InitialValue", "", dfCols)
 }
 
 

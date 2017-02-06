@@ -57,6 +57,8 @@ class TestCopasiSim(unittest.TestCase):
     def test_sim4(self):
         self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml"), 1)
 
+    def test_sim5(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
