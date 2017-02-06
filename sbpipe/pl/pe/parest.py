@@ -213,6 +213,7 @@ class ParEst(Pipeline):
         # folder preparation
         refresh(sim_data_dir, os.path.splitext(model)[0])
         refresh(updated_models_dir, os.path.splitext(model)[0])
+
         try:
             sim = cls.get_simul_obj(simulator)
         except TypeError as e:

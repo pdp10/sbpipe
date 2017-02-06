@@ -210,17 +210,11 @@ class Sim(Pipeline):
             logger.error("inputdir " + inputdir + " does not exist. Generate some data first.")
             return False
 
-        # folder preparation
-        files_to_delete = glob.glob(os.path.join(sim_plots_dir, model + "*"))
-        for f in files_to_delete:
-            os.remove(f)
-
         sim_data_by_var_dir = os.path.join(outputdir, "simulate_data_by_var")
-        if not os.path.exists(sim_data_by_var_dir):
-            os.mkdir(sim_data_by_var_dir)
 
-        if not os.path.exists(sim_plots_dir):
-            os.mkdir(sim_plots_dir)
+        # folder preparation
+        refresh(sim_plots_dir, os.path.splitext(model)[0])
+        refresh(sim_data_by_var_dir, os.path.splitext(model)[0])
 
         # We do this to make sure that characters like [ or ] don't cause troubles.
         xaxis_label = escape_special_chars(xaxis_label)
