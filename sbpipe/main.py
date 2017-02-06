@@ -102,7 +102,7 @@ def set_color_logger(level='INFO'):
         import colorlog
     except ImportError as e:
         logger.warning("Python package `colorlog` not found. Skipping color logs.")
-        set_basic_logger()
+        set_basic_logger(level)
         return
     # Remove all handlers except for instances of logging.FileHandler
     logger.handlers = [h for h in logger.handlers if isinstance(h, logging.FileHandler)]
