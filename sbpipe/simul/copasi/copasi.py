@@ -210,13 +210,13 @@ class Copasi(Simul):
                                 split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
                             # Retrieve the best fit.
                             best_fit = []
-                            while line_num < len(lines):
+                            while line_num + 1 < len(lines):
                                 line_num += 1
                                 split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
                                 if len(split_line) == 1:
                                     break
                                 best_fit = split_line
-                            #print(best_fit)
+                            # print(best_fit)
                             fileout.write('\t'.join(map(str, best_fit)) + '\n')
                             break
 
@@ -244,7 +244,7 @@ class Copasi(Simul):
                         if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
                                 split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
                             # retrieve all fits
-                            while line_num < len(lines):
+                            while line_num + 1 < len(lines):
                                 line_num += 1
                                 split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
                                 if len(split_line) == 1:
