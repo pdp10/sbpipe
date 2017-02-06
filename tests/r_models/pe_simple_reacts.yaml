@@ -5,7 +5,7 @@ analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
 # True if a zipped tarball should be generated, False otherwise
-generate_tarball: True
+generate_tarball: False
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator
@@ -23,7 +23,7 @@ local_cpus: 7
 round: 1
 # The number of parameter estimations 
 # (the length of the fit sequence)
-runs: 250
+runs: 50
 # The threshold percentage of the best fits to consider
 best_fits_percent: 90
 # The number of available data points

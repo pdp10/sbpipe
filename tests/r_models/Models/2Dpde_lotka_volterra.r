@@ -60,7 +60,7 @@ pars <- c(rIng = 0.2, # /day, rate of ingestion
           assEff = 0.5, # -, assimilation efficiency
           K = 5 ) # mmol/m3, carrying capacity
 R <- 10 # total length of surface, m
-N <- 5 # number of boxes in one direction
+N <- 4 # number of boxes in one direction
 dx <- R/N # thickness of each layer
 Da <- 0.05 # m2/d, dispersion coefficient
 NN <- N*N # total number of boxes
@@ -68,7 +68,7 @@ NN <- N*N # total number of boxes
 yini <- rep(0, 2*N*N)
 cc <- c((NN/2):(NN/2+1)+N/2, (NN/2):(NN/2+1)-N/2)
 yini[cc] <- yini[NN+cc] <- 1
-## solve model (5000 state variables... use Cash-Karp Runge-Kutta method
+## solve model using Cash-Karp Runge-Kutta method
 times <- seq(0, 20, by = 1)
 out <- ode.2D(y = yini, times = times, func = lvmod2D, parms = pars,
               dimens = c(N, N), names = c("Prey", "Pred"),
