@@ -133,6 +133,8 @@ class Simul(object):
         # List of estimated parameters
         col_names = self._get_params_list(files[0])
         logger.debug('Estimated parameters: ' + str(col_names))
+        if len(col_names) == 0:
+            logger.warning('No parameter was found in the report file.')
         col_names.insert(0, 'Estimation')
         col_names.insert(1, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
@@ -157,6 +159,9 @@ class Simul(object):
         files = self._get_input_files(path)
         # List of estimated parameters
         col_names = self._get_params_list(files[0])
+        logger.debug('Estimated parameters: ' + str(col_names))
+        if len(col_names) == 0:
+            logger.warning('No parameter was found in the report file.')
         col_names.insert(0, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
         self._write_all_fits(files, path_out, filename_out)
@@ -238,8 +243,8 @@ class Simul(object):
         :param filein: a report file
         :return: the list of parameter names
         """
-        with open(filein, 'r') as myfile:
-            header = myfile.readline().strip('\n')
+        with open(filein, 'r') as my_file:
+            header = my_file.readline().strip('\n')
         parameters = header.split('\t')
         parameters.remove(parameters[0])
         return parameters
