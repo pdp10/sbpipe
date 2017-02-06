@@ -275,8 +275,9 @@ class ParEst(Pipeline):
         # Collect and summarises the parameter estimation results
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.get_best_fits(inputdir, outputdir, fileout_final_estims)
+            files_num = sim.get_best_fits(inputdir, outputdir, fileout_final_estims)
             sim.get_all_fits(inputdir, outputdir, fileout_all_estims)
+            logger.info('Files retrieved: ' + str(files_num))
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
