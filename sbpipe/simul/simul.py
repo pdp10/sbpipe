@@ -124,7 +124,7 @@ class Simul(object):
         :param filename_out: a global file containing the best fits from independent parameter estimations.
         :return the number of retrieved files
         """
-        logger.debug('PE post-processing: Simul.get_bets_fits()')
+        logger.debug('PE post-processing: Simul.get_best_fits()')
 
         # The path containing the results .csv files
         path = path_in

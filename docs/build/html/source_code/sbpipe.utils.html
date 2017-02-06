@@ -179,16 +179,21 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="sbpipe.utils.parcomp.check_output_file">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">check_output_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.check_output_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check whether a file contains &#8216;error&#8217; or &#8216;warning&#8217;</p>
+<dt id="sbpipe.utils.parcomp.is_output_file_clean">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">is_output_file_clean</code><span class="sig-paren">(</span><em>filename</em>, <em>stream_type='standard output'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.is_output_file_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a file contains the string &#8216;error&#8217; or &#8216;warning&#8217;. If so a message is printed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; a file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> &#8211; a file</li>
+<li><strong>stream_type</strong> &#8211; &#8216;stderr&#8217; for standard error, &#8216;stdout&#8217; for standard output.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the file does not contain &#8216;error&#8217;</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -221,11 +226,25 @@
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.quick_debug">
 <code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">quick_debug</code><span class="sig-paren">(</span><em>cmd</em>, <em>out_dir</em>, <em>err_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.quick_debug" title="Permalink to this definition">¶</a></dt>
-<dd><p>A simple debugging function checking the generated log files.
-:param cmd: the executed command
-:param out_dir: the directory containing the standard output files
-:param err_dir: the directory contining the standard error files
-:return: True if the debug passed, False otherwise.</p>
+<dd><p>Look up for <cite>error</cite> and <cite>warning</cite> in the standard output and error files.
+A simple debugging function checking the generated log files. We don&#8217;t stop the computation because it happens
+that these messages are more <cite>warnings</cite> than real errors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmd</strong> &#8211; the executed command</li>
+<li><strong>out_dir</strong> &#8211; the directory containing the standard output files</li>
+<li><strong>err_dir</strong> &#8211; the directory contining the standard error files</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -247,7 +266,7 @@
 </tr>
 </tbody>
 </table>
-<p>:return True if the computation succeeded.</p>
+<p>:return True</p>
 </dd></dl>
 
 <dl class="function">
