@@ -122,6 +122,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing the best fits from independent parameter estimations.
+        :return the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_bets_fits()')
 
@@ -136,6 +137,7 @@ class Simul(object):
         col_names.insert(1, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
         self._write_best_fits(files, path_out, filename_out)
+        return len(files)
 
     def get_all_fits(self, path_in=".", path_out=".", filename_out="all_estimates.csv"):
         """
@@ -145,6 +147,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing all fits from independent parameter estimations.
+        :return the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_all_fits()')
 
@@ -157,6 +160,7 @@ class Simul(object):
         col_names.insert(0, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
         self._write_all_fits(files, path_out, filename_out)
+        return len(files)
 
     ##########################################################
     # utilities for parallel computation and post processing #
