@@ -264,14 +264,12 @@ def quick_debug(cmd, out_dir, err_dir):
         if not is_output_file_clean(filename, 'standard output'):
             outcome = False
     if not outcome:
-        logger.warning("\nSome computation might have failed. Please check output in the folders:")
+        logger.warning("\nSome computation might have failed. Please check the output in the folders:")
         logger.warning("\t" + out_dir + ' (standard output)')
         logger.warning("\t" + err_dir + ' (standard error)')
-        logger.warning("Ignore previous warnings if results are generated as expected.")
-        logger.warning("Also check that " + cmd.split(" ")[0] + " runs correctly.")
+        logger.warning("(ignore previous warnings if results are generated as expected)")
     else:
-        logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
-        logger.info("Further details can be found in the log files in these folders: ")
+        logger.info("If errors occur, please check the output in the folders: ")
         logger.info("\t" + out_dir + ' (standard output)')
         logger.info("\t" + err_dir + ' (standard error)')
     # return outcome
