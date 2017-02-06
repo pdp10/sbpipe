@@ -242,41 +242,53 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
 
 def quick_debug(cmd, out_dir, err_dir):
     """
-    A simple debugging function checking the generated log files.
+    Look up for `error` and `warning` in the standard output and error files.
+    A simple debugging function checking the generated log files. We don't stop the computation because it happens
+    that these messages are more `warnings` than real errors.
+
     :param cmd: the executed command
     :param out_dir: the directory containing the standard output files
     :param err_dir: the directory contining the standard error files
-    :return: True if the debug passed, False otherwise.
+    :return: True
     """
     outcome = True
-    filename = os.path.join(err_dir, "j1")
-    if os.path.isfile(filename):
-        outcome = outcome and check_output_file(filename)
-    filename = os.path.join(out_dir, "j1")
-    if os.path.isfile(filename):
-        check_output_file(filename)
+
+    logger.debug("Running parcomp.quick_debug()")
     logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
     logger.info("Further details can be found in the log files in these folders: ")
     logger.info("\t" + out_dir + ' (standard output)')
     logger.info("\t" + err_dir + ' (standard error)')
+
+    filename = os.path.join(err_dir, "j1")
+    if os.path.isfile(filename):
+        if not is_output_file_clean(filename, 'standard error'):
+            outcome = False
+    filename = os.path.join(out_dir, "j1")
+    if os.path.isfile(filename):
+        if not is_output_file_clean(filename, 'standard output'):
+            outcome = False
     if not outcome:
-        logger.error("Some computation failed. Do output files exist?")
-    return outcome
+        logger.warning("Some computation might have failed.")
+    # return outcome
+    return True
 
 
-def check_output_file(filename):
+def is_output_file_clean(filename, stream_type='standard output'):
     """
-    Check whether a file contains 'error' or 'warning'
+    Check whether a file contains the string 'error' or 'warning'. If so a message is printed.
 
     :param filename: a file
-    :return: True if the file does not contain 'error'
+    :param stream_type: 'stderr' for standard error, 'stdout' for standard output.
+    :return: True
     """
     with open(filename) as my_file:
         content = my_file.read().replace('\n', ' ').lower()
         if 'error' in content:
-            logger.error('\n' + content)
+            logger.warning('Found word `error` in ' + stream_type)
+            logger.warning('\n' + content)
             return False
         elif 'warning' in content:
+            logger.warning('Found word `warning` in ' + stream_type)
             logger.warning('\n' + content)
         else:
             logger.debug('\n' + content)
