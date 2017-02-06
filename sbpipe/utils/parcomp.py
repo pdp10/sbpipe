@@ -268,7 +268,8 @@ def quick_debug(cmd, out_dir, err_dir):
         if not is_output_file_clean(filename, 'standard output'):
             outcome = False
     if not outcome:
-        logger.warning("Some computation might have failed.")
+        logger.warning("Some computation might have failed. Please check output in the above folders.")
+        logger.warning("Ignore previous warnings if results are generated as expected.")
     # return outcome
     return True
 
