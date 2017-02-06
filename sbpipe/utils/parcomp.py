@@ -254,10 +254,6 @@ def quick_debug(cmd, out_dir, err_dir):
     outcome = True
 
     logger.debug("Running parcomp.quick_debug()")
-    logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
-    logger.info("Further details can be found in the log files in these folders: ")
-    logger.info("\t" + out_dir + ' (standard output)')
-    logger.info("\t" + err_dir + ' (standard error)')
 
     filename = os.path.join(err_dir, "j1")
     if os.path.isfile(filename):
@@ -268,8 +264,16 @@ def quick_debug(cmd, out_dir, err_dir):
         if not is_output_file_clean(filename, 'standard output'):
             outcome = False
     if not outcome:
-        logger.warning("Some computation might have failed. Please check output in the above folders.")
+        logger.warning("\nSome computation might have failed. Please check output in the folders:")
+        logger.warning("\t" + out_dir + ' (standard output)')
+        logger.warning("\t" + err_dir + ' (standard error)')
         logger.warning("Ignore previous warnings if results are generated as expected.")
+        logger.warning("Also check that " + cmd.split(" ")[0] + " runs correctly.")
+    else:
+        logger.info("If errors occur, check that " + cmd.split(" ")[0] + " runs correctly.")
+        logger.info("Further details can be found in the log files in these folders: ")
+        logger.info("\t" + out_dir + ' (standard output)')
+        logger.info("\t" + err_dir + ' (standard error)')
     # return outcome
     return True
 
