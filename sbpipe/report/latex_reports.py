@@ -87,12 +87,9 @@ def latex_report_ps1(outputdir, sim_plots_folder, filename_prefix, model_noext, 
         files.sort(key=lambda x: x.split("__eval_")[1])
         for infile in files:
             if infile.find(model_noext) != -1:
-                scanned_par_pos = infile.find(scanned_par)
-                eval_marker = infile.find("__eval_")
-                if scanned_par_pos != -1 and scanned_par_pos < eval_marker:
-                    logger.info(infile)
-                    file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
-                    file_out.write("\\hfill\n")
+                logger.info(infile)
+                file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
+                file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
 

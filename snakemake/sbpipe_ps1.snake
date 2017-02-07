@@ -69,7 +69,7 @@ VARIABLES = config['report_variables']
 PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
 PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
 POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_" + SCANNED_PAR + "__rep_{rep}__eval_{var}" + PNG_EXT), rep=REPEATS, var=VARIABLES)
+PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{rep}__eval_{var}" + PNG_EXT), rep=REPEATS, var=VARIABLES)
 LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
@@ -129,16 +129,15 @@ rule sbpipe_ps1_analysis:
     input:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_" + SCANNED_PAR + "__rep_{{rep}}__eval_{var}" + PNG_EXT), var=VARIABLES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{{rep}}__eval_{var}" + PNG_EXT), var=VARIABLES)
     params:
         model_name=MODEL_NAME,
-        scanned_par=SCANNED_PAR,
-        inhibition_only=config["single_param_scan_knock_down_only"],
+        inhibition_only=config["ps1_knock_down_only"],
         outputdir=WORKING_FOLDER,
         sim_data_folder=POSTPROC_FOLDER,
         sim_plots_folder=PLOTS_FOLDER,
         repeat='{rep}',
-        percent_levels=config["single_param_scan_percent_levels"],
+        percent_levels=config["ps1_percent_levels"],
         min_level=config["min_level"],
         max_level=config["max_level"],
         levels_number=config["levels_number"],
@@ -149,7 +148,7 @@ rule sbpipe_ps1_analysis:
         "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.ps1_analyse_data import ps1_analyse_data
-        ps1_analyse_data(params.model_name, params.scanned_par, str(params.inhibition_only), params.outputdir, \
+        ps1_analyse_data(params.model_name, str(params.inhibition_only), params.outputdir, \
         params.sim_data_folder, params.sim_plots_folder, params.repeat, str(params.percent_levels), \
         str(params.min_level), str(params.max_level), str(params.levels_number), str(params.homogeneous_lines), \
         params.xaxis_label, params.yaxis_label)

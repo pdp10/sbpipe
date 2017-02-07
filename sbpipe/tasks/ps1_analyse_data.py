@@ -35,14 +35,13 @@ from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.parcomp import run_cmd
 
 
-def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
+def ps1_analyse_data(model_name, inhibition_only, outputdir,
         sim_data_folder, sim_plots_folder, repeat, percent_levels, min_level,
         max_level, levels_number, homogeneous_lines, xaxis_label, yaxis_label):
     """
     Plot model single parameter scan time courses (Python wrapper).
 
     :param model_name: the model name without extension
-    :param scanned_par: the model variable to scan
     :param inhibition_only: true if the scanning only decreases the variable amount (inhibition only)
     :param outputdir: the output directory
     :param sim_data_folder: the name of the folder containing the simulated data
@@ -61,7 +60,7 @@ def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
     yaxis_label = escape_special_chars(yaxis_label)
 
     command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
-        ' ' + model_name + ' ' + scanned_par + ' ' + inhibition_only + ' ' + outputdir + \
+        ' ' + model_name + ' ' + inhibition_only + ' ' + outputdir + \
         ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + repeat + ' ' + percent_levels + ' ' + min_level + \
         ' ' + max_level + ' ' + levels_number + ' ' + homogeneous_lines + ' ' + xaxis_label + ' ' + yaxis_label
     run_cmd(command)
@@ -71,7 +70,6 @@ def ps1_analyse_data(model_name, scanned_par, inhibition_only, outputdir,
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--model')
-    parser.add_argument('--scanned-par')
     parser.add_argument('--inhibition-only')
     parser.add_argument('--outputdir')
     parser.add_argument('--sim-data-folder')
@@ -86,9 +84,9 @@ def main(argv=None):
     parser.add_argument('--yaxis-label')
 
     args = parser.parse_args()
-    ps1_analyse_data(args.model, args.scanned_par, args.inhibition_only, args.outputdir, args.sim_data_folder, \
-        args.sim_plot_folder, args.repeat, args.percent_levels, args.min_level, args.max_level, args.levels_number, \
-        args.homogeneous_lines, args.xaxis_label, args.yaxis_label)
+    ps1_analyse_data(args.model, args.inhibition_only, args.outputdir, args.sim_data_folder, \
+        args.sim_plot_folder, args.repeat, args.percent_levels, args.min_level, args.max_level, \
+        args.levels_number, args.homogeneous_lines, args.xaxis_label, args.yaxis_label)
     return 0
 
 

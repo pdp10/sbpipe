@@ -63,7 +63,6 @@ get_sorted_level_indexes <- function(files) {
 # Plot model single parameter scan time courses
 #
 # :param model: The model name
-# :param variable: The model variable to scan
 # :param inhibition_only: true if the scanning only decreases the variable amount (inhibition only)
 # :param outputdir: the output directory
 # :param sim_data_folder: the name of the folder containing the simulated data
@@ -76,7 +75,7 @@ get_sorted_level_indexes <- function(files) {
 # :param levels_number: the number of levels (default: 10)
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
-plot_single_param_scan_data <- function(model, variable, inhibition_only, 
+plot_single_param_scan_data <- function(model, inhibition_only,
 					outputdir, sim_data_folder, sim_plots_folder, run,
 					percent_levels=TRUE, min_level=0, 
 					max_level=100, levels_number=10, 
@@ -109,7 +108,6 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 
 
     writeLines(paste("Model: ", model, ".cps", sep=""))
-    writeLines(paste("Scanning variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
     inputdir <- c(file.path(outputdir, sim_data_folder))
@@ -122,7 +120,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 
     theme_set(tc_theme(36)) #28
 
-    files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', run, '__level_', sep=""))
+    files <- list.files( path=inputdir, pattern=paste(model, '__rep_', run, '__level_', sep=""))
     #print(files)
     levels.index <- get_sorted_level_indexes(files)
     #print(levels.index)
@@ -145,7 +143,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
             # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)
             df <- melt(df, id=c("time"))
             df$value <- dataset
-            df$variable <- as.character(m+10) # No idea why, but it works if m+10 ...
+            df$variable <- as.character(m+10)
 
             #print(df$variable)
             g <- g + geom_line(data=df,
@@ -156,7 +154,7 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
              theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
              scale_colour_manual("Levels", values=colors, labels=labels) +
              scale_linetype_manual("Levels", values=linetype, labels=labels)
-        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
+        ggsave(file.path(outputdir, paste(model, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
            dpi=300,  width=8, height=8)#, bg = "transparent")
     }
 }
@@ -166,20 +164,18 @@ plot_single_param_scan_data <- function(model, variable, inhibition_only,
 # Plot model single parameter scan time courses using homogeneous lines.
 #
 # :param model: The model name
-# :param variable: The model variable to scan
 # :param outputdir: the output directory
 # :param sim_data_folder: the name of the folder containing the simulated data
 # :param sim_plots_folder: the name of the folder containing the simulated plots
 # :param run: the simulation number
 # :param xaxis_label: the label for the x axis (e.g. Time [min])
 # :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
-plot_single_param_scan_data_homogen <- function(model, variable, 
+plot_single_param_scan_data_homogen <- function(model,
 					outputdir, sim_data_folder, 
 					sim_plots_folder, run,
 					xaxis_label="", yaxis_label="") {
 					
     writeLines(paste("Model: ", model, ".cps", sep=""))
-    writeLines(paste("Scanning variable: ", variable, sep=""))
     #writeLines(outputdir)
     # variables
     inputdir <- c(file.path(outputdir, sim_data_folder))
@@ -191,7 +187,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
     
     theme_set(tc_theme(36)) #28
 
-    files <- list.files( path=inputdir, pattern=paste(model, '__scan_', variable, '__rep_', run, '__level_', sep=""))
+    files <- list.files( path=inputdir, pattern=paste(model, '__rep_', run, '__level_', sep=""))
     # Read variable
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names(timecourses)
@@ -207,7 +203,7 @@ plot_single_param_scan_data_homogen <- function(model, variable,
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)
         }
         g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
-        ggsave(file.path(outputdir, paste(model, "__scan_", variable, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
+        ggsave(file.path(outputdir, paste(model, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
            dpi=300,  width=8, height=8)#, bg = "transparent")
     }
 }

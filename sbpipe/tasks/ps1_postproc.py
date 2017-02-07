@@ -142,7 +142,7 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
             table = list(islice(myfile, timepoints + 1))
 
         # Write the extracted table to a separate file
-        filename = os.path.splitext(outfile)[0].replace('_'+rep, '') + "__scan_" + scanned_par + \
+        filename = os.path.splitext(outfile)[0].replace('_'+rep, '') + \
             "__rep_" + rep + "__level_" + str(round_scanned_par_level) + ".csv"
         with open(filename, 'w') as myfile:
             for line in table:
