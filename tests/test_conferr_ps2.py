@@ -35,7 +35,7 @@ from sbpipe import main as sbmain
 class TestCopasiPS2(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor_conf_errors')
+    _ir_folder = os.path.join('config_errors')
 
     @classmethod
     def setUp(cls):
