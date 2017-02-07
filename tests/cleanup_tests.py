@@ -49,10 +49,16 @@ def cleanup_tests():
             os.remove(f)
 
         wfpath = join(testpath, file, 'Results')
-        if file == 'interrupted':
-            continue
         print("cleaning results...")
-        #shutil.rmtree(wfpath, ignore_errors=True)
+        if file == 'interrupted':
+            # We keep the generated data sets for these tests
+            results = [os.path.join(dp, f) for dp, dn, filenames in os.walk(wfpath)
+                       for f in filenames]
+            for f in results:
+                if f.find('param_estim_data') == -1:
+                    os.remove(f)
+            continue
+        shutil.rmtree(wfpath, ignore_errors=True)
 
 
 def main(args=None):
