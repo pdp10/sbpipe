@@ -143,6 +143,11 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="sbpipe.utils.io.replace_str_in_report">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">replace_str_in_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.replace_str_in_report" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.utils.io.write_mat_on_file">
 <code class="descclassname">sbpipe.utils.io.</code><code class="descname">write_mat_on_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_out</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.write_mat_on_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the matrix results stored in data to filename_out</p>
@@ -242,6 +247,34 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True</p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.utils.parcomp.run_cmd">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command using Python subprocess.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> &#8211; The string of the command to run</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.utils.parcomp.run_cmd_block">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd_block</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command using Python subprocess. Block the call until the command has finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> &#8211; A tuple containing the string of the command to run</td>
 </tr>
 </tbody>
 </table>
