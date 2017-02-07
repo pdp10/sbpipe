@@ -174,11 +174,7 @@ class ParEst(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if os.path.isfile(os.path.join(outputdir, fileout_final_estims)) and \
-            os.path.isfile(os.path.join(outputdir, fileout_all_estims)) and \
-            len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
-            return True
-        return False
+        return True
 
     @classmethod
     def generate_data(cls, simulator, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
@@ -213,6 +209,7 @@ class ParEst(Pipeline):
         # folder preparation
         refresh(sim_data_dir, os.path.splitext(model)[0])
         refresh(updated_models_dir, os.path.splitext(model)[0])
+
         try:
             sim = cls.get_simul_obj(simulator)
         except TypeError as e:
@@ -274,8 +271,9 @@ class ParEst(Pipeline):
         # Collect and summarises the parameter estimation results
         try:
             sim = cls.get_simul_obj(simulator)
-            sim.get_best_fits(inputdir, outputdir, fileout_final_estims)
+            files_num = sim.get_best_fits(inputdir, outputdir, fileout_final_estims)
             sim.get_all_fits(inputdir, outputdir, fileout_all_estims)
+            logger.info('Files retrieved: ' + str(files_num))
         except Exception as e:
             logger.error("simulator: " + simulator + " not found.")
             import traceback
@@ -300,7 +298,12 @@ class ParEst(Pipeline):
             ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \
             ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
             ' ' + str(logspace) + ' ' + str(scientific_notation)
-        return parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
+            return False
+
+        if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.png'))) == 0:
+            return False
+        return True
 
 
     @classmethod
@@ -324,6 +327,9 @@ class ParEst(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+
+        if len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 0:
+            return False
         return True
 
     def parse(self, my_dict):

@@ -54,8 +54,16 @@ def cleanup_tests():
         for f in replicated_files:
             os.remove(f)
 
-        print("cleaning results...")
         wfpath = join(testpath, file, 'Results')
+        print("cleaning results...")
+        if file == 'interrupted':
+            # We keep the generated data sets for these tests
+            results = [os.path.join(dp, f) for dp, dn, filenames in os.walk(wfpath)
+                       for f in filenames]
+            for f in results:
+                if f.find('param_estim_data') == -1:
+                    os.remove(f)
+            continue
         shutil.rmtree(wfpath, ignore_errors=True)
 
 

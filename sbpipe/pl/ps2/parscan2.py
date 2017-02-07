@@ -144,10 +144,7 @@ class ParScan2(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if len(glob.glob(os.path.join(outputdir, "*" + os.path.splitext(model)[0] + "*.pdf"))) == 1 and \
-                        len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), os.path.splitext(model)[0] + "*.png"))) > 0:
-            return True
-        return False
+        return True
 
     @classmethod
     def generate_data(cls, simulator, model, sim_length, inputdir, outputdir, cluster, local_cpus, runs):
@@ -211,8 +208,6 @@ class ParScan2(Pipeline):
             logger.error("input_dir " + inputdir + " does not exist. Generate some data first.")
             return False
 
-        # folder preparation
-        refresh(outputdir, os.path.splitext(model)[0])
         if runs < 1:
             logger.error("variable `runs` must be greater than 0. Please, check your configuration file.")
             return False
@@ -221,11 +216,19 @@ class ParScan2(Pipeline):
             logger.error("variable local_cpus must be greater than 0. Please, check your configuration file.")
             return False
 
+        # folder preparation
+        refresh(outputdir, os.path.splitext(model)[0])
+
         str_to_replace = get_rand_alphanum_str(10)
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
             ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
             ' ' + outputdir + ' ' + str_to_replace
-        return parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
+        if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
+            return False
+
+        if len(glob.glob(os.path.join(outputdir, os.path.splitext(model)[0] + '*.png'))) == 0:
+            return False
+        return True
 
     @classmethod
     def generate_report(cls, model, scanned_par1, scanned_par2, outputdir, sim_plots_folder):
@@ -252,6 +255,9 @@ class ParScan2(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+
+        if len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 0:
+            return False
         return True
 
     def parse(self, my_dict):

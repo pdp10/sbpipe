@@ -164,15 +164,24 @@ class Copasi(Simul):
             for line in lines:
                 line_num += 1
                 split_line = line.split('\t')
-                if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                    # add to _data the parameter values
-                    for result in lines[line_num + 1:]:
-                        split_result = result.split("\t")
-                        # Check whether this is the last sequence to read. If so, break
-                        if len(split_result) == 1 and split_result[0] == '\n':
+                if len(split_line) > 0 and split_line[0].find('List of Fitting Items:') != -1:
+                    # retrieve parameters
+                    line_num += 1
+                    if line_num < len(lines):
+                        split_line = lines[line_num].rstrip().split("\t")
+                    while len(split_line) > 0:
+                        split_line = split_line[0]
+                        if not split_line:
                             break
-                        parameters.append(str(split_result[1]))
-                    # Nothing else to do
+                        if split_line.find('<=') != -1:
+                            # extract the name which is between ' <= ' and  ' <= '
+                            param = re.search(' <= (.*) <= ', split_line).group(1)
+                            parameters.append(param)
+                        line_num += 1
+                        if line_num < len(lines):
+                            split_line = lines[line_num].rstrip().split("\t")
+                        else:
+                            break
                     break
         return parameters
 
@@ -185,37 +194,30 @@ class Copasi(Simul):
         :param filename_out: the file containing the final (best) estimates
         """
         file_num = -1
-        logger.info("\nCollecting results:")
+        # logger.info("\nCollecting results:")
         with open(os.path.join(path_out, filename_out), 'a') as fileout:
-            for filein in files:
+            for file in files:
                 file_num += 1
-                with open(filein, 'r') as file:
-                    logger.info(os.path.basename(filein))
-                    lines = file.readlines()
-                    entry = []
+                with open(file, 'r') as filein:
+                    # logger.info(os.path.basename(file))
+                    lines = filein.readlines()
                     line_num = -1
                     for line in lines:
-                        finished = False
                         line_num += 1
-                        split_line = line.rstrip().split('\t')
-                        # Retrieve the estimated values of the _parameters
-                        # Retrieve the objective function value
-                        if len(split_line) > 1 and split_line[0] == 'Objective Function Value:':
-                            entry.append(os.path.basename(filein))
-                            entry.append(split_line[1].rstrip())
-
-                        if len(split_line) > 2 and split_line[1] == 'Parameter' and split_line[2] == 'Value':
-                            param_num = 0
-                            for result in lines[line_num + 1:]:
-                                param_num += 1
-                                split_result = result.split("\t")
-                                if len(split_result) >= 0 and split_result[0] == "\n":
-                                    # All the parameters are retrieved, then exit
-                                    finished = True
+                        split_line = line.rstrip().split("\t")
+                        # Retrieve the estimated values of the parameters
+                        if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
+                                split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
+                            # Retrieve the best fit.
+                            best_fit = []
+                            while line_num + 1 < len(lines):
+                                line_num += 1
+                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
+                                if len(split_line) == 1:
                                     break
-                                entry.append(str(split_result[2]))
-                        if finished:
-                            fileout.write('\t'.join(map(str, entry)) + '\n')
+                                best_fit = split_line
+                            # print(best_fit)
+                            fileout.write('\t'.join(map(str, best_fit)) + '\n')
                             break
 
     def _write_all_fits(self, files, path_out, filename_out):
@@ -240,22 +242,13 @@ class Copasi(Simul):
                         split_line = line.rstrip().split("\t")
                         # Retrieve the estimated values of the parameters
                         if len(split_line) > 2 and split_line[0] == '[Function Evaluations]' and \
-                                        split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
-                            # add to data the parameter values
-                            line_num += 1
-                            if line_num < len(lines):
-                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
-
-                            while len(split_line) > 2:
-                                for k in range(1, len(split_line)):
-                                    if k < len(split_line) - 1:
-                                        fileout.write(str(split_line[k]) + '\t')
-                                    else:
-                                        fileout.write(str(split_line[k]) + '\n')
+                                split_line[1] == '[Best Value]' and split_line[2] == '[Best Parameters]':
+                            # retrieve all fits
+                            while line_num + 1 < len(lines):
                                 line_num += 1
-                                if line_num < len(lines):
-                                    split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
-
+                                split_line = lines[line_num].replace("\t(", "").replace("\t)", "").rstrip().split("\t")
+                                if len(split_line) == 1:
+                                    break
+                                # print(split_line[1:])
+                                fileout.write('\t'.join(map(str, split_line[1:])) + '\n')
                             break
-
-

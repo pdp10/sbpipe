@@ -1,0 +1,53 @@
+Parameter	Estimation	Task
+
+Problem Description:
+Subtask: 
+Time-Course Task
+
+Problem Description:
+    AutomaticStepSize: 0
+    StepNumber: 1200
+    StepSize: 0.1
+    Duration: 120
+    TimeSeriesRequested: 1
+    OutputStartTime: -60
+    Output Event: 0
+    Start in Steady State: 0
+    Continue on Simultaneous Events: 0
+
+Method: Deterministic (LSODA)
+    Integrate Reduced Model: 0
+    Relative Tolerance: 1e-06
+    Absolute Tolerance: 1e-12
+    Max Internal Steps: 10000
+    Max Internal Step Size: 0
+
+
+List of Fitting Items:
+    1e-04 <= Values[k1].InitialValue <= 1e+01; Start Value = 448833
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+    1e-04 <= Values[k2].InitialValue <= 1e+01; Start Value = 1e-06
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+    1e-04 <= Values[k3].InitialValue <= 1e+01; Start Value = 999959
+    Affected Experiments:
+      all    Affected Validation Experiments:
+      all
+
+Method: Particle Swarm
+    Iteration Limit: 400
+    Swarm Size: 25
+    Std. Deviation: 1e-06
+    Random Number Generator: 1
+    Seed: 0
+
+[Function Evaluations]	[Best Value]	[Best Parameters]
+1	5929.31	(	10	0.0001	10	)
+2	509.199	(	0.00695008	0.000609174	0.164734	)
+3	310.017	(	0.00387243	0.00532909	0.000741676	)
+4	298.54	(	0.00181359	0.0140546	0.000298653	)
+9	127.184	(	0.108516	0.294429	0.0156243	)
+42	120.603	(	0.634068	0.574878	0.00252899	)

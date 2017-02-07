@@ -146,10 +146,7 @@ class ParScan1(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if (len(glob.glob(os.path.join(outputdir, "*" + os.path.splitext(model)[0] + "*.pdf"))) == 1 and
-                    len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), os.path.splitext(model)[0] + "*.png"))) > 0):
-            return True
-        return False
+        return True
 
     @classmethod
     def generate_data(cls, simulator, model, scanned_par, cluster, local_cpus, runs, simulate_intervals,
@@ -284,7 +281,12 @@ class ParScan1(Pipeline):
             ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
             ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
             ' ' + xaxis_label + ' ' + yaxis_label
-        return parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True)
+        if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
+            return False
+
+        if len(glob.glob(os.path.join(outputdir, sim_plots_folder, os.path.splitext(model)[0] + '*.png'))) == 0:
+            return False
+        return True
 
     @classmethod
     def generate_report(cls, model, scanned_par, outputdir, sim_plots_folder):
@@ -311,6 +313,9 @@ class ParScan1(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+
+        if len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 0:
+            return False
         return True
 
     def parse(self, my_dict):

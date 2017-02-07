@@ -40,7 +40,8 @@ import tests.test_conferr_sim as conf_err_sim
 import tests.test_conferr_ps1 as conf_err_ps1
 import tests.test_conferr_ps2 as conf_err_ps2
 import tests.test_conferr_pe as conf_err_pe
-import tests.test_conferr_sge as conf_err_sge
+
+import tests.test_interrupt_pe as interrupt_pe
 
 import tests.test_rscript_sim as conf_rscript_sim
 import tests.test_rscript_pe as conf_rscript_pe
@@ -67,13 +68,14 @@ class TestSuite(unittest.TestCase):
         suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestCopasiLSF)
         suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestCopasiSGE)
 
-
         # Run positive test suites
         suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestCopasiSim)
         suite_conferr_ps1 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps1.TestCopasiPS1)
         suite_conferr_ps2 = unittest.TestLoader().loadTestsFromTestCase(conf_err_ps2.TestCopasiPS2)
         suite_conferr_pe = unittest.TestLoader().loadTestsFromTestCase(conf_err_pe.TestCopasiPE)
-        suite_conferr_sge = unittest.TestLoader().loadTestsFromTestCase(conf_err_sge.TestCopasiSGE)
+
+        # Test cases when a parameter estimation failed.
+        suite_interrupt_pe = unittest.TestLoader().loadTestsFromTestCase(interrupt_pe.TestCopasiPE)
 
         # Run Rscript test
         suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRSim)
@@ -103,7 +105,7 @@ class TestSuite(unittest.TestCase):
                                     suite_conferr_ps1,
                                     suite_conferr_ps2,
                                     suite_conferr_pe,
-                                    suite_conferr_sge,
+                                    suite_interrupt_pe,
                                     suite_rscript_sim,
                                     suite_rscript_pe,
                                     suite_python_sim,
