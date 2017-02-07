@@ -48,9 +48,11 @@ def cleanup_tests():
         for f in replicated_files:
             os.remove(f)
 
-        print("cleaning results...")
         wfpath = join(testpath, file, 'Results')
-        shutil.rmtree(wfpath, ignore_errors=True)
+        if file == 'interrupted':
+            continue
+        print("cleaning results...")
+        #shutil.rmtree(wfpath, ignore_errors=True)
 
 
 def main(args=None):
