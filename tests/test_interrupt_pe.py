@@ -32,10 +32,10 @@ from sbpipe import main as sbmain
 import unittest
 
 
-class TestCopasiPS1(unittest.TestCase):
+class TestCopasiPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('config_errors')
+    _ir_folder = os.path.join('interrupted')
 
     @classmethod
     def setUp(cls):
@@ -45,33 +45,20 @@ class TestCopasiPS1(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_ps1_ci1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan1.yaml"), 1)
+    def test_pe_copasi1(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim1.yaml"), 0)
 
-    def test_ps1_ci2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan2.yaml"), 1)
+    def test_pe_copasi2(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim2.yaml"), 1)
 
-    def test_ps1_ci3(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml"), 1)
+    def test_pe_copasi3(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim3.yaml"), 1)
 
-    def test_ps1_ci4(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan4.yaml"), 1)
+    def test_pe_copasi4(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim4.yaml"), 1)
 
-    def test_ps1_ci5(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan5.yaml"), 1)
-
-    def test_ps1_ci6(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan6.yaml"), 1)
-
-    def test_ps1_ci7(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan7.yaml"), 1)
-
-    def test_ps1_ci8(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan8.yaml"), 1)
-
-    def test_ps1_ci9(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan9.yaml"), 1)
-
+    def test_pe_copasi5(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim5.yaml"), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

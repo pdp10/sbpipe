@@ -139,10 +139,7 @@ class Sim(Pipeline):
         end = datetime.datetime.now().replace(microsecond=0)
         logger.info("\n\nPipeline elapsed time (using Python datetime): " + str(end - start))
 
-        if len(glob.glob(os.path.join(outputdir, self.get_sim_plots_folder(), os.path.splitext(model)[0] + '*.png'))) > 0 and len(
-                glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 1:
-            return True
-        return False
+        return True
 
     @classmethod
     def generate_data(cls, simulator, model, inputdir, outputdir, cluster="local", local_cpus=2, runs=1):
@@ -229,7 +226,12 @@ class Sim(Pipeline):
             ' ' + yaxis_label
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
-        return parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True)
+        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
+            return False
+
+        if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.png'))) == 0:
+            return False
+        return True
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
@@ -252,6 +254,9 @@ class Sim(Pipeline):
 
         logger.info("Generating PDF report")
         pdf_report(outputdir, filename_prefix + model + ".tex")
+
+        if len(glob.glob(os.path.join(outputdir, '*' + os.path.splitext(model)[0] + '*.pdf'))) == 0:
+            return False
         return True
 
     def parse(self, my_dict):
