@@ -32,6 +32,26 @@ import shlex
 logger = logging.getLogger('sbpipe')
 
 
+def run_cmd(cmd):
+    """
+    Run a command using Python subprocess.
+
+    :param cmd: The string of the command to run
+    """
+    p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    return out, err
+
+
+def run_cmd_block(cmd):
+    """
+    Run a command using Python subprocess. Block the call until the command has finished.
+
+    :param cmd: A tuple containing the string of the command to run
+    """
+    p = subprocess.call(shlex.split(cmd))
+
+
 def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpus=1, output_msg=False):
     """
     Generic function to run a command in parallel
@@ -79,7 +99,6 @@ def call_proc(params):
     """
     cmd, id = params
     logger.info('Starting Task ' + id)
-    # p = subprocess.call(shlex.split(cmd))  # Block until cmd finishes
     p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     return out, err
