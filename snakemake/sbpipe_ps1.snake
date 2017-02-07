@@ -60,11 +60,17 @@ LOG_EXT         = ".log"
 # Generate sequences
 REPEATS     = range(1, int(config['runs'])+1)
 
+# SCANNED PAR
+SCANNED_PAR = config["scanned_par"]
+
+# Report variables
+VARIABLES = config['report_variables']
+
 # Snakemake input / output files
 PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
 PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
 POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_IR_beta__rep_{rep}__eval_Insulin" + PNG_EXT), rep=REPEATS)
+PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_" + SCANNED_PAR + "__rep_{rep}__eval_{var}" + PNG_EXT), rep=REPEATS, var=VARIABLES)
 LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
@@ -110,7 +116,7 @@ rule sbpipe_ps1_postproc:
     output:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     params:
-        scanned_par=config["scanned_par"],
+        scanned_par=SCANNED_PAR,
         sim_intervals=config["simulate__intervals"],
         ps1_intervals=config["levels_number"]
     log:
@@ -124,10 +130,10 @@ rule sbpipe_ps1_analysis:
     input:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        file=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_IR_beta__rep_{rep}__eval_Insulin" + PNG_EXT)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__scan_" + SCANNED_PAR + "__rep_{{rep}}__eval_{var}" + PNG_EXT), var=VARIABLES)
     params:
         model_name=MODEL_NAME,
-        scanned_par=config["scanned_par"],
+        scanned_par=SCANNED_PAR,
         inhibition_only=config["single_param_scan_knock_down_only"],
         outputdir=WORKING_FOLDER,
         sim_data_folder=POSTPROC_FOLDER,
@@ -160,7 +166,7 @@ rule sbpipe_ps1_latex_report:
         plots_folder=PLOTS_FOLDER,
         report_prefix=REPORT_PREFIX,
         model_name=MODEL_NAME,
-        scanned_par=config["scanned_par"]
+        scanned_par=SCANNED_PAR
     log:
         "log/" + MODEL_NAME + LOG_EXT
     run:

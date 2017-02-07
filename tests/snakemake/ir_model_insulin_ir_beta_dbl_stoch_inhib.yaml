@@ -11,3 +11,5 @@ scanned_par2: "IRbetaPercent"
 runs: 2
 # The simulation length (as set in Copasi Time Course Task)
 sim_length: 10
+# The name of the report variables
+report_variables: ['Insulin', 'IR_beta', 'IR_beta_pY1146', 'IR_beta_refractory']

@@ -61,11 +61,14 @@ LOG_EXT         = ".log"
 REPEATS     = range(1, int(config['runs'])+1)
 TIME_POINTS = range(0, config['sim_length'])
 
+# Report variables
+VARIABLES = config['report_variables']
+
 # Snakemake input / output files
 PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
 PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
 POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{rep}__tp_{tp}" + PNG_EXT), rep=REPEATS, tp=TIME_POINTS)
+PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
 LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
 PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
@@ -127,7 +130,7 @@ rule sbpipe_ps2_analysis:
     output:
         # {rep} is the previously defined wildcard. Therefore {{rep}}
         # {{rep}} ensures that no two rules want to write the same file.
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_Insulin__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS, var=VARIABLES)
     params:
         model_name=MODEL_NAME,
         scanned_par1=config["scanned_par1"],
