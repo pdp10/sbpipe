@@ -45,19 +45,19 @@ class TestPs1Snake(unittest.TestCase):
 
     def test_ps1_det1_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
 
     def test_ps1_det2_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
 
     def test_ps1_det3_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
 
     def test_ps1_stoch_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
 
 
 if __name__ == '__main__':
