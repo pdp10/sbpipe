@@ -96,8 +96,7 @@ class Simul(object):
         """
         pass
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         """
         parameter estimation.
         
@@ -108,8 +107,6 @@ class Simul(object):
         :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the models with updated parameters for
-               each estimation
         :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass

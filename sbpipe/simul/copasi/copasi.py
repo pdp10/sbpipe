@@ -86,8 +86,7 @@ class Copasi(Simul):
         self.ps2_postproc(model, sim_length, outputdir)
         return True
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         __doc__ = Simul.pe.__doc__
 
         if not self._run_par_comput(inputdir, model, sim_data_dir, cluster, local_cpus, runs, output_msg):
@@ -95,8 +94,7 @@ class Copasi(Simul):
         # move_models
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
         for file in repeated_copasi_files:
-            shutil.move(os.path.join(inputdir, file),
-                        os.path.join(updated_models_dir, file.replace(self._groupid, "_")))
+            os.remove(os.path.join(inputdir, file))
         return True
 
     def _run_par_comput(self, inputdir, model, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
