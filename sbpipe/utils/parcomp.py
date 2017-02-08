@@ -63,7 +63,7 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param runs: the number of runs
     :param local_cpus: the number of cpus to use at most
     :param output_msg: print the output messages on screen (available for cluster='local' only)
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
@@ -113,7 +113,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     :param runs: the number of runs to execute
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
-    :return True
+    :return: True
     """
 
     # Create a Pool.
@@ -193,7 +193,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from qsub
     :param err_dir: the directory containing the standard error from qsub
     :param runs: the number of runs to execute
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     # Test this with echo "ls -la" | xargs xargs using Python environment.
     # The following works:
@@ -231,7 +231,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from bsub
     :param err_dir: the directory containing the standard error from bsub
     :param runs: the number of runs to execute
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     logger.info("Starting computation...")
     jobs = ""

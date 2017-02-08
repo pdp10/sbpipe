@@ -119,7 +119,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing the best fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_best_fits()')
 
@@ -146,7 +146,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing all fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_all_fits()')
 
@@ -179,7 +179,7 @@ class Simul(object):
         :param local_cpus: the number of cpus
         :param runs: the number of runs to perform
         :param output_msg: print the output messages on screen (available for cluster='local' only)
-        :return (groupid, group_model)
+        :return: (groupid, group_model)
         """
         pass
 
