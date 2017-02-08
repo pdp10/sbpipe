@@ -178,8 +178,27 @@ SBPIPE=\path\to\sbpipe
 PATH=[previous paths];%SBPIPE%\scripts
 ```
 Note: R packages might require many extra dependencies. A C++ compiler might 
-also be needed.
+also be needed. It would be easier to install sbpipe using Anaconda or Miniconda.
 
+
+#### Anaconda
+Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) users can install sbpipe using
+the following commands:
+
+```
+# Move to $SBPIPE
+cd $SBPIPE
+
+# install dependencies into isolated environment using
+# anaconda or miniconda
+conda env create --name sbpipe --file environment.yaml
+
+# activate environment
+source activate sbpipe
+```
+Alternatively, the script `install_deps_with_anaconda.sh` executes the previous commands automatically.
+
+**NOTE:** Users still have to set up the required environment variables and install LaTeX separately.
 
 
 ### Installation
