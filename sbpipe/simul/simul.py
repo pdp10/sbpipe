@@ -96,8 +96,7 @@ class Simul(object):
         """
         pass
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         """
         parameter estimation.
         
@@ -108,8 +107,6 @@ class Simul(object):
         :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the models with updated parameters for
-               each estimation
         :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
@@ -122,7 +119,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing the best fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_best_fits()')
 
@@ -149,7 +146,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing all fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_all_fits()')
 
@@ -182,7 +179,7 @@ class Simul(object):
         :param local_cpus: the number of cpus
         :param runs: the number of runs to perform
         :param output_msg: print the output messages on screen (available for cluster='local' only)
-        :return (groupid, group_model)
+        :return: (groupid, group_model)
         """
         pass
 
@@ -408,7 +405,7 @@ class Simul(object):
                     table = list(islice(myfile, timepoints + 1))
 
                 # Write the extracted table to a separate file
-                with open(os.path.join(outputdir, model_noext) + "__scan_" + scanned_par + "__rep_" + str(i + 1) + "__level_" + str(
+                with open(os.path.join(outputdir, model_noext) + "__rep_" + str(i + 1) + "__level_" + str(
                         round_scanned_par_level) + ".csv", 'w') as myfile:
                     for line in table:
                         myfile.write(line)

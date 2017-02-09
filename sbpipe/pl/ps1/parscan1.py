@@ -125,7 +125,7 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("==============")
-            status = ParScan1.analyse_data(os.path.splitext(model)[0], scanned_par, ps1_knock_down_only, outputdir,
+            status = ParScan1.analyse_data(os.path.splitext(model)[0], ps1_knock_down_only, outputdir,
                                            self.get_sim_data_folder(), self.get_sim_plots_folder(),
                                            runs, local_cpus,
                                            ps1_percent_levels,
@@ -206,7 +206,7 @@ class ParScan1(Pipeline):
             return False
 
     @classmethod
-    def analyse_data(cls, model, scanned_par, knock_down_only, outputdir,
+    def analyse_data(cls, model, knock_down_only, outputdir,
                      sim_data_folder, sim_plots_folder, runs, local_cpus,
                      percent_levels, min_level, max_level, levels_number,
                      homogeneous_lines, cluster="local", xaxis_label='', yaxis_label=''):
@@ -214,7 +214,6 @@ class ParScan1(Pipeline):
         The second pipeline step: data analysis.
 
         :param model: the model name
-        :param scanned_par: the scanned parameter
         :param knock_down_only: True for knock down simulation, false if also scanning over expression.
         :param outputdir: the directory containing the results
         :param sim_data_folder: the folder containing the simulated data sets
@@ -276,7 +275,7 @@ class ParScan1(Pipeline):
 
         str_to_replace = get_rand_alphanum_str(10)
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
-            ' ' + model + ' ' + scanned_par + ' ' + str(knock_down_only) + ' ' + outputdir + \
+            ' ' + model + ' ' + str(knock_down_only) + ' ' + outputdir + \
             ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str_to_replace + \
             ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
             ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \

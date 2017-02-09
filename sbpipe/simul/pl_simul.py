@@ -99,8 +99,7 @@ class PLSimul(Simul):
         self.ps2_postproc(model, sim_length, outputdir)
         return True
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         __doc__ = Simul.pe.__doc__
 
         return self._run_par_comput(model, inputdir, sim_data_dir, cluster, local_cpus, runs, output_msg)

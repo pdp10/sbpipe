@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.utils package &mdash; SBpipe 2.7.0 documentation</title>
+    <title>sbpipe.utils package &#8212; SBpipe 2.7.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,15 +17,16 @@
         VERSION:     '2.7.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SBpipe 2.7.0 documentation" href="../index.html" />
-    <link rel="up" title="sbpipe package" href="sbpipe.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Meta information" href="../meta_info.html" />
     <link rel="prev" title="sbpipe.simul.python package" href="sbpipe.simul.python.html" /> 
   </head>
@@ -45,9 +46,9 @@
         <li class="right" >
           <a href="sbpipe.simul.python.html" title="sbpipe.simul.python package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -143,6 +144,11 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="sbpipe.utils.io.replace_str_in_report">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">replace_str_in_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.replace_str_in_report" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.utils.io.write_mat_on_file">
 <code class="descclassname">sbpipe.utils.io.</code><code class="descname">write_mat_on_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_out</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.write_mat_on_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the matrix results stored in data to filename_out</p>
@@ -207,7 +213,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cmd</strong> &#8211; the command string to run in parallel</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
 <li><strong>output_dir</strong> &#8211; the output directory</li>
@@ -218,9 +224,11 @@
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the computation succeeded.</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>:return True if the computation succeeded.</p>
 </dd></dl>
 
 <dl class="function">
@@ -248,6 +256,34 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="sbpipe.utils.parcomp.run_cmd">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command using Python subprocess.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> &#8211; The string of the command to run</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.utils.parcomp.run_cmd_block">
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_cmd_block</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_cmd_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command using Python subprocess. Block the call until the command has finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> &#8211; A tuple containing the string of the command to run</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_local">
 <code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_local</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_local" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using python multiprocessing locally.</p>
@@ -255,7 +291,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cmd</strong> &#8211; the full command to run as a job</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>runs</strong> &#8211; the number of runs to execute</li>
@@ -264,9 +300,11 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>:return True</p>
 </dd></dl>
 
 <dl class="function">
@@ -277,7 +315,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cmd</strong> &#8211; the full command to run as a job</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>out_dir</strong> &#8211; the directory containing the standard output from bsub</li>
@@ -286,9 +324,11 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the computation succeeded.</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>:return True if the computation succeeded.</p>
 </dd></dl>
 
 <dl class="function">
@@ -299,7 +339,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cmd</strong> &#8211; the full command to run as a job</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>out_dir</strong> &#8211; the directory containing the standard output from qsub</li>
@@ -308,9 +348,11 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the computation succeeded.</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>:return True if the computation succeeded.</p>
 </dd></dl>
 
 </div>
@@ -409,21 +451,18 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/source_code/sbpipe.utils.txt"
+      <li><a href="../_sources/source_code/sbpipe.utils.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -445,14 +484,14 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
         <li class="right" >
           <a href="sbpipe.simul.python.html" title="sbpipe.simul.python package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 2.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2016, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2016, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>
