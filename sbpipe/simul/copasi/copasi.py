@@ -112,6 +112,15 @@ class Copasi(Simul):
             replace_str_in_file(os.path.join(inputdir, model_group) + str(i) + ".cps",
                                 os.path.splitext(model)[0] + ".csv",
                                 model_group + str(i) + ".csv")
+            replace_str_in_file(os.path.join(inputdir, model_group) + str(i) + ".cps",
+                                os.path.splitext(model)[0] + ".txt",
+                                model_group + str(i) + ".csv")
+            replace_str_in_file(os.path.join(inputdir, model_group) + str(i) + ".cps",
+                                os.path.splitext(model)[0] + ".tsv",
+                                model_group + str(i) + ".csv")
+            replace_str_in_file(os.path.join(inputdir, model_group) + str(i) + ".cps",
+                                os.path.splitext(model)[0] + ".dat",
+                                model_group + str(i) + ".csv")
 
         # run copasi in parallel
         # To make things simple, the last 10 character of groupid are extracted and reversed.
@@ -121,7 +130,8 @@ class Copasi(Simul):
         command = self._copasi + " " + os.path.join(inputdir, model_group + str_to_replace + ".cps")
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
             return False
-        self._move_reports(inputdir, outputdir, model, self._groupid)
+        if not self._move_reports(inputdir, outputdir, model, self._groupid):
+            return False
         return True
 
     def replace_str_in_report(self, report):
