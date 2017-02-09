@@ -96,8 +96,7 @@ class Simul(object):
         """
         pass
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         """
         parameter estimation.
         
@@ -108,8 +107,6 @@ class Simul(object):
         :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the models with updated parameters for
-               each estimation
         :param output_msg: print the output messages on screen (available for cluster='local' only)
         """
         pass
@@ -122,7 +119,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing the best fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_best_fits()')
 
@@ -130,11 +127,15 @@ class Simul(object):
         path = path_in
         # The collection of .csv files
         files = self._get_input_files(path)
+        if len(files) == 0:
+            logger.error('No report was found.')
+            return 0
         # List of estimated parameters
         col_names = self._get_params_list(files[0])
         logger.debug('Estimated parameters: ' + str(col_names))
         if len(col_names) == 0:
-            logger.warning('No parameter was found in the report file.')
+            logger.error('No parameter was found in the report file.')
+            return 0
         col_names.insert(0, 'Estimation')
         col_names.insert(1, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
@@ -149,7 +150,7 @@ class Simul(object):
         :param path_in: the path to the input files
         :param path_out: the path to the output files
         :param filename_out: a global file containing all fits from independent parameter estimations.
-        :return the number of retrieved files
+        :return: the number of retrieved files
         """
         logger.debug('PE post-processing: Simul.get_all_fits()')
 
@@ -157,11 +158,15 @@ class Simul(object):
         path = path_in
         # The collection of .csv files
         files = self._get_input_files(path)
+        if len(files) == 0:
+            logger.error('No report was found.')
+            return 0
         # List of estimated parameters
         col_names = self._get_params_list(files[0])
         logger.debug('Estimated parameters: ' + str(col_names))
         if len(col_names) == 0:
-            logger.warning('No parameter was found in the report file.')
+            logger.error('No parameter was found in the report file.')
+            return 0
         col_names.insert(0, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
         self._write_all_fits(files, path_out, filename_out)
@@ -182,7 +187,7 @@ class Simul(object):
         :param local_cpus: the number of cpus
         :param runs: the number of runs to perform
         :param output_msg: print the output messages on screen (available for cluster='local' only)
-        :return (groupid, group_model)
+        :return: (groupid, group_model)
         """
         pass
 
@@ -204,14 +209,18 @@ class Simul(object):
         :param groupid: a string identifier in the file name characterising the batch of simulated models.
         """
         group_model = os.path.splitext(model)[0] + groupid
-        report_files = [f for f in os.listdir(inputdir) if
-                        re.match(group_model + '[0-9]+.*\.csv', f) or re.match(group_model + '[0-9]+.*\.txt', f)]
+        report_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.csv', f)]
+        if len(report_files) == 0:
+            logger.error('No report was found. Please make sure that the simulator generates a report named '
+                         'as the model but one of these extensions: .csv, .txt, .tsv, or .dat.')
+            return False
         logger.debug("Moving reports: " + str(report_files))
         for report in report_files:
             # Replace some string in the report file
             self.replace_str_in_report(os.path.join(inputdir, report))
             # rename and move the output file
-            shutil.move(os.path.join(inputdir, report), os.path.join(outputdir, report.replace(groupid, "_")[:-4] + ".csv"))
+            shutil.move(os.path.join(inputdir, report), os.path.join(outputdir, report.replace(groupid, "_")))
+        return True
 
     def replace_str_in_report(self, report):
         """
@@ -245,6 +254,8 @@ class Simul(object):
         """
         with open(filein, 'r') as my_file:
             header = my_file.readline().strip('\n')
+        if not header:
+            return []
         parameters = header.split('\t')
         parameters.remove(parameters[0])
         return parameters
@@ -355,7 +366,7 @@ class Simul(object):
 
         # Re-structure the reports
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
+                        re.match(model_noext + '_[0-9]+.*\.csv', f)]
         if not report_files:
             logger.warning('no report was found!')
             return
@@ -441,7 +452,7 @@ class Simul(object):
 
         # Re-structure the reports
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f) or re.match(model_noext + '_[0-9]+.*\.txt', f)]
+                        re.match(model_noext + '_[0-9]+.*\.csv', f)]
         if not report_files:
             logger.warning('no report was found!')
             return

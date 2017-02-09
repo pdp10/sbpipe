@@ -114,8 +114,8 @@ class Pipeline:
         Safely load a YAML configuration file and return its structure as a dictionary object.
 
         :param config: a YAML configuration file
-        :return the dictionary structure of the configuration file
-        :raise yaml.YAMLError if the config cannot be loaded.
+        :return: the dictionary structure of the configuration file
+        :raise: yaml.YAMLError if the config cannot be loaded.
         """
         with open(config, 'r') as stream:
             config_dict = yaml.safe_load(stream)

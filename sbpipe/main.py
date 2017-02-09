@@ -286,7 +286,7 @@ For complete documentation, see README.md .
     parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
-                        version='%(prog)s v' + read_file_header('VERSION'))
+                        version='%(prog)s ' + read_file_header('VERSION'))
 
     args = parser.parse_args()
 
