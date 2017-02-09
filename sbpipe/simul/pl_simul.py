@@ -126,7 +126,8 @@ class PLSimul(Simul):
                   " " + model_group + str_to_replace + ".csv"
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
             return False
-        self._move_reports('.', outputdir, model, self._groupid)
+        if not self._move_reports('.', outputdir, model, self._groupid):
+            return False
         return True
 
     def replace_str_in_report(self, report):

@@ -228,21 +228,21 @@ using CopasiUI:
 - Tick the flag _executable_ in the Time Course Task.
 - Select a report template for the Time Course Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe).
 
 **pipelines: single or double parameter scan**
 
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Parameter Scan Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
 
 **pipeline: parameter estimation**
 
 - Tick the flag _executable_ in the Parameter Estimation Task.
 - Select the report template for the Parameter Estimation Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
 
 For tasks such as parameter estimation using Copasi, it is
 recommended to move the data set into the folder `Models/` so
