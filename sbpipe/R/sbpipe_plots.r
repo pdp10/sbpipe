@@ -88,9 +88,9 @@ scatterplot_ple <- function(df, g=ggplot(), colNameX, colNameY, conf_level_66, c
       geom_point(data=df, aes_string(x=colNameX, y=colNameY), size=dot_size) +
       geom_hline(df.last, aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
       geom_hline(df.last, aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
-      scale_colour_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="blue","_66"="red")) +
-      scale_linetype_manual(name="", labels=c("_95"="CL 95%","_66"="CL 66%"), values=c("_95"="dashed", "_66"="dotted")) +
-      ylab(expression(chi^{2})) +
+      scale_colour_manual(name="", labels=c("_95"="CL95%","_66"="CL66%"), values=c("_95"="blue","_66"="red")) +
+      scale_linetype_manual(name="", labels=c("_95"="CL95%","_66"="CL66%"), values=c("_95"="dashed", "_66"="dotted")) +
+      ylab('obj val') +
       theme(axis.text.x=element_text(vjust = 1))
   return(g)
 }
@@ -115,9 +115,9 @@ scatterplot_ple <- function(df, g=ggplot(), colNameX, colNameY, conf_level_66, c
       geom_hline(data=df.thresholds, aes(yintercept=conf_level_66, color="_66", linetype="_66"), size=2, show.legend=TRUE) +
       geom_hline(data=df.thresholds, aes(yintercept=conf_level_95, color="_95", linetype="_95"), size=2, show.legend=TRUE) +
       geom_hline(data=df.thresholds, aes(yintercept=conf_level_99, color="_99", linetype="_99"), size=2, show.legend=TRUE) +
-      scale_colour_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="dodgerblue","_95"="green2","_66"="magenta1")) +
-#      scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="solid", "_95"="solid", "_66"="solid")) +
-      scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="dashed", "_95"="dashed", "_66"="dashed")) +
+      scale_colour_manual(name="", labels=c("_99"="CL99%","_95"="CL95%","_66"="CL66%"), values=c("_99"="dodgerblue","_95"="green2","_66"="magenta1")) +
+#      scale_linetype_manual(name="", labels=c("_99"="CL99%","_95"="CL95%","_66"="CL66%"), values=c("_99"="solid", "_95"="solid", "_66"="solid")) +
+      scale_linetype_manual(name="", labels=c("_99"="CL99%","_95"="CL95%","_66"="CL66%"), values=c("_99"="dashed", "_95"="dashed", "_66"="dashed")) +
       guides(colour = guide_legend(reverse=T), linetype = guide_legend(reverse=T)) +
       ylab('obj val') +
       theme(axis.text.x=element_text(vjust = 1))

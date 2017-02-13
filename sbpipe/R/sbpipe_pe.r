@@ -221,16 +221,16 @@ plot_2d_cl_corr <- function(df66, df95, df99, objval_col, plots_dir, model,
                             logspace=TRUE, scientific_notation=TRUE) {
   dfCols <- colnames(df99)
   if(plot_2d_66cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,objval_col]),], dfCols, plots_dir, paste(model, "_ci66_fits_", sep=""),
-        expression("obj val"<="CI66"), which(dfCols==objval_col), logspace, scientific_notation)
+    plot_parameter_correlations(df66[order(-df66[,objval_col]),], dfCols, plots_dir, paste(model, "_cl66_fits_", sep=""),
+        expression("obj val"<="CL66%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
   if(plot_2d_95cl_corr) {
-    plot_parameter_correlations(df95[order(-df95[,objval_col]),], dfCols, plots_dir, paste(model, "_ci95_fits_", sep=""),
-        expression("obj val"<="CI95"), which(dfCols==objval_col), logspace, scientific_notation)
+    plot_parameter_correlations(df95[order(-df95[,objval_col]),], dfCols, plots_dir, paste(model, "_cl95_fits_", sep=""),
+        expression("obj val"<="CL95%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
   if(plot_2d_99cl_corr) {
-    plot_parameter_correlations(df99[order(-df99[,objval_col]),], dfCols, plots_dir, paste(model, "_ci99_fits_", sep=""),
-        expression("obj val"<="CI99"), which(dfCols==objval_col), logspace, scientific_notation)
+    plot_parameter_correlations(df99[order(-df99[,objval_col]),], dfCols, plots_dir, paste(model, "_cl99_fits_", sep=""),
+        expression("obj val"<="CL99%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
 }
 
