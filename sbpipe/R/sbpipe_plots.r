@@ -119,7 +119,7 @@ scatterplot_ple <- function(df, g=ggplot(), colNameX, colNameY, conf_level_66, c
 #      scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="solid", "_95"="solid", "_66"="solid")) +
       scale_linetype_manual(name="", labels=c("_99"="CL 99%","_95"="CL 95%","_66"="CL 66%"), values=c("_99"="dashed", "_95"="dashed", "_66"="dashed")) +
       guides(colour = guide_legend(reverse=T), linetype = guide_legend(reverse=T)) +
-      ylab(expression(chi^{2})) +
+      ylab('obj val') +
       theme(axis.text.x=element_text(vjust = 1))
   return(g)
 }
@@ -162,33 +162,33 @@ scatterplot_log10 <-function(df, g=ggplot(), colNameX, colNameY, dot_size=0.5) {
 
 
 
-# Plot the number of iterations vs Chi^2 in log10 scale.
+# Plot the number of iterations vs objective values in log10 scale.
 #
 # :param g: the current ggplot to overlap
-# :param chi2_array: the array of Chi^2.
-plot_fits <- function(chi2_array, g=ggplot()) {
+# :param objval_array: the array of objective function values.
+plot_fits <- function(objval_array, g=ggplot()) {
   iters <- c()
   j <- 0
   k <- 0
 
-  # We intentionally consider only the Chi^2 above 100*median(Chi2_array).
-  # Often the very first Chi^2 can be extremely large (e^[hundreds]). When so,
+  # We intentionally consider only the objective values below 100*median(objval_array).
+  # Often the very first objective values can be extremely large (e^[hundreds]). When so,
   # ggsave() does not process correctly, potentially due to a bug.
-  med_chi2 <- median(chi2_array[is.finite(chi2_array)])
-  chi2_array <- chi2_array[chi2_array < med_chi2*100]
+  med_objval <- median(objval_array[is.finite(objval_array)])
+  objval_array <- objval_array[objval_array < med_objval*100]
 
-  for(i in 1:length(chi2_array)) {
-    if(k < chi2_array[i]) {
+  for(i in 1:length(objval_array)) {
+    if(k < objval_array[i]) {
       j <- 0
     }
     iters <- c(iters, j)
     j <- j+1
-    k <- chi2_array[i]
+    k <- objval_array[i]
   }
-  df <- data.frame(Iter=iters, Chi2=chi2_array)
-  g <- scatterplot_log10(df, g, "Iter", "Chi2") +
+  df <- data.frame(Iter=iters, ObjVal=objval_array)
+  g <- scatterplot_log10(df, g, "Iter", "ObjVal") +
             # Re paint the y lab as we want to use the Greek letter chi.
-            ylab(expression(paste("log10(",chi^{2},")", sep="")))
+            ylab("log10(ObjVal)")
   return(g)
 }
 
