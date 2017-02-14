@@ -40,16 +40,14 @@ def cleanup_tests():
             shutil.rmtree(os.path.join(testpath, file))
             continue
 
-        print(('\nFolder ' + file))
+        print('- ' + file)
 
         modelspath = join(testpath, file, 'Models')
-        print("cleaning replicated Copasi files if any...")
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicated_files:
             os.remove(f)
 
         wfpath = join(testpath, file, 'Results')
-        print("cleaning results...")
         if file == 'interrupted':
             # We keep the generated data sets for these tests
             results = [os.path.join(dp, f) for dp, dn, filenames in os.walk(wfpath)
