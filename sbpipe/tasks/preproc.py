@@ -57,6 +57,15 @@ def copasi_preproc(infile, outfile):
     replace_str_in_file(outfile,
                         os.path.splitext(os.path.basename(infile))[0] + ".csv",
                         os.path.splitext(os.path.basename(outfile))[0] + ".csv")
+    replace_str_in_file(outfile,
+                        os.path.splitext(os.path.basename(infile))[0] + ".txt",
+                        os.path.splitext(os.path.basename(outfile))[0] + ".csv")
+    replace_str_in_file(outfile,
+                        os.path.splitext(os.path.basename(infile))[0] + ".tsv",
+                        os.path.splitext(os.path.basename(outfile))[0] + ".csv")
+    replace_str_in_file(outfile,
+                        os.path.splitext(os.path.basename(infile))[0] + ".dat",
+                        os.path.splitext(os.path.basename(outfile))[0] + ".csv")
 
 
 def preproc(infile, outfile, copasi=False):

@@ -21,7 +21,7 @@ Author: Piero Dalle Pezze
 Affiliation: The Babraham Institute (Cambridge, UK)
 Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
 Date: 31 Jan 2017
-Run: snakemake -s ps2.snake --configfile FILE
+Run: snakemake -s sbpipe_ps2.snake --configfile FILE
 Latest modification:
     - first draft
 """

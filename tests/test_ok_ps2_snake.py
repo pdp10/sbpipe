@@ -45,11 +45,11 @@ class TestPs2Snake(unittest.TestCase):
 
     def test_ps2_det_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True, quiet=True))
 
     def test_ps2_stoch_snake(self):
         self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'snakemake', 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True, quiet=True))
+            snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True, quiet=True))
 
 
 if __name__ == '__main__':

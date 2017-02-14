@@ -21,7 +21,7 @@ Author: Piero Dalle Pezze
 Affiliation: The Babraham Institute (Cambridge, UK)
 Aim: A Snakemake workflow to process single parameter scans of a mathematical model.
 Date: 31 Jan 2017
-Run: snakemake -s ps1.snake --configfile FILE
+Run: snakemake -s sbpipe_ps1.snake --configfile FILE
 Latest modification:
     - first draft
 """
