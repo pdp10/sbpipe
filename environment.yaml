@@ -1,0 +1,19 @@
+name: sbpipe
+channels:
+  - conda-forge
+  - bioconda
+  - r
+  - defaults
+dependencies:
+  - colorlog
+  - nose
+  - pyaml
+  - python
+  - numpy
+  - scipy
+  - setuptools
+  - r-ggplot2 >=2.2.0
+  - r-hmisc
+  - r-plyr
+  - r-reshape2
+  - r-scales

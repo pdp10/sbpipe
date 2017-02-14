@@ -178,8 +178,27 @@ SBPIPE=\path\to\sbpipe
 PATH=[previous paths];%SBPIPE%\scripts
 ```
 Note: R packages might require many extra dependencies. A C++ compiler might 
-also be needed.
+also be needed. It would be easier to install sbpipe using Anaconda or Miniconda.
 
+
+#### Anaconda
+Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) users can install sbpipe using
+the following commands:
+
+```
+# Move to $SBPIPE
+cd $SBPIPE
+
+# install dependencies into isolated environment using
+# anaconda or miniconda
+conda env create --name sbpipe --file environment.yaml
+
+# activate environment
+source activate sbpipe
+```
+Alternatively, the script `install_deps_with_anaconda.sh` executes the previous commands automatically.
+
+**NOTE:** Users still have to set up the required environment variables and install LaTeX separately.
 
 
 ### Installation
@@ -209,21 +228,21 @@ using CopasiUI:
 - Tick the flag _executable_ in the Time Course Task.
 - Select a report template for the Time Course Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe).
 
 **pipelines: single or double parameter scan**
 
 - Tick the flag _executable_ in the Parameter Scan Task.
 - Select a report template for the Parameter Scan Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
 
 **pipeline: parameter estimation**
 
 - Tick the flag _executable_ in the Parameter Estimation Task.
 - Select the report template for the Parameter Estimation Task.
 - Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv.
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
 
 For tasks such as parameter estimation using Copasi, it is
 recommended to move the data set into the folder `Models/` so

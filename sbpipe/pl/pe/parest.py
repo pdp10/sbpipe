@@ -52,8 +52,6 @@ class ParEst(Pipeline):
         __doc__ = Pipeline.__init__.__doc__
 
         Pipeline.__init__(self, models_folder, working_folder, sim_data_folder, sim_plots_folder)
-        # The folder containing the models with estimated parameters
-        self.__updated_models_folder = 'updated_models'
 
     def run(self, config_file):
         __doc__ = Pipeline.run.__doc__
@@ -120,8 +118,7 @@ class ParEst(Pipeline):
                                           local_cpus,
                                           runs,
                                           outputdir,
-                                          os.path.join(outputdir, self.get_sim_data_folder()),
-                                          os.path.join(outputdir, self.__updated_models_folder))
+                                          os.path.join(outputdir, self.get_sim_data_folder()))
             if not status:
                 return False
 
@@ -177,8 +174,7 @@ class ParEst(Pipeline):
         return True
 
     @classmethod
-    def generate_data(cls, simulator, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-                      updated_models_dir):
+    def generate_data(cls, simulator, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir):
         """
         The first pipeline step: data generation.
 
@@ -190,8 +186,6 @@ class ParEst(Pipeline):
         :param runs: the number of fits to perform
         :param outputdir: the directory to store the results
         :param sim_data_dir: the directory containing the simulation data sets
-        :param updated_models_dir: the directory containing the models with updated parameters for
-               each estimation
         :return: True if the task was completed successfully, False otherwise.
         """
         if int(local_cpus) < 1:
@@ -208,7 +202,6 @@ class ParEst(Pipeline):
 
         # folder preparation
         refresh(sim_data_dir, os.path.splitext(model)[0])
-        refresh(updated_models_dir, os.path.splitext(model)[0])
 
         try:
             sim = cls.get_simul_obj(simulator)
@@ -217,8 +210,7 @@ class ParEst(Pipeline):
             logger.debug(traceback.format_exc())
             return False
         try:
-            return sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir,
-                        sim_data_dir, updated_models_dir)
+            return sim.pe(model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir)
         except Exception as e:
             logger.error(str(e))
             logger.debug(traceback.format_exc())
@@ -237,8 +229,8 @@ class ParEst(Pipeline):
         :param model: the model name
         :param inputdir: the directory containing the simulation data
         :param outputdir: the directory to store the results
-        :param fileout_final_estims: the name of the file containing final parameter sets with Chi^2
-        :param fileout_all_estims: the name of the file containing all the parameter sets with Chi^2
+        :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
+        :param fileout_all_estims: the name of the file containing all the parameter sets with the objective value
         :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
         estimated parameters
         :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation

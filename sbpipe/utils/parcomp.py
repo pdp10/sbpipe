@@ -25,6 +25,7 @@
 # $Date: 2016-06-23 13:45:32 $
 
 import logging
+import sys
 import os
 import multiprocessing
 import subprocess
@@ -38,8 +39,12 @@ def run_cmd(cmd):
 
     :param cmd: The string of the command to run
     """
-    p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
+    if sys.version_info > (3,):
+        with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
+            out, err = p.communicate()
+    else:
+        p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
     return out, err
 
 
@@ -63,7 +68,7 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param runs: the number of runs
     :param local_cpus: the number of cpus to use at most
     :param output_msg: print the output messages on screen (available for cluster='local' only)
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
@@ -99,8 +104,12 @@ def call_proc(params):
     """
     cmd, id = params
     logger.info('Starting Task ' + id)
-    p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
+    if sys.version_info > (3,):
+        with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
+            out, err = p.communicate()
+    else:
+        p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
     return out, err
 
 
@@ -113,7 +122,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     :param runs: the number of runs to execute
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
-    :return True
+    :return: True
     """
 
     # Create a Pool.
@@ -193,7 +202,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from qsub
     :param err_dir: the directory containing the standard error from qsub
     :param runs: the number of runs to execute
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     # Test this with echo "ls -la" | xargs xargs using Python environment.
     # The following works:
@@ -211,12 +220,21 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
         qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
         logger.debug(qsub_cmd)
         logger.info('Starting Task ' + str(i))
-        qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+        if sys.version_info > (3,):
+            with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
+                p.communicate()[0]
+        else:
+            qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+            qsub_proc.communicate()[0]
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-b", "y", "-o", "/dev/null", "-e", "/dev/null", "-hold_jid", jobs[:-1], "sleep", "1"]
-    qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
-    qsub_proc.communicate()[0]
+    if sys.version_info > (3,):
+        with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
+            p.communicate()[0]
+    else:
+        qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+        qsub_proc.communicate()[0]
     logger.debug(qsub_cmd)
     logger.info("Computation terminated.")
     return quick_debug(cmd, out_dir, err_dir)
@@ -231,7 +249,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param out_dir: the directory containing the standard output from bsub
     :param err_dir: the directory containing the standard error from bsub
     :param runs: the number of runs to execute
-    :return True if the computation succeeded.
+    :return: True if the computation succeeded.
     """
     logger.info("Starting computation...")
     jobs = ""
@@ -240,22 +258,35 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
         bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
         logger.debug(bsub_cmd)
         logger.info('Starting Task ' + str(i))
-        bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+        if sys.version_info > (3,):
+            with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
+                p.communicate()[0]
+        else:
+            bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+            bsub_proc.communicate()[0]
     # Check here when these jobs are finished before proceeding
     import random
     import string
     job_name = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
     bsub_cmd = ["bsub", "-J", job_name, "-o", "/dev/null", "-e", "/dev/null", "-w", jobs[:-2], "sleep", "1"]
     logger.debug(bsub_cmd)
-    bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
-    bsub_proc.communicate()[0]
+    if sys.version_info > (3,):
+        with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
+            p.communicate()[0]
+    else:
+        bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+        bsub_proc.communicate()[0]
     # Something better than the following would be highly desirable
     import time
     found = True
     while found:
         time.sleep(2)
-        my_poll = subprocess.Popen(["bjobs", "-psr"], stdout=subprocess.PIPE)
-        output = my_poll.communicate()[0]
+        if sys.version_info > (3,):
+            with subprocess.Popen(["bjobs", "-psr"], stdout=subprocess.PIPE) as p:
+                output = p.communicate()[0]
+        else:
+            my_poll = subprocess.Popen(["bjobs", "-psr"], stdout=subprocess.PIPE)
+            output = my_poll.communicate()[0]
         if job_name not in output:
             found = False
     logger.info("Computation terminated.")

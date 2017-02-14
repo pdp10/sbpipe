@@ -24,6 +24,7 @@
 # Utilities to generate Latex code. These functions are used for reporting purposes.
 
 import logging
+import sys
 import os
 import re
 import subprocess
@@ -283,7 +284,13 @@ def pdf_report(outputdir, filename):
     currdir = os.getcwd()
     os.chdir(outputdir)
     logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
-    p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
-    p.communicate()[0]
+    if sys.version_info > (3,):
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+            p.communicate()[0]
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+            p.communicate()[0]
+    else:
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+        p.communicate()[0]
     os.chdir(currdir)

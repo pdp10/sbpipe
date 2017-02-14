@@ -99,8 +99,7 @@ class PLSimul(Simul):
         self.ps2_postproc(model, sim_length, outputdir)
         return True
 
-    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir,
-           updated_models_dir, output_msg=False):
+    def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         __doc__ = Simul.pe.__doc__
 
         return self._run_par_comput(model, inputdir, sim_data_dir, cluster, local_cpus, runs, output_msg)
@@ -127,7 +126,8 @@ class PLSimul(Simul):
                   " " + model_group + str_to_replace + ".csv"
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
             return False
-        self._move_reports('.', outputdir, model, self._groupid)
+        if not self._move_reports('.', outputdir, model, self._groupid):
+            return False
         return True
 
     def replace_str_in_report(self, report):

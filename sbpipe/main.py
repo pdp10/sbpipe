@@ -145,9 +145,10 @@ def set_logger(level='NOTSET', nocolor=False):
     logging_config_file = os.path.join(SBPIPE, 'logging_config.ini')
     if os.path.isfile(logging_config_file):
         try:
-            fileConfig(logging_config_file,
-                       defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
-                       disable_existing_loggers=False)
+            with open(logging_config_file, 'r') as fname:
+                fileConfig(fname,
+                           defaults={'logfilename': os.path.join(home, '.sbpipe', 'logs', 'sbpipe.log')},
+                           disable_existing_loggers=False)
             set_console_logger(level, logging.getLogger('sbpipe').getEffectiveLevel(), nocolor)
         except Exception:
             set_console_logger(level, 'INFO', nocolor)
@@ -223,6 +224,8 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
         s = ParEst()
         exit_status = 0 if s.run(parameter_estimation) else 1
 
+    logging.shutdown()
+
     return exit_status
 
 
@@ -286,7 +289,7 @@ For complete documentation, see README.md .
     parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
-                        version='%(prog)s v' + read_file_header('VERSION'))
+                        version='%(prog)s ' + read_file_header('VERSION'))
 
     args = parser.parse_args()
 
