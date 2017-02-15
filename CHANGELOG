@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.10.0 (devel)
+v3.12.0 (devel)
 
+- subprocess.Popen() and logging fileConfig() use `with .. as ..:` construct with Python3+.
+- changed `chi^2` label to `obj val` in parameter estimation plots
 - Added additional arguments to sbpipe.py
 - Output is now coloured.
 - Improved logging messages. Added log.debug() calls.
