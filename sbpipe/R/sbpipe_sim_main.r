@@ -54,17 +54,18 @@ main <- function(args) {
        plot_exp_dataset = FALSE
     }
 
-    # generate a table of statistics
+    print('generating a table of statistics')
     gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
 
-    # summarise the time course repeats in tables
+    print('summarising the time course repeats in tables')
     summarise_data(inputdir, model_noext, repeats_file_template)
 
-    # plot the time courses
     files <- list.files( path=inputdir, pattern=model_noext )
     if(length(files) > 1) {
+        print('plotting separate time courses')
         plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
     }
+    print('plotting combined time courses')
     plot_comb_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
 }
 
