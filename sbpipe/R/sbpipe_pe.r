@@ -253,7 +253,7 @@ compute_sampled_ple_stats <- function(df66, df95, df99, df, objval_col, objval_c
                                         cl66_objval, cl95_objval, cl99_objval, logspace=TRUE) {
 
     min_objval <- min(df99[,objval_col])
-    par_value <- sample(df99[df99[,objval_col] <= min_objval, param_col_idx], 1)
+    par_value <- min(df99[df99[,objval_col] <= min_objval, param_col_idx])
 
     min_ci_66 <- leftCI(df66, df95, objval_col_idx, param_col_idx, cl66_objval)
     max_ci_66 <- rightCI(df66, df95, objval_col_idx, param_col_idx, cl66_objval)

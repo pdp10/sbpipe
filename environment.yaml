@@ -8,7 +8,7 @@ dependencies:
   - colorlog
   - nose
   - pyaml
-  - python >=3.4
+  - python
   - numpy
   - scipy
   - setuptools
