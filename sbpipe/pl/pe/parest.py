@@ -85,7 +85,7 @@ class ParEst(Pipeline):
          logspace, scientific_notation) = self.parse(config_dict)
 
         runs = int(runs)
-        round = int(round)
+        #round = int(round)
         local_cpus = int(local_cpus)
         best_fits_percent = float(best_fits_percent)
         data_point_num = int(data_point_num)
