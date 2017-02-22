@@ -93,7 +93,7 @@ class ParEst(Pipeline):
         models_dir = os.path.join(project_dir, self.get_models_folder())
         working_dir = os.path.join(project_dir, self.get_working_folder())
 
-        output_folder = os.path.splitext(model)[0] + "_round" + str(round)
+        output_folder = os.path.splitext(model)[0] + "__round_" + str(round)
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
