@@ -149,7 +149,7 @@ class Copasi(Simul):
                     # Then replaces whites with TAB.
                     # Finally use rstrip to remove the TAB at the end.
                     # [^\w] matches anything that is not alphanumeric or underscore
-                    lines[i] = lines[i].replace("Values[", "").replace("]", "")
+                    lines[i] = lines[i].replace("Values[", "").replace("]", "").replace(".InitialValue", "")
                     file.write(
                         re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
                 else:

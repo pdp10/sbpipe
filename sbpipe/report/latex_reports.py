@@ -136,12 +136,9 @@ def latex_report_ps2(outputdir, sim_plots_folder, filename_prefix, model_noext,
                     file_out.write("\\subsection*{Readout: " + curr_readout.replace("_", " ") + "}\n")
                     prev_readout = curr_readout
 
-                scanned_par1_pos = infile.find(scanned_par1)
-                eval_marker = infile.find("__eval_")
-                if scanned_par1_pos != -1 and scanned_par1_pos < eval_marker:
-                    logger.info(infile)
-                    file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
-                    file_out.write("\\hfill\n")
+                logger.info(infile)
+                file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
+                file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
 
