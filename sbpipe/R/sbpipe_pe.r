@@ -365,8 +365,8 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
 
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
-    error("data_point_num is non positive.")
-    return
+    warning("data_point_num is non positive.")
+    stop()
   }
 
   dfCols <- replace_colnames(colnames(df))
@@ -499,23 +499,36 @@ fits_analysis <- function(model, finalfits_filenamein, allfits_filenamein, plots
                           fileout_param_estim_details, fileout_param_estim_summary, best_fits_percent,
                           plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
                           logspace=TRUE, scientific_notation=TRUE) {
+    finalfits = TRUE
+    dim_final_fits = dim(read.table(finalfits_filenamein, sep="\t"))[1]
+    dim_all_fits = dim(read.table(allfits_filenamein, header=TRUE, sep="\t"))[1]
 
-    df_final_fits = read.csv(finalfits_filenamein, head=TRUE, dec=".", sep="\t")
-    df_all_fits = read.csv(allfits_filenamein, head=TRUE, dec=".", sep="\t")
+    if(dim_final_fits-1 <= 1) {
+      warning('Best fits analysis requires at least two parameter estimations. Skip.')
+      finalfits = FALSE
+    }
+    if(dim_all_fits-1 <= 0) {
+      warning('All fits analysis requires at least one parameter set. Cannot continue.')
+      stop()
+    }
+
+    df_all_fits = read.table(allfits_filenamein, header=TRUE, dec=".", sep="\t")
 
     # non-positive entries test
     # If so, logspace will be set to FALSE, otherwise SBpipe will fail due to NaN values.
     # This is set once for all
-    nonpos_entries <- sum(df_final_fits<=0) + sum(df_all_fits <= 0)
+    nonpos_entries <- sum(df_all_fits <= 0)
     if(nonpos_entries > 0) {
       warning('Non-positive values found for one or more parameters. `logspace` option set to FALSE')
       logspace = FALSE
     }
 
-    final_fits_analysis(model, df_final_fits, plots_dir, best_fits_percent, logspace, scientific_notation)
+    if(finalfits) {
+        df_final_fits = read.table(finalfits_filenamein, header=TRUE, dec=".", sep="\t")
+        final_fits_analysis(model, df_final_fits, plots_dir, best_fits_percent, logspace, scientific_notation)
+    }
 
     all_fits_analysis(model, df_all_fits, plots_dir, data_point_num, fileout_param_estim_details,
                         fileout_param_estim_summary, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                         logspace, scientific_notation)
-
 }
