@@ -452,14 +452,6 @@ final_fits_analysis <- function(model, df, plots_dir, best_fits_percent, logspac
     best_fits_percent = 100
   }
 
-  # non-positive entries test
-  # If so, logspace will be set to FALSE, otherwise SBpipe will fail due to NaN values.
-  nonpos_entries <- sum(df<=0)
-  if(nonpos_entries > 0) {
-    warning('Non-positive values found for one or more parameters. `logspace` option set to FALSE')
-    logspace = FALSE
-  }
-
   if(logspace) {
     # Transform the parameter space to a log10 parameter space.
     # The 2nd column containing the objective value is maintained
