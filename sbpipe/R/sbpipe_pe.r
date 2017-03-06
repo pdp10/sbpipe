@@ -348,7 +348,7 @@ compute_bic <- function(chi2, k, n) {
 # all fits.
 #
 # :param model: the model name without extension
-# :param filenamein: the dataset containing the parameter estimation data.
+# :param df: the dataset containing all the parameter estimation fits.
 # :param plots_dir: the directory to save the generated plots
 # :param data_point_num: the number of data points used for parameterise the model
 # :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
@@ -358,15 +358,16 @@ compute_bic <- function(chi2, k, n) {
 # :param plot_2d_99cl_corr: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, fileout_param_estim_details, fileout_param_estim_summary, plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE, logspace=TRUE, scientific_notation=TRUE) {
+all_fits_analysis <- function(model, df, plots_dir, data_point_num,
+                              fileout_param_estim_details, fileout_param_estim_summary,
+                              plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
+                              logspace=TRUE, scientific_notation=TRUE) {
 
   data_point_num <- as.numeric(data_point_num)
   if(data_point_num <= 0.0) {
-    error("data_point_num is non positive.")
-    return
+    warning("data_point_num is non positive.")
+    stop()
   }
-
-  df = read.csv(filenamein, head=TRUE, dec=".", sep="\t")
 
   dfCols <- replace_colnames(colnames(df))
   colnames(df) <- dfCols
@@ -438,20 +439,18 @@ all_fits_analysis <- function(model, filenamein, plots_dir, data_point_num, file
 # only the best fits using a percent threshold.
 #
 # :param model: the model name without extension
-# :param filenamein: the dataset containing the parameter estimation data.
+# :param df: the dataset containing the best parameter estimation fits.
 # :param plots_dir: the directory to save the generated plots
 # :param best_fits_percent: the percent of best fits to analyse.
 # :param logspace: true if parameters should be plotted in logspace.
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent, logspace=TRUE, scientific_notation=TRUE) {
+final_fits_analysis <- function(model, df, plots_dir, best_fits_percent, logspace=TRUE, scientific_notation=TRUE) {
 
   best_fits_percent <- as.numeric(best_fits_percent)
   if(best_fits_percent <= 0.0 || best_fits_percent > 100.0) {
     warning("best_fits_percent is not in (0, 100]. Now set to 100")
     best_fits_percent = 100
   }
-
-  df = read.csv(filenamein, head=TRUE,sep="\t")
 
   if(logspace) {
     # Transform the parameter space to a log10 parameter space.
@@ -479,3 +478,57 @@ final_fits_analysis <- function(model, filenamein, plots_dir, best_fits_percent,
 
 }
 
+
+
+# Run model parameter estimation analysis and plot results.
+#
+# :param model: the model name without extension
+# :param finalfits_filenamein: the dataset containing the best parameter fits
+# :param allfits_filenamein: the dataset containing all the parameter fits
+# :param plots_dir: the directory to save the generated plots
+# :param data_point_num: the number of data points used for parameterise the model
+# :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+# :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
+# :param best_fits_percent: the percent of best fits to analyse.
+# :param plot_2d_66cl_corr: true if the 2D parameter correlation plots for 66% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
+# :param plot_2d_95cl_corr: true if the 2D parameter correlation plots for 95% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
+# :param plot_2d_99cl_corr: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted. This can be time consuming. (default: FALSE)
+# :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
+# :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
+fits_analysis <- function(model, finalfits_filenamein, allfits_filenamein, plots_dir, data_point_num,
+                          fileout_param_estim_details, fileout_param_estim_summary, best_fits_percent,
+                          plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
+                          logspace=TRUE, scientific_notation=TRUE) {
+    finalfits = TRUE
+    dim_final_fits = dim(read.table(finalfits_filenamein, sep="\t"))[1]
+    dim_all_fits = dim(read.table(allfits_filenamein, header=TRUE, sep="\t"))[1]
+
+    if(dim_final_fits-1 <= 1) {
+      warning('Best fits analysis requires at least two parameter estimations. Skip.')
+      finalfits = FALSE
+    }
+    if(dim_all_fits-1 <= 0) {
+      warning('All fits analysis requires at least one parameter set. Cannot continue.')
+      stop()
+    }
+
+    df_all_fits = read.table(allfits_filenamein, header=TRUE, dec=".", sep="\t")
+
+    # non-positive entries test
+    # If so, logspace will be set to FALSE, otherwise SBpipe will fail due to NaN values.
+    # This is set once for all
+    nonpos_entries <- sum(df_all_fits <= 0)
+    if(nonpos_entries > 0) {
+      warning('Non-positive values found for one or more parameters. `logspace` option set to FALSE')
+      logspace = FALSE
+    }
+
+    if(finalfits) {
+        df_final_fits = read.table(finalfits_filenamein, header=TRUE, dec=".", sep="\t")
+        final_fits_analysis(model, df_final_fits, plots_dir, best_fits_percent, logspace, scientific_notation)
+    }
+
+    all_fits_analysis(model, df_all_fits, plots_dir, data_point_num, fileout_param_estim_details,
+                        fileout_param_estim_summary, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+                        logspace, scientific_notation)
+}
