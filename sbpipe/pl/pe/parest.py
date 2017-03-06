@@ -272,22 +272,16 @@ class ParEst(Pipeline):
             logger.debug(traceback.format_exc())
             return False
 
-        logger.info("\n")
-        logger.info("Final fits analysis:")
-        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_final_fits.r') + \
-            ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + ' ' + sim_plots_dir + \
-            ' ' + str(best_fits_percent) + ' ' + str(logspace) + ' ' + str(scientific_notation)
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
-        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
-            return False
 
         logger.info("\n")
-        logger.info("All fits analysis:")
-        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_all_fits.r') + \
-            ' ' + model + ' ' + os.path.join(outputdir, fileout_all_estims) + ' ' + sim_plots_dir + \
+        logger.info("Fits analysis:")
+        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main.r') + \
+            ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + \
+            ' ' + os.path.join(outputdir, fileout_all_estims) + ' ' + sim_plots_dir + \
             ' ' + str(data_point_num) + ' ' + os.path.join(outputdir, fileout_param_estim_details) + \
-            ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \
+            ' ' + os.path.join(outputdir, fileout_param_estim_summary) + ' ' + str(best_fits_percent) +\
             ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
             ' ' + str(logspace) + ' ' + str(scientific_notation)
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
@@ -296,7 +290,6 @@ class ParEst(Pipeline):
         if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.png'))) == 0:
             return False
         return True
-
 
     @classmethod
     def generate_report(cls, model, outputdir, sim_plots_folder):
