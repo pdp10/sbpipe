@@ -85,7 +85,7 @@ class Sim(Pipeline):
         runs = int(runs)
         local_cpus = int(local_cpus)
 
-        models_dir = os.path.join(project_dir, self.get_models_folder())
+        models_dir = os.path.normpath(os.path.join(project_dir, self.get_models_folder()))
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
 
         # Get the pipeline start time
