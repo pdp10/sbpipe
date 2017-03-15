@@ -45,6 +45,7 @@ def run_cmd(cmd):
     #cmd = cmd.replace('\\', '\\\\')
     cmd = cmd.replace('\\', '/')
     logger.debug(cmd)
+    print(cmd)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
             out, err = p.communicate()
@@ -64,7 +65,8 @@ def run_cmd_block(cmd):
     #cmd = re.escape(cmd) 
     #cmd = cmd.replace('\\', '\\\\')
     cmd = cmd.replace('\\', '/')
-    logger.debug(cmd)    
+    logger.debug(cmd)
+    print(cmd)
     p = subprocess.call(shlex.split(cmd))
 
 
