@@ -29,6 +29,7 @@ import shutil
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.io import replace_str_in_file
+from sbpipe.utils.re_utils import escape_special_chars
 from ..simul import Simul
 
 logger = logging.getLogger('sbpipe')
@@ -132,6 +133,7 @@ class Copasi(Simul):
         # the iteration number.
         str_to_replace = self._groupid[10::-1]
         command = self._copasi + " " + os.path.join(inputdir, model_group + str_to_replace + ".cps")
+        command = escape_special_chars(command)
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
             return False
         if not self._move_reports(inputdir, outputdir, model, self._groupid):
