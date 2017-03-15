@@ -45,6 +45,7 @@ def escape_special_chars(text):
     :param text: the command to escape special characters inside
     :return: the command with escaped special characters
     """
+    text = text.replace('\\', '\\\\')
     text = text.replace('^', '\\^')
     text = text.replace('%', '\\%')
     text = text.replace(' ', '\\ ')
