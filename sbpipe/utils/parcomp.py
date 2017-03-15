@@ -71,12 +71,6 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param output_msg: print the output messages on screen (available for cluster='local' only)
     :return: True if the computation succeeded.
     """
-
-    # This replacement is only needed for windows path
-    #cmd = re.escape(cmd)
-    #cmd = cmd.replace('\\', '\\\\')
-    #cmd = cmd.replace('\\', '/')
-    
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
     logger.debug("Iter ID string: " + cmd_iter_substr)
