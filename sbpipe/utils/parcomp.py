@@ -40,12 +40,6 @@ def run_cmd(cmd):
 
     :param cmd: The string of the command to run
     """
-    # This replacement is only needed for windows path
-    #cmd = re.escape(cmd)
-    #cmd = cmd.replace('\\', '\\\\')
-    cmd = cmd.replace('\\', '/')
-    logger.debug(cmd)
-    print(cmd)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
             out, err = p.communicate()
@@ -61,12 +55,6 @@ def run_cmd_block(cmd):
 
     :param cmd: A tuple containing the string of the command to run
     """
-    # This replacement is only needed for windows path
-    #cmd = re.escape(cmd) 
-    #cmd = cmd.replace('\\', '\\\\')
-    cmd = cmd.replace('\\', '/')
-    logger.debug(cmd)
-    print(cmd)
     p = subprocess.call(shlex.split(cmd))
 
 
@@ -83,6 +71,13 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param output_msg: print the output messages on screen (available for cluster='local' only)
     :return: True if the computation succeeded.
     """
+
+    # This replacement is only needed for windows path
+    #cmd = re.escape(cmd)
+    #cmd = cmd.replace('\\', '\\\\')
+    cmd = cmd.replace('\\', '/')
+    print(cmd)
+    
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
     logger.debug("Iter ID string: " + cmd_iter_substr)
