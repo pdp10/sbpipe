@@ -49,10 +49,6 @@ class Copasi(Simul):
         self._copasi = which("CopasiSE")
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
-        else:
-            # we use this directly rather than including the command path. Doing so, we skip nasty path
-            # separator issues
-            self._copasi = "CopasiSE"
 
     def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.sim.__doc__
