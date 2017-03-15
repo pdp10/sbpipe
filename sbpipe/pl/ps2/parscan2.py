@@ -223,6 +223,9 @@ class ParScan2(Pipeline):
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
             ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
             ' ' + outputdir + ' ' + str_to_replace
+        # we replace \\ with / otherwise subprocess complains on windows systems.
+        command = command.replace('\\', '/')
+
         if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
             return False
 

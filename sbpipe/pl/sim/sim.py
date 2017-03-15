@@ -213,19 +213,17 @@ class Sim(Pipeline):
         refresh(sim_plots_dir, os.path.splitext(model)[0])
         refresh(sim_data_by_var_dir, os.path.splitext(model)[0])
 
-        # We do this to make sure that characters like [ or ] don't cause troubles.
-        xaxis_label = escape_special_chars(xaxis_label)
-        yaxis_label = escape_special_chars(yaxis_label)
-
         logger.info("Analysing generated simulations:")
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
             ' ' + os.path.join(outputdir, 'sim_stats_' + model + '.csv') + \
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
             ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
+        # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '/')
-        command += ' ' + xaxis_label + \
-            ' ' + yaxis_label
+        # We do this to make sure that characters like [ or ] don't cause troubles.
+        command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
+
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):

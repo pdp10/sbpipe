@@ -278,8 +278,12 @@ class ParScan1(Pipeline):
             ' ' + model + ' ' + str(knock_down_only) + ' ' + outputdir + \
             ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + str_to_replace + \
             ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
-            ' ' + str(levels_number) + ' ' + str(homogeneous_lines) + \
-            ' ' + xaxis_label + ' ' + yaxis_label
+            ' ' + str(levels_number) + ' ' + str(homogeneous_lines)
+        # we replace \\ with / otherwise subprocess complains on windows systems.
+        command = command.replace('\\', '/')
+        # We do this to make sure that characters like [ or ] don't cause troubles.
+        command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
+
         if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
             return False
 
