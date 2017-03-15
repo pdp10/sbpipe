@@ -41,6 +41,7 @@ def run_cmd(cmd):
     """
     # This replacement is only needed for windows path
     cmd.replace('\\', '\\\\')
+    logger.debug(cmd)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
             out, err = p.communicate()
@@ -58,6 +59,7 @@ def run_cmd_block(cmd):
     """
     # This replacement is only needed for windows path
     cmd.replace('\\', '\\\\')
+    logger.debug(cmd)    
     p = subprocess.call(shlex.split(cmd))
 
 
