@@ -75,7 +75,7 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     # This replacement is only needed for windows path
     #cmd = re.escape(cmd)
     #cmd = cmd.replace('\\', '\\\\')
-    cmd = cmd.replace('\\', '/')
+    #cmd = cmd.replace('\\', '/')
     
     logger.debug("Parallel computation using " + cluster)
     logger.debug("Command: " + cmd)
