@@ -222,7 +222,9 @@ class Sim(Pipeline):
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
             ' ' + os.path.join(outputdir, 'sim_stats_' + model + '.csv') + \
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
-            ' ' + exp_dataset + ' ' + str(plot_exp_dataset) + ' ' + xaxis_label + \
+            ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
+        command = command.replace('\\', '/')
+        command += ' ' + xaxis_label + \
             ' ' + yaxis_label
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
         str_to_replace = '//////////'
