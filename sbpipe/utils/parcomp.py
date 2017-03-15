@@ -41,8 +41,9 @@ def run_cmd(cmd):
     :param cmd: The string of the command to run
     """
     # This replacement is only needed for windows path
-    cmd = re.escape(cmd) 
-    #cmd.replace('\\', '\\\\')
+    #cmd = re.escape(cmd)
+    #cmd = cmd.replace('\\', '\\\\')
+    cmd = cmd.replace('\\', '/')
     logger.debug(cmd)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
@@ -60,8 +61,9 @@ def run_cmd_block(cmd):
     :param cmd: A tuple containing the string of the command to run
     """
     # This replacement is only needed for windows path
-    cmd = re.escape(cmd) 
-    #cmd.replace('\\', '\\\\')
+    #cmd = re.escape(cmd) 
+    #cmd = cmd.replace('\\', '\\\\')
+    cmd = cmd.replace('\\', '/')
     logger.debug(cmd)    
     p = subprocess.call(shlex.split(cmd))
 
