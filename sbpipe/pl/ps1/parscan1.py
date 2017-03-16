@@ -269,10 +269,6 @@ class ParScan1(Pipeline):
         # folder preparation
         refresh(os.path.join(outputdir, sim_plots_folder), os.path.splitext(model)[0])
 
-        # We do this to make sure that characters like [ or ] don't cause troubles.
-        xaxis_label = escape_special_chars(xaxis_label)
-        yaxis_label = escape_special_chars(yaxis_label)
-
         str_to_replace = get_rand_alphanum_str(10)
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
             ' ' + model + ' ' + str(knock_down_only) + ' ' + outputdir + \
