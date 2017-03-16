@@ -44,7 +44,7 @@ def refresh(path, file_pattern):
         logger.debug('Folder ' + path + ' already exist')
         files2delete = glob.glob(os.path.join(path, file_pattern + "*"))
         for f in files2delete:
-            os.remove(f)
+            remove_file_silently(f)
         logger.debug('Folder has been cleaned')
 
 
@@ -113,6 +113,11 @@ def replace_str_in_file(filename_out, old_string, new_string):
 
 
 def replace_str_in_report(report):
+    """
+    Replace nasty strings in COPASI report file.
+
+    :param report: the report
+    """
 
     # `with` ensures that the file is closed correctly
     # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
@@ -131,3 +136,17 @@ def replace_str_in_report(report):
                     re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
             else:
                 file.write(lines[i].rstrip('\t'))
+
+
+def remove_file_silently(filename):
+    """
+    Remove a filename silently, without reporting warnings or error messages. This is not really needed
+    by Linux, but Windows sometimes fails to remove the file even if this exists.
+
+    :param filename: the file to remove
+    """
+    try:
+        os.remove(filename)
+    except OSError:
+        pass
+

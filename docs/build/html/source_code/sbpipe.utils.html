@@ -125,6 +125,21 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="sbpipe.utils.io.remove_file_silently">
+<code class="descclassname">sbpipe.utils.io.</code><code class="descname">remove_file_silently</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.remove_file_silently" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a filename silently, without reporting warnings or error messages. This is not really needed
+by Linux, but Windows sometimes fails to remove the file even if this exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; the file to remove</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="sbpipe.utils.io.replace_str_in_file">
 <code class="descclassname">sbpipe.utils.io.</code><code class="descname">replace_str_in_file</code><span class="sig-paren">(</span><em>filename_out</em>, <em>old_string</em>, <em>new_string</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.replace_str_in_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace a string with another in filename_out</p>
@@ -146,7 +161,16 @@
 <dl class="function">
 <dt id="sbpipe.utils.io.replace_str_in_report">
 <code class="descclassname">sbpipe.utils.io.</code><code class="descname">replace_str_in_report</code><span class="sig-paren">(</span><em>report</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.io.replace_str_in_report" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Replace nasty strings in COPASI report file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> &#8211; the report</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="sbpipe.utils.io.write_mat_on_file">
