@@ -29,6 +29,7 @@ import shutil
 from sbpipe.sb_config import which
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.io import replace_str_in_file
+from sbpipe.utils.io import remove_file_silently
 from ..simul import Simul
 
 logger = logging.getLogger('sbpipe')
@@ -58,7 +59,7 @@ class Copasi(Simul):
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
-            os.remove(os.path.join(inputdir, report))
+            remove_file_silently(os.path.join(inputdir, report))
         return True
 
     def ps1(self, model, scanned_par, simulate_intervals,
@@ -70,7 +71,7 @@ class Copasi(Simul):
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
-            os.remove(os.path.join(inputdir, report))
+            remove_file_silently(os.path.join(inputdir, report))
         self.ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
         return True
 
@@ -82,7 +83,7 @@ class Copasi(Simul):
         # removed repeated copasi files
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
         for report in repeated_copasi_files:
-            os.remove(os.path.join(inputdir, report))
+            remove_file_silently(os.path.join(inputdir, report))
         self.ps2_postproc(model, sim_length, outputdir)
         return True
 
@@ -94,7 +95,7 @@ class Copasi(Simul):
         # move_models
         repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
         for file in repeated_copasi_files:
-            os.remove(os.path.join(inputdir, file))
+            remove_file_silently(os.path.join(inputdir, file))
         return True
 
     def _run_par_comput(self, inputdir, model, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
