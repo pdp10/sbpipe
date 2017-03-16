@@ -220,7 +220,7 @@ class Sim(Pipeline):
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
             ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
         # we replace \\ with / otherwise subprocess complains on windows systems.
-        command = command.replace('\\', '/')
+        command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
         command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
 
