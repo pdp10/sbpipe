@@ -30,6 +30,7 @@ import os
 import multiprocessing
 import subprocess
 import shlex
+import re
 logger = logging.getLogger('sbpipe')
 
 
