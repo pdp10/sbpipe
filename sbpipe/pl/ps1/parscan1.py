@@ -280,7 +280,7 @@ class ParScan1(Pipeline):
             ' ' + str(percent_levels) + ' ' + str(min_level) + ' ' + str(max_level) + \
             ' ' + str(levels_number) + ' ' + str(homogeneous_lines)
         # we replace \\ with / otherwise subprocess complains on windows systems.
-        command = command.replace('\\', '/')
+        command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
         command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
 

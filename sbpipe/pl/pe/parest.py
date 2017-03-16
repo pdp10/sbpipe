@@ -287,7 +287,7 @@ class ParEst(Pipeline):
             ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
             ' ' + str(logspace) + ' ' + str(scientific_notation)
         # we replace \\ with / otherwise subprocess complains on windows systems.
-        command = command.replace('\\', '/')
+        command = command.replace('\\', '\\\\')
 
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
             return False
