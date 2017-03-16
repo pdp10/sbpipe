@@ -26,6 +26,8 @@ import glob
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
+from sbpipe.utils.io import remove_file_silently
+
 
 def cleanup_tests():
     """
@@ -51,7 +53,7 @@ def cleanup_tests():
         modelspath = join(testpath, file, 'Models')
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))
         for f in replicated_files:
-            os.remove(f)
+            remove_file_silently(f)
 
         wfpath = join(testpath, file, 'Results')
         if file == 'interrupted':
@@ -60,7 +62,7 @@ def cleanup_tests():
                        for f in filenames]
             for f in results:
                 if f.find('param_estim_data') == -1:
-                    os.remove(f)
+                    remove_file_silently(f)
             continue
         shutil.rmtree(wfpath, ignore_errors=True)
 

@@ -124,6 +124,7 @@ class PLSimul(Simul):
             opts = " " + self._options + " "
         command = self._language + opts + os.path.join(inputdir, model) + \
                   " " + model_group + str_to_replace + ".csv"
+        command = command.replace('\\', '\\\\')
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, output_msg):
             return False
         if not self._move_reports('.', outputdir, model, self._groupid):

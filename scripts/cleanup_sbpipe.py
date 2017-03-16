@@ -29,6 +29,7 @@ import sys
 SBPIPE = os.environ["SBPIPE"]
 sys.path.insert(0, SBPIPE)
 
+from sbpipe.utils.io import remove_file_silently
 
 def cleanup():
     """
@@ -40,10 +41,10 @@ def cleanup():
     from sbpipe.utils.io import files_with_pattern_recur
     # Remove all files with suffix .pyc recursively
     for f in files_with_pattern_recur(SBPIPE, '.pyc'):
-        os.remove(f)
+        remove_file_silently(f)
     # Remove all temporary files (*~) recursively
     for f in files_with_pattern_recur(SBPIPE, '~'):
-        os.remove(f)
+        remove_file_silently(f)
 
 
 def main(argv=None):
