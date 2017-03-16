@@ -42,43 +42,91 @@ be installed:
 
 - LaTeX 2013
 
-Depending on your operating system, LaTeX can be downloaded at these 
-websites: 
-
-- GNU/Linux: [https://latex-project.org/ftp.html](https://latex-project.org/ftp.html)
-- Windows: [https://miktex.org/](https://miktex.org/)
 
 
-#### GNU/Linux
-It is advised that users install Python, R and (optionally) LaTeX packages 
-using the package manager of their GNU/Linux distribution. Users need to 
-make sure that the packages `python-pip` and `texlive-latex-base` (only 
-for reports). In most cases, the installation via the package manager 
-will automatically configure the correct environment variables. 
+### Installing SBpipe on GNU/Linux
 
-If a local installation of Python, R, or LaTeX is needed, users need to 
-add the following environment variables to `$PATH` in their `$HOME`/.bashrc 
-file as follows:
+#### Installation of Copasi
+As of 2016, Copasi is not available as a package in GNU/Linux distributions. Users must add the path to Copasi
+binary files manually editing the GNU/Linux `$HOME/.bashrc` file as follows:
 
 ```
-# Path to R
-export PATH=$PATH:/path/to/R/binaries/
-
-# Path to Python. Scripts is the folder (if any) containing the Python 
-# script `pip`. pip must be available via command line.
-export PATH=$PATH:/path/to/Python/:/path/to/Python/Scripts/
-
-# Path to LaTeX
-export PATH=$PATH:/path/to/LaTeX/binaries/
-
+# Path to CopasiSE (update this accordingly)
+export PATH=$PATH:/path/to/CopasiSE/
 ```
 
-The correct installation of Python, R, and LaTeX can be tested by running 
-the commands: 
+The correct installation of CopasiSE can be tested with:
 ```
-# If variables were manually exported, reload the .bashrc file
+# Reload the .bashrc file
 $ source $HOME/.bashrc
 
+$ CopasiSE -h
+COPASI 4.19 (Build 140)
+```
+
+
+#### Installation of LaTeX
+Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
+On GNU/Linux Ubuntu machines the following package is required:
+
+```
+texlive-latex-base
+```
+
+The correct installation of LaTeX can be tested with:
+```
+$ pdflatex -v
+pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
+kpathsea version 6.2.1
+Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+```
+
+
+#### Preparation of SBpipe
+SBpipe can be downloaded from the website or cloned using `git`. SBpipe requires the
+configuration of the environment variable `$SBPIPE`. This must be added in the
+`$HOME`/.bashrc file. Therefore users need to add the following lines to their `$HOME`/.bashrc file:
+
+```
+# SBPIPE (update this accordingly)
+export SBPIPE=/path/to/sbpipe
+export PATH=$PATH:$SBPIPE/scripts
+
+```
+Now you should reload the .bashrc file to apply the previous edits:
+```
+# Reload the .bashrc file
+$ source $HOME/.bashrc
+```
+
+
+#### Installation of Python and R packages
+Python and R packages required by SBpipe can be installed via Anaconda (easier) or using the GNU/Linux distribution
+package manager. This will be explained in the following two sections.
+
+##### Installation of Python and R dependencies via Anaconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+
+From a GNU/Linux shell:
+```
+cd $SBPIPE
+
+# install dependencies into isolated environment using anaconda
+conda env create --name sbpipe --file environment.yaml
+
+# activate environment. The following line can be
+# added to the .bashrc file to skip the activation
+# of this environment every time SBpipe is used.
+source activate sbpipe
+```
+
+##### Installation of Python and R dependencies via the distribution package manager
+Users can install Python and R using the package manager of their GNU/Linux distribution. Users need to
+make sure that the package `python-pip` is installed. In most cases, the installation via the package manager
+will automatically configure the correct environment variables.
+
+The correct installation of Python and R can be tested by running the commands:
+```
 $ python -V
 Python 2.7.12
 $ pip -V
@@ -88,53 +136,10 @@ $ R --version
 R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
-
-$ pdflatex -v
-pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
-kpathsea version 6.2.1
-Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 ```
 
-As of 2016, Copasi is not available as a package in GNU/Linux distributions. 
-Users must add the path to Copasi binary files manually editing their 
-GNU/Linux `$HOME`/.bashrc file as follows:
-
-```
-# Path to CopasiSE
-export PATH=$PATH:/path/to/CopasiSE/
-```
-The correct installation of CopasiSE can be tested by running the command: 
-```
-# Reload the .bashrc file
-$ source $HOME/.bashrc
-
-$ CopasiSE -h
-COPASI 4.19 (Build 140)
-```
-
-At this stage, Python, R, Copasi, and (optionally) LaTeX should be installed 
-correctly. SBpipe requires the configuration of the environment variable 
-`$SBPIPE` which must also be added in the `$HOME`/.bashrc file. The 
-package also needs to be added to `$PATH`. To do so, users need to add 
-the following lines to their `$HOME`/.bashrc file:
-
-```
-# SBPIPE
-export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
-
-```
-
-Now you should reload the .bashrc file to make the previous change effective: 
-```
-# Reload the .bashrc file
-$ source $HOME/.bashrc
-```
-
-
-Before testing the correct installation of SBpipe, users need to install 
-Python and R dependency packages used by SBpipe. Two scripts are provided 
-to perform these tasks automatically. 
+Users need to install Python and R dependency packages used by SBpipe. Two scripts are provided to perform
+these tasks automatically.
 
 To install SBpipe Python dependencies on GNU/Linux, run:
 ```
@@ -150,70 +155,98 @@ $ R
 > source('install_rdeps.r')
 ```
 
-If R package dependencies must be compiled, it is worth checking that 
-the following additional packages are installed in your machine: 
-`build-essential`, `liblapack-dev`, `libblas-dev`, `libcairo-dev`, 
-`libssl-dev`, `libcurl4-openssl-dev`, and `gfortran`. After installing 
-these packages, `install_rdeps.r` must be executed again.
-
-The correct installation of SBpipe can be tested by running the command: 
-```
-$ sbpipe.py -V
-sbpipe.py v3.0.0
-```
+**NOTE:**
+If R package dependencies must be compiled, it is worth checking that the following
+additional packages are installed in your machine: `build-essential`,
+`liblapack-dev`, `libblas-dev`, `libcairo-dev`, `libssl-dev`,
+`libcurl4-openssl-dev`, and `gfortran`.
+Other packages might be needed, depending on R dependencies.
+After installing these packages, `install_rdeps.r` must be executed again.
 
 
-#### Windows
-Windows users will need to edit the `PATH` environment variable so that 
-the binary files for the previous packages (Copasi, Python, R, and 
-(optionally) LaTeX) are correctly found. Specifically for Python, the 
-python scripts `pip.py` and `easy_install.py` are located inside the 
-folder `Scripts` within the Python root directory. The path to this folder 
-must also be added to `PATH`.
 
-Therefore, the following environment variables must also be added:
+### Installing SBpipe on Windows
 
-```
-SBPIPE=\path\to\sbpipe
-PATH=[previous paths];%SBPIPE%\scripts
-```
-Note: R packages might require many extra dependencies. A C++ compiler might 
-also be needed. It would be easier to install sbpipe using Anaconda or Miniconda.
+#### Installation of Copasi and LaTeX
+Windows users need to install the Windows versions of Copasi and LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
 
 
-#### Anaconda
-Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) users can install sbpipe using
-the following commands:
+#### Installation of MINGW
+We advise users to install `Git for Windows` [https://git-for-windows.github.io/](https://git-for-windows.github.io/) as
+a simple Shell (MINGW) running on Windows. Leave the default setting during installation.
+
+
+#### Preparation of SBpipe and Copasi with MINGW
+Once `Git for Windows` is started, a Shell-like window appears and enables users to run commands.
+The first step is to clone SBpipe from GitHub using the command:
 
 ```
-# Move to $SBPIPE
-cd $SBPIPE
+$ git clone https://github.com/pdp10/sbpipe.git
+```
 
-# install dependencies into isolated environment using
-# anaconda or miniconda
-conda env create --name sbpipe --file environment.yaml
+We now need to set up the SBpipe environment variable:
+```
+$ touch .bashrc
+$ wordpad .bashrc
+```
+A Wordpad window should be visible, loading the file `.bashrc` . The following lines must be copied into this file:
 
-# activate environment
+```
+#!/bin/bash/
+
+# SBPIPE
+export SBPIPE=~/sbpipe
+export PATH=$PATH:$SBPIPE/scripts
+
+# COPASI (update this accordingly. Use \ to escape spaces)
+export PATH=/path/to/copasi/bin/:$PATH
+
+# Optional: activate Anaconda environment for SBpipe automatically
 source activate sbpipe
 ```
-Alternatively, the script `install_deps_with_anaconda.sh` executes the previous commands automatically.
 
-**NOTE:** Users still have to set up the required environment variables and install LaTeX separately.
-
-
-### Installation
-If desired, SBpipe can be installed in your system. To do so, run the 
-command inside the sbpipe folder: 
+Save the file and close wordpad. Now you should reload the .bashrc file to apply the previous changes:
 ```
-$ cd $SBPIPE
-$ python setup.py install
+# Reload the .bashrc file
+$ source $HOME/.bashrc
 ```
-The correct installation of SBpipe and its dependencies can be checked 
-by running the following commands inside the SBpipe folder: 
+
+
+#### Installation of Python and R dependencies via Anaconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+From a MINGW shell (`Git for Windows`) type:
+```
+cd $SBPIPE
+
+# install dependencies into isolated environment using anaconda
+conda env create --name sbpipe --file environment.yaml
+
+# activate environment. The following line can be added to the .bashrc file to skip the activation
+# of this environment every time SBpipe is used.
+source activate sbpipe
+```
+
+
+### Check installation of SBpipe
+The correct installation of SBpipe and its dependencies can be checked by running the following commands
+inside the SBpipe folder:
+
+```
+$ sbpipe.py -V
+sbpipe.py 3.12.0
+```
+
 ```
 $ cd $SBPIPE/tests
-$ ./test_suite.py
+$ nosetests test_ok_sim.py
 ```
+
+To run all tests, run the following instead:
+```
+$ nosetests test_suite.py
+```
+
+
 
 ## How to use SBpipe
 
