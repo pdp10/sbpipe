@@ -11,12 +11,17 @@ env:
   - SBPIPE=$(pwd)
 install:
   - sudo apt update
+
+  # THIS WORKS but causes a lot of output
   # we don't have X11, so we use a virtual framebuffer
-  - sudo apt install xvfb
-  - PID=$$
-  - Xvfb :$PID -screen 0 800x600x16 &
-  - xvfb_pid=$!
-  - export DISPLAY=:$PID.0
+#  - sudo apt install xvfb
+#  - PID=$$
+#  - Xvfb :$PID -screen 0 800x600x16 &
+#  - xvfb_pid=$!
+#  - export DISPLAY=:$PID.0
+
+  - sudo apt libcairo2-dev libjpeg9-dev
+
 
   # install copasi
   - wget https://github.com/copasi/COPASI/releases/download/Build-140/COPASI-4.19.140-Linux-64bit.tar.gz
