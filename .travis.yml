@@ -20,7 +20,7 @@ install:
 #  - xvfb_pid=$!
 #  - export DISPLAY=:$PID.0
 
-  - sudo apt libcairo2-dev libjpeg9-dev
+  - sudo apt install libcairo2-dev
 
 
   # install copasi
