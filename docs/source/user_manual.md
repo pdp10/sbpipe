@@ -72,6 +72,7 @@ COPASI 4.19 (Build 140)
 
 
 #### Installation of LaTeX
+If you decide to install SBpipe dependencies using Anaconda, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
