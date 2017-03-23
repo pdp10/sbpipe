@@ -1,4 +1,8 @@
 language: python
+# NOTE: 14.04 uses R ggplot2 v0.9.3 instead of v2.1.0 . v0.9.3 contains some bug
+# which causes an issue on some plot. Expect some error message because of this.
+#sudo: required
+dist: trusty
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
   - "2.7"
@@ -7,8 +11,15 @@ env:
   - SBPIPE=$(pwd)
 install:
   - sudo apt-get update
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
+
+  # install copasi
+  - wget https://github.com/copasi/COPASI/releases/download/Build-140/COPASI-4.19.140-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.19.140-Linux-64bit.tar.gz
+  - PATH=$PATH:$(pwd)/COPASI-4.19.140-Linux-64bit/bin/
+
+  # Set up miniconda - for some reason, there is some missing package (fonts to install maybe).
+  # For now, we use anaconda instead.
+  # miniconda files
       #wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       #wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -33,7 +44,7 @@ install:
 script:
   # Override SBpipe logging configuration
   # testing travis configuration
-  #- sed -i 's/level=INFO/level=DEBUG/g' logging_config.ini
+  - sed -i 's/level=INFO/level=DEBUG/g' logging_config.ini
   #- sed -i 's/level=INFO/level=CRITICAL/g' logging_config.ini
   - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
   - nosetests test_suite.py
