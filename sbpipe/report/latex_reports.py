@@ -45,7 +45,6 @@ def get_latex_header(pdftitle="SBpipe report", title="SBpipe report", abstract="
     """
     return (
         "\\documentclass[10pt,a4paper]{article}\n"
-        "\\usepackage[english]{babel}\n"
         "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
         "\\usepackage{graphicx}\n"
         "\\usepackage[plainpages=false,pdfauthor={Generated with SBpipe},pdftitle={" + pdftitle + "},pdftex]"
