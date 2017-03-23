@@ -280,13 +280,23 @@ def pdf_report(outputdir, filename):
     currdir = os.getcwd()
     os.chdir(outputdir)
     logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
+    # We suppress the output of pdflatex completely
+    try:
+        from subprocess import DEVNULL  # python3
+    except ImportError:
+        DEVNULL = open(os.devnull, 'wb')
+
     if sys.version_info > (3,):
-        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT) as p:
             p.communicate()[0]
-        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT) as p:
             p.communicate()[0]
     else:
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT)
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT)
         p.communicate()[0]
     os.chdir(currdir)
+
+
+
+
