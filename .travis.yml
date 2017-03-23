@@ -13,8 +13,8 @@ install:
   # we don't have X11 on Travis-CI, so we use a virtual framebuffer
   # because R packages for generating figures were compiled with X11
   # support.
-  - sudo apt update
-  - sudo apt install xvfb
+  - sudo apt-get update
+  - sudo apt-get install xvfb
   - PID=$$
   # create a virtual screen and suppress the output
   - Xvfb :$PID -screen 0 800x600x16 2>/dev/null 1>&2 &
