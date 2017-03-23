@@ -14,13 +14,13 @@ install:
 
   # THIS WORKS but causes a lot of output
   # we don't have X11, so we use a virtual framebuffer
-#  - sudo apt install xvfb
-#  - PID=$$
-#  - Xvfb :$PID -screen 0 800x600x16 &
-#  - xvfb_pid=$!
-#  - export DISPLAY=:$PID.0
-
-  - sudo apt install libcairo2-dev
+  - sudo apt install xvfb
+  - PID=$$
+  #- Xvfb :$PID -screen 0 800x600x16 &
+  # suppress the output
+  - Xvfb :$PID -screen 0 800x600x16 2>/dev/null 1>&2 &
+  - xvfb_pid=$!
+  - export DISPLAY=:$PID.0
 
 
   # install copasi
