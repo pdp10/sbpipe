@@ -303,6 +303,21 @@ $ git fetch --all
 $ git pull [--rebase] origin BRANCH 
 ```
 
+**Managing tags**
+```
+# Update an existing tag to include the last commits
+# Assuming that you are in the branch associated to the tag to update:
+git tag -f -a tagName
+# push your new commit:
+git push
+# force push your moved tag:
+git push -f --tags
+
+# removing a tag remotely and locally
+git push --delete origin tagName
+git tag -d tagName
+```
+
 **File system**
 ```
 $ git rm [--cache] filename 
