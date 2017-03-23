@@ -20,3 +20,4 @@ dependencies:
   - r-reshape2
   - r-scales
   - texlive-selected
+  - libpng
