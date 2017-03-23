@@ -9,7 +9,6 @@ build:
 
 source:
   git_url: https://github.com/pdp10/sbpipe.git
-  git_rev: 1.1.4
 
 requirements:
   build:
@@ -23,4 +22,7 @@ test:
     - nose
 
 about:
+  summary: Pipelines for systems modelling of biological networks
   home: https://github.com/pdp10/sbpipe
+  license: GNU LGPL v3
+  license_file: ../LICENSE
