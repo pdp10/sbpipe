@@ -17,7 +17,7 @@ Mailing list: sbpipe AT googlegroups.com
 
 Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
-If you use SBpipe, please cite:
+Citation:
 
 Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks. BioRxiv, February 9, 2017.
 doi: https://doi.org/10.1101/107250
