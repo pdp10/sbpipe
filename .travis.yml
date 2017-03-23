@@ -33,8 +33,10 @@ install:
   # miniconda files
       #wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       #wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      #wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh -O miniconda.sh;
+      #wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh -O miniconda.sh;
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh -O miniconda.sh;
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
     else
       wget https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh -O miniconda.sh;
     fi
@@ -51,6 +53,8 @@ install:
   - source activate sbpipe
   # install sbpipe
   - python setup.py install
+
+  - pdflatex -v 2>/dev/null 1>&2
 # command to run tests
 script:
   # Override SBpipe logging configuration
