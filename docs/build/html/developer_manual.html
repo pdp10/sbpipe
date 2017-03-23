@@ -353,6 +353,20 @@ $ git fetch --all
 $ git pull [--rebase] origin BRANCH
 </pre></div>
 </div>
+<p><strong>Managing tags</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Update an existing tag to include the last commits</span>
+<span class="c1"># Assuming that you are in the branch associated to the tag to update:</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span><span class="n">a</span> <span class="n">tagName</span>
+<span class="c1"># push your new commit:</span>
+<span class="n">git</span> <span class="n">push</span>
+<span class="c1"># force push your moved tag:</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">f</span> <span class="o">--</span><span class="n">tags</span>
+
+<span class="c1"># removing a tag remotely and locally</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">delete</span> <span class="n">origin</span> <span class="n">tagName</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">tagName</span>
+</pre></div>
+</div>
 <p><strong>File system</strong></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
 $ git add filename
