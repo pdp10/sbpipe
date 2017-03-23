@@ -1,7 +1,7 @@
 language: python
 # NOTE: 14.04 uses R ggplot2 v0.9.3 instead of v2.1.0 . v0.9.3 contains some bug
 # which causes an issue on some plot. Expect some error message because of this.
-#sudo: required
+sudo: required
 dist: trusty
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
@@ -10,7 +10,13 @@ python:
 env:
   - SBPIPE=$(pwd)
 install:
-  - sudo apt-get update
+  - sudo apt update
+  # we don't have X11, so we use a virtual framebuffer
+  - sudo apt install xvfb
+  - PID=$$
+  - Xvfb :$PID -screen 0 800x600x16 &
+  - xvfb_pid=$!
+  - export DISPLAY=:$PID.0
 
   # install copasi
   - wget https://github.com/copasi/COPASI/releases/download/Build-140/COPASI-4.19.140-Linux-64bit.tar.gz

@@ -20,6 +20,4 @@ dependencies:
   - r-reshape2
   - r-scales
   - texlive-selected
-  - xvfbwrapper
-  #- xorg-libx11
-  #- libpng
+
