@@ -1,8 +1,6 @@
 language: python
-# NOTE: 14.04 uses R ggplot2 v0.9.3 instead of v2.1.0 . v0.9.3 contains some bug
-# which causes an issue on some plot. Expect some error message because of this.
 sudo: required
-dist: trusty
+#dist: trusty
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
   - "2.7"
@@ -10,9 +8,12 @@ python:
 env:
   - SBPIPE=$(pwd)
 install:
-  - sudo apt update
 
-  # we don't have X11, so we use a virtual framebuffer
+  # install xvfb
+  # we don't have X11 on Travis-CI, so we use a virtual framebuffer
+  # because R packages for generating figures were compiled with X11
+  # support.
+  - sudo apt update
   - sudo apt install xvfb
   - PID=$$
   # create a virtual screen and suppress the output
