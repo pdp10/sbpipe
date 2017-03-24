@@ -19,7 +19,7 @@ cluster: "local"
 local_cpus: 7
 # The number of simulations to perform per run. 
 # n>: 1 for stochastic simulations.
-runs: 10
+runs: 3
 # The number of intervals in the simulation
 simulate__intervals: 100
 # True if the variable is only reduced (knock down), False otherwise.

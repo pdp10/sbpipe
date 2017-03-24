@@ -27,9 +27,10 @@ import os
 import subprocess
 import sys
 
-SBPIPE = os.environ["SBPIPE"]
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
-from sbpipe import main as sbmain
+import sbpipe.main as sbmain
 import unittest
 
 

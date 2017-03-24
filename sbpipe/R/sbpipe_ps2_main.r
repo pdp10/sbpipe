@@ -20,10 +20,10 @@
 # $Date: 2015-11-16 12:14:32 $
 
 
-# Retrieve the environment variable SBPIPE
-SBPIPE <- Sys.getenv(c("SBPIPE"))
-# Add a collection of R functions
-source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ps2.r'))
+# retrieve SBpipe folder containing R scripts
+args <- commandArgs(trailingOnly = FALSE)
+SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
+source(file.path(SBPIPE_R, 'sbpipe_ps2.r'))
 
 
 
