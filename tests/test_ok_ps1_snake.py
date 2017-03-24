@@ -26,7 +26,8 @@
 import os
 import unittest
 
-SBPIPE = os.environ["SBPIPE"]
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 from snakemake import snakemake
 
 
