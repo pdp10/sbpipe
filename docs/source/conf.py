@@ -36,14 +36,7 @@ import os
 # sys.path.insert(0, os.path.abspath('.'))
 
 # This will include the necessary source files folders in the PATH to be able to generate the documentation from.
-SBPIPE = ''
-try:
-    if os.environ['SBPIPE']:
-        SBPIPE = os.environ['SBPIPE']
-except KeyError:
-    print('Unable to obtain $SBPIPE from the environment.')
-    exit(-1)
-
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
 # sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'R'))
 

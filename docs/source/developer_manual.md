@@ -145,13 +145,13 @@ for generating or cleaning SBpipe documentation are provided below.
 
 To generate the source code documentation:
 ```
-$ cd $SBPIPE/docs
+$ cd path/to/sbpipe/docs
 $ ./gen_doc.sh
 ```
 
 To clean the documentation:
 ```
-$ cd $SBPIPE/docs
+$ cd path/to/sbpipe/docs
 $ ./cleanup_doc.sh
 ```
 The complete source code documentation for this project is stored in 
@@ -170,7 +170,7 @@ $ python sbpipe
 Alternatively `sbpipe` can programmatically be imported within a
 Python environment as shown below:
 ```
-$ cd $SBPIPE
+$ cd path/to/sbpipe
 $ python
 # Python environment
 >>> from sbpipe.main import sbpipe
@@ -199,7 +199,7 @@ and report;
 and report.
 
 All these pipelines can be invoked directly via the script 
-`$SBPIPE/scripts/sbpipe.py`. Each SBpipe pipeline extends the class
+`sbpipe/scripts/sbpipe.py`. Each SBpipe pipeline extends the class
 `Pipeline` and therefore must implement the following methods: 
 ```
 # executes a pipeline
@@ -259,7 +259,7 @@ including the test results.
 The package `tests` contains the script `test_suite.py` which executes 
 all sbpipe tests. It should be used for testing the correct installation 
 of SBpipe dependencies as well as reference for configuring a project 
-before running any pipeline. Projects inside the folder `$SBPIPE/tests/` 
+before running any pipeline. Projects inside the folder `sbpipe/tests/`
 have the SBpipe project structure:
 
 - `Models`: (e.g. models, Copasi models, Python models, data sets directly used
@@ -267,7 +267,7 @@ by Copasi models);
 - `Results`: (e.g. pipelines results, etc).
 
 Examples of configuration files (*.yaml) using Copasi can be found in
-$SBPIPE/tests/insulin_receptor/.
+sbpipe/tests/insulin_receptor/.
 
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
 In principle, users may define their Python models using arbitrary packages.
@@ -275,7 +275,7 @@ In principle, users may define their Python models using arbitrary packages.
 As of 2016, the repository for SBpipe source code is `github.com`. This 
 is configured to run Travis-CI every time a `git push` into the repository 
 is performed. The exact details of execution of Travis-CI can be found in 
-Travis-CI configuration file `$SBPIPE/.travis.yml`. Importantly, Travis-CI 
+Travis-CI configuration file `sbpipe/.travis.yml`. Importantly, Travis-CI
 runs all SBpipe tests using `nosetests`.
 
 

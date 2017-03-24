@@ -90,16 +90,15 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 
 
 #### Preparation of SBpipe
-SBpipe can be downloaded from the website or cloned using `git`. SBpipe requires the
-configuration of the environment variable `$SBPIPE`. This must be added in the
-`$HOME`/.bashrc file. Therefore users need to add the following lines to their `$HOME`/.bashrc file:
+SBpipe can be downloaded from the website or cloned using `git`. To run sbpipe.py from any shell, users
+should add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
+to their `$HOME`/.bashrc file:
 
 ```
 # SBPIPE (update this accordingly)
-export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
-
+export PATH=$PATH:/path/to/sbpipe/scripts
 ```
+
 Now you should reload the .bashrc file to apply the previous edits:
 ```
 # Reload the .bashrc file
@@ -117,7 +116,7 @@ Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a GNU/Linux shell:
 ```
-cd $SBPIPE
+cd path/to/sbpipe
 
 # install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
@@ -151,13 +150,13 @@ these tasks automatically.
 
 To install SBpipe Python dependencies on GNU/Linux, run:
 ```
-$ cd $SBPIPE/
+$ cd path/to/sbpipe
 $ ./install_pydeps.py
 ```
 
 To install SBpipe R dependencies on GNU/Linux, run:
 ```
-$ cd $SBPIPE/
+$ cd path/to/sbpipe
 $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
@@ -203,8 +202,7 @@ A Wordpad window should be visible, loading the file `.bashrc` . The following l
 #!/bin/bash/
 
 # SBPIPE
-export SBPIPE=~/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
+export PATH=$PATH:~/sbpipe/scripts
 
 # COPASI (update this accordingly. Use \ to escape spaces)
 export PATH=/path/to/copasi/bin/:$PATH
@@ -226,7 +224,7 @@ Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a MINGW shell (`Git for Windows`) type:
 ```
-cd $SBPIPE
+cd path/to/sbpipe
 
 # install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
@@ -247,7 +245,7 @@ sbpipe.py 3.12.0
 ```
 
 ```
-$ cd $SBPIPE/tests
+$ cd path/to/sbpipe/tests
 $ nosetests test_ok_sim.py
 ```
 
@@ -298,13 +296,13 @@ files are stored in the same folder.
 **pipelines: model simulation**
 
 - The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
 **pipeline: parameter estimation**
 
 - The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
 - The program must save the report to file. This includes the objective value as first column column, and the estimated
  parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
  names must be discarded.
@@ -581,7 +579,7 @@ scientific_notation: True
 
 Additional examples of configuration files can be found in:
 ```
-$SBPIPE/tests/insulin_receptor/
+sbpipe/tests/insulin_receptor/
 ```
 
 
