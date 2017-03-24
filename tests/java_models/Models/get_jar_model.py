@@ -24,7 +24,7 @@ from shutil import copy2, rmtree
 
 SBPIPE = os.environ["SBPIPE"]
 sys.path.append(os.path.join(SBPIPE))
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 from sbpipe.utils.io import replace_str_in_file
 
 

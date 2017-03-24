@@ -29,7 +29,7 @@ import os
 import re
 import subprocess
 from sbpipe.utils.re_utils import nat_sort_key
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 
 logger = logging.getLogger('sbpipe')
 

@@ -30,7 +30,7 @@ SBPIPE = os.environ["SBPIPE"]
 sys.path.append(SBPIPE)
 from sbpipe import main as sbmain
 import unittest
-from sbpipe.sb_config import isPyPackageInstalled
+from sbpipe.sbpipe_config import isPyPackageInstalled
 
 
 class TestPythonSim(unittest.TestCase):
