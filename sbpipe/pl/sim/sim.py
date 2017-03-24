@@ -36,8 +36,12 @@ from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.insert(0, SBPIPE)
+
+# retrieve SBpipe package path
+import sbpipe
+SBPIPE = os.path.abspath(os.path.join(sbpipe.__file__, os.pardir, os.pardir))
+
+
 logger = logging.getLogger('sbpipe')
 
 

@@ -22,10 +22,10 @@ import os
 import subprocess
 from shutil import copy2, rmtree
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE))
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir, os.pardir))
+sys.path.append(SBPIPE)
 from sbpipe.sbpipe_config import which
-from sbpipe.utils.io import replace_str_in_file
 
 
 def get_simqueue():
