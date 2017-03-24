@@ -23,4 +23,4 @@
 # $Date: 2016-06-26 23:00:32 $
 
 __all__ = ['main',
-           'sb_config']
+           'sbpipe_config']

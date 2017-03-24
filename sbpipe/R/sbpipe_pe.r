@@ -22,9 +22,13 @@
 
 library(ggplot2)
 #library(scales)
-source(file.path(SBPIPE, 'sbpipe','R','sbpipe_ggplot2_themes.r'))
-source(file.path(SBPIPE, 'sbpipe','R','sbpipe_plots.r'))
 
+
+# retrieve SBpipe folder containing R scripts
+args <- commandArgs(trailingOnly = FALSE)
+SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
+source(file.path(SBPIPE_R, 'sbpipe_plots.r'))
+source(file.path(SBPIPE_R, 'sbpipe_ggplot2_themes.r'))
 
 
 

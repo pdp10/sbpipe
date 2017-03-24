@@ -25,7 +25,7 @@
 import logging
 import os
 import re
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 from sbpipe.utils.parcomp import parcomp
 from ..simul import Simul
 
