@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - bioconda
   - r
+  - pkgw
   - defaults
 dependencies:
   - colorlog
@@ -18,3 +19,5 @@ dependencies:
   - r-plyr
   - r-reshape2
   - r-scales
+  - texlive-selected
+

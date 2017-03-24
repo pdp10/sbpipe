@@ -17,7 +17,7 @@ Mailing list: sbpipe AT googlegroups.com
 
 Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
-If you use SBpipe, please cite:
+Citation:
 
 Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks. BioRxiv, February 9, 2017.
 doi: https://doi.org/10.1101/107250
@@ -72,6 +72,7 @@ COPASI 4.19 (Build 140)
 
 
 #### Installation of LaTeX
+If you decide to install SBpipe dependencies using Miniconda or Anaconda 64bit, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
@@ -107,17 +108,18 @@ $ source $HOME/.bashrc
 
 
 #### Installation of Python and R packages
-Python and R packages required by SBpipe can be installed via Anaconda (easier) or using the GNU/Linux distribution
-package manager. This will be explained in the following two sections.
+Python and R packages required by SBpipe can be installed via Anaconda/Miniconda (recommended) or using the
+GNU/Linux distribution package manager. This will be explained in the following two sections.
 
-##### Installation of Python and R dependencies via Anaconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+##### Installation of Python and R dependencies via Anaconda/Miniconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a GNU/Linux shell:
 ```
 cd $SBPIPE
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be
@@ -218,13 +220,15 @@ $ source $HOME/.bashrc
 ```
 
 
-#### Installation of Python and R dependencies via Anaconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+#### Installation of Python and R dependencies via Anaconda/Miniconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
+
 From a MINGW shell (`Git for Windows`) type:
 ```
 cd $SBPIPE
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be added to the .bashrc file to skip the activation

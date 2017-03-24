@@ -1,45 +1,56 @@
 language: python
-# NOTE: 14.04 uses R ggplot2 v0.9.3 instead of v2.1.0 . v0.9.3 contains some bug 
-# which causes an issue on some plot. Expect some error message because of this.
 sudo: required
-dist: trusty
+#dist: trusty
 python:
+  # We don't actually use the Travis Python, but this keeps it organized.
   - "2.7"
   - "3.4"
 env:
   - SBPIPE=$(pwd)
-# necessary for installing Python dependencies
-#virtualenv:
-#  system_site_packages: true
-before_install:
-  - sudo add-apt-repository ppa:marutter/rrutter -y
-  - sudo apt-get update -q
-  - sudo apt-get -y --force-yes install r-base r-base-dev
-  - sudo apt-get -y --force-yes --no-install-recommends install texlive-latex-base texlive-latex-recommended
 install:
-  # install other dependencies
-  
+
+  # install xvfb
+  # we don't have X11 on Travis-CI, so we use a virtual framebuffer
+  # because R packages for generating figures were compiled with X11
+  # support.
+  - sudo apt-get update
+  - sudo apt-get install xvfb
+  - PID=$$
+  # create a virtual screen and suppress the output
+  - Xvfb :$PID -screen 0 800x600x16 2>/dev/null 1>&2 &
+  - xvfb_pid=$!
+  - export DISPLAY=:$PID.0
+
   # install copasi
   - wget https://github.com/copasi/COPASI/releases/download/Build-140/COPASI-4.19.140-Linux-64bit.tar.gz
   - tar xvzf COPASI-4.19.140-Linux-64bit.tar.gz
   - PATH=$PATH:$(pwd)/COPASI-4.19.140-Linux-64bit/bin/
-   
-  # install R dependencies
-  - mkdir -p $(pwd)/r_libs/
-  - export R_LIBS_USER=$(pwd)/r_libs/
-  - Rscript install_rdeps.r
-  
-  # install python dependencies
-  # Travis-CI does not accept "--user" option within the pip command. 
-  # So use the standard pip install command instead.
-  #- python install_pydeps.py
-  - pip install -r requirements.txt
-  
+
+  # install miniconda
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  # install sbpipe
+  # create sbpipe environment and install sbpipe dependencies
+  - conda env create --name sbpipe python=$TRAVIS_PYTHON_VERSION --file environment.yaml
+  - source activate sbpipe
   # install sbpipe
   - python setup.py install
+
 # command to run tests
 script:
   # Override SBpipe logging configuration
   - sed -i 's/level=INFO/level=CRITICAL/g' logging_config.ini
   - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
   - nosetests test_suite.py
+

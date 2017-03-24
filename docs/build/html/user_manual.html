@@ -69,7 +69,7 @@ Dr Nicolas Le Novère (lenov AT babraham.ac.uk)</p>
 <p>Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK</p>
 <p>Mailing list: sbpipe AT googlegroups.com</p>
 <p>Forum: <a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
-<p>If you use SBpipe, please cite:</p>
+<p>Citation:</p>
 <p>Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of
 pipelines for automating repetitive simulation and analysis tasks.
 BioRxiv, February 9, 2017. doi: <a class="reference external" href="https://doi.org/10.1101/107250">https://doi.org/10.1101/107250</a></p>
@@ -122,9 +122,10 @@ COPASI 4.19 (Build 140)
 </div>
 <div class="section" id="installation-of-latex">
 <h4>Installation of LaTeX<a class="headerlink" href="#installation-of-latex" title="Permalink to this headline">¶</a></h4>
-<p>Users are recommended to install LaTeX/texlive using the package manager
-of their GNU/Linux distribution. On GNU/Linux Ubuntu machines the
-following package is required:</p>
+<p>If you decide to install SBpipe dependencies using Miniconda or Anaconda
+64bit, you can skip this section. Users are recommended to install
+LaTeX/texlive using the package manager of their GNU/Linux distribution.
+On GNU/Linux Ubuntu machines the following package is required:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">texlive</span><span class="o">-</span><span class="n">latex</span><span class="o">-</span><span class="n">base</span>
 </pre></div>
 </div>
@@ -155,17 +156,18 @@ $ source $HOME/.bashrc
 </div>
 <div class="section" id="installation-of-python-and-r-packages">
 <h4>Installation of Python and R packages<a class="headerlink" href="#installation-of-python-and-r-packages" title="Permalink to this headline">¶</a></h4>
-<p>Python and R packages required by SBpipe can be installed via Anaconda
-(easier) or using the GNU/Linux distribution package manager. This will
-be explained in the following two sections.</p>
-<div class="section" id="installation-of-python-and-r-dependencies-via-anaconda">
-<h5>Installation of Python and R dependencies via Anaconda<a class="headerlink" href="#installation-of-python-and-r-dependencies-via-anaconda" title="Permalink to this headline">¶</a></h5>
+<p>Python and R packages required by SBpipe can be installed via
+Anaconda/Miniconda (recommended) or using the GNU/Linux distribution
+package manager. This will be explained in the following two sections.</p>
+<div class="section" id="installation-of-python-and-r-dependencies-via-anaconda-miniconda">
+<h5>Installation of Python and R dependencies via Anaconda/Miniconda<a class="headerlink" href="#installation-of-python-and-r-dependencies-via-anaconda-miniconda" title="Permalink to this headline">¶</a></h5>
 <p>Users need to download and install Anaconda
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>).</p>
+(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda
+(<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
 <p>From a GNU/Linux shell:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>cd $SBPIPE
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be
@@ -268,13 +270,14 @@ $ source $HOME/.bashrc
 </div>
 </div>
 <div class="section" id="id1">
-<h4>Installation of Python and R dependencies via Anaconda<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<h4>Installation of Python and R dependencies via Anaconda/Miniconda<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>Users need to download and install Anaconda
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>). From a MINGW shell
-(<code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code>) type:</p>
+(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda
+(<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
+<p>From a MINGW shell (<code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code>) type:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>cd $SBPIPE
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be added to the .bashrc file to skip the activation
@@ -677,7 +680,7 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#installation-of-latex">Installation of LaTeX</a></li>
 <li><a class="reference internal" href="#preparation-of-sbpipe">Preparation of SBpipe</a></li>
 <li><a class="reference internal" href="#installation-of-python-and-r-packages">Installation of Python and R packages</a><ul>
-<li><a class="reference internal" href="#installation-of-python-and-r-dependencies-via-anaconda">Installation of Python and R dependencies via Anaconda</a></li>
+<li><a class="reference internal" href="#installation-of-python-and-r-dependencies-via-anaconda-miniconda">Installation of Python and R dependencies via Anaconda/Miniconda</a></li>
 <li><a class="reference internal" href="#installation-of-python-and-r-dependencies-via-the-distribution-package-manager">Installation of Python and R dependencies via the distribution package manager</a></li>
 </ul>
 </li>
@@ -687,7 +690,7 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#installation-of-copasi-and-latex">Installation of Copasi and LaTeX</a></li>
 <li><a class="reference internal" href="#installation-of-mingw">Installation of MINGW</a></li>
 <li><a class="reference internal" href="#preparation-of-sbpipe-and-copasi-with-mingw">Preparation of SBpipe and Copasi with MINGW</a></li>
-<li><a class="reference internal" href="#id1">Installation of Python and R dependencies via Anaconda</a></li>
+<li><a class="reference internal" href="#id1">Installation of Python and R dependencies via Anaconda/Miniconda</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#check-installation-of-sbpipe">Check installation of SBpipe</a></li>
