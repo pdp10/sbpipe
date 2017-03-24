@@ -28,8 +28,9 @@ import argparse
 import logging
 logger = logging.getLogger('sbpipe')
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.insert(0, SBPIPE)
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+sys.path.append(SBPIPE)
 
 from sbpipe.utils.parcomp import run_cmd
 

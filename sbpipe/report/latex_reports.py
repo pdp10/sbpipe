@@ -29,7 +29,7 @@ import os
 import re
 import subprocess
 from sbpipe.utils.re_utils import nat_sort_key
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 
 logger = logging.getLogger('sbpipe')
 
@@ -45,7 +45,6 @@ def get_latex_header(pdftitle="SBpipe report", title="SBpipe report", abstract="
     """
     return (
         "\\documentclass[10pt,a4paper]{article}\n"
-        "\\usepackage[english]{babel}\n"
         "\\usepackage[top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry}\n"
         "\\usepackage{graphicx}\n"
         "\\usepackage[plainpages=false,pdfauthor={Generated with SBpipe},pdftitle={" + pdftitle + "},pdftex]"
@@ -281,13 +280,23 @@ def pdf_report(outputdir, filename):
     currdir = os.getcwd()
     os.chdir(outputdir)
     logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
+    # We suppress the output of pdflatex completely
+    try:
+        from subprocess import DEVNULL  # python3
+    except ImportError:
+        DEVNULL = open(os.devnull, 'wb')
+
     if sys.version_info > (3,):
-        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT) as p:
             p.communicate()[0]
-        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE) as p:
+        with subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT) as p:
             p.communicate()[0]
     else:
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
-        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=subprocess.PIPE)
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT)
+        p = subprocess.Popen([pdflatex, "-halt-on-error", filename], stdout=DEVNULL, stderr=subprocess.STDOUT)
         p.communicate()[0]
     os.chdir(currdir)
+
+
+
+

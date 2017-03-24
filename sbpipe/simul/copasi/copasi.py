@@ -26,7 +26,7 @@ import logging
 import os
 import re
 import shutil
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.io import replace_str_in_file
 from sbpipe.utils.io import remove_file_silently

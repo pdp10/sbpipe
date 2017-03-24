@@ -23,8 +23,9 @@ from os.path import isdir, join
 import shutil
 import glob
 
-SBPIPE = os.environ["SBPIPE"]
-sys.path.insert(0, SBPIPE)
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+sys.path.append(SBPIPE)
 
 from sbpipe.utils.io import remove_file_silently
 

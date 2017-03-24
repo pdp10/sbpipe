@@ -39,4 +39,9 @@ tracking system at the web page:
 
 [https://github.com/pdp10/sbpipe/issues](https://github.com/pdp10/sbpipe/issues)
 
+**How to cite SBpipe:**
+
+Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks. BioRxiv, February 9, 2017.
+DOI:[https://doi.org/10.1101/107250](https://doi.org/10.1101/107250)
+
 Thanks for using SBpipe!

@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.12.0 (devel)
+v3.14.0 (Mars)
 
+- The environment variable SBPIPE is no longer necessary.
+- Anaconda can be used for installing SBpipe dependencies. This improves portability on Linux and Windows OS.
 - subprocess.Popen() and logging fileConfig() use `with .. as ..:` construct with Python3+.
 - changed `chi^2` label to `obj val` in parameter estimation plots
 - Added additional arguments to sbpipe.py

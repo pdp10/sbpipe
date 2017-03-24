@@ -1,10 +1,11 @@
 # User manual
 
+## Metadata
+
 Copyright © 2015-2018, Piero Dalle Pezze and Nicolas Le Novère.
 
-SBpipe and its documentation are released under the GNU Lesser General 
-Public License v3 (LGPLv3). A copy of this license is provided with the 
-package and can also be found here:
+SBpipe and its documentation are released under the GNU Lesser General Public License v3 (LGPLv3).
+A copy of this license is provided with the package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
 
 Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and 
@@ -15,6 +16,11 @@ Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 Mailing list: sbpipe AT googlegroups.com
 
 Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
+
+Citation:
+
+Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks. BioRxiv, February 9, 2017.
+doi: https://doi.org/10.1101/107250
 
 
 ## Introduction
@@ -66,6 +72,7 @@ COPASI 4.19 (Build 140)
 
 
 #### Installation of LaTeX
+If you decide to install SBpipe dependencies using Miniconda or Anaconda 64bit, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
@@ -83,16 +90,15 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 
 
 #### Preparation of SBpipe
-SBpipe can be downloaded from the website or cloned using `git`. SBpipe requires the
-configuration of the environment variable `$SBPIPE`. This must be added in the
-`$HOME`/.bashrc file. Therefore users need to add the following lines to their `$HOME`/.bashrc file:
+SBpipe can be downloaded from the website or cloned using `git`. To run sbpipe.py from any shell, users
+should add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
+to their `$HOME`/.bashrc file:
 
 ```
 # SBPIPE (update this accordingly)
-export SBPIPE=/path/to/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
-
+export PATH=$PATH:/path/to/sbpipe/scripts
 ```
+
 Now you should reload the .bashrc file to apply the previous edits:
 ```
 # Reload the .bashrc file
@@ -101,17 +107,18 @@ $ source $HOME/.bashrc
 
 
 #### Installation of Python and R packages
-Python and R packages required by SBpipe can be installed via Anaconda (easier) or using the GNU/Linux distribution
-package manager. This will be explained in the following two sections.
+Python and R packages required by SBpipe can be installed via Anaconda/Miniconda (recommended) or using the
+GNU/Linux distribution package manager. This will be explained in the following two sections.
 
-##### Installation of Python and R dependencies via Anaconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+##### Installation of Python and R dependencies via Anaconda/Miniconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a GNU/Linux shell:
 ```
-cd $SBPIPE
+cd path/to/sbpipe
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be
@@ -143,13 +150,13 @@ these tasks automatically.
 
 To install SBpipe Python dependencies on GNU/Linux, run:
 ```
-$ cd $SBPIPE/
+$ cd path/to/sbpipe
 $ ./install_pydeps.py
 ```
 
 To install SBpipe R dependencies on GNU/Linux, run:
 ```
-$ cd $SBPIPE/
+$ cd path/to/sbpipe
 $ R
 # Inside R environment, answer 'y' to install packages locally
 > source('install_rdeps.r')
@@ -195,8 +202,7 @@ A Wordpad window should be visible, loading the file `.bashrc` . The following l
 #!/bin/bash/
 
 # SBPIPE
-export SBPIPE=~/sbpipe
-export PATH=$PATH:$SBPIPE/scripts
+export PATH=$PATH:~/sbpipe/scripts
 
 # COPASI (update this accordingly. Use \ to escape spaces)
 export PATH=/path/to/copasi/bin/:$PATH
@@ -212,13 +218,15 @@ $ source $HOME/.bashrc
 ```
 
 
-#### Installation of Python and R dependencies via Anaconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)).
+#### Installation of Python and R dependencies via Anaconda/Miniconda
+Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
+
 From a MINGW shell (`Git for Windows`) type:
 ```
-cd $SBPIPE
+cd path/to/sbpipe
 
-# install dependencies into isolated environment using anaconda
+# install dependencies into isolated environment using Anaconda/Miniconda
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be added to the .bashrc file to skip the activation
@@ -237,7 +245,7 @@ sbpipe.py 3.12.0
 ```
 
 ```
-$ cd $SBPIPE/tests
+$ cd path/to/sbpipe/tests
 $ nosetests test_ok_sim.py
 ```
 
@@ -288,13 +296,13 @@ files are stored in the same folder.
 **pipelines: model simulation**
 
 - The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
 - The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
 
 **pipeline: parameter estimation**
 
 - The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in $SBPIPE/tests/).
+- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
 - The program must save the report to file. This includes the objective value as first column column, and the estimated
  parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
  names must be discarded.
@@ -571,7 +579,7 @@ scientific_notation: True
 
 Additional examples of configuration files can be found in:
 ```
-$SBPIPE/tests/insulin_receptor/
+sbpipe/tests/insulin_receptor/
 ```
 
 

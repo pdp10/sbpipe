@@ -29,9 +29,10 @@ import subprocess
 import sys
 from logging.config import fileConfig
 
-SBPIPE = os.environ["SBPIPE"]
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir))
 sys.path.append(os.path.join(SBPIPE, "sbpipe"))
-from sbpipe.sb_config import which
+from sbpipe.sbpipe_config import which
 
 
 def install_python_deps(requirements_file):

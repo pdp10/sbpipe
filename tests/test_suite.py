@@ -25,8 +25,9 @@
 import os
 import sys
 import unittest
-SBPIPE = os.environ["SBPIPE"]
-sys.path.append(os.path.join(SBPIPE))
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+sys.path.append(SBPIPE)
 import tests.cleanup_tests as cleanup
 
 import tests.test_ok_sim as ok_sim

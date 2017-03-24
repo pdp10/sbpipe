@@ -28,7 +28,8 @@ import argparse
 import logging
 logger = logging.getLogger('sbpipe')
 
-SBPIPE = os.environ["SBPIPE"]
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.re_utils import escape_special_chars

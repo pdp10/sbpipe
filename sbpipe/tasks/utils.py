@@ -23,53 +23,7 @@
 # $Date: 2016-11-01 15:43:32 $
 
 
-import os
-import subprocess
-import shlex
-
-import re
 import logging
 logger = logging.getLogger('sbpipe')
 
-
-def call_proc(cmd):
-    """
-    Run a command using Python subprocess.
-
-    :param cmd: The string of the command to run
-    """
-    #logger.info('Running ' + cmd)
-    # p = subprocess.call(shlex.split(cmd))  # Block until cmd finishes
-    p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    #print('sbpipe.tasks.utils.call_proc()')
-    #print(out)
-    #print(err)
-    return out, err
-
-
-def replace_str_in_report(report):
-
-    # `with` ensures that the file is closed correctly
-    # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
-    with open(report, 'r') as file:
-        lines = file.readlines()
-    with open(report, 'w') as file:
-        # for idx, line in lines:
-        for i in range(len(lines)):
-            if i < 1:
-                # First remove non-alphanumerics and non-underscores.
-                # Then replaces whites with TAB.
-                # Finally use rstrip to remove the TAB at the end.
-                # [^\w] matches anything that is not alphanumeric or underscore
-                lines[i] = lines[i].replace("Values[", "").replace("]", "").replace(".InitialValue", "")
-                file.write(
-                    re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
-            else:
-                file.write(lines[i].rstrip('\t'))
-
-
-def clean_copasi_files(inputdir, files):
-    for report in files:
-        os.remove(os.path.join(inputdir, report))
 
