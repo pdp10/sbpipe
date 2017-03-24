@@ -20,21 +20,11 @@
 # $Date: 2016-07-7 16:14:32 $
 
 
+# retrieve SBpipe folder containing R scripts
+args <- commandArgs(trailingOnly = FALSE)
+SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
+source(file.path(SBPIPE_R,'sbpipe_sim.r'))
 
-# Retrieve the environment variable SBPIPE
-#SBPIPE <- Sys.getenv(c("SBPIPE"))
-#source(file.path(SBPIPE, 'sbpipe','R','sbpipe_sim.r'))
-
-#sourceDir <- getSrcDirectory(function(dummy) {dummy})
-#setwd(sourceDir)
-#source('sbpipe_sim.r')
-
-
-args <- commandArgs(trailingOnly = F)
-print(args)
-scriptPath <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
-print(scriptPath)
-source(file.path(scriptPath,'sbpipe_sim.r'))
 
 
 # R Script to plot time courses and collect statistics.

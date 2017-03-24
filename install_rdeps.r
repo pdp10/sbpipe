@@ -22,8 +22,11 @@
 
 
 
-# Retrieve the environment variable SBPIPE
-SBPIPE <- Sys.getenv(c("SBPIPE"))
+# retrieve SBpipe package path
+args <- commandArgs(trailingOnly = FALSE)
+SBPIPE <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
+
+
 
     
 install_r_deps <- function(x) {

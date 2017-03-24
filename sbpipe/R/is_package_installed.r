@@ -22,10 +22,6 @@
 
 
 
-# Retrieve the environment variable SBPIPE
-SBPIPE <- Sys.getenv(c("SBPIPE"))
-
-
 # Return TRUE if the package is installed, FALSE otherwise
 #
 # :param x: the package name to check
