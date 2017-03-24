@@ -22,13 +22,6 @@
 
 
 
-# retrieve SBpipe package path
-args <- commandArgs(trailingOnly = FALSE)
-SBPIPE <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
-
-
-
-    
 install_r_deps <- function(x) {
     # no need to be noisy here.
     if (!suppressMessages(suppressWarnings(require(x, character.only=TRUE)))) {
@@ -46,7 +39,7 @@ main <- function(args) {
    
    print("Installing R dependencies...")  
 
-   rdeps_file <- file.path(SBPIPE, "rdeps.txt")
+   rdeps_file <- "rdeps.txt"
    if(!file.exists(rdeps_file)) {
       print(paste("Installation failed as", rdeps_file, "does not exist"))
       return(1)
