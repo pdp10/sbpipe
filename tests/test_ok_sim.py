@@ -26,15 +26,11 @@
 import os
 import sys
 
+
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
-
-print(SBPIPE)
-# check if it is sys.path.insert(0, SBPIPE) the cause of error in WIN
-#
-
 
 
 import unittest
@@ -53,14 +49,11 @@ class TestCopasiSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_canc(self):
-        pass
+    def test_sim_copasi(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml"), 0)
 
-#    def test_sim_copasi(self):
-#        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml"), 0)
-
-#    def test_stoch_sim_copasi(self):
-#        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml"), 0)
+    def test_stoch_sim_copasi(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml"), 0)
 
 
 if __name__ == '__main__':
