@@ -25,17 +25,18 @@
 import os
 import sys
 import unittest
+
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import tests.cleanup_tests as cleanup
 
-import tests.test_ok_sim as ok_sim
-import tests.test_ok_ps1 as ok_ps1
-import tests.test_ok_ps2 as ok_ps2
-import tests.test_ok_pe as ok_pe
-import tests.test_ok_lsf as ok_lsf
-import tests.test_ok_sge as ok_sge
+import tests.test_copasi_sim as copasi_sim
+import tests.test_copasi_ps1 as copasi_ps1
+import tests.test_copasi_ps2 as copasi_ps2
+import tests.test_copasi_pe as copasi_pe
+import tests.test_copasi_lsf as copasi_lsf
+import tests.test_copasi_sge as copasi_sge
 
 import tests.test_conferr_sim as conf_err_sim
 import tests.test_conferr_ps1 as conf_err_ps1
@@ -61,12 +62,12 @@ class TestSuite(unittest.TestCase):
         #cleanup.main()
 
         # Run negative test suites
-        suite_ok_sim = unittest.TestLoader().loadTestsFromTestCase(ok_sim.TestCopasiSim)
-        suite_ok_ps1 = unittest.TestLoader().loadTestsFromTestCase(ok_ps1.TestCopasiPS1)
-        suite_ok_ps2 = unittest.TestLoader().loadTestsFromTestCase(ok_ps2.TestCopasiPS2)
-        suite_ok_pe = unittest.TestLoader().loadTestsFromTestCase(ok_pe.TestCopasiPE)
-        suite_ok_lsf = unittest.TestLoader().loadTestsFromTestCase(ok_lsf.TestCopasiLSF)
-        suite_ok_sge = unittest.TestLoader().loadTestsFromTestCase(ok_sge.TestCopasiSGE)
+        suite_copasi_sim = unittest.TestLoader().loadTestsFromTestCase(copasi_sim.TestCopasiSim)
+        suite_copasi_ps1 = unittest.TestLoader().loadTestsFromTestCase(copasi_ps1.TestCopasiPS1)
+        suite_copasi_ps2 = unittest.TestLoader().loadTestsFromTestCase(copasi_ps2.TestCopasiPS2)
+        suite_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(copasi_pe.TestCopasiPE)
+        suite_copasi_lsf = unittest.TestLoader().loadTestsFromTestCase(copasi_lsf.TestCopasiLSF)
+        suite_copasi_sge = unittest.TestLoader().loadTestsFromTestCase(copasi_sge.TestCopasiSGE)
 
         # Run positive test suites
         suite_conferr_sim = unittest.TestLoader().loadTestsFromTestCase(conf_err_sim.TestCopasiSim)
@@ -95,12 +96,12 @@ class TestSuite(unittest.TestCase):
         suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
 
         # combine all the test suites
-        suite = unittest.TestSuite([suite_ok_sim,
-                                    suite_ok_ps1,
-                                    suite_ok_ps2,
-                                    suite_ok_pe,
-                                    suite_ok_lsf,
-                                    suite_ok_sge,
+        suite = unittest.TestSuite([suite_copasi_sim,
+                                    suite_copasi_ps1,
+                                    suite_copasi_ps2,
+                                    suite_copasi_pe,
+                                    suite_copasi_lsf,
+                                    suite_copasi_sge,
                                     suite_conferr_sim,
                                     suite_conferr_ps1,
                                     suite_conferr_ps2,

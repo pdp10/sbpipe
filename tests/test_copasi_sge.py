@@ -17,7 +17,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
+# Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
@@ -34,10 +34,10 @@ import sbpipe.main as sbmain
 import unittest
 
 
-class TestCopasiLSF(unittest.TestCase):
+class TestCopasiSGE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    _ir_folder = os.path.join('copasi_models')
 
     @classmethod
     def setUp(cls):
@@ -47,26 +47,26 @@ class TestCopasiLSF(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_stoch_sim_copasi_lsf(self):
+    def test_stoch_sim_copasi_sge(self):
         try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml"), 0)
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_stoch_simul.yaml"), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
-    def test_pe_copasi_lsf(self):
+    def test_pe_copasi_sge(self):
         try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml"), 0)
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml"), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
-            
-    def test_stoch_pe_copasi_lsf(self):
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+
+    def test_stoch_pe_copasi_sge(self):
         try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml"), 0)
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml"), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
 
 if __name__ == '__main__':

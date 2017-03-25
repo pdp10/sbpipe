@@ -25,7 +25,7 @@
 
 import os
 import sys
-import unittest
+
 
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
@@ -33,10 +33,13 @@ sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
 
 
-class TestCopasiPS2(unittest.TestCase):
+import unittest
+
+
+class TestCopasiSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    _ir_folder = os.path.join('copasi_models')
 
     @classmethod
     def setUp(cls):
@@ -46,11 +49,12 @@ class TestCopasiPS2(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml"), 0)
+    def test_sim_copasi(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml"), 0)
 
-    def test_stoch_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"), 0)
+    def test_stoch_sim_copasi(self):
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml"), 0)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -37,10 +37,14 @@ y = odeint(insulin_receptor, y0=y0, t=time, args=config)
 
 
 # Make the data frame
+# d = {'time': pd.Series(time),
+#      'IR_beta': pd.Series(y[:, 0]),
+#      'IR_beta_pY1146': pd.Series(y[:, 1]),
+#      'IR_beta_refractory': pd.Series(y[:, 2])}
+
+# we generate as little as possible to speed up testing.
 d = {'time': pd.Series(time),
-     'IR_beta': pd.Series(y[:, 0]),
-     'IR_beta_pY1146': pd.Series(y[:, 1]),
-     'IR_beta_refractory': pd.Series(y[:, 2])}
+     'IR_beta_pY1146': pd.Series(y[:, 1])}
 df = pd.DataFrame(d)
 
 # Write the output. The output file must be the model name with csv or txt extension.
