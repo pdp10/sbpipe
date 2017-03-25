@@ -1,12 +1,6 @@
-generate_data: True
-analyse_data: True
-generate_report: True
-project_dir: "."
 simulator: "Copasi"
 model: "insulin_receptor_inhib_overexp_scan_IR_beta.cps"
 scanned_par: "IR_beta"
-cluster: "local"
-local_cpus: 7
 runs: 1
 simulate__intervals: 50
 ps1_knock_down_only: False
@@ -17,3 +11,5 @@ levels_number: 10
 homogeneous_lines: False
 xaxis_label: "Time [min]"
 yaxis_label: "Level [a.u.]"
+# The name of the report variables
+report_variables: ['IR_beta', 'IR_beta_pY1146']
