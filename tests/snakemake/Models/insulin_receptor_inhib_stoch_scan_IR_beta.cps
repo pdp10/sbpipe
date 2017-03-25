@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.19 (Build 140) (http://www.copasi.org) at 2017-01-18 17:45:28 UTC -->
+<!-- generated with COPASI 4.19 (Build 140) (http://www.copasi.org) at 2017-03-25 16:02:13 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="19" versionDevel="140" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -163,7 +163,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4394" name="k1" value="0.475519"/>
+          <Constant key="Parameter_4382" name="k1" value="0.475519"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -196,7 +196,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4393" name="k1" value="0.471947"/>
+          <Constant key="Parameter_4381" name="k1" value="0.471947"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -228,7 +228,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4392" name="k1" value="0.0578119"/>
+          <Constant key="Parameter_4380" name="k1" value="0.0578119"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -324,8 +324,8 @@ Reaction scheme where the products are created from the reactants and the change
       <Report reference="Report_19" target="" append="0" confirmOverwrite="1"/>
       <Problem>
         <Parameter name="AutomaticStepSize" type="bool" value="0"/>
-        <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
-        <Parameter name="StepSize" type="float" value="0.1"/>
+        <Parameter name="StepNumber" type="unsignedInteger" value="50"/>
+        <Parameter name="StepSize" type="float" value="0.2"/>
         <Parameter name="Duration" type="float" value="10"/>
         <Parameter name="TimeSeriesRequested" type="bool" value="1"/>
         <Parameter name="OutputStartTime" type="float" value="0"/>
@@ -658,10 +658,8 @@ Reaction scheme where the products are created from the reactants and the change
       </Comment>
       <Table printTitle="1">
         <Object cn="CN=Root,Model=Insulin Receptor,Reference=Time"/>
-        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[Insulin],Reference=Concentration"/>
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta],Reference=Concentration"/>
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146],Reference=Concentration"/>
-        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_refractory],Reference=Concentration"/>
       </Table>
     </Report>
     <Report key="Report_19" name="Time, Concentrations, Volumes, and Global Quantity Values" taskType="timeCourse" separator="&#x09;" precision="6">

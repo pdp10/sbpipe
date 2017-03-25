@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.16 (Build 104) (http://www.copasi.org) at 2017-01-11 12:06:02 UTC -->
+<!-- generated with COPASI 4.19 (Build 140) (http://www.copasi.org) at 2017-03-25 16:02:08 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
-<COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="16" versionDevel="104" copasiSourcesModified="0">
+<COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="19" versionDevel="140" copasiSourcesModified="0">
   <ListOfFunctions>
     <Function key="Function_13" name="Mass action (irreversible)" type="MassAction" reversible="false">
       <MiriamAnnotation>
@@ -20,7 +20,7 @@ Reaction scheme where the products are created from the reactants and the change
 </body>
       </Comment>
       <Expression>
-        k1*PRODUCT&lt;substrate_i&gt;
+        k1*PRODUCT&lt;substrate_i>
       </Expression>
       <ListOfParameterDescriptions>
         <ParameterDescription key="FunctionParameter_81" name="k1" order="0" role="constant"/>
@@ -28,7 +28,7 @@ Reaction scheme where the products are created from the reactants and the change
       </ListOfParameterDescriptions>
     </Function>
   </ListOfFunctions>
-  <Model key="Model_3" name="Insulin Receptor" simulationType="time" timeUnit="min" volumeUnit="dimensionless" areaUnit="m²" lengthUnit="m" quantityUnit="dimensionless" type="stochastic" avogadroConstant="6.02214179e+23">
+  <Model key="Model_3" name="Insulin Receptor" simulationType="time" timeUnit="min" volumeUnit="1" areaUnit="m²" lengthUnit="m" quantityUnit="1" type="stochastic" avogadroConstant="6.02214179e+23">
     <MiriamAnnotation>
 <rdf:RDF
    xmlns:dcterms="http://purl.org/dc/terms/"
@@ -163,9 +163,9 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_3" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4420" name="k1" value="0.475519"/>
+          <Constant key="Parameter_4382" name="k1" value="0.475519"/>
         </ListOfConstants>
-        <KineticLaw function="Function_13">
+        <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
             <CallParameter functionParameter="FunctionParameter_81">
               <SourceParameter reference="ModelValue_0"/>
@@ -196,9 +196,9 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_5" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4419" name="k1" value="0.471947"/>
+          <Constant key="Parameter_4381" name="k1" value="0.471947"/>
         </ListOfConstants>
-        <KineticLaw function="Function_13">
+        <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
             <CallParameter functionParameter="FunctionParameter_81">
               <SourceParameter reference="ModelValue_1"/>
@@ -228,9 +228,9 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4418" name="k1" value="0.0578119"/>
+          <Constant key="Parameter_4380" name="k1" value="0.0578119"/>
         </ListOfConstants>
-        <KineticLaw function="Function_13">
+        <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
             <CallParameter functionParameter="FunctionParameter_81">
               <SourceParameter reference="ModelValue_2"/>
@@ -265,21 +265,21 @@ Reaction scheme where the products are created from the reactants and the change
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phosph]" type="Reaction">
             <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_phosph],ParameterGroup=Parameters,Parameter=k1" value="0.475519" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue&gt;
+                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue>
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephosph]" type="Reaction">
             <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_pY1146_dephosph],ParameterGroup=Parameters,Parameter=k1" value="0.471947" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue&gt;
+                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k2],Reference=InitialValue>
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
           <ModelParameterGroup cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory]" type="Reaction">
             <ModelParameter cn="CN=Root,Model=Insulin Receptor,Vector=Reactions[IR_beta_refractory],ParameterGroup=Parameters,Parameter=k1" value="0.0578119" type="ReactionParameter" simulationType="assignment">
               <InitialExpression>
-                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue&gt;
+                &lt;CN=Root,Model=Insulin Receptor,Vector=Values[k3],Reference=InitialValue>
               </InitialExpression>
             </ModelParameter>
           </ModelParameterGroup>
@@ -323,12 +323,14 @@ Reaction scheme where the products are created from the reactants and the change
     <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="false" updateModel="false">
       <Report reference="Report_19" target="" append="0" confirmOverwrite="1"/>
       <Problem>
-        <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
-        <Parameter name="StepSize" type="float" value="0.1"/>
+        <Parameter name="AutomaticStepSize" type="bool" value="0"/>
+        <Parameter name="StepNumber" type="unsignedInteger" value="50"/>
+        <Parameter name="StepSize" type="float" value="0.2"/>
         <Parameter name="Duration" type="float" value="10"/>
         <Parameter name="TimeSeriesRequested" type="bool" value="1"/>
         <Parameter name="OutputStartTime" type="float" value="0"/>
         <Parameter name="Output Event" type="bool" value="0"/>
+        <Parameter name="Start in Steady State" type="bool" value="0"/>
         <Parameter name="Continue on Simultaneous Events" type="bool" value="0"/>
       </Problem>
       <Method name="Deterministic (LSODA)" type="Deterministic(LSODA)">
@@ -336,6 +338,7 @@ Reaction scheme where the products are created from the reactants and the change
         <Parameter name="Relative Tolerance" type="unsignedFloat" value="1e-06"/>
         <Parameter name="Absolute Tolerance" type="unsignedFloat" value="1e-12"/>
         <Parameter name="Max Internal Steps" type="unsignedInteger" value="10000"/>
+        <Parameter name="Max Internal Step Size" type="unsignedFloat" value="0"/>
       </Method>
     </Task>
     <Task key="Task_16" name="Scan" type="scan" scheduled="true" updateModel="false">
@@ -346,7 +349,7 @@ Reaction scheme where the products are created from the reactants and the change
           <ParameterGroup name="ScanItem">
             <Parameter name="Maximum" type="float" value="0.843858"/>
             <Parameter name="Minimum" type="float" value="0.25119"/>
-            <Parameter name="Number of steps" type="unsignedInteger" value="100"/>
+            <Parameter name="Number of steps" type="unsignedInteger" value="10"/>
             <Parameter name="Object" type="cn" value="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=InitialValue"/>
             <Parameter name="Type" type="unsignedInteger" value="1"/>
             <Parameter name="log" type="bool" value="0"/>
@@ -420,7 +423,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Problem>
       <Method name="MCA Method (Reder)" type="MCAMethod(Reder)">
         <Parameter name="Modulation Factor" type="unsignedFloat" value="1e-09"/>
-        <Parameter name="Use Reeder" type="bool" value="1"/>
+        <Parameter name="Use Reder" type="bool" value="1"/>
         <Parameter name="Use Smallbone" type="bool" value="1"/>
       </Method>
     </Task>
@@ -465,6 +468,10 @@ Reaction scheme where the products are created from the reactants and the change
             <Parameter name="SingleObject" type="cn" value=""/>
             <Parameter name="ObjectListType" type="unsignedInteger" value="41"/>
           </ParameterGroup>
+          <ParameterGroup name="Variables">
+            <Parameter name="SingleObject" type="cn" value=""/>
+            <Parameter name="ObjectListType" type="unsignedInteger" value="0"/>
+          </ParameterGroup>
         </ParameterGroup>
       </Problem>
       <Method name="Sensitivities Method" type="SensitivitiesMethod">
@@ -480,13 +487,14 @@ Reaction scheme where the products are created from the reactants and the change
     </Task>
     <Task key="Task_25" name="Cross Section" type="crosssection" scheduled="false" updateModel="false">
       <Problem>
+        <Parameter name="AutomaticStepSize" type="bool" value="0"/>
         <Parameter name="StepNumber" type="unsignedInteger" value="100"/>
         <Parameter name="StepSize" type="float" value="0.01"/>
         <Parameter name="Duration" type="float" value="1"/>
         <Parameter name="TimeSeriesRequested" type="bool" value="1"/>
         <Parameter name="OutputStartTime" type="float" value="0"/>
         <Parameter name="Output Event" type="bool" value="0"/>
-        <Parameter name="Continue on Simultaneous Events" type="bool" value="0"/>
+        <Parameter name="Start in Steady State" type="bool" value="0"/>
         <Parameter name="LimitCrossings" type="bool" value="0"/>
         <Parameter name="NumCrossingsLimit" type="unsignedInteger" value="0"/>
         <Parameter name="LimitOutTime" type="bool" value="0"/>
@@ -502,12 +510,14 @@ Reaction scheme where the products are created from the reactants and the change
           
         </ParameterText>
         <Parameter name="SingleVariable" type="cn" value=""/>
+        <Parameter name="Continue on Simultaneous Events" type="bool" value="0"/>
       </Problem>
       <Method name="Deterministic (LSODA)" type="Deterministic(LSODA)">
         <Parameter name="Integrate Reduced Model" type="bool" value="0"/>
         <Parameter name="Relative Tolerance" type="unsignedFloat" value="1e-06"/>
         <Parameter name="Absolute Tolerance" type="unsignedFloat" value="1e-12"/>
         <Parameter name="Max Internal Steps" type="unsignedInteger" value="10000"/>
+        <Parameter name="Max Internal Step Size" type="unsignedFloat" value="0"/>
       </Method>
     </Task>
     <Task key="Task_26" name="Linear Noise Approximation" type="linearNoiseApproximation" scheduled="false" updateModel="false">
@@ -650,10 +660,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Comment>
       <Table printTitle="1">
         <Object cn="CN=Root,Model=Insulin Receptor,Reference=Time"/>
-        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[Insulin],Reference=Concentration"/>
-        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta],Reference=Concentration"/>
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146],Reference=Concentration"/>
-        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_refractory],Reference=Concentration"/>
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Values[k1],Reference=Value"/>
       </Table>
     </Report>
@@ -671,4 +678,21 @@ Reaction scheme where the products are created from the reactants and the change
   </ListOfReports>
   <GUI>
   </GUI>
+  <ListOfUnitDefinitions>
+    <UnitDefinition key="Unit_0" name="meter" symbol="m">
+      <Expression>
+        m
+      </Expression>
+    </UnitDefinition>
+    <UnitDefinition key="Unit_2" name="second" symbol="s">
+      <Expression>
+        s
+      </Expression>
+    </UnitDefinition>
+    <UnitDefinition key="Unit_7" name="dimensionless" symbol="1">
+      <Expression>
+        1
+      </Expression>
+    </UnitDefinition>
+  </ListOfUnitDefinitions>
 </COPASI>
