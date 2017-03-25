@@ -57,10 +57,13 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
 
     # discard the first column (Time) and the columns of the two scanned parameters
     columns2discard <- c(colnames(df)[1], scanned_par1, scanned_par2)
-    df.compact <- df[,!(colnames(df) %in% columns2discard)]
+    # drop=FALSE is necessary because we don't want R converts 1 data frames into an array.
+    df.compact <- df[,!(colnames(df) %in% columns2discard), drop = FALSE]
     # extract the tuples with minimum and maximum values. These are used for scaling the plot colours.
+    df.compact <- data.frame(df.compact)
     min_values <- apply(df.compact, 2, min)
     max_values <- apply(df.compact, 2, max)
+
     # extract the columns
     columns <- colnames(df.compact)
 
