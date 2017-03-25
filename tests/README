@@ -1,0 +1,9 @@
+To run SBpipe test suite, run:
+
+$ nosetests test_suite.py
+
+
+
+To reproduce the figures in Dalle Pezze and Le Novère, 2017, BMC Systems Biology, run:
+
+$ nosetests test_suite_manuscript.py

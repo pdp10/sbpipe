@@ -8,12 +8,12 @@ scanned_par: "k1"
 cluster: "local"
 local_cpus: 7
 runs: 1
-simulate__intervals: 100
+simulate__intervals: 50
 ps1_knock_down_only: False
 ps1_percent_levels: False
 min_level: 0.23
 max_level: 0.86
-levels_number: 100
+levels_number: 10
 homogeneous_lines: True
 xaxis_label: "Time [min]"
 yaxis_label: "Level [a.u.]"

@@ -6,7 +6,7 @@ simulator: "Python"
 model: "simqueue-devel-jar-with-dependencies.py"
 cluster: "local"
 local_cpus: 7
-runs: 25
+runs: 10
 exp_dataset: "sim_dataset.csv"
 plot_exp_dataset: False
 xaxis_label: "User Id"

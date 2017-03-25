@@ -37,7 +37,7 @@ import unittest
 class TestCopasiSGE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    _ir_folder = os.path.join('copasi_models')
 
     @classmethod
     def setUp(cls):

@@ -25,33 +25,28 @@
 
 import os
 import sys
+import unittest
 
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
-import unittest
+
+import tests.test_bmc as bmc
 
 
-class TestCopasiPE(unittest.TestCase):
+class TestSuiteManuscript(unittest.TestCase):
+    """ Test suite for reproducing figures in Dalle Pezze and Le Novère, 2017, BMC Systems Biology. """
 
-    _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    def test_suite_manuscript(self):
 
-    @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        suite_bmc = unittest.TestLoader().loadTestsFromTestCase(bmc.TestBMCSysBio)
 
-    @classmethod
-    def tearDown(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        # combine all the test suites
+        suite = unittest.TestSuite([suite_bmc])
 
-    def test_pe_copasi1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim.yaml"), 0)
-
-    def test_pe_copasi2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_non_identif_param_estim.yaml"), 0)
+        # run the combined test suite
+        self.assertTrue(unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -17,29 +17,27 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: run a list of tests for the insulin receptor model.
+# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
 #
 # $Revision: 3.0 $
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
 import os
+import subprocess
 import sys
-
 
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
-
-
 import unittest
 
 
-class TestCopasiSim(unittest.TestCase):
+class TestCopasiLSF(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    _ir_folder = os.path.join('copasi_models')
 
     @classmethod
     def setUp(cls):
@@ -49,11 +47,26 @@ class TestCopasiSim(unittest.TestCase):
     def tearDown(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
-    def test_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml"), 0)
+    def test_stoch_sim_copasi_lsf(self):
+        try:
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
-    def test_stoch_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml"), 0)
+    def test_pe_copasi_lsf(self):
+        try:
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            
+    def test_stoch_pe_copasi_lsf(self):
+        try:
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 
 if __name__ == '__main__':
