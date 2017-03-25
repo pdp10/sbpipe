@@ -23,7 +23,7 @@ local_cpus: -5
 round: 1
 # The number of parameter estimations 
 # (the length of the fit sequence)
-runs: 5
+runs: 4
 # The threshold percentage of the best fits to consider
 best_fits_percent: 75
 # The number of available data points
