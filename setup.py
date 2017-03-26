@@ -66,7 +66,7 @@ setup(
     url='https://github.com/pdp10/sbpipe',
     download_url='https://pdp10.github.io/sbpipe',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
-    license='GNU GPL v3',
+    license='LGPL-3.0',
     long_description=read('README.md'),
     classifiers=[
         'Development Status :: 3 - Alpha',
