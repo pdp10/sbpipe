@@ -1,0 +1,8 @@
+simulator: "Copasi"
+model: "insulin_receptor.cps"
+runs: 1
+exp_dataset: "insulin_receptor_dataset.csv"
+plot_exp_dataset: True
+xaxis_label: "Time [min]"
+yaxis_label: "Level [a.u.]"
+report_variables: ['IR_beta_pY1146']

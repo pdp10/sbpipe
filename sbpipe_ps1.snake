@@ -41,7 +41,8 @@ if config['simulator'] == 'Copasi':
     COPASI = True
 
 # Model and results folders
-MODEL           = os.path.join("Models", config['model'])
+MODELS_FOLDER   = "Models"
+MODEL           = os.path.join(MODELS_FOLDER , config['model'])
 MODEL_NAME      = config['model'].split('.')[0]
 REPORT_PREFIX   = "report_ps1_"
 WORKING_FOLDER  = os.path.join("Results", MODEL_NAME)
