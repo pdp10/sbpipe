@@ -29,7 +29,7 @@
 # To clean:
 # $ sudo python setup.py clean --all
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 
 
@@ -42,25 +42,39 @@ def read(filename):
     """
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
 setup(
     name='sbpipe',
-    packages=['sbpipe'],
+    packages=find_packages(exclude=['docs', 'tests', 'tests.*']),
     version=read('VERSION'),
     description='Pipelines for systems modelling of biological networks',
     author='Dr Piero Dalle Pezze',
     author_email='piero.dallepezze@babraham.ac.uk',
-    requires=[],
-    package_data={'sbpipe': ['src/*']},
-    scripts=['scripts/sbpipe.py', 'scripts/cleanup_sbpipe.py'],
+    requires=required,
+    # These files are searched in any SBpipe python package
+    include_package_data=True,
+    package_data={'': ['*.r', '*.R']},
+    # These files are outside my packages. They also need to be included in MANIFEST.in
+    data_files=[('.',['VERSION', 'LICENSE', 'logging_config.ini'])],
+    entry_points = {
+                   'console_scripts': [
+                       'sbpipe = sbpipe.__main__:main'
+                   ]
+    },
     url='https://github.com/pdp10/sbpipe',
     download_url='https://pdp10.github.io/sbpipe',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
-    include_package_data=False,
-    license='GNU GPL v3',
+    license='LGPL-3.0',
     long_description=read('README.md'),
     classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Users/Developers',
+        'Topic :: Mathematical modelling :: Build Tools',
+        'License :: OSI Approved :: GNU GPL v3 License',
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3"],
     test_suite='tests.test_suite',
+    zip_safe=False
 )

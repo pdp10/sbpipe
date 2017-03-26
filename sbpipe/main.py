@@ -74,8 +74,15 @@ def read_file_header(filename):
     :param filename: the file name to read
     :return: the first line
     """
+    my_file = os.path.join(SBPIPE, filename)
+    if not os.path.isfile(my_file):
+        import pkg_resources
+        my_file = pkg_resources.resource_filename("sbpipe", filename)
+        if not os.path.isfile(my_file):
+            logging.warning("file "+ filename + " not found")
+            return ""
     line = ''
-    with open(os.path.join(SBPIPE, filename)) as filein:
+    with open(my_file) as filein:
         line = filein.readline().strip() + " " + filein.readline().strip()
     return line
 
@@ -198,7 +205,7 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     logger = logging.getLogger('sbpipe')
 
     # add platform information
-    logger.debug('SBpipe v' + read_file_header('VERSION'))
+    logger.debug('SBpipe ' + read_file_header('VERSION'))
     logger.debug(platform.platform())
     logger.debug(platform.version())
     logger.debug(platform.machine())

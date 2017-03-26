@@ -235,6 +235,17 @@ source activate sbpipe
 ```
 
 
+### Complete installation via Anaconda/miniconda
+SBpipe can also be installed via Anaconda/miniconda using the command:
+```
+$ conda install -c pdp10 sbpipe
+```
+This command will install sbpipe and all its dependencies automatically.
+
+**NOTE**: If SBpipe is installed in this way, the SBpipe command is `sbpipe`, instead of `sbpipe.py`
+
+
+
 ### Check installation of SBpipe
 The correct installation of SBpipe and its dependencies can be checked by running the following commands
 inside the SBpipe folder:

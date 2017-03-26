@@ -17,23 +17,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Object: SBpipe Entry Point
 #
-# $Revision: 1.0 $
+# $Revision: 2.0 $
 # $Author: Piero Dalle Pezze $
-# $Date: 2016-11-02 10:18:32 $
-
-
-import sys
-import pkg_resources
-
-SBPIPE = pkg_resources.resource_filename("sbpipe", "sbpipe")
-sys.path.insert(0, SBPIPE)
-
-import sbpipe.main as sbpipe
-
-def main(argv=None):
-    return sbpipe.main(argv)
-
-if __name__ == "__main__":
-    sys.exit(main())
+# $Date: 2016-11-01 22:14:32 $

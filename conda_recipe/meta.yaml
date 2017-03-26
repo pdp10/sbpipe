@@ -1,0 +1,48 @@
+package:
+  name: sbpipe
+  version: "3.15.0"
+
+about:
+  summary: Pipelines for systems modelling of biological networks
+  home: https://github.com/pdp10/sbpipe
+  license: LGPL-3.0
+  license_file: LICENSE
+
+build:
+  number: 1
+  script: python setup.py install
+  noarch_python: true
+  #string: py_{{ environ.get("PY_VER") }}_{{ environ.get("GIT_DESCRIBE_NUMBER", 0) }}
+  entry_points:
+    - sbpipe = sbpipe.__main__:main
+
+source:
+  #git_tag: v3.13.0
+  #git_url: https://github.com/pdp10/sbpipe.git
+  path: ../
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - colorlog
+    - pandas
+    - pyaml
+    - python
+    - numpy
+    - scipy
+    - setuptools
+    - r-ggplot2 >=2.2.0
+    - r-hmisc
+    - r-plyr
+    - r-reshape2
+    - r-scales
+    - texlive-selected
+    
+test:
+  requires:
+    - nose
+  run:
+    - tests/test_suite.py
+
