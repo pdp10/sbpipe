@@ -49,6 +49,8 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
               ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
               ' ' + outputdir + ' ' + str(id)
+    # we replace \\ with / otherwise subprocess complains on windows systems.
+    command = command.replace('\\', '\\\\')
     run_cmd(command)
 
 
