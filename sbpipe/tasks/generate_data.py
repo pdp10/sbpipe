@@ -24,6 +24,7 @@
 
 import os
 import sys
+from sbpipe.sbpipe_config import which
 import argparse
 import logging
 logger = logging.getLogger('sbpipe')
@@ -41,7 +42,7 @@ def run_copasi_model(infile):
 
     :param infile: the input file
     """
-    command = "CopasiSE " + infile
+    command = which("CopasiSE") + " " + infile
     run_cmd(command)
 
 
@@ -51,7 +52,7 @@ def run_generic_model(infile):
 
     :param infile: the input file
     """
-    command = "python " + infile + \
+    command = which("python") + " " + infile + \
               " " + os.path.basename(infile)[:-4] + ".csv"
     run_cmd(command)
 
