@@ -33,6 +33,7 @@ requirements:
     - numpy
     - scipy
     - setuptools
+    - snakemake >=3.10.1
     - r-ggplot2 >=2.2.0
     - r-hmisc
     - r-plyr
