@@ -96,6 +96,37 @@ To see all the releases:
 git show
 ```
 
+### Building conda package for SBpipe
+This is a short guide for building SBpipe as a conda package.
+Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
+```
+$ conda install conda-build
+
+# DON'T FORGET TO SET THIS so that your built package is not uploaded automatically
+conda config --set anaconda_upload no
+```
+
+The recipe for SBpipe is already prepared. To create the conda package for SBpipe:
+```
+$ cd sbpipe/conda_recipe
+$ conda build .
+```
+
+To test this package locally:
+```
+# install
+$ conda install sbpipe --use-local
+
+# uninstall
+$ conda remove sbpipe
+```
+
+To upload the package to the Anaconda cloud repository:
+```
+anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x.tar.bz
+```
+
+
 
 ## Package structure
 This section presents the structure of the SBpipe package. The root of 
