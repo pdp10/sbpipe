@@ -68,6 +68,19 @@ class TestCopasiSGE(unittest.TestCase):
         except OSError as e:
             print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
+    def test_stoch_ps1_copasi_sge(self):
+        try:
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="sge_ir_model_ir_beta_inhib_stoch.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+
+    def test_stoch_ps2_copasi_sge(self):
+        try:
+            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="sge_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no SGE (Sun Grid Engine) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
