@@ -37,7 +37,7 @@ import unittest
 class TestCopasiLSF(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('copasi_models')
+    _ir_folder = os.path.join('lsf')
 
     @classmethod
     def setUp(cls):
