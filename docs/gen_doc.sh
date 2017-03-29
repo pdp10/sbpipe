@@ -25,7 +25,7 @@
 
 ./cleanup_doc.sh
 
-export PYTHONPATH=${PYTHONPATH}:${SBPIPE}
+export PYTHONPATH=${PYTHONPATH}:../
 
 
 # Import manuals
@@ -36,7 +36,7 @@ pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/deve
 
 
 # Import source code documentation
-sphinx-apidoc -P -T -o source/source_code ${SBPIPE}/sbpipe/
+sphinx-apidoc -P -T -o source/source_code ../sbpipe/
 
 
 # Generate documentation in html, LaTeX/PDF, and man

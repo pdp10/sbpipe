@@ -13,7 +13,7 @@ v3.15.0 (Mars)
 - Anaconda can be used for installing SBpipe dependencies. This improves portability on Linux and Windows OS.
 - subprocess.Popen() and logging fileConfig() use `with .. as ..:` construct with Python3+.
 - changed `chi^2` label to `obj val` in parameter estimation plots
-- Added additional arguments to sbpipe.py
+- Added additional arguments to sbpipe
 - Output is now coloured.
 - Improved logging messages. Added log.debug() calls.
 - Added sbpipe() function in main.py to facilitate programmatic use of sbpipe.
@@ -53,7 +53,7 @@ v3.0.0 (Earth)
 - added two new plots useful for stochastic simulation
 - improved reuse for all R plots.
 - added plots reproducing all the single simulations per species.
-- changed main script name from run_sbpipe.py to sbpipe.py.
+- changed main script name from run_sbpipe.py to sbpipe.
 - Added support for parameter estimation using non-Copasi models. Test using R model.
 - Skip Java, Python, and R model tests if their dependencies are not satisfied.
 - Optimised Java, Python, and R simulators. Report file names are passed as input argument. Models do not need to be replicated.

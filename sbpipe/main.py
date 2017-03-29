@@ -246,7 +246,7 @@ def main(argv=None):
 
     :return: 0 if OK, 1 if trouble
     """
-    parser = argparse.ArgumentParser(prog='sbpipe.py',
+    parser = argparse.ArgumentParser(prog='sbpipe',
                                      description='Pipelines for systems modelling of biological networks.',
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog='''
