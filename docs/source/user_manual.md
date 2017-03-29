@@ -90,7 +90,7 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 
 
 #### Preparation of SBpipe
-SBpipe can be downloaded from the website or cloned using `git`. To run sbpipe.py from any shell, users
+SBpipe can be downloaded from the website or cloned using `git`. To run sbpipe from any shell, users
 should add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
 to their `$HOME`/.bashrc file:
 
@@ -242,17 +242,14 @@ $ conda install -c pdp10 sbpipe
 ```
 This command will install sbpipe and all its dependencies automatically.
 
-**NOTE**: If SBpipe is installed in this way, the SBpipe command is `sbpipe`, instead of `sbpipe.py`
-
-
 
 ### Check installation of SBpipe
 The correct installation of SBpipe and its dependencies can be checked by running the following commands
 inside the SBpipe folder:
 
 ```
-$ sbpipe.py -V
-sbpipe.py 3.12.0
+$ sbpipe -V
+sbpipe 3.12.0
 ```
 
 ```
@@ -367,12 +364,12 @@ yaxis_label: "#"
 
 
 ### Running SBpipe
-SBpipe is executed via the command *sbpipe.py*. The syntax for this
-command and its complete list of options can be retrieved by running *sbpipe.py -h*.
+SBpipe is executed via the command *sbpipe*. The syntax for this
+command and its complete list of options can be retrieved by running *sbpipe -h*.
 The first step is to create a new project. This can be done with the
 command:
 ```
-$ sbpipe.py --create-project project_name
+$ sbpipe --create-project project_name
 ```
 
 This generates the following structure:
@@ -391,7 +388,7 @@ For instance, the pipeline for parameter estimation configured with a
 certain configuration file can be executed by typing:
 ```
 $ cd project_name/
-$ sbpipe.py -e my_config_file.yaml
+$ sbpipe -e my_config_file.yaml
 ```
 
 
