@@ -58,12 +58,12 @@ def get_latex_header(pdftitle="SBpipe report", title="SBpipe report", abstract="
     )
 
 
-def latex_report_ps1(outputdir, sim_plots_folder, filename_prefix, model_noext, scanned_par):
+def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scanned_par):
     """
     Generate a report for a single parameter scan task.
     
     :param outputdir: the output directory
-    :param sim_plots_folder: the folder containing the simulated plots
+    :param plots_folder: the folder containing the simulated plots
     :param filename_prefix: the prefix for the LaTeX file
     :param model_noext: the model name
     :param scanned_par: the scanned parameter
@@ -79,27 +79,27 @@ def latex_report_ps1(outputdir, sim_plots_folder, filename_prefix, model_noext, 
                                   "Report: " + model_name,
                                   "Report for {\\it " + model_name + "}, scanning {\\it " + scanned_par_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameter " + scanned_par_name + "}\n")
-        files = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
         files.sort()
         # we sort using the __eval_ pattern in files
         files.sort(key=lambda x: x.split("__eval_")[1])
         for infile in files:
             if infile.find(model_noext) != -1:
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[scale=0.22]{" + plots_folder + "/" + infile + "}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
 
-def latex_report_ps2(outputdir, sim_plots_folder, filename_prefix, model_noext,
+def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
                      scanned_par1, scanned_par2):
     """
     Generate a report for a double parameter scan task.
     
     :param outputdir: the output directory
-    :param sim_plots_folder: the folder containing the simulated plots
+    :param plots_folder: the folder containing the simulated plots
     :param filename_prefix: the prefix for the LaTeX file
     :param model_noext: the model name
     :param scanned_par1: the 1st scanned parameter
@@ -118,10 +118,10 @@ def latex_report_ps2(outputdir, sim_plots_folder, filename_prefix, model_noext,
                                   "Report for {\\it " + model_name + "}, scanning {\\it " +
                                   scanned_par1_name + "} and {\\it " + scanned_par2_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
         folder.sort(key=nat_sort_key)
         prev_readout = ''
         for infile in folder:
@@ -136,17 +136,17 @@ def latex_report_ps2(outputdir, sim_plots_folder, filename_prefix, model_noext,
                     prev_readout = curr_readout
 
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.22]{" + sim_plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[scale=0.22]{" + plots_folder + "/" + infile + "}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
 
-def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a time course task.
     
     :param outputdir: the output directory
-    :param sim_plots_folder: the folder containing the simulated plots
+    :param plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
     """
@@ -159,24 +159,24 @@ def latex_report_sim(outputdir, sim_plots_folder, model_noext, filename_prefix):
                                   "Report: " + model_name,
                                   "Report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
         folder.sort()
         for infile in folder:
             if infile.find(model_noext) != -1:
                 # if infile.find('mean_sd_ci95') != -1:
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.24]{" + sim_plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[scale=0.24]{" + plots_folder + "/" + infile + "}\n")
         file_out.write("\\end{document}\n")
 
 
-def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
+def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
     """
     Generate a report for a parameter estimation task.
     
     :param outputdir: the output directory
-    :param sim_plots_folder: the folder containing the simulated plots
+    :param plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
     """
@@ -189,9 +189,9 @@ def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
                                   "Report: " + model_name,
                                   "Parameter estimation report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
         folder.sort()
         begin_figure = False
         figure_num = 0
@@ -203,7 +203,7 @@ def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
                 file_out.write("\\begin{figure}[!ht]\n")
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
-            file_out.write("\\includegraphics[width=\\textwidth]{" + sim_plots_folder + "/" + infile + "}\n")
+            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder + "/" + infile + "}\n")
             file_out.write("\\end{minipage}\n")
             file_out.write("\\hfill\n")
             if figure_num % figures_per_page == 0 and begin_figure:
@@ -217,12 +217,12 @@ def latex_report_pe(outputdir, sim_plots_folder, model_noext, filename_prefix):
         file_out.write("\\end{document}\n")
 
 
-def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, caption=False):
+def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=False):
     """
     Generate a generic report.
     
     :param outputdir: the output directory
-    :param sim_plots_folder: the folder containing the simulated plots
+    :param plots_folder: the folder containing the simulated plots
     :param model_noext: the model name
     :param filename_prefix: the prefix for the LaTeX file
     :param caption: True if figure captions (=figure file name) should be added
@@ -236,9 +236,9 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
                                   "Report: " + model_name,
                                   "Generic report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, sim_plots_folder) + ":")
+        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        files = [f for f in os.listdir(os.path.join(outputdir, sim_plots_folder)) if f.endswith('.png')]
+        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
         files.sort()
         begin_figure = False
         figure_num = 0
@@ -250,7 +250,7 @@ def latex_report(outputdir, sim_plots_folder, model_noext, filename_prefix, capt
                 file_out.write("\\begin{figure}[!ht]\n")
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
-            file_out.write("\\includegraphics[width=\\textwidth]{" + sim_plots_folder + "/" + infile + "}\n")
+            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder + "/" + infile + "}\n")
             if caption:
                 file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4] + "}\n")
             file_out.write("\\end{minipage}\n")
