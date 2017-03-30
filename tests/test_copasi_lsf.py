@@ -37,7 +37,7 @@ import unittest
 class TestCopasiLSF(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('copasi_models')
+    _ir_folder = os.path.join('lsf')
 
     @classmethod
     def setUp(cls):
@@ -68,6 +68,19 @@ class TestCopasiLSF(unittest.TestCase):
         except OSError as e:
             print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
+    def test_stoch_ps1_copasi_lsf(self):
+        try:
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="lsf_ir_model_ir_beta_inhib_stoch.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+
+    def test_stoch_ps2_copasi_lsf(self):
+        try:
+            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="lsf_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml"), 0)
+        except OSError as e:
+            print("Skipping test as no LSF (Load Sharing Facility) was found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

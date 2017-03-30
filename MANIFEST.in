@@ -7,6 +7,9 @@ include VERSION
 # Include the logging configuration file
 include logging_config.ini
 
+# Include man pages
+recursive-include man_pages
+
 # Include the data files
 recursive-include data *
 

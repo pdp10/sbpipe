@@ -1,9 +1,17 @@
-To run SBpipe test suite, run:
+To run SBpipe test suite:
 
 $ nosetests test_suite.py
 
 
 
-To reproduce the figures in Dalle Pezze and Le Novère, 2017, BMC Systems Biology, run:
+
+To reproduce the figures in Dalle Pezze and Le Novère, 2017, BMC Systems Biology:
 
 $ nosetests test_suite_manuscript.py
+
+
+
+
+To run SBpipe tests suite specifically on cluster:
+
+$ nosetests test_suite_sge_lsf_clusters.py
