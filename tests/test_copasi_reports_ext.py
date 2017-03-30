@@ -47,22 +47,22 @@ class TestCopasiReportsExt(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_txt_copasi_sim(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
 
     def test_cpp_copasi_sim(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml"), 1)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
 
     def test_txt_copasi_ps1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml", quiet=True), 0)
 
     def test_txt_copasi_ps2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
 
     def test_txt_copasi_pe(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim1.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim1.yaml", quiet=True), 0)
 
     def test_cpp_copasi_pe(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim2.yaml"), 1)
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim2.yaml", quiet=True), 1)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
