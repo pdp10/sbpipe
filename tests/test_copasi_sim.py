@@ -50,10 +50,10 @@ class TestCopasiSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml", quiet=True), 0)
 
     def test_stoch_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml", quiet=True), 0)
 
 
 if __name__ == '__main__':

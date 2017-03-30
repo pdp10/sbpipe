@@ -185,7 +185,7 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     :param license: True to print the license
     :param nocolor: True to print logging messages without colors
     :param log_level: Set the logging level
-    :param quiet: True if quiet (WARNING+)
+    :param quiet: True if quiet (CRITICAL+)
     :param verbose: True if verbose (DEBUG+)
     :return: 0 if OK, 1  if trouble (e.g. a pipeline did not execute correctly).
     """
@@ -196,7 +196,7 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     if log_level:
         set_logger(log_level, nocolor=nocolor)
     elif quiet:
-        set_logger('WARNING', nocolor=nocolor)
+        set_logger('CRITICAL', nocolor=nocolor)
     elif verbose:
         set_logger('DEBUG', nocolor=nocolor)
     else:
@@ -289,7 +289,7 @@ For complete documentation, see README.md .
                         help='show the logo and exit',
                         action='store_true')
     parser.add_argument('-q', '--quiet',
-                        help='print warning and error message only',
+                        help='do not print any log',
                         action='store_true')
     parser.add_argument('--log-level',
                         help='override the log level',

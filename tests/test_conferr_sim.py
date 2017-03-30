@@ -47,19 +47,19 @@ class TestCopasiSim(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_sim1(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
 
     def test_sim2(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml"), 1)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
 
     def test_sim3(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml"), 1)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml", quiet=True), 1)
 
     def test_sim4(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml"), 1)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml", quiet=True), 1)
 
     def test_sim5(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml"), 0)
+        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml", quiet=True), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

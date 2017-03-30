@@ -50,7 +50,7 @@ class TestJavaSim(unittest.TestCase):
     def test_java_simqueue_simulation(self):
         try:
             subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(simulate="simqueue.yaml"), 0)
+            self.assertEqual(sbmain.sbpipe(simulate="simqueue.yaml", quiet=True), 0)
         except OSError as e:
             print("Skipping test as no Java Virtual Machine was found.")
 
