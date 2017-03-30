@@ -1,0 +1,15 @@
+simulator: "Copasi"
+model: "insulin_receptor_k1_scan.cps"
+scanned_par: "k1"
+runs: 1
+simulate__intervals: 50
+ps1_knock_down_only: False
+ps1_percent_levels: False
+min_level: 0.25119
+max_level: 0.843858
+levels_number: 10
+homogeneous_lines: True
+xaxis_label: "Time [min]"
+yaxis_label: "Level [a.u.]"
+# The name of the report variables
+report_variables: ['IR_beta_pY1146', 'k1']

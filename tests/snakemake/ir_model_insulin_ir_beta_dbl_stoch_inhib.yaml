@@ -1,0 +1,15 @@
+# The simulator (e.g. Copasi, Python)
+simulator: "Copasi"
+# The model name
+model: "insulin_receptor_inhib_dbl_stoch_scan_InsulinPercent__IRbetaPercent.cps"
+# The 1st variable to scan
+scanned_par1: "InsulinPercent"
+# The 2nd variable to scan
+scanned_par2: "IRbetaPercent"
+# The number of simulations to perform.
+# n>=1 for stochastic simulations.
+runs: 2
+# The simulation length (as set in Copasi Time Course Task)
+sim_length: 5
+# The name of the report variables
+report_variables: ['IR_beta_pY1146']

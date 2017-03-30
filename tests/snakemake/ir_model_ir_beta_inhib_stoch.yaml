@@ -1,0 +1,30 @@
+# The name of the configurator (e.g. Copasi)
+simulator: "Copasi"
+# The model name
+model: "insulin_receptor_inhib_stoch_scan_IR_beta.cps"
+# The variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par: "IR_beta"
+# The number of simulations to perform per run.
+# n>=1 for stochastic simulations.
+runs: 2
+# The number of intervals in the simulation
+simulate__intervals: 50
+# True if the variable is only reduced (knock down), False otherwise.
+ps1_knock_down_only: True
+# True if the scanning represents percent levels.
+ps1_percent_levels: True
+# The minimum level (as set in Copasi Parameter Scan Task)
+min_level: 0
+# The maximum level (as set in Copasi Parameter Scan Task)
+max_level: 100
+# The number of scans (as set in Copasi Parameter Scan Task)
+levels_number: 10
+# True if plot lines are the same between scans
+# (e.g. full lines, same colour)
+homogeneous_lines: False
+# The label for the x axis.
+xaxis_label: "Time [min]"
+# The label for the y axis.
+yaxis_label: "Level [a.u.]"
+# The name of the report variables
+report_variables: ['IR_beta', 'IR_beta_pY1146']

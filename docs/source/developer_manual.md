@@ -141,12 +141,14 @@ used and configured accordingly (.travis.yml).
 The project is structured as follows: 
 ```
 sbpipe:
+  | - conda_recipe/
   | - docs/
   | - sbpipe/
         | - R
         | - pl
         | - report
         | - simul
+        | - tasks
         | - utils
   | - scripts/
   | - tests/
@@ -159,6 +161,10 @@ of SBpipe if needed using an R environment like Rstudio. This can be
 convenient if further data analysis are needed or plots need to be annotated 
 or edited.
 
+### conda_recipe
+This folder contains the file meta.yaml which is the configuration file for building
+a conda package for SBpipe. Once the conda package is ready and functional, it
+can be uploaded to Anaconda Cloud.
 
 ### docs
 The folder `docs/` contains the documentation for this project. The user 
@@ -271,6 +277,19 @@ must be contained in a file with the same name of their package (e.g.
 `copasi`). Therefore, for each simulator package, exactly one simulator 
 class can be instantiated. Simulators can be configured in the 
 configuration file using the field `simulator`. 
+
+
+#### tasks
+The subpackage `sbpipe.tasks` contains the Python scripts to invoke the single SBpipe
+tasks. These are invoked by the rules in the SBpipe snakemake files. These snakemake
+files are:
+
+- sbpipe_pe.snake
+- sbpipe_ps1.snake
+- sbpipe_ps2.snake
+- sbpipe_sim.snake
+
+and are stored on the root folder of SBpipe.
 
 
 #### utils

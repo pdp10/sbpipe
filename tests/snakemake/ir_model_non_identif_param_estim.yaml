@@ -1,0 +1,17 @@
+simulator: "Copasi"
+model: "insulin_receptor_non_identif_param_estim.cps"
+round: 1
+runs: 4
+best_fits_percent: 75
+data_point_num: 12
+plot_2d_66cl_corr: True
+plot_2d_95cl_corr: True
+plot_2d_99cl_corr: True
+logspace: True
+scientific_notation: True
+# The name of the report variables (the estimated parameters)
+# these need to be listed with the same ordering as the report file
+report_variables: ['k1','k2','k3']
+# An experimental data set (or blank) to add to the
+# simulated plots as additional layer
+exp_dataset: "insulin_receptor_non_identif_dataset.csv"
