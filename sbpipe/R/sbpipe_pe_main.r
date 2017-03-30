@@ -29,7 +29,7 @@ source(file.path(SBPIPE_R, 'sbpipe_pe.r'))
 
 
 # R Script to run model parameter estimation analysis and plot results. This script analyses
-# all fits.
+# all fits and the best fits.
 #
 # :args[1]: the model name without extension.
 # :args[2]: the dataset containing the best parameter fits
