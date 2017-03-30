@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User manual &#8212; SBpipe 3.15.0 documentation</title>
+    <title>User manual &#8212; SBpipe 3.16.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.15.0',
+        VERSION:     '3.16.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.15.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.16.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -647,6 +647,90 @@ estimation</em></p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="running-sbpipe-using-snakemake-in-progress-so-expect-some-changes">
+<h3>Running SBpipe using Snakemake (in progress, so expect some changes)<a class="headerlink" href="#running-sbpipe-using-snakemake-in-progress-so-expect-some-changes" title="Permalink to this headline">¶</a></h3>
+<p>SBpipe can also be executed using
+<a class="reference external" href="https://snakemake.readthedocs.io">Snakemake</a>. Snakemake offers an
+infrastructure for running software pipelines using declarative rules.
+The SBpipe pipelines for parameter estimation, single/double parameter
+scan, and model simulation are also implemented as snakemake files
+(which contain the set of rules for each pipeline). These are:</p>
+<ul class="simple">
+<li>sbpipe_pe.snake</li>
+<li>sbpipe_ps1.snake</li>
+<li>sbpipe_ps2.snake</li>
+<li>sbpipe_sim.snake</li>
+</ul>
+<p>and are stored on the root folder of SBpipe. The advantage of using
+snakemake as pipeline infrastructure is that it offers an extended
+command sets compared to the one provided with the standard sbpipe. For
+details, run</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snakemake</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>Snakemake also offers a strong support for dependency management at
+coding level and reentrancy at execution level. The former is defined as
+a way to precisely define the dependency order of functions. The latter
+is the capacity of a program to continue from the last interrupted task.
+Benefitting of dependency declaration and execution reentrancy can be
+beneficial for running SBpipe on clusters or on the cloud.</p>
+<p>Under the current implementation of SBpipe snakefile, the configuration
+files described above require the additional field:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># The name of the report variables</span>
+<span class="n">report_variables</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;IR_beta_pY1146&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>which contain the names of the variables exported by the simulator. For
+the parameter estimation pipeline, <code class="docutils literal"><span class="pre">report_variables</span></code> will contain the
+names of the estimated parameters.</p>
+<p>For the parameter estimation pipeline, the following option must also be
+added:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># An experimental data set (or blank) to add to the</span>
+<span class="c1"># simulated plots as additional layer</span>
+<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_dataset.csv&quot;</span>
+</pre></div>
+</div>
+<p>A complete example of configuration file for the parameter estimation
+pipeline is the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
+<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_param_estim.cps&quot;</span>
+<span class="nb">round</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">runs</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">best_fits_percent</span><span class="p">:</span> <span class="mi">75</span>
+<span class="n">data_point_num</span><span class="p">:</span> <span class="mi">33</span>
+<span class="n">plot_2d_66cl_corr</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">plot_2d_95cl_corr</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">plot_2d_99cl_corr</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">logspace</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">scientific_notation</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">report_variables</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span><span class="s1">&#39;k2&#39;</span><span class="p">,</span><span class="s1">&#39;k3&#39;</span><span class="p">]</span>
+<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_dataset.csv&quot;</span>
+</pre></div>
+</div>
+<p><strong>NOTE:</strong> As it can be noticed, a configuration files for SBpipe using
+snakemake requires less options than the corresponding configuration
+file using SBpipe directly. This because Snakemake files is more
+automated than SBpipe. Nevertheless, the removal of those additional
+options is not necessary for running the configuration file using
+Snakemake.</p>
+<p>Examples of configuration files for running SBpipe using Snakemake are
+in <code class="docutils literal"><span class="pre">tests/snakemake</span></code>.</p>
+<p>Examples of commands running SBpipe pipelines using Snakemake are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation
+$ snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
+
+# run model parameter estimation using 40 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 40 --verbose --cluster &quot;qsub&quot;
+
+# run model parameter parameter scan using 5 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 5 --verbose --cluster &quot;bsub&quot;
+
+# run model parameter parameter scan using 5 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 1 --verbose --cluster &quot;qsub&quot;
+</pre></div>
+</div>
+<p>See <code class="docutils literal"><span class="pre">snakemake</span> <span class="pre">-h</span></code> for a complete list of commands.</p>
+</div>
 </div>
 <div class="section" id="reporting-bugs-or-requesting-new-features">
 <h2>Reporting bugs or requesting new features<a class="headerlink" href="#reporting-bugs-or-requesting-new-features" title="Permalink to this headline">¶</a></h2>
@@ -711,6 +795,7 @@ tracking system for SBpipe at the web page:</p>
 </li>
 <li><a class="reference internal" href="#running-sbpipe">Running SBpipe</a></li>
 <li><a class="reference internal" href="#pipeline-configuration-files">Pipeline configuration files</a></li>
+<li><a class="reference internal" href="#running-sbpipe-using-snakemake-in-progress-so-expect-some-changes">Running SBpipe using Snakemake (in progress, so expect some changes)</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#reporting-bugs-or-requesting-new-features">Reporting bugs or requesting new features</a></li>
@@ -760,11 +845,11 @@ tracking system for SBpipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.15.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.16.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, Piero Dalle Pezze and Nicolas Le Novère.
+        &#169; Copyright 2017, Piero Dalle Pezze and Nicolas Le Novère.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

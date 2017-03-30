@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer manual &#8212; SBpipe 3.15.0 documentation</title>
+    <title>Developer manual &#8212; SBpipe 3.16.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.15.0',
+        VERSION:     '3.16.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.15.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.16.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -189,12 +189,14 @@ file (logging_config.ini) is also at this level.</p>
 used and configured accordingly (.travis.yml).</p>
 <p>The project is structured as follows:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="p">:</span>
+  <span class="o">|</span> <span class="o">-</span> <span class="n">conda_recipe</span><span class="o">/</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">docs</span><span class="o">/</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">sbpipe</span><span class="o">/</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">R</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">pl</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">report</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">simul</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">tasks</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">utils</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">scripts</span><span class="o">/</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">tests</span><span class="o">/</span>
@@ -207,6 +209,12 @@ and for generating plots. This choice allows users to run these scripts
 independently of SBpipe if needed using an R environment like Rstudio.
 This can be convenient if further data analysis are needed or plots need
 to be annotated or edited.</p>
+<div class="section" id="conda-recipe">
+<h3>conda_recipe<a class="headerlink" href="#conda-recipe" title="Permalink to this headline">¶</a></h3>
+<p>This folder contains the file meta.yaml which is the configuration file
+for building a conda package for SBpipe. Once the conda package is ready
+and functional, it can be uploaded to Anaconda Cloud.</p>
+</div>
 <div class="section" id="docs">
 <h3>docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
 <p>The folder <code class="docutils literal"><span class="pre">docs/</span></code> contains the documentation for this project. The
@@ -320,6 +328,19 @@ A simulator class must be contained in a file with the same name of
 their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>). Therefore, for each simulator package,
 exactly one simulator class can be instantiated. Simulators can be
 configured in the configuration file using the field <code class="docutils literal"><span class="pre">simulator</span></code>.</p>
+</div>
+<div class="section" id="tasks">
+<h4>tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.tasks</span></code> contains the Python scripts to invoke
+the single SBpipe tasks. These are invoked by the rules in the SBpipe
+snakemake files. These snakemake files are:</p>
+<ul class="simple">
+<li>sbpipe_pe.snake</li>
+<li>sbpipe_ps1.snake</li>
+<li>sbpipe_ps2.snake</li>
+<li>sbpipe_sim.snake</li>
+</ul>
+<p>and are stored on the root folder of SBpipe.</p>
 </div>
 <div class="section" id="utils">
 <h4>utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h4>
@@ -452,12 +473,14 @@ $ git gc        # clean up
 </ul>
 </li>
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>
+<li><a class="reference internal" href="#conda-recipe">conda_recipe</a></li>
 <li><a class="reference internal" href="#docs">docs</a></li>
 <li><a class="reference internal" href="#sbpipe">sbpipe</a><ul>
 <li><a class="reference internal" href="#r">R</a></li>
 <li><a class="reference internal" href="#pl">pl</a></li>
 <li><a class="reference internal" href="#report">report</a></li>
 <li><a class="reference internal" href="#simul">simul</a></li>
+<li><a class="reference internal" href="#tasks">tasks</a></li>
 <li><a class="reference internal" href="#utils">utils</a></li>
 </ul>
 </li>
@@ -515,11 +538,11 @@ $ git gc        # clean up
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.15.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 3.16.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, Piero Dalle Pezze and Nicolas Le Novère.
+        &#169; Copyright 2017, Piero Dalle Pezze and Nicolas Le Novère.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
