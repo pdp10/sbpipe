@@ -1,0 +1,34 @@
+# The name of the configurator (e.g. Copasi)
+simulator: "Copasi"
+# The model name
+model: "insulin_receptor_param_estim.cps"
+# The parameter estimation round which is used to distinguish
+# phases of parameter estimations when parameters cannot be 
+# estimated at the same time
+round: 1
+# The number of parameter estimations 
+# (the length of the fit sequence)
+runs: 4
+# The threshold percentage of the best fits to consider
+best_fits_percent: 75
+# The number of available data points
+data_point_num: 33
+# True if 2D all fits plots for 66% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_66cl_corr: True
+# True if 2D all fits plots for 95% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_95cl_corr: True
+# True if 2D all fits plots for 99% confidence levels 
+# should be plotted. This can be computationally expensive.
+plot_2d_99cl_corr: True
+# True if parameter values should be plotted in log space.
+logspace: True
+# True if plot axis labels should be plotted in scientific notation.
+scientific_notation: True
+# The name of the report variables (the estimated parameters)
+# these need to be listed with the same ordering as the report file
+report_variables: ['k1','k2','k3']
+# An experimental data set (or blank) to add to the
+# simulated plots as additional layer
+exp_dataset: "insulin_receptor_dataset.csv"

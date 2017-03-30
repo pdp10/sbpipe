@@ -40,10 +40,16 @@ def cleanup_tests():
     print('Cleaning tests:')
     for file in projects:
         if file == '__pycache__':
-            shutil.rmtree(os.path.join(testpath, file))
+            shutil.rmtree(os.path.join(testpath, file), ignore_errors=True)
             continue
 
         print('- ' + file)
+
+        if file == 'snakemake':
+            print("cleaning output files...")
+            shutil.rmtree(os.path.join(testpath, file, 'Results'), ignore_errors=True)
+            shutil.rmtree(os.path.join(testpath, file, 'log'), ignore_errors=True)
+            continue
 
         modelspath = join(testpath, file, 'Models')
         replicated_files = glob.glob(os.path.join(modelspath, "*[0-9].cps"))

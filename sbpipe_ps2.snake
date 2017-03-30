@@ -1,0 +1,183 @@
+# snakemake pipeline
+#
+# This file is part of sbpipe.
+#
+# sbpipe is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# sbpipe is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
+
+
+"""
+Author: Piero Dalle Pezze
+Affiliation: The Babraham Institute (Cambridge, UK)
+Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
+Date: 31 Jan 2017
+Run: snakemake -s sbpipe_ps2.snake --configfile FILE
+Latest modification:
+    - first draft
+"""
+
+
+
+import sys
+import os
+
+# retrieve SBpipe package path
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+sys.path.insert(0, SBPIPE)
+
+# Simulator
+COPASI = False
+if config['simulator'] == 'Copasi':
+    COPASI = True
+
+# Model and results folders
+MODELS_FOLDER   = "Models"
+MODEL           = os.path.join(MODELS_FOLDER , config['model'])
+MODEL_NAME      = config['model'].split('.')[0]
+REPORT_PREFIX   = "report_ps2_"
+WORKING_FOLDER  = os.path.join("Results", MODEL_NAME)
+PREPROC_FOLDER  = "ps2_preproc"
+POSTPROC_FOLDER = "ps2_postproc"
+PLOTS_FOLDER    = "ps2_plots"
+
+# Extensions
+MODEL_EXT       = "." + config['model'].split('.')[1]
+CSV_EXT         = ".csv"
+PNG_EXT         = ".png"
+LATEX_EXT       = ".tex"
+PDF_EXT         = ".pdf"
+LOG_EXT         = ".log"
+
+# Generate sequences
+REPEATS     = range(1, int(config['runs'])+1)
+TIME_POINTS = range(0, config['sim_length'])
+
+# Report variables
+VARIABLES = config['report_variables']
+
+# Snakemake input / output files
+PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
+PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
+POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
+PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
+LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
+PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
+
+
+
+rule all:
+    input:
+        models=PREPROC_MODELS,
+        reports1=PREPROC_REPORTS,
+        reports2=POSTPROC_REPORTS,
+        plots=PLOTS,
+        latex=LATEX_REPORT,
+        pdf=PDF_REPORT
+
+
+rule sbpipe_preproc:
+    input:
+        file=MODEL
+    output:
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.tasks.preproc import preproc
+        preproc(input.file, output.file, COPASI)
+
+
+rule sbpipe_gen_data:
+    input:
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
+    output:
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.tasks.generate_data import generate_data
+        generate_data(input.file, COPASI)
+
+
+rule sbpipe_ps2_postproc:
+    input:
+        file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
+    output:
+        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
+    params:
+        sim_length=config["sim_length"],
+        runs=config["runs"]
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.tasks.ps2_postproc import ps2_postproc
+        ps2_postproc(input.file, output.file, params.sim_length, COPASI)
+
+
+rule sbpipe_ps2_analysis:
+    input:
+        # Run each repeat report as separate input
+        file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
+    output:
+        # {rep} is the previously defined wildcard. Therefore {{rep}}
+        # {{rep}} ensures that no two rules want to write the same file.
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS, var=VARIABLES)
+    params:
+        model_name=MODEL_NAME,
+        scanned_par1=config["scanned_par1"],
+        scanned_par2=config["scanned_par2"],
+        postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
+        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+        repeat='{rep}'
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.tasks.ps2_analyse_data import ps2_analyse_data
+        ps2_analyse_data(params.model_name, params.scanned_par1, params.scanned_par2, params.postproc_dir, params.plots_dir, params.repeat)
+
+
+
+rule sbpipe_ps2_latex_report:
+    input:
+        file=PLOTS
+    output:
+        file=LATEX_REPORT
+    params:
+        working_folder_dir=WORKING_FOLDER,
+        plots_folder=PLOTS_FOLDER,
+        report_prefix=REPORT_PREFIX,
+        model_name=MODEL_NAME,
+        scanned_par1=config["scanned_par1"],
+        scanned_par2=config["scanned_par2"]
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.report.latex_reports import latex_report_ps2
+        latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
+                     params.scanned_par1, params.scanned_par2)
+
+
+rule sbpipe_pdf_report:
+    input:
+        file=LATEX_REPORT
+    output:
+        file=PDF_REPORT
+    params:
+        working_folder_dir=WORKING_FOLDER,
+        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
+    log:
+        "log/" + MODEL_NAME + LOG_EXT
+    run:
+        from sbpipe.report.latex_reports import pdf_report
+        pdf_report(params.working_folder_dir, params.latex_file)
+

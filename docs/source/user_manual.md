@@ -591,6 +591,85 @@ sbpipe/tests/insulin_receptor/
 ```
 
 
+### Running SBpipe using Snakemake (in progress, so expect some changes)
+SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
+for running software pipelines using declarative rules.
+The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
+as snakemake files (which contain the set of rules for each pipeline). These are:
+
+- sbpipe_pe.snake
+- sbpipe_ps1.snake
+- sbpipe_ps2.snake
+- sbpipe_sim.snake
+
+and are stored on the root folder of SBpipe. The advantage of using snakemake as pipeline infrastructure is that it offers
+an extended command sets compared to the one provided with the standard sbpipe. For details, run
+```
+snakemake -h
+```
+Snakemake also offers a strong support for dependency management at coding level and reentrancy at execution level.
+The former is defined as a way to precisely define the dependency order of functions. The latter is the
+capacity of a program to continue from the last interrupted task. Benefitting of dependency declaration and
+execution reentrancy can be beneficial for running SBpipe on clusters or on the cloud.
+
+Under the current implementation of SBpipe snakefile, the configuration files described above require the additional
+field:
+```
+# The name of the report variables
+report_variables: ['IR_beta_pY1146']
+```
+which contain the names of the variables exported by the simulator. For the parameter estimation pipeline,
+`report_variables` will contain the names of the estimated parameters.
+
+For the parameter estimation pipeline, the following option must also be added:
+```
+# An experimental data set (or blank) to add to the
+# simulated plots as additional layer
+exp_dataset: "insulin_receptor_dataset.csv"
+```
+
+A complete example of configuration file for the parameter estimation pipeline is the following:
+```
+simulator: "Copasi"
+model: "insulin_receptor_param_estim.cps"
+round: 1
+runs: 4
+best_fits_percent: 75
+data_point_num: 33
+plot_2d_66cl_corr: True
+plot_2d_95cl_corr: True
+plot_2d_99cl_corr: True
+logspace: True
+scientific_notation: True
+report_variables: ['k1','k2','k3']
+exp_dataset: "insulin_receptor_dataset.csv"
+```
+**NOTE:**
+As it can be noticed, a configuration files for SBpipe using snakemake requires less options than the
+corresponding configuration file using SBpipe directly. This because Snakemake files is more automated than SBpipe.
+Nevertheless, the removal of those additional options is not necessary for running the configuration file using Snakemake.
+
+Examples of configuration files for running SBpipe using Snakemake are in `tests/snakemake`.
+
+Examples of commands running SBpipe pipelines using Snakemake are:
+
+```
+# run model simulation
+$ snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
+
+# run model parameter estimation using 40 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 40 --verbose --cluster "qsub"
+
+# run model parameter parameter scan using 5 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 5 --verbose --cluster "bsub"
+
+# run model parameter parameter scan using 5 jobs
+$ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 1 --verbose --cluster "qsub"
+```
+
+See `snakemake -h` for a complete list of commands.
+
+
 ## Reporting bugs or requesting new features
 SBpipe is a relatively young project and there is a chance that some 
 error occurs. The following mailing list should be used for general 
