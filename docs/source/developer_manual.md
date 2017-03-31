@@ -106,9 +106,9 @@ $ conda install conda-build
 conda config --set anaconda_upload no
 ```
 
-The recipe for SBpipe is already prepared. To create the conda package for SBpipe:
+The recipe for SBpipe is already prepared (file: `meta.yaml`). To create the conda package for SBpipe:
 ```
-$ cd sbpipe/conda_recipe
+$ cd path/to/sbpipe
 $ conda build .
 ```
 
@@ -127,7 +127,6 @@ anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x.tar.bz
 ```
 
 
-
 ## Package structure
 This section presents the structure of the SBpipe package. The root of 
 the project contains general management scripts for installing Python 
@@ -141,7 +140,6 @@ used and configured accordingly (.travis.yml).
 The project is structured as follows: 
 ```
 sbpipe:
-  | - conda_recipe/
   | - docs/
   | - sbpipe/
         | - R
@@ -161,10 +159,6 @@ of SBpipe if needed using an R environment like Rstudio. This can be
 convenient if further data analysis are needed or plots need to be annotated 
 or edited.
 
-### conda_recipe
-This folder contains the file meta.yaml which is the configuration file for building
-a conda package for SBpipe. Once the conda package is ready and functional, it
-can be uploaded to Anaconda Cloud.
 
 ### docs
 The folder `docs/` contains the documentation for this project. The user 

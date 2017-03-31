@@ -158,9 +158,9 @@ the release add a tag:</p>
 conda config --set anaconda_upload no
 </pre></div>
 </div>
-<p>The recipe for SBpipe is already prepared. To create the conda package
-for SBpipe:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd sbpipe/conda_recipe
+<p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
+create the conda package for SBpipe:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
 $ conda build .
 </pre></div>
 </div>
@@ -189,7 +189,6 @@ file (logging_config.ini) is also at this level.</p>
 used and configured accordingly (.travis.yml).</p>
 <p>The project is structured as follows:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="p">:</span>
-  <span class="o">|</span> <span class="o">-</span> <span class="n">conda_recipe</span><span class="o">/</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">docs</span><span class="o">/</span>
   <span class="o">|</span> <span class="o">-</span> <span class="n">sbpipe</span><span class="o">/</span>
         <span class="o">|</span> <span class="o">-</span> <span class="n">R</span>
@@ -209,12 +208,6 @@ and for generating plots. This choice allows users to run these scripts
 independently of SBpipe if needed using an R environment like Rstudio.
 This can be convenient if further data analysis are needed or plots need
 to be annotated or edited.</p>
-<div class="section" id="conda-recipe">
-<h3>conda_recipe<a class="headerlink" href="#conda-recipe" title="Permalink to this headline">¶</a></h3>
-<p>This folder contains the file meta.yaml which is the configuration file
-for building a conda package for SBpipe. Once the conda package is ready
-and functional, it can be uploaded to Anaconda Cloud.</p>
-</div>
 <div class="section" id="docs">
 <h3>docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
 <p>The folder <code class="docutils literal"><span class="pre">docs/</span></code> contains the documentation for this project. The
@@ -473,7 +466,6 @@ $ git gc        # clean up
 </ul>
 </li>
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>
-<li><a class="reference internal" href="#conda-recipe">conda_recipe</a></li>
 <li><a class="reference internal" href="#docs">docs</a></li>
 <li><a class="reference internal" href="#sbpipe">sbpipe</a><ul>
 <li><a class="reference internal" href="#r">R</a></li>
