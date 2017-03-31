@@ -72,7 +72,7 @@ setup(
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Users/Developers',
         'Topic :: Mathematical modelling :: Build Tools',
-        'License :: OSI Approved :: GNU GPL v3 License',
+        'License :: OSI Approved :: GNU LGPL v3 License',
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3"],
     test_suite='tests.test_suite',

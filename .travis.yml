@@ -1,3 +1,19 @@
+# This file is part of sbpipe.
+#
+# sbpipe is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# sbpipe is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
+
+
 language: python
 sudo: required
 #dist: trusty
@@ -42,8 +58,15 @@ install:
   # create sbpipe environment and install sbpipe dependencies
   - conda env create --name sbpipe python=$TRAVIS_PYTHON_VERSION --file environment.yaml
   - source activate sbpipe
+
   # install sbpipe
-  - python setup.py install
+  #- python setup.py install
+
+  # install sbpipe using conda build (which internally runs `python setup.py install`)
+  - conda install conda-build
+  - conda config --set anaconda_upload no
+  - conda build conda_recipe/meta.yaml
+  - conda install sbpipe --use-local
 
 # command to run tests
 script:
