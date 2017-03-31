@@ -147,21 +147,21 @@ the release add a tag:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="building-conda-package-for-sbpipe">
-<h3>Building conda package for SBpipe<a class="headerlink" href="#building-conda-package-for-sbpipe" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="how-to-build-sbpipe-conda-package">
+<h3>How to build SBpipe conda package<a class="headerlink" href="#how-to-build-sbpipe-conda-package" title="Permalink to this headline">¶</a></h3>
 <p>This is a short guide for building SBpipe as a conda package. Anaconda
 (or Miniconda) must be installed. In order to proceed, the package
 <code class="docutils literal"><span class="pre">conda-build</span></code> must be installed:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install conda-build
 
 # DON&#39;T FORGET TO SET THIS so that your built package is not uploaded automatically
-conda config --set anaconda_upload no
+$ conda config --set anaconda_upload no
 </pre></div>
 </div>
 <p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
 create the conda package for SBpipe:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ conda build .
+$ conda build conda_recipe/meta.yaml
 </pre></div>
 </div>
 <p>To test this package locally:</p>
@@ -173,7 +173,7 @@ $ conda remove sbpipe
 </pre></div>
 </div>
 <p>To upload the package to the Anaconda cloud repository:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">py_y</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
 </pre></div>
 </div>
 </div>
@@ -406,6 +406,15 @@ $ git pull [--rebase] origin BRANCH
 <span class="c1"># force push your moved tag:</span>
 <span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">f</span> <span class="o">--</span><span class="n">tags</span>
 
+<span class="c1"># rename a tag</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="n">new</span> <span class="n">old</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">old</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">tags</span><span class="o">/</span><span class="n">old</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
+<span class="c1"># make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">--</span><span class="n">prune</span> <span class="o">--</span><span class="n">tags</span>
+
+
 <span class="c1"># removing a tag remotely and locally</span>
 <span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">delete</span> <span class="n">origin</span> <span class="n">tagName</span>
 <span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">tagName</span>
@@ -462,7 +471,7 @@ $ git gc        # clean up
 <li><a class="reference internal" href="#conventions">Conventions</a></li>
 <li><a class="reference internal" href="#work-flow">Work flow</a></li>
 <li><a class="reference internal" href="#new-releases">New releases</a></li>
-<li><a class="reference internal" href="#building-conda-package-for-sbpipe">Building conda package for SBpipe</a></li>
+<li><a class="reference internal" href="#how-to-build-sbpipe-conda-package">How to build SBpipe conda package</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>

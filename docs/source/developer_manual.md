@@ -96,7 +96,7 @@ To see all the releases:
 git show
 ```
 
-### Building conda package for SBpipe
+### How to build SBpipe conda package
 This is a short guide for building SBpipe as a conda package.
 Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
 ```
@@ -109,7 +109,7 @@ $ conda config --set anaconda_upload no
 The recipe for SBpipe is already prepared (file: `meta.yaml`). To create the conda package for SBpipe:
 ```
 $ cd path/to/sbpipe
-$ conda build .
+$ conda build conda_recipe/meta.yaml
 ```
 
 To test this package locally:
@@ -123,7 +123,7 @@ $ conda remove sbpipe
 
 To upload the package to the Anaconda cloud repository:
 ```
-anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x.tar.bz
+anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
 ```
 
 
@@ -356,6 +356,15 @@ git tag -f -a tagName
 git push
 # force push your moved tag:
 git push -f --tags
+
+# rename a tag
+git tag new old
+git tag -d old
+git push origin :refs/tags/old
+git push --tags
+# make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:
+git pull --prune --tags
+
 
 # removing a tag remotely and locally
 git push --delete origin tagName
