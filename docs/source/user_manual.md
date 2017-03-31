@@ -50,9 +50,9 @@ be installed:
 
 
 
-### Installing SBpipe on GNU/Linux
+### How to install SBpipe on GNU/Linux
 
-#### Installation of Copasi
+#### Install Copasi
 As of 2016, Copasi is not available as a package in GNU/Linux distributions. Users must add the path to Copasi
 binary files manually editing the GNU/Linux `$HOME/.bashrc` file as follows:
 
@@ -71,7 +71,7 @@ COPASI 4.19 (Build 140)
 ```
 
 
-#### Installation of LaTeX
+#### Install LaTeX
 If you decide to install SBpipe dependencies using Miniconda or Anaconda 64bit, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
@@ -106,11 +106,11 @@ $ source $HOME/.bashrc
 ```
 
 
-#### Installation of Python and R packages
+#### Install Python and R packages
 Python and R packages required by SBpipe can be installed via Anaconda/Miniconda (recommended) or using the
 GNU/Linux distribution package manager. This will be explained in the following two sections.
 
-##### Installation of Python and R dependencies via Anaconda/Miniconda
+##### Install Python and R dependencies via Anaconda/Miniconda
 Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
 Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
@@ -127,7 +127,7 @@ conda env create --name sbpipe --file environment.yaml
 source activate sbpipe
 ```
 
-##### Installation of Python and R dependencies via the distribution package manager
+##### Install Python and R dependencies via the distribution package manager
 Users can install Python and R using the package manager of their GNU/Linux distribution. Users need to
 make sure that the package `python-pip` is installed. In most cases, the installation via the package manager
 will automatically configure the correct environment variables.
@@ -172,13 +172,13 @@ After installing these packages, `install_rdeps.r` must be executed again.
 
 
 
-### Installing SBpipe on Windows
+### How to install SBpipe on Windows
 
 #### Installation of Copasi and LaTeX
 Windows users need to install the Windows versions of Copasi and LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
 
 
-#### Installation of MINGW
+#### Install MINGW
 We advise users to install `Git for Windows` [https://git-for-windows.github.io/](https://git-for-windows.github.io/) as
 a simple Shell (MINGW) running on Windows. Leave the default setting during installation.
 
@@ -218,7 +218,7 @@ $ source $HOME/.bashrc
 ```
 
 
-#### Installation of Python and R dependencies via Anaconda/Miniconda
+#### Install Python and R dependencies via Anaconda/Miniconda
 Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
 Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
@@ -363,7 +363,7 @@ yaxis_label: "#"
 ```
 
 
-### Running SBpipe
+### How to run SBpipe
 SBpipe is executed via the command *sbpipe*. The syntax for this
 command and its complete list of options can be retrieved by running *sbpipe -h*.
 The first step is to create a new project. This can be done with the
@@ -591,7 +591,7 @@ sbpipe/tests/insulin_receptor/
 ```
 
 
-### Running SBpipe using Snakemake (in progress, so expect some changes)
+### How to run SBpipe with Snakemake (in progress, so expect some changes)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
 The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
@@ -670,7 +670,7 @@ $ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.y
 See `snakemake -h` for a complete list of commands.
 
 
-## Reporting bugs or requesting new features
+## How to report bugs or request new features
 SBpipe is a relatively young project and there is a chance that some 
 error occurs. The following mailing list should be used for general 
 questions: 
