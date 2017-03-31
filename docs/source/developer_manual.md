@@ -103,7 +103,7 @@ Anaconda (or Miniconda) must be installed. In order to proceed, the package `con
 $ conda install conda-build
 
 # DON'T FORGET TO SET THIS so that your built package is not uploaded automatically
-conda config --set anaconda_upload no
+$ conda config --set anaconda_upload no
 ```
 
 The recipe for SBpipe is already prepared (file: `meta.yaml`). To create the conda package for SBpipe:
