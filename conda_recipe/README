@@ -1,6 +1,0 @@
-
-# build conda package
-conda build .
-
-# install conda package
-conda install sbpipe --use-local
