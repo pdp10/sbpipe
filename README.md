@@ -1,7 +1,5 @@
 # SBpipe package
 
-[![Build Status](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe)
-
 [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 
 This package contains a collection of pipelines for dynamic modelling 
