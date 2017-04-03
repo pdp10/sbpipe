@@ -64,7 +64,7 @@ install:
 
   # install snakemake (optional)
   - if [[ "$TRAVIS_PYTHON_VERSION" != "2.7" ]]; then
-      conda install -c bioconda snakemake
+      conda install -c bioconda snakemake;
   fi
 
   # install latex dependencies (optional)
