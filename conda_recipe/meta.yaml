@@ -60,7 +60,7 @@ requirements:
     - snakemake >=3.10.1
     - r-essentials
     - r-hmisc
-    - texlive-selected
+#    - texlive-selected
     
 test:
   requires:

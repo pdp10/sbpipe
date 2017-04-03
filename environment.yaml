@@ -13,13 +13,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
+
+# note, texlive can be installed via conda, but still only works for linux/osx machines.
+
 name:
   - sbpipe
 channels:
+#  - pkgw
   - conda-forge
   - bioconda
   - r
-  - pkgw
   - defaults
 dependencies:
   - colorlog
@@ -33,4 +36,5 @@ dependencies:
   - snakemake >=3.10.1
   - r-essentials
   - r-hmisc
-  - texlive-selected
+#  - texlive-core
+#  - texlive-selected
