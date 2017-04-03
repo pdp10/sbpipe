@@ -1,6 +1,6 @@
 generate_data: True
 analyse_data: True
-generate_report: False
+generate_report: True
 project_dir: "."
 simulator: "Copasi"
 model: "insulin_receptor_inhib_overexp_scan_IR_beta.cps"
