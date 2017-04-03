@@ -38,7 +38,7 @@ In order to use SBpipe, the following software must be installed:
 
 SBpipe can work with the following simulators:
 
-- Copasi 4.19+ - [http://copasi.org/](http://copasi.org/) (for model
+- COPASI 4.19+ - [http://copasi.org/](http://copasi.org/) (for model
 simulation, parameter scan, and parameter estimation)
 - Python (directly or as a wrapper to call models coded in any programming language)
 
@@ -52,8 +52,8 @@ be installed:
 
 ### How to install SBpipe on GNU/Linux
 
-#### Install Copasi
-As of 2016, Copasi is not available as a package in GNU/Linux distributions. Users must add the path to Copasi
+#### Install COPASI
+As of 2016, COPASI is not available as a package in GNU/Linux distributions. Users must add the path to COPASI
 binary files manually editing the GNU/Linux `$HOME/.bashrc` file as follows:
 
 ```
@@ -72,7 +72,6 @@ COPASI 4.19 (Build 140)
 
 
 #### Install LaTeX
-If you decide to install SBpipe dependencies using Miniconda or Anaconda 64bit, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
@@ -174,8 +173,8 @@ After installing these packages, `install_rdeps.r` must be executed again.
 
 ### How to install SBpipe on Windows
 
-#### Installation of Copasi and LaTeX
-Windows users need to install the Windows versions of Copasi and LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
+#### Installation of COPASI and LaTeX
+Windows users need to install the Windows versions of COPASI and LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
 
 
 #### Install MINGW
@@ -183,7 +182,7 @@ We advise users to install `Git for Windows` [https://git-for-windows.github.io/
 a simple Shell (MINGW) running on Windows. Leave the default setting during installation.
 
 
-#### Preparation of SBpipe and Copasi with MINGW
+#### Preparation of SBpipe and COPASI with MINGW
 Once `Git for Windows` is started, a Shell-like window appears and enables users to run commands.
 The first step is to clone SBpipe from GitHub using the command:
 
@@ -240,26 +239,40 @@ SBpipe can also be installed via Anaconda/miniconda using the command:
 ```
 $ conda install -c pdp10 sbpipe
 ```
-This command will install sbpipe and all its dependencies automatically.
+This command will install sbpipe and its Python/R dependencies automatically.
+The required latex packages need to be installed separately either using a package manager or using anaconda:
+```
+$ source activate sbpipe
+$ conda install -c pkgw texlive-core texlive-selected
+```
+The previous command works on GNU/Linux or Mac OS X, but not on Windows. Windows users need to install LaTeX MikTeX instead.
+
 
 
 ### Check installation of SBpipe
 The correct installation of SBpipe and its dependencies can be checked by running the following commands
-inside the SBpipe folder:
+inside the SBpipe folder. For the correct execution of all tests, LaTeX must be installed.
 
 ```
+# SBpipe version:
 $ sbpipe -V
 sbpipe 3.12.0
 ```
 
 ```
+# run model simulation using COPASI (see results in tests/copasi_models):
 $ cd path/to/sbpipe/tests
-$ nosetests test_ok_sim.py
+$ nosetests test_copasi_sim.py
 ```
 
-To run all tests, run the following instead:
 ```
+# run all tests:
 $ nosetests test_suite.py
+```
+
+```
+# regenerate the manuscript figures (see results in tests/insulin_receptor):
+$ nosetests test_suite_manuscript.py
 ```
 
 
@@ -268,9 +281,9 @@ $ nosetests test_suite.py
 
 ### Preliminary configuration steps
 
-#### Pipelines using Copasi
-Before using these pipelines, a Copasi model must be configured as follow 
-using CopasiUI:
+#### Pipelines using COPASI
+Before using these pipelines, a COPASI model must be configured as follow
+using COPASI_UI:
 
 **pipeline: simulation**
 
@@ -293,9 +306,9 @@ replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also 
 - Save the report in the same folder with the same name as the model but 
 replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
 
-For tasks such as parameter estimation using Copasi, it is
+For tasks such as parameter estimation using COPASI, it is
 recommended to move the data set into the folder `Models/` so
-that the Copasi model file and its associated experimental data
+that the COPASI model file and its associated experimental data
 files are stored in the same folder.
 
 
@@ -378,7 +391,7 @@ project_name/
     | - Models/
     | - Results/
 ```
-Models must be stored in the Models/ folder. Copasi data sets used by a model
+Models must be stored in the Models/ folder. COPASI data sets used by a model
 should also be stored in Models. To run SBpipe, users need to create a configuration file
 for each pipeline they intend to run (see next section). These configuration 
 files should be placed in the root project folder. In Results/ users
@@ -594,6 +607,16 @@ sbpipe/tests/insulin_receptor/
 ### How to run SBpipe with Snakemake (in progress, so expect some changes)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
+
+Snakemake can be installed manually via package manager or using the conda command:
+```
+# As of April 2017, Snakemake requires python 3.5 to run
+$ conda install -c conda-forge python=3.5
+
+# Install snakemake
+$ conda install -c bioconda snakemake
+```
+
 The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
 as snakemake files (which contain the set of rules for each pipeline). These are:
 
