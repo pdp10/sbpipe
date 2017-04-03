@@ -53,7 +53,7 @@ requirements:
     - nose
     - pandas
     - pyaml
-    - python
+    - python=3.5*
     - numpy
     - scipy
     - setuptools
