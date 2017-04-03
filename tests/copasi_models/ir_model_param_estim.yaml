@@ -3,7 +3,7 @@ generate_data: True
 # True if data should be analysed, False otherwise
 analyse_data: True
 # True if a report should be generated, False otherwise
-generate_report: True
+generate_report: False
 # True if a zipped tarball should be generated, False otherwise
 generate_tarball: True
 # The relative path to the project directory
