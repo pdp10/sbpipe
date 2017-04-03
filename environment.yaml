@@ -31,9 +31,6 @@ dependencies:
   - scipy
   - setuptools
   - snakemake >=3.10.1
-  - r-ggplot2 >=2.2.0
+  - r-essentials
   - r-hmisc
-  - r-plyr
-  - r-reshape2
-  - r-scales
   - texlive-selected
