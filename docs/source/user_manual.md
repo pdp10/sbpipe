@@ -600,6 +600,12 @@ sbpipe/tests/insulin_receptor/
 ### How to run SBpipe with Snakemake (in progress, so expect some changes)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
+
+Snakemake can be installed manually via package manager or using the conda command:
+```
+$ conda install -c bioconda snakemake
+```
+
 The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
 as snakemake files (which contain the set of rules for each pipeline). These are:
 

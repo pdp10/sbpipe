@@ -27,7 +27,7 @@ install:
   # because R packages for generating figures were compiled with X11
   # support.
   - sudo apt-get update
-  - sudo apt-get install xvfb texlive-latex-base
+  - sudo apt-get install xvfb
   - PID=$$
   # create a virtual screen and suppress the output
   - Xvfb :$PID -screen 0 800x600x16 2>/dev/null 1>&2 &
@@ -61,6 +61,12 @@ install:
   # create sbpipe environment and install sbpipe dependencies
   - conda env create --name sbpipe python=$TRAVIS_PYTHON_VERSION --file environment.yaml
   - source activate sbpipe
+
+  # install snakemake (optional)
+  - conda install -c bioconda snakemake
+
+  # install latex dependencies (optional)
+  - conda install -c pkgw texlive-core=20160520 texlive-selected=20160715
 
   # install sbpipe
   #- python setup.py install

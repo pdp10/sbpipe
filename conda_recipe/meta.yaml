@@ -57,10 +57,11 @@ requirements:
     - numpy
     - scipy
     - setuptools
-    - snakemake >=3.10.1
     - r-essentials
     - r-hmisc
-#    - texlive-selected
+#    - snakemake >=3.10.1  (not available on windows)
+#    - texlive-core        (not available on windows)
+#    - texlive-selected    (not available on windows)
     
 test:
   requires:
