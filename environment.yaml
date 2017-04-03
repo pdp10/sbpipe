@@ -29,7 +29,7 @@ dependencies:
   - nose
   - pandas
   - pyaml
-  - python=3.4
+  - python=3.5
   - numpy
   - scipy
   - setuptools

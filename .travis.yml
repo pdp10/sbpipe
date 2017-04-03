@@ -19,7 +19,7 @@ sudo: required
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
   #- "2.7"
-  - "3.4"
+  - "3.5"
 install:
 
   # install xvfb
@@ -63,7 +63,9 @@ install:
   - source activate sbpipe
 
   # install snakemake (optional)
-  - conda install -c bioconda snakemake
+  - if [[ "$TRAVIS_PYTHON_VERSION" != "2.7" ]]; then
+      conda install -c bioconda snakemake
+  fi
 
   # install latex dependencies (optional)
   - conda install -c pkgw texlive-core=20160520 texlive-selected=20160715
