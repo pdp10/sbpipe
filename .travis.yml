@@ -63,10 +63,8 @@ install:
   - source activate sbpipe
 
   # install snakemake (optional)
-  - if [[ "$TRAVIS_PYTHON_VERSION" != "2.7" ]]; then
-      conda install -c conda-forge python=3.5;
-      conda install -c bioconda snakemake;
-  fi
+  - conda install -c conda-forge python=3.5
+  - conda install -c bioconda snakemake
 
   # install latex dependencies (optional)
   - conda install -c pkgw texlive-core=20160520 texlive-selected=20160715
