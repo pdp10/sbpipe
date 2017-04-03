@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
-
 language: python
 sudo: required
 #dist: trusty
@@ -54,6 +53,10 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
+  # install conda build in order to build the conda package for SBpipe
+  - conda install conda-build
+  - conda config --set anaconda_upload no
+
   # install sbpipe
   # create sbpipe environment and install sbpipe dependencies
   - conda env create --name sbpipe python=$TRAVIS_PYTHON_VERSION --file environment.yaml
@@ -63,8 +66,6 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda install conda-build
-  - conda config --set anaconda_upload no
   - conda build conda_recipe/meta.yaml
   - conda install sbpipe --use-local
 
