@@ -306,11 +306,11 @@ of SBpipe dependencies as well as reference for configuring a project
 before running any pipeline. Projects inside the folder `sbpipe/tests/`
 have the SBpipe project structure:
 
-- `Models`: (e.g. models, Copasi models, Python models, data sets directly used
+- `Models`: (e.g. models, COPASI models, Python models, data sets directly used
 by Copasi models);
 - `Results`: (e.g. pipelines results, etc).
 
-Examples of configuration files (*.yaml) using Copasi can be found in
+Examples of configuration files (*.yaml) using COPASI can be found in
 sbpipe/tests/insulin_receptor/.
 
 To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
