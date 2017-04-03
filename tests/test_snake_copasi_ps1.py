@@ -25,10 +25,10 @@
 
 import os
 import unittest
+import subprocess
 
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-from snakemake import snakemake
 
 
 class TestPs1Snake(unittest.TestCase):
@@ -45,21 +45,40 @@ class TestPs1Snake(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
     def test_ps1_det1_snake(self):
-        self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
+        try:
+            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            from snakemake import snakemake
+            self.assertTrue(
+                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
+        except OSError as e:
+            print("Skipping test as snakemake was not found.")
 
     def test_ps1_det2_snake(self):
-        self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
+        try:
+            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            from snakemake import snakemake
+            self.assertTrue(
+                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
+        except OSError as e:
+            print("Skipping test as snakemake was not found.")
 
     def test_ps1_det3_snake(self):
-        self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
+        try:
+            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            from snakemake import snakemake
+            self.assertTrue(
+                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
+        except OSError as e:
+            print("Skipping test as snakemake was not found.")
 
     def test_ps1_stoch_snake(self):
-        self.assertTrue(
-            snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
-
+        try:
+            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+            from snakemake import snakemake
+            self.assertTrue(
+                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
+        except OSError as e:
+            print("Skipping test as snakemake was not found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

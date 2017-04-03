@@ -72,7 +72,6 @@ COPASI 4.19 (Build 140)
 
 
 #### Install LaTeX
-If you decide to install SBpipe dependencies using Miniconda or Anaconda 64bit, you can skip this section.
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
@@ -240,7 +239,14 @@ SBpipe can also be installed via Anaconda/miniconda using the command:
 ```
 $ conda install -c pdp10 sbpipe
 ```
-This command will install sbpipe and all its dependencies automatically.
+This command will install sbpipe and its Python/R dependencies automatically.
+The required latex packages need to be installed separately either using a package manager or using anaconda:
+```
+$ source activate sbpipe
+$ conda install -c pkgw texlive-core texlive-selected
+```
+The previous command works on GNU/Linux or Mac OS X, but not on Windows. Windows users need to install LaTeX MikTeX instead.
+
 
 
 ### Check installation of SBpipe
@@ -594,6 +600,12 @@ sbpipe/tests/insulin_receptor/
 ### How to run SBpipe with Snakemake (in progress, so expect some changes)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
+
+Snakemake can be installed manually via package manager or using the conda command:
+```
+$ conda install -c bioconda snakemake
+```
+
 The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
 as snakemake files (which contain the set of rules for each pipeline). These are:
 

@@ -1,6 +1,6 @@
 generate_data: True
 analyse_data: True
-generate_report: True
+generate_report: False
 project_dir: "."
 simulator: "Python"
 model: "sde_cox_ingersoll_ross_process.py"

@@ -1,6 +1,6 @@
 generate_data: True
 analyse_data: True
-generate_report: True
+generate_report: False
 project_dir: "."
 simulator: "Copasi"
 model: "insulin_receptor.cps"
