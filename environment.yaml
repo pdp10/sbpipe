@@ -14,7 +14,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 name:
-  - canc
+  - sbpipe
 channels:
   - conda-forge
   - bioconda
