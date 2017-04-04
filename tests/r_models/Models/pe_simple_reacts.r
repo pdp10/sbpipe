@@ -24,15 +24,10 @@ if(!require(minpack.lm)){
   install.packages('minpack.lm', repos='http://cran.r-project.org')
   library(minpack.lm)
 }
-# library for plotting
-if(!require(ggplot2)){
-  install.packages('ggplot2', repos='http://cran.r-project.org')
-  library(ggplot2)
-}
-
 
 
 # Retrieve the report file name
+
 args <- commandArgs(trailingOnly=TRUE)
 report_filename = "pe_simple_reacts.csv"
 if(length(args) > 0) {
@@ -40,12 +35,12 @@ if(length(args) > 0) {
 }
 
 
+# we retrieve the folder of this file to load the data set file name.
+args <- commandArgs(trailingOnly = FALSE)
+SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
 
 # Load concentration data
-# Retrieve the environment variable SBPIPE
-# Load this file from Models, not the configuration file folder
-SBPIPE <- Sys.getenv(c("SBPIPE"))
-df <- read.table(file.path(SBPIPE, 'tests','r_models','Models','pe_simple_reacts_dataset.csv'), header=TRUE, sep="\t")
+df <- read.table(file.path(SBPIPE_R,'pe_simple_reacts_dataset.csv'), header=TRUE, sep="\t")
 #df <- read.table("pe_simple_reacts_dataset.csv", header=TRUE, sep=",")
 
 
@@ -145,40 +140,3 @@ names(report) <- c("rss", names(parms))
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
 write.table(report, file=report_filename, sep="\t", row.names=FALSE, quote=FALSE)
-
-
-
-
-
-# # Extract interesting parameters
-
-# print(fitval)
-# print(summary(fitval))
-
-# # residual sum-of-square (objective value)
-# print(deviance(fitval))
-
-# # Estimated parameter
-# parest=as.list(coef(fitval))
-# print(parest)
-
-
-
-# # Plot predicted vs experimental data (for testing)
-# 
-# # simulated predicted profile at estimated parameter values
-# cinit=c(A=1,B=0,C=0)
-# t=seq(0,5,0.2)
-# out=ode(y=cinit,times=t,func=my_model,parms=as.list(parest))
-# outdf=data.frame(out)
-# names(outdf)=c("time","a_pred","b_pred","c_pred")
-# 
-# # Overlay predicted profile with experimental data
-# tmppred=melt(outdf,id.var=c("time"),variable.name="species",value.name="conc")
-# tmpexp=melt(df,id.var=c("time"),variable.name="species",value.name="conc")
-# p=ggplot(data=tmppred,aes(x=time,y=conc,color=species,linetype=species))+geom_line()
-# p=p+geom_line(data=tmpexp,aes(x=time,y=conc,color=species,linetype=species))
-# p=p+geom_point(data=tmpexp,aes(x=time,y=conc,color=species))
-# p=p+scale_linetype_manual(values=c(0,1,0,1,0,1))
-# p=p+scale_color_manual(values=rep(c("red","blue","green"),each=2))+theme_bw()
-# print(p)
