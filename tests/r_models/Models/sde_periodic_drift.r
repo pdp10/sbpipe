@@ -5,7 +5,7 @@
 # import sde package
 # sde and its dependencies must be installed.
 if(!require(sde)){
-    install.packages('sde')
+    install.packages('sde', repos='http://cran.r-project.org')
     library(sde)
 }
 

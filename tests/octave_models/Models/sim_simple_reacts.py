@@ -16,5 +16,8 @@ if len(sys.argv) > 1:
 # the report filename is passed as input argument
 command = 'octave ' + os.path.join(os.path.dirname(__file__), 'sim_simple_reacts.m') + ' ' + report_filename
 
+# we replace \\ with / otherwise subprocess complains on windows systems.
+command = command.replace('\\', '\\\\')
+
 # Block until command is finished
 subprocess.call(shlex.split(command))

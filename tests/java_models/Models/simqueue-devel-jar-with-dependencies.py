@@ -16,5 +16,8 @@ if len(sys.argv) > 1:
 command = 'java -jar ' + os.path.join(os.path.dirname(__file__), 'simqueue-devel-jar-with-dependencies.jar') + \
           ' ' + report_filename
 
+# we replace \\ with / otherwise subprocess complains on windows systems.
+command = command.replace('\\', '\\\\')
+
 # Block until command is finished
 subprocess.call(shlex.split(command))
