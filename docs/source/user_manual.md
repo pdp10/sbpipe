@@ -262,17 +262,17 @@ sbpipe 3.12.0
 ```
 # run model simulation using COPASI (see results in tests/copasi_models):
 $ cd path/to/sbpipe/tests
-$ nosetests test_copasi_sim.py
+$ nosetests test_copasi_sim.py --nocapture --verbose
 ```
 
 ```
 # run all tests:
-$ nosetests test_suite.py
+$ nosetests test_suite.py --nocapture --verbose
 ```
 
 ```
 # regenerate the manuscript figures (see results in tests/insulin_receptor):
-$ nosetests test_suite_manuscript.py
+$ nosetests test_suite_manuscript.py --nocapture --verbose
 ```
 
 
