@@ -11,17 +11,17 @@
 
 # library for least squares fit using levenberg-marquart algorithm
 if(!require(reshape2)){
-  install.packages('reshape2', repos='http://cran.r-project.org')
+  install.packages('reshape2')
   library(reshape2)
 }
 # library for solving differential equations
 if(!require(deSolve)){
-  install.packages('deSolve', repos='http://cran.r-project.org')
+  install.packages('deSolve')
   library(deSolve)
 }
 # library for least squares fit using levenberg-marquart algorithm
 if(!require(minpack.lm)){
-  install.packages('minpack.lm', repos='http://cran.r-project.org')
+  install.packages('minpack.lm')
   library(minpack.lm)
 }
 

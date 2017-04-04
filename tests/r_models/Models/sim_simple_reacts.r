@@ -11,7 +11,7 @@
 # import deSolve package
 # deSolve and its dependencies must be installed.
 if(!require(deSolve)){
-    install.packages('deSolve', repos='http://cran.r-project.org')
+    install.packages('deSolve')
     library(deSolve)
 }
 
