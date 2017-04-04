@@ -27,4 +27,4 @@ try:
 
 
 except OSError as e:
-    print("Skipping test as no Java Virtual Machine was found.")
+    print("Warning: skipping test as no Java Virtual Machine was found.")
