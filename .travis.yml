@@ -18,7 +18,7 @@ sudo: required
 #dist: trusty
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
-  #- "2.7"
+  - "2.7"
   - "3.5"
 install:
 
@@ -63,8 +63,8 @@ install:
   - source activate sbpipe
 
   # install snakemake (optional)
-  - conda install -c conda-forge python=3.5
-  - conda install -c bioconda snakemake
+  #- conda install -c conda-forge python=3.5
+  #- conda install -c bioconda snakemake
 
   # install latex dependencies (optional)
   - conda install -c pkgw texlive-core=20160520 texlive-selected=20160715
