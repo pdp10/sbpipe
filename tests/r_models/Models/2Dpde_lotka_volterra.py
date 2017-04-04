@@ -15,5 +15,8 @@ if len(sys.argv) > 1:
 command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), '2Dpde_lotka_volterra.r') + \
           ' ' + report_filename
 
+# we replace \\ with / otherwise subprocess complains on windows systems.
+command = command.replace('\\', '\\\\')
+
 # Block until command is finished
 subprocess.call(shlex.split(command))
