@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.16.0 (Mars)
+v3.17.0 (Mars)
 
+- Snakemake is not a requirement
 - SBpipe pipelines are also available as snake files. Therefore, SBpipe can be run using Snakemake.
 - SBpipe is now also available as conda package (installation+dependencies: conda install -c pdp10 sbpipe)
 - The environment variable SBPIPE is no longer necessary.
