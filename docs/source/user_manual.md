@@ -106,18 +106,18 @@ $ source $HOME/.bashrc
 
 
 #### Install Python and R packages
-Python and R packages required by SBpipe can be installed via Anaconda/Miniconda (recommended) or using the
+Python and R packages required by SBpipe can be installed via Anaconda3/Miniconda3 (recommended) or using the
 GNU/Linux distribution package manager. This will be explained in the following two sections.
 
-##### Install Python and R dependencies via Anaconda/Miniconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+##### Install Python and R dependencies via Anaconda3/Miniconda3
+Users need to download and install Anaconda3 ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
 Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a GNU/Linux shell:
 ```
 cd path/to/sbpipe
 
-# install dependencies into isolated environment using Anaconda/Miniconda
+# install dependencies into isolated environment using Anaconda3/Miniconda3
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be
@@ -217,15 +217,15 @@ $ source $HOME/.bashrc
 ```
 
 
-#### Install Python and R dependencies via Anaconda/Miniconda
-Users need to download and install Anaconda ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
+#### Install Python and R dependencies via Anaconda3/Miniconda3
+Users need to download and install Anaconda3 ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
 Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a MINGW shell (`Git for Windows`) type:
 ```
 cd path/to/sbpipe
 
-# install dependencies into isolated environment using Anaconda/Miniconda
+# install dependencies into isolated environment using Anaconda3/Miniconda3
 conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be added to the .bashrc file to skip the activation
@@ -234,8 +234,8 @@ source activate sbpipe
 ```
 
 
-### Complete installation via Anaconda/miniconda
-SBpipe can also be installed via Anaconda/miniconda using the command:
+### Complete installation via Anaconda3/Miniconda3
+SBpipe can also be installed via Anaconda/Miniconda3 using the command:
 ```
 $ conda install -c pdp10 sbpipe
 ```
