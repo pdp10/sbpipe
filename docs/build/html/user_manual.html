@@ -312,15 +312,15 @@ sbpipe 3.12.0
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation using COPASI (see results in tests/copasi_models):
 $ cd path/to/sbpipe/tests
-$ nosetests test_copasi_sim.py
+$ nosetests test_copasi_sim.py --nocapture --verbose
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span># run all tests:
-$ nosetests test_suite.py
+$ nosetests test_suite.py --nocapture --verbose
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span># regenerate the manuscript figures (see results in tests/insulin_receptor):
-$ nosetests test_suite_manuscript.py
+$ nosetests test_suite_manuscript.py --nocapture --verbose
 </pre></div>
 </div>
 </div>
@@ -410,7 +410,7 @@ received report file name. These data must be stored as described above.</p>
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
     <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
           <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
 
 <span class="c1"># Block until command is finished</span>
