@@ -25,6 +25,5 @@ try:
     # Block until command is finished
     subprocess.call(shlex.split(command))
 
-
 except OSError as e:
     print("Warning: skipping test as no Java Virtual Machine was found.")
