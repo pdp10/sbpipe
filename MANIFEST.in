@@ -8,10 +8,10 @@ include VERSION
 include logging_config.ini
 
 # Include man pages
-recursive-include man_pages
+#recursive-include man_pages
 
 # Include the data files
-recursive-include data *
+#recursive-include data *
 
 # If using Python 2.6 or less, then have to include package data, even though
 # it's already declared in setup.py
