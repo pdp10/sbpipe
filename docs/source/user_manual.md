@@ -234,7 +234,7 @@ source activate sbpipe
 ```
 
 
-### Complete installation via Anaconda3/Miniconda3
+### Complete installation via Anaconda3/Miniconda3 (beta - in progress)
 SBpipe can also be installed via Anaconda3/Miniconda3 using the command:
 ```
 $ conda install -c pdp10 sbpipe
