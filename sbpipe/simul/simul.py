@@ -136,6 +136,9 @@ class Simul(object):
         if len(col_names) == 0:
             logger.error('No parameter was found in the report file.')
             return 0
+        # we replace ' ' and '-' with '_' in the parameter names
+        col_names = [name.replace(' ', '_').replace('-', '_').replace('.','_').replace('(', '').replace(')', '')
+                     for name in col_names]
         col_names.insert(0, 'Estimation')
         col_names.insert(1, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
@@ -167,6 +170,9 @@ class Simul(object):
         if len(col_names) == 0:
             logger.error('No parameter was found in the report file.')
             return 0
+        # we replace ' ' and '-' with '_' in the parameter names
+        col_names = [name.replace(' ', '_').replace('-', '_').replace('.','_').replace('(', '').replace(')', '')
+                     for name in col_names]
         col_names.insert(0, 'ObjectiveValue')
         self._write_params(col_names, path_out, filename_out)
         self._write_all_fits(files, path_out, filename_out)
