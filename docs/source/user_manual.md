@@ -604,7 +604,7 @@ sbpipe/tests/insulin_receptor/
 ```
 
 
-### How to run SBpipe with Snakemake (in progress, so expect some changes)
+### How to run SBpipe with Snakemake (beta - in progress)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
 
