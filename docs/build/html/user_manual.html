@@ -160,7 +160,7 @@ package manager. This will be explained in the following two sections.</p>
 <div class="section" id="install-python-and-r-dependencies-via-anaconda3-miniconda3">
 <h5>Install Python and R dependencies via Anaconda3/Miniconda3<a class="headerlink" href="#install-python-and-r-dependencies-via-anaconda3-miniconda3" title="Permalink to this headline">¶</a></h5>
 <p>Users need to download and install Anaconda3
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda
+(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
 (<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
 <p>From a GNU/Linux shell:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
@@ -255,7 +255,7 @@ export PATH=$PATH:~/sbpipe/scripts
 # COPASI (update this accordingly. Use \ to escape spaces)
 export PATH=/path/to/copasi/bin/:$PATH
 
-# Optional: activate Anaconda environment for SBpipe automatically
+# Optional: activate Anaconda3 environment for SBpipe automatically
 source activate sbpipe
 </pre></div>
 </div>
@@ -269,7 +269,7 @@ $ source $HOME/.bashrc
 <div class="section" id="id1">
 <h4>Install Python and R dependencies via Anaconda3/Miniconda3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>Users need to download and install Anaconda3
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda
+(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
 (<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
 <p>From a MINGW shell (<code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code>) type:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
@@ -286,7 +286,7 @@ $ source $HOME/.bashrc
 </div>
 <div class="section" id="complete-installation-via-anaconda3-miniconda3">
 <h3>Complete installation via Anaconda3/Miniconda3<a class="headerlink" href="#complete-installation-via-anaconda3-miniconda3" title="Permalink to this headline">¶</a></h3>
-<p>SBpipe can also be installed via Anaconda/Miniconda3 using the command:</p>
+<p>SBpipe can also be installed via Anaconda3/Miniconda3 using the command:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install -c pdp10 sbpipe
 </pre></div>
 </div>
@@ -410,7 +410,7 @@ received report file name. These data must be stored as described above.</p>
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
     <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
           <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
 
 <span class="c1"># Block until command is finished</span>

@@ -111,7 +111,7 @@ GNU/Linux distribution package manager. This will be explained in the following 
 
 ##### Install Python and R dependencies via Anaconda3/Miniconda3
 Users need to download and install Anaconda3 ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
-Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
+Miniconda3 ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a GNU/Linux shell:
 ```
@@ -206,7 +206,7 @@ export PATH=$PATH:~/sbpipe/scripts
 # COPASI (update this accordingly. Use \ to escape spaces)
 export PATH=/path/to/copasi/bin/:$PATH
 
-# Optional: activate Anaconda environment for SBpipe automatically
+# Optional: activate Anaconda3 environment for SBpipe automatically
 source activate sbpipe
 ```
 
@@ -219,7 +219,7 @@ $ source $HOME/.bashrc
 
 #### Install Python and R dependencies via Anaconda3/Miniconda3
 Users need to download and install Anaconda3 ([https://www.continuum.io/downloads](https://www.continuum.io/downloads)) or
-Miniconda ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
+Miniconda3 ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
 From a MINGW shell (`Git for Windows`) type:
 ```
@@ -235,7 +235,7 @@ source activate sbpipe
 
 
 ### Complete installation via Anaconda3/Miniconda3
-SBpipe can also be installed via Anaconda/Miniconda3 using the command:
+SBpipe can also be installed via Anaconda3/Miniconda3 using the command:
 ```
 $ conda install -c pdp10 sbpipe
 ```
