@@ -136,26 +136,6 @@ class Copasi(Simul):
             return False
         return True
 
-    def replace_str_in_report(self, report):
-        __doc__ = Simul.replace_str_in_report.__doc__
-
-        # `with` ensures that the file is closed correctly
-        # re.sub(pattern, replace, string) is the equivalent of s/pattern/replace/ in sed.
-        with open(report, 'r') as file:
-            lines = file.readlines()
-        with open(report, 'w') as file:
-            # for idx, line in lines:
-            for i in range(len(lines)):
-                if i < 1:
-                    # First remove non-alphanumerics and non-underscores.
-                    # Then replaces whites with TAB.
-                    # Finally use rstrip to remove the TAB at the end.
-                    # [^\w] matches anything that is not alphanumeric or underscore
-                    lines[i] = lines[i].replace("Values[", "").replace("]", "").replace(".InitialValue", "")
-                    file.write(
-                        re.sub(r"\s+", '\t', re.sub(r'[^\w]', " ", lines[i])).rstrip('\t') + '\n')
-                else:
-                    file.write(lines[i].rstrip('\t'))
 
     # utilities for collecting parameter estimation results
     #######################################################
