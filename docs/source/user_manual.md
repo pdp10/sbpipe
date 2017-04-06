@@ -234,19 +234,27 @@ source activate sbpipe
 ```
 
 
-### Complete installation via Anaconda3/Miniconda3 (beta - in progress)
+### Complete installation via Anaconda3/Miniconda3 (in progress)
 SBpipe can also be installed via Anaconda3/Miniconda3 using the command:
 ```
+# create an environment for SBpipe
+$ conda create -n sbpipe_env
+
+# activate the environment
+$ source activate sbpipe_env
+
+# install pyaml and colorlog from conda-forge
+$ conda install -c conda-forge pyaml colorlog
+
+# install sbpipe
 $ conda install -c pdp10 sbpipe
 ```
-This command will install sbpipe and its Python/R dependencies automatically.
-The required latex packages need to be installed separately either using a package manager or using anaconda:
+
+The last command will install sbpipe and its Python/R dependencies automatically.
+The required latex packages need to be installed separately either using a package manager or using anaconda. The following command works on GNU/Linux or Mac OS X, but not on Windows. Windows users need to install LaTeX MikTeX instead.
 ```
-$ source activate sbpipe
 $ conda install -c pkgw texlive-core texlive-selected
 ```
-The previous command works on GNU/Linux or Mac OS X, but not on Windows. Windows users need to install LaTeX MikTeX instead.
-
 
 
 ### Check installation of SBpipe
@@ -604,7 +612,7 @@ sbpipe/tests/insulin_receptor/
 ```
 
 
-### How to run SBpipe with Snakemake (beta - in progress)
+### How to run SBpipe with Snakemake (in progress)
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
 

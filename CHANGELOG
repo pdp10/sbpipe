@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.18.0 (Mars)
+v3.19.0 (Mars)
 
+- Improved conda packaging.
 - Improved import of parameter names for parameter estimation pipeline.
 - Improved SBpipe packaging (snakemake is not a requirement)
 - SBpipe pipelines are also available as snake files. Therefore, SBpipe can be run using Snakemake.

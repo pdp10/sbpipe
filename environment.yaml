@@ -21,8 +21,8 @@ name:
 channels:
 #  - pkgw       # latex
   - conda-forge
-  - bioconda
-  - r
+#  - bioconda
+#  - r
   - defaults
 dependencies:
   - colorlog
