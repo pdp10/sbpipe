@@ -505,7 +505,7 @@ fits_analysis <- function(model, finalfits_filenamein, allfits_filenamein, plots
                           fileout_param_estim_details, fileout_param_estim_summary, best_fits_percent,
                           plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
                           logspace=TRUE, scientific_notation=TRUE) {
-    finalfits = FALSE
+    finalfits = TRUE
     dim_final_fits = dim(read.table(finalfits_filenamein, sep="\t"))[1]
     dim_all_fits = dim(read.table(allfits_filenamein, header=TRUE, sep="\t"))[1]
 
