@@ -113,31 +113,29 @@ replace_colnames <- function(dfCols) {
 plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", objval_col_idx=1,
                                         logspace=TRUE, scientific_notation=TRUE) {
       fileout <- ""
-      for (i in seq(objval_col_idx+1,length(dfCols))) {
+      for (i in seq(objval_col_idx+1,length(dfCols)-1)) {
         print(paste('sampled param corr (', title, ') for ', dfCols[i], sep=''))
         for (j in seq(i, length(dfCols))) {
-            for (j in seq(i, length(dfCols))) {
-              g <- ggplot()
-              if(i==j) {
-                fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
-                g <- histogramplot(df[i], g) + ggtitle(title)
-                if(logspace) {
-                    g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
-                }
-              } else {
-                fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
-                g <- scatterplot_w_colour(df, g, colnames(df)[i], colnames(df)[j], colnames(df)[objval_col_idx]) +
-                     ggtitle(title) +
-                     theme(legend.key.height = unit(0.5, "in"))
-                if(logspace) {
-                    g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
-                }
-              }
-              if(scientific_notation) {
-                 g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
-              }
-              ggsave(fileout, dpi=300, width=8, height=6)
+          g <- ggplot()
+          if(i==j) {
+            fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], ".png", sep=""))
+            g <- histogramplot(df[i], g) + ggtitle(title)
+            if(logspace) {
+                g <- g + xlab(paste("log10(",dfCols[i],")",sep=""))
             }
+          } else {
+            fileout <- file.path(plots_dir, paste(plot_filename_prefix, dfCols[i], "_", dfCols[j], ".png", sep=""))
+            g <- scatterplot_w_colour(df, g, colnames(df)[i], colnames(df)[j], colnames(df)[objval_col_idx]) +
+                 ggtitle(title) +
+                 theme(legend.key.height = unit(0.5, "in"))
+            if(logspace) {
+                g <- g + xlab(paste("log10(",dfCols[i],")",sep="")) + ylab(paste("log10(",dfCols[j],")",sep=""))
+            }
+          }
+          if(scientific_notation) {
+             g <- g + scale_x_continuous(labels=scientific) + scale_y_continuous(labels=scientific)
+          }
+          ggsave(fileout, dpi=300, width=8, height=6)
         }
     }
 }
@@ -145,14 +143,13 @@ plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_pre
 
 # Plot the Objective values vs Iterations
 #
-# :param df: the complete data frame
-# :param objval_col: the objective value column name
+# :param objval_array: the array of objective function values.
 # :param plots_dir: the directory to save the generated plots
 # :param model: the model name
-plot_objval_vs_iters <- function(df, objval_col, plots_dir, model) {
+plot_objval_vs_iters <- function(objval_array, plots_dir, model) {
     print('plotting objective value vs iteration')
     # save the objective value vs iteration
-    g <- plot_fits(df[,objval_col], ggplot())
+    g <- plot_fits(objval_array, ggplot())
     ggsave(file.path(plots_dir, paste(model, "_objval_vs_iter.png", sep="")), dpi=300, width=8, height=6)
 }
 
@@ -213,6 +210,7 @@ compute_cl_objval <- function(min_objval, params, data_points, level=0.5) {
 # :param df95: the data frame filtered at 95%
 # :param df99: the data frame filtered at 95%
 # :param objval_col: the objective value column name
+# :param dfCols: the column names of the dataset
 # :param plots_dir: the directory to save the generated plots
 # :param model: the model name
 # :param plot_2d_66cl_corr: true if the 2D parameter correlation plots for 66% confidence intervals should be plotted. This is time consuming. (default: FALSE)
@@ -220,20 +218,19 @@ compute_cl_objval <- function(min_objval, params, data_points, level=0.5) {
 # :param plot_2d_99cl_corr: true if the 2D parameter correlation plots for 99% confidence intervals should be plotted. This is time consuming. (default: FALSE)
 # :param logspace: true if parameters should be plotted in logspace. (default: TRUE)
 # :param scientific_notation: true if the axis labels should be plotted in scientific notation (default: TRUE)
-plot_2d_cl_corr <- function(df66, df95, df99, objval_col, plots_dir, model,
+plot_2d_cl_corr <- function(df66, df95, df99, objval_col, dfCols, plots_dir, model,
                             plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
                             logspace=TRUE, scientific_notation=TRUE) {
-  dfCols <- colnames(df99)
   if(plot_2d_66cl_corr) {
-    plot_parameter_correlations(df66[order(-df66[,objval_col]),], dfCols, plots_dir, paste(model, "_cl66_fits_", sep=""),
+    plot_parameter_correlations(df66, dfCols, plots_dir, paste(model, "_cl66_fits_", sep=""),
         expression("obj val"<="CL66%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
   if(plot_2d_95cl_corr) {
-    plot_parameter_correlations(df95[order(-df95[,objval_col]),], dfCols, plots_dir, paste(model, "_cl95_fits_", sep=""),
+    plot_parameter_correlations(df95, dfCols, plots_dir, paste(model, "_cl95_fits_", sep=""),
         expression("obj val"<="CL95%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
   if(plot_2d_99cl_corr) {
-    plot_parameter_correlations(df99[order(-df99[,objval_col]),], dfCols, plots_dir, paste(model, "_cl99_fits_", sep=""),
+    plot_parameter_correlations(df99, dfCols, plots_dir, paste(model, "_cl99_fits_", sep=""),
         expression("obj val"<="CL99%"), which(dfCols==objval_col), logspace, scientific_notation)
   }
 }
@@ -401,7 +398,7 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
   theme_set(basic_theme(36))
 
   # Plot the objective value vs Iterations
-  plot_objval_vs_iters(df, objval_col, plots_dir, model)
+  plot_objval_vs_iters(df[,objval_col], plots_dir, model)
 
   # Write the summary for the parameter estimation analysis
   fileoutPLE <- sink(fileout_param_estim_summary)
@@ -431,7 +428,12 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
   sink()
 
   # plot parameter correlations using the 66%, 95%, or 99% confidence level data sets
-  plot_2d_cl_corr(df66, df95, df99, objval_col, plots_dir, model,
+  dfCols <- colnames(df99)
+  plot_2d_cl_corr(df66[order(-df66[,objval_col]),],
+                  df95[order(-df95[,objval_col]),],
+                  df99[order(-df99[,objval_col]),],
+                  objval_col,
+                  dfCols, plots_dir, model,
                   plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                   logspace, scientific_notation)
 
@@ -503,7 +505,7 @@ fits_analysis <- function(model, finalfits_filenamein, allfits_filenamein, plots
                           fileout_param_estim_details, fileout_param_estim_summary, best_fits_percent,
                           plot_2d_66cl_corr=FALSE, plot_2d_95cl_corr=FALSE, plot_2d_99cl_corr=FALSE,
                           logspace=TRUE, scientific_notation=TRUE) {
-    finalfits = TRUE
+    finalfits = FALSE
     dim_final_fits = dim(read.table(finalfits_filenamein, sep="\t"))[1]
     dim_all_fits = dim(read.table(allfits_filenamein, header=TRUE, sep="\t"))[1]
 
