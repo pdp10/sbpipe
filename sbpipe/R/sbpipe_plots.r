@@ -164,8 +164,8 @@ scatterplot_log10 <-function(df, g=ggplot(), colNameX, colNameY, dot_size=0.5) {
 
 # Plot the number of iterations vs objective values in log10 scale.
 #
-# :param g: the current ggplot to overlap
 # :param objval_array: the array of objective function values.
+# :param g: the current ggplot to overlap
 plot_fits <- function(objval_array, g=ggplot()) {
   iters <- c()
   j <- 0
