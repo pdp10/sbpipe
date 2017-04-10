@@ -39,7 +39,8 @@ tracking system at the web page:
 
 **How to cite SBpipe:**
 
-Dalle Pezze, P and Le Novère, N. (2017) SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks. BioRxiv, February 9, 2017.
-DOI:[https://doi.org/10.1101/107250](https://doi.org/10.1101/107250)
+Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology* **11**:46. SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks.
+[DOI:10.1186/s12918-017-0423-3](https://doi.org/10.1186/s12918-017-0423-3)
+
 
 Thanks for using SBpipe!
