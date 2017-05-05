@@ -170,7 +170,7 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
                 # if infile.find('mean_sd_ci95') != -1:
                 logger.info(infile)
                 file_out.write("\\includegraphics[width=2in]{" + plots_folder +
-                               "/" + infile.replace('.png', '') + ".png}\n")
+                               "/{" + infile.replace('.png', '') + "}.png}\n")
         file_out.write("\\end{document}\n")
 
 
