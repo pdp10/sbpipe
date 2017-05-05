@@ -94,8 +94,16 @@ rightCI <- function(cut_dataset, full_dataset, objval_col_idx, param_col_idx, ob
 # :param dfCols: The columns of a data frame.
 replace_colnames <- function(dfCols) {
   dfCols <- gsub("ObjectiveValue", "ObjVal", dfCols)
+  # global variables
   dfCols <- gsub("Values.", "", dfCols)
   dfCols <- gsub("..InitialValue", "", dfCols)
+  # compartments
+  dfCols <- gsub("Compartments.", "", dfCols)
+  dfCols <- gsub("..InitialVolume", "", dfCols)
+  # species
+  dfCols <- gsub("X.", "", dfCols)
+  dfCols <- gsub("._0", "", dfCols)
+  dfCols <- gsub(".InitialParticleNumber", "", dfCols)
 }
 
 

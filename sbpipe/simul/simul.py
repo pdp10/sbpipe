@@ -247,7 +247,15 @@ class Simul(object):
                     # Then replaces whites with TAB.
                     # Finally use rstrip to remove the TAB at the end.
                     # [^\w] matches anything that is not alphanumeric or underscore
-                    lines[i] = lines[i].replace("Values[", "").replace("]", "").replace(".InitialValue", "")
+
+                    # global variables
+                    lines[i] = lines[i].replace("Values[", "").replace(".InitialValue", "")
+                    # compartments
+                    lines[i] = lines[i].replace("Compartments[", "").replace(".InitialVolume", "")
+                    # particle numbers
+                    lines[i] = lines[i].replace(".InitialParticleNumber", "")
+                    # species
+                    lines[i] = lines[i].replace("Values[", "").replace("]_0", "")
 
                     # we replace ' ' and '-' with '_' in the parameter names
                     lines[i] = lines[i].replace('-', '_').replace('.', '_').replace('(', '').replace(')', '')
