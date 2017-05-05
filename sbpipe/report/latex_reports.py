@@ -88,7 +88,8 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
         for infile in files:
             if infile.find(model_noext) != -1:
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.22]{" + plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                               "/{" + infile.replace('.png', '') + "}.png}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
@@ -136,7 +137,8 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
                     prev_readout = curr_readout
 
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.22]{" + plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                               "/{" + infile.replace('.png', '') + "}.png}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
@@ -167,7 +169,8 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
             if infile.find(model_noext) != -1:
                 # if infile.find('mean_sd_ci95') != -1:
                 logger.info(infile)
-                file_out.write("\\includegraphics[scale=0.24]{" + plots_folder + "/" + infile + "}\n")
+                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                               "/{" + infile.replace('.png', '') + "}.png}\n")
         file_out.write("\\end{document}\n")
 
 
@@ -203,7 +206,8 @@ def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
                 file_out.write("\\begin{figure}[!ht]\n")
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
-            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder + "/" + infile + "}\n")
+            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder +
+                           "/{" + infile.replace('.png', '') + "}.png}\n")
             file_out.write("\\end{minipage}\n")
             file_out.write("\\hfill\n")
             if figure_num % figures_per_page == 0 and begin_figure:
@@ -250,7 +254,8 @@ def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=
                 file_out.write("\\begin{figure}[!ht]\n")
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
-            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder + "/" + infile + "}\n")
+            file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder +
+                           "/{" + infile.replace('.png', '') + "}.png}\n")
             if caption:
                 file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4] + "}\n")
             file_out.write("\\end{minipage}\n")
