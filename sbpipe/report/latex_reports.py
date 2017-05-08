@@ -88,7 +88,7 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
         for infile in files:
             if infile.find(model_noext) != -1:
                 logger.info(infile)
-                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
                                "/{" + infile.replace('.png', '') + "}.png}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
@@ -137,7 +137,7 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
                     prev_readout = curr_readout
 
                 logger.info(infile)
-                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
                                "/{" + infile.replace('.png', '') + "}.png}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
