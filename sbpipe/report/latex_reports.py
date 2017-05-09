@@ -164,13 +164,15 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        combined_list = '\t'.join(folder)
+        multiple_sims = 'heatmap' in combined_list
         folder.sort()
         for infile in folder:
             if infile.find(model_noext) != -1:
-                # if infile.find('mean_sd_ci95') != -1:
-                logger.info(infile)
-                file_out.write("\\includegraphics[width=2in]{" + plots_folder +
-                               "/{" + infile.replace('.png', '') + "}.png}\n")
+                if multiple_sims or infile.find('mean_sd_ci95') != -1:
+                    logger.info(infile)
+                    file_out.write("\\includegraphics[width=2in]{" + plots_folder +
+                                   "/{" + infile.replace('.png', '') + "}.png}\n")
         file_out.write("\\end{document}\n")
 
 
