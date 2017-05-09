@@ -135,7 +135,7 @@ def replace_str_in_report(report):
                 # global variables
                 lines[i] = lines[i].replace("Values[", "").replace(".InitialValue", "")
                 # compartments
-                lines[i] = lines[i].replace("Compartments[", "").replace(".InitialVolume", "")
+                lines[i] = lines[i].replace("Compartments[", "").replace(".InitialVolume", "").replace(".Volume", "")
                 # particle numbers
                 lines[i] = lines[i].replace(".InitialParticleNumber", "")
                 # species
