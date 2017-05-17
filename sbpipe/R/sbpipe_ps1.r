@@ -129,7 +129,7 @@ plot_single_param_scan_data <- function(model, inhibition_only,
     # Read variable
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names(timecourses)
-
+    my_time <- timecourses[,c('Time')]
     # let's plot now! :)
 
     for(j in 2:length(column)) {
@@ -140,7 +140,7 @@ plot_single_param_scan_data <- function(model, inhibition_only,
             #print(files[levels.index[m]])
             dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
-            df <- data.frame(time=timecourses[,1], b=dataset)
+            df <- data.frame(time=my_time, b=dataset)
             # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)
             df <- melt(df, id=c("time"))
             df$value <- dataset
@@ -192,6 +192,8 @@ plot_single_param_scan_data_homogen <- function(model,
     # Read variable
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names(timecourses)
+    my_time <- timecourses[,c('Time')]
+    # let's plot now! :)
 
     for(j in 2:length(column)) {
         print(column[j])
@@ -200,7 +202,7 @@ plot_single_param_scan_data_homogen <- function(model,
         for(m in 1:length(files)) {
             df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
-            df <- data.frame(time=timecourses[,1], value=df)
+            df <- data.frame(time=my_time, value=df)
             g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)
         }
         g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
