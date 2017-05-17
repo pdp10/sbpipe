@@ -238,9 +238,9 @@ class ParScan1(Pipeline):
                 "input_dir " + os.path.join(outputdir, sim_data_folder) + " does not exist. Generate some data first.")
             return False
 
-        if float(min_level) < 0:
-            logger.error("min_level MUST BE non negative. Please, check your configuration file.")
-            return False
+        #if float(min_level) < 0:
+        #    logger.error("min_level MUST BE non negative. Please, check your configuration file.")
+        #    return False
 
         if float(max_level) < 0:
             logger.error("max_level MUST BE non negative. Please, check your configuration file.")
