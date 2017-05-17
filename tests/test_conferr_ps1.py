@@ -53,7 +53,7 @@ class TestCopasiPS1(unittest.TestCase):
         self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan2.yaml", quiet=True), 1)
 
     def test_ps1_ci3(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml", quiet=True), 1)
+        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml", quiet=True), 0)
 
     def test_ps1_ci4(self):
         self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan4.yaml", quiet=True), 1)
