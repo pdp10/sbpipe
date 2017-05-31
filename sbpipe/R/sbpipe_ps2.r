@@ -118,3 +118,5 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
       }
   }
 }
+
+

@@ -285,3 +285,5 @@ plot_heatmap_tc <- function(df, g=ggplot(), scaled=TRUE, title='', xaxis_label='
              coord_flip()
     return(g)
 }
+
+
