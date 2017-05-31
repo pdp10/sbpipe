@@ -546,3 +546,4 @@ fits_analysis <- function(model, finalfits_filenamein, allfits_filenamein, plots
                         fileout_param_estim_summary, plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                         logspace, scientific_notation)
 }
+
