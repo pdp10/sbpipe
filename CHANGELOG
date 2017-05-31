@@ -6,7 +6,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.21.0 (Mars)
+v3.22.0 (Mars)
 
 - code optimisation for parameter estimation pipeline.
 - Improved conda packaging.

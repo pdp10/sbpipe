@@ -410,3 +410,5 @@ class ParEst(Pipeline):
                 round, runs, best_fits_percent, data_point_num,
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
                 logspace, scientific_notation)
+
+
