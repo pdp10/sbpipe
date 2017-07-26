@@ -87,7 +87,7 @@ def main(argv=None):
     """
     Move data sets from one Path to another and update the sequence number.
     """
-    parser = argparse.ArgumentParser(prog='SBpipe - move data sets',
+    parser = argparse.ArgumentParser(prog='sbpipe_move_datasets.py',
                                      description='move data sets from one Path to another '
                                                  'and update the sequence number',
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
