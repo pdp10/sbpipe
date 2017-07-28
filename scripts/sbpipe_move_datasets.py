@@ -25,6 +25,7 @@
 import argparse
 import glob
 import os
+import errno
 import shutil
 from os.path import basename
 import sys
@@ -45,7 +46,7 @@ def get_index(name='', output_path='.'):
     :return: the largest index or -1 if no file was found
     """
     files = glob.glob(os.path.join(output_path, name) + '_' + '*')
-    print('Existing files in ' + output_path + ': ' + str(len(files)))
+    print('Existing files in `' + output_path + '` : ' + str(len(files)))
     # print(files)
     # +1 is because the dataset include an underscore between the name and the sequence number
     name_length = len(name) + 1
@@ -68,12 +69,19 @@ def move_dataset(name='', input_path='', output_path=''):
     :param parameter_estimation: model parameter estimation using a configuration file as argument
     """
 
+    try:
+        os.makedirs(output_path)
+        print('Created missing output directory `' + output_path + '`')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
     # get the last index
     index = get_index(name, output_path)
     # update the index
     index += 1
     files = glob.glob(os.path.join(input_path, name) + '_' + '*')
-    print('Files to copy from ' + input_path + ' to ' + output_path + ': ' + str(len(files)))
+    print('Files to copy from `' + input_path + '` to `' + output_path + '` : ' + str(len(files)))
     for filein in files:
         # get the base name extension
         ext = basename(filein).split('.')[1]
