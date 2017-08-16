@@ -173,6 +173,47 @@ class Copasi(Simul):
                         else:
                             break
                     break
+
+        ##############################################################
+        # START BUG FIX 226.
+        #
+        # This fix is kept separately as it may be removed one day.
+        # Copasi wrongly adds the list of constraints to the same list of fitted parameters
+        # in the parameter estimation report. This causes an issue with SBpipe as this cannot discriminate whether
+        # the parameter is estimated or constrained.
+        # This patch cuts off the parameter list based on the number of columns of estimated parameters.
+        # NOTICE: It will work as long as Copasi adds the list of constraints at the bottom of
+        # the list of fitted parameters.
+
+        # We need to get the number of columns for the estimated parameters. This is not well represented in a
+        # Copasi report and if the estimation is not completed, this information is also missing. In this latter
+        # case, we don't do anything.
+        col_num = 0
+        with open(filein, 'r') as file:
+            lines = file.readlines()
+            line_num = -1
+            for line in lines:
+                line_num += 1
+                split_line = line.split('\t')
+                if len(split_line) > 0 and split_line[0].find('[Function Evaluations]') != -1:
+                    # retrieve the columns
+                    line_num += 1
+                    if line_num < len(lines):
+                        split_line = lines[line_num]
+                        if split_line.find('(') != -1:
+                            # extract the string which is between '\t(\t' and  '\t)\t'
+                            # cols contains the parameter values for the first function evaluation
+                            cols = re.search('\(\t(.*)\t\)', split_line).group(1)
+                            col_num = len(cols.split("\t"))
+                    break
+
+        # Now we only consider the first `col_num` in parameters, if col_num is not zero.
+        if col_num != 0:
+            parameters = parameters[:col_num]
+
+        # END BUG FIX 226
+        ##############################################################
+
         return parameters
 
     def _write_best_fits(self, files, path_out, filename_out):
