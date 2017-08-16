@@ -75,7 +75,7 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta.yaml
+  - conda build conda_recipe/meta.yaml -c conda-forge
   - conda install sbpipe --use-local
 
 # command to run tests
