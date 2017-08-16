@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.23.0 (Mars)
+v3.24.0 (Mars)
 
+- bug fix - constraints in parameter estimation using Copasi
 - added scripts
 - code optimisation for parameter estimation pipeline.
 - Improved conda packaging.
