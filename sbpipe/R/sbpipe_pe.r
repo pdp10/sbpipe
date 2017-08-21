@@ -38,7 +38,12 @@ source(file.path(SBPIPE_R, 'sbpipe_ggplot2_themes.r'))
 # :param n: number of data points
 # :param p: significance level
 compute_fratio_threshold <- function(m, n, p=0.05) {
-  1 + (m/(n-m)) * qf(1.0-p, df1=m, df2=n-m)
+  if(n-m < 1) {
+    warning("`data_point_num` is less than the number of estimated parameters. Skipping thresholds.")
+    0
+  } else {
+    1 + (m/(n-m)) * qf(1.0-p, df1=m, df2=n-m)
+  }
 }
 
 
@@ -121,7 +126,7 @@ replace_colnames <- function(dfCols) {
 plot_parameter_correlations <- function(df, dfCols, plots_dir, plot_filename_prefix, title="", objval_col_idx=1,
                                         logspace=TRUE, scientific_notation=TRUE) {
       fileout <- ""
-      for (i in seq(objval_col_idx+1,length(dfCols)-1)) {
+      for (i in seq(objval_col_idx+1,length(dfCols))) {
         print(paste('sampled param corr (', title, ') for ', dfCols[i], sep=''))
         for (j in seq(i, length(dfCols))) {
           g <- ggplot()
@@ -240,6 +245,10 @@ plot_2d_cl_corr <- function(df66, df95, df99, objval_col, dfCols, plots_dir, mod
   if(plot_2d_99cl_corr) {
     plot_parameter_correlations(df99, dfCols, plots_dir, paste(model, "_cl99_fits_", sep=""),
         expression("obj val"<="CL99%"), which(dfCols==objval_col), logspace, scientific_notation)
+  }
+  if(nrow(df66) == nrow(df95) && nrow(df95) == nrow(df99)) {
+    plot_parameter_correlations(df99, dfCols, plots_dir, paste(model, "_all_fits_", sep=""),
+        expression("all fits"), which(dfCols==objval_col), logspace, scientific_notation)
   }
 }
 
@@ -373,8 +382,8 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
                               logspace=TRUE, scientific_notation=TRUE) {
 
   data_point_num <- as.numeric(data_point_num)
-  if(data_point_num <= 0.0) {
-    warning("data_point_num is non positive.")
+  if(data_point_num < 0.0) {
+    warning("`data_point_num` must be >= 0. To visualise thresholds, `data_point_num` must be greater than the number of estimated parameters.")
     stop()
   }
 
@@ -396,9 +405,9 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
   cl66_objval <- compute_cl_objval(min(df[,objval_col]), parameter_num, data_point_num, .33)
 
   # select the rows with objective value smaller than our max threshold
-  df99 <- df[df[,objval_col] <= cl99_objval, ]
-  df95 <- df[df[,objval_col] <= cl95_objval, ]
-  df66 <- df[df[,objval_col] <= cl66_objval, ]
+  if(cl99_objval > 0) { df99 <- df[df[,objval_col] <= cl99_objval, ] } else { df99 <- df }
+  if(cl95_objval > 0) { df95 <- df[df[,objval_col] <= cl95_objval, ] } else { df95 <- df }
+  if(cl66_objval > 0) { df66 <- df[df[,objval_col] <= cl66_objval, ] } else { df66 <- df }
 
   min_objval <- min(df99[,objval_col])
 
@@ -437,13 +446,23 @@ all_fits_analysis <- function(model, df, plots_dir, data_point_num,
 
   # plot parameter correlations using the 66%, 95%, or 99% confidence level data sets
   dfCols <- colnames(df99)
-  plot_2d_cl_corr(df66[order(-df66[,objval_col]),],
-                  df95[order(-df95[,objval_col]),],
-                  df99[order(-df99[,objval_col]),],
-                  objval_col,
-                  dfCols, plots_dir, model,
-                  plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
-                  logspace, scientific_notation)
+  if(cl99_objval > 0) {
+      plot_2d_cl_corr(df66[order(-df66[,objval_col]),],
+                      df95[order(-df95[,objval_col]),],
+                      df99[order(-df99[,objval_col]),],
+                      objval_col,
+                      dfCols, plots_dir, model,
+                      plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
+                      logspace, scientific_notation)
+   } else {
+      plot_2d_cl_corr(df66[order(-df99[,objval_col]),],
+                      df95[order(-df99[,objval_col]),],
+                      df99[order(-df99[,objval_col]),],
+                      objval_col,
+                      dfCols, plots_dir, model,
+                      FALSE, FALSE, FALSE,
+                      logspace, scientific_notation)
+   }
 
 }
 

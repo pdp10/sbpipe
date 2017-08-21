@@ -254,8 +254,9 @@ class ParEst(Pipeline):
             logger.error("variable `best_fits_percent` must be in (0, 100]. Please, check your configuration file.")
             return False
 
-        if int(data_point_num) < 1:
-            logger.error("variable `data_point_num` must be greater than 0. Please, check your configuration file.")
+        if int(data_point_num) < 0:
+            logger.error("variable `data_point_num` must be >= 0. To visualise thresholds, `data_point_num` must be "
+                         "greater than the number of estimated parameters. Please, check your configuration file.")
             return False
 
         refresh(sim_plots_dir, os.path.splitext(model)[0])
