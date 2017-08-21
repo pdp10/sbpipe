@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.25.0 (Mars)
+v3.26.0 (Mars)
 
+- if `data_point_num` is [0, est_param_number], the analysis task for parameter estimation will
+continue BUT the thresholds will be discarded.
 - bug fix - conda build package after conda was upgraded to v3.x.x
 - bug fix - constraints in parameter estimation using Copasi
 - added scripts
@@ -18,7 +20,8 @@ v3.25.0 (Mars)
 - SBpipe pipelines are also available as snake files. Therefore, SBpipe can be run using Snakemake.
 - SBpipe is now also available as conda package (installation+dependencies: conda install -c pdp10 sbpipe)
 - The environment variable SBPIPE is no longer necessary.
-- Anaconda can be used for installing SBpipe dependencies. This improves portability on Linux and Windows OS.
+- Anaconda can be used for installing SBpipe dependencies. This improves portability on Linux
+and Windows OS.
 - subprocess.Popen() and logging fileConfig() use `with .. as ..:` construct with Python3+.
 - changed `chi^2` label to `obj val` in parameter estimation plots
 - Added additional arguments to sbpipe
@@ -28,8 +31,10 @@ v3.25.0 (Mars)
 - Replaced Python getopt with argparse.
 - Improved unit tests and nosetests with Travis-CI.
 - Replaced INI configuration files with YAML configuration files.
-- Skip heatmap and multiple time course plot if only one simulation is run. These plots are just redundant.
-- removed support for running R, Octave, and Java models directly as these can be run via a Python model wrapper.
+- Skip heatmap and multiple time course plot if only one simulation is run. These plots are
+just redundant.
+- removed support for running R, Octave, and Java models directly as these can be run via
+a Python model wrapper.
 - bug fixes
 
 v3.0.0 (Earth)
@@ -39,10 +44,13 @@ v3.0.0 (Earth)
 - renamed option `pp_cpus` to `local_cpus`, after removal of parallel python.
 - renamed value `pp` to `local` for option `cluster` after removal of parallel python.
 - added support for Python 3. The code is now expected to work for Python 2.7+, 3.2, and 3.6.
-- replaced parallel python with python multiprocessing package. This should facilitate the transition to Python 3.
-- removed deprecated source code for manually randomising parameters before parameter estimation in Copasi files.
+- replaced parallel python with python multiprocessing package. This should facilitate
+the transition to Python 3.
+- removed deprecated source code for manually randomising parameters before parameter
+estimation in Copasi files.
 - Copasi and PL-based simulators now share a large amount of code.
-- adapted programming language-based simulators to use ps1 and ps2 post-processing code. All simulators support all the pipelines.
+- adapted programming language-based simulators to use ps1 and ps2 post-processing code.
+All simulators support all the pipelines.
 - moved post-processing code for ps1 and ps2 from Copasi to Simul.
 - improved code cohesion by moving utility code into Simul class().
 - improved output name consistency for report and plot files
@@ -64,7 +72,8 @@ v3.0.0 (Earth)
 - changed main script name from run_sbpipe.py to sbpipe.
 - Added support for parameter estimation using non-Copasi models. Test using R model.
 - Skip Java, Python, and R model tests if their dependencies are not satisfied.
-- Optimised Java, Python, and R simulators. Report file names are passed as input argument. Models do not need to be replicated.
+- Optimised Java, Python, and R simulators. Report file names are passed as input argument.
+Models do not need to be replicated.
 - Java models can be used for model simulation in addition to Copasi.
 - Python models can be used for model simulation in addition to Copasi.
 - R models can be used for model simulation in addition to Copasi.
