@@ -76,7 +76,14 @@ $ git branch -d feature10      # delete the branch feature10 (locally)
 
 
 ### New releases
-When the `develop` branch includes all the desired feature for a 
+The script `release.sh` at the root of the package allows to release
+a new version of SBpipe or update the last github tag. This script also
+creates and uploads a new SBpipe package for anaconda cloud.
+
+The following two sections describe how to release a new version for SBpipe, manually.
+
+#### How to release a new tag
+When the `develop` branch includes all the desired feature for a
 release, it is time to checkout this 
 branch in a new one called `release-x.x.x`. It is at this stage that a 
 version is established. Only bugfixes or hotfixes are applied to this 
@@ -96,7 +103,7 @@ To see all the releases:
 git show
 ```
 
-### How to build SBpipe conda package
+#### How to release a new SBpipe conda package (Anaconda Cloud)
 This is a short guide for building SBpipe as a conda package.
 Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
 ```
