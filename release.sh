@@ -66,17 +66,18 @@ then
     last_tag=$(git describe --abbrev=0 --tags)
     printf "current tag: ${last_tag}\n"
 
-    # Update the last tag to include the last commits
-    git tag -f -a ${last_tag}
-    # push this updated tag
-    git push -f --tags
-
     # rename a tag
     git tag ${version} ${last_tag}
     git tag -d ${last_tag}
     git push --tags
     # make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:
     git pull --prune --tags
+
+    # Update the last tag to include the last commits
+    git tag -f -a ${version}
+    # push this updated tag
+    git push -f --tags
+
     printf "every user with permission to release, should run `git pull --prune --tags`\n"
 
 
