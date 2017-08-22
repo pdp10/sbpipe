@@ -69,7 +69,7 @@ then
     # Update the last tag to include the last commits
     git tag -f -a ${last_tag}
     # push this updated tag
-    #git push -f --tags
+    git push -f --tags
 
     # rename a tag
     git tag ${version} ${last_tag}
