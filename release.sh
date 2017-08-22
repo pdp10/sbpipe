@@ -69,6 +69,7 @@ then
     # rename a tag
     git tag ${version} ${last_tag}
     git tag -d ${last_tag}
+    git push origin :refs/tags/${last_tag}
     git push --tags
     # make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:
     git pull --prune --tags
