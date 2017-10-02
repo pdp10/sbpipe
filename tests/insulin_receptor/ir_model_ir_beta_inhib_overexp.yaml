@@ -12,7 +12,7 @@ simulate__intervals: 100
 ps1_knock_down_only: False
 ps1_percent_levels: True
 min_level: 0
-max_level: 250
+max_level: 200
 levels_number: 10
 homogeneous_lines: False
 xaxis_label: "Time [min]"

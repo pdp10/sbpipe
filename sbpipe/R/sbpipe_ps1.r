@@ -85,28 +85,34 @@ plot_single_param_scan_data <- function(model, inhibition_only,
     # Set the labels for the plot legend
     labels <- seq(as.numeric(min_level), as.numeric(max_level), (as.numeric(max_level)-as.numeric(min_level))/(as.numeric(levels_number)))
     labels <- round(labels, digits = 0)
-
-    # Set the color and linetype for the plot
-    colors <- c()
-    linetype <- c()
-
     # Add percentages to the labels
     if(percent_levels) {
       labels <- paste(labels, " %", sep="")
     }
+    
+    # Set the color and linetype for the plot
+    colors <- c()
+    linetype <- c()
+
+    # deepskyblue.blue3 palette
+    palette.deepskyblue.blue3 <- colorRampPalette(c("deepskyblue", "blue3"))
+    
     # Scanning using a virtual variable (A_percent_level) defining the percent level of its corresponding real variable (A).
     # The scanninig is therefore done by percent levels and at the beginning.
     # NOTE: A_percent_level=0  ==> A is knocked out (so 0%)
     if(inhibition_only) {
-      # Including knockout (first number is knock out (bright blue), last number 24 is control (black))  (0%,10%,20%,..,100%)
-      colors <- c("dodgerblue", "dodgerblue1", "dodgerblue2", "dodgerblue3", "dodgerblue4", "blue", "blue1", "blue2", "blue3", "blue4", "black")
-      linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
+      #linetype <- c(1,6,4,3,2,1,6,4,3,2,1)
+      # create my colours from palette
+      colors <- c(palette.deepskyblue.blue3(as.numeric(levels_number)), "black")
     } else {
-      # Including knockout (first number is knock out (bright blue), last number 96 is control (overexpression))  (0%,25%,50%,..,100%,125%,150%,..250%)
-      colors <- colors()[c(27,28,29,30,24,99,115,95,98,97,96)]
-      linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
+      #linetype <- c(6,4,3,2,1,6,5,4,3,2,6)
+      # darkorchid.magenta palette
+      palette.darkorchid.magenta <- colorRampPalette(c("darkorchid", "magenta"))
+      # create my colours from the dodger.blue3 palette and the darkorchid.magenta palette
+      colors1 <- palette.deepskyblue.blue3(as.numeric(levels_number)/2)
+      colors2 <- palette.darkorchid.magenta(as.numeric(levels_number)/2+1)
+      colors <- c(colors1, "black", colors2)
     }
-
 
     writeLines(paste("Model: ", model, ".cps", sep=""))
     #writeLines(outputdir)
@@ -135,28 +141,26 @@ plot_single_param_scan_data <- function(model, inhibition_only,
     for(j in 2:length(column)) {
         print(column[j])
 
-        g <- ggplot()
+        # extract the data
+        df <- data.frame(time=my_time, check.names=FALSE)
         for(m in 1:length(levels.index)) {
             #print(files[levels.index[m]])
-            dataset <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
+            col.level <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
                     dec=".",sep="\t")[,j]
-            df <- data.frame(time=my_time, b=dataset)
-            # NOTE: df becomes: time, variable (a factor, with "b" items), value (with previous items in b)
-            df <- melt(df, id=c("time"))
-            df$value <- dataset
-            df$variable <- as.character(m+10)
-
-            #print(df$variable)
-            g <- g + geom_line(data=df,
-                    aes(x=time, y=value, color=variable, linetype=variable),
-                    size=1.0)
+            df <- cbind(df, a=col.level)
+            colnames(df)[ncol(df)] <- as.character(m+10)
         }
-        g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) +
-             theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
+        
+        # plot the data
+        df.melt <- melt(df, id=c("time"))
+        g <- ggplot() + 
+             geom_line(data=df.melt, aes(x=time, y=value, group=variable, color=variable), size=1.0) +
              scale_colour_manual("Levels", values=colors, labels=labels) +
-             scale_linetype_manual("Levels", values=linetype, labels=labels)
+             # scale_linetype_manual("Levels", values=linetype, labels=labels) +
+             xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) +
+             theme(legend.title=element_blank(), legend.position="bottom", legend.key.height=unit(0.5, "in")) +
         ggsave(file.path(outputdir, paste(model, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
-           dpi=300,  width=8, height=8)#, bg = "transparent")
+           dpi=300,  width=8, height=8)
     }
 }
 
@@ -193,21 +197,27 @@ plot_single_param_scan_data_homogen <- function(model,
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
     column <- names(timecourses)
     my_time <- timecourses[,c('Time')]
-    # let's plot now! :)
 
     for(j in 2:length(column)) {
         print(column[j])
 
-        g <- ggplot()
+        # extract the data
+        df <- data.frame(time=my_time, check.names=FALSE)
         for(m in 1:length(files)) {
-            df <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
-                    dec=".",sep="\t")[,j]
-            df <- data.frame(time=my_time, value=df)
-            g <- g + geom_line(data=df, aes(x=time, y=value), color='blue', size=1.0)
+          #print(files[levels.index[m]])
+          col.level <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
+                         dec=".",sep="\t")[,j]
+          df <- cbind(df, a=col.level)
+          colnames(df)[ncol(df)] <- as.character(m)
         }
-        g <- g + xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j])
-        ggsave(file.path(outputdir, paste(model, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
-           dpi=300,  width=8, height=8)#, bg = "transparent")
+        
+        # plot the data
+        df.melt <- melt(df, id=c("time"))
+        g <- ggplot() + 
+          geom_line(data=df.melt, aes(x=time, y=value, group=variable), color='blue', size=1.0) +
+          xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(column[j]) +
+          ggsave(file.path(outputdir, paste(model, "__rep_", run, "__eval_", column[j], ".png", sep="" )),
+                 dpi=300,  width=8, height=8)
     }
 }
 
