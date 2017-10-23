@@ -206,11 +206,12 @@ plot_fits <- function(objval_array, g=ggplot()) {
 # :param g: the current ggplot to overlap
 # :param readout: the name of the readout
 # :param max_sim_tp: the maximum simulated time point
-plot_raw_dataset <- function(df_exp_dataset, g=ggplot(), readout="time", max_sim_tp=0) {
+plot_raw_dataset <- function(df_exp_dataset, g=ggplot(), readout="time", max_sim_tp=0, alpha=1) {
     # Let's add the experimental data set to the plot
     time <- colnames(df_exp_dataset)[1]
     df_exp_dataset <- df_exp_dataset[df_exp_dataset[1] <= max_sim_tp,]
-    g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout), shape=1, size=2, stroke=1, colour='red2')
+    g <- g + geom_point(data=df_exp_dataset, aes_string(x=time, y=readout),
+                        shape=1, size=2, stroke=1, colour='red2', alpha=alpha)
     return(g)
 }
 
@@ -224,13 +225,15 @@ plot_raw_dataset <- function(df_exp_dataset, g=ggplot(), readout="time", max_sim
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
 # :param bar_type: the type of bar ("mean", "mean_sd", "mean_sd_ci95")
-plot_combined_tc <- function(df, g=ggplot(), title="", xaxis_label="", yaxis_label="", bar_type="mean") {
+plot_combined_tc <- function(df, g=ggplot(), title="", xaxis_label="", yaxis_label="", bar_type="mean", alpha=1) {
     mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
     if(bar_type == "mean_sd" || bar_type == "mean_sd_ci95") {
-        g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="ribbon", fun.data = mean_sdl, fill="#99CCFF")
+        g <- g + stat_summary(data=mdf, aes(x=Time, y=conc),
+                              geom="ribbon", fun.data = mean_sdl, fill="#99CCFF", alpha=alpha)
         if(bar_type == "mean_sd_ci95") {
-            g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="ribbon", fun.data=mean_cl_normal,
-                     fun.args=list(conf.int=0.95), fill="#CCFFFF")
+            g <- g + stat_summary(data=mdf, aes(x=Time, y=conc),
+                                  geom="ribbon", fun.data=mean_cl_normal,
+                                  fun.args=list(conf.int=0.95), fill="#5588CC", alpha=alpha)   # #CCFFFF
         }
     }
     g <- g + stat_summary(data=mdf, aes(x=Time, y=conc), geom="line", fun.y=mean, size=1.0, color="black") +
@@ -247,9 +250,9 @@ plot_combined_tc <- function(df, g=ggplot(), title="", xaxis_label="", yaxis_lab
 # :param title: the title
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
-plot_repeated_tc <- function(df, g=ggplot(), title='', xaxis_label="", yaxis_label="") {
+plot_repeated_tc <- function(df, g=ggplot(), title='', xaxis_label="", yaxis_label="", alpha=1) {
     mdf <- melt(df,id.vars="Time",variable.name="species",value.name="conc")
-    g <- g + geom_line(data=mdf,aes(x=Time,y=conc,color=species), size=1.0) +
+    g <- g + geom_line(data=mdf,aes(x=Time,y=conc,color=species), size=1.0, alpha=alpha) +
          xlab(xaxis_label) + ylab(yaxis_label) + ggtitle(title) +
          theme(legend.position="none")
     return(g)

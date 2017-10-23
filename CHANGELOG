@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.28.0 (Mars)
+v3.29.0 (Mars)
 
+- added transparencies and improved simulation plots combined with data set.
 - added release.sh script for releasing SBpipe versions automatically.
 - if `data_point_num` is [0, est_param_number], the analysis task for parameter estimation will
 continue BUT the thresholds will be discarded.

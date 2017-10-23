@@ -304,16 +304,20 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
         # mean
         # we make this plot again because we want the line in front.
         gM <- ggplot()
-        gM <- plot_raw_dataset(df_exp_dataset, gM, readout, max(df$Time))
+        gM <- plot_raw_dataset(df_exp_dataset, gM, readout, max(df$Time), alpha=1)
         gM <- plot_combined_tc(df, gM, readout, xaxis_label, yaxis_label, 'mean')
         ggsave(gsub('.png', '_w_exp_data.png', fileoutM), dpi=300, width=8, height=6)#, bg = "transparent")
 
         # mean_sd
-        gMSD <- plot_raw_dataset(df_exp_dataset, gMSD, readout, max(df$Time))
+        gMSD <- ggplot()
+        gMSD <- plot_raw_dataset(df_exp_dataset, gMSD, readout, max(df$Time), alpha=1)
+        gMSD <- plot_combined_tc(df, gMSD, readout, xaxis_label, yaxis_label, 'mean_sd', alpha=0.6)
         ggsave(gsub('.png', '_w_exp_data.png', fileoutMSD), dpi=300, width=8, height=6)#, bg = "transparent")
 
         # mean_sd_ci95
-        gMSDCI <- plot_raw_dataset(df_exp_dataset, gMSDCI, readout, max(df$Time))
+        gMSDCI <- ggplot()
+        gMSDCI <- plot_raw_dataset(df_exp_dataset, gMSDCI, readout, max(df$Time), alpha=1)
+        gMSDCI <- plot_combined_tc(df, gMSDCI, readout, xaxis_label, yaxis_label, 'mean_sd_ci95', alpha=0.6)
         ggsave(gsub('.png', '_w_exp_data.png', fileoutMSDCI), dpi=300, width=8, height=6)#, bg = "transparent")
     }
   }
@@ -355,6 +359,7 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
 
     if(readout %in% colnames(df_exp_dataset)) {
         g <- plot_raw_dataset(df_exp_dataset, g, readout, max(df$Time))
+        g <- plot_repeated_tc(df, g, readout, xaxis_label, yaxis_label, alpha=0.2)
         ggsave(gsub('.png', '_w_exp_data.png', fileout), dpi=300, width=8, height=6)#, bg = "transparent")
     }
 
