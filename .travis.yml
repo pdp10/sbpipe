@@ -19,8 +19,7 @@ sudo: required
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
   - "2.7"
-  - "3.4"
-  - "3.5"
+  - "3.6"
 install:
 
   # install xvfb
@@ -52,8 +51,12 @@ install:
   - conda config --set always_yes yes --set changeps1 no
 
 
+
+
   ###
-  - conda install python=$TRAVIS_PYTHON_VERSION
+  #- conda install python=$TRAVIS_PYTHON_VERSION
+
+
 
 
   - conda update -q conda
@@ -61,17 +64,17 @@ install:
   - conda info -a
 
   # install conda build in order to build the conda package for SBpipe
-  - conda install conda-build python=$TRAVIS_PYTHON_VERSION
+  - conda install conda-build
   - conda config --set anaconda_upload no
 
   # install sbpipe
   # create sbpipe environment and install sbpipe dependencies
-  - conda env create --name sbpipe python=$TRAVIS_PYTHON_VERSION --file environment.yaml
+  - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
   # install snakemake (optional for Python 3)
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
-      conda install -c conda-forge python=$TRAVIS_PYTHON_VERSION ; conda install -c bioconda snakemake ;
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
+      conda install -c bioconda snakemake ;
     fi
 
   # install latex dependencies (optional)
@@ -81,8 +84,8 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta.yaml -c conda-forge python=$TRAVIS_PYTHON_VERSION
-  - conda install sbpipe --use-local python=$TRAVIS_PYTHON_VERSION
+  - conda build conda_recipe/meta.yaml -c conda-forge
+  - conda install sbpipe --use-local
 
 # command to run tests
 script:
