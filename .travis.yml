@@ -70,6 +70,8 @@ install:
   # install latex dependencies (optional)
   - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
+
+  ## FOR NOW, install sbpipe in this way, instead of using conda build.
   # install sbpipe
   - python setup.py install
 
