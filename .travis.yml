@@ -50,12 +50,18 @@ install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
+
+
+  ###
+  - conda install python=$TRAVIS_PYTHON_VERSION
+
+
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
 
   # install conda build in order to build the conda package for SBpipe
-  - conda install conda-build
+  - conda install conda-build python=$TRAVIS_PYTHON_VERSION
   - conda config --set anaconda_upload no
 
   # install sbpipe
@@ -65,7 +71,7 @@ install:
 
   # install snakemake (optional for Python 3)
   - if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
-      conda install -c conda-forge python=3.5 ; conda install -c bioconda snakemake ;
+      conda install -c conda-forge python=$TRAVIS_PYTHON_VERSION ; conda install -c bioconda snakemake ;
     fi
 
   # install latex dependencies (optional)
@@ -75,12 +81,14 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta.yaml -c conda-forge
-  - conda install sbpipe --use-local
+  - conda build conda_recipe/meta.yaml -c conda-forge python=$TRAVIS_PYTHON_VERSION
+  - conda install sbpipe --use-local python=$TRAVIS_PYTHON_VERSION
 
 # command to run tests
 script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
-  #- sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
-  - nosetests test_suite.py --nocapture --verbose
+  ###- sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
+  ###- nosetests test_suite.py --nocapture --verbose
+
+  - nosetests test_suite.py --verbose
 
