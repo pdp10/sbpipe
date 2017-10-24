@@ -80,8 +80,5 @@ install:
 # command to run tests
 script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
-  ###- sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
-  ###- nosetests test_suite.py --nocapture --verbose
-
-  - nosetests test_suite.py --verbose
-
+  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
+  - nosetests test_suite.py --nocapture --verbose
