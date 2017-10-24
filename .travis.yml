@@ -49,16 +49,6 @@ install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-
-
-
-
-  ###
-  #- conda install python=$TRAVIS_PYTHON_VERSION
-
-
-
-
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
@@ -84,7 +74,7 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta.yaml -c conda-forge
+  - conda build conda_recipe/meta.yaml #-c conda-forge
   - conda install sbpipe --use-local
 
 # command to run tests
