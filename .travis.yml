@@ -71,11 +71,11 @@ install:
   - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
   # install sbpipe
-  #- python setup.py install
+  - python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta.yaml #-c conda-forge
-  - conda install sbpipe --use-local
+  #- conda build conda_recipe/meta.yaml #-c conda-forge
+  #- conda install sbpipe --use-local
 
 # command to run tests
 script:
