@@ -33,10 +33,10 @@ install:
   - xvfb_pid=$!
   - export DISPLAY=:$PID.0
 
-#  # install copasi
-#  - wget https://github.com/copasi/COPASI/releases/download/Build-166/COPASI-4.21.166-Linux-64bit.tar.gz
-#  - tar xvzf COPASI-4.21.166-Linux-64bit.tar.gz
-#  - PATH=$PATH:$(pwd)/COPASI-4.21.166-Linux-64bit/bin/
+  # install copasi
+  - wget https://github.com/copasi/COPASI/releases/download/Build-166/COPASI-4.21.166-Linux-64bit.tar.gz
+  - tar xvzf COPASI-4.21.166-Linux-64bit.tar.gz
+  - PATH=$PATH:$(pwd)/COPASI-4.21.166-Linux-64bit/bin/
 
   # install miniconda
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -61,13 +61,13 @@ install:
   - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
-#  # install snakemake (optional for Python 3)
-#  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
-#      conda install -c bioconda snakemake ;
-#    fi
-#
-#  # install latex dependencies (optional)
-#  - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
+  # install snakemake (optional for Python 3)
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
+      conda install -c bioconda snakemake ;
+    fi
+
+  # install latex dependencies (optional)
+  - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
 
   ## FOR NOW, install sbpipe in this way, instead of using conda build.
@@ -83,4 +83,6 @@ script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
 #  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
 #  - nosetests test_suite.py --nocapture --verbose
-  - python tests/test_suite.py
+  - cd tests/copasi_models
+  - sbpipe -s ir_model_det_simul.yaml
+
