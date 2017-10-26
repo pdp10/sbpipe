@@ -17,9 +17,10 @@ language: python
 sudo: required
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
-#  - "2.7"
+  - "2.7"
   - "3.6"
 install:
+
 
   # install xvfb
   # we don't have X11 on Travis-CI, so we use a virtual framebuffer
@@ -33,10 +34,14 @@ install:
   - xvfb_pid=$!
   - export DISPLAY=:$PID.0
 
+
+
   # install copasi
   - wget https://github.com/copasi/COPASI/releases/download/Build-166/COPASI-4.21.166-Linux-64bit.tar.gz
   - tar xvzf COPASI-4.21.166-Linux-64bit.tar.gz
   - PATH=$PATH:$(pwd)/COPASI-4.21.166-Linux-64bit/bin/
+
+
 
   # install miniconda
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -56,11 +61,23 @@ install:
   - conda install conda-build
   - conda config --set anaconda_upload no
 
-  # install sbpipe
-  # create sbpipe environment and install sbpipe dependencies
+
+
+  # install SBpipe
+  # create the `sbpipe` environment
   - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
+  # install sbpipe directly
+  #- python setup.py install
+
+  # install sbpipe using conda build (which internally runs `python setup.py install`)
+  - conda build conda_recipe/meta.yaml
+  - conda install sbpipe --use-local
+
+
+
+  # install SBpipe (optional packages)
   # install snakemake (optional for Python 3)
   - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
       conda install -c bioconda snakemake ;
@@ -69,24 +86,18 @@ install:
   # install latex dependencies (optional)
   - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
+  # install colorlog (optional)
+  - conda install -c conda-forge colorlog
 
-  ## FOR NOW, install sbpipe in this way, instead of using conda build.
-  # install sbpipe
-  #- python setup.py install
 
-  # install sbpipe using conda build (which internally runs `python setup.py install`)
-  #- conda install gcc
-  #- conda install -c conda-forge colorlog
-  - conda build conda_recipe/meta.yaml
-  - conda install sbpipe --use-local
 
 # command to run tests
 script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
-#  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
-#  - nosetests test_suite.py --nocapture --verbose
+  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
+  - nosetests test_suite.py --nocapture --verbose
 
-  # To test and see SBpipe output
-  - cd tests/copasi_models
-  - sbpipe -s ir_model_det_simul.yaml
+#  # To test and see SBpipe output
+#  - cd tests/copasi_models
+#  - sbpipe -s ir_model_det_simul.yaml
 
