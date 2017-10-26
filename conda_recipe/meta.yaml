@@ -50,15 +50,15 @@ requirements:
     - setuptools
   run:
     #- colorlog   # channel: conda-forge
-#    - nose
-#    - pandas
+##    - nose
+##    - pandas
     - pyyaml
     - python
-#    - numpy
-#    - scipy
-    - setuptools
-#    - r-essentials
-#    - r-hmisc
+##    - numpy
+##    - scipy
+##    - setuptools
+##    - r-essentials
+##    - r-hmisc
 #    - snakemake >=3.10.1  (not available on windows)
 #    - texlive-core        (not available on windows)
 #    - texlive-selected    (not available on windows)

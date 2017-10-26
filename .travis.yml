@@ -75,7 +75,8 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda install gcc
+  #- conda install gcc
+  #- conda install -c conda-forge colorlog
   - conda build conda_recipe/meta.yaml
   - conda install sbpipe --use-local
 
@@ -84,6 +85,8 @@ script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
 #  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
 #  - nosetests test_suite.py --nocapture --verbose
+
+  # To test and see SBpipe output
   - cd tests/copasi_models
   - sbpipe -s ir_model_det_simul.yaml
 

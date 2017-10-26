@@ -16,6 +16,6 @@
 channels:
 #  - pkgw
   - r
-  - conda-forge
+#  - conda-forge
 #  - bioconda
   - defaults
