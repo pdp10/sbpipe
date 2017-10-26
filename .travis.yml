@@ -34,10 +34,10 @@ install:
   - xvfb_pid=$!
   - export DISPLAY=:$PID.0
 
-  # install copasi
-  - wget https://github.com/copasi/COPASI/releases/download/Build-166/COPASI-4.21.166-Linux-64bit.tar.gz
-  - tar xvzf COPASI-4.21.166-Linux-64bit.tar.gz
-  - PATH=$PATH:$(pwd)/COPASI-4.21.166-Linux-64bit/bin/
+#  # install copasi
+#  - wget https://github.com/copasi/COPASI/releases/download/Build-166/COPASI-4.21.166-Linux-64bit.tar.gz
+#  - tar xvzf COPASI-4.21.166-Linux-64bit.tar.gz
+#  - PATH=$PATH:$(pwd)/COPASI-4.21.166-Linux-64bit/bin/
 
   # install miniconda
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -53,31 +53,31 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  # install conda build in order to build the conda package for SBpipe
-  - conda install conda-build
-  - conda config --set anaconda_upload no
+#  # install conda build in order to build the conda package for SBpipe
+#  - conda install conda-build
+#  - conda config --set anaconda_upload no
 
   # install sbpipe
   # create sbpipe environment and install sbpipe dependencies
   - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
-  # install snakemake (optional for Python 3)
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
-      conda install -c bioconda snakemake ;
-    fi
-
-  # install latex dependencies (optional)
-  - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
+#  # install snakemake (optional for Python 3)
+#  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
+#      conda install -c bioconda snakemake ;
+#    fi
+#
+#  # install latex dependencies (optional)
+#  - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
 
   ## FOR NOW, install sbpipe in this way, instead of using conda build.
   # install sbpipe
-  - python setup.py install
+  #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  #- conda build conda_recipe/meta.yaml #-c conda-forge
-  #- conda install sbpipe --use-local
+  #- conda build conda_recipe/meta.yaml -c conda-forge
+  - conda install sbpipe --use-local
 
 # command to run tests
 script:
