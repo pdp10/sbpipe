@@ -19,20 +19,13 @@
 name:
   - sbpipe
 channels:
-  - defaults
 #  - pkgw       # latex
   - r
-  - conda-forge
-#  - bioconda
-
-
-##  - pkgw       # latex
-#  - r
 #  - conda-forge
-##  - bioconda
-#  - defaults
+#  - bioconda
+  - defaults
 dependencies:
-  - colorlog
+  #- colorlog
   - nose
   - pandas
   - pyyaml

@@ -49,7 +49,7 @@ requirements:
     - python
     - setuptools
   run:
-    - colorlog
+    #- colorlog
     - nose
     - pandas
     - pyyaml
