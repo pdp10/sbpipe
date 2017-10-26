@@ -14,8 +14,16 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 channels:
-#  - pkgw
+  - defaults
+#  - pkgw       # latex
+  - r
   - conda-forge
 #  - bioconda
-#  - r
-  - defaults
+
+
+
+##  - pkgw
+#  - conda-forge
+##  - bioconda
+##  - r
+#  - defaults
