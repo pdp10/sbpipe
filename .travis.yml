@@ -15,10 +15,9 @@
 
 language: python
 sudo: required
-#dist: trusty
 python:
   # We don't actually use the Travis Python, but this keeps it organized.
-  - "2.7"
+#  - "2.7"
   - "3.6"
 install:
 
@@ -76,11 +75,12 @@ install:
   #- python setup.py install
 
   # install sbpipe using conda build (which internally runs `python setup.py install`)
-  #- conda build conda_recipe/meta.yaml -c conda-forge
+  - conda build conda_recipe/meta.yaml -c conda-forge
   - conda install sbpipe --use-local
 
 # command to run tests
 script:
   # Override SBpipe logging configuration (we don't want it to write anything into the log file).
-  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
-  - nosetests test_suite.py --nocapture --verbose
+#  - sed -i 's/level=DEBUG/level=CRITICAL/g' logging_config.ini
+#  - nosetests test_suite.py --nocapture --verbose
+  - python tests/test_suite.py
