@@ -2,11 +2,11 @@
 
 [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 
-[![Anaconda-Server Badge](https://anaconda.org/pdp10/sbpipe/badges/version.svg)](https://anaconda.org/pdp10/sbpipe)
+[![Build Status](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)
 
-[![Travis-CI](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)
+[![Anaconda Cloud](https://anaconda.org/pdp10/sbpipe/badges/version.svg)](https://anaconda.org/pdp10/sbpipe)
 
-This package contains a collection of pipelines for dynamic modelling 
+This package contains a collection of pipelines for dynamic modelling
 of biological systems. It aims to automate common processes and speed 
 up productivity for tasks such as model simulation, single and double 
 parameter scan, and parameter estimation. 
