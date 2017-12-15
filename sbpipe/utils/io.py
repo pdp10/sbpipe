@@ -41,7 +41,7 @@ def refresh(path, file_pattern):
         logger.debug('Creating folder ' + path)
         os.mkdir(path)
     else:
-        logger.debug('Folder ' + path + ' already exist')
+        logger.debug('Folder ' + path + ' already exists')
         files2delete = glob.glob(os.path.join(path, file_pattern + "*"))
         for f in files2delete:
             remove_file_silently(f)
