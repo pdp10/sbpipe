@@ -246,7 +246,21 @@ check_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
 load_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
     df_exp_dataset <- data.frame()
     if(check_exp_dataset(exp_dataset, plot_exp_dataset)) {
-        df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
+
+        # let's check whether the file is a `comma`- or `TAB`-separated values file
+        con <- file(exp_dataset,"r")
+        header <- readLines(con, n=1)
+        close(con)
+        if(grepl(',', header)) {
+           print('dataset is a comma-separated values file')
+           df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep=","))
+        } else if(grepl('\\t', header)) {
+            print('dataset is a TAB-separated values file')
+            df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
+        } else {
+            print('experimental dataset is not a COMMA- or TAB-separated values file.')
+            print('experimental dataset cannot be imported.')
+        }
     }
     return (df_exp_dataset)
 }

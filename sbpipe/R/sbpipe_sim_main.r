@@ -50,6 +50,7 @@ main <- function(args) {
     yaxis_label <- args[9]
 
     if(plot_exp_dataset == 'True' || plot_exp_dataset == 'TRUE' || plot_exp_dataset == 'true') {
+       print('experimental dataset will also be plotted')
        plot_exp_dataset = TRUE
     } else {
        plot_exp_dataset = FALSE
