@@ -58,7 +58,8 @@ def run_cmd_block(cmd):
     p = subprocess.call(shlex.split(cmd))
 
 
-def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpus=1, output_msg=False):
+def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpus=1, output_msg=False,
+            colnames=[]):
     """
     Generic function to run a command in parallel
 
@@ -66,9 +67,10 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
     :param cmd_iter_substr: the substring of the iteration number. This will be replaced in a number automatically
     :param output_dir: the output directory
     :param cluster: the cluster type among local (Python multiprocessing), sge, or lsf
-    :param runs: the number of runs
+    :param runs: the number of runs. Ignored if colnames is not empty
     :param local_cpus: the number of cpus to use at most
     :param output_msg: print the output messages on screen (available for cluster='local' only)
+    :param colnames: the name of the columns to process
     :return: True if the computation succeeded.
     """
     logger.debug("Parallel computation using " + cluster)
@@ -84,17 +86,17 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
             os.makedirs(err_dir)
 
         if cluster == "sge":  # use SGE (Sun Grid Engine)
-            return run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs)
+            return run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs, colnames)
 
         elif cluster == "lsf":  # use LSF (Platform Load Sharing Facility)
-            return run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs)
+            return run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs, colnames)
 
     else:  # use local by default (python multiprocessing). This is configured to work locally using multi-core.
         if cluster != "local":
             logger.warning(
                 "Variable cluster is not set correctly in the configuration file. "
                 "Values are: `local`, `lsf`, `sge`. Running `local` by default")
-        return run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg)
+        return run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg, colnames)
 
 
 def call_proc(params):
@@ -114,15 +116,16 @@ def call_proc(params):
     return out, err
 
 
-def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False):
+def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False, colnames=[]):
     """
     Run jobs using python multiprocessing locally.
 
     :param cmd: the full command to run as a job
     :param cmd_iter_substr: the substring in command to be replaced with a number
-    :param runs: the number of runs to execute
+    :param runs: the number of runs. Ignored if colnames is not empty
     :param local_cpus: The number of available cpus. If local_cpus <=0, only one core will be used.
     :param output_msg: print the output messages on screen (available for cluster_type='local' only)
+    :param colnames: the name of the columns to process
     :return: True
     """
 
@@ -142,11 +145,18 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     logger.info("Starting computation...")
 
     results = []
-    for i in range(1, runs + 1):
-        command = cmd.replace(cmd_iter_substr, str(i))
-        logger.debug(command)
-        params = (command, str(i))
-        results.append(pool.apply_async(call_proc, (params,)))
+    if len(colnames) > 0:
+        for column in colnames:
+            command = cmd.replace(cmd_iter_substr, column)
+            logger.debug(command)
+            params = (command, column)
+            results.append(pool.apply_async(call_proc, (params,)))
+    else:
+        for i in range(1, runs + 1):
+            command = cmd.replace(cmd_iter_substr, str(i))
+            logger.debug(command)
+            params = (command, str(i))
+            results.append(pool.apply_async(call_proc, (params,)))
 
     # Close the pool and wait for each running task to complete
     pool.close()
@@ -194,7 +204,7 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False)
     return True
 
 
-def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
+def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     """
     Run jobs using a Sun Grid Engine (SGE) cluster.
 
@@ -202,7 +212,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param cmd_iter_substr: the substring in command to be replaced with a number
     :param out_dir: the directory containing the standard output from qsub
     :param err_dir: the directory containing the standard error from qsub
-    :param runs: the number of runs to execute
+    :param runs: the number of runs. Ignored if colnames is not empty
+    :param colnames: the name of the columns to process
     :return: True if the computation succeeded.
     """
     # Test this with echo "ls -la" | xargs xargs using Python environment.
@@ -215,18 +226,32 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
 
     logger.info("Starting computation...")
     jobs = ""
-    for i in range(1, runs + 1):
-        # Now the same with qsub
-        jobs = "j" + str(i) + "," + jobs
-        qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
-        logger.debug(qsub_cmd)
-        logger.info('Starting Task ' + str(i))
-        if sys.version_info > (3,):
-            with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
-                p.communicate()[0]
-        else:
-            qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
-            qsub_proc.communicate()[0]
+    if len(colnames) > 0:
+        for column in colnames:
+            # Now the same with qsub
+            jobs = "j" + column + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + column, "-o", os.path.join(out_dir, "j" + column), "-e", os.path.join(err_dir, "j" + column), "-b", "y", cmd.replace(cmd_iter_substr, column)]
+            logger.debug(qsub_cmd)
+            logger.info('Starting Task ' + column)
+            if sys.version_info > (3,):
+                with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
+                    p.communicate()[0]
+            else:
+                qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+                qsub_proc.communicate()[0]
+    else:
+        for i in range(1, runs + 1):
+            # Now the same with qsub
+            jobs = "j" + str(i) + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
+            logger.debug(qsub_cmd)
+            logger.info('Starting Task ' + str(i))
+            if sys.version_info > (3,):
+                with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
+                    p.communicate()[0]
+            else:
+                qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
+                qsub_proc.communicate()[0]
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-b", "y", "-o", "/dev/null", "-e", "/dev/null", "-hold_jid", jobs[:-1], "sleep", "1"]
@@ -241,7 +266,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     return quick_debug(cmd, out_dir, err_dir)
 
 
-def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
+def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     """
     Run jobs using a Load Sharing Facility (LSF) cluster.
 
@@ -249,22 +274,38 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1):
     :param cmd_iter_substr: the substring in command to be replaced with a number
     :param out_dir: the directory containing the standard output from bsub
     :param err_dir: the directory containing the standard error from bsub
-    :param runs: the number of runs to execute
+    :param runs: the number of runs. Ignored if colnames is not empty
+    :param colnames: the name of the columns to process
     :return: True if the computation succeeded.
     """
     logger.info("Starting computation...")
     jobs = ""
-    for i in range(1, runs + 1):
-        jobs = "done(j" + str(i) + ")&&" + jobs
-        bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
-        logger.debug(bsub_cmd)
-        logger.info('Starting Task ' + str(i))
-        if sys.version_info > (3,):
-            with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
-                p.communicate()[0]
-        else:
-            bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
-            bsub_proc.communicate()[0]
+    if len(colnames) > 0:
+        for column in colnames:
+            for i in range(1, runs + 1):
+                jobs = "done(j" + column + ")&&" + jobs
+                bsub_cmd = ["bsub", "-cwd", "-J", "j" + column, "-o", os.path.join(out_dir, "j" + column), "-e",
+                            os.path.join(err_dir, "j" + column), cmd.replace(cmd_iter_substr, column)]
+                logger.debug(bsub_cmd)
+                logger.info('Starting Task ' + column)
+                if sys.version_info > (3,):
+                    with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
+                        p.communicate()[0]
+                else:
+                    bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+                    bsub_proc.communicate()[0]
+    else:
+        for i in range(1, runs + 1):
+            jobs = "done(j" + str(i) + ")&&" + jobs
+            bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
+            logger.debug(bsub_cmd)
+            logger.info('Starting Task ' + str(i))
+            if sys.version_info > (3,):
+                with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
+                    p.communicate()[0]
+            else:
+                bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+                bsub_proc.communicate()[0]
     # Check here when these jobs are finished before proceeding
     import random
     import string
