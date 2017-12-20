@@ -20,9 +20,8 @@
 # $Date: 2016-07-6 12:14:32 $
 
 
- 
+
 library(ggplot2)
-library(data.table)
 
 # retrieve SBpipe folder containing R scripts
 args <- commandArgs(trailingOnly = FALSE)
@@ -42,18 +41,19 @@ source(file.path(SBPIPE_R, 'sbpipe_ggplot2_themes.r'))
 # :param outputdir: the output directory
 # :param run: the simulation run
 plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, inputdir, outputdir, run) {
-	
-    theme_set(basic_theme(36))    
-    
+
+    theme_set(basic_theme(36))
+
     writeLines(paste("1st var: ", scanned_par1, sep=""))
-    writeLines(paste("2st var: ", scanned_par2, sep=""))    
+    writeLines(paste("2st var: ", scanned_par2, sep=""))
     # create the directory of output
-    if (!file.exists(outputdir)){ 
-        dir.create(outputdir) 
+    if (!file.exists(outputdir)){
+        dir.create(outputdir)
     }
 
     # EXTRACT the tuples of min and max values FROM the complete dataset. Doing so, we don't need to iterate.
-    df <- data.frame(fread(file.path(inputdir, paste(model, "_", run, ".csv", sep=""))))
+    df <- read.table(file.path(inputdir, paste(model, "_", run, ".csv", sep="")), header=TRUE,
+                     na.strings="NA", dec=".", sep="\t")
 
     # discard the first column (Time) and the columns of the two scanned parameters
     columns2discard <- c(colnames(df)[1], scanned_par1, scanned_par2)
@@ -81,7 +81,8 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
     df.coordinates <- data.frame()
     # Extract the coordinates of the data frame to plot
     if(length(files) > 0)
-        df.coordinates <- data.frame(fread(file.path(inputdir, files[1]), select=c(scanned_par1, scanned_par2)))
+        df.tp <- read.table(file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t")
+        df.coordinates <- subset(df.tp, select=c(scanned_par1, scanned_par2))
     #print(df.coordinates)
 
     # Construct a generic palette
@@ -91,7 +92,7 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
     for(j in 1:length(files)) {
       print(paste('Processing file:', files[j], sep=" "))
       # Read variable
-      df.tp <- data.frame(fread(file.path(inputdir, files[j])))
+      df.tp <- read.table(file.path(inputdir, files[j]), header=TRUE, na.strings="NA", dec=".", sep="\t")
 
       for(k in 1:length(columns)) {
         # add the column to plot (the colour) to the coordinate data in df.coordinates
@@ -117,5 +118,3 @@ plot_double_param_scan_data <- function(model, scanned_par1, scanned_par2, input
       }
   }
 }
-
-
