@@ -1,4 +1,4 @@
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_stoch.cps"
