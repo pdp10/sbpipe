@@ -126,12 +126,21 @@ class ParScan1(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("==============")
-            status = ParScan1.analyse_data(os.path.splitext(model)[0], ps1_knock_down_only, outputdir,
-                                           self.get_sim_data_folder(), self.get_sim_plots_folder(),
-                                           runs, local_cpus,
+            status = ParScan1.analyse_data(os.path.splitext(model)[0],
+                                           ps1_knock_down_only,
+                                           outputdir,
+                                           self.get_sim_data_folder(),
+                                           self.get_sim_plots_folder(),
+                                           runs,
+                                           local_cpus,
                                            ps1_percent_levels,
-                                           min_level, max_level, levels_number,
-                                           homogeneous_lines, cluster, xaxis_label, yaxis_label)
+                                           min_level,
+                                           max_level,
+                                           levels_number,
+                                           homogeneous_lines,
+                                           cluster,
+                                           xaxis_label,
+                                           yaxis_label)
             if not status:
                 return False
 
@@ -281,7 +290,7 @@ class ParScan1(Pipeline):
         # We do this to make sure that characters like [ or ] don't cause troubles.
         command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
 
-        if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
+        if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, True):
             return False
 
         if len(glob.glob(os.path.join(outputdir, sim_plots_folder, os.path.splitext(model)[0] + '*.png'))) == 0:
