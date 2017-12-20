@@ -124,8 +124,9 @@ get_stats <- function(statistics, readout, colidx=2) {
 # :param model: the model name
 # :param outputfile: the name of the file to store the statistics
 # :param xaxis_label: the xaxis label 
-# :param yaxis_label: the yaxis label 
-gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label="", yaxis_label="") {
+# :param yaxis_label: the yaxis label
+# :param column_to_read: the name of the column to process
+gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label="", yaxis_label="", column_to_read="X1") {
     
     theme_set(tc_theme(36)) #28
     
@@ -140,6 +141,7 @@ gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label=
         
     # Read the simulated time course data sets
     timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    timecourses <- subset(timecourses, select=c('Time', column_to_read))
     column <- names (timecourses)
 
     column.names <- c ("Time")
@@ -277,7 +279,9 @@ load_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
 # :param plot_exp_dataset: TRUE if the experimental data should also be plotted
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
-plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='') {
+# :param column_to_read: the name of the column to process
+plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE,
+                           xaxis_label='', yaxis_label='', column_to_read='X1') {
 
   theme_set(tc_theme(36)) #28
 
@@ -286,7 +290,7 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
     dir.create(outputdir)
   }
   # collect all files in the directory
-  files <- list.files( path=inputdir, pattern=model )
+  files <- list.files( path=inputdir, pattern=column_to_read )
   #print(files)
 
   df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
@@ -349,7 +353,9 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
 # :param plot_exp_dataset: TRUE if the experimental data should also be plotted
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
-plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='') {
+# :param column_to_read: the name of the column to process
+plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='',
+                          column_to_read='X1') {
 
   theme_set(tc_theme(36)) #28
 
@@ -358,13 +364,14 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
     dir.create(outputdir)
   }
   # collect all files in the directory
-  files <- list.files( path=inputdir, pattern=model )
-  #print(files)
+  files <- list.files( path=inputdir, pattern=column_to_read)
+  print(files)
 
   df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
 
   for(i in 1:length(files)) {
     df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    # print(df)
     readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
     fileout <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
 
@@ -392,7 +399,8 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
 # :param inputdir: the input directory containing the time course files
 # :param model: the model name
 # :param outputfile: the name of the file to store the simulations
-summarise_data <- function(inputdir, model, outputfile) {
+# :param column_to_read: the name of the column to process
+summarise_data <- function(inputdir, model, outputfile, column_to_read='X1') {
 
   # collect all files in the directory
   files <- list.files( path=inputdir, pattern=model )
@@ -400,6 +408,7 @@ summarise_data <- function(inputdir, model, outputfile) {
 
   # Read the simulated time course data sets
   timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+  timecourses <- subset(timecourses, select=c('Time', column_to_read))
   column <- names (timecourses)
 
   timepoints <- timecourses$Time

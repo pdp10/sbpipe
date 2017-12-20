@@ -117,13 +117,15 @@ class Sim(Pipeline):
             logger.info("\n")
             logger.info("Data analysis:")
             logger.info("==============")
-            status = Sim.analyse_data(os.path.splitext(model)[0],
+            status = Sim.analyse_data(simulator,
+                                      os.path.splitext(model)[0],
                                       os.path.join(outputdir, self.get_sim_data_folder()),
                                       outputdir,
                                       os.path.join(outputdir, self.get_sim_plots_folder()),
                                       os.path.join(models_dir, exp_dataset),
                                       plot_exp_dataset,
                                       cluster,
+                                      local_cpus,
                                       xaxis_label,
                                       yaxis_label)
             if not status:
@@ -191,11 +193,12 @@ class Sim(Pipeline):
             return False
 
     @classmethod
-    def analyse_data(cls, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
-                     cluster="local", xaxis_label='', yaxis_label=''):
+    def analyse_data(cls, simulator, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
+                     cluster="local", local_cpus=2, xaxis_label='', yaxis_label=''):
         """
         The second pipeline step: data analysis.
 
+        :param simulator: the name of the simulator (e.g. Copasi)
         :param model: the model name
         :param inputdir: the directory containing the data to analyse
         :param outputdir: the output directory containing the results
@@ -203,6 +206,7 @@ class Sim(Pipeline):
         :param exp_dataset: the full path of the experimental data set
         :param plot_exp_dataset: True if the experimental data set should also be plotted
         :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
+        :param local_cpus: the number of CPUs.
         :param xaxis_label: the label for the x axis (e.g. Time [min])
         :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
         :return: True if the task was completed successfully, False otherwise.
@@ -217,20 +221,34 @@ class Sim(Pipeline):
         refresh(sim_plots_dir, os.path.splitext(model)[0])
         refresh(sim_data_by_var_dir, os.path.splitext(model)[0])
 
+        # Read the columns to process
+        try:
+            sim = cls.get_simul_obj(simulator)
+        except TypeError as e:
+            logger.error("simulator: " + simulator + " not found.")
+            logger.debug(traceback.format_exc())
+            return False
+        try:
+            columns = sim.get_sim_columns(inputdir)
+        except Exception as e:
+            logger.error(str(e))
+            logger.debug(traceback.format_exc())
+            return False
+        str_to_replace = 'COLUMN_TO_REPLACE'
+
         logger.info("Analysing generated simulations:")
         command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
-            ' ' + os.path.join(outputdir, 'sim_stats_' + model + '.csv') + \
+            ' ' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
             ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
-        command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
+        command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label) + \
+                   ' ' + str_to_replace
 
-        # we don't replace any string in files. So let's use a substring which won't even be in any file.
-        str_to_replace = '//////////'
-        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
+        if not parcomp(command, str_to_replace, outputdir, cluster, 1, local_cpus, True, columns):
             return False
 
         if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.png'))) == 0:

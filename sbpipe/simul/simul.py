@@ -111,6 +111,23 @@ class Simul(object):
         """
         pass
 
+    def get_sim_columns(self, path_in="."):
+        """
+        Return the columns to analyse (sim task)
+
+        :param path_in: the path to the input files
+        """
+        files = self._get_input_files(path_in)
+        if len(files) == 0:
+            logger.error('No report was found.')
+            return []
+        with open(files[0]) as f:
+            line = f.readline()
+        line = line.replace('\n', '').split('\t')
+        line.remove('Time')
+        return line
+
+
     def get_best_fits(self, path_in=".", path_out=".", filename_out="final_estimates.csv"):
         """
         Collect the final parameter estimates. Results

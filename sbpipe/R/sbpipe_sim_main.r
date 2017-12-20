@@ -38,6 +38,7 @@ source(file.path(SBPIPE_R,'sbpipe_sim.r'))
 # :args[7]: TRUE if the experimental data should also be plotted
 # :args[8]: the label for the x axis (e.g. Time [min])
 # :args[9]: the label for the y axis (e.g. Level [a.u.])
+# :args[10: the name of the column to process
 main <- function(args) {
     model_noext <- args[1]
     inputdir <- args[2]
@@ -48,6 +49,7 @@ main <- function(args) {
     plot_exp_dataset <- args[7]
     xaxis_label <- args[8]
     yaxis_label <- args[9]
+    column_to_read <- args[10]
 
     if(plot_exp_dataset == 'True' || plot_exp_dataset == 'TRUE' || plot_exp_dataset == 'true') {
        print('experimental dataset will also be plotted')
@@ -57,18 +59,18 @@ main <- function(args) {
     }
 
     print('generating a table of statistics')
-    gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label)
+    gen_stats_table(inputdir, outputdir, model_noext, outputfile, xaxis_label, yaxis_label, column_to_read)
 
     print('summarising the time course repeats in tables')
-    summarise_data(inputdir, model_noext, repeats_file_template)
+    summarise_data(inputdir, model_noext, repeats_file_template, column_to_read)
 
     files <- list.files( path=inputdir, pattern=model_noext )
     if(length(files) > 1) {
         print('plotting separate time courses')
-        plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
+        plot_sep_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, column_to_read)
     }
     print('plotting combined time courses')
-    plot_comb_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label)
+    plot_comb_sims(dirname(repeats_file_template), outputdir, model_noext, exp_dataset, plot_exp_dataset, xaxis_label, yaxis_label, column_to_read)
 }
 
 
