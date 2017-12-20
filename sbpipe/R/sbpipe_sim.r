@@ -21,6 +21,7 @@
 
 
 library(ggplot2)
+library(data.table)
 
 
 # retrieve SBpipe folder containing R scripts
@@ -140,8 +141,8 @@ gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label=
     print(files)
         
     # Read the simulated time course data sets
-    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-    timecourses <- subset(timecourses, select=c('Time', column_to_read))
+    timecourses <- fread(file.path(inputdir, files[1]), select=c('Time', column_to_read))
+
     column <- names (timecourses)
 
     column.names <- c ("Time")
@@ -166,7 +167,7 @@ gen_stats_table <- function(inputdir, outputdir, model, outputfile, xaxis_label=
         # Extract column[j] for each file.
         dataset <- data.frame(na)
         for(i in 1:length(files)) {
-            dataset <- data.frame(dataset, read.table(file.path(inputdir,files[i]),header=TRUE,na.strings="NA",dec=".",sep="\t")[,j])
+            dataset <- data.frame(dataset, fread(file.path(inputdir,files[i]), select=c(column[j])))
         }
         # remove the first column (na)
         dataset <- subset(dataset, select=-c(na))
@@ -248,21 +249,7 @@ check_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
 load_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
     df_exp_dataset <- data.frame()
     if(check_exp_dataset(exp_dataset, plot_exp_dataset)) {
-
-        # let's check whether the file is a `comma`- or `TAB`-separated values file
-        con <- file(exp_dataset,"r")
-        header <- readLines(con, n=1)
-        close(con)
-        if(grepl(',', header)) {
-           print('dataset is a comma-separated values file')
-           df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep=","))
-        } else if(grepl('\\t', header)) {
-            print('dataset is a TAB-separated values file')
-            df_exp_dataset <- data.frame(read.table(exp_dataset, header=TRUE, na.strings="NA", dec=".", sep="\t"))
-        } else {
-            print('experimental dataset is not a COMMA- or TAB-separated values file.')
-            print('experimental dataset cannot be imported.')
-        }
+        df_exp_dataset <- data.frame(fread(exp_dataset))
     }
     return (df_exp_dataset)
 }
@@ -296,7 +283,7 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
   df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
 
   for(i in 1:length(files)) {
-    df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    df <- fread( file.path(inputdir, files[i]))
     readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
     template_filename <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
 
@@ -370,7 +357,7 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
   df_exp_dataset <- load_exp_dataset(exp_dataset, plot_exp_dataset)
 
   for(i in 1:length(files)) {
-    df <- read.table( file.path(inputdir, files[i]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    df <- fread( file.path(inputdir, files[i]) )
     # print(df)
     readout <- gsub(paste(model, '_', sep=''), '', gsub('.csv', '', basename(files[i])))
     fileout <- file.path(outputdir, gsub('.csv', '.png', basename(files[i])))
@@ -407,8 +394,7 @@ summarise_data <- function(inputdir, model, outputfile, column_to_read='X1') {
   #print(files)
 
   # Read the simulated time course data sets
-  timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-  timecourses <- subset(timecourses, select=c('Time', column_to_read))
+  timecourses <- fread( file.path(inputdir, files[1]), select=c('Time', column_to_read))
   column <- names (timecourses)
 
   timepoints <- timecourses$Time
@@ -421,8 +407,8 @@ summarise_data <- function(inputdir, model, outputfile, column_to_read='X1') {
         summary <- NULL
         cbind(summary, timepoints) -> summary
         for(j in 1:length(files)) {
-          sim_file <- read.table( file.path(inputdir, files[j]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
-          cbind(summary, subset(sim_file, select=c(column[i])) ) -> summary
+          sim_file <- fread( file.path(inputdir, files[j]), select=c(column[i]))
+          summary <- cbind(summary, sim_file)
         }
         summary <- data.frame(summary)
         names(summary) <- c("Time", paste('X', seq(1, length(files), 1), sep=""))

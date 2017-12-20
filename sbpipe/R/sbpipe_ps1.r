@@ -23,6 +23,7 @@
  
 library(ggplot2)
 library(reshape2)
+library(data.table)
 
 # retrieve SBpipe folder containing R scripts
 args <- commandArgs(trailingOnly = FALSE)
@@ -133,7 +134,7 @@ plot_single_param_scan_data <- function(model, inhibition_only,
     #print(levels.index)
 
     # Read variable
-    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    timecourses <- data.frame(fread(file.path(inputdir, files[1])))
     column <- names(timecourses)
     my_time <- timecourses[,c('Time')]
     # let's plot now! :)
@@ -145,8 +146,7 @@ plot_single_param_scan_data <- function(model, inhibition_only,
         df <- data.frame(time=my_time, check.names=FALSE)
         for(m in 1:length(levels.index)) {
             #print(files[levels.index[m]])
-            col.level <- read.table(file.path(inputdir,files[levels.index[m]]),header=TRUE,na.strings="NA",
-                    dec=".",sep="\t")[,j]
+            col.level <- fread(file.path(inputdir,files[levels.index[m]]), select=c(column[j]))
             df <- cbind(df, a=col.level)
             colnames(df)[ncol(df)] <- as.character(m+10)
         }
@@ -194,7 +194,7 @@ plot_single_param_scan_data_homogen <- function(model,
 
     files <- list.files( path=inputdir, pattern=paste(model, '__rep_', run, '__level_', sep=""))
     # Read variable
-    timecourses <- read.table( file.path(inputdir, files[1]), header=TRUE, na.strings="NA", dec=".", sep="\t" )
+    timecourses <- data.frame(fread(file.path(inputdir, files[1])))
     column <- names(timecourses)
     my_time <- timecourses[,c('Time')]
 
@@ -205,8 +205,7 @@ plot_single_param_scan_data_homogen <- function(model,
         df <- data.frame(time=my_time, check.names=FALSE)
         for(m in 1:length(files)) {
           #print(files[levels.index[m]])
-          col.level <- read.table(file.path(inputdir,files[m]),header=TRUE,na.strings="NA",
-                         dec=".",sep="\t")[,j]
+          col.level <- fread(file.path(inputdir,files[m]), select=c(column[j]))
           df <- cbind(df, a=col.level)
           colnames(df)[ncol(df)] <- as.character(m)
         }
