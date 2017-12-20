@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.30.0 (Mars)
+v3.31.0 (Mars)
 
+- data analysis for `sim` pipeline is scalable.
 - improved yaml files for installing SBpipe using conda. SBpipe is now tested on Python 2.7 and 3.6.
 - added transparencies and improved simulation plots combined with data set.
 - added release.sh script for releasing SBpipe versions automatically.
