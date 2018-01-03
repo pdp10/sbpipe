@@ -39,7 +39,7 @@ from sbpipe.utils.parcomp import run_cmd
 
 
 def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
-                     xaxis_label='', yaxis_label='', copasi=True):
+                     exp_dataset_alpha, xaxis_label='', yaxis_label='', copasi=True):
     """
     Plot model simulation time courses (Python wrapper).
 
@@ -49,9 +49,14 @@ def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plo
     :param sim_plots_dir: the directory to save the plots
     :param exp_dataset: the full path of the experimental data set
     :param plot_exp_dataset: True if the experimental data set should also be plotted
+    :param exp_dataset_alpha: the alpha level for the data set
     :param xaxis_label: the label for the x axis (e.g. Time [min])
     :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     """
+
+    if float(exp_dataset_alpha) > 1.0 or float(exp_dataset_alpha) < 0.0:
+        logger.warning("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
+        exp_dataset_alpha = 1.0
 
     ## TODO ALTHOUGH THIS WORKS, IT escapes snakemake checkpoints.
     ## TODO this should be passed as parameter and checked as a rule output
@@ -75,7 +80,7 @@ def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plo
                   ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
                   ' ' + os.path.join(outputdir, 'sim_stats_' + model + '_' + column + '.csv') + \
                   ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
-                  ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
+                  ' ' + exp_dataset + ' ' + str(plot_exp_dataset) + ' ' + str(exp_dataset_alpha)
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
@@ -93,14 +98,15 @@ def main(argv=None):
     parser.add_argument('--sim-plots-dir')
     parser.add_argument('--exp-dataset')
     parser.add_argument('--plot-exp-dataset')
+    parser.add_argument('--exp-dataset-alpha')
     parser.add_argument('--xaxis-label')
     parser.add_argument('--yaxis-label')
     parser.add_argument('-c', '--copasi', action="store_true")
 
     args = parser.parse_args()
     sim_analyse_data(args.model, args.inputdir, args.outputdir, args.sim_plots_dir, \
-                     args.exp_dataset, args.plot_exp_dataset, args.xaxis_label, args.yaxis_label, \
-                     args.copasi)
+                     args.exp_dataset, args.plot_exp_dataset, args.exp_dataset_alpha, \
+                     args.xaxis_label, args.yaxis_label, args.copasi)
     return 0
 
 

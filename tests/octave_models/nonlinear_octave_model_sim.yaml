@@ -9,5 +9,6 @@ local_cpus: 1
 runs: 1
 exp_dataset: ""
 plot_exp_dataset: False
+exp_dataset_alpha: 1.0
 xaxis_label: "Time"
 yaxis_label: "#"

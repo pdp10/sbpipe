@@ -143,6 +143,7 @@ rule sbpipe_sim_analysis:
         sim_plots_folder=PLOTS_FOLDER,
         exp_dataset=config["exp_dataset"],
         plot_exp_dataset=config["plot_exp_dataset"],
+        exp_dataset_alpha=config["exp_dataset_alpha"],
         xaxis_label=config["xaxis_label"],
         yaxis_label=config["yaxis_label"]
     log:
@@ -155,6 +156,7 @@ rule sbpipe_sim_analysis:
                          os.path.join(params.outputdir, params.sim_plots_folder), \
                          os.path.join(params.models_folder, params.exp_dataset), \
                          str(params.plot_exp_dataset), \
+                         str(params.exp_dataset_alpha), \
                          params.xaxis_label, \
                          params.yaxis_label)
 

@@ -9,5 +9,6 @@ local_cpus: 1
 runs: 1
 exp_dataset: "insulin_receptor_dataset.csv"
 plot_exp_dataset: True
+exp_dataset_alpha: 1.0
 xaxis_label: "Time [min]"
 yaxis_label: "Level [a.u.]"

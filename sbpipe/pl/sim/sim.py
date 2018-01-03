@@ -84,10 +84,12 @@ class Sim(Pipeline):
         (generate_data, analyse_data, generate_report,
          project_dir, simulator, model, cluster, local_cpus, runs,
          exp_dataset, plot_exp_dataset,
+         exp_dataset_alpha,
          xaxis_label, yaxis_label) = self.parse(config_dict)
 
         runs = int(runs)
         local_cpus = int(local_cpus)
+        exp_dataset_alpha = float(exp_dataset_alpha)
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
         outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
@@ -124,6 +126,7 @@ class Sim(Pipeline):
                                       os.path.join(outputdir, self.get_sim_plots_folder()),
                                       os.path.join(models_dir, exp_dataset),
                                       plot_exp_dataset,
+                                      exp_dataset_alpha,
                                       cluster,
                                       local_cpus,
                                       xaxis_label,
@@ -194,7 +197,7 @@ class Sim(Pipeline):
 
     @classmethod
     def analyse_data(cls, simulator, model, inputdir, outputdir, sim_plots_dir, exp_dataset, plot_exp_dataset,
-                     cluster="local", local_cpus=2, xaxis_label='', yaxis_label=''):
+                     exp_dataset_alpha=1.0, cluster="local", local_cpus=2, xaxis_label='', yaxis_label=''):
         """
         The second pipeline step: data analysis.
 
@@ -205,6 +208,7 @@ class Sim(Pipeline):
         :param sim_plots_dir: the directory to save the plots
         :param exp_dataset: the full path of the experimental data set
         :param plot_exp_dataset: True if the experimental data set should also be plotted
+        :param exp_dataset_alpha: the alpha level for the data set
         :param cluster: local, lsf for Load Sharing Facility, sge for Sun Grid Engine.
         :param local_cpus: the number of CPUs.
         :param xaxis_label: the label for the x axis (e.g. Time [min])
@@ -214,6 +218,10 @@ class Sim(Pipeline):
         if not os.path.exists(inputdir):
             logger.error("inputdir " + inputdir + " does not exist. Generate some data first.")
             return False
+
+        if float(exp_dataset_alpha) > 1.0 or float(exp_dataset_alpha) < 0.0:
+            logger.warning("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
+            exp_dataset_alpha = 1.0
 
         sim_data_by_var_dir = os.path.join(outputdir, "simulate_data_by_var")
 
@@ -241,7 +249,7 @@ class Sim(Pipeline):
             ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
             ' ' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
             ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
-            ' ' + exp_dataset + ' ' + str(plot_exp_dataset)
+            ' ' + exp_dataset + ' ' + str(plot_exp_dataset) + ' ' + str(exp_dataset_alpha)
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
@@ -295,6 +303,7 @@ class Sim(Pipeline):
         runs = 1
         exp_dataset = ''
         plot_exp_dataset = False
+        exp_dataset_alpha = 1.0
         xaxis_label = 'Time [min]'
         yaxis_label = 'Level [a.u.]'
 
@@ -325,6 +334,8 @@ class Sim(Pipeline):
                 exp_dataset = value
             elif key == "plot_exp_dataset":
                 plot_exp_dataset = value
+            elif key == "exp_dataset_alpha":
+                exp_dataset_alpha = value
             elif key == "xaxis_label":
                 xaxis_label = value
             elif key == "yaxis_label":
@@ -336,4 +347,5 @@ class Sim(Pipeline):
                 project_dir, simulator, model,
                 cluster, local_cpus, runs,
                 exp_dataset, plot_exp_dataset,
+                exp_dataset_alpha,
                 xaxis_label, yaxis_label)

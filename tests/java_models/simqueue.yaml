@@ -9,5 +9,6 @@ local_cpus: 7
 runs: 10
 exp_dataset: "sim_dataset.csv"
 plot_exp_dataset: False
+exp_dataset_alpha: 1.0
 xaxis_label: "User Id"
 yaxis_label: "[min]"

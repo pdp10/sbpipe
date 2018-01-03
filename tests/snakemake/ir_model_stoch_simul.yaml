@@ -10,6 +10,8 @@ runs: 2
 exp_dataset: "insulin_receptor_dataset.csv"
 # True if the experimental data set should be plotted.
 plot_exp_dataset: True
+# The alpha level used for plotting the experimental dataset
+exp_dataset_alpha: 1.0
 # The label for the x axis.
 xaxis_label: "Time [min]"
 # The label for the y axis.

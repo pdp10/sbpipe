@@ -6,8 +6,10 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v3.31.0 (Mars)
+v3.32.0 (Mars)
 
+- added option `exp_dataset_alpha` to `sim` pipeline. This option allows to plot experimental
+data with an alpha level.
 - data analysis for `sim` pipeline is scalable.
 - improved yaml files for installing SBpipe using conda. SBpipe is now tested on Python 2.7 and 3.6.
 - added transparencies and improved simulation plots combined with data set.

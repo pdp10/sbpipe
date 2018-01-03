@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sbpipe.utils package &#8212; SBpipe 3.26.0 documentation</title>
+    <title>sbpipe.utils package &mdash; SBpipe 3.32.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,19 +14,18 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.26.0',
+        VERSION:     '3.32.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SBpipe 3.32.0 documentation" href="../index.html" />
+    <link rel="up" title="sbpipe package" href="sbpipe.html" />
     <link rel="prev" title="sbpipe.tasks package" href="sbpipe.tasks.html" /> 
   </head>
   <body role="document">
@@ -42,9 +41,9 @@
         <li class="right" >
           <a href="sbpipe.tasks.html" title="sbpipe.tasks package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.26.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -227,7 +226,7 @@ by Linux, but Windows sometimes fails to remove the file even if this exists.</p
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.parcomp">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>output_dir</em>, <em>cluster='local'</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">parcomp</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>output_dir</em>, <em>cluster='local'</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em>, <em>colnames=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.parcomp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic function to run a command in parallel</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -238,9 +237,10 @@ by Linux, but Windows sometimes fails to remove the file even if this exists.</p
 <li><strong>cmd_iter_substr</strong> &#8211; the substring of the iteration number. This will be replaced in a number automatically</li>
 <li><strong>output_dir</strong> &#8211; the output directory</li>
 <li><strong>cluster</strong> &#8211; the cluster type among local (Python multiprocessing), sge, or lsf</li>
-<li><strong>runs</strong> &#8211; the number of runs</li>
+<li><strong>runs</strong> &#8211; the number of runs. Ignored if colnames is not empty</li>
 <li><strong>local_cpus</strong> &#8211; the number of cpus to use at most</li>
 <li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
+<li><strong>colnames</strong> &#8211; the name of the columns to process</li>
 </ul>
 </td>
 </tr>
@@ -305,7 +305,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_local">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_local</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_local" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_local</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>runs=1</em>, <em>local_cpus=1</em>, <em>output_msg=False</em>, <em>colnames=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_local" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using python multiprocessing locally.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -314,9 +314,10 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cmd</strong> &#8211; the full command to run as a job</li>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
-<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+<li><strong>runs</strong> &#8211; the number of runs. Ignored if colnames is not empty</li>
 <li><strong>local_cpus</strong> &#8211; The number of available cpus. If local_cpus &lt;=0, only one core will be used.</li>
 <li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster_type=&#8217;local&#8217; only)</li>
+<li><strong>colnames</strong> &#8211; the name of the columns to process</li>
 </ul>
 </td>
 </tr>
@@ -329,7 +330,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_lsf">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_lsf</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em>, <em>colnames=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_lsf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Load Sharing Facility (LSF) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -340,7 +341,8 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>out_dir</strong> &#8211; the directory containing the standard output from bsub</li>
 <li><strong>err_dir</strong> &#8211; the directory containing the standard error from bsub</li>
-<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+<li><strong>runs</strong> &#8211; the number of runs. Ignored if colnames is not empty</li>
+<li><strong>colnames</strong> &#8211; the name of the columns to process</li>
 </ul>
 </td>
 </tr>
@@ -353,7 +355,7 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 
 <dl class="function">
 <dt id="sbpipe.utils.parcomp.run_jobs_sge">
-<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.utils.parcomp.</code><code class="descname">run_jobs_sge</code><span class="sig-paren">(</span><em>cmd</em>, <em>cmd_iter_substr</em>, <em>out_dir</em>, <em>err_dir</em>, <em>runs=1</em>, <em>colnames=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.utils.parcomp.run_jobs_sge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run jobs using a Sun Grid Engine (SGE) cluster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -364,7 +366,8 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
 <li><strong>cmd_iter_substr</strong> &#8211; the substring in command to be replaced with a number</li>
 <li><strong>out_dir</strong> &#8211; the directory containing the standard output from qsub</li>
 <li><strong>err_dir</strong> &#8211; the directory containing the standard error from qsub</li>
-<li><strong>runs</strong> &#8211; the number of runs to execute</li>
+<li><strong>runs</strong> &#8211; the number of runs. Ignored if colnames is not empty</li>
+<li><strong>colnames</strong> &#8211; the name of the columns to process</li>
 </ul>
 </td>
 </tr>
@@ -468,18 +471,21 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/source_code/sbpipe.utils.rst.txt"
+      <li><a href="../_sources/source_code/sbpipe.utils.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -498,14 +504,14 @@ that these messages are more <cite>warnings</cite> than real errors.</p>
         <li class="right" >
           <a href="sbpipe.tasks.html" title="sbpipe.tasks package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.26.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.
+        &copy; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

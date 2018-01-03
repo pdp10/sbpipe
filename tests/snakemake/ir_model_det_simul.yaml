@@ -6,3 +6,4 @@ plot_exp_dataset: True
 xaxis_label: "Time [min]"
 yaxis_label: "Level [a.u.]"
 report_variables: ['IR_beta_pY1146']
+exp_dataset_alpha: 1.0

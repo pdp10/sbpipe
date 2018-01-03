@@ -6,7 +6,7 @@ analyse_data: True
 generate_report: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_stoch.cps"
@@ -23,6 +23,8 @@ runs: 40
 exp_dataset: "insulin_receptor_dataset.csv"
 # True if the experimental data set should be plotted.
 plot_exp_dataset: True
+# The alpha level used for plotting the experimental dataset
+exp_dataset_alpha: 1.0
 # The label for the x axis.
 xaxis_label: "Time [min]"
 # The label for the y axis.

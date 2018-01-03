@@ -264,11 +264,12 @@ load_exp_dataset <- function(exp_dataset, plot_exp_dataset=FALSE) {
 # :param model: the model name
 # :param exp_dataset: a full path file containing the experimental data.
 # :param plot_exp_dataset: TRUE if the experimental data should also be plotted
+# :param exp_dataset_alpha: the alpha level for the data set
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
 # :param column_to_read: the name of the column to process
 plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE,
-                           xaxis_label='', yaxis_label='', column_to_read='X1') {
+                           exp_dataset_alpha=1.0, xaxis_label='', yaxis_label='', column_to_read='X1') {
 
   theme_set(tc_theme(36)) #28
 
@@ -309,19 +310,19 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
         # mean
         # we make this plot again because we want the line in front.
         gM <- ggplot()
-        gM <- plot_raw_dataset(df_exp_dataset, gM, readout, max(df$Time), alpha=1)
+        gM <- plot_raw_dataset(df_exp_dataset, gM, readout, max(df$Time), alpha=exp_dataset_alpha)
         gM <- plot_combined_tc(df, gM, readout, xaxis_label, yaxis_label, 'mean')
         ggsave(gsub('.png', '_w_exp_data.png', fileoutM), dpi=300, width=8, height=6)#, bg = "transparent")
 
         # mean_sd
         gMSD <- ggplot()
-        gMSD <- plot_raw_dataset(df_exp_dataset, gMSD, readout, max(df$Time), alpha=1)
+        gMSD <- plot_raw_dataset(df_exp_dataset, gMSD, readout, max(df$Time), alpha=exp_dataset_alpha)
         gMSD <- plot_combined_tc(df, gMSD, readout, xaxis_label, yaxis_label, 'mean_sd', alpha=0.6)
         ggsave(gsub('.png', '_w_exp_data.png', fileoutMSD), dpi=300, width=8, height=6)#, bg = "transparent")
 
         # mean_sd_ci95
         gMSDCI <- ggplot()
-        gMSDCI <- plot_raw_dataset(df_exp_dataset, gMSDCI, readout, max(df$Time), alpha=1)
+        gMSDCI <- plot_raw_dataset(df_exp_dataset, gMSDCI, readout, max(df$Time), alpha=exp_dataset_alpha)
         gMSDCI <- plot_combined_tc(df, gMSDCI, readout, xaxis_label, yaxis_label, 'mean_sd_ci95', alpha=0.6)
         ggsave(gsub('.png', '_w_exp_data.png', fileoutMSDCI), dpi=300, width=8, height=6)#, bg = "transparent")
     }
@@ -338,11 +339,12 @@ plot_comb_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dat
 # :param model: the model name
 # :param exp_dataset: a full path file containing the experimental data.
 # :param plot_exp_dataset: TRUE if the experimental data should also be plotted
+# :param exp_dataset_alpha: the alpha level for the data set
 # :param xaxis_label: the xaxis label
 # :param yaxis_label: the yaxis label
 # :param column_to_read: the name of the column to process
-plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE, xaxis_label='', yaxis_label='',
-                          column_to_read='X1') {
+plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_dataset=FALSE,
+                          exp_dataset_alpha=1.0, xaxis_label='', yaxis_label='', column_to_read='X1') {
 
   theme_set(tc_theme(36)) #28
 
@@ -366,7 +368,7 @@ plot_sep_sims <- function(inputdir, outputdir, model, exp_dataset, plot_exp_data
     ggsave(fileout, dpi=300,  width=8, height=6)#, bg = "transparent")
 
     if(readout %in% colnames(df_exp_dataset)) {
-        g <- plot_raw_dataset(df_exp_dataset, g, readout, max(df$Time))
+        g <- plot_raw_dataset(df_exp_dataset, g, readout, max(df$Time), alpha=exp_dataset_alpha)
         g <- plot_repeated_tc(df, g, readout, xaxis_label, yaxis_label, alpha=0.2)
         ggsave(gsub('.png', '_w_exp_data.png', fileout), dpi=300, width=8, height=6)#, bg = "transparent")
     }
