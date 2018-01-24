@@ -50,7 +50,7 @@ class TestRSim(unittest.TestCase):
     def test_sim_r_lotka_volterra(self):
         try:
             output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -63,7 +63,7 @@ class TestRSim(unittest.TestCase):
     def test_sim_r_pde_lotka_volterra(self):
         try:
             output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -76,7 +76,7 @@ class TestRSim(unittest.TestCase):
     def test_stoch_sim_r_periodic_drift(self):
         try:
             output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -89,7 +89,7 @@ class TestRSim(unittest.TestCase):
     def test_stoch_sim_r_cox_ingersoll_ross_process(self):
         try:
             output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "sde"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -102,15 +102,15 @@ class TestRSim(unittest.TestCase):
     def test_sim_r(self):
         try:
             reshape2 = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "reshape2"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             desolve = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "deSolve"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             minpacklm = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "sbpipe", "R", "is_package_installed.r"), "minpack.lm"], \
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):
