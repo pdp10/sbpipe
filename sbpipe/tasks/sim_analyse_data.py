@@ -91,7 +91,6 @@ def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plo
                    '\", \"' + yaxis_label + \
                    '\", \"' + column + \
                    '\")\''
-        print(command)
         run_cmd(command)
 
 
