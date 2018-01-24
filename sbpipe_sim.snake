@@ -134,8 +134,7 @@ rule sbpipe_sim_analysis:
     input:
         file=POSTPROC_REPORTS
     output:
-        #file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{type}" + PNG_EXT), var=VARIABLES, type=PLOT_TYPES)
-        file=expand(os.path.join(WORKING_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT), var=VARIABLES)
+        file=PLOTS
     params:
         models_folder = MODELS_FOLDER,
         model_name=MODEL_NAME,
@@ -164,8 +163,7 @@ rule sbpipe_sim_analysis:
 
 rule sbpipe_sim_latex_report:
     input:
-        #file=PLOTS
-        file=expand(os.path.join(WORKING_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT), var=VARIABLES)
+        file=PLOTS
     output:
         file=LATEX_REPORT
     params:
