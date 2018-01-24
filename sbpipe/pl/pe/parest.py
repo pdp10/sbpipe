@@ -281,8 +281,8 @@ class ParEst(Pipeline):
 
         logger.info("\n")
         logger.info("Fits analysis:")
-        # requires devtools::install_github("pdp10/sbpiper")
-        command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_pe_main(\"' + model + \
+        # requires devtools::install_github("pdp10/r-sbpipe")
+        command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_pe_main(\"' + model + \
                   '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
                   '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
                   '\", \"' + sim_plots_dir + \

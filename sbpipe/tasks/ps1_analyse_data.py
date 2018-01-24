@@ -56,8 +56,8 @@ def ps1_analyse_data(model_name, inhibition_only, outputdir,
     :param xaxis_label: the label for the x axis (e.g. Time [min])
     :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     """
-    # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_ps1_main(\"' + model_name + \
+    # requires devtools::install_github("pdp10/r-sbpipe")
+    command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_ps1_main(\"' + model_name + \
               '\", \"' + str(inhibition_only).upper() + '\", \"' + outputdir + \
               '\", \"' + sim_data_folder + \
               '\", \"' + sim_plots_folder + \

@@ -281,8 +281,8 @@ class ParScan1(Pipeline):
 
         str_to_replace = get_rand_alphanum_str(10)
 
-        # requires devtools::install_github("pdp10/sbpiper")
-        command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_ps1_main(\"' + model + \
+        # requires devtools::install_github("pdp10/r-sbpipe")
+        command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_ps1_main(\"' + model + \
                   '\", \"' + str(knock_down_only).upper() + '\", \"' + outputdir + \
                   '\", \"' + sim_data_folder + \
                   '\", \"' + sim_plots_folder + \

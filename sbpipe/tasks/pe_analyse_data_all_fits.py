@@ -59,8 +59,8 @@ def pe_analyse_data_all_fits(model, outputdir, fileout_all_estims,
         :param scientific_notation: True if axis labels should be plotted in scientific notation
         :return: True if the task was completed successfully, False otherwise.
     """
-    # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_pe_main_all_fits(\"' + model + \
+    # requires devtools::install_github("pdp10/r-sbpipe")
+    command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_pe_main_all_fits(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
               '\", \"' + plots_dir + \
               '\", \"' + str(data_point_num) + \

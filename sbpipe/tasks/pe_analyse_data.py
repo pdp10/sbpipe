@@ -61,8 +61,8 @@ def pe_analyse_data(model, outputdir, fileout_final_estims, fileout_all_estims,
         :return: True if the task was completed successfully, False otherwise.
     """
 
-    # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_pe_main(\"' + model + \
+    # requires devtools::install_github("pdp10/r-sbpipe")
+    command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_pe_main(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
               '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
               '\", \"' + plots_dir + \
