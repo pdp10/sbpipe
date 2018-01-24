@@ -67,7 +67,11 @@ install:
   - source activate sbpipe
 
   # install SBpiper
-  - R -e 'devtools::install_github("pdp10/sbpiper")'
+  - git clone https://github.com/pdp10/sbpiper.git
+  - R CMD check sbpiper
+  - R CMD build sbpiper
+  - R CMD INSTALL sbpiper_*.tar.gz
+
 
   # install sbpipe directly
   #- python setup.py install
