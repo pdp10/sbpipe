@@ -1,3 +1,4 @@
+devtools
 sbpiper
 ggplot2
 reshape2

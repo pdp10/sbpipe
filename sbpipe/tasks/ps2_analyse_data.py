@@ -46,11 +46,16 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     :param outputdir: the output directory
     :param run: the simulation number
     """
-    command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps2_main.r') + \
-              ' ' + model + ' ' + scanned_par1 + ' ' + scanned_par2 + ' ' + inputdir + \
-              ' ' + outputdir + ' ' + str(id)
+    # requires devtools::install_github("pdp10/sbpiper")
+    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_ps2_main(\"' + model + \
+              '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
+              '\", \"' + inputdir + \
+              '\", \"' + outputdir + \
+              '\", \"' + str(id)
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
+    # We do this to make sure that characters like [ or ] don't cause troubles.
+    command += '\")\''
     run_cmd(command)
 
 

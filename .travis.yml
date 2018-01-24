@@ -62,6 +62,9 @@ install:
   - conda config --set anaconda_upload no
 
 
+  # install SBpiper
+  - R -e 'install.packages("devtools"); devtools::install_github("pdp10/sbpiper")'
+
 
   # install SBpipe
   # create the `sbpipe` environment

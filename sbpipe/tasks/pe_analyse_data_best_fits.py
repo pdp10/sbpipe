@@ -49,12 +49,18 @@ def pe_analyse_data_best_fits(model, outputdir, fileout_final_estims, plots_dir,
         :param scientific_notation: True if axis labels should be plotted in scientific notation
         :return: True if the task was completed successfully, False otherwise.
     """
-    command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_best_fits.r') + \
-              ' ' + model + ' ' + os.path.join(outputdir, fileout_final_estims) + \
-              ' ' + plots_dir + ' ' + str(best_fits_percent) + \
-              ' ' + str(logspace) + ' ' + str(scientific_notation)
+    # requires devtools::install_github("pdp10/sbpiper")
+    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_pe_main_best_fits(\"' + model + \
+              '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
+              '\", \"' + plots_dir + \
+              '\", \"' + str(best_fits_percent) + \
+              '\", \"' + str(logspace).upper() + \
+              '\", \"' + str(scientific_notation).upper()
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
+    # We do this to make sure that characters like [ or ] don't cause troubles.
+    command += '\")\''
+
     run_cmd(command)
 
 

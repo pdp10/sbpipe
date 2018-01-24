@@ -258,9 +258,9 @@ class Sim(Pipeline):
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
-        command += '\", \"' + xaxis_label + '\"' + \
-                   ', \"' + yaxis_label + '\"' + \
-                   ', \"' + str_to_replace + \
+        command += '\", \"' + xaxis_label + \
+                   '\", \"' + yaxis_label + \
+                   '\", \"' + str_to_replace + \
                    '\")\''
 
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, local_cpus, True, columns):
