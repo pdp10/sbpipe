@@ -35,3 +35,5 @@ conda env create --name sbpipe --file environment.yaml
 # activate environment
 source activate sbpipe
 
+# install sbpiper
+R -e 'devtools::install_github("pdp10/sbpiper")'
