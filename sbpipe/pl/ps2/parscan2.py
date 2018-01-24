@@ -221,8 +221,8 @@ class ParScan2(Pipeline):
         refresh(outputdir, os.path.splitext(model)[0])
 
         str_to_replace = get_rand_alphanum_str(10)
-        # requires devtools::install_github("pdp10/r-sbpipe")
-        command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_ps2_main(\"' + model + \
+        # requires devtools::install_github("pdp10/sbpiper")
+        command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_ps2_main(\"' + model + \
                   '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
                   '\", \"' + inputdir + \
                   '\", \"' + outputdir + \

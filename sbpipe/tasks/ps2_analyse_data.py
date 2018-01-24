@@ -46,8 +46,8 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     :param outputdir: the output directory
     :param run: the simulation number
     """
-    # requires devtools::install_github("pdp10/r-sbpipe")
-    command = 'R -e \'library(r-sbpipe); r-sbpipe:::sbpipe_ps2_main(\"' + model + \
+    # requires devtools::install_github("pdp10/sbpiper")
+    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_ps2_main(\"' + model + \
               '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
               '\", \"' + inputdir + \
               '\", \"' + outputdir + \
