@@ -67,10 +67,11 @@ install:
   - source activate sbpipe
 
   # install SBpiper
-  - git clone https://github.com/pdp10/sbpiper.git
-  - R CMD check sbpiper
-  - R CMD build sbpiper
-  - R CMD INSTALL sbpiper_*.tar.gz
+  #- git clone https://github.com/pdp10/sbpiper.git
+  #- R CMD check sbpiper
+  #- R CMD build sbpiper
+  #- R CMD INSTALL sbpiper_*.tar.gz
+  - R -e 'devtools::install_github("pdp10/sbpiper")'
 
 
   # install sbpipe directly
