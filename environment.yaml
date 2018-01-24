@@ -31,6 +31,7 @@ dependencies:
   - setuptools
   - r-essentials
   - r-hmisc
+  - r-devtools    # for sbpiper
 #  - colorlog     # -c conda-forge
 #  - snakemake >=3.10.1  (not available on windows) -c bioconda
 #  - texlive-core        (not available on windows) -c pkgw

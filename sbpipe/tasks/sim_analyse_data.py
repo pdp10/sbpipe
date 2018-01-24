@@ -87,10 +87,11 @@ def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plo
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
-        command += '\", \"' + xaxis_label + '\"' + \
-                   ', \"' + yaxis_label + '\"' + \
-                   ', \"' + column + \
+        command += '\", \"' + xaxis_label + \
+                   '\", \"' + yaxis_label + \
+                   '\", \"' + column + \
                    '\")\''
+        print(command)
         run_cmd(command)
 
 
