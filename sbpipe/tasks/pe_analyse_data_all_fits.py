@@ -60,7 +60,7 @@ def pe_analyse_data_all_fits(model, outputdir, fileout_all_estims,
         :return: True if the task was completed successfully, False otherwise.
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_pe_main_all_fits(\"' + model + \
+    command = 'R -e \'library(sbpiper); sbpipe_pe_all_fits(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
               '\", \"' + plots_dir + \
               '\", \"' + str(data_point_num) + \

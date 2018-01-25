@@ -77,7 +77,7 @@ def sim_analyse_data(model, inputdir, outputdir, sim_plots_dir, exp_dataset, plo
 
     for column in columns:
         # requires devtools::install_github("pdp10/sbpiper")
-        command = 'R -e \'library(sbpiper); sbpiper:::sbpipe_sim_main(\"' + model + \
+        command = 'R -e \'library(sbpiper); sbpipe_sim(\"' + model + \
                   '\", \"' + inputdir + '\", \"' + sim_plots_dir + \
                   '\", \"' + os.path.join(outputdir, 'sim_stats_' + model + '_' + column + '.csv') + \
                   '\", \"' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
