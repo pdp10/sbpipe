@@ -1,7 +1,2 @@
 devtools
 sbpiper
-ggplot2
-reshape2
-Hmisc
-scales
-plyr
