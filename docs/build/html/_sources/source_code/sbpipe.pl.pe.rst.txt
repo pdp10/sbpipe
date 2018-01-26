@@ -1,0 +1,22 @@
+sbpipe\.pl\.pe package
+======================
+
+Submodules
+----------
+
+sbpipe\.pl\.pe\.parest module
+-----------------------------
+
+.. automodule:: sbpipe.pl.pe.parest
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.pl.pe
+    :members:
+    :undoc-members:
+    :show-inheritance:

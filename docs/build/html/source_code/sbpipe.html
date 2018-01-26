@@ -1,35 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>sbpipe package &mdash; SBpipe 3.32.0 documentation</title>
-    
+    <title>sbpipe package &#8212; SBpipe 3.32.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
         VERSION:     '3.32.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SBpipe 3.32.0 documentation" href="../index.html" />
-    <link rel="up" title="Source code" href="../source_code.html" />
-    <link rel="next" title="sbpipe.R package" href="sbpipe.R.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sbpipe.pl package" href="sbpipe.pl.html" />
     <link rel="prev" title="Source code" href="../source_code.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -40,13 +38,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sbpipe.R.html" title="sbpipe.R package"
+          <a href="sbpipe.pl.html" title="sbpipe.pl package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../source_code.html" title="Source code"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" accesskey="U">Source code</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,17 +59,6 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="sbpipe.R.html">sbpipe.R package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sbpipe.R.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sbpipe.R.misc.html">sbpipe.R.misc package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="sbpipe.R.misc.html#module-sbpipe.R.misc">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="sbpipe.R.html#module-sbpipe.R">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="sbpipe.pl.html">sbpipe.pl package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sbpipe.pl.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sbpipe.pl.create.html">sbpipe.pl.create package</a><ul>
@@ -205,7 +192,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; the file name to read</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> – the file name to read</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the first line</td>
 </tr>
@@ -222,17 +209,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>create_project</strong> &#8211; create a project with the name as argument</li>
-<li><strong>simulate</strong> &#8211; model simulation using a configuration file as argument</li>
-<li><strong>parameter_scan1</strong> &#8211; model one parameter scan using a configuration file as argument</li>
-<li><strong>parameter_scan2</strong> &#8211; model two parameters scan using a configuration file as argument</li>
-<li><strong>parameter_estimation</strong> &#8211; model parameter estimation using a configuration file as argument</li>
-<li><strong>logo</strong> &#8211; True to print the logo</li>
-<li><strong>license</strong> &#8211; True to print the license</li>
-<li><strong>nocolor</strong> &#8211; True to print logging messages without colors</li>
-<li><strong>log_level</strong> &#8211; Set the logging level</li>
-<li><strong>quiet</strong> &#8211; True if quiet (CRITICAL+)</li>
-<li><strong>verbose</strong> &#8211; True if verbose (DEBUG+)</li>
+<li><strong>create_project</strong> – create a project with the name as argument</li>
+<li><strong>simulate</strong> – model simulation using a configuration file as argument</li>
+<li><strong>parameter_scan1</strong> – model one parameter scan using a configuration file as argument</li>
+<li><strong>parameter_scan2</strong> – model two parameters scan using a configuration file as argument</li>
+<li><strong>parameter_estimation</strong> – model parameter estimation using a configuration file as argument</li>
+<li><strong>logo</strong> – True to print the logo</li>
+<li><strong>license</strong> – True to print the license</li>
+<li><strong>nocolor</strong> – True to print logging messages without colors</li>
+<li><strong>log_level</strong> – Set the logging level</li>
+<li><strong>quiet</strong> – True if quiet (CRITICAL+)</li>
+<li><strong>verbose</strong> – True if verbose (DEBUG+)</li>
 </ul>
 </td>
 </tr>
@@ -280,9 +267,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>new_level</strong> &#8211; the new level to set for the console logger</li>
-<li><strong>current_level</strong> &#8211; the current level to set for the console logger</li>
-<li><strong>nocolor</strong> &#8211; True if no colors shouls be used</li>
+<li><strong>new_level</strong> – the new level to set for the console logger</li>
+<li><strong>current_level</strong> – the current level to set for the console logger</li>
+<li><strong>nocolor</strong> – True if no colors shouls be used</li>
 </ul>
 </td>
 </tr>
@@ -309,7 +296,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>package</strong> &#8211; a Python package name</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>package</strong> – a Python package name</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if it is installed, false otherwise.</td>
 </tr>
@@ -325,7 +312,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd_name</strong> &#8211; a command name</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd_name</strong> – a command name</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">return the command name with absolute path if this exists, or None</td>
 </tr>
@@ -362,26 +349,23 @@
   <p class="topless"><a href="../source_code.html"
                         title="previous chapter">Source code</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="sbpipe.R.html"
-                        title="next chapter">sbpipe.R package</a></p>
+  <p class="topless"><a href="sbpipe.pl.html"
+                        title="next chapter">sbpipe.pl package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/source_code/sbpipe.txt"
+      <li><a href="../_sources/source_code/sbpipe.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -398,18 +382,18 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="sbpipe.R.html" title="sbpipe.R package"
+          <a href="sbpipe.pl.html" title="sbpipe.pl package"
              >next</a> |</li>
         <li class="right" >
           <a href="../source_code.html" title="Source code"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 3.32.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
