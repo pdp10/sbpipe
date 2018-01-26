@@ -12,7 +12,7 @@
 
 
 ##### `Output of sbpipe -v`
-<!-- Between the ticks below, paste the output of 'conda info' -->
+<!-- Between the ticks below, paste the output of 'sbpipe -v' -->
 ```
 
 ```
