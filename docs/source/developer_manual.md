@@ -149,7 +149,6 @@ The project is structured as follows:
 sbpipe:
   | - docs/
   | - sbpipe/
-        | - R
         | - pl
         | - report
         | - simul
@@ -164,7 +163,10 @@ statistics (see section configuration file in the user manual) and for
 generating plots. This choice allows users to run these scripts independently 
 of SBpipe if needed using an R environment like Rstudio. This can be 
 convenient if further data analysis are needed or plots need to be annotated 
-or edited.
+or edited. The R code for SBpipe is distributed as a separate R package and
+installed as a dependency using the provided script (install_rdeps.r) or conda.
+The source code for this package can be found here:
+[https://github.com/pdp10/sbpiper](https://github.com/pdp10/sbpiper)
 
 
 ### docs
@@ -215,12 +217,6 @@ $ python
 >>> sbpipe(simulate="my_model.yaml")
 ```
 The following subsections describe sbpipe subpackages.
-
-
-#### R
-This folder contains a collection of R utility methods for plotting and
-generating statistics. These utilities are used by the pipelines during
-data analysis.
 
 
 #### pl
