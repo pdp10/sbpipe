@@ -61,12 +61,13 @@ install:
   - conda install conda-build
   - conda config --set anaconda_upload no
 
-  # install SBpipe
+  # install SBpipe. R code for SBpipe (sbpiper) is retrieved
+  # from Anaconda Cloud as dependencies.
   # create the `sbpipe` environment
   - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
-  # install SBpiper
+  # install SBpiper (no needed)
   #- R -e 'devtools::install_github("pdp10/sbpiper")'
 
 

@@ -39,9 +39,9 @@ build:
     - sbpipe = sbpipe.__main__:main
 
 source:
-  #git_tag: v3.13.0
-  #git_url: https://github.com/pdp10/sbpipe.git
-  path: ../
+  git_tag: master
+  git_url: https://github.com/pdp10/sbpipe.git
+  #path: ../
 
 requirements:
   build:
