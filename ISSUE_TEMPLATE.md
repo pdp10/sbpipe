@@ -11,7 +11,7 @@
 <!-- Steps to reproduce issue. -->
 
 
-##### `Output of conda info`
+##### `Output of sbpipe -v`
 <!-- Between the ticks below, paste the output of 'conda info' -->
 ```
 
