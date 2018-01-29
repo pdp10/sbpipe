@@ -27,7 +27,6 @@ package:
 about:
   summary: Pipelines for systems modelling of biological networks
   home: https://github.com/pdp10/sbpipe
-  readme: README.md
   license: LGPL-3.0
   license_file: LICENSE
 
@@ -40,18 +39,21 @@ build:
     - sbpipe = sbpipe.__main__:main
 
 source:
-  #git_tag: v3.13.0
-  #git_url: https://github.com/pdp10/sbpipe.git
-  path: ../
+  git_tag: master
+  git_url: https://github.com/pdp10/sbpipe.git
+  #path: ../
 
 requirements:
   build:
     - python
     - setuptools
-  run:
     - pyyaml
     - python
-
+    - pyyaml
+    - sbpiper
+    - numpy
+    - scipy
+    - pandas
 test:
   requires:
     - nose

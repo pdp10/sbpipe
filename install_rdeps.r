@@ -59,6 +59,10 @@ main <- function(args) {
   } else {
       print("All packages were found. Please see the output for detail.")   
   }
+
+
+  library('devtools')
+  devtools::install_github("pdp10/sbpiper")
   
 }
 

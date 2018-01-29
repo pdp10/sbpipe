@@ -1,0 +1,22 @@
+sbpipe\.pl\.sim package
+=======================
+
+Submodules
+----------
+
+sbpipe\.pl\.sim\.sim module
+---------------------------
+
+.. automodule:: sbpipe.pl.sim.sim
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.pl.sim
+    :members:
+    :undoc-members:
+    :show-inheritance:

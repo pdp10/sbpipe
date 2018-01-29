@@ -59,15 +59,23 @@ def pe_analyse_data_all_fits(model, outputdir, fileout_all_estims,
         :param scientific_notation: True if axis labels should be plotted in scientific notation
         :return: True if the task was completed successfully, False otherwise.
     """
-    command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_pe_main_all_fits.r') + \
-              ' ' + model + ' ' + \
-              ' ' + os.path.join(outputdir, fileout_all_estims) + ' ' + plots_dir + \
-              ' ' + str(data_point_num) + ' ' + os.path.join(outputdir, fileout_param_estim_details) + \
-              ' ' + os.path.join(outputdir, fileout_param_estim_summary) + \
-              ' ' + str(plot_2d_66cl_corr) + ' ' + str(plot_2d_95cl_corr) + ' ' + str(plot_2d_99cl_corr) + \
-              ' ' + str(logspace) + ' ' + str(scientific_notation)
+    # requires devtools::install_github("pdp10/sbpiper")
+    command = 'R -e \'library(sbpiper); sbpipe_pe_all_fits(\"' + model + \
+              '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
+              '\", \"' + plots_dir + \
+              '\", \"' + str(data_point_num) + \
+              '\", \"' + os.path.join(outputdir, fileout_param_estim_details) + \
+              '\", \"' + os.path.join(outputdir, fileout_param_estim_summary) + \
+              '\", \"' + str(plot_2d_66cl_corr).upper() + \
+              '\", \"' + str(plot_2d_95cl_corr).upper() + \
+              '\", \"' + str(plot_2d_99cl_corr).upper() + \
+              '\", \"' + str(logspace).upper() + \
+              '\", \"' + str(scientific_notation).upper()
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
+    # We do this to make sure that characters like [ or ] don't cause troubles.
+    command += '\")\''
+
     run_cmd(command)
 
 
