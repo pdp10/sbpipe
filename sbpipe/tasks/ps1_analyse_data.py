@@ -56,14 +56,23 @@ def ps1_analyse_data(model_name, inhibition_only, outputdir,
     :param xaxis_label: the label for the x axis (e.g. Time [min])
     :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     """
-    command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_ps1_main.r') + \
-        ' ' + model_name + ' ' + inhibition_only + ' ' + outputdir + \
-        ' ' + sim_data_folder + ' ' + sim_plots_folder + ' ' + repeat + ' ' + percent_levels + ' ' + min_level + \
-        ' ' + max_level + ' ' + levels_number + ' ' + homogeneous_lines
+    # requires devtools::install_github("pdp10/sbpiper")
+    command = 'R -e \'library(sbpiper); sbpipe_ps1(\"' + model_name + \
+              '\", \"' + str(inhibition_only).upper() + '\", \"' + outputdir + \
+              '\", \"' + sim_data_folder + \
+              '\", \"' + sim_plots_folder + \
+              '\", \"' + repeat + \
+              '\", \"' + str(percent_levels).upper() + \
+              '\", \"' + str(min_level) + \
+              '\", \"' + str(max_level) + \
+              '\", \"' + str(levels_number) + \
+              '\", \"' + str(homogeneous_lines).upper()
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
-    command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label)
+    command += '\", \"' + xaxis_label + \
+               '\", \"' + yaxis_label + \
+               '\")\''
 
     run_cmd(command)
 

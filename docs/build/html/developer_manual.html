@@ -1,0 +1,553 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Developer manual &#8212; SBpipe 4.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Source code" href="source_code.html" />
+    <link rel="prev" title="User manual" href="user_manual.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="source_code.html" title="Source code"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="user_manual.html" title="User manual"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="developer-manual">
+<h1>Developer manual<a class="headerlink" href="#developer-manual" title="Permalink to this headline">¶</a></h1>
+<p>Mailing list: sbpipe AT googlegroups.com</p>
+<p>Forum: <a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This guide is meant for developers and contains guidelines for
+developing this project.</p>
+</div>
+<div class="section" id="development-model">
+<h2>Development model<a class="headerlink" href="#development-model" title="Permalink to this headline">¶</a></h2>
+<p>This project follows the Feature-Branching model. Briefly, there are two
+main branches: <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code>. The former contains the
+history of stable releases, the latter contains the history of
+development. The <code class="docutils literal"><span class="pre">master</span></code> branch contains checkout points for
+production hotfixes or merge points for release-x.x.x branches. The
+<code class="docutils literal"><span class="pre">develop</span></code> branch is used for feature-bugfix integration and checkout
+point in development. Nobody should directly develop in here.</p>
+<div class="section" id="conventions">
+<h3>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h3>
+<p>To manage the project in a more consistent way, here is a list of
+conventions to follow:</p>
+<ul class="simple">
+<li>Each new feature is developed in a separate branch forked from
+<em>develop</em>. This new branch is called <em>featureNUMBER</em>, where <em>NUMBER</em>
+is the number of the GitHub Issue discussing that feature. The first
+line of each commit message for this branch should contain the string
+<em>Issue #NUMBER</em> at the beginning. Doing so, the commit is
+automatically recorded by the Issue Tracking System for that specific
+Issue. Note that the sharp (#) symbol is required.</li>
+<li>The same for each new bugfix, but in this case the branch name is
+called bugfixNUMBER.</li>
+<li>The same for each new hotfix, but in this case the branch name is
+called hotfixNUMBER and is forked from <em>master</em>.</li>
+</ul>
+</div>
+<div class="section" id="work-flow">
+<h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
+<p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
+is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git checkout -b feature10 develop
+</pre></div>
+</div>
+<p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
+discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
+work, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
+description of the changes, if any.&quot;
+$ git push origin feature10       # sometimes and at the end.
+</pre></div>
+</div>
+<p>As of June 2016, the branches <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code> are protected
+and a status check using Travis-CI must be performed before merging or
+pushing into these branches. This automatically forces a merge without
+fast-forward. In order to merge <strong>any</strong> new feature, bugfix or simple
+edits into <code class="docutils literal"><span class="pre">master</span></code> or <code class="docutils literal"><span class="pre">develop</span></code>, a developer <strong>must</strong> checkout a
+new branch and, once committed and pushed, <strong>merge</strong> it to <code class="docutils literal"><span class="pre">master</span></code> or
+<code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
+<code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
+Requests:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span><span class="p">:</span><span class="n">develop</span>  <span class="n">compare</span><span class="p">:</span><span class="n">feature10</span>   <span class="n">Able</span> <span class="n">to</span> <span class="n">merge</span><span class="o">.</span> <span class="n">These</span> <span class="n">branches</span> <span class="n">can</span> <span class="n">be</span>
+<span class="n">automatically</span> <span class="n">merged</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>A small discussion about feature10 should also be included to allow
+other users to understand the feature.</p>
+<p>Finally delete the branch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git branch -d feature10      # delete the branch feature10 (locally)
+</pre></div>
+</div>
+</div>
+<div class="section" id="new-releases">
+<h3>New releases<a class="headerlink" href="#new-releases" title="Permalink to this headline">¶</a></h3>
+<p>The script <code class="docutils literal"><span class="pre">release.sh</span></code> at the root of the package allows to release a
+new version of SBpipe or update the last github tag. This script also
+creates and uploads a new SBpipe package for anaconda cloud.</p>
+<p>The following two sections describe how to release a new version for
+SBpipe, manually.</p>
+<div class="section" id="how-to-release-a-new-tag">
+<h4>How to release a new tag<a class="headerlink" href="#how-to-release-a-new-tag" title="Permalink to this headline">¶</a></h4>
+<p>When the <code class="docutils literal"><span class="pre">develop</span></code> branch includes all the desired feature for a
+release, it is time to checkout this branch in a new one called
+<code class="docutils literal"><span class="pre">release-x.x.x</span></code>. It is at this stage that a version is established.
+Only bugfixes or hotfixes are applied to this branch. When this
+testing/correction phase is completed, the <code class="docutils literal"><span class="pre">master</span></code> branch will merge
+with the <code class="docutils literal"><span class="pre">release-x.x.x</span></code> branch, using the commands above. To record
+the release add a tag:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;PROGRAM_NAME v1.3&quot;</span>
+</pre></div>
+</div>
+<p>To transfer the tag to the remote server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span>   <span class="c1"># Note: it goes in a separate &#39;branch&#39;</span>
+</pre></div>
+</div>
+<p>To see all the releases:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">show</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">
+<h4>How to release a new SBpipe conda package (Anaconda Cloud)<a class="headerlink" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud" title="Permalink to this headline">¶</a></h4>
+<p>This is a short guide for building SBpipe as a conda package. Anaconda
+(or Miniconda) must be installed. In order to proceed, the package
+<code class="docutils literal"><span class="pre">conda-build</span></code> must be installed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install conda-build
+
+# DON&#39;T FORGET TO SET THIS so that your built package is not uploaded automatically
+$ conda config --set anaconda_upload no
+</pre></div>
+</div>
+<p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
+create the conda package for SBpipe:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+$ conda build conda_recipe/meta.yaml -c conda-forge
+</pre></div>
+</div>
+<p>To test this package locally:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># install
+$ conda install sbpipe --use-local
+
+# uninstall
+$ conda remove sbpipe
+</pre></div>
+</div>
+<p>To upload the package to the Anaconda cloud repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">py_y</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="package-structure">
+<h2>Package structure<a class="headerlink" href="#package-structure" title="Permalink to this headline">¶</a></h2>
+<p>This section presents the structure of the SBpipe package. The root of
+the project contains general management scripts for installing Python
+and R dependencies (install_pydeps.py and install_rdeps.r), and
+installing SBpipe (setup.py). Additionally, the logging configuration
+file (logging_config.ini) is also at this level.</p>
+<p>In order to automatically compile and run the test suite, Travis-CI is
+used and configured accordingly (.travis.yml).</p>
+<p>The project is structured as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="p">:</span>
+  <span class="o">|</span> <span class="o">-</span> <span class="n">docs</span><span class="o">/</span>
+  <span class="o">|</span> <span class="o">-</span> <span class="n">sbpipe</span><span class="o">/</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">pl</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">report</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">simul</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">tasks</span>
+        <span class="o">|</span> <span class="o">-</span> <span class="n">utils</span>
+  <span class="o">|</span> <span class="o">-</span> <span class="n">scripts</span><span class="o">/</span>
+  <span class="o">|</span> <span class="o">-</span> <span class="n">tests</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>These folders will be discussed in the next sections. In SBpipe, Python
+is the project main language. Instead, R is essentially used for
+computing statistics (see section configuration file in the user manual)
+and for generating plots. This choice allows users to run these scripts
+independently of SBpipe if needed using an R environment like Rstudio.
+This can be convenient if further data analysis are needed or plots need
+to be annotated or edited. The R code for SBpipe is distributed as a
+separate R package and installed as a dependency using the provided
+script (install_rdeps.r) or conda. The source code for this package can
+be found here: <a class="reference external" href="https://github.com/pdp10/sbpiper">https://github.com/pdp10/sbpiper</a></p>
+<div class="section" id="docs">
+<h3>docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
+<p>The folder <code class="docutils literal"><span class="pre">docs/</span></code> contains the documentation for this project. The
+user and developer manuals in markdown format are contained in
+<code class="docutils literal"><span class="pre">docs/source</span></code>. In order to generate the complete documentation for
+SBpipe, the following packages must be installed:</p>
+<ul class="simple">
+<li>python-sphinx</li>
+<li>pandoc</li>
+<li>texlive-fonts-recommended</li>
+<li>texlive-latex-extra</li>
+</ul>
+<p>By default the documentation is generated in html and LaTeX/PDF.
+Instruction for generating or cleaning SBpipe documentation are provided
+below.</p>
+<p>To generate the source code documentation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
+$ ./gen_doc.sh
+</pre></div>
+</div>
+<p>To clean the documentation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
+$ ./cleanup_doc.sh
+</pre></div>
+</div>
+<p>The complete source code documentation for this project is stored in
+<code class="docutils literal"><span class="pre">docs/build/html</span></code> (html format) and <code class="docutils literal"><span class="pre">docs/build/latex</span></code> (LaTeX/PDF
+format). A shortcut to the documentation in html format is available at
+the page <code class="docutils literal"><span class="pre">docs/index.html</span></code>.</p>
+</div>
+<div class="section" id="sbpipe">
+<h3>sbpipe<a class="headerlink" href="#sbpipe" title="Permalink to this headline">¶</a></h3>
+<p>This folder contains the source code of the project SBpipe. At this
+level a file called <code class="docutils literal"><span class="pre">__main__.py</span></code> enables users to run SBpipe
+programmatically as a Python module via the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ python sbpipe
+</pre></div>
+</div>
+<p>Alternatively <code class="docutils literal"><span class="pre">sbpipe</span></code> can programmatically be imported within a
+Python environment as shown below:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+$ python
+# Python environment
+&gt;&gt;&gt; from sbpipe.main import sbpipe
+&gt;&gt;&gt; sbpipe(simulate=&quot;my_model.yaml&quot;)
+</pre></div>
+</div>
+<p>The following subsections describe sbpipe subpackages.</p>
+<div class="section" id="pl">
+<h4>pl<a class="headerlink" href="#pl" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.pl</span></code> contains the class <code class="docutils literal"><span class="pre">Pipeline</span></code> in the file
+<code class="docutils literal"><span class="pre">pipeline.py</span></code>. This class represents a generic pipeline which is
+extended by SBpipe pipelines. These are organised in the following
+subpackages:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">create</span></code>: creates a new project</li>
+<li><code class="docutils literal"><span class="pre">ps1</span></code>: scan a model parameter, generate plots and report;</li>
+<li><code class="docutils literal"><span class="pre">ps2</span></code>: scan two model parameters, generate plots and report;</li>
+<li><code class="docutils literal"><span class="pre">pe</span></code>: generate a parameter fit sequence, tables of statistics,
+plots and report;</li>
+<li><code class="docutils literal"><span class="pre">sim</span></code>: generate deterministic or stochastic model simulations,
+plots and report.</li>
+</ul>
+<p>All these pipelines can be invoked directly via the script
+<code class="docutils literal"><span class="pre">sbpipe/scripts/sbpipe</span></code>. Each SBpipe pipeline extends the class
+<code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># executes a pipeline</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
+
+<span class="c1"># process the dictionary of the configuration file loaded by Pipeline.load()</span>
+<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>The method run() can invoke Pipeline.load() to load the YAML
+config_file as a dictionary. Once the configuration is loaded and
+the parameters are imported, run() executes the pipeline.</li>
+<li>The method parse() parses the dictionary and collects the values.</li>
+</ul>
+</div>
+<div class="section" id="report">
+<h4>report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.report</span></code> contains Python modules for generating
+LaTeX/PDF reports.</p>
+</div>
+<div class="section" id="simul">
+<h4>simul<a class="headerlink" href="#simul" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.simul</span></code> contains the class <code class="docutils literal"><span class="pre">Simul</span></code> in the file
+<code class="docutils literal"><span class="pre">simul.py</span></code>. This is a generic simulator interface used by the
+pipelines in SBpipe. This mechanism uncouples pipelines from specific
+simulators which can therefore be configured in each pipeline
+configuration file. As of 2016, the following simulators are available
+in SBpipe:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Copasi</span></code>, package <code class="docutils literal"><span class="pre">sbpipe.simul.copasi</span></code>, which implements all the
+methods of the class <code class="docutils literal"><span class="pre">Simul</span></code>;</li>
+<li><code class="docutils literal"><span class="pre">Python</span></code>, package <code class="docutils literal"><span class="pre">sbpipe.simul.python</span></code>.</li>
+</ul>
+<p>Pipelines can dynamically load a simulator via the class method
+<code class="docutils literal"><span class="pre">Pipeline.get_simul_obj(simulator)</span></code>. This method instantiates an
+object of subtype <code class="docutils literal"><span class="pre">Simul</span></code> by refractoring the simulator name as
+parameter. A simulator class (e.g. <code class="docutils literal"><span class="pre">Copasi</span></code>) must have the same name
+of their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>) but start with an upper case letter.
+A simulator class must be contained in a file with the same name of
+their package (e.g. <code class="docutils literal"><span class="pre">copasi</span></code>). Therefore, for each simulator package,
+exactly one simulator class can be instantiated. Simulators can be
+configured in the configuration file using the field <code class="docutils literal"><span class="pre">simulator</span></code>.</p>
+</div>
+<div class="section" id="tasks">
+<h4>tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.tasks</span></code> contains the Python scripts to invoke
+the single SBpipe tasks. These are invoked by the rules in the SBpipe
+snakemake files. These snakemake files are:</p>
+<ul class="simple">
+<li>sbpipe_pe.snake</li>
+<li>sbpipe_ps1.snake</li>
+<li>sbpipe_ps2.snake</li>
+<li>sbpipe_sim.snake</li>
+</ul>
+<p>and are stored on the root folder of SBpipe.</p>
+</div>
+<div class="section" id="utils">
+<h4>utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h4>
+<p>The subpackage <code class="docutils literal"><span class="pre">sbpipe.utils</span></code> contains a collection of Python utility
+modules which are used by sbpipe. Here are also contained the functions
+for running commands in parallel.</p>
+</div>
+</div>
+<div class="section" id="scripts">
+<h3>scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
+<p>The folder <code class="docutils literal"><span class="pre">scripts</span></code> contains the scripts: <code class="docutils literal"><span class="pre">cleanup_sbpipe</span></code> and
+<code class="docutils literal"><span class="pre">sbpipe</span></code>. <code class="docutils literal"><span class="pre">sbpipe</span></code> is the main script and is used to run the
+pipelines. <code class="docutils literal"><span class="pre">cleanup_sbpipe.py</span></code> is used for cleaning the package
+including the test results.</p>
+</div>
+<div class="section" id="tests">
+<h3>tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
+<p>The package <code class="docutils literal"><span class="pre">tests</span></code> contains the script <code class="docutils literal"><span class="pre">test_suite.py</span></code> which
+executes all sbpipe tests. It should be used for testing the correct
+installation of SBpipe dependencies as well as reference for configuring
+a project before running any pipeline. Projects inside the folder
+<code class="docutils literal"><span class="pre">sbpipe/tests/</span></code> have the SBpipe project structure:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Models</span></code>: (e.g. models, COPASI models, Python models, data sets
+directly used by Copasi models);</li>
+<li><code class="docutils literal"><span class="pre">Results</span></code>: (e.g. pipelines results, etc).</li>
+</ul>
+<p>Examples of configuration files (*.yaml) using COPASI can be found in
+sbpipe/tests/insulin_receptor/.</p>
+<p>To run tests for Python models, the Python packages <code class="docutils literal"><span class="pre">numpy</span></code>,
+<code class="docutils literal"><span class="pre">scipy</span></code>, and <code class="docutils literal"><span class="pre">pandas</span></code> must be installed. In principle, users may
+define their Python models using arbitrary packages.</p>
+<p>As of 2016, the repository for SBpipe source code is <code class="docutils literal"><span class="pre">github.com</span></code>.
+This is configured to run Travis-CI every time a <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> into the
+repository is performed. The exact details of execution of Travis-CI can
+be found in Travis-CI configuration file <code class="docutils literal"><span class="pre">sbpipe/.travis.yml</span></code>.
+Importantly, Travis-CI runs all SBpipe tests using <code class="docutils literal"><span class="pre">nosetests</span></code>.</p>
+</div>
+</div>
+<div class="section" id="miscellaneous-of-useful-commands">
+<h2>Miscellaneous of useful commands<a class="headerlink" href="#miscellaneous-of-useful-commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="git">
+<h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p><strong>Startup</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># clone master
+$ git clone https://github.com/pdp10/sbpipe.git
+# get develop branch
+$ git checkout -b develop origin/develop
+# to get all the other branches
+$ for b in `git branch -r | grep -v -- &#39;-&gt;&#39;`; do git branch
+--track ${b##origin/} $b; done
+# to update all the branches with remote
+$ git fetch --all
+</pre></div>
+</div>
+<p><strong>Update</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># ONLY use --rebase for private branches. Never use it for shared
+# branches otherwise it breaks the history. --rebase moves your
+# commits ahead. For shared branches, you should use
+# `git fetch &amp;&amp; git merge --no-ff`
+$ git pull [--rebase] origin BRANCH
+</pre></div>
+</div>
+<p><strong>Managing tags</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Update an existing tag to include the last commits</span>
+<span class="c1"># Assuming that you are in the branch associated to the tag to update:</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span><span class="n">a</span> <span class="n">tagName</span>
+<span class="c1"># push your new commit:</span>
+<span class="n">git</span> <span class="n">push</span>
+<span class="c1"># force push your moved tag:</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">f</span> <span class="o">--</span><span class="n">tags</span>
+
+<span class="c1"># rename a tag</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="n">new</span> <span class="n">old</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">old</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">tags</span><span class="o">/</span><span class="n">old</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
+<span class="c1"># make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">--</span><span class="n">prune</span> <span class="o">--</span><span class="n">tags</span>
+
+
+<span class="c1"># removing a tag remotely and locally</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">delete</span> <span class="n">origin</span> <span class="n">tagName</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">tagName</span>
+</pre></div>
+</div>
+<p><strong>File system</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
+$ git add filename
+</pre></div>
+</div>
+<p><strong>Information</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git status
+$ git log [--stat]
+$ git branch       # list the branches
+</pre></div>
+</div>
+<p><strong>Maintenance</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git fsck      # check errors
+$ git gc        # clean up
+</pre></div>
+</div>
+<p><strong>Rename a branch locally and remotely</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">m</span> <span class="n">old_branch</span> <span class="n">new_branch</span>         <span class="c1"># Rename branch locally</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">old_branch</span>                 <span class="c1"># Delete the old branch</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">new_branch</span>   <span class="c1"># Push the new branch, set</span>
+<span class="n">local</span> <span class="n">branch</span> <span class="n">to</span> <span class="n">track</span> <span class="n">the</span> <span class="n">new</span> <span class="n">remote</span>
+</pre></div>
+</div>
+<p><strong>Reset</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">HEAD</span>    <span class="c1"># to undo all the local uncommitted changes</span>
+</pre></div>
+</div>
+<p><strong>Syncing a fork (assuming upstreams are set)</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">develop</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developer manual</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#development-model">Development model</a><ul>
+<li><a class="reference internal" href="#conventions">Conventions</a></li>
+<li><a class="reference internal" href="#work-flow">Work flow</a></li>
+<li><a class="reference internal" href="#new-releases">New releases</a><ul>
+<li><a class="reference internal" href="#how-to-release-a-new-tag">How to release a new tag</a></li>
+<li><a class="reference internal" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">How to release a new SBpipe conda package (Anaconda Cloud)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-structure">Package structure</a><ul>
+<li><a class="reference internal" href="#docs">docs</a></li>
+<li><a class="reference internal" href="#sbpipe">sbpipe</a><ul>
+<li><a class="reference internal" href="#pl">pl</a></li>
+<li><a class="reference internal" href="#report">report</a></li>
+<li><a class="reference internal" href="#simul">simul</a></li>
+<li><a class="reference internal" href="#tasks">tasks</a></li>
+<li><a class="reference internal" href="#utils">utils</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scripts">scripts</a></li>
+<li><a class="reference internal" href="#tests">tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous-of-useful-commands">Miscellaneous of useful commands</a><ul>
+<li><a class="reference internal" href="#git">Git</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="user_manual.html"
+                        title="previous chapter">User manual</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="source_code.html"
+                        title="next chapter">Source code</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/developer_manual.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="source_code.html" title="Source code"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="user_manual.html" title="User manual"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+    </div>
+  </body>
+</html>
