@@ -100,65 +100,85 @@ The correct installation of LaTeX can be tested with:
     kpathsea version 6.2.1
     Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 
-Preparation of SBpipe
-^^^^^^^^^^^^^^^^^^^^^
+Install SBpipe via Miniconda3/Anaconda3
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-SBpipe can be downloaded from the website or cloned using ``git``. To
-run sbpipe from any shell, users should add 'sbpipe/scripts' to their
-``PATH`` environment variable by adding the following lines to their
-``$HOME``/.bashrc file:
+Users need to download and install Anaconda3
+(https://www.continuum.io/downloads) or Miniconda3
+(https://conda.io/miniconda.html).
+
+**1st Method**
+''''''''''''''
+
+The following procedure will install SBpipe in a conda environment:
+
+::
+
+    # create a new environment `sbpipe`
+    $ conda create -n sbpipe
+
+    # activate the environment. The following line can be
+    # added to the .bashrc file to skip the activation
+    # of this environment every time SBpipe is used.
+    $ source activate sbpipe
+
+    # install sbpipe, sbpiper (necessary R dependencies), and snakemake
+    $ conda install -c pdp10 sbpiper
+    $ conda install -c pdp10 sbpipe
+
+    # install snakemake and colorlog (optional)
+    $ conda install -c bioconda snakemake
+    $ conda install -c conda-forge colorlog
+
+No further step is needed.
+
+**2nd Method**
+''''''''''''''
+
+Alternatively, for those users who would like to have an easy access to
+the package documentation and test suite, it could be useful to store
+SBpipe in a custom path. To do so, SBpipe should be downloaded from the
+website or cloned using ``git``. From a GNU/Linux shell, type:
+
+::
+
+    $ cd path/to/sbpipe
+
+    # install dependencies into isolated environment using Anaconda3/Miniconda3
+    $ conda env create --name sbpipe --file environment.yaml
+
+    # activate environment. The following line can be
+    # added to the .bashrc file to skip the activation
+    # of this environment every time SBpipe is used.
+    $ source activate sbpipe
+
+    # install snakemake and colorlog (optional)
+    $ conda install -c bioconda snakemake
+    $ conda install -c conda-forge colorlog
+
+To run sbpipe from any shell, users need to add 'sbpipe/scripts' to
+their ``PATH`` environment variable by adding the following lines to
+their ``$HOME``/.bashrc file:
 
 ::
 
     # SBPIPE (update this accordingly)
     export PATH=$PATH:/path/to/sbpipe/scripts
 
-Now you should reload the .bashrc file to apply the previous edits:
+The .bashrc file should be reloaded to apply the previous edits:
 
 ::
 
     # Reload the .bashrc file
     $ source $HOME/.bashrc
 
-Install Python and R packages
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install SBpipe's dependencies via provided scripts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Python and R packages required by SBpipe can be installed via
-Anaconda3/Miniconda3 (recommended) or using the GNU/Linux distribution
-package manager. This will be explained in the following two sections.
-
-Install Python and R dependencies via Anaconda3/Miniconda3
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Users need to download and install Anaconda3
-(https://www.continuum.io/downloads) or Miniconda3
-(https://conda.io/miniconda.html).
-
-From a GNU/Linux shell:
-
-::
-
-    cd path/to/sbpipe
-
-    # install dependencies into isolated environment using Anaconda3/Miniconda3
-    conda env create --name sbpipe --file environment.yaml
-
-    # activate environment. The following line can be
-    # added to the .bashrc file to skip the activation
-    # of this environment every time SBpipe is used.
-    source activate sbpipe
-
-Install Python and R dependencies via the distribution package manager
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-Users can install Python and R using the package manager of their
-GNU/Linux distribution. Users need to make sure that the package
-``python-pip`` is installed. In most cases, the installation via the
-package manager will automatically configure the correct environment
-variables.
-
-The correct installation of Python and R can be tested by running the
-commands:
+For this type of installation, SBpipe should be downloaded from the
+website or cloned using ``git``. Users need to make sure that the
+package ``python-pip`` and ``r-base`` are installed. The correct
+installation of Python and R can be tested by running the commands:
 
 ::
 
@@ -172,10 +192,8 @@ commands:
     Copyright (C) 2015 The R Foundation for Statistical Computing
     Platform: x86_64-pc-linux-gnu (64-bit)
 
-Users need to install Python and R dependency packages used by SBpipe.
-Two scripts are provided to perform these tasks automatically.
-
-To install SBpipe Python dependencies on GNU/Linux, run:
+The next step is the installation of SBpipe dependencies. To install
+Python dependencies on GNU/Linux, run:
 
 ::
 
@@ -191,11 +209,28 @@ To install SBpipe R dependencies on GNU/Linux, run:
     # Inside R environment, answer 'y' to install packages locally
     > source('install_rdeps.r')
 
+Finally, to run sbpipe from any shell, users need to add
+'sbpipe/scripts' to their ``PATH`` environment variable by adding the
+following lines to their ``$HOME``/.bashrc file:
+
+::
+
+    # SBPIPE (update this accordingly)
+    export PATH=$PATH:/path/to/sbpipe/scripts
+
+The .bashrc file should be reloaded to apply the previous edits:
+
+::
+
+    # Reload the .bashrc file
+    $ source $HOME/.bashrc
+
 **NOTE:** If R package dependencies must be compiled, it is worth
 checking that the following additional packages are installed in your
 machine: ``build-essential``, ``liblapack-dev``, ``libblas-dev``,
 ``libcairo-dev``, ``libssl-dev``, ``libcurl4-openssl-dev``, and
-``gfortran``. Other packages might be needed, depending on R
+``gfortran``. These can be installed using the package manager coming
+with your distribution. Other packages might be needed, depending on R
 dependencies. After installing these packages, ``install_rdeps.r`` must
 be executed again.
 
@@ -257,67 +292,23 @@ to apply the previous changes:
     # Reload the .bashrc file
     $ source $HOME/.bashrc
 
-Install Python and R dependencies via Anaconda3/Miniconda3
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install SBpipe via Miniconda3/Anaconda3
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Users need to download and install Anaconda3
-(https://www.continuum.io/downloads) or Miniconda3
-(https://conda.io/miniconda.html).
+See corresponding section for GNU/Linux.
 
-From a MINGW shell (``Git for Windows``) type:
+Verify SBpipe installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
-
-    cd path/to/sbpipe
-
-    # install dependencies into isolated environment using Anaconda3/Miniconda3
-    conda env create --name sbpipe --file environment.yaml
-
-    # activate environment. The following line can be added to the .bashrc file to skip the activation
-    # of this environment every time SBpipe is used.
-    source activate sbpipe
-
-Complete installation via Anaconda3/Miniconda3 (in progress)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-SBpipe can also be installed via Anaconda3/Miniconda3 using the command:
-
-::
-
-    # create an environment for SBpipe
-    $ conda create -n sbpipe_env
-
-    # activate the environment
-    $ source activate sbpipe_env
-
-    # install pyaml and colorlog from conda-forge
-    $ conda install -c conda-forge pyaml colorlog
-
-    # install sbpipe
-    $ conda install -c pdp10 sbpipe
-
-The last command will install sbpipe and its Python/R dependencies
-automatically. The required latex packages need to be installed
-separately either using a package manager or using anaconda. The
-following command works on GNU/Linux or Mac OS X, but not on Windows.
-Windows users need to install LaTeX MikTeX instead.
-
-::
-
-    $ conda install -c pkgw texlive-core texlive-selected
-
-Check installation of SBpipe
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The correct installation of SBpipe and its dependencies can be checked
-by running the following commands inside the SBpipe folder. For the
-correct execution of all tests, LaTeX must be installed.
+The correct installation of SBpipe and its dependencies can be verified
+by running the following commands. For the correct execution of all
+tests, LaTeX must be installed.
 
 ::
 
     # SBpipe version:
     $ sbpipe -V
-    sbpipe 3.12.0
+    sbpipe 3.32.0
 
 ::
 

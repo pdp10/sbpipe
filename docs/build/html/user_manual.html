@@ -134,54 +134,74 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 </pre></div>
 </div>
 </div>
-<div class="section" id="preparation-of-sbpipe">
-<h4>Preparation of SBpipe<a class="headerlink" href="#preparation-of-sbpipe" title="Permalink to this headline">¶</a></h4>
-<p>SBpipe can be downloaded from the website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. To
-run sbpipe from any shell, users should add ‘sbpipe/scripts’ to their
-<code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the following lines to their
-<code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
+<div class="section" id="install-sbpipe-via-miniconda3-anaconda3">
+<h4>Install SBpipe via Miniconda3/Anaconda3<a class="headerlink" href="#install-sbpipe-via-miniconda3-anaconda3" title="Permalink to this headline">¶</a></h4>
+<p>Users need to download and install Anaconda3
+(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
+(<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
+<div class="section" id="st-method">
+<h5><strong>1st Method</strong><a class="headerlink" href="#st-method" title="Permalink to this headline">¶</a></h5>
+<p>The following procedure will install SBpipe in a conda environment:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># create a new environment `sbpipe`
+$ conda create -n sbpipe
+
+# activate the environment. The following line can be
+# added to the .bashrc file to skip the activation
+# of this environment every time SBpipe is used.
+$ source activate sbpipe
+
+# install sbpipe, sbpiper (necessary R dependencies), and snakemake
+$ conda install -c pdp10 sbpiper
+$ conda install -c pdp10 sbpipe
+
+# install snakemake and colorlog (optional)
+$ conda install -c bioconda snakemake
+$ conda install -c conda-forge colorlog
+</pre></div>
+</div>
+<p>No further step is needed.</p>
+</div>
+<div class="section" id="nd-method">
+<h5><strong>2nd Method</strong><a class="headerlink" href="#nd-method" title="Permalink to this headline">¶</a></h5>
+<p>Alternatively, for those users who would like to have an easy access to
+the package documentation and test suite, it could be useful to store
+SBpipe in a custom path. To do so, SBpipe should be downloaded from the
+website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. From a GNU/Linux shell, type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+
+# install dependencies into isolated environment using Anaconda3/Miniconda3
+$ conda env create --name sbpipe --file environment.yaml
+
+# activate environment. The following line can be
+# added to the .bashrc file to skip the activation
+# of this environment every time SBpipe is used.
+$ source activate sbpipe
+
+# install snakemake and colorlog (optional)
+$ conda install -c bioconda snakemake
+$ conda install -c conda-forge colorlog
+</pre></div>
+</div>
+<p>To run sbpipe from any shell, users need to add ‘sbpipe/scripts’ to
+their <code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the following lines to
+their <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># SBPIPE (update this accordingly)
 export PATH=$PATH:/path/to/sbpipe/scripts
 </pre></div>
 </div>
-<p>Now you should reload the .bashrc file to apply the previous edits:</p>
+<p>The .bashrc file should be reloaded to apply the previous edits:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
 </div>
-<div class="section" id="install-python-and-r-packages">
-<h4>Install Python and R packages<a class="headerlink" href="#install-python-and-r-packages" title="Permalink to this headline">¶</a></h4>
-<p>Python and R packages required by SBpipe can be installed via
-Anaconda3/Miniconda3 (recommended) or using the GNU/Linux distribution
-package manager. This will be explained in the following two sections.</p>
-<div class="section" id="install-python-and-r-dependencies-via-anaconda3-miniconda3">
-<h5>Install Python and R dependencies via Anaconda3/Miniconda3<a class="headerlink" href="#install-python-and-r-dependencies-via-anaconda3-miniconda3" title="Permalink to this headline">¶</a></h5>
-<p>Users need to download and install Anaconda3
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
-(<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
-<p>From a GNU/Linux shell:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
-
-<span class="c1"># install dependencies into isolated environment using Anaconda3/Miniconda3</span>
-<span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">sbpipe</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yaml</span>
-
-<span class="c1"># activate environment. The following line can be</span>
-<span class="c1"># added to the .bashrc file to skip the activation</span>
-<span class="c1"># of this environment every time SBpipe is used.</span>
-<span class="n">source</span> <span class="n">activate</span> <span class="n">sbpipe</span>
-</pre></div>
 </div>
-</div>
-<div class="section" id="install-python-and-r-dependencies-via-the-distribution-package-manager">
-<h5>Install Python and R dependencies via the distribution package manager<a class="headerlink" href="#install-python-and-r-dependencies-via-the-distribution-package-manager" title="Permalink to this headline">¶</a></h5>
-<p>Users can install Python and R using the package manager of their
-GNU/Linux distribution. Users need to make sure that the package
-<code class="docutils literal"><span class="pre">python-pip</span></code> is installed. In most cases, the installation via the
-package manager will automatically configure the correct environment
-variables.</p>
-<p>The correct installation of Python and R can be tested by running the
-commands:</p>
+<div class="section" id="install-sbpipe-s-dependencies-via-provided-scripts">
+<h4>Install SBpipe’s dependencies via provided scripts<a class="headerlink" href="#install-sbpipe-s-dependencies-via-provided-scripts" title="Permalink to this headline">¶</a></h4>
+<p>For this type of installation, SBpipe should be downloaded from the
+website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. Users need to make sure that the
+package <code class="docutils literal"><span class="pre">python-pip</span></code> and <code class="docutils literal"><span class="pre">r-base</span></code> are installed. The correct
+installation of Python and R can be tested by running the commands:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ python -V
 Python 2.7.12
 $ pip -V
@@ -193,9 +213,8 @@ Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 </pre></div>
 </div>
-<p>Users need to install Python and R dependency packages used by SBpipe.
-Two scripts are provided to perform these tasks automatically.</p>
-<p>To install SBpipe Python dependencies on GNU/Linux, run:</p>
+<p>The next step is the installation of SBpipe dependencies. To install
+Python dependencies on GNU/Linux, run:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
 $ ./install_pydeps.py
 </pre></div>
@@ -207,14 +226,26 @@ $ R
 &gt; source(&#39;install_rdeps.r&#39;)
 </pre></div>
 </div>
+<p>Finally, to run sbpipe from any shell, users need to add
+‘sbpipe/scripts’ to their <code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the
+following lines to their <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># SBPIPE (update this accordingly)
+export PATH=$PATH:/path/to/sbpipe/scripts
+</pre></div>
+</div>
+<p>The .bashrc file should be reloaded to apply the previous edits:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
+$ source $HOME/.bashrc
+</pre></div>
+</div>
 <p><strong>NOTE:</strong> If R package dependencies must be compiled, it is worth
 checking that the following additional packages are installed in your
 machine: <code class="docutils literal"><span class="pre">build-essential</span></code>, <code class="docutils literal"><span class="pre">liblapack-dev</span></code>, <code class="docutils literal"><span class="pre">libblas-dev</span></code>,
 <code class="docutils literal"><span class="pre">libcairo-dev</span></code>, <code class="docutils literal"><span class="pre">libssl-dev</span></code>, <code class="docutils literal"><span class="pre">libcurl4-openssl-dev</span></code>, and
-<code class="docutils literal"><span class="pre">gfortran</span></code>. Other packages might be needed, depending on R
+<code class="docutils literal"><span class="pre">gfortran</span></code>. These can be installed using the package manager coming
+with your distribution. Other packages might be needed, depending on R
 dependencies. After installing these packages, <code class="docutils literal"><span class="pre">install_rdeps.r</span></code> must
 be executed again.</p>
-</div>
 </div>
 </div>
 <div class="section" id="how-to-install-sbpipe-on-windows">
@@ -265,56 +296,18 @@ $ source $HOME/.bashrc
 </div>
 </div>
 <div class="section" id="id1">
-<h4>Install Python and R dependencies via Anaconda3/Miniconda3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
-<p>Users need to download and install Anaconda3
-(<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
-(<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
-<p>From a MINGW shell (<code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code>) type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
-
-<span class="c1"># install dependencies into isolated environment using Anaconda3/Miniconda3</span>
-<span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">sbpipe</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yaml</span>
-
-<span class="c1"># activate environment. The following line can be added to the .bashrc file to skip the activation</span>
-<span class="c1"># of this environment every time SBpipe is used.</span>
-<span class="n">source</span> <span class="n">activate</span> <span class="n">sbpipe</span>
-</pre></div>
+<h4>Install SBpipe via Miniconda3/Anaconda3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>See corresponding section for GNU/Linux.</p>
 </div>
 </div>
-</div>
-<div class="section" id="complete-installation-via-anaconda3-miniconda3-in-progress">
-<h3>Complete installation via Anaconda3/Miniconda3 (in progress)<a class="headerlink" href="#complete-installation-via-anaconda3-miniconda3-in-progress" title="Permalink to this headline">¶</a></h3>
-<p>SBpipe can also be installed via Anaconda3/Miniconda3 using the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># create an environment for SBpipe
-$ conda create -n sbpipe_env
-
-# activate the environment
-$ source activate sbpipe_env
-
-# install pyaml and colorlog from conda-forge
-$ conda install -c conda-forge pyaml colorlog
-
-# install sbpipe
-$ conda install -c pdp10 sbpipe
-</pre></div>
-</div>
-<p>The last command will install sbpipe and its Python/R dependencies
-automatically. The required latex packages need to be installed
-separately either using a package manager or using anaconda. The
-following command works on GNU/Linux or Mac OS X, but not on Windows.
-Windows users need to install LaTeX MikTeX instead.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install -c pkgw texlive-core texlive-selected
-</pre></div>
-</div>
-</div>
-<div class="section" id="check-installation-of-sbpipe">
-<h3>Check installation of SBpipe<a class="headerlink" href="#check-installation-of-sbpipe" title="Permalink to this headline">¶</a></h3>
-<p>The correct installation of SBpipe and its dependencies can be checked
-by running the following commands inside the SBpipe folder. For the
-correct execution of all tests, LaTeX must be installed.</p>
+<div class="section" id="verify-sbpipe-installation">
+<h3>Verify SBpipe installation<a class="headerlink" href="#verify-sbpipe-installation" title="Permalink to this headline">¶</a></h3>
+<p>The correct installation of SBpipe and its dependencies can be verified
+by running the following commands. For the correct execution of all
+tests, LaTeX must be installed.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># SBpipe version:
 $ sbpipe -V
-sbpipe 3.12.0
+sbpipe 3.32.0
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation using COPASI (see results in tests/copasi_models):
@@ -811,23 +804,22 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-install-sbpipe-on-gnu-linux">How to install SBpipe on GNU/Linux</a><ul>
 <li><a class="reference internal" href="#install-copasi">Install COPASI</a></li>
 <li><a class="reference internal" href="#install-latex">Install LaTeX</a></li>
-<li><a class="reference internal" href="#preparation-of-sbpipe">Preparation of SBpipe</a></li>
-<li><a class="reference internal" href="#install-python-and-r-packages">Install Python and R packages</a><ul>
-<li><a class="reference internal" href="#install-python-and-r-dependencies-via-anaconda3-miniconda3">Install Python and R dependencies via Anaconda3/Miniconda3</a></li>
-<li><a class="reference internal" href="#install-python-and-r-dependencies-via-the-distribution-package-manager">Install Python and R dependencies via the distribution package manager</a></li>
+<li><a class="reference internal" href="#install-sbpipe-via-miniconda3-anaconda3">Install SBpipe via Miniconda3/Anaconda3</a><ul>
+<li><a class="reference internal" href="#st-method"><strong>1st Method</strong></a></li>
+<li><a class="reference internal" href="#nd-method"><strong>2nd Method</strong></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#install-sbpipe-s-dependencies-via-provided-scripts">Install SBpipe’s dependencies via provided scripts</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#how-to-install-sbpipe-on-windows">How to install SBpipe on Windows</a><ul>
 <li><a class="reference internal" href="#installation-of-copasi-and-latex">Installation of COPASI and LaTeX</a></li>
 <li><a class="reference internal" href="#install-mingw">Install MINGW</a></li>
 <li><a class="reference internal" href="#preparation-of-sbpipe-and-copasi-with-mingw">Preparation of SBpipe and COPASI with MINGW</a></li>
-<li><a class="reference internal" href="#id1">Install Python and R dependencies via Anaconda3/Miniconda3</a></li>
+<li><a class="reference internal" href="#id1">Install SBpipe via Miniconda3/Anaconda3</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#complete-installation-via-anaconda3-miniconda3-in-progress">Complete installation via Anaconda3/Miniconda3 (in progress)</a></li>
-<li><a class="reference internal" href="#check-installation-of-sbpipe">Check installation of SBpipe</a></li>
+<li><a class="reference internal" href="#verify-sbpipe-installation">Verify SBpipe installation</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#how-to-use-sbpipe">How to use SBpipe</a><ul>
@@ -893,7 +885,7 @@ tracking system for SBpipe at the web page:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>
