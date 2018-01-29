@@ -14,5 +14,5 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 channels:
-  - r
+  - pdp10
   - defaults

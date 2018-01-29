@@ -245,16 +245,23 @@ class Sim(Pipeline):
         str_to_replace = 'COLUMN_TO_REPLACE'
 
         logger.info("Analysing generated simulations:")
-        command = 'Rscript --vanilla ' + os.path.join(SBPIPE, 'sbpipe', 'R', 'sbpipe_sim_main.r') + \
-            ' ' + model + ' ' + inputdir + ' ' + sim_plots_dir + \
-            ' ' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
-            ' ' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
-            ' ' + exp_dataset + ' ' + str(plot_exp_dataset) + ' ' + str(exp_dataset_alpha)
+
+        # requires devtools::install_github("pdp10/sbpiper")
+        command = 'R -e \'library(sbpiper); sbpipe_sim(\"' + model + \
+                  '\", \"' + inputdir + '\", \"' + sim_plots_dir + \
+                  '\", \"' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
+                  '\", \"' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
+                  '\", \"' + exp_dataset + \
+                  '\", ' + str(plot_exp_dataset).upper() + \
+                  ', \"' + str(exp_dataset_alpha)
+
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
-        command += ' ' + escape_special_chars(xaxis_label) + ' ' + escape_special_chars(yaxis_label) + \
-                   ' ' + str_to_replace
+        command += '\", \"' + xaxis_label + \
+                   '\", \"' + yaxis_label + \
+                   '\", \"' + str_to_replace + \
+                   '\")\''
 
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, local_cpus, True, columns):
             return False

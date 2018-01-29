@@ -1,0 +1,46 @@
+sbpipe\.utils package
+=====================
+
+Submodules
+----------
+
+sbpipe\.utils\.io module
+------------------------
+
+.. automodule:: sbpipe.utils.io
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe\.utils\.parcomp module
+-----------------------------
+
+.. automodule:: sbpipe.utils.parcomp
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe\.utils\.rand module
+--------------------------
+
+.. automodule:: sbpipe.utils.rand
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe\.utils\.re\_utils module
+-------------------------------
+
+.. automodule:: sbpipe.utils.re_utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
