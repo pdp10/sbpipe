@@ -103,8 +103,8 @@ $ conda create -n sbpipe
 $ source activate sbpipe
 
 # install sbpipe, sbpiper (necessary R dependencies), and snakemake
-$ conda install -c pdp10 sbpiper
-$ conda install -c pdp10 sbpipe
+$ conda install sbpiper -c pdp10 -c conda-forge -c r
+$ conda install sbpipe -c pdp10 -c conda-forge -c r
 
 # install snakemake and colorlog (optional)
 $ conda install -c bioconda snakemake
