@@ -47,15 +47,7 @@ requirements:
   build:
     - python
     - setuptools
-    - python
-    - pyyaml
-    - sbpiper
-    - numpy
-    - scipy
-    - pandas
   run:
-    - python
-    - setuptools
     - python
     - pyyaml
     - sbpiper
