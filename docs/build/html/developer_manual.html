@@ -1,33 +1,34 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer manual &#8212; SBpipe 4.0.0 documentation</title>
+    
+    <title>Developer manual &mdash; SBpipe 4.0.0 documentation</title>
+    
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '4.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SBpipe 4.0.0 documentation" href="index.html" />
     <link rel="next" title="Source code" href="source_code.html" />
     <link rel="prev" title="User manual" href="user_manual.html" /> 
   </head>
-  <body>
+  <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -43,7 +44,7 @@
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -92,13 +93,13 @@ called hotfixNUMBER and is forked from <em>master</em>.</li>
 <h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
 <p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
 is:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git checkout -b feature10 develop
+<div class="highlight-python"><div class="highlight"><pre>$ git checkout -b feature10 develop
 </pre></div>
 </div>
 <p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
 discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
 work, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
+<div class="highlight-python"><div class="highlight"><pre>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
 description of the changes, if any.&quot;
 $ git push origin feature10       # sometimes and at the end.
 </pre></div>
@@ -112,14 +113,14 @@ new branch and, once committed and pushed, <strong>merge</strong> it to <code cl
 <code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
 <code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
 Requests:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span><span class="p">:</span><span class="n">develop</span>  <span class="n">compare</span><span class="p">:</span><span class="n">feature10</span>   <span class="n">Able</span> <span class="n">to</span> <span class="n">merge</span><span class="o">.</span> <span class="n">These</span> <span class="n">branches</span> <span class="n">can</span> <span class="n">be</span>
-<span class="n">automatically</span> <span class="n">merged</span><span class="o">.</span>
+<div class="highlight-python"><div class="highlight"><pre>base:develop  compare:feature10   Able to merge. These branches can be
+automatically merged.
 </pre></div>
 </div>
 <p>A small discussion about feature10 should also be included to allow
 other users to understand the feature.</p>
 <p>Finally delete the branch:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git branch -d feature10      # delete the branch feature10 (locally)
+<div class="highlight-python"><div class="highlight"><pre>$ git branch -d feature10      # delete the branch feature10 (locally)
 </pre></div>
 </div>
 </div>
@@ -139,15 +140,15 @@ Only bugfixes or hotfixes are applied to this branch. When this
 testing/correction phase is completed, the <code class="docutils literal"><span class="pre">master</span></code> branch will merge
 with the <code class="docutils literal"><span class="pre">release-x.x.x</span></code> branch, using the commands above. To record
 the release add a tag:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;PROGRAM_NAME v1.3&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre>git tag -a v1.3 -m &quot;PROGRAM_NAME v1.3&quot;
 </pre></div>
 </div>
 <p>To transfer the tag to the remote server:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span>   <span class="c1"># Note: it goes in a separate &#39;branch&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre>git push origin v1.3   # Note: it goes in a separate &#39;branch&#39;
 </pre></div>
 </div>
 <p>To see all the releases:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">show</span>
+<div class="highlight-python"><div class="highlight"><pre>git show
 </pre></div>
 </div>
 </div>
@@ -156,7 +157,7 @@ the release add a tag:</p>
 <p>This is a short guide for building SBpipe as a conda package. Anaconda
 (or Miniconda) must be installed. In order to proceed, the package
 <code class="docutils literal"><span class="pre">conda-build</span></code> must be installed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install conda-build
+<div class="highlight-python"><div class="highlight"><pre>$ conda install conda-build
 
 # DON&#39;T FORGET TO SET THIS so that your built package is not uploaded automatically
 $ conda config --set anaconda_upload no
@@ -164,12 +165,12 @@ $ conda config --set anaconda_upload no
 </div>
 <p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
 create the conda package for SBpipe:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ conda-build conda_recipe/meta.yaml -c defaults -c pdp10 -c conda-forge
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe
+$ conda-build conda_recipe/meta.yaml -c pdp10 -c defaults -c conda-forge
 </pre></div>
 </div>
 <p>To test this package locally:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># install
+<div class="highlight-python"><div class="highlight"><pre># install
 $ conda install sbpipe --use-local
 
 # uninstall
@@ -177,7 +178,7 @@ $ conda remove sbpipe
 </pre></div>
 </div>
 <p>To upload the package to the Anaconda cloud repository:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">py_y</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<div class="highlight-python"><div class="highlight"><pre>anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
 </pre></div>
 </div>
 </div>
@@ -193,16 +194,16 @@ file (logging_config.ini) is also at this level.</p>
 <p>In order to automatically compile and run the test suite, Travis-CI is
 used and configured accordingly (.travis.yml).</p>
 <p>The project is structured as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="p">:</span>
-  <span class="o">|</span> <span class="o">-</span> <span class="n">docs</span><span class="o">/</span>
-  <span class="o">|</span> <span class="o">-</span> <span class="n">sbpipe</span><span class="o">/</span>
-        <span class="o">|</span> <span class="o">-</span> <span class="n">pl</span>
-        <span class="o">|</span> <span class="o">-</span> <span class="n">report</span>
-        <span class="o">|</span> <span class="o">-</span> <span class="n">simul</span>
-        <span class="o">|</span> <span class="o">-</span> <span class="n">tasks</span>
-        <span class="o">|</span> <span class="o">-</span> <span class="n">utils</span>
-  <span class="o">|</span> <span class="o">-</span> <span class="n">scripts</span><span class="o">/</span>
-  <span class="o">|</span> <span class="o">-</span> <span class="n">tests</span><span class="o">/</span>
+<div class="highlight-python"><div class="highlight"><pre>sbpipe:
+  | - docs/
+  | - sbpipe/
+        | - pl
+        | - report
+        | - simul
+        | - tasks
+        | - utils
+  | - scripts/
+  | - tests/
 </pre></div>
 </div>
 <p>These folders will be discussed in the next sections. In SBpipe, Python
@@ -231,12 +232,12 @@ SBpipe, the following packages must be installed:</p>
 Instruction for generating or cleaning SBpipe documentation are provided
 below.</p>
 <p>To generate the source code documentation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe/docs
 $ ./gen_doc.sh
 </pre></div>
 </div>
 <p>To clean the documentation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe/docs
 $ ./cleanup_doc.sh
 </pre></div>
 </div>
@@ -250,12 +251,12 @@ the page <code class="docutils literal"><span class="pre">docs/index.html</span>
 <p>This folder contains the source code of the project SBpipe. At this
 level a file called <code class="docutils literal"><span class="pre">__main__.py</span></code> enables users to run SBpipe
 programmatically as a Python module via the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ python sbpipe
+<div class="highlight-python"><div class="highlight"><pre>$ python sbpipe
 </pre></div>
 </div>
 <p>Alternatively <code class="docutils literal"><span class="pre">sbpipe</span></code> can programmatically be imported within a
 Python environment as shown below:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe
 $ python
 # Python environment
 &gt;&gt;&gt; from sbpipe.main import sbpipe
@@ -281,11 +282,11 @@ plots and report.</li>
 <p>All these pipelines can be invoked directly via the script
 <code class="docutils literal"><span class="pre">sbpipe/scripts/sbpipe</span></code>. Each SBpipe pipeline extends the class
 <code class="docutils literal"><span class="pre">Pipeline</span></code> and therefore must implement the following methods:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># executes a pipeline</span>
-<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre># executes a pipeline
+def run(self, config_file)
 
-<span class="c1"># process the dictionary of the configuration file loaded by Pipeline.load()</span>
-<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_dict</span><span class="p">)</span>
+# process the dictionary of the configuration file loaded by Pipeline.load()
+def parse(self, config_dict)
 </pre></div>
 </div>
 <ul class="simple">
@@ -379,7 +380,7 @@ Importantly, Travis-CI runs all SBpipe tests using <code class="docutils literal
 <div class="section" id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
 <p><strong>Startup</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># clone master
+<div class="highlight-python"><div class="highlight"><pre># clone master
 $ git clone https://github.com/pdp10/sbpipe.git
 # get develop branch
 $ git checkout -b develop origin/develop
@@ -391,7 +392,7 @@ $ git fetch --all
 </pre></div>
 </div>
 <p><strong>Update</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># ONLY use --rebase for private branches. Never use it for shared
+<div class="highlight-python"><div class="highlight"><pre># ONLY use --rebase for private branches. Never use it for shared
 # branches otherwise it breaks the history. --rebase moves your
 # commits ahead. For shared branches, you should use
 # `git fetch &amp;&amp; git merge --no-ff`
@@ -399,59 +400,59 @@ $ git pull [--rebase] origin BRANCH
 </pre></div>
 </div>
 <p><strong>Managing tags</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Update an existing tag to include the last commits</span>
-<span class="c1"># Assuming that you are in the branch associated to the tag to update:</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span><span class="n">a</span> <span class="n">tagName</span>
-<span class="c1"># push your new commit:</span>
-<span class="n">git</span> <span class="n">push</span>
-<span class="c1"># force push your moved tag:</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">f</span> <span class="o">--</span><span class="n">tags</span>
+<div class="highlight-python"><div class="highlight"><pre># Update an existing tag to include the last commits
+# Assuming that you are in the branch associated to the tag to update:
+git tag -f -a tagName
+# push your new commit:
+git push
+# force push your moved tag:
+git push -f --tags
 
-<span class="c1"># rename a tag</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="n">new</span> <span class="n">old</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">old</span>
-<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">tags</span><span class="o">/</span><span class="n">old</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
-<span class="c1"># make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:</span>
-<span class="n">git</span> <span class="n">pull</span> <span class="o">--</span><span class="n">prune</span> <span class="o">--</span><span class="n">tags</span>
+# rename a tag
+git tag new old
+git tag -d old
+git push origin :refs/tags/old
+git push --tags
+# make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:
+git pull --prune --tags
 
 
-<span class="c1"># removing a tag remotely and locally</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">delete</span> <span class="n">origin</span> <span class="n">tagName</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">d</span> <span class="n">tagName</span>
+# removing a tag remotely and locally
+git push --delete origin tagName
+git tag -d tagName
 </pre></div>
 </div>
 <p><strong>File system</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
+<div class="highlight-python"><div class="highlight"><pre>$ git rm [--cache] filename
 $ git add filename
 </pre></div>
 </div>
 <p><strong>Information</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git status
+<div class="highlight-python"><div class="highlight"><pre>$ git status
 $ git log [--stat]
 $ git branch       # list the branches
 </pre></div>
 </div>
 <p><strong>Maintenance</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git fsck      # check errors
+<div class="highlight-python"><div class="highlight"><pre>$ git fsck      # check errors
 $ git gc        # clean up
 </pre></div>
 </div>
 <p><strong>Rename a branch locally and remotely</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">m</span> <span class="n">old_branch</span> <span class="n">new_branch</span>         <span class="c1"># Rename branch locally</span>
-<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">old_branch</span>                 <span class="c1"># Delete the old branch</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">new_branch</span>   <span class="c1"># Push the new branch, set</span>
-<span class="n">local</span> <span class="n">branch</span> <span class="n">to</span> <span class="n">track</span> <span class="n">the</span> <span class="n">new</span> <span class="n">remote</span>
+<div class="highlight-python"><div class="highlight"><pre>git branch -m old_branch new_branch         # Rename branch locally
+git push origin :old_branch                 # Delete the old branch
+git push --set-upstream origin new_branch   # Push the new branch, set
+local branch to track the new remote
 </pre></div>
 </div>
 <p><strong>Reset</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">HEAD</span>    <span class="c1"># to undo all the local uncommitted changes</span>
+<div class="highlight-python"><div class="highlight"><pre>git reset --hard HEAD    # to undo all the local uncommitted changes
 </pre></div>
 </div>
 <p><strong>Syncing a fork (assuming upstreams are set)</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
-<span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
-<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">develop</span>
+<div class="highlight-python"><div class="highlight"><pre>git fetch upstream
+git checkout develop
+git merge upstream/develop
 </pre></div>
 </div>
 </div>
@@ -509,18 +510,21 @@ $ git gc        # clean up
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/developer_manual.rst.txt"
+      <li><a href="_sources/developer_manual.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -542,12 +546,12 @@ $ git gc        # clean up
         <li class="right" >
           <a href="user_manual.html" title="User manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+        &copy; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

@@ -102,13 +102,12 @@ $ conda create -n sbpipe
 # of this environment every time SBpipe is used.
 $ source activate sbpipe
 
-# install sbpipe, sbpiper (necessary R dependencies), and snakemake
-$ conda install sbpiper -c pdp10 -c conda-forge -c r
-$ conda install sbpipe -c pdp10 -c conda-forge -c r
+# install sbpipe and sbpiper (necessary R dependencies)
+$ conda install sbpiper -c pdp10 -c r -c defaults -c conda-forge
+$ conda install sbpipe -c pdp10 -c defaults -c conda-forge
 
-# install snakemake and colorlog (optional)
+# install snakemake (optional)
 $ conda install -c bioconda snakemake
-$ conda install -c conda-forge colorlog
 ```
 No further step is needed.
 
