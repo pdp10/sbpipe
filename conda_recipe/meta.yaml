@@ -47,13 +47,22 @@ requirements:
   build:
     - python
     - setuptools
-    - pyyaml
     - python
     - pyyaml
     - sbpiper
     - numpy
     - scipy
     - pandas
+  run:
+    - python
+    - setuptools
+    - python
+    - pyyaml
+    - sbpiper
+    - numpy
+    - scipy
+    - pandas
+
 test:
   requires:
     - nose
