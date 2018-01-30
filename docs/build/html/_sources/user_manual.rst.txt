@@ -108,7 +108,7 @@ Users need to download and install Anaconda3
 (https://conda.io/miniconda.html).
 
 **1st Method**
-''''''''''''''
+              
 
 The following procedure will install SBpipe in a conda environment:
 
@@ -123,8 +123,8 @@ The following procedure will install SBpipe in a conda environment:
     $ source activate sbpipe
 
     # install sbpipe, sbpiper (necessary R dependencies), and snakemake
-    $ conda install -c pdp10 sbpiper
-    $ conda install -c pdp10 sbpipe
+    $ conda install sbpiper -c pdp10 -c conda-forge -c r
+    $ conda install sbpipe -c pdp10 -c conda-forge -c r
 
     # install snakemake and colorlog (optional)
     $ conda install -c bioconda snakemake
@@ -133,7 +133,7 @@ The following procedure will install SBpipe in a conda environment:
 No further step is needed.
 
 **2nd Method**
-''''''''''''''
+              
 
 Alternatively, for those users who would like to have an easy access to
 the package documentation and test suite, it could be useful to store

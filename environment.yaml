@@ -19,6 +19,8 @@
 name:
   - sbpipe
 channels:
+  - conda-forge
+  - r
   - pdp10
   - defaults
 dependencies:

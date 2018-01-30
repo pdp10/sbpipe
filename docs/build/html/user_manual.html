@@ -139,8 +139,7 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 <p>Users need to download and install Anaconda3
 (<a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>) or Miniconda3
 (<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
-<div class="section" id="st-method">
-<h5><strong>1st Method</strong><a class="headerlink" href="#st-method" title="Permalink to this headline">¶</a></h5>
+<p><strong>1st Method</strong></p>
 <p>The following procedure will install SBpipe in a conda environment:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># create a new environment `sbpipe`
 $ conda create -n sbpipe
@@ -151,8 +150,8 @@ $ conda create -n sbpipe
 $ source activate sbpipe
 
 # install sbpipe, sbpiper (necessary R dependencies), and snakemake
-$ conda install -c pdp10 sbpiper
-$ conda install -c pdp10 sbpipe
+$ conda install sbpiper -c pdp10 -c conda-forge -c r
+$ conda install sbpipe -c pdp10 -c conda-forge -c r
 
 # install snakemake and colorlog (optional)
 $ conda install -c bioconda snakemake
@@ -160,9 +159,7 @@ $ conda install -c conda-forge colorlog
 </pre></div>
 </div>
 <p>No further step is needed.</p>
-</div>
-<div class="section" id="nd-method">
-<h5><strong>2nd Method</strong><a class="headerlink" href="#nd-method" title="Permalink to this headline">¶</a></h5>
+<p><strong>2nd Method</strong></p>
 <p>Alternatively, for those users who would like to have an easy access to
 the package documentation and test suite, it could be useful to store
 SBpipe in a custom path. To do so, SBpipe should be downloaded from the
@@ -193,7 +190,6 @@ export PATH=$PATH:/path/to/sbpipe/scripts
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="install-sbpipe-s-dependencies-via-provided-scripts">
@@ -804,11 +800,7 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#how-to-install-sbpipe-on-gnu-linux">How to install SBpipe on GNU/Linux</a><ul>
 <li><a class="reference internal" href="#install-copasi">Install COPASI</a></li>
 <li><a class="reference internal" href="#install-latex">Install LaTeX</a></li>
-<li><a class="reference internal" href="#install-sbpipe-via-miniconda3-anaconda3">Install SBpipe via Miniconda3/Anaconda3</a><ul>
-<li><a class="reference internal" href="#st-method"><strong>1st Method</strong></a></li>
-<li><a class="reference internal" href="#nd-method"><strong>2nd Method</strong></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#install-sbpipe-via-miniconda3-anaconda3">Install SBpipe via Miniconda3/Anaconda3</a></li>
 <li><a class="reference internal" href="#install-sbpipe-s-dependencies-via-provided-scripts">Install SBpipe’s dependencies via provided scripts</a></li>
 </ul>
 </li>
