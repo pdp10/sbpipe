@@ -229,8 +229,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     if len(colnames) > 0:
         for column in colnames:
             # Now the same with qsub
-            jobs = "j" + column + "," + jobs
-            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + column, "-o", os.path.join(out_dir, "j" + column), "-e", os.path.join(err_dir, "j" + column), "-b", "y", cmd.replace(cmd_iter_substr, column)]
+            jobs = "j" + column + cmd_iter_substr.strip('/') + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + column + cmd_iter_substr.strip('/'), "-o", os.path.join(out_dir, "j" + column), "-e", os.path.join(err_dir, "j" + column), "-b", "y", cmd.replace(cmd_iter_substr, column)]
             logger.debug(qsub_cmd)
             logger.info('Starting Task ' + column)
             if sys.version_info > (3,):
@@ -242,8 +242,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     else:
         for i in range(1, runs + 1):
             # Now the same with qsub
-            jobs = "j" + str(i) + "," + jobs
-            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
+            jobs = "j" + str(i) + cmd_iter_substr.strip('/') + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i) + cmd_iter_substr.strip('/'), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
             logger.debug(qsub_cmd)
             logger.info('Starting Task ' + str(i))
             if sys.version_info > (3,):
@@ -283,8 +283,8 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     if len(colnames) > 0:
         for column in colnames:
             for i in range(1, runs + 1):
-                jobs = "done(j" + column + ")&&" + jobs
-                bsub_cmd = ["bsub", "-cwd", "-J", "j" + column, "-o", os.path.join(out_dir, "j" + column), "-e",
+                jobs = "done(j" + column + cmd_iter_substr.strip('/') + ")&&" + jobs
+                bsub_cmd = ["bsub", "-cwd", "-J", "j" + column + cmd_iter_substr.strip('/'), "-o", os.path.join(out_dir, "j" + column), "-e",
                             os.path.join(err_dir, "j" + column), cmd.replace(cmd_iter_substr, column)]
                 logger.debug(bsub_cmd)
                 logger.info('Starting Task ' + column)
@@ -296,8 +296,8 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
                     bsub_proc.communicate()[0]
     else:
         for i in range(1, runs + 1):
-            jobs = "done(j" + str(i) + ")&&" + jobs
-            bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
+            jobs = "done(j" + str(i) + cmd_iter_substr.strip('/') + ")&&" + jobs
+            bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i) + cmd_iter_substr.strip('/'), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
             logger.debug(bsub_cmd)
             logger.info('Starting Task ' + str(i))
             if sys.version_info > (3,):
