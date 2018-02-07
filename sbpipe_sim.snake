@@ -26,8 +26,6 @@ Latest modification:
     - first draft
 """
 
-
-
 import sys
 import os
 
@@ -67,31 +65,16 @@ VARIABLES = config['report_variables']
 PLOT_TYPES = ['_mean', '_mean_sd', '_mean_sd_ci95']
 
 # Plot types
-if config['plot_exp_dataset']:
-    PLOT_TYPES = PLOT_TYPES + ['_mean_w_exp_data', '_mean_sd_w_exp_data', '_mean_sd_ci95_w_exp_data']
+#if config['plot_exp_dataset']:
+#    PLOT_TYPES = PLOT_TYPES + ['_mean_w_exp_data', '_mean_sd_w_exp_data', '_mean_sd_ci95_w_exp_data']
 
 if int(config['runs']) > 1:
     PLOT_TYPES = PLOT_TYPES + ['', '_heatmap', '_heatmap_scaled']
 
 
-# Snakemake input / output files
-PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
-PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{type}" + PNG_EXT), var=VARIABLES, type=PLOT_TYPES)
-LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
-PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
-
-
-
 rule all:
     input:
-        models=PREPROC_MODELS,
-        reports1=PREPROC_REPORTS,
-        reports2=POSTPROC_REPORTS,
-        plots=PLOTS,
-        latex=LATEX_REPORT,
-        pdf=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
 
 
 rule sbpipe_preproc:
@@ -132,11 +115,12 @@ rule sbpipe_sim_postproc:
 
 rule sbpipe_sim_analysis:
     input:
-        file=POSTPROC_REPORTS
+        file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
     output:
-        file=PLOTS
+        # note: we mask var as a wildcard. Doing so, we can "replicate" this rule for each var in VARIABLES (see following rule input)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{type}" + PNG_EXT), type=PLOT_TYPES)
     params:
-        models_folder = MODELS_FOLDER,
+        models_folder=MODELS_FOLDER,
         model_name=MODEL_NAME,
         outputdir=WORKING_FOLDER,
         sim_data_folder=POSTPROC_FOLDER,
@@ -150,10 +134,12 @@ rule sbpipe_sim_analysis:
         "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.sim_analyse_data import sim_analyse_data
+        #print(wildcards.var)
         sim_analyse_data(params.model_name, \
                          os.path.join(params.outputdir, params.sim_data_folder), \
                          params.outputdir, \
                          os.path.join(params.outputdir, params.sim_plots_folder), \
+                         wildcards.var, \
                          os.path.join(params.models_folder, params.exp_dataset), \
                          str(params.plot_exp_dataset), \
                          str(params.exp_dataset_alpha), \
@@ -163,9 +149,9 @@ rule sbpipe_sim_analysis:
 
 rule sbpipe_sim_latex_report:
     input:
-        file=PLOTS
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{type}" + PNG_EXT), var=VARIABLES, type=PLOT_TYPES)
     output:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -180,9 +166,9 @@ rule sbpipe_sim_latex_report:
 
 rule sbpipe_pdf_report:
     input:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
     output:
-        file=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.22 (Build 170) (http://www.copasi.org) at 2017-12-20 18:15:44 UTC -->
+<!-- generated with COPASI 4.22 (Build 170) (http://www.copasi.org) at 2018-02-07 22:17:27 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="22" versionDevel="170" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -650,6 +650,7 @@ Reaction scheme where the products are created from the reactants and the change
       <Table printTitle="1">
         <Object cn="CN=Root,Model=Insulin Receptor,Reference=Time"/>
         <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta_pY1146],Reference=Concentration"/>
+        <Object cn="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell],Vector=Metabolites[IR_beta],Reference=Concentration"/>
       </Table>
     </Report>
   </ListOfReports>
