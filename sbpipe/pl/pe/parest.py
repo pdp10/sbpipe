@@ -33,6 +33,7 @@ import tarfile
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
+from sbpipe.utils.rand import get_rand_alphanum_str
 from ..pipeline import Pipeline
 
 # retrieve SBpipe package path
@@ -277,7 +278,7 @@ class ParEst(Pipeline):
             return False
 
         # we don't replace any string in files. So let's use a substring which won't even be in any file.
-        str_to_replace = '//////////'
+        str_to_replace = get_rand_alphanum_str(10)
 
         logger.info("\n")
         logger.info("Fits analysis:")
