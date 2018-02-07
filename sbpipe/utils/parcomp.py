@@ -226,6 +226,7 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
 
     logger.info("Starting computation...")
     jobs = ""
+    cmd_iter_substr = cmd_iter_substr.strip('/')
     if len(colnames) > 0:
         for column in colnames:
             # Now the same with qsub
@@ -242,8 +243,8 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     else:
         for i in range(1, runs + 1):
             # Now the same with qsub
-            jobs = "sbpipe" + str(i) + "_" + cmd_iter_substr.strip('/') + "," + jobs
-            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "sbpipe" + str(i) + "_" + cmd_iter_substr.strip('/'), "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
+            jobs = "sbpipe" + str(i) + "_" + cmd_iter_substr + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "sbpipe" + str(i) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
             logger.debug(qsub_cmd)
             logger.info('Starting Task ' + str(i))
             if sys.version_info > (3,):
