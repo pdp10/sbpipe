@@ -18,12 +18,8 @@
 
 """
 Author: Piero Dalle Pezze
-Affiliation: The Babraham Institute (Cambridge, UK)
-Aim: A Snakemake workflow to process parameter estimation of a mathematical model.
-Date: 30 Mar 2017
+Description: A Snakemake workflow to process parameter estimation of a mathematical model.
 Run: snakemake -s sbpipe_pe.snake --configfile FILE
-Latest modification:
-    - first draft
 """
 
 
@@ -90,41 +86,17 @@ if config['plot_2d_99cl_corr']:
 
 EXP_DATASET = config["exp_dataset"]
 
-# Snakemake input / output files
-DATASET_MODELS   = os.path.join(MODELS_FOLDER, EXP_DATASET)
-DATASET_PREPROC  = os.path.join(WORKING_FOLDER, PREPROC_FOLDER, EXP_DATASET)
-PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
-PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-BESTFITS_FILE    = os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT)
-ALLFITS_FILE     = os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
-PARAM_ESTIM_DETAILS_FILE = os.path.join(WORKING_FOLDER, "param_estim_details" + CSV_EXT)
-PARAM_ESTIM_SUMMARY_FILE = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES)
-LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
-PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
-
-
 
 rule all:
     input:
-        dataset_models=DATASET_MODELS,
-        dataset_preproc=DATASET_PREPROC,
-        models=PREPROC_MODELS,
-        reports1=PREPROC_REPORTS,
-        reports2=POSTPROC_REPORTS,
-        report3=BESTFITS_FILE,
-        report4=ALLFITS_FILE,
-        plots=PLOTS,
-        latex=LATEX_REPORT,
-        pdf=PDF_REPORT
+        pdf=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
 
 
 rule copy_dataset:
     input:
-        exp_dataset=DATASET_MODELS
+        exp_dataset=os.path.join(MODELS_FOLDER, "{ds}")
     output:
-        exp_dataset=DATASET_PREPROC
+        exp_dataset=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, "{ds}")
     run:
         from shutil import copyfile
         copyfile(input.exp_dataset, output.exp_dataset)
@@ -142,7 +114,7 @@ rule sbpipe_preproc:
 
 rule sbpipe_gen_data:
     input:
-        exp_dataset=DATASET_PREPROC,
+        exp_dataset=expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, "{ds}"), ds=EXP_DATASET),
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
@@ -163,10 +135,10 @@ rule sbpipe_pe_postproc:
 
 rule sbpipe_pe_collect:
     input:
-        file=POSTPROC_REPORTS
+        file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
     output:
-        file_best_fits=BESTFITS_FILE,
-        file_all_fits=ALLFITS_FILE
+        file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT),
+        file_all_fits=os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
     params:
         inputdir=POSTPROC_FOLDER,
         outputdir=WORKING_FOLDER
@@ -181,12 +153,12 @@ rule sbpipe_pe_collect:
 
 rule sbpipe_pe_analysis:
     input:
-        file_best_fits=BESTFITS_FILE,
-        file_all_fits=ALLFITS_FILE
+        file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT),
+        file_all_fits=os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
     output:
-        file=PLOTS,
-        file_param_estim_details=PARAM_ESTIM_DETAILS_FILE,
-        file_param_estim_summary=PARAM_ESTIM_SUMMARY_FILE
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES),
+        file_param_estim_details=os.path.join(WORKING_FOLDER, "param_estim_details" + CSV_EXT),
+        file_param_estim_summary=os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT)
     params:
         model=MODEL_NAME,
         outputdir=WORKING_FOLDER,
@@ -218,9 +190,9 @@ rule sbpipe_pe_analysis:
 
 rule sbpipe_pe_latex_report:
     input:
-        file=PLOTS
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES)
     output:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -233,9 +205,9 @@ rule sbpipe_pe_latex_report:
 
 rule sbpipe_pdf_report:
     input:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     output:
-        file=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
