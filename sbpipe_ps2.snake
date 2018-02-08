@@ -18,12 +18,8 @@
 
 """
 Author: Piero Dalle Pezze
-Affiliation: The Babraham Institute (Cambridge, UK)
-Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
-Date: 31 Jan 2017
+Description: A Snakemake workflow to process double parameter scans of a mathematical model.
 Run: snakemake -s sbpipe_ps2.snake --configfile FILE
-Latest modification:
-    - first draft
 """
 
 
@@ -65,24 +61,10 @@ TIME_POINTS = range(0, config['sim_length'])
 # Report variables
 VARIABLES = config['report_variables']
 
-# Snakemake input / output files
-PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
-PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
-LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
-PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
-
-
 
 rule all:
     input:
-        models=PREPROC_MODELS,
-        reports1=PREPROC_REPORTS,
-        reports2=POSTPROC_REPORTS,
-        plots=PLOTS,
-        latex=LATEX_REPORT,
-        pdf=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
 
 
 rule sbpipe_preproc:
@@ -141,9 +123,9 @@ rule sbpipe_ps2_analysis:
 
 rule sbpipe_ps2_latex_report:
     input:
-        file=PLOTS
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
     output:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -159,9 +141,9 @@ rule sbpipe_ps2_latex_report:
 
 rule sbpipe_pdf_report:
     input:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     output:
-        file=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
