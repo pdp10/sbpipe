@@ -92,8 +92,6 @@ rule sbpipe_preproc:
         file=MODEL
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.preproc import preproc
         preproc(input.file, output.file, COPASI)
@@ -104,8 +102,6 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.generate_data import generate_data
         generate_data(input.file, COPASI)
@@ -120,8 +116,6 @@ rule sbpipe_ps1_postproc:
         scanned_par=SCANNED_PAR,
         sim_intervals=config["simulate__intervals"],
         ps1_intervals=config["levels_number"]
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.ps1_postproc import ps1_postproc
         ps1_postproc(input.file, output.file, params.scanned_par, params.sim_intervals, params.ps1_intervals, COPASI)
@@ -146,8 +140,6 @@ rule sbpipe_ps1_analysis:
         homogeneous_lines=config["homogeneous_lines"],
         xaxis_label=config["xaxis_label"],
         yaxis_label=config["yaxis_label"]
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.ps1_analyse_data import ps1_analyse_data
         ps1_analyse_data(params.model_name, str(params.inhibition_only), params.outputdir, \
@@ -167,8 +159,6 @@ rule sbpipe_ps1_latex_report:
         report_prefix=REPORT_PREFIX,
         model_name=MODEL_NAME,
         scanned_par=SCANNED_PAR
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import latex_report_ps1
         latex_report_ps1(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
@@ -183,8 +173,6 @@ rule sbpipe_pdf_report:
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
         pdf_report(params.working_folder_dir, params.latex_file)

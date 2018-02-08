@@ -125,8 +125,6 @@ rule copy_dataset:
         exp_dataset=DATASET_MODELS
     output:
         exp_dataset=DATASET_PREPROC
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from shutil import copyfile
         copyfile(input.exp_dataset, output.exp_dataset)
@@ -137,8 +135,6 @@ rule sbpipe_preproc:
         file=MODEL
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.preproc import preproc
         preproc(input.file, output.file, COPASI)
@@ -150,8 +146,6 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.generate_data import generate_data
         generate_data(input.file, COPASI)
@@ -162,8 +156,6 @@ rule sbpipe_pe_postproc:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.pe_postproc import pe_postproc
         pe_postproc(input.file, output.file, COPASI)
@@ -178,8 +170,6 @@ rule sbpipe_pe_collect:
     params:
         inputdir=POSTPROC_FOLDER,
         outputdir=WORKING_FOLDER
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         import os
         from sbpipe.tasks.pe_collect import pe_collect
@@ -208,8 +198,6 @@ rule sbpipe_pe_analysis:
         plot_2d_99cl_corr=config['plot_2d_99cl_corr'],
         logspace=config['logspace'],
         scientific_notation=config['scientific_notation']
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.pe_analyse_data import pe_analyse_data
         pe_analyse_data(params.model, \
@@ -238,8 +226,6 @@ rule sbpipe_pe_latex_report:
         plots_folder=PLOTS_FOLDER,
         report_prefix=REPORT_PREFIX,
         model_name=MODEL_NAME
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import latex_report_pe
         latex_report_pe(params.working_folder_dir, params.plots_folder, params.model_name, params.report_prefix)
@@ -253,8 +239,6 @@ rule sbpipe_pdf_report:
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
         pdf_report(params.working_folder_dir, params.latex_file)
