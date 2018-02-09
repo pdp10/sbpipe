@@ -70,7 +70,6 @@ def sim_analyse_plot_comb_sims(inputdir, outputdir, model, exp_dataset, plot_exp
                '\", \"' + yaxis_label + \
                '\", \"' + variable + \
                '\")\''
-    print(command)
     logger.debug(command)
     run_cmd(command)
 

@@ -43,6 +43,7 @@ WORKING_FOLDER         = os.path.join("Results", MODEL_NAME)
 PREPROC_FOLDER         = "sim_preproc"
 POSTPROC_FOLDER        = "sim_postproc"
 POSTPROC_BY_VAR_FOLDER = "sim_postproc_by_var"
+STATS_FOLDER           = "sim_stats"
 PLOTS_FOLDER           = "sim_plots"
 
 # Extensions
@@ -69,7 +70,8 @@ SEP_PLOT_TYPES = ['_heatmap', '_heatmap_scaled']
 
 rule all:
     input:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
+        file_stats=expand(os.path.join(WORKING_FOLDER, STATS_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT), var=VARIABLES),
+        file_pdf=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
 
 
 rule sbpipe_preproc:
@@ -79,7 +81,9 @@ rule sbpipe_preproc:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
         from sbpipe.tasks.preproc import preproc
-        preproc(input.file, output.file, COPASI)
+        preproc(input.file,
+                output.file,
+                COPASI)
 
 
 rule sbpipe_gen_data:
@@ -89,7 +93,8 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.generate_data import generate_data
-        generate_data(input.file, COPASI)
+        generate_data(input.file,
+                      COPASI)
 
 
 rule sbpipe_sim_postproc:
@@ -99,30 +104,32 @@ rule sbpipe_sim_postproc:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.sim_postproc import sim_postproc
-        sim_postproc(input.file, output.file, COPASI)
+        sim_postproc(input.file,
+                     output.file,
+                     COPASI)
 
 
 rule sbpipe_sim_analysis_gen_stats_table:
     input:
         file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
     output:
-        file=os.path.join(WORKING_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT)
+        file=os.path.join(WORKING_FOLDER, STATS_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT)
     params:
-        outputdir=WORKING_FOLDER,
-        sim_data_folder=POSTPROC_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
+        outputdir=os.path.join(WORKING_FOLDER, STATS_FOLDER),
         model_name = MODEL_NAME,
         xaxis_label=config["xaxis_label"],
         yaxis_label=config["yaxis_label"],
         variable = '{var}'
     run:
         from sbpipe.tasks.sim_analyse_gen_stats_table import sim_analyse_gen_stats_table
-        sim_analyse_gen_stats_table(os.path.join(params.outputdir, params.sim_data_folder), \
-                         params.outputdir, \
-                         params.model_name, \
-                         output.file, \
-                         params.xaxis_label, \
-                         params.yaxis_label, \
-                         params.variable)
+        sim_analyse_gen_stats_table(params.inputdir,
+                                    params.outputdir,
+                                    params.model_name,
+                                    output.file,
+                                    params.xaxis_label,
+                                    params.yaxis_label,
+                                    params.variable)
 
 
 rule sbpipe_sim_analysis_summarise_data:
@@ -131,16 +138,15 @@ rule sbpipe_sim_analysis_summarise_data:
     output:
         file=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT)
     params:
-        outputdir=WORKING_FOLDER,
-        sim_data_folder=POSTPROC_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         model_name = MODEL_NAME,
         variable = '{var}'
     run:
         from sbpipe.tasks.sim_analyse_summarise_data import sim_analyse_summarise_data
-        sim_analyse_summarise_data(os.path.join(params.outputdir, params.sim_data_folder), \
-                         params.model_name, \
-                         output.file, \
-                         params.variable)
+        sim_analyse_summarise_data(params.inputdir,
+                                   params.model_name,
+                                   output.file,
+                                   params.variable)
 
 
 rule sbpipe_sim_analysis_plot_sep_sims:
@@ -151,28 +157,26 @@ rule sbpipe_sim_analysis_plot_sep_sims:
         # {{var}} ensures that no two rules want to write the same file.
         file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{sep_plot}" + PNG_EXT), sep_plot=SEP_PLOT_TYPES)
     params:
-        models_folder=MODELS_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER),
+        outputdir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         model_name=MODEL_NAME,
-        outputdir=WORKING_FOLDER,
-        sim_plots_folder=PLOTS_FOLDER,
-        variable='{var}',
-        exp_dataset=config["exp_dataset"],
+        dataset_file=os.path.join(MODELS_FOLDER, config["exp_dataset"]),
         plot_exp_dataset=config["plot_exp_dataset"],
         exp_dataset_alpha=config["exp_dataset_alpha"],
         xaxis_label=config["xaxis_label"],
-        yaxis_label=config["yaxis_label"]
+        yaxis_label=config["yaxis_label"],
+        variable = '{var}'
     run:
         from sbpipe.tasks.sim_analyse_plot_sep_sims import sim_analyse_plot_sep_sims
-        sim_analyse_plot_sep_sims(
-                         os.path.dirname(input.file), \
-                         os.path.join(params.outputdir, params.sim_plots_folder), \
-                         params.model_name, \
-                         os.path.join(params.models_folder, params.exp_dataset), \
-                         str(params.plot_exp_dataset), \
-                         str(params.exp_dataset_alpha), \
-                         params.xaxis_label, \
-                         params.yaxis_label, \
-                         params.variable)
+        sim_analyse_plot_sep_sims(params.inputdir,
+                                  params.outputdir,
+                                  params.model_name,
+                                  params.dataset_file,
+                                  str(params.plot_exp_dataset),
+                                  str(params.exp_dataset_alpha),
+                                  params.xaxis_label,
+                                  params.yaxis_label,
+                                  params.variable)
 
 
 rule sbpipe_sim_analysis_plot_comb_sims:
@@ -183,28 +187,26 @@ rule sbpipe_sim_analysis_plot_comb_sims:
         # {{var}} ensures that no two rules want to write the same file.
         file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{comb_plot}" + PNG_EXT), comb_plot=COMB_PLOT_TYPES)
     params:
-        models_folder=MODELS_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER),
+        outputdir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         model_name=MODEL_NAME,
-        outputdir=WORKING_FOLDER,
-        sim_plots_folder=PLOTS_FOLDER,
-        variable='{var}',
-        exp_dataset=config["exp_dataset"],
+        dataset_file=os.path.join(MODELS_FOLDER, config["exp_dataset"]),
         plot_exp_dataset=config["plot_exp_dataset"],
         exp_dataset_alpha=config["exp_dataset_alpha"],
         xaxis_label=config["xaxis_label"],
-        yaxis_label=config["yaxis_label"]
+        yaxis_label=config["yaxis_label"],
+        variable = '{var}'
     run:
         from sbpipe.tasks.sim_analyse_plot_comb_sims import sim_analyse_plot_comb_sims
-        sim_analyse_plot_comb_sims(
-                         os.path.dirname(input.file), \
-                         os.path.join(params.outputdir, params.sim_plots_folder), \
-                         params.model_name, \
-                         os.path.join(params.models_folder, params.exp_dataset), \
-                         str(params.plot_exp_dataset), \
-                         str(params.exp_dataset_alpha), \
-                         params.xaxis_label, \
-                         params.yaxis_label, \
-                         params.variable)
+        sim_analyse_plot_comb_sims(params.inputdir,
+                                   params.outputdir,
+                                   params.model_name,
+                                   params.dataset_file,
+                                   str(params.plot_exp_dataset),
+                                   str(params.exp_dataset_alpha),
+                                   params.xaxis_label,
+                                   params.yaxis_label,
+                                   params.variable)
 
 
 rule sbpipe_sim_latex_report:
@@ -220,7 +222,10 @@ rule sbpipe_sim_latex_report:
         model_name=MODEL_NAME
     run:
         from sbpipe.report.latex_reports import latex_report_sim
-        latex_report_sim(params.working_folder_dir, params.plots_folder, params.model_name, params.report_prefix)
+        latex_report_sim(params.working_folder_dir,
+                         params.plots_folder,
+                         params.model_name,
+                         params.report_prefix)
 
 
 rule sbpipe_pdf_report:
@@ -233,5 +238,6 @@ rule sbpipe_pdf_report:
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir, params.latex_file)
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 
