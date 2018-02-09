@@ -76,7 +76,9 @@ rule sbpipe_preproc:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
         from sbpipe.tasks.preproc import preproc
-        preproc(input.file, output.file, COPASI)
+        preproc(input.file,
+                output.file,
+                COPASI)
 
 
 rule sbpipe_gen_data:
@@ -86,7 +88,8 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.generate_data import generate_data
-        generate_data(input.file, COPASI)
+        generate_data(input.file,
+                      COPASI)
 
 
 rule sbpipe_ps1_postproc:
@@ -100,7 +103,12 @@ rule sbpipe_ps1_postproc:
         ps1_intervals=config["levels_number"]
     run:
         from sbpipe.tasks.ps1_postproc import ps1_postproc
-        ps1_postproc(input.file, output.file, params.scanned_par, params.sim_intervals, params.ps1_intervals, COPASI)
+        ps1_postproc(input.file,
+                     output.file,
+                     params.scanned_par,
+                     params.sim_intervals,
+                     params.ps1_intervals,
+                     COPASI)
 
 
 rule sbpipe_ps1_analysis:
@@ -124,10 +132,19 @@ rule sbpipe_ps1_analysis:
         yaxis_label=config["yaxis_label"]
     run:
         from sbpipe.tasks.ps1_analyse_data import ps1_analyse_data
-        ps1_analyse_data(params.model_name, str(params.inhibition_only), params.outputdir, \
-        params.sim_data_folder, params.sim_plots_folder, params.repeat, str(params.percent_levels), \
-        str(params.min_level), str(params.max_level), str(params.levels_number), str(params.homogeneous_lines), \
-        params.xaxis_label, params.yaxis_label)
+        ps1_analyse_data(params.model_name,
+                         str(params.inhibition_only),
+                         params.outputdir,
+                         params.sim_data_folder,
+                         params.sim_plots_folder,
+                         params.repeat,
+                         str(params.percent_levels),
+                         str(params.min_level),
+                         str(params.max_level),
+                         str(params.levels_number),
+                         str(params.homogeneous_lines),
+                         params.xaxis_label,
+                         params.yaxis_label)
 
 
 rule sbpipe_ps1_latex_report:
@@ -143,8 +160,11 @@ rule sbpipe_ps1_latex_report:
         scanned_par=SCANNED_PAR
     run:
         from sbpipe.report.latex_reports import latex_report_ps1
-        latex_report_ps1(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
-                     params.scanned_par)
+        latex_report_ps1(params.working_folder_dir,
+                         params.plots_folder,
+                         params.report_prefix,
+                         params.model_name,
+                         params.scanned_par)
 
 
 rule sbpipe_pdf_report:
@@ -157,5 +177,6 @@ rule sbpipe_pdf_report:
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir, params.latex_file)
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 

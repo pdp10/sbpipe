@@ -99,7 +99,8 @@ rule copy_dataset:
         exp_dataset=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, "{ds}")
     run:
         from shutil import copyfile
-        copyfile(input.exp_dataset, output.exp_dataset)
+        copyfile(input.exp_dataset,
+                 output.exp_dataset)
 
 
 rule sbpipe_preproc:
@@ -109,7 +110,9 @@ rule sbpipe_preproc:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
         from sbpipe.tasks.preproc import preproc
-        preproc(input.file, output.file, COPASI)
+        preproc(input.file,
+                output.file,
+                COPASI)
 
 
 rule sbpipe_gen_data:
@@ -120,7 +123,8 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.generate_data import generate_data
-        generate_data(input.file, COPASI)
+        generate_data(input.file,
+                      COPASI)
 
 
 rule sbpipe_pe_postproc:
@@ -130,7 +134,9 @@ rule sbpipe_pe_postproc:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.pe_postproc import pe_postproc
-        pe_postproc(input.file, output.file, COPASI)
+        pe_postproc(input.file,
+                    output.file,
+                    COPASI)
 
 
 rule sbpipe_pe_collect:
@@ -140,14 +146,14 @@ rule sbpipe_pe_collect:
         file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT),
         file_all_fits=os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
     params:
-        inputdir=POSTPROC_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         outputdir=WORKING_FOLDER
     run:
         import os
         from sbpipe.tasks.pe_collect import pe_collect
-        pe_collect(os.path.join(params.outputdir, params.inputdir), \
-                   params.outputdir, \
-                   os.path.basename(output.file_best_fits), \
+        pe_collect(params.inputdir,
+                   params.outputdir,
+                   os.path.basename(output.file_best_fits),
                    os.path.basename(output.file_all_fits))
 
 
@@ -172,19 +178,19 @@ rule sbpipe_pe_analysis:
         scientific_notation=config['scientific_notation']
     run:
         from sbpipe.tasks.pe_analyse_data import pe_analyse_data
-        pe_analyse_data(params.model, \
-                        params.outputdir, \
-                        os.path.basename(input.file_best_fits), \
-                        os.path.basename(input.file_all_fits), \
-                        os.path.basename(output.file_param_estim_details), \
-                        os.path.basename(output.file_param_estim_summary), \
-                        params.plots_dir, \
-                        params.best_fits_percent, \
-                        params.data_point_num, \
-                        params.plot_2d_66cl_corr, \
-                        params.plot_2d_95cl_corr, \
-                        params.plot_2d_99cl_corr, \
-                        params.logspace, \
+        pe_analyse_data(params.model,
+                        params.outputdir,
+                        os.path.basename(input.file_best_fits),
+                        os.path.basename(input.file_all_fits),
+                        os.path.basename(output.file_param_estim_details),
+                        os.path.basename(output.file_param_estim_summary),
+                        params.plots_dir,
+                        params.best_fits_percent,
+                        params.data_point_num,
+                        params.plot_2d_66cl_corr,
+                        params.plot_2d_95cl_corr,
+                        params.plot_2d_99cl_corr,
+                        params.logspace,
                         params.scientific_notation)
 
 
@@ -200,7 +206,10 @@ rule sbpipe_pe_latex_report:
         model_name=MODEL_NAME
     run:
         from sbpipe.report.latex_reports import latex_report_pe
-        latex_report_pe(params.working_folder_dir, params.plots_folder, params.model_name, params.report_prefix)
+        latex_report_pe(params.working_folder_dir,
+                        params.plots_folder,
+                        params.model_name,
+                        params.report_prefix)
 
 
 rule sbpipe_pdf_report:
@@ -213,4 +222,5 @@ rule sbpipe_pdf_report:
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir, params.latex_file)
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)

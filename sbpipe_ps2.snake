@@ -74,7 +74,9 @@ rule sbpipe_preproc:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
         from sbpipe.tasks.preproc import preproc
-        preproc(input.file, output.file, COPASI)
+        preproc(input.file,
+                output.file,
+                COPASI)
 
 
 rule sbpipe_gen_data:
@@ -84,7 +86,8 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
         from sbpipe.tasks.generate_data import generate_data
-        generate_data(input.file, COPASI)
+        generate_data(input.file,
+                      COPASI)
 
 
 rule sbpipe_ps2_postproc:
@@ -97,7 +100,10 @@ rule sbpipe_ps2_postproc:
         runs=config["runs"]
     run:
         from sbpipe.tasks.ps2_postproc import ps2_postproc
-        ps2_postproc(input.file, output.file, params.sim_length, COPASI)
+        ps2_postproc(input.file,
+                     output.file,
+                     params.sim_length,
+                     COPASI)
 
 
 rule sbpipe_ps2_analysis:
@@ -117,7 +123,12 @@ rule sbpipe_ps2_analysis:
         repeat='{rep}'
     run:
         from sbpipe.tasks.ps2_analyse_data import ps2_analyse_data
-        ps2_analyse_data(params.model_name, params.scanned_par1, params.scanned_par2, params.postproc_dir, params.plots_dir, params.repeat)
+        ps2_analyse_data(params.model_name,
+                         params.scanned_par1,
+                         params.scanned_par2,
+                         params.postproc_dir,
+                         params.plots_dir,
+                         params.repeat)
 
 
 
@@ -135,8 +146,12 @@ rule sbpipe_ps2_latex_report:
         scanned_par2=config["scanned_par2"]
     run:
         from sbpipe.report.latex_reports import latex_report_ps2
-        latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
-                     params.scanned_par1, params.scanned_par2)
+        latex_report_ps2(params.working_folder_dir,
+                         params.plots_folder,
+                         params.report_prefix,
+                         params.model_name,
+                         params.scanned_par1,
+                         params.scanned_par2)
 
 
 rule sbpipe_pdf_report:
@@ -149,5 +164,6 @@ rule sbpipe_pdf_report:
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir, params.latex_file)
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 
