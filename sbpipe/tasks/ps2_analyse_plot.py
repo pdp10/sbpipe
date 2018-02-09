@@ -35,7 +35,7 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id):
+def ps2_analyse_plot(model, scanned_par1, scanned_par2, inputdir, outputdir, id):
     """
     Plot model double parameter scan time courses (Python wrapper).
 
@@ -47,7 +47,7 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     :param run: the simulation number
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_ps2(\"' + model + \
+    command = 'R -e \'library(sbpiper); plot_double_param_scan_data(\"' + model + \
               '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
               '\", \"' + inputdir + \
               '\", \"' + outputdir + \
@@ -70,7 +70,12 @@ def main(argv=None):
     parser.add_argument('-o', '--outputdir')
     parser.add_argument('-r', '--repeat', type=int, nargs='+')
     args = parser.parse_args()
-    ps2_analyse_data(args.model, args.scanned_par1, args.scanned_par2, args.inputdir, args.outputdir, args.r)
+    ps2_analyse_plot(args.model,
+                     args.scanned_par1,
+                     args.scanned_par2,
+                     args.inputdir,
+                     args.outputdir,
+                     args.r)
     return 0
 
 

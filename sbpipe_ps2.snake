@@ -106,7 +106,7 @@ rule sbpipe_ps2_postproc:
                      COPASI)
 
 
-rule sbpipe_ps2_analysis:
+rule sbpipe_ps2_analysis_plot:
     input:
         # Run each repeat report as separate input
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
@@ -122,8 +122,8 @@ rule sbpipe_ps2_analysis:
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         repeat='{rep}'
     run:
-        from sbpipe.tasks.ps2_analyse_data import ps2_analyse_data
-        ps2_analyse_data(params.model_name,
+        from sbpipe.tasks.ps2_analyse_plot import ps2_analyse_plot
+        ps2_analyse_plot(params.model_name,
                          params.scanned_par1,
                          params.scanned_par2,
                          params.postproc_dir,
