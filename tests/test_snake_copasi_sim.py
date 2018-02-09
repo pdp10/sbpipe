@@ -58,7 +58,7 @@ class TestSimSnake(unittest.TestCase):
             subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_stoch_simul.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_stoch_simul.yaml', cores=7, forceall=True, quiet=False))
         except OSError as e:
             print("Skipping test as snakemake was not found.")
 

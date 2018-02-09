@@ -35,14 +35,15 @@ if config['simulator'] == 'Copasi':
     COPASI = True
 
 # Model and results folders
-MODELS_FOLDER   = "Models"
-MODEL           = os.path.join(MODELS_FOLDER , config['model'])
-MODEL_NAME      = config['model'].split('.')[0]
-REPORT_PREFIX   = "report_sim_"
-WORKING_FOLDER  = os.path.join("Results", MODEL_NAME)
-PREPROC_FOLDER  = "sim_preproc"
-POSTPROC_FOLDER = "sim_postproc"
-PLOTS_FOLDER    = "sim_plots"
+MODELS_FOLDER          = "Models"
+MODEL                  = os.path.join(MODELS_FOLDER , config['model'])
+MODEL_NAME             = config['model'].split('.')[0]
+REPORT_PREFIX          = "report_sim_"
+WORKING_FOLDER         = os.path.join("Results", MODEL_NAME)
+PREPROC_FOLDER         = "sim_preproc"
+POSTPROC_FOLDER        = "sim_postproc"
+POSTPROC_BY_VAR_FOLDER = "sim_postproc_by_var"
+PLOTS_FOLDER           = "sim_plots"
 
 # Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
@@ -58,14 +59,12 @@ REPEATS     = range(1, int(config['runs'])+1)
 # Report variables
 VARIABLES = config['report_variables']
 
-PLOT_TYPES = ['_mean', '_mean_sd', '_mean_sd_ci95']
+COMB_PLOT_TYPES = ['_mean', '_mean_sd', '_mean_sd_ci95']
 
-# Plot types
 #if config['plot_exp_dataset']:
-#    PLOT_TYPES = PLOT_TYPES + ['_mean_w_exp_data', '_mean_sd_w_exp_data', '_mean_sd_ci95_w_exp_data']
+#    COMB_PLOT_TYPES = COMB_PLOT_TYPES + ['_mean_w_exp_data', '_mean_sd_w_exp_data', '_mean_sd_ci95_w_exp_data']
 
-if int(config['runs']) > 1:
-    PLOT_TYPES = PLOT_TYPES + ['', '_heatmap', '_heatmap_scaled']
+SEP_PLOT_TYPES = ['_heatmap', '_heatmap_scaled']
 
 
 rule all:
@@ -103,18 +102,58 @@ rule sbpipe_sim_postproc:
         sim_postproc(input.file, output.file, COPASI)
 
 
-rule sbpipe_sim_analysis:
+rule sbpipe_sim_analysis_gen_stats_table:
     input:
         file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
     output:
+        file=os.path.join(WORKING_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT)
+    params:
+        outputdir=WORKING_FOLDER,
+        sim_data_folder=POSTPROC_FOLDER,
+        model_name = MODEL_NAME,
+        xaxis_label=config["xaxis_label"],
+        yaxis_label=config["yaxis_label"],
+        variable = '{var}'
+    run:
+        from sbpipe.tasks.sim_analyse_gen_stats_table import sim_analyse_gen_stats_table
+        sim_analyse_gen_stats_table(os.path.join(params.outputdir, params.sim_data_folder), \
+                         params.outputdir, \
+                         params.model_name, \
+                         output.file, \
+                         params.xaxis_label, \
+                         params.yaxis_label, \
+                         params.variable)
+
+
+rule sbpipe_sim_analysis_summarise_data:
+    input:
+        file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
+    output:
+        file=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT)
+    params:
+        outputdir=WORKING_FOLDER,
+        sim_data_folder=POSTPROC_FOLDER,
+        model_name = MODEL_NAME,
+        variable = '{var}'
+    run:
+        from sbpipe.tasks.sim_analyse_summarise_data import sim_analyse_summarise_data
+        sim_analyse_summarise_data(os.path.join(params.outputdir, params.sim_data_folder), \
+                         params.model_name, \
+                         output.file, \
+                         params.variable)
+
+
+rule sbpipe_sim_analysis_plot_sep_sims:
+    input:
+        file=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT)
+    output:
         # note: we mask var as a wildcard. Doing so, we can "replicate" this rule for each var in VARIABLES (see following rule input)
         # {{var}} ensures that no two rules want to write the same file.
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{type}" + PNG_EXT), type=PLOT_TYPES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{sep_plot}" + PNG_EXT), sep_plot=SEP_PLOT_TYPES)
     params:
         models_folder=MODELS_FOLDER,
         model_name=MODEL_NAME,
         outputdir=WORKING_FOLDER,
-        sim_data_folder=POSTPROC_FOLDER,
         sim_plots_folder=PLOTS_FOLDER,
         variable='{var}',
         exp_dataset=config["exp_dataset"],
@@ -123,22 +162,55 @@ rule sbpipe_sim_analysis:
         xaxis_label=config["xaxis_label"],
         yaxis_label=config["yaxis_label"]
     run:
-        from sbpipe.tasks.sim_analyse_data import sim_analyse_data
-        sim_analyse_data(params.model_name, \
-                         os.path.join(params.outputdir, params.sim_data_folder), \
-                         params.outputdir, \
+        from sbpipe.tasks.sim_analyse_plot_sep_sims import sim_analyse_plot_sep_sims
+        sim_analyse_plot_sep_sims(
+                         os.path.dirname(input.file), \
                          os.path.join(params.outputdir, params.sim_plots_folder), \
-                         params.variable, \
+                         params.model_name, \
                          os.path.join(params.models_folder, params.exp_dataset), \
                          str(params.plot_exp_dataset), \
                          str(params.exp_dataset_alpha), \
                          params.xaxis_label, \
-                         params.yaxis_label)
+                         params.yaxis_label, \
+                         params.variable)
+
+
+rule sbpipe_sim_analysis_plot_comb_sims:
+    input:
+        file=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT)
+    output:
+        # note: we mask var as a wildcard. Doing so, we can "replicate" this rule for each var in VARIABLES (see following rule input)
+        # {{var}} ensures that no two rules want to write the same file.
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{comb_plot}" + PNG_EXT), comb_plot=COMB_PLOT_TYPES)
+    params:
+        models_folder=MODELS_FOLDER,
+        model_name=MODEL_NAME,
+        outputdir=WORKING_FOLDER,
+        sim_plots_folder=PLOTS_FOLDER,
+        variable='{var}',
+        exp_dataset=config["exp_dataset"],
+        plot_exp_dataset=config["plot_exp_dataset"],
+        exp_dataset_alpha=config["exp_dataset_alpha"],
+        xaxis_label=config["xaxis_label"],
+        yaxis_label=config["yaxis_label"]
+    run:
+        from sbpipe.tasks.sim_analyse_plot_comb_sims import sim_analyse_plot_comb_sims
+        sim_analyse_plot_comb_sims(
+                         os.path.dirname(input.file), \
+                         os.path.join(params.outputdir, params.sim_plots_folder), \
+                         params.model_name, \
+                         os.path.join(params.models_folder, params.exp_dataset), \
+                         str(params.plot_exp_dataset), \
+                         str(params.exp_dataset_alpha), \
+                         params.xaxis_label, \
+                         params.yaxis_label, \
+                         params.variable)
 
 
 rule sbpipe_sim_latex_report:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{type}" + PNG_EXT), var=VARIABLES, type=PLOT_TYPES)
+        plots_sep=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{sep_plot}" + PNG_EXT), var=VARIABLES, sep_plot=SEP_PLOT_TYPES),
+        plots_comb=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{comb_plot}" + PNG_EXT), var=VARIABLES, comb_plot=COMB_PLOT_TYPES)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:
