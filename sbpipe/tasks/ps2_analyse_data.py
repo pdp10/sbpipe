@@ -56,6 +56,7 @@ def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id)
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
+    logger.debug(command)
     run_cmd(command)
 
 

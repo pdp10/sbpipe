@@ -73,7 +73,7 @@ def ps1_analyse_data(model_name, inhibition_only, outputdir,
     command += '\", \"' + xaxis_label + \
                '\", \"' + yaxis_label + \
                '\")\''
-
+    logger.debug(command)
     run_cmd(command)
 
 

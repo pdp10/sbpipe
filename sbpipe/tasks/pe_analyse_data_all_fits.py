@@ -75,7 +75,7 @@ def pe_analyse_data_all_fits(model, outputdir, fileout_all_estims,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-
+    logger.debug(command)
     run_cmd(command)
 
 

@@ -60,7 +60,7 @@ def pe_analyse_data_best_fits(model, outputdir, fileout_final_estims, plots_dir,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-
+    logger.debug(command)
     run_cmd(command)
 
 

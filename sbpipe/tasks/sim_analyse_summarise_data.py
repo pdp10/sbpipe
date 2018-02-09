@@ -55,6 +55,7 @@ def sim_analyse_summarise_data(inputdir, model, outputfile_repeats, variable):
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\", \"' + variable + \
                '\")\''
+    logger.debug(command)
     run_cmd(command)
 
 

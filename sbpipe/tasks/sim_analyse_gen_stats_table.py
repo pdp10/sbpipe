@@ -66,6 +66,7 @@ def sim_analyse_gen_stats_table(inputdir,
                '\", \"' + yaxis_label + \
                '\", \"' + variable + \
                '\")\''
+    logger.debug(command)
     run_cmd(command)
 
 
