@@ -36,7 +36,10 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def sim_analyse_summarise_data(inputdir, model, outputfile_repeats, variable):
+def sim_analyse_summarise_data(inputdir,
+                               model,
+                               outputfile_repeats,
+                               variable):
     """
     Plot model simulation time courses (Python wrapper).
 
@@ -68,7 +71,10 @@ def main(argv=None):
     parser.add_argument('--variable')
 
     args = parser.parse_args()
-    sim_analyse_summarise_data(args.inputdir, args.model, args.outputfile_repeats, args.variable)
+    sim_analyse_summarise_data(args.inputdir,
+                               args.model,
+                               args.outputfile_repeats,
+                               args.variable)
     return 0
 
 

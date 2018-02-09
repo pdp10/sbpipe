@@ -82,8 +82,13 @@ def main(argv=None):
     parser.add_argument('--variable')
 
     args = parser.parse_args()
-    sim_analyse_gen_stats_table(args.inputdir, args.outputdir, args.model, args.outputfile, \
-                                args.xaxis_label, args.yaxis_label, args.variable)
+    sim_analyse_gen_stats_table(args.inputdir,
+                                args.outputdir,
+                                args.model,
+                                args.outputfile,
+                                args.xaxis_label,
+                                args.yaxis_label,
+                                args.variable)
     return 0
 
 

@@ -32,13 +32,22 @@ logger = logging.getLogger('sbpipe')
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.insert(0, SBPIPE)
 
-from sbpipe.utils.re_utils import escape_special_chars
 from sbpipe.utils.parcomp import run_cmd
 
 
-def ps1_analyse_data(model_name, inhibition_only, outputdir,
-        sim_data_folder, sim_plots_folder, repeat, percent_levels, min_level,
-        max_level, levels_number, homogeneous_lines, xaxis_label, yaxis_label):
+def ps1_analyse_data(model_name,
+                     inhibition_only,
+                     outputdir,
+                     sim_data_folder,
+                     sim_plots_folder,
+                     repeat,
+                     percent_levels,
+                     min_level,
+                     max_level,
+                     levels_number,
+                     homogeneous_lines,
+                     xaxis_label,
+                     yaxis_label):
     """
     Plot model single parameter scan time courses (Python wrapper).
 
@@ -95,9 +104,19 @@ def main(argv=None):
     parser.add_argument('--yaxis-label')
 
     args = parser.parse_args()
-    ps1_analyse_data(args.model, args.inhibition_only, args.outputdir, args.sim_data_folder, \
-        args.sim_plot_folder, args.repeat, args.percent_levels, args.min_level, args.max_level, \
-        args.levels_number, args.homogeneous_lines, args.xaxis_label, args.yaxis_label)
+    ps1_analyse_data(args.model,
+                     args.inhibition_only,
+                     args.outputdir,
+                     args.sim_data_folder,
+                     args.sim_plot_folder,
+                     args.repeat,
+                     args.percent_levels,
+                     args.min_level,
+                     args.max_level,
+                     args.levels_number,
+                     args.homogeneous_lines,
+                     args.xaxis_label,
+                     args.yaxis_label)
     return 0
 
 

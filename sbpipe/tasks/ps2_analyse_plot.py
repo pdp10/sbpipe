@@ -35,7 +35,12 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def ps2_analyse_plot(model, scanned_par1, scanned_par2, inputdir, outputdir, id):
+def ps2_analyse_plot(model,
+                     scanned_par1,
+                     scanned_par2,
+                     inputdir,
+                     outputdir,
+                     id):
     """
     Plot model double parameter scan time courses (Python wrapper).
 

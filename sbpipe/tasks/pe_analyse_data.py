@@ -35,11 +35,20 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def pe_analyse_data(model, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_param_estim_details, fileout_param_estim_summary, plots_dir,
-                     best_fits_percent, data_point_num,
-                     plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
-                     logspace=True, scientific_notation=True):
+def pe_analyse_data(model,
+                    outputdir,
+                    fileout_final_estims,
+                    fileout_all_estims,
+                    fileout_param_estim_details,
+                    fileout_param_estim_summary,
+                    plots_dir,
+                    best_fits_percent,
+                    data_point_num,
+                    plot_2d_66cl_corr=False,
+                    plot_2d_95cl_corr=False,
+                    plot_2d_99cl_corr=False,
+                    logspace=True,
+                    scientific_notation=True):
     """
     Plot parameter estimation results (Python wrapper).
 
@@ -102,11 +111,20 @@ def main(argv=None):
     parser.add_argument('--scientific-notation', action='store_true')
 
     args = parser.parse_args()
-    pe_analyse_data(args.model, args.outputdir, args.finalfits_file, args.allfits_file,
-                    args.param_estim_details_file, args.param_estim_summary_file, args.plots_dir,
-                    args.best_fits_percent, args.datapointnum,
-                    args.plot_66cl_corr, args.plot_95cl_corr, args.plot_99cl_corr,
-                    args.logspace, args.scientific_notation)
+    pe_analyse_data(args.model,
+                    args.outputdir,
+                    args.finalfits_file,
+                    args.allfits_file,
+                    args.param_estim_details_file,
+                    args.param_estim_summary_file,
+                    args.plots_dir,
+                    args.best_fits_percent,
+                    args.datapointnum,
+                    args.plot_66cl_corr,
+                    args.plot_95cl_corr,
+                    args.plot_99cl_corr,
+                    args.logspace,
+                    args.scientific_notation)
     return 0
 
 

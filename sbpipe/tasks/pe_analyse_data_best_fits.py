@@ -35,8 +35,13 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def pe_analyse_data_best_fits(model, outputdir, fileout_final_estims, plots_dir,
-                     best_fits_percent, logspace=True, scientific_notation=True):
+def pe_analyse_data_best_fits(model,
+                              outputdir,
+                              fileout_final_estims,
+                              plots_dir,
+                              best_fits_percent,
+                              logspace=True,
+                              scientific_notation=True):
     """
     Plot parameter estimation results (Python wrapper).
 
@@ -76,8 +81,13 @@ def main(argv=None):
     parser.add_argument('--scientific-notation', action='store_true')
 
     args = parser.parse_args()
-    pe_analyse_data_best_fits(args.model, args.outputdir, args.finalfits_file,
-                              args.plots_dir, args.best_fits_percent, args.logspace, args.scientific_notation)
+    pe_analyse_data_best_fits(args.model,
+                              args.outputdir,
+                              args.finalfits_file,
+                              args.plots_dir,
+                              args.best_fits_percent,
+                              args.logspace,
+                              args.scientific_notation)
     return 0
 
 

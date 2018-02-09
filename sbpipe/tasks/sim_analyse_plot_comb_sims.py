@@ -36,8 +36,15 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def sim_analyse_plot_comb_sims(inputdir, outputdir, model, exp_dataset, plot_exp_dataset,
-                     exp_dataset_alpha, xaxis_label, yaxis_label, variable):
+def sim_analyse_plot_comb_sims(inputdir,
+                               outputdir,
+                               model,
+                               exp_dataset,
+                               plot_exp_dataset,
+                               exp_dataset_alpha,
+                               xaxis_label,
+                               yaxis_label,
+                               variable):
     """
     Plot model simulation time courses (Python wrapper).
 
@@ -88,9 +95,15 @@ def main(argv=None):
     parser.add_argument('--variable')
 
     args = parser.parse_args()
-    sim_analyse_plot_comb_sims(args.inputdir, args.outputdir, args.model, \
-                     args.exp_dataset, args.plot_exp_dataset, args.exp_dataset_alpha, \
-                     args.xaxis_label, args.yaxis_label, args.variable)
+    sim_analyse_plot_comb_sims(args.inputdir,
+                               args.outputdir,
+                               args.model,
+                               args.exp_dataset,
+                               args.plot_exp_dataset,
+                               args.exp_dataset_alpha,
+                               args.xaxis_label,
+                               args.yaxis_label,
+                               args.variable)
     return 0
 
 
