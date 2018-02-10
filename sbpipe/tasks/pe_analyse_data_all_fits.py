@@ -51,20 +51,19 @@ def pe_analyse_data_all_fits(model,
     """
     Plot parameter estimation results (Python wrapper).
 
-        :param model: the model name
-        :param outputdir: the directory to store the results
-        :param fileout_all_estims: the name of the file containing all the parameter sets with the objective value
-        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
+    :param model: the model name
+    :param outputdir: the directory to store the results
+    :param fileout_all_estims: the name of the file containing all the parameter sets with the objective value
+    :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
         estimated parameters
-        :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
-        :param plots_dir: the directory of the simulation plots
-        :param data_point_num: the number of data points
-        :param plot_2d_66cl_corr: True if 2 dim plots for the parameter sets within 66% should be plotted
-        :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
-        :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted
-        :param logspace: True if parameters should be plotted in log space
-        :param scientific_notation: True if axis labels should be plotted in scientific notation
-        :return: True if the task was completed successfully, False otherwise.
+    :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
+    :param plots_dir: the directory of the simulation plots
+    :param data_point_num: the number of data points
+    :param plot_2d_66cl_corr: True if 2 dim plots for the parameter sets within 66% should be plotted
+    :param plot_2d_95cl_corr: True if 2 dim plots for the parameter sets within 95% should be plotted
+    :param plot_2d_99cl_corr: True if 2 dim plots for the parameter sets within 99% should be plotted
+    :param logspace: True if parameters should be plotted in log space
+    :param scientific_notation: True if axis labels should be plotted in scientific notation
     """
     # requires devtools::install_github("pdp10/sbpiper")
     command = 'R -e \'library(sbpiper); sbpipe_pe_all_fits(\"' + model + \

@@ -60,29 +60,31 @@ REPEATS     = range(1, int(config['runs'])+1)
 # Report variables
 VARIABLES = config['report_variables']
 
-PLOT_TYPES = ['objval_vs_iter']
+BEST_FITS_PLOTS = []
+ALL_FITS_PLOTS = ['objval_vs_iter']
 
 for var in VARIABLES:
-    PLOT_TYPES.extend(['approx_ple_'+var, 'best_fits_'+var])
+    BEST_FITS_PLOTS.extend(['best_fits_' + var])
+    ALL_FITS_PLOTS.extend(['approx_ple_' + var])
 
 # Plot types
 if config['plot_2d_66cl_corr']:
     for idx, var in enumerate(VARIABLES):
-        PLOT_TYPES.append('cl66_fits_'+var)
+        ALL_FITS_PLOTS.append('cl66_fits_' + var)
         for var2 in VARIABLES[idx+1:]:
-            PLOT_TYPES.append('cl66_fits_'+var+'_'+var2)
+            ALL_FITS_PLOTS.append('cl66_fits_' + var + '_' + var2)
 
 if config['plot_2d_95cl_corr']:
     for idx, var in enumerate(VARIABLES):
-        PLOT_TYPES.append('cl95_fits_'+var)
+        ALL_FITS_PLOTS.append('cl95_fits_' + var)
         for var2 in VARIABLES[idx+1:]:
-            PLOT_TYPES.append('cl95_fits_'+var+'_'+var2)
+            ALL_FITS_PLOTS.append('cl95_fits_' + var + '_' + var2)
 
 if config['plot_2d_99cl_corr']:
     for idx, var in enumerate(VARIABLES):
-        PLOT_TYPES.append('cl99_fits_'+var)
+        ALL_FITS_PLOTS.append('cl99_fits_' + var)
         for var2 in VARIABLES[idx+1:]:
-            PLOT_TYPES.append('cl99_fits_'+var+'_'+var2)
+            ALL_FITS_PLOTS.append('cl99_fits_' + var + '_' + var2)
 
 EXP_DATASET = config["exp_dataset"]
 
@@ -157,19 +159,40 @@ rule sbpipe_pe_collect:
                    os.path.basename(output.file_all_fits))
 
 
-rule sbpipe_pe_analysis:
+rule sbpipe_pe_analysis_best_fits:
     input:
-        file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT),
+        file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT)
+    output:
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{best_fits_plots}" + PNG_EXT), best_fits_plots=BEST_FITS_PLOTS)
+    params:
+        model=MODEL_NAME,
+        outputdir=WORKING_FOLDER,
+        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+        best_fits_percent=config['best_fits_percent'],
+        logspace=config['logspace'],
+        scientific_notation=config['scientific_notation']
+    run:
+        from sbpipe.tasks.pe_analyse_data_best_fits import pe_analyse_data_best_fits
+        pe_analyse_data_best_fits(params.model,
+                                  params.outputdir,
+                                  os.path.basename(input.file_best_fits),
+                                  params.plots_dir,
+                                  params.best_fits_percent,
+                                  params.logspace,
+                                  params.scientific_notation)
+
+
+rule sbpipe_pe_analysis_all_fits:
+    input:
         file_all_fits=os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
     output:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES),
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{all_fits_plots}" + PNG_EXT), all_fits_plots=ALL_FITS_PLOTS),
         file_param_estim_details=os.path.join(WORKING_FOLDER, "param_estim_details" + CSV_EXT),
         file_param_estim_summary=os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT)
     params:
         model=MODEL_NAME,
         outputdir=WORKING_FOLDER,
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        best_fits_percent=config['best_fits_percent'],
         data_point_num=config['data_point_num'],
         plot_2d_66cl_corr=config['plot_2d_66cl_corr'],
         plot_2d_95cl_corr=config['plot_2d_95cl_corr'],
@@ -177,26 +200,64 @@ rule sbpipe_pe_analysis:
         logspace=config['logspace'],
         scientific_notation=config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_analyse_data import pe_analyse_data
-        pe_analyse_data(params.model,
-                        params.outputdir,
-                        os.path.basename(input.file_best_fits),
-                        os.path.basename(input.file_all_fits),
-                        os.path.basename(output.file_param_estim_details),
-                        os.path.basename(output.file_param_estim_summary),
-                        params.plots_dir,
-                        params.best_fits_percent,
-                        params.data_point_num,
-                        params.plot_2d_66cl_corr,
-                        params.plot_2d_95cl_corr,
-                        params.plot_2d_99cl_corr,
-                        params.logspace,
-                        params.scientific_notation)
+        from sbpipe.tasks.pe_analyse_data_all_fits import pe_analyse_data_all_fits
+        pe_analyse_data_all_fits(params.model,
+                                 params.outputdir,
+                                 os.path.basename(input.file_all_fits),
+                                 os.path.basename(output.file_param_estim_details),
+                                 os.path.basename(output.file_param_estim_summary),
+                                 params.plots_dir,
+                                 params.data_point_num,
+                                 params.plot_2d_66cl_corr,
+                                 params.plot_2d_95cl_corr,
+                                 params.plot_2d_99cl_corr,
+                                 params.logspace,
+                                 params.scientific_notation)
 
+
+# rule sbpipe_pe_analysis:
+#     input:
+#         file_best_fits=os.path.join(WORKING_FOLDER, "final_estim_collection" + CSV_EXT),
+#         file_all_fits=os.path.join(WORKING_FOLDER, "all_estim_collection" + CSV_EXT)
+#     output:
+#         file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES),
+#         file_param_estim_details=os.path.join(WORKING_FOLDER, "param_estim_details" + CSV_EXT),
+#         file_param_estim_summary=os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT)
+#     params:
+#         model=MODEL_NAME,
+#         outputdir=WORKING_FOLDER,
+#         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+#         best_fits_percent=config['best_fits_percent'],
+#         data_point_num=config['data_point_num'],
+#         plot_2d_66cl_corr=config['plot_2d_66cl_corr'],
+#         plot_2d_95cl_corr=config['plot_2d_95cl_corr'],
+#         plot_2d_99cl_corr=config['plot_2d_99cl_corr'],
+#         logspace=config['logspace'],
+#         scientific_notation=config['scientific_notation']
+#     run:
+#         from sbpipe.tasks.pe_analyse_data import pe_analyse_data
+#         pe_analyse_data(params.model,
+#                         params.outputdir,
+#                         os.path.basename(input.file_best_fits),
+#                         os.path.basename(input.file_all_fits),
+#                         os.path.basename(output.file_param_estim_details),
+#                         os.path.basename(output.file_param_estim_summary),
+#                         params.plots_dir,
+#                         params.best_fits_percent,
+#                         params.data_point_num,
+#                         params.plot_2d_66cl_corr,
+#                         params.plot_2d_95cl_corr,
+#                         params.plot_2d_99cl_corr,
+#                         params.logspace,
+#                         params.scientific_notation)
 
 rule sbpipe_pe_latex_report:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{type}" + PNG_EXT), type=PLOT_TYPES)
+        best_fits_plots = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{best_fits_plots}" + PNG_EXT),
+                        best_fits_plots=BEST_FITS_PLOTS),
+        all_fits_plots=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{all_fits_plots}" + PNG_EXT), all_fits_plots=ALL_FITS_PLOTS),
+        file_param_estim_details = os.path.join(WORKING_FOLDER, "param_estim_details" + CSV_EXT),
+        file_param_estim_summary = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:

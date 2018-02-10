@@ -45,17 +45,16 @@ def pe_analyse_data_best_fits(model,
     """
     Plot parameter estimation results (Python wrapper).
 
-        :param model: the model name
-        :param outputdir: the directory to store the results
-        :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
-        :param plots_dir: the directory of the simulation plots
-        :param best_fits_percent: the percent to consider for the best fits
-        :param logspace: True if parameters should be plotted in log space
-        :param scientific_notation: True if axis labels should be plotted in scientific notation
-        :return: True if the task was completed successfully, False otherwise.
+    :param model: the model name
+    :param outputdir: the directory to store the results
+    :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
+    :param plots_dir: the directory of the simulation plots
+    :param best_fits_percent: the percent to consider for the best fits
+    :param logspace: True if parameters should be plotted in log space
+    :param scientific_notation: True if axis labels should be plotted in scientific notation
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_pe_best_fits(\"' + model + \
+    command = 'R -e \'library(sbpiper); sbpipe_pe_final_fits(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
               '\", \"' + plots_dir + \
               '\", \"' + str(best_fits_percent) + \
