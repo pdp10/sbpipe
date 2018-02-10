@@ -1,0 +1,22 @@
+sbpipe.pl.ps2 package
+=====================
+
+Submodules
+----------
+
+sbpipe.pl.ps2.parscan2 module
+-----------------------------
+
+.. automodule:: sbpipe.pl.ps2.parscan2
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.pl.ps2
+    :members:
+    :undoc-members:
+    :show-inheritance:
