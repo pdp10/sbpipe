@@ -77,7 +77,8 @@ def main(argv=None):
     parser.add_argument('-i', '--input-file')
     parser.add_argument('-c', '--copasi', action='store_true')
     args = parser.parse_args()
-    generate_data(args.input_file, args.copasi)
+    generate_data(args.input_file,
+                  args.copasi)
     return 0
 
 

@@ -22,6 +22,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-11-01 15:43:32 $
 
+
 import os
 import sys
 import argparse
@@ -35,41 +36,45 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def ps2_analyse_data(model, scanned_par1, scanned_par2, inputdir, outputdir, id):
+def sim_analyse_summarise_data(inputdir,
+                               model,
+                               outputfile_repeats,
+                               variable):
     """
-    Plot model double parameter scan time courses (Python wrapper).
+    Plot model simulation time courses (Python wrapper).
 
-    :param model: the model name without extension
-    :param scanned_par1: the 1st scanned parameter
-    :param scanned_par2: the 2nd scanned parameter
-    :param inputdir: the input directory
-    :param outputdir: the output directory
-    :param run: the simulation number
+    :param inputdir: the directory containing the data to analyse
+    :param model: the model name
+    :param outputfile_repeats: the output file containing the model simulation repeats
+    :param variable: the model variable to analyse
     """
+
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_ps2(\"' + model + \
-              '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
-              '\", \"' + inputdir + \
-              '\", \"' + outputdir + \
-              '\", \"' + str(id)
+    command = 'R -e \'library(sbpiper); summarise_data(\"' + inputdir + \
+              '\", \"' + model + \
+              '\", \"' + outputfile_repeats
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
-    command += '\")\''
+    command += '\", \"' + variable + \
+               '\")\''
+    logger.debug(command)
     run_cmd(command)
 
 
-# this is a Python wrapper for ps2 analysis in R.
+# this is a Python wrapper for sim analysis in R.
 def main(argv=None):
     parser = argparse.ArgumentParser()
+    parser.add_argument('--inputdir')
     parser.add_argument('-m', '--model')
-    parser.add_argument('--scanned-par1')
-    parser.add_argument('--scanned-par2')
-    parser.add_argument('-i', '--inputdir')
-    parser.add_argument('-o', '--outputdir')
-    parser.add_argument('-r', '--repeat', type=int, nargs='+')
+    parser.add_argument('--outputfile_repeats')
+    parser.add_argument('--variable')
+
     args = parser.parse_args()
-    ps2_analyse_data(args.model, args.scanned_par1, args.scanned_par2, args.inputdir, args.outputdir, args.r)
+    sim_analyse_summarise_data(args.inputdir,
+                               args.model,
+                               args.outputfile_repeats,
+                               args.variable)
     return 0
 
 

@@ -17,4 +17,4 @@ xaxis_label: "Time [min]"
 # The label for the y axis.
 yaxis_label: "Level [a.u.]"
 # The name of the report variables
-report_variables: ['IR_beta_pY1146']
+report_variables: ['IR_beta_pY1146', 'IR_beta']

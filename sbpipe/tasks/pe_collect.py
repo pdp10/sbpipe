@@ -36,7 +36,11 @@ from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
 
-def pe_collect(inputdir, outputdir, fileout_final_estims, fileout_all_estims, copasi=True):
+def pe_collect(inputdir,
+               outputdir,
+               fileout_final_estims,
+               fileout_all_estims,
+               copasi=True):
     """
     Collect the results so that they can be processed.
     :param inputdir: the input folder containing the data
@@ -77,7 +81,11 @@ def main(argv=None):
     parser.add_argument('--allfits-file')
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    pe_collect(args.inputdir, args.outputdir, args.finalfits_file, args.allfits_file, args.copasi)
+    pe_collect(args.inputdir,
+               args.outputdir,
+               args.finalfits_file,
+               args.allfits_file,
+               args.copasi)
     return 0
 
 

@@ -37,7 +37,10 @@ from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
 
-def generic_postproc(infile, outfile, sim_length, copasi=True):
+def generic_postproc(infile,
+                     outfile,
+                     sim_length,
+                     copasi=True):
     """
     Perform post processing organisation to double parameter scan report files.
 
@@ -85,7 +88,10 @@ def generic_postproc(infile, outfile, sim_length, copasi=True):
                 fileout.close()
 
 
-def ps2_postproc(infile, outfile, sim_length, copasi=True):
+def ps2_postproc(infile,
+                 outfile,
+                 sim_length,
+                 copasi=True):
     """
     Perform post processing organisation to double parameter scan report files.
 
@@ -104,7 +110,10 @@ def main(argv=None):
     parser.add_argument('-l', '--sim-length', default=1)
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    ps2_postproc(args.input_file, args.output_file, int(args.sim_length), args.copasi)
+    ps2_postproc(args.input_file,
+                 args.output_file,
+                 int(args.sim_length),
+                 args.copasi)
     return 0
 
 

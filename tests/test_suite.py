@@ -53,6 +53,7 @@ import tests.test_python_sim as conf_python
 import tests.test_java_sim as conf_java
 import tests.test_octave_sim as conf_octave
 
+import tests.test_snake_copasi_pe as snake_copasi_pe
 import tests.test_snake_copasi_sim as snake_copasi_sim
 import tests.test_snake_copasi_ps1 as snake_copasi_ps1
 import tests.test_snake_copasi_ps2 as snake_copasi_ps2
@@ -100,6 +101,7 @@ class TestSuite(unittest.TestCase):
         suite_octave_sim = unittest.TestLoader().loadTestsFromTestCase(conf_octave.TestOctaveSim)
 
         # Run Snakemake tests
+        suite_snake_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_pe.TestPeSnake)
         suite_snake_copasi_sim = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_sim.TestSimSnake)
         suite_snake_copasi_ps1 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps1.TestPs1Snake)
         suite_snake_copasi_ps2 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps2.TestPs2Snake)
@@ -122,6 +124,7 @@ class TestSuite(unittest.TestCase):
                                     suite_python_sim,
                                     suite_java_sim,
                                     suite_octave_sim,
+                                    suite_snake_copasi_pe,
                                     suite_snake_copasi_sim,
                                     suite_snake_copasi_ps1,
                                     suite_snake_copasi_ps2])

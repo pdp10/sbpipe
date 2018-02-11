@@ -31,4 +31,4 @@ scientific_notation: True
 report_variables: ['k1','k2','k3']
 # An experimental data set (or blank) to add to the
 # simulated plots as additional layer
-exp_dataset: "insulin_receptor_dataset.csv"
+exp_dataset: ['insulin_receptor_dataset.csv']

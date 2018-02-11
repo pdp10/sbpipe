@@ -39,7 +39,9 @@ from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
 
-def generic_postproc(infile, outfile, copasi=True):
+def generic_postproc(infile,
+                     outfile,
+                     copasi=True):
     """
     Perform post processing file editing for the `pe` pipeline
 
@@ -57,7 +59,9 @@ def generic_postproc(infile, outfile, copasi=True):
     logger.debug(outfile)
 
 
-def pe_postproc(infile, outfile, copasi=True):
+def pe_postproc(infile,
+                outfile,
+                copasi=True):
     """
     Perform post processing file editing for the `pe` pipeline
 
@@ -74,7 +78,9 @@ def main(argv=None):
     parser.add_argument('-o', '--output-file')
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    pe_postproc(args.input_file, args.output_file, args.copasi)
+    pe_postproc(args.input_file,
+                args.output_file,
+                args.copasi)
     return 0
 
 

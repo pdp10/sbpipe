@@ -35,22 +35,26 @@ sys.path.insert(0, SBPIPE)
 from sbpipe.utils.parcomp import run_cmd
 
 
-def pe_analyse_data_best_fits(model, outputdir, fileout_final_estims, plots_dir,
-                     best_fits_percent, logspace=True, scientific_notation=True):
+def pe_analyse_data_best_fits(model,
+                              outputdir,
+                              fileout_final_estims,
+                              plots_dir,
+                              best_fits_percent,
+                              logspace=True,
+                              scientific_notation=True):
     """
     Plot parameter estimation results (Python wrapper).
 
-        :param model: the model name
-        :param outputdir: the directory to store the results
-        :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
-        :param plots_dir: the directory of the simulation plots
-        :param best_fits_percent: the percent to consider for the best fits
-        :param logspace: True if parameters should be plotted in log space
-        :param scientific_notation: True if axis labels should be plotted in scientific notation
-        :return: True if the task was completed successfully, False otherwise.
+    :param model: the model name
+    :param outputdir: the directory to store the results
+    :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
+    :param plots_dir: the directory of the simulation plots
+    :param best_fits_percent: the percent to consider for the best fits
+    :param logspace: True if parameters should be plotted in log space
+    :param scientific_notation: True if axis labels should be plotted in scientific notation
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_pe_best_fits(\"' + model + \
+    command = 'R -e \'library(sbpiper); sbpipe_pe_final_fits(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
               '\", \"' + plots_dir + \
               '\", \"' + str(best_fits_percent) + \
@@ -60,7 +64,7 @@ def pe_analyse_data_best_fits(model, outputdir, fileout_final_estims, plots_dir,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-
+    logger.debug(command)
     run_cmd(command)
 
 
@@ -76,8 +80,13 @@ def main(argv=None):
     parser.add_argument('--scientific-notation', action='store_true')
 
     args = parser.parse_args()
-    pe_analyse_data_best_fits(args.model, args.outputdir, args.finalfits_file,
-                              args.plots_dir, args.best_fits_percent, args.logspace, args.scientific_notation)
+    pe_analyse_data_best_fits(args.model,
+                              args.outputdir,
+                              args.finalfits_file,
+                              args.plots_dir,
+                              args.best_fits_percent,
+                              args.logspace,
+                              args.scientific_notation)
     return 0
 
 
