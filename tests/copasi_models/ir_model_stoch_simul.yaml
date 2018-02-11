@@ -6,7 +6,7 @@ analyse_data: True
 generate_report: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi or Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_stoch.cps"

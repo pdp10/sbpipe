@@ -250,7 +250,7 @@ class Sim(Pipeline):
         command = 'R -e \'library(sbpiper); sbpipe_sim(\"' + model + \
                   '\", \"' + inputdir + '\", \"' + sim_plots_dir + \
                   '\", \"' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
-                  '\", \"' + os.path.join(sim_data_by_var_dir, model + '.csv') + \
+                  '\", \"' + os.path.join(sim_data_by_var_dir, model + '_' + str_to_replace + '.csv') + \
                   '\", \"' + exp_dataset + \
                   '\", ' + str(plot_exp_dataset).upper() + \
                   ', \"' + str(exp_dataset_alpha)

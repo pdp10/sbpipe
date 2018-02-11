@@ -18,12 +18,8 @@
 
 """
 Author: Piero Dalle Pezze
-Affiliation: The Babraham Institute (Cambridge, UK)
-Aim: A Snakemake workflow to process double parameter scans of a mathematical model.
-Date: 31 Jan 2017
+Description: A Snakemake workflow to process double parameter scans of a mathematical model.
 Run: snakemake -s sbpipe_ps2.snake --configfile FILE
-Latest modification:
-    - first draft
 """
 
 
@@ -65,24 +61,10 @@ TIME_POINTS = range(0, config['sim_length'])
 # Report variables
 VARIABLES = config['report_variables']
 
-# Snakemake input / output files
-PREPROC_MODELS   = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT), rep=REPEATS)
-PREPROC_REPORTS  = expand(os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-POSTPROC_REPORTS = expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-PLOTS            = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
-LATEX_REPORT     = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".tex")
-PDF_REPORT       = os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + ".pdf")
-
-
 
 rule all:
     input:
-        models=PREPROC_MODELS,
-        reports1=PREPROC_REPORTS,
-        reports2=POSTPROC_REPORTS,
-        plots=PLOTS,
-        latex=LATEX_REPORT,
-        pdf=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
 
 
 rule sbpipe_preproc:
@@ -90,11 +72,11 @@ rule sbpipe_preproc:
         file=MODEL
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.preproc import preproc
-        preproc(input.file, output.file, COPASI)
+        preproc(input.file,
+                output.file,
+                COPASI)
 
 
 rule sbpipe_gen_data:
@@ -102,11 +84,10 @@ rule sbpipe_gen_data:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.generate_data import generate_data
-        generate_data(input.file, COPASI)
+        generate_data(input.file,
+                      COPASI)
 
 
 rule sbpipe_ps2_postproc:
@@ -117,14 +98,15 @@ rule sbpipe_ps2_postproc:
     params:
         sim_length=config["sim_length"],
         runs=config["runs"]
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.tasks.ps2_postproc import ps2_postproc
-        ps2_postproc(input.file, output.file, params.sim_length, COPASI)
+        ps2_postproc(input.file,
+                     output.file,
+                     params.sim_length,
+                     COPASI)
 
 
-rule sbpipe_ps2_analysis:
+rule sbpipe_ps2_analysis_plot:
     input:
         # Run each repeat report as separate input
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
@@ -139,19 +121,22 @@ rule sbpipe_ps2_analysis:
         postproc_dir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         repeat='{rep}'
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
-        from sbpipe.tasks.ps2_analyse_data import ps2_analyse_data
-        ps2_analyse_data(params.model_name, params.scanned_par1, params.scanned_par2, params.postproc_dir, params.plots_dir, params.repeat)
+        from sbpipe.tasks.ps2_analyse_plot import ps2_analyse_plot
+        ps2_analyse_plot(params.model_name,
+                         params.scanned_par1,
+                         params.scanned_par2,
+                         params.postproc_dir,
+                         params.plots_dir,
+                         params.repeat)
 
 
 
 rule sbpipe_ps2_latex_report:
     input:
-        file=PLOTS
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
     output:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         plots_folder=PLOTS_FOLDER,
@@ -159,25 +144,26 @@ rule sbpipe_ps2_latex_report:
         model_name=MODEL_NAME,
         scanned_par1=config["scanned_par1"],
         scanned_par2=config["scanned_par2"]
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import latex_report_ps2
-        latex_report_ps2(params.working_folder_dir, params.plots_folder, params.report_prefix, params.model_name,
-                     params.scanned_par1, params.scanned_par2)
+        latex_report_ps2(params.working_folder_dir,
+                         params.plots_folder,
+                         params.report_prefix,
+                         params.model_name,
+                         params.scanned_par1,
+                         params.scanned_par2)
 
 
 rule sbpipe_pdf_report:
     input:
-        file=LATEX_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     output:
-        file=PDF_REPORT
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
     params:
         working_folder_dir=WORKING_FOLDER,
         latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
-    log:
-        "log/" + MODEL_NAME + LOG_EXT
     run:
         from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir, params.latex_file)
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 

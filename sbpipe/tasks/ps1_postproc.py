@@ -67,7 +67,12 @@ def ps1_header_init(report, scanned_par):
     return header
 
 
-def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi=True):
+def generic_postproc(infile,
+                     outfile,
+                     scanned_par,
+                     simulate_intervals,
+                     single_param_scan_intervals,
+                     copasi=True):
     """
     Perform post processing organisation to single parameter scan report files.
 
@@ -160,7 +165,12 @@ def generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_pa
         shutil.move(outfile + "~", outfile)
 
 
-def ps1_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi=True):
+def ps1_postproc(infile,
+                 outfile,
+                 scanned_par,
+                 simulate_intervals,
+                 single_param_scan_intervals,
+                 copasi=True):
     """
     Perform post processing organisation to single parameter scan report files.
 
@@ -183,7 +193,12 @@ def main(argv=None):
     parser.add_argument('-p', '--ps1-intervals', default=1)
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
-    ps1_postproc(args.input_file, args.output_file, args.scanned_par, int(args.sim_intervals), int(args.ps1_intervals), args.copasi)
+    ps1_postproc(args.input_file,
+                 args.output_file,
+                 args.scanned_par,
+                 int(args.sim_intervals),
+                 int(args.ps1_intervals),
+                 args.copasi)
     return 0
 
 

@@ -31,7 +31,7 @@ import subprocess
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 
 
-class TestSimSnake(unittest.TestCase):
+class TestPeSnake(unittest.TestCase):
 
     _orig_wd = os.getcwd()
     _snakemake = os.path.join('snakemake')
