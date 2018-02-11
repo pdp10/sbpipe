@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.2.0 (Jupiter)
+v4.3.0 (Jupiter)
 
+- optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
 - bugfix - SGE and LSF job names now include a random string, avoiding potential interactions among multiple
 SBpipe executions. Whilst this does not affect the results, it was still a performance-related bug.
 - SBpipe R code is now an independent R package called sbpiper. This is imported by SBpipe as
