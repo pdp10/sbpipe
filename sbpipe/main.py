@@ -27,6 +27,7 @@ import argparse
 import logging
 import os
 import sys
+from sbpipe.utils.parcomp import run_cmd
 
 try:  # Python 2.7+
     from logging import NullHandler, StreamHandler
@@ -123,7 +124,7 @@ def set_color_logger(level='INFO'):
     handler.setLevel(level)
     logger.addHandler(handler)
     logger.setLevel('DEBUG')
-    logger.debug('Set color logger')
+    logger.debug('Setting color logger')
 
 
 def set_console_logger(new_level='NOTSET', current_level='INFO', nocolor=False):
@@ -205,10 +206,13 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     logger = logging.getLogger('sbpipe')
 
     # add platform information
-    logger.debug('SBpipe ' + read_file_header('VERSION'))
-    logger.debug(platform.platform())
+    #logger.debug(platform.machine())
     logger.debug(platform.version())
-    logger.debug(platform.machine())
+    logger.debug(platform.platform())
+    logger.debug('Python ' + platform.python_version())
+    # retrieve the first line from the command output message
+    logger.debug(run_cmd('R --version')[0].decode('utf-8').splitlines()[0])
+    logger.debug('SBpipe ' + read_file_header('VERSION'))
 
     if license:
         print(read_file_header('LICENSE'))

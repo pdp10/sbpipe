@@ -24,6 +24,7 @@
 
 import logging
 import os
+import sys
 import re
 import shutil
 from sbpipe.sbpipe_config import which
@@ -31,6 +32,11 @@ from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.io import replace_str_in_file
 from sbpipe.utils.io import remove_file_silently
 from ..simul import Simul
+
+try:  # Python 2.7+
+    from sbpipe.simul.copasi.check import check_model_file
+except ImportError:
+    pass
 
 logger = logging.getLogger('sbpipe')
 
@@ -51,8 +57,27 @@ class Copasi(Simul):
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 
+    def model_checking(self, model_filename, task_name=""):
+        """
+        Check whether the Copasi model can be loaded and executed correctly.
+
+        :param model_filename: the COPASI filename
+        :param task_name: the task to check
+        :return: boolean indicating whether the model could be loaded and executed successfully
+        """
+
+        if 'COPASI' in sys.modules:
+            logger.info('COPASI model checking ...')
+            return check_model_file(model_filename, task_name)
+        else:
+            logger.warning('Python bindings for COPASI not found. Skipping COPASI model checking.')
+            return True
+
     def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.sim.__doc__
+
+        # check Copasi file
+        self.model_checking(os.path.join(inputdir, model), 'Time-Course')
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
@@ -66,6 +91,9 @@ class Copasi(Simul):
             single_param_scan_intervals, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.ps1.__doc__
 
+        # check Copasi file
+        self.model_checking(os.path.join(inputdir, model), 'Scan')
+
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
         # removed repeated copasi files
@@ -78,6 +106,9 @@ class Copasi(Simul):
     def ps2(self, model, sim_length, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.ps2.__doc__
 
+        # check Copasi file
+        self.model_checking(os.path.join(inputdir, model), 'Scan')
+
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
         # removed repeated copasi files
@@ -89,6 +120,9 @@ class Copasi(Simul):
 
     def pe(self, model, inputdir, cluster, local_cpus, runs, outputdir, sim_data_dir, output_msg=False):
         __doc__ = Simul.pe.__doc__
+
+        # check Copasi file
+        self.model_checking(os.path.join(inputdir, model), 'Parameter Estimation')
 
         if not self._run_par_comput(inputdir, model, sim_data_dir, cluster, local_cpus, runs, output_msg):
             return False

@@ -185,7 +185,6 @@ The .bashrc file should be reloaded to apply the previous edits:
 $ source $HOME/.bashrc
 ```
 
-
 **NOTE:**
 If R package dependencies must be compiled, it is worth checking that the following
 additional packages are installed in your machine: `build-essential`,
@@ -194,6 +193,13 @@ additional packages are installed in your machine: `build-essential`,
 Other packages might be needed, depending on R dependencies.
 After installing these packages, `install_rdeps.r` must be executed again.
 
+
+
+#### Python bindings code for COPASI models (optional)
+If Python bindings for COPASI are installed, SBpipe automatically checks whether the COPASI model can be loaded
+and executed, before generating the data. As of January 2018, this code is released for Python 2.7 on the COPASI
+website and Anaconda Cloud. They will likely be installed automatically with SBpipe once the support for Python 3.6
+is added.
 
 
 ### How to install SBpipe on Windows

@@ -60,6 +60,38 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-sbpipe.simul.copasi.check">
+<span id="sbpipe-simul-copasi-check-module"></span><h2>sbpipe.simul.copasi.check module<a class="headerlink" href="#module-sbpipe.simul.copasi.check" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.simul.copasi.check.check_model_file">
+<code class="descclassname">sbpipe.simul.copasi.check.</code><code class="descname">check_model_file</code><span class="sig-paren">(</span><em>model_filename</em>, <em>task_name=''</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.check.check_model_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the model into COPASI and checks whether the given task can be executed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model_filename</strong> – the filename to a COPASI file</li>
+<li><strong>task_name</strong> – the task to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a boolean indicating whether the model could be loaded successfully</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.simul.copasi.check.severity2string">
+<code class="descclassname">sbpipe.simul.copasi.check.</code><code class="descname">severity2string</code><span class="sig-paren">(</span><em>severity</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.check.severity2string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representing the severity of the error message
+:param severity: an integer representing severity
+:return: a string of the error message</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-sbpipe.simul.copasi.copasi">
 <span id="sbpipe-simul-copasi-copasi-module"></span><h2>sbpipe.simul.copasi.copasi module<a class="headerlink" href="#module-sbpipe.simul.copasi.copasi" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -67,6 +99,27 @@
 <em class="property">class </em><code class="descclassname">sbpipe.simul.copasi.copasi.</code><code class="descname">Copasi</code><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="sbpipe.simul.html#sbpipe.simul.simul.Simul" title="sbpipe.simul.simul.Simul"><code class="xref py py-class docutils literal"><span class="pre">sbpipe.simul.simul.Simul</span></code></a></p>
 <p>Copasi simulator.</p>
+<dl class="method">
+<dt id="sbpipe.simul.copasi.copasi.Copasi.model_checking">
+<code class="descname">model_checking</code><span class="sig-paren">(</span><em>model_filename</em>, <em>task_name=''</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.model_checking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the Copasi model can be loaded and executed correctly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model_filename</strong> – the COPASI filename</li>
+<li><strong>task_name</strong> – the task to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">boolean indicating whether the model could be loaded and executed successfully</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="sbpipe.simul.copasi.copasi.Copasi.pe">
 <code class="descname">pe</code><span class="sig-paren">(</span><em>model</em>, <em>inputdir</em>, <em>cluster</em>, <em>local_cpus</em>, <em>runs</em>, <em>outputdir</em>, <em>sim_data_dir</em>, <em>output_msg=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.simul.copasi.copasi.Copasi.pe" title="Permalink to this definition">¶</a></dt>
@@ -105,6 +158,7 @@
   <ul>
 <li><a class="reference internal" href="#">sbpipe.simul.copasi package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-sbpipe.simul.copasi.check">sbpipe.simul.copasi.check module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi.copasi">sbpipe.simul.copasi.copasi module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.simul.copasi">Module contents</a></li>
 </ul>
