@@ -108,7 +108,7 @@ printf "release a new SBpipe package for anaconda cloud\n"
 # we upload this new package automatically
 conda config --set anaconda_upload yes
 # build and upload the package
-conda build conda_recipe/meta.yaml -c conda-forge
+conda-build conda_recipe/meta.yaml -c pdp10 -c defaults -c conda-forge
 
 ## To test this package locally:
 ## install
