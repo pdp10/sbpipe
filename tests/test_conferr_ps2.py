@@ -48,7 +48,7 @@ class TestCopasiPS2(unittest.TestCase):
 
     def test_ps2_inhib_only1(self):
         self.assertEqual(
-            sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib1.yaml", quiet=True), 1)
+            sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib1.yaml", quiet=True), 0)
 
     def test_ps2_inhib_only2(self):
         self.assertEqual(
