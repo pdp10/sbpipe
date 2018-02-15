@@ -82,7 +82,7 @@ class Copasi(Simul):
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
         # removed repeated copasi files
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*.cps', f)]
         for report in repeated_copasi_files:
             remove_file_silently(os.path.join(inputdir, report))
         return True
@@ -97,7 +97,7 @@ class Copasi(Simul):
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
         # removed repeated copasi files
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*.cps', f)]
         for report in repeated_copasi_files:
             remove_file_silently(os.path.join(inputdir, report))
         self.ps1_postproc(model, scanned_par, simulate_intervals, single_param_scan_intervals, outputdir)
@@ -112,7 +112,7 @@ class Copasi(Simul):
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
         # removed repeated copasi files
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*.cps', f)]
         for report in repeated_copasi_files:
             remove_file_silently(os.path.join(inputdir, report))
         self.ps2_postproc(model, sim_length, outputdir)
@@ -127,7 +127,7 @@ class Copasi(Simul):
         if not self._run_par_comput(inputdir, model, sim_data_dir, cluster, local_cpus, runs, output_msg):
             return False
         # move_models
-        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*\.cps', f)]
+        repeated_copasi_files = [f for f in os.listdir(inputdir) if re.match(self._get_model_group(model) + '[0-9]+.*.cps', f)]
         for file in repeated_copasi_files:
             remove_file_silently(os.path.join(inputdir, file))
         return True
@@ -237,7 +237,7 @@ class Copasi(Simul):
                         if split_line.find('(') != -1:
                             # extract the string which is between '\t(\t' and  '\t)\t'
                             # cols contains the parameter values for the first function evaluation
-                            cols = re.search('\(\t(.*)\t\)', split_line).group(1)
+                            cols = re.search('(\t(.*)\t)', split_line).group(1)
                             col_num = len(cols.split("\t"))
                     break
 
