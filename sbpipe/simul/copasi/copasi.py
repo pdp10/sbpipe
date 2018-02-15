@@ -24,6 +24,7 @@
 
 import logging
 import os
+import sys
 import re
 import shutil
 from sbpipe.sbpipe_config import which
@@ -31,6 +32,8 @@ from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.io import replace_str_in_file
 from sbpipe.utils.io import remove_file_silently
 from ..simul import Simul
+if 'COPASI' in sys.modules:
+    from sbpipe.simul.copasi.check import check_model_file, can_task_be_executed
 
 logger = logging.getLogger('sbpipe')
 
@@ -51,8 +54,29 @@ class Copasi(Simul):
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 
+    def model_checking(self, model_filename, task_name):
+        """
+        Check whether the Copasi model can be loaded and the task to execute was selected.
+
+        :param model_filename: the COPASI filename
+        :param task_name: the task to check
+        :return: boolean indicating whether the model could be loaded successfully
+        """
+        if 'COPASI' in sys.modules:
+            logger.info("Checking Copasi model consistency ...")
+            #
+            #
+            model_consistency = check_model_file(model_filename)
+            task_selection = can_task_be_executed(model_filename, task_name)
+            return model_consistency & task_selection
+        else:
+            logger.warning("Copasi Python bindings not found. Install them if model consistency should be checked.")
+            return True
+
     def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         __doc__ = Simul.sim.__doc__
+
+        self.model_checking(os.path.join(inputdir, model), "Time Courses")
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
