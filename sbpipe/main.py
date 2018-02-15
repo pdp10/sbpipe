@@ -211,7 +211,7 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     logger.debug(platform.platform())
     logger.debug('Python ' + platform.python_version())
     # retrieve the first line from the command output message
-    logger.debug(run_cmd('R --version')[0].splitlines()[0])
+    logger.debug(run_cmd('R --version')[0].decode('utf-8').splitlines()[0])
     logger.debug('SBpipe ' + read_file_header('VERSION'))
 
     if license:
