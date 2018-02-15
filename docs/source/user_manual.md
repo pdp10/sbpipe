@@ -103,7 +103,7 @@ $ conda create -n sbpipe
 $ source activate sbpipe
 
 # install sbpipe and sbpiper (necessary R dependencies)
-$ conda install sbpiper -c pdp10 -c r -c defaults -c conda-forge
+$ conda install sbpiper -c pdp10 -c r -c defaults
 $ conda install sbpipe -c pdp10 -c defaults -c conda-forge
 
 # install snakemake (optional)
@@ -126,7 +126,6 @@ $ source activate sbpipe
 
 # install snakemake and colorlog (optional)
 $ conda install -c bioconda snakemake
-$ conda install -c conda-forge colorlog
 ```
 
 To run sbpipe from any shell, users need to add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
@@ -613,20 +612,17 @@ sbpipe/tests/insulin_receptor/
 ```
 
 
-### How to run SBpipe with Snakemake (in progress)
+### How to run SBpipe with Snakemake
 SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
 for running software pipelines using declarative rules.
 
 Snakemake can be installed manually via package manager or using the conda command:
 ```
-# As of April 2017, Snakemake requires python 3.5 to run
-$ conda install -c conda-forge python=3.5
-
-# Install snakemake
+# Install snakemake (note: it requires python 3+ to run)
 $ conda install -c bioconda snakemake
 ```
 
-The SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
+SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
 as snakemake files (which contain the set of rules for each pipeline). These are:
 
 - sbpipe_pe.snake

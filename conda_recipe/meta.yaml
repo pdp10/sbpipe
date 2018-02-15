@@ -54,6 +54,7 @@ requirements:
     - numpy
     - scipy
     - pandas
+    - colorlog
 
 test:
   requires:
