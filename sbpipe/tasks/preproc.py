@@ -27,6 +27,7 @@ import os
 import sys
 import shutil
 import argparse
+import traceback
 import logging
 logger = logging.getLogger('sbpipe')
 
@@ -35,6 +36,7 @@ SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.io import replace_str_in_file
+from sbpipe.pl import pipeline
 
 
 def generic_preproc(infile, outfile):
@@ -54,6 +56,16 @@ def copasi_preproc(infile, outfile):
     :param infile: the input file
     :param outfile: the output file
     """
+    try:
+        copasi = pipeline.Pipeline.get_simul_obj('Copasi')
+    except TypeError as e:
+        logger.error("simulator: copasi not found.")
+        logger.debug(traceback.format_exc())
+        return
+
+    if not copasi.model_checking(os.path.join(infile), "Time-Course"):
+        return
+
     generic_preproc(infile, outfile)
     replace_str_in_file(outfile,
                         os.path.splitext(os.path.basename(infile))[0] + ".csv",
