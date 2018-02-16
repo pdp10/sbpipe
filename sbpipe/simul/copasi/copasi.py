@@ -34,7 +34,7 @@ from sbpipe.utils.io import remove_file_silently
 from ..simul import Simul
 
 try:  # Python 2.7+
-    from sbpipe.simul.copasi.check import copasi_model_checking
+    from sbpipe.simul.copasi.model_checking import copasi_model_checking
 except ImportError:
     pass
 
