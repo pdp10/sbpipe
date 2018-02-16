@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated with COPASI 4.22 (Build 170) (http://www.copasi.org) at 2018-02-08 09:50:10 UTC -->
+<!-- generated with COPASI 4.22.170 (Source) (http://www.copasi.org) at 2018-02-16 15:06:41 UTC -->
 <?oxygen RNGSchema="http://www.copasi.org/static/schema/CopasiML.rng" type="xml"?>
 <COPASI xmlns="http://www.copasi.org/static/schema" versionMajor="4" versionMinor="22" versionDevel="170" copasiSourcesModified="0">
   <ListOfFunctions>
@@ -30,9 +30,7 @@ Reaction scheme where the products are created from the reactants and the change
   </ListOfFunctions>
   <Model key="Model_1" name="Insulin Receptor" simulationType="time" timeUnit="min" volumeUnit="1" areaUnit="m²" lengthUnit="m" quantityUnit="1" type="stochastic" avogadroConstant="6.0221417899999999e+23">
     <MiriamAnnotation>
-<rdf:RDF
-   xmlns:dcterms="http://purl.org/dc/terms/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about="#Model_1">
     <dcterms:created>
       <rdf:Description>
@@ -41,7 +39,6 @@ Reaction scheme where the products are created from the reactants and the change
     </dcterms:created>
   </rdf:Description>
 </rdf:RDF>
-
     </MiriamAnnotation>
     <ListOfCompartments>
       <Compartment key="Compartment_0" name="Cell" simulationType="fixed" dimensionality="3">
@@ -163,7 +160,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_1" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4938" name="k1" value="0.475519"/>
+          <Constant key="Parameter_4937" name="k1" value="0.475519"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -196,7 +193,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_2" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4937" name="k1" value="0.471947"/>
+          <Constant key="Parameter_4936" name="k1" value="0.471947"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -228,7 +225,7 @@ Reaction scheme where the products are created from the reactants and the change
           <Product metabolite="Metabolite_0" stoichiometry="1"/>
         </ListOfProducts>
         <ListOfConstants>
-          <Constant key="Parameter_4936" name="k1" value="0.0578119"/>
+          <Constant key="Parameter_4935" name="k1" value="0.0578119"/>
         </ListOfConstants>
         <KineticLaw function="Function_13" unitType="Default" scalingCompartment="CN=Root,Model=Insulin Receptor,Vector=Compartments[Cell]">
           <ListOfCallParameters>
@@ -321,7 +318,7 @@ Reaction scheme where the products are created from the reactants and the change
       </Method>
     </Task>
     <Task key="Task_15" name="Time-Course" type="timeCourse" scheduled="true" updateModel="false">
-      <Report reference="Report_18" target="insulin_receptor_stoch.csv" append="1" confirmOverwrite="1"/>
+      <Report reference="Report_18" target="insulin_receptor_stoch.csv" append="0" confirmOverwrite="0"/>
       <Problem>
         <Parameter name="AutomaticStepSize" type="bool" value="0"/>
         <Parameter name="StepNumber" type="unsignedInteger" value="50"/>
@@ -698,8 +695,6 @@ Reaction scheme where the products are created from the reactants and the change
       </ListOfPlotItems>
     </PlotSpecification>
   </ListOfPlots>
-  <GUI>
-  </GUI>
   <ListOfUnitDefinitions>
     <UnitDefinition key="Unit_0" name="meter" symbol="m">
       <Expression>

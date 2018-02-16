@@ -34,7 +34,7 @@ from sbpipe.utils.io import remove_file_silently
 from ..simul import Simul
 
 try:  # Python 2.7+
-    from sbpipe.simul.copasi.check import check_model_file
+    from sbpipe.simul.copasi.check import copasi_model_checking
 except ImportError:
     pass
 
@@ -68,7 +68,7 @@ class Copasi(Simul):
 
         if 'COPASI' in sys.modules:
             logger.info('COPASI model checking ...')
-            return check_model_file(model_filename, task_name)
+            return copasi_model_checking(model_filename, task_name)
         else:
             logger.warning('Python bindings for COPASI not found. Skipping COPASI model checking.')
             return True
@@ -77,7 +77,8 @@ class Copasi(Simul):
         __doc__ = Simul.sim.__doc__
 
         # check Copasi file
-        self.model_checking(os.path.join(inputdir, model), 'Time-Course')
+        if not self.model_checking(os.path.join(inputdir, model), 'Time-Course'):
+            return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
@@ -92,7 +93,8 @@ class Copasi(Simul):
         __doc__ = Simul.ps1.__doc__
 
         # check Copasi file
-        self.model_checking(os.path.join(inputdir, model), 'Scan')
+        if not self.model_checking(os.path.join(inputdir, model), 'Scan'):
+            return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
@@ -107,7 +109,8 @@ class Copasi(Simul):
         __doc__ = Simul.ps2.__doc__
 
         # check Copasi file
-        self.model_checking(os.path.join(inputdir, model), 'Scan')
+        if not self.model_checking(os.path.join(inputdir, model), 'Scan'):
+            return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
             return False
@@ -122,7 +125,8 @@ class Copasi(Simul):
         __doc__ = Simul.pe.__doc__
 
         # check Copasi file
-        self.model_checking(os.path.join(inputdir, model), 'Parameter Estimation')
+        if not self.model_checking(os.path.join(inputdir, model), 'Parameter Estimation'):
+            return False
 
         if not self._run_par_comput(inputdir, model, sim_data_dir, cluster, local_cpus, runs, output_msg):
             return False
