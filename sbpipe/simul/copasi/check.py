@@ -123,4 +123,8 @@ def check_model_file(model_filename, task_name=""):
 
         logger.info('COPASI task `{0}` can be executed'.format(task_name))
 
+    # CHECK WHETHER THE REPORT IS SET CORRECTLY AND
+    # THE REPORT NAME IS THE SAME AS THE MODEL FILE NAME (apart from the extension)
+    # TODO
+
     return True

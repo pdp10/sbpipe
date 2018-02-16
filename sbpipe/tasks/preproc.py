@@ -49,12 +49,13 @@ def generic_preproc(infile, outfile):
     shutil.copyfile(infile, outfile)
 
 
-def copasi_preproc(infile, outfile):
+def copasi_preproc(infile, outfile, task_name):
     """
     Replicate a copasi model and adds an id.
 
     :param infile: the input file
     :param outfile: the output file
+    :param task_name: the name of the task (Copasi models)
     """
     try:
         copasi = pipeline.Pipeline.get_simul_obj('Copasi')
@@ -63,7 +64,7 @@ def copasi_preproc(infile, outfile):
         logger.debug(traceback.format_exc())
         return
 
-    if not copasi.model_checking(os.path.join(infile), "Time-Course"):
+    if not copasi.model_checking(os.path.join(infile), task_name):
         return
 
     generic_preproc(infile, outfile)
@@ -81,30 +82,33 @@ def copasi_preproc(infile, outfile):
                         os.path.splitext(os.path.basename(outfile))[0] + ".csv")
 
 
-def preproc(infile, outfile, copasi=False):
+def preproc(infile, outfile, task_name, copasi=False):
     """
     Replicate a copasi model and adds an id.
 
     :param infile: the input file
     :param outfile: the output file
+    :param task_name: the name of the task (Copasi models)
     :param copasi: True if the model is a Copasi model
     """
     if copasi:
-        copasi_preproc(infile, outfile)
+        copasi_preproc(infile, outfile, task_name)
     else:
         generic_preproc(infile, outfile)
 
 
-# python preproc.py -i Models/insulin_receptor.cps -o preproc/insulin_receptor_1.cps -c
+# python preproc.py -i Models/insulin_receptor.cps -o preproc/insulin_receptor_1.cps Time-Course -c
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-file')
     parser.add_argument('-o', '--output-file')
+    parser.add_argument('-t', '--task-name')
     parser.add_argument('-c', '--copasi', action="store_true")
     args = parser.parse_args()
     preproc(args.input_file,
             args.output_file,
+            args.task_name,
             args.copasi)
     return 0
 

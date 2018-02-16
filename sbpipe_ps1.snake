@@ -78,6 +78,7 @@ rule sbpipe_preproc:
         from sbpipe.tasks.preproc import preproc
         preproc(input.file,
                 output.file,
+                'Scan',
                 COPASI)
 
 
