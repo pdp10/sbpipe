@@ -6,7 +6,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.4.0 (Jupiter)
+v4.4.0 (Beyond the Kuiper Belt)
 
 - added checks whether a COPASI model can be loaded and executed correctly. This is based on Python bindings for COPASI.
 - optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
@@ -15,7 +15,7 @@ SBpipe executions. Whilst this does not affect the results, it was still a perfo
 - SBpipe R code is now an independent R package called sbpiper. This is imported by SBpipe as
 an external dependency. Users can invoke SBpipe functions for data analysis directly from their R code.
 
-v3.32.0 (Mars)
+v4.0.0 (Mars)
 
 - added option `exp_dataset_alpha` to `sim` pipeline. This option allows to plot experimental
 data with an alpha level.
