@@ -18,10 +18,9 @@
 
 """
 Author: Piero Dalle Pezze
-Description: A Snakemake workflow to process parameter estimation of a mathematical model.
+Description: A Snakemake workflow to process parameter estimations for a mathematical model.
 Run: snakemake -s sbpipe_pe.snake --configfile FILE
 """
-
 
 
 import sys
@@ -47,8 +46,8 @@ POSTPROC_FOLDER = "pe_postproc"
 PLOTS_FOLDER    = "pe_plots"
 
 # Files
-FILE_FINAL_ESTIM              = "final_estim_collection"
-FILE_ALL_ESTIM                = "all_estim_collection"
+FILE_FINAL_ESTIM         = "final_estim_collection"
+FILE_ALL_ESTIM           = "all_estim_collection"
 FILE_PARAM_ESTIM_DETAILS = "param_estim_details"
 FILE_PARAM_ESTIM_SUMMARY = "param_estim_summary"
 
@@ -333,32 +332,33 @@ rule sbpipe_parameter_density_analysis_cl99_fits_estim:
                                       params.scientific_notation)
 
 
-rule sbpipe_parameter_density_analysis_all_fits_estim:
-    input:
-        file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
-    output:
-        all_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_all_fits_{var}" + PNG_EXT)
-    params:
-        model = MODEL_NAME,
-        parameter = "{var}",
-        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        thres="All",
-        best_fits_percent = config['best_fits_percent'],
-        logspace = config['logspace'],
-        scientific_notation = config['scientific_notation']
-    run:
-        from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
-        pe_parameter_density_analysis(params.model,
-                                      input.file_all_fits,
-                                      params.parameter,
-                                      input.file_param_estim_summary,
-                                      params.plots_dir,
-                                      params.thres,
-                                      params.best_fits_percent,
-                                      params.logspace,
-                                      params.scientific_notation)
+if config['plot_2d_all_corr']:
+    rule sbpipe_parameter_density_analysis_all_fits_estim:
+        input:
+            file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
+        WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+            file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        output:
+            all_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_all_fits_{var}" + PNG_EXT)
+        params:
+            model = MODEL_NAME,
+            parameter = "{var}",
+            plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+            thres="All",
+            best_fits_percent = config['best_fits_percent'],
+            logspace = config['logspace'],
+            scientific_notation = config['scientific_notation']
+        run:
+            from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+            pe_parameter_density_analysis(params.model,
+                                          input.file_all_fits,
+                                          params.parameter,
+                                          input.file_param_estim_summary,
+                                          params.plots_dir,
+                                          params.thres,
+                                          params.best_fits_percent,
+                                          params.logspace,
+                                          params.scientific_notation)
 
 
 rule sbpipe_sampled_2d_ple_analysis_final_estim:
@@ -391,124 +391,128 @@ rule sbpipe_sampled_2d_ple_analysis_final_estim:
                                    params.scientific_notation)
 
 
-rule sbpipe_sampled_2d_ple_analysis_cl66_fits__estim:
-    input:
-        file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
-    output:
-        ple2d_cl66_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl66_fits_{var1_var2}" + PNG_EXT)
-    params:
-        model = MODEL_NAME,
-        parameters = "{var1_var2}",
-        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        thres="CL66",
-        best_fits_percent = config['best_fits_percent'],
-        logspace = config['logspace'],
-        scientific_notation = config['scientific_notation']
-    run:
-        from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
-        parameter1, parameter2 = params.parameters.split('_')
-        pe_sampled_2d_ple_analysis(params.model,
-                                   input.file_all_fits,
-                                   parameter1,
-                                   parameter2,
-                                   input.file_param_estim_summary,
-                                   params.plots_dir,
-                                   params.thres,
-                                   params.best_fits_percent,
-                                   params.logspace,
-                                   params.scientific_notation)
+if config['plot_2d_66cl_corr']:
+    rule sbpipe_sampled_2d_ple_analysis_cl66_fits__estim:
+        input:
+            file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
+        WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+            file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        output:
+            ple2d_cl66_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl66_fits_{var1_var2}" + PNG_EXT)
+        params:
+            model = MODEL_NAME,
+            parameters = "{var1_var2}",
+            plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+            thres="CL66",
+            best_fits_percent = config['best_fits_percent'],
+            logspace = config['logspace'],
+            scientific_notation = config['scientific_notation']
+        run:
+            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            parameter1, parameter2 = params.parameters.split('_')
+            pe_sampled_2d_ple_analysis(params.model,
+                                       input.file_all_fits,
+                                       parameter1,
+                                       parameter2,
+                                       input.file_param_estim_summary,
+                                       params.plots_dir,
+                                       params.thres,
+                                       params.best_fits_percent,
+                                       params.logspace,
+                                       params.scientific_notation)
 
 
-rule sbpipe_sampled_2d_ple_analysis_cl95_fits__estim:
-    input:
-        file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
-    output:
-        ple2d_cl95_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl95_fits_{var1_var2}" + PNG_EXT)
-    params:
-        model = MODEL_NAME,
-        parameters = "{var1_var2}",
-        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        thres="CL95",
-        best_fits_percent = config['best_fits_percent'],
-        logspace = config['logspace'],
-        scientific_notation = config['scientific_notation']
-    run:
-        from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
-        parameter1, parameter2 = params.parameters.split('_')
-        pe_sampled_2d_ple_analysis(params.model,
-                                   input.file_all_fits,
-                                   parameter1,
-                                   parameter2,
-                                   input.file_param_estim_summary,
-                                   params.plots_dir,
-                                   params.thres,
-                                   params.best_fits_percent,
-                                   params.logspace,
-                                   params.scientific_notation)
+if config['plot_2d_95cl_corr']:
+    rule sbpipe_sampled_2d_ple_analysis_cl95_fits__estim:
+        input:
+            file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
+        WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+            file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        output:
+            ple2d_cl95_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl95_fits_{var1_var2}" + PNG_EXT)
+        params:
+            model = MODEL_NAME,
+            parameters = "{var1_var2}",
+            plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+            thres="CL95",
+            best_fits_percent = config['best_fits_percent'],
+            logspace = config['logspace'],
+            scientific_notation = config['scientific_notation']
+        run:
+            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            parameter1, parameter2 = params.parameters.split('_')
+            pe_sampled_2d_ple_analysis(params.model,
+                                       input.file_all_fits,
+                                       parameter1,
+                                       parameter2,
+                                       input.file_param_estim_summary,
+                                       params.plots_dir,
+                                       params.thres,
+                                       params.best_fits_percent,
+                                       params.logspace,
+                                       params.scientific_notation)
 
 
-rule sbpipe_sampled_2d_ple_analysis_cl99_fits__estim:
-    input:
-        file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
-    output:
-        ple2d_cl99_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl99_fits_{var1_var2}" + PNG_EXT)
-    params:
-        model = MODEL_NAME,
-        parameters = "{var1_var2}",
-        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        thres="CL99",
-        best_fits_percent = config['best_fits_percent'],
-        logspace = config['logspace'],
-        scientific_notation = config['scientific_notation']
-    run:
-        from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
-        parameter1, parameter2 = params.parameters.split('_')
-        pe_sampled_2d_ple_analysis(params.model,
-                                   input.file_all_fits,
-                                   parameter1,
-                                   parameter2,
-                                   input.file_param_estim_summary,
-                                   params.plots_dir,
-                                   params.thres,
-                                   params.best_fits_percent,
-                                   params.logspace,
-                                   params.scientific_notation)
+if config['plot_2d_99cl_corr']:
+    rule sbpipe_sampled_2d_ple_analysis_cl99_fits__estim:
+        input:
+            file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
+        WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+            file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        output:
+            ple2d_cl99_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl99_fits_{var1_var2}" + PNG_EXT)
+        params:
+            model = MODEL_NAME,
+            parameters = "{var1_var2}",
+            plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+            thres="CL99",
+            best_fits_percent = config['best_fits_percent'],
+            logspace = config['logspace'],
+            scientific_notation = config['scientific_notation']
+        run:
+            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            parameter1, parameter2 = params.parameters.split('_')
+            pe_sampled_2d_ple_analysis(params.model,
+                                       input.file_all_fits,
+                                       parameter1,
+                                       parameter2,
+                                       input.file_param_estim_summary,
+                                       params.plots_dir,
+                                       params.thres,
+                                       params.best_fits_percent,
+                                       params.logspace,
+                                       params.scientific_notation)
 
 
-rule sbpipe_sampled_2d_ple_analysis_all_fits__estim:
-    input:
-        file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
-    output:
-        ple2d_all_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_all_fits_{var1_var2}" + PNG_EXT)
-    params:
-        model = MODEL_NAME,
-        parameters = "{var1_var2}",
-        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
-        thres="All",
-        best_fits_percent = config['best_fits_percent'],
-        logspace = config['logspace'],
-        scientific_notation = config['scientific_notation']
-    run:
-        from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
-        parameter1, parameter2 = params.parameters.split('_')
-        pe_sampled_2d_ple_analysis(params.model,
-                                   input.file_all_fits,
-                                   parameter1,
-                                   parameter2,
-                                   input.file_param_estim_summary,
-                                   params.plots_dir,
-                                   params.thres,
-                                   params.best_fits_percent,
-                                   params.logspace,
-                                   params.scientific_notation)
+if config['plot_2d_all_corr']:
+    rule sbpipe_sampled_2d_ple_analysis_all_fits__estim:
+        input:
+            file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
+        WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+            file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        output:
+            ple2d_all_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_all_fits_{var1_var2}" + PNG_EXT)
+        params:
+            model = MODEL_NAME,
+            parameters = "{var1_var2}",
+            plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+            thres="All",
+            best_fits_percent = config['best_fits_percent'],
+            logspace = config['logspace'],
+            scientific_notation = config['scientific_notation']
+        run:
+            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            parameter1, parameter2 = params.parameters.split('_')
+            pe_sampled_2d_ple_analysis(params.model,
+                                       input.file_all_fits,
+                                       parameter1,
+                                       parameter2,
+                                       input.file_param_estim_summary,
+                                       params.plots_dir,
+                                       params.thres,
+                                       params.best_fits_percent,
+                                       params.logspace,
+                                       params.scientific_notation)
 
 
 rule sbpipe_objval_vs_iters_analysis:
@@ -527,23 +531,16 @@ rule sbpipe_objval_vs_iters_analysis:
                                     params.plots_dir)
 
 
-
-# Plot types
-#if config['plot_2d_66cl_corr']:
-#if config['plot_2d_95cl_corr']:
-#if config['plot_2d_99cl_corr']:
-
-
 rule sbpipe_pe_latex_report:
     input:
-#        file_best_fits_log10 = os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config[
-#            'logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT),
-#        file_all_fits_log10 = os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config[
-#            'logspace'] else os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
-#        file_param_estim_summary = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
+        file_best_fits_log10 = os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config[
+            'logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT),
+        file_all_fits_log10 = os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config[
+            'logspace'] else os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
+        file_param_estim_summary = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
+        file_param_estim_details = os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_DETAILS + CSV_EXT),
         approx_ple_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_approx_ple_{var}" + PNG_EXT),
                                  var=VARIABLES),
-#        file_param_estim_details = os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_DETAILS + CSV_EXT),
         best_fits_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + PNG_EXT),
                                 var=VARIABLES),
         cl66_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_cl66_fits_{var}" + PNG_EXT),
@@ -552,22 +549,22 @@ rule sbpipe_pe_latex_report:
                            var=VARIABLES),
         cl99_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_cl99_fits_{var}" + PNG_EXT),
                            var=VARIABLES),
-        all_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_all_fits_{var}" + PNG_EXT), var=VARIABLES),
+        all_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_all_fits_{var}" + PNG_EXT), var=VARIABLES) if config['plot_2d_all_corr'] else os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         ple2d_best_fits_plot = expand(
             os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_best_fits_{var1_var2}" + PNG_EXT),
             var1_var2=VARIABLES_2D),
         ple2d_cl66_fits_plot = expand(
             os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl66_fits_{var1_var2}" + PNG_EXT),
-            var1_var2=VARIABLES_2D),
+            var1_var2=VARIABLES_2D) if config['plot_2d_66cl_corr'] else os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         ple2d_cl95_fits_plot = expand(
             os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl95_fits_{var1_var2}" + PNG_EXT),
-            var1_var2=VARIABLES_2D),
+            var1_var2=VARIABLES_2D) if config['plot_2d_95cl_corr'] else os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         ple2d_cl99_fits_plot = expand(
             os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_cl99_fits_{var1_var2}" + PNG_EXT),
-            var1_var2=VARIABLES_2D),
+            var1_var2=VARIABLES_2D) if config['plot_2d_99cl_corr'] else os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         ple2d_all_fits_plot = expand(
             os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_all_fits_{var1_var2}" + PNG_EXT),
-            var1_var2=VARIABLES_2D),
+            var1_var2=VARIABLES_2D) if config['plot_2d_all_corr'] else os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         objval_vs_iters_plot = os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_objval_vs_iter" + PNG_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
