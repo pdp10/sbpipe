@@ -30,21 +30,23 @@ sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.parcomp import run_cmd
 
-def pe_parameter_density_analysis(model_name,
-                                  filename,
-                                  parameter,
-                                  fileout_param_estim_summary,
-                                  plots_dir,
-                                  thres="BestFits",
-                                  best_fits_percent=100,
-                                  logspace=True,
-                                  scientific_notation=True):
+def pe_sampled_2d_ple_analysis(model_name,
+                               filename,
+                               parameter1,
+                               parameter2,
+                               fileout_param_estim_summary,
+                               plots_dir,
+                               thres="BestFits",
+                               best_fits_percent=100,
+                               logspace=True,
+                               scientific_notation=True):
     """
-    Parameter density analysis.
+    2D profile likelihood estimation analysis.
 
     :param model_name: the model name without extension
     :param filename: the filename containing the fits sequence
-    :param parameter: the name of the parameter to plot the density
+    :param parameter1: the name of the first parameter
+    :param parameter2: the name of the second parameter
     :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
     :param plots_dir: the directory for storing the plots
     :param thres: the threshold used to filter the dataset. Values: "BestFits", "CL66", "CL95", "CL99", "All".
@@ -54,9 +56,10 @@ def pe_parameter_density_analysis(model_name,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_parameter_density_analysis(\"' + model_name + \
+    command = 'R -e \'library(sbpiper); sbpipe_sampled_2d_ple_analysis(\"' + model_name + \
               '\", \"' + filename + \
-              '\", \"' + parameter + \
+              '\", \"' + parameter1 + \
+              '\", \"' + parameter2 + \
               '\", \"' + fileout_param_estim_summary + \
               '\", \"' + plots_dir + \
               '\", \"' + thres + \
@@ -75,7 +78,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--model-name')
     parser.add_argument('--filename')
-    parser.add_argument('--parameter')
+    parser.add_argument('--parameter1')
+    parser.add_argument('--parameter2')
     parser.add_argument('--fileout-param-estim-summary')
     parser.add_argument('--plots-dir')
     parser.add_argument('--thres')
@@ -83,15 +87,16 @@ def main(argv=None):
     parser.add_argument('--logspace')
     parser.add_argument('--scientific-notation')
     args = parser.parse_args()
-    pe_parameter_density_analysis(args.model_name,
-                                  args.filename,
-                                  args.parameter,
-                                  args.fileout_param_estim_summary,
-                                  args.plots_dir,
-                                  args.thres,
-                                  args.best_fits_percent,
-                                  args.logspace,
-                                  args.scientific_notation)
+    pe_sampled_2d_ple_analysis(args.model_name,
+                               args.filename,
+                               args.parameter1,
+                               args.parameter2,
+                               args.fileout_param_estim_summary,
+                               args.plots_dir,
+                               args.thres,
+                               args.best_fits_percent,
+                               args.logspace,
+                               args.scientific_notation)
     return 0
 
 
