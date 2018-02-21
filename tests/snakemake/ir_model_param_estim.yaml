@@ -8,7 +8,7 @@ model: "insulin_receptor_param_estim.cps"
 round: 1
 # The number of parameter estimations 
 # (the length of the fit sequence)
-runs: 4
+runs: 40
 # The threshold percentage of the best fits to consider
 best_fits_percent: 75
 # The number of available data points
