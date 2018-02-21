@@ -287,19 +287,19 @@ class ParEst(Pipeline):
                   '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
                   '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
                   '\", \"' + sim_plots_dir + \
-                  '\", \"' + str(data_point_num) + \
-                  '\", \"' + os.path.join(outputdir, fileout_param_estim_details) + \
+                  '\", ' + str(data_point_num) + \
+                  ', \"' + os.path.join(outputdir, fileout_param_estim_details) + \
                   '\", \"' + os.path.join(outputdir, fileout_param_estim_summary) + \
-                  '\", \"' + str(best_fits_percent) + \
-                  '\", \"' + str(plot_2d_66cl_corr).upper() + \
-                  '\", \"' + str(plot_2d_95cl_corr).upper() + \
-                  '\", \"' + str(plot_2d_99cl_corr).upper() + \
-                  '\", \"' + str(logspace).upper() + \
-                  '\", \"' + str(scientific_notation).upper()
+                  '\", ' + str(best_fits_percent) + \
+                  ', ' + str(plot_2d_66cl_corr).upper() + \
+                  ', ' + str(plot_2d_95cl_corr).upper() + \
+                  ', ' + str(plot_2d_99cl_corr).upper() + \
+                  ', ' + str(logspace).upper() + \
+                  ', ' + str(scientific_notation).upper()
         # we replace \\ with / otherwise subprocess complains on windows systems.
         command = command.replace('\\', '\\\\')
         # We do this to make sure that characters like [ or ] don't cause troubles.
-        command += '\")\''
+        command += ')\''
 
 
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
