@@ -22,6 +22,9 @@ plot_2d_95cl_corr: True
 # True if 2D all fits plots for 99% confidence levels 
 # should be plotted. This can be computationally expensive.
 plot_2d_99cl_corr: True
+# True if 2D all fits plots should be plotted.
+# This can be computationally expensive.
+plot_2d_all_corr: False
 # True if parameter values should be plotted in log space.
 logspace: True
 # True if plot axis labels should be plotted in scientific notation.
