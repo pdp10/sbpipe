@@ -232,7 +232,7 @@ class Simul(object):
         :param groupid: a string identifier in the file name characterising the batch of simulated models.
         """
         group_model = os.path.splitext(model)[0] + groupid
-        report_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*\.csv', f)]
+        report_files = [f for f in os.listdir(inputdir) if re.match(group_model + '[0-9]+.*.csv', f)]
         if len(report_files) == 0:
             logger.error('No report was found. Please make sure that the simulator generates a report named '
                          'as the model but one of these extensions: .csv, .txt, .tsv, or .dat.')
@@ -418,7 +418,7 @@ class Simul(object):
 
         # Re-structure the reports
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f)]
+                        re.match(model_noext + '_[0-9]+.*.csv', f)]
         if not report_files:
             logger.warning('no report was found!')
             return
@@ -504,7 +504,7 @@ class Simul(object):
 
         # Re-structure the reports
         report_files = [os.path.join(outputdir, f) for f in os.listdir(outputdir) if
-                        re.match(model_noext + '_[0-9]+.*\.csv', f)]
+                        re.match(model_noext + '_[0-9]+.*.csv', f)]
         if not report_files:
             logger.warning('no report was found!')
             return
