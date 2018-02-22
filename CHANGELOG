@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.4.0 (Beyond the Kuiper Belt)
+v4.5.0 (Beyond the Kuiper Belt)
 
+- Improved data analysis scalability for parameter estimation (using Snakemake).
 - added checks whether a COPASI model can be loaded and executed correctly. This is based on Python bindings for COPASI.
 - optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
 - bugfix - SGE and LSF job names now include a random string, avoiding potential interactions among multiple
