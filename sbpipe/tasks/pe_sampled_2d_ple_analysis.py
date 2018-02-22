@@ -34,10 +34,10 @@ def pe_sampled_2d_ple_analysis(model_name,
                                filename,
                                parameter1,
                                parameter2,
-                               fileout_param_estim_summary,
                                plots_dir,
                                thres="BestFits",
                                best_fits_percent=100,
+                               fileout_param_estim_summary="",
                                logspace=True,
                                scientific_notation=True):
     """
@@ -47,10 +47,10 @@ def pe_sampled_2d_ple_analysis(model_name,
     :param filename: the filename containing the fits sequence
     :param parameter1: the name of the first parameter
     :param parameter2: the name of the second parameter
-    :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
     :param plots_dir: the directory for storing the plots
     :param thres: the threshold used to filter the dataset. Values: "BestFits", "CL66", "CL95", "CL99", "All".
     :param best_fits_percent: the percent of best fits to analyse. Only used if thres="BestFits".
+    :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation. Only used if thres!="BestFits".
     :param logspace: true if the parameters should be plotted in logspace
     :param scientific_notation: true if the axis labels should be plotted in scientific notation
     """
@@ -60,11 +60,11 @@ def pe_sampled_2d_ple_analysis(model_name,
               '\", \"' + filename + \
               '\", \"' + parameter1 + \
               '\", \"' + parameter2 + \
-              '\", \"' + fileout_param_estim_summary + \
               '\", \"' + plots_dir + \
               '\", \"' + thres + \
               '\", ' + str(best_fits_percent) + \
-              ', ' + str(logspace).upper() + \
+              ', \"' + fileout_param_estim_summary + \
+              '\", ' + str(logspace).upper() + \
               ', ' + str(scientific_notation).upper()
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
@@ -80,10 +80,10 @@ def main(argv=None):
     parser.add_argument('--filename')
     parser.add_argument('--parameter1')
     parser.add_argument('--parameter2')
-    parser.add_argument('--fileout-param-estim-summary')
     parser.add_argument('--plots-dir')
     parser.add_argument('--thres')
     parser.add_argument('--best-fits-percent')
+    parser.add_argument('--fileout-param-estim-summary')
     parser.add_argument('--logspace')
     parser.add_argument('--scientific-notation')
     args = parser.parse_args()
@@ -91,10 +91,10 @@ def main(argv=None):
                                args.filename,
                                args.parameter1,
                                args.parameter2,
-                               args.fileout_param_estim_summary,
                                args.plots_dir,
                                args.thres,
                                args.best_fits_percent,
+                               args.fileout_param_estim_summary,
                                args.logspace,
                                args.scientific_notation)
     return 0

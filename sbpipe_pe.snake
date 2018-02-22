@@ -222,9 +222,7 @@ rule sbpipe_pe_combine_param_ple_stats:
 
 rule sbpipe_parameter_density_analysis_final_estim:
     input:
-        file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT)
     output:
         best_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + PNG_EXT)
     params:
@@ -240,10 +238,10 @@ rule sbpipe_parameter_density_analysis_final_estim:
         pe_parameter_density_analysis(params.model,
                                       input.file_best_fits,
                                       params.parameter,
-                                      input.file_param_estim_summary,
                                       params.plots_dir,
                                       params.thres,
                                       params.best_fits_percent,
+                                      "",
                                       params.logspace,
                                       params.scientific_notation)
 
@@ -268,10 +266,10 @@ rule sbpipe_parameter_density_analysis_cl66_fits_estim:
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
-                                      input.file_param_estim_summary,
                                       params.plots_dir,
                                       params.thres,
                                       params.best_fits_percent,
+                                      input.file_param_estim_summary,
                                       params.logspace,
                                       params.scientific_notation)
 
@@ -296,10 +294,10 @@ rule sbpipe_parameter_density_analysis_cl95_fits_estim:
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
-                                      input.file_param_estim_summary,
                                       params.plots_dir,
                                       params.thres,
                                       params.best_fits_percent,
+                                      input.file_param_estim_summary,
                                       params.logspace,
                                       params.scientific_notation)
 
@@ -324,10 +322,10 @@ rule sbpipe_parameter_density_analysis_cl99_fits_estim:
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
-                                      input.file_param_estim_summary,
                                       params.plots_dir,
                                       params.thres,
                                       params.best_fits_percent,
+                                      input.file_param_estim_summary,
                                       params.logspace,
                                       params.scientific_notation)
 
@@ -353,19 +351,17 @@ if config['plot_2d_all_corr']:
             pe_parameter_density_analysis(params.model,
                                           input.file_all_fits,
                                           params.parameter,
-                                          input.file_param_estim_summary,
                                           params.plots_dir,
                                           params.thres,
                                           params.best_fits_percent,
+                                          input.file_param_estim_summary,
                                           params.logspace,
                                           params.scientific_notation)
 
 
 rule sbpipe_sampled_2d_ple_analysis_final_estim:
     input:
-        file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
-    WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT),
-        file_param_estim_summary=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_SUMMARY + CSV_EXT)
+        file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT)
     output:
         ple2d_best_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_ple_2d_best_fits_{var1_var2}" + PNG_EXT)
     params:
@@ -383,10 +379,10 @@ rule sbpipe_sampled_2d_ple_analysis_final_estim:
                                    input.file_best_fits,
                                    parameter1,
                                    parameter2,
-                                   input.file_param_estim_summary,
                                    params.plots_dir,
                                    params.thres,
                                    params.best_fits_percent,
+                                   "",
                                    params.logspace,
                                    params.scientific_notation)
 
@@ -414,10 +410,10 @@ if config['plot_2d_66cl_corr']:
                                        input.file_all_fits,
                                        parameter1,
                                        parameter2,
-                                       input.file_param_estim_summary,
                                        params.plots_dir,
                                        params.thres,
                                        params.best_fits_percent,
+                                       input.file_param_estim_summary,
                                        params.logspace,
                                        params.scientific_notation)
 
@@ -445,10 +441,10 @@ if config['plot_2d_95cl_corr']:
                                        input.file_all_fits,
                                        parameter1,
                                        parameter2,
-                                       input.file_param_estim_summary,
                                        params.plots_dir,
                                        params.thres,
                                        params.best_fits_percent,
+                                       input.file_param_estim_summary,
                                        params.logspace,
                                        params.scientific_notation)
 
@@ -476,10 +472,10 @@ if config['plot_2d_99cl_corr']:
                                        input.file_all_fits,
                                        parameter1,
                                        parameter2,
-                                       input.file_param_estim_summary,
                                        params.plots_dir,
                                        params.thres,
                                        params.best_fits_percent,
+                                       input.file_param_estim_summary,
                                        params.logspace,
                                        params.scientific_notation)
 
@@ -507,10 +503,10 @@ if config['plot_2d_all_corr']:
                                        input.file_all_fits,
                                        parameter1,
                                        parameter2,
-                                       input.file_param_estim_summary,
                                        params.plots_dir,
                                        params.thres,
                                        params.best_fits_percent,
+                                       input.file_param_estim_summary,
                                        params.logspace,
                                        params.scientific_notation)
 
