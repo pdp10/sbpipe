@@ -52,35 +52,35 @@ class TestCopasiLSF(unittest.TestCase):
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as LSF was not found.")
 
     def test_pe_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as LSF was not found.")
             
     def test_stoch_pe_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as LSF was not found.")
 
     def test_stoch_ps1_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.sbpipe(parameter_scan1="lsf_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as LSF was not found.")
 
     def test_stoch_ps2_copasi_lsf(self):
         try:
             subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
             self.assertEqual(sbmain.sbpipe(parameter_scan2="lsf_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+            print("Skipping test as LSF was not found.")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
