@@ -55,6 +55,7 @@ requirements:
     - scipy
     - pandas
     - colorlog
+    - python-copasi
 
 test:
   requires:
