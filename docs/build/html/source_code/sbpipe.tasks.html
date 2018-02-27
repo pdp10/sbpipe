@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>sbpipe.tasks package &#8212; SBpipe 4.0.0 documentation</title>
+    <title>sbpipe.tasks package &#8212; SBpipe 4.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '4.0.0',
+        VERSION:     '4.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="sbpipe.simul.python.html" title="sbpipe.simul.python package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &#187;</li> 
       </ul>
@@ -263,6 +263,124 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-sbpipe.tasks.pe_combine_param_ple_stats">
+<span id="sbpipe-tasks-pe-combine-param-ple-stats-module"></span><h2>sbpipe.tasks.pe_combine_param_ple_stats module<a class="headerlink" href="#module-sbpipe.tasks.pe_combine_param_ple_stats" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_combine_param_ple_stats.main">
+<code class="descclassname">sbpipe.tasks.pe_combine_param_ple_stats.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_combine_param_ple_stats.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_combine_param_ple_stats.pe_combine_param_ple_stats">
+<code class="descclassname">sbpipe.tasks.pe_combine_param_ple_stats.</code><code class="descname">pe_combine_param_ple_stats</code><span class="sig-paren">(</span><em>plots_dir</em>, <em>fileout_param_estim_details</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_combine_param_ple_stats.pe_combine_param_ple_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine the statistics for the parameter estimation details</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>plots_dir</strong> – the directory to save the generated plots</li>
+<li><strong>fileout_param_estim_details</strong> – the name of the file containing the detailed statistics for the estimated parameters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.tasks.pe_ds_preproc">
+<span id="sbpipe-tasks-pe-ds-preproc-module"></span><h2>sbpipe.tasks.pe_ds_preproc module<a class="headerlink" href="#module-sbpipe.tasks.pe_ds_preproc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_ds_preproc.main">
+<code class="descclassname">sbpipe.tasks.pe_ds_preproc.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_ds_preproc.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_ds_preproc.pe_ds_preproc">
+<code class="descclassname">sbpipe.tasks.pe_ds_preproc.</code><code class="descname">pe_ds_preproc</code><span class="sig-paren">(</span><em>filename</em>, <em>param_names</em>, <em>logspace=True</em>, <em>all_fits=False</em>, <em>data_point_num=0</em>, <em>fileout_param_estim_summary='param_estim_summary.csv'</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_ds_preproc.pe_ds_preproc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter estimation pre-processing. It renames the data set columns, and applies
+a log10 transformation if logspace is TRUE. If all.fits is true, it also computes
+the confidence levels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> – the dataset filename containing the fits sequence</li>
+<li><strong>param_names</strong> – the list of estimated parameter names</li>
+<li><strong>logspace</strong> – true if the data set shoud be log10-transformed.</li>
+<li><strong>all_fits</strong> – true if filename contains all fits, false otherwise</li>
+<li><strong>data_point_num</strong> – the number of data points used for parameterise the model. Ignored if all.fits is false</li>
+<li><strong>fileout_param_estim_summary</strong> – the name of the file containing the summary for the parameter estimation. Ignored if all.fits is false</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.tasks.pe_objval_vs_iters_analysis">
+<span id="sbpipe-tasks-pe-objval-vs-iters-analysis-module"></span><h2>sbpipe.tasks.pe_objval_vs_iters_analysis module<a class="headerlink" href="#module-sbpipe.tasks.pe_objval_vs_iters_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_objval_vs_iters_analysis.main">
+<code class="descclassname">sbpipe.tasks.pe_objval_vs_iters_analysis.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_objval_vs_iters_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_objval_vs_iters_analysis.pe_objval_vs_iters_analysis">
+<code class="descclassname">sbpipe.tasks.pe_objval_vs_iters_analysis.</code><code class="descname">pe_objval_vs_iters_analysis</code><span class="sig-paren">(</span><em>model_name</em>, <em>filename</em>, <em>plots_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_objval_vs_iters_analysis.pe_objval_vs_iters_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analysis of the Objective values vs Iterations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_name</strong> – the model name without extension</li>
+<li><strong>filename</strong> – the filename containing the fits sequence</li>
+<li><strong>plots_dir</strong> – the directory for storing the plots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.tasks.pe_parameter_density_analysis">
+<span id="sbpipe-tasks-pe-parameter-density-analysis-module"></span><h2>sbpipe.tasks.pe_parameter_density_analysis module<a class="headerlink" href="#module-sbpipe.tasks.pe_parameter_density_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_parameter_density_analysis.main">
+<code class="descclassname">sbpipe.tasks.pe_parameter_density_analysis.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_parameter_density_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_parameter_density_analysis.pe_parameter_density_analysis">
+<code class="descclassname">sbpipe.tasks.pe_parameter_density_analysis.</code><code class="descname">pe_parameter_density_analysis</code><span class="sig-paren">(</span><em>model_name</em>, <em>filename</em>, <em>parameter</em>, <em>plots_dir</em>, <em>thres='BestFits'</em>, <em>best_fits_percent=100</em>, <em>fileout_param_estim_summary=''</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_parameter_density_analysis.pe_parameter_density_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter density analysis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_name</strong> – the model name without extension</li>
+<li><strong>filename</strong> – the filename containing the fits sequence</li>
+<li><strong>parameter</strong> – the name of the parameter to plot the density</li>
+<li><strong>plots_dir</strong> – the directory for storing the plots</li>
+<li><strong>thres</strong> – the threshold used to filter the dataset. Values: “BestFits”, “CL66”, “CL95”, “CL99”, “All”.</li>
+<li><strong>best_fits_percent</strong> – the percent of best fits to analyse. Only used if thres=”BestFits”.</li>
+<li><strong>fileout_param_estim_summary</strong> – the name of the file containing the summary for the parameter estimation. Only used if thres!=”BestFits”.</li>
+<li><strong>logspace</strong> – true if the parameters should be plotted in logspace</li>
+<li><strong>scientific_notation</strong> – true if the axis labels should be plotted in scientific notation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-sbpipe.tasks.pe_postproc">
 <span id="sbpipe-tasks-pe-postproc-module"></span><h2>sbpipe.tasks.pe_postproc module<a class="headerlink" href="#module-sbpipe.tasks.pe_postproc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -309,11 +427,76 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-sbpipe.tasks.pe_sampled_2d_ple_analysis">
+<span id="sbpipe-tasks-pe-sampled-2d-ple-analysis-module"></span><h2>sbpipe.tasks.pe_sampled_2d_ple_analysis module<a class="headerlink" href="#module-sbpipe.tasks.pe_sampled_2d_ple_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_sampled_2d_ple_analysis.main">
+<code class="descclassname">sbpipe.tasks.pe_sampled_2d_ple_analysis.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_sampled_2d_ple_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_sampled_2d_ple_analysis.pe_sampled_2d_ple_analysis">
+<code class="descclassname">sbpipe.tasks.pe_sampled_2d_ple_analysis.</code><code class="descname">pe_sampled_2d_ple_analysis</code><span class="sig-paren">(</span><em>model_name</em>, <em>filename</em>, <em>parameter1</em>, <em>parameter2</em>, <em>plots_dir</em>, <em>thres='BestFits'</em>, <em>best_fits_percent=100</em>, <em>fileout_param_estim_summary=''</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_sampled_2d_ple_analysis.pe_sampled_2d_ple_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D profile likelihood estimation analysis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_name</strong> – the model name without extension</li>
+<li><strong>filename</strong> – the filename containing the fits sequence</li>
+<li><strong>parameter1</strong> – the name of the first parameter</li>
+<li><strong>parameter2</strong> – the name of the second parameter</li>
+<li><strong>plots_dir</strong> – the directory for storing the plots</li>
+<li><strong>thres</strong> – the threshold used to filter the dataset. Values: “BestFits”, “CL66”, “CL95”, “CL99”, “All”.</li>
+<li><strong>best_fits_percent</strong> – the percent of best fits to analyse. Only used if thres=”BestFits”.</li>
+<li><strong>fileout_param_estim_summary</strong> – the name of the file containing the summary for the parameter estimation. Only used if thres!=”BestFits”.</li>
+<li><strong>logspace</strong> – true if the parameters should be plotted in logspace</li>
+<li><strong>scientific_notation</strong> – true if the axis labels should be plotted in scientific notation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sbpipe.tasks.pe_sampled_ple_analysis">
+<span id="sbpipe-tasks-pe-sampled-ple-analysis-module"></span><h2>sbpipe.tasks.pe_sampled_ple_analysis module<a class="headerlink" href="#module-sbpipe.tasks.pe_sampled_ple_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_sampled_ple_analysis.main">
+<code class="descclassname">sbpipe.tasks.pe_sampled_ple_analysis.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_sampled_ple_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_sampled_ple_analysis.pe_sampled_ple_analysis">
+<code class="descclassname">sbpipe.tasks.pe_sampled_ple_analysis.</code><code class="descname">pe_sampled_ple_analysis</code><span class="sig-paren">(</span><em>model_name</em>, <em>filename</em>, <em>parameter</em>, <em>plots_dir</em>, <em>fileout_param_estim_summary</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_sampled_ple_analysis.pe_sampled_ple_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the profile likelihood estimation analysis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_name</strong> – the model name without extension</li>
+<li><strong>filename</strong> – the filename containing the fits sequence</li>
+<li><strong>parameter</strong> – the parameter to compute the PLE analysis</li>
+<li><strong>plots_dir</strong> – the directory to save the generated plots</li>
+<li><strong>fileout_param_estim_summary</strong> – the name of the file containing the summary for the parameter estimation</li>
+<li><strong>logspace</strong> – true if parameters should be plotted in logspace</li>
+<li><strong>scientific_notation</strong> – true if the axis labels should be plotted in scientific notation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-sbpipe.tasks.preproc">
 <span id="sbpipe-tasks-preproc-module"></span><h2>sbpipe.tasks.preproc module<a class="headerlink" href="#module-sbpipe.tasks.preproc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="sbpipe.tasks.preproc.copasi_preproc">
-<code class="descclassname">sbpipe.tasks.preproc.</code><code class="descname">copasi_preproc</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.preproc.copasi_preproc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.tasks.preproc.</code><code class="descname">copasi_preproc</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em>, <em>task_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.preproc.copasi_preproc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replicate a copasi model and adds an id.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -322,6 +505,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>infile</strong> – the input file</li>
 <li><strong>outfile</strong> – the output file</li>
+<li><strong>task_name</strong> – the name of the task (Copasi models)</li>
 </ul>
 </td>
 </tr>
@@ -354,7 +538,7 @@
 
 <dl class="function">
 <dt id="sbpipe.tasks.preproc.preproc">
-<code class="descclassname">sbpipe.tasks.preproc.</code><code class="descname">preproc</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em>, <em>copasi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.preproc.preproc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">sbpipe.tasks.preproc.</code><code class="descname">preproc</code><span class="sig-paren">(</span><em>infile</em>, <em>outfile</em>, <em>task_name</em>, <em>copasi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.preproc.preproc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replicate a copasi model and adds an id.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -363,6 +547,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>infile</strong> – the input file</li>
 <li><strong>outfile</strong> – the output file</li>
+<li><strong>task_name</strong> – the name of the task (Copasi models)</li>
 <li><strong>copasi</strong> – True if the model is a Copasi model</li>
 </ul>
 </td>
@@ -783,7 +968,13 @@
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_analyse_data_all_fits">sbpipe.tasks.pe_analyse_data_all_fits module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_analyse_data_best_fits">sbpipe.tasks.pe_analyse_data_best_fits module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_collect">sbpipe.tasks.pe_collect module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_combine_param_ple_stats">sbpipe.tasks.pe_combine_param_ple_stats module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_ds_preproc">sbpipe.tasks.pe_ds_preproc module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_objval_vs_iters_analysis">sbpipe.tasks.pe_objval_vs_iters_analysis module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_parameter_density_analysis">sbpipe.tasks.pe_parameter_density_analysis module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_postproc">sbpipe.tasks.pe_postproc module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_sampled_2d_ple_analysis">sbpipe.tasks.pe_sampled_2d_ple_analysis module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_sampled_ple_analysis">sbpipe.tasks.pe_sampled_ple_analysis module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.preproc">sbpipe.tasks.preproc module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.ps1_analyse_plot">sbpipe.tasks.ps1_analyse_plot module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.ps1_analyse_plot_homogen">sbpipe.tasks.ps1_analyse_plot_homogen module</a></li>
@@ -843,7 +1034,7 @@
         <li class="right" >
           <a href="sbpipe.simul.python.html" title="sbpipe.simul.python package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &#187;</li> 
       </ul>

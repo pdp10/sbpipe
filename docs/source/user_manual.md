@@ -104,7 +104,7 @@ $ source activate sbpipe
 
 # install sbpipe and sbpiper (necessary R dependencies)
 $ conda install sbpiper -c pdp10 -c r -c defaults
-$ conda install sbpipe -c pdp10 -c defaults -c conda-forge
+$ conda install sbpipe -c pdp10 -c defaults -c fbergmann -c conda-forge
 
 # install snakemake (optional)
 $ conda install -c bioconda snakemake
