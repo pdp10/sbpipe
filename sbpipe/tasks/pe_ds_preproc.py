@@ -45,10 +45,8 @@ def pe_ds_preproc(filename,
     :param param_names: the list of estimated parameter names
     :param logspace: true if the data set shoud be log10-transformed.
     :param all_fits: true if filename contains all fits, false otherwise
-    :param data_point_num: the number of data points used for parameterise the model.
-    Ignored if all.fits is false
-    :param fileout_param_estim_summary: the name of the file containing the summary
-    for the parameter estimation. Ignored if all.fits is false
+    :param data_point_num: the number of data points used for parameterise the model. Ignored if all.fits is false
+    :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation. Ignored if all.fits is false
     """
 
     # convert param_names into an R vector

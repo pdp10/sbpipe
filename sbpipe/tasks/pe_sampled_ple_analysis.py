@@ -47,9 +47,6 @@ def pe_sampled_ple_analysis(model_name,
     :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
     :param logspace: true if parameters should be plotted in logspace
     :param scientific_notation: true if the axis labels should be plotted in scientific notation
-    Parameter estimation pre-processing. It renames the data set columns, and applies
-    a log10 transformation if logspace is TRUE. If all.fits is true, it also computes
-    the confidence levels.
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
