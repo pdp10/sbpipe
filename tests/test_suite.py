@@ -45,7 +45,8 @@ import tests.test_conferr_pe as conf_err_pe
 
 import tests.test_interrupt_pe as interrupt_pe
 
-import tests.test_copasi_reports_ext as copasi_reports_ext
+# no longer needed as checked by python-copasi binding code
+# import tests.test_copasi_reports_ext as copasi_reports_ext
 
 import tests.test_rscript_sim as conf_rscript_sim
 import tests.test_rscript_pe as conf_rscript_pe
@@ -83,9 +84,10 @@ class TestSuite(unittest.TestCase):
         # Test cases when a parameter estimation failed.
         suite_interrupt_pe = unittest.TestLoader().loadTestsFromTestCase(interrupt_pe.TestCopasiPE)
 
+        # no longer needed as checked by python-copasi
         # Test cases using Copasi reports with different extensions.
-        suite_copasi_reports_ext = \
-            unittest.TestLoader().loadTestsFromTestCase(copasi_reports_ext.TestCopasiReportsExt)
+        #suite_copasi_reports_ext = \
+        #   unittest.TestLoader().loadTestsFromTestCase(copasi_reports_ext.TestCopasiReportsExt)
 
         # Run Rscript test
         suite_rscript_sim = unittest.TestLoader().loadTestsFromTestCase(conf_rscript_sim.TestRSim)
@@ -118,7 +120,8 @@ class TestSuite(unittest.TestCase):
                                     suite_conferr_ps2,
                                     suite_conferr_pe,
                                     suite_interrupt_pe,
-                                    suite_copasi_reports_ext,
+                                    # no longer needed as checked by python-copasi
+                                    # suite_copasi_reports_ext,
                                     suite_rscript_sim,
                                     suite_rscript_pe,
                                     suite_python_sim,
