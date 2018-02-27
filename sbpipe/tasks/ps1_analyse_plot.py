@@ -37,9 +37,8 @@ from sbpipe.utils.parcomp import run_cmd
 
 def ps1_analyse_plot(model_name,
                      inhibition_only,
+                     inputdir,
                      outputdir,
-                     sim_data_folder,
-                     sim_plots_folder,
                      repeat,
                      percent_levels,
                      min_level,
@@ -52,9 +51,8 @@ def ps1_analyse_plot(model_name,
 
     :param model_name: the model name without extension
     :param inhibition_only: true if the scanning only decreases the variable amount (inhibition only)
-    :param outputdir: the output directory
-    :param sim_data_folder: the name of the folder containing the simulated data
-    :param sim_plots_folder: the name of the folder containing the simulated plots
+    :param inputdir: the input directory containing the simulated data
+    :param outputdir: the output directory that will contain the simulated plots
     :param repeat: the simulation number
     :param percent_levels: true if scanning levels are in percent
     :param min_level: the minimum level
@@ -66,9 +64,9 @@ def ps1_analyse_plot(model_name,
     """
     # requires devtools::install_github("pdp10/sbpiper")
     command = 'R -e \'library(sbpiper); plot_single_param_scan_data(\"' + model_name + \
-              '\", \"' + str(inhibition_only).upper() + '\", \"' + outputdir + \
-              '\", \"' + sim_data_folder + \
-              '\", \"' + sim_plots_folder + \
+              '\", \"' + str(inhibition_only).upper() + \
+              '\", \"' + inputdir + \
+              '\", \"' + outputdir + \
               '\", \"' + repeat + \
               '\", \"' + str(percent_levels).upper() + \
               '\", \"' + str(min_level) + \
@@ -89,9 +87,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--model')
     parser.add_argument('--inhibition-only')
+    parser.add_argument('--inputdir')
     parser.add_argument('--outputdir')
-    parser.add_argument('--sim-data-folder')
-    parser.add_argument('--sim-plot-folder')
     parser.add_argument('--repeat', type=int, nargs='+')
     parser.add_argument('--percent-levels')
     parser.add_argument('--min-level')
@@ -103,9 +100,8 @@ def main(argv=None):
     args = parser.parse_args()
     ps1_analyse_plot(args.model,
                      args.inhibition_only,
+                     args.inputdir,
                      args.outputdir,
-                     args.sim_data_folder,
-                     args.sim_plot_folder,
                      args.repeat,
                      args.percent_levels,
                      args.min_level,

@@ -283,9 +283,9 @@ class ParScan1(Pipeline):
 
         # requires devtools::install_github("pdp10/sbpiper")
         command = 'R -e \'library(sbpiper); sbpipe_ps1(\"' + model + \
-                  '\", \"' + str(knock_down_only).upper() + '\", \"' + outputdir + \
-                  '\", \"' + sim_data_folder + \
-                  '\", \"' + sim_plots_folder + \
+                  '\", \"' + str(knock_down_only).upper() + \
+                  '\", \"' + os.path.join(outputdir, sim_data_folder) + \
+                  '\", \"' + os.path.join(outputdir, sim_plots_folder) + \
                   '\", \"' + str_to_replace + \
                   '\", \"' + str(percent_levels).upper() + \
                   '\", \"' + str(min_level) + \

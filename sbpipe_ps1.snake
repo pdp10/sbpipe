@@ -120,9 +120,8 @@ rule sbpipe_ps1_analysis_plot:
     params:
         model_name=MODEL_NAME,
         inhibition_only=config["ps1_knock_down_only"],
-        outputdir=WORKING_FOLDER,
-        sim_data_folder=POSTPROC_FOLDER,
-        sim_plots_folder=PLOTS_FOLDER,
+        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
+        outputdir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         repeat='{rep}',
         percent_levels=config["ps1_percent_levels"],
         min_level=config["min_level"],
@@ -135,9 +134,8 @@ rule sbpipe_ps1_analysis_plot:
         if params.homogeneous_lines:
             from sbpipe.tasks.ps1_analyse_plot_homogen import ps1_analyse_plot_homogen
             ps1_analyse_plot_homogen(params.model_name,
+                                     params.inputdir,
                                      params.outputdir,
-                                     params.sim_data_folder,
-                                     params.sim_plots_folder,
                                      params.repeat,
                                      params.xaxis_label,
                                      params.yaxis_label)
@@ -145,9 +143,8 @@ rule sbpipe_ps1_analysis_plot:
             from sbpipe.tasks.ps1_analyse_plot import ps1_analyse_plot
             ps1_analyse_plot(params.model_name,
                              str(params.inhibition_only),
+                             params.inputdir,
                              params.outputdir,
-                             params.sim_data_folder,
-                             params.sim_plots_folder,
                              params.repeat,
                              str(params.percent_levels),
                              str(params.min_level),
