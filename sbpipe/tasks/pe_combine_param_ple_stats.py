@@ -40,7 +40,7 @@ def pe_combine_param_ple_stats(plots_dir,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_combine_param_ple_stats(\"' + plots_dir + \
+    command = 'R -e \'library(sbpiper); sbpiper_combine_param_ple_stats(\"' + plots_dir + \
               '\", \"' + fileout_param_estim_details
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')

@@ -56,7 +56,7 @@ def pe_sampled_2d_ple_analysis(model_name,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_sampled_2d_ple_analysis(\"' + model_name + \
+    command = 'R -e \'library(sbpiper); sbpiper_sampled_2d_ple_analysis(\"' + model_name + \
               '\", \"' + filename + \
               '\", \"' + parameter1 + \
               '\", \"' + parameter2 + \

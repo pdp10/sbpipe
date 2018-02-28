@@ -71,7 +71,7 @@ def pe_analyse_data(model,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_pe(\"' + model + \
+    command = 'R -e \'library(sbpiper); sbpiper_pe(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
               '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
               '\", \"' + plots_dir + \

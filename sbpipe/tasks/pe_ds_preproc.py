@@ -58,7 +58,7 @@ def pe_ds_preproc(filename,
     param_names_r = param_names_r + ")"
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_pe_ds_preproc(\"' + filename + \
+    command = 'R -e \'library(sbpiper); sbpiper_pe_ds_preproc(\"' + filename + \
               '\", ' + param_names_r + \
               ', ' + str(logspace).upper() + \
               ', ' + str(all_fits).upper() + \

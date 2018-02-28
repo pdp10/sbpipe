@@ -247,7 +247,7 @@ class Sim(Pipeline):
         logger.info("Analysing generated simulations:")
 
         # requires devtools::install_github("pdp10/sbpiper")
-        command = 'R -e \'library(sbpiper); sbpipe_sim(\"' + model + \
+        command = 'R -e \'library(sbpiper); sbpiper_sim(\"' + model + \
                   '\", \"' + inputdir + '\", \"' + sim_plots_dir + \
                   '\", \"' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \
                   '\", \"' + os.path.join(sim_data_by_var_dir, model + '_' + str_to_replace + '.csv') + \

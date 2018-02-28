@@ -50,7 +50,7 @@ def pe_sampled_ple_analysis(model_name,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_sampled_ple_analysis(\"' + model_name + \
+    command = 'R -e \'library(sbpiper); sbpiper_sampled_ple_analysis(\"' + model_name + \
               '\", \"' + filename + \
               '\", \"' + parameter + \
               '\", \"' + plots_dir + \

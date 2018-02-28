@@ -54,7 +54,7 @@ def pe_analyse_data_best_fits(model,
     :param scientific_notation: True if axis labels should be plotted in scientific notation
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); sbpipe_pe_final_fits(\"' + model + \
+    command = 'R -e \'library(sbpiper); sbpiper_pe_final_fits(\"' + model + \
               '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
               '\", \"' + plots_dir + \
               '\", \"' + str(best_fits_percent) + \
