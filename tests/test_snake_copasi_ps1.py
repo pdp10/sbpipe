@@ -23,6 +23,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2017-01-31 14:36:32 $
 
+import sys
 import os
 import unittest
 import subprocess
@@ -51,7 +52,8 @@ class TestPs1Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_ps1_det2_snake(self):
         try:
@@ -60,7 +62,8 @@ class TestPs1Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_ps1_det3_snake(self):
         try:
@@ -69,7 +72,8 @@ class TestPs1Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_ps1_stoch_snake(self):
         try:
@@ -78,7 +82,8 @@ class TestPs1Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

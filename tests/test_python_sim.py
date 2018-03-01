@@ -49,11 +49,14 @@ class TestPythonSim(unittest.TestCase):
 
     def test_sim_python_ir(self):
         if not isPyPackageInstalled("numpy"):
-            print("Skipping test as Python numpy was not found.")
+            sys.stdout.write("Python numpy not found: SKIP ... ")
+            sys.stdout.flush()
         elif not isPyPackageInstalled("scipy"):
-            print("Skipping test as Python scipy was not found.")
+            sys.stdout.write("Python scipy not found: SKIP ... ")
+            sys.stdout.flush()
         elif not isPyPackageInstalled("pandas"):
-            print("Skipping test as Python pandas was not found.")
+            sys.stdout.write("Python pandas not found: SKIP ... ")
+            sys.stdout.flush()
         else:
             self.assertEqual(sbmain.sbpipe(simulate="insulin_receptor.yaml", quiet=True), 0)
 

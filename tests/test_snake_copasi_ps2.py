@@ -23,6 +23,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2017-01-31 14:36:32 $
 
+import sys
 import os
 import unittest
 import subprocess
@@ -51,7 +52,8 @@ class TestPs2Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_ps2_stoch_snake(self):
         try:
@@ -60,7 +62,8 @@ class TestPs2Snake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

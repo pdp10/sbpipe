@@ -54,11 +54,13 @@ class TestRSim(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
-                print("Skipping test as R deSolve was not found.")
+                sys.stdout.write("R deSolve not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(simulate="simple_lotka_volterra.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_sim_r_pde_lotka_volterra(self):
         try:
@@ -67,11 +69,13 @@ class TestRSim(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
-                print("Skipping test as R deSolve was not found.")
+                sys.stdout.write("R deSolve not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(simulate="2Dpde_lotka_volterra.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_stoch_sim_r_periodic_drift(self):
         try:
@@ -80,11 +84,13 @@ class TestRSim(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
-                print("Skipping test as R sde was not found.")
+                sys.stdout.write("R sde not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(simulate="sde_periodic_drift.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_stoch_sim_r_cox_ingersoll_ross_process(self):
         try:
@@ -93,11 +99,13 @@ class TestRSim(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
-                print("Skipping test as R sde was not found.")
+                sys.stdout.write("R sde not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_sim_r(self):
         try:
@@ -114,15 +122,19 @@ class TestRSim(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):
-                print("Skipping test as R reshape2 was not found.")
+                sys.stdout.write("R reshape2 not found: SKIP ... ")
+                sys.stdout.flush()
             if "FALSE" in str(desolve):
-                print("Skipping test as R deSolve was not found.")
+                sys.stdout.write("R deSolve not found: SKIP ... ")
+                sys.stdout.flush()
             elif "FALSE" in str(minpacklm):
-                print("Skipping test as R minpack.lm was not found.")
+                sys.stdout.write("R minpack.lm not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(simulate="sim_simple_reacts.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
 
 if __name__ == '__main__':

@@ -23,6 +23,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-01-21 10:36:32 $
 
+import sys
 import os
 import unittest
 import subprocess
@@ -51,7 +52,8 @@ class TestSimSnake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_det_simul.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
     def test_sim_stoch_snake(self):
         try:
@@ -60,7 +62,8 @@ class TestSimSnake(unittest.TestCase):
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_stoch_simul.yaml', cores=7, forceall=True, quiet=True))
         except OSError as e:
-            print("Skipping test as snakemake was not found.")
+            sys.stdout.write("snakemake not found: SKIP ... ")
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

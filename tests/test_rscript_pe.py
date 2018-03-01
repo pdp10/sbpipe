@@ -62,15 +62,19 @@ class TestRPE(unittest.TestCase):
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):
-                print("Skipping test as R reshape2 was not found.")
+                sys.stdout.write("R reshape2 not found: SKIP ... ")
+                sys.stdout.flush()
             if "FALSE" in str(desolve):
-                print("Skipping test as R deSolve was not found.")
+                sys.stdout.write("R deSolve not found: SKIP ... ")
+                sys.stdout.flush()
             elif "FALSE" in str(minpacklm):
-                print("Skipping test as R minpack.lm was not found.")
+                sys.stdout.write("R minpack.lm not found: SKIP ... ")
+                sys.stdout.flush()
             else:
                 self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml", quiet=True), 0)
         except OSError as e:
-            print("Skipping test as R was not found.")
+            sys.stdout.write("R not found: SKIP ... ")
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
