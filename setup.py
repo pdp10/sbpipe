@@ -51,7 +51,7 @@ setup(
     version=read('VERSION'),
     description='Pipelines for systems modelling of biological networks',
     author='Dr Piero Dalle Pezze',
-    author_email='piero.dallepezze@babraham.ac.uk',
+    author_email='piero.dallepezze@gmail.com',
     requires=required,
     # These files are searched in any SBpipe python package
     include_package_data=True,
@@ -70,11 +70,14 @@ setup(
     long_description=read('README.md'),
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Users/Developers',
-        'Topic :: Mathematical modelling :: Build Tools',
-        'License :: OSI Approved :: GNU LGPL v3 License',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
+        'Natural Language :: English',
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3"],
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'Topic :: Scientific/Engineering :: Medical Science Apps.'],
     test_suite='tests.test_suite',
     zip_safe=False
 )
