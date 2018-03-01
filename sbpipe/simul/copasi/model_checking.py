@@ -196,10 +196,10 @@ def check_task_report(model_filename, task_name, data_model, task):
         # save the model to a COPASI file
         data_model.saveModel(model_filename, True)
 
-        # dunno why this is generated.. it seems a bug in Copasi to me..
-        fake_report = os.path.join(os.path.dirname(model_filename), report_filename)
-        if os.path.exists(fake_report):
-            os.remove(fake_report)
+    # dunno why this is generated.. it seems a bug in Copasi to me..
+    fake_report = os.path.join(os.path.dirname(model_filename), report_filename)
+    if os.path.exists(fake_report):
+        os.remove(fake_report)
 
     logger.info('COPASI task `{0}` can be executed'.format(task_name))
 
