@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.5.0 (Beyond the Kuiper Belt)
+v4.6.0 (Beyond the Kuiper Belt)
 
+- Added PCA analysis for the best parameter estimates. Replaced conda channel "r" with "conda-forge".
 - Improved data analysis scalability for parameter estimation (using Snakemake).
 - added checks whether a COPASI model can be loaded and executed correctly. This is based on Python bindings for COPASI.
 - optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
