@@ -20,9 +20,9 @@ name:
   - sbpipe
 channels:
   - pdp10
-  - defaults
-  - fbergmann
   - conda-forge
+  - fbergmann
+  - defaults
 dependencies:
   - nose
   - pandas
@@ -31,9 +31,9 @@ dependencies:
   - numpy
   - scipy
   - setuptools
-  - sbpiper=1.5.0
+  - sbpiper=1.6.0
   - colorlog             # -c conda-forge
   - python-copasi        # -c fbergmann
-#  - snakemake >=3.10.1  (not available on windows) -c bioconda
+#  - snakemake           (not available on windows) -c bioconda
 #  - texlive-core        (not available on windows) -c pkgw
 #  - texlive-selected    (not available on windows) -c pkgw

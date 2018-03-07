@@ -149,9 +149,9 @@ $ conda create -n sbpipe
 # of this environment every time SBpipe is used.
 $ source activate sbpipe
 
-# install sbpipe and sbpiper (necessary R dependencies)
-$ conda install sbpiper -c pdp10 -c r -c defaults
-$ conda install sbpipe -c pdp10 -c defaults -c fbergmann -c conda-forge
+# install sbpiper (necessary R dependencies) and sbpipe
+$ conda install sbpiper -c conda-forge -c defaults
+$ conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 
 # install snakemake (optional)
 $ conda install -c bioconda snakemake
@@ -173,7 +173,7 @@ $ conda env create --name sbpipe --file environment.yaml
 # of this environment every time SBpipe is used.
 $ source activate sbpipe
 
-# install snakemake and colorlog (optional)
+# install snakemake (optional)
 $ conda install -c bioconda snakemake
 </pre></div>
 </div>
@@ -197,13 +197,13 @@ website or cloned using <code class="docutils literal"><span class="pre">git</sp
 package <code class="docutils literal"><span class="pre">python-pip</span></code> and <code class="docutils literal"><span class="pre">r-base</span></code> are installed. The correct
 installation of Python and R can be tested by running the commands:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ python -V
-Python 2.7.12
+Python 3.6.4
 $ pip -V
-pip 8.1.2 from /home/ariel/.local/lib/python2.7/site-packages (python 2.7)
+pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
 
 $ R --version
-R version 3.2.3 (2015-12-10) -- &quot;Wooden Christmas-Tree&quot;
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.4.1 (2017-06-30) -- &quot;Single Candle&quot;
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 </pre></div>
 </div>
@@ -245,9 +245,8 @@ be executed again.</p>
 <h4>Python bindings code for COPASI models (optional)<a class="headerlink" href="#python-bindings-code-for-copasi-models-optional" title="Permalink to this headline">¶</a></h4>
 <p>If Python bindings for COPASI are installed, SBpipe automatically checks
 whether the COPASI model can be loaded and executed, before generating
-the data. As of January 2018, this code is released for Python 2.7 on
-the COPASI website and Anaconda Cloud. They will likely be installed
-automatically with SBpipe once the support for Python 3.6 is added.</p>
+the data. As of January 2018, this code is released for Python 2.7 and
+Python 3.6 on the COPASI website and Anaconda Cloud.</p>
 </div>
 </div>
 <div class="section" id="how-to-install-sbpipe-on-windows">
@@ -309,7 +308,7 @@ by running the following commands. For the correct execution of all
 tests, LaTeX must be installed.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># SBpipe version:
 $ sbpipe -V
-sbpipe 3.32.0
+sbpipe 4.6.0
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation using COPASI (see results in tests/copasi_models):
@@ -524,7 +523,7 @@ follow:</p>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi, Rscript, Python, Java)</span>
+<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
 <span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
 <span class="c1"># The model name</span>
 <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_stoch.cps&quot;</span>
@@ -559,7 +558,7 @@ scan</em></p>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi)</span>
+<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
 <span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
 <span class="c1"># The model name</span>
 <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_inhib_scan_IR_beta.cps&quot;</span>
@@ -604,7 +603,7 @@ scan</em></p>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi)</span>
+<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
 <span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
 <span class="c1"># The model name</span>
 <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps&quot;</span>
@@ -636,7 +635,7 @@ estimation</em></p>
 <span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi)</span>
+<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
 <span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
 <span class="c1"># The model name</span>
 <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_param_estim.cps&quot;</span>

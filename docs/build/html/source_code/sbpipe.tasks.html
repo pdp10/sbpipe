@@ -250,6 +250,34 @@ the confidence levels.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-sbpipe.tasks.pe_parameter_pca_analysis">
+<span id="sbpipe-tasks-pe-parameter-pca-analysis-module"></span><h2>sbpipe.tasks.pe_parameter_pca_analysis module<a class="headerlink" href="#module-sbpipe.tasks.pe_parameter_pca_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="sbpipe.tasks.pe_parameter_pca_analysis.main">
+<code class="descclassname">sbpipe.tasks.pe_parameter_pca_analysis.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_parameter_pca_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sbpipe.tasks.pe_parameter_pca_analysis.pe_parameter_pca_analysis">
+<code class="descclassname">sbpipe.tasks.pe_parameter_pca_analysis.</code><code class="descname">pe_parameter_pca_analysis</code><span class="sig-paren">(</span><em>model_name</em>, <em>filename</em>, <em>plots_dir</em>, <em>best_fits_percent=100</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.tasks.pe_parameter_pca_analysis.pe_parameter_pca_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>PCA for the best fits of the estimated parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_name</strong> – the model name without extension</li>
+<li><strong>filename</strong> – the filename containing the fits sequence</li>
+<li><strong>plots_dir</strong> – the directory for storing the plots</li>
+<li><strong>best_fits_percent</strong> – the percent of best fits to analyse. Only used if thres=”BestFits”.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-sbpipe.tasks.pe_postproc">
 <span id="sbpipe-tasks-pe-postproc-module"></span><h2>sbpipe.tasks.pe_postproc module<a class="headerlink" href="#module-sbpipe.tasks.pe_postproc" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -836,6 +864,7 @@ the confidence levels.</p>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_ds_preproc">sbpipe.tasks.pe_ds_preproc module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_objval_vs_iters_analysis">sbpipe.tasks.pe_objval_vs_iters_analysis module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_parameter_density_analysis">sbpipe.tasks.pe_parameter_density_analysis module</a></li>
+<li><a class="reference internal" href="#module-sbpipe.tasks.pe_parameter_pca_analysis">sbpipe.tasks.pe_parameter_pca_analysis module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_postproc">sbpipe.tasks.pe_postproc module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_sampled_2d_ple_analysis">sbpipe.tasks.pe_sampled_2d_ple_analysis module</a></li>
 <li><a class="reference internal" href="#module-sbpipe.tasks.pe_sampled_ple_analysis">sbpipe.tasks.pe_sampled_ple_analysis module</a></li>

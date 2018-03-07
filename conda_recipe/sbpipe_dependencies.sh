@@ -14,19 +14,23 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
+# NOTE: THIS IS NO LONGER NEEDED AS ALL THE REQUIRED PACKAGES ARE STORED IN CONDA-FORGE CHANNEL.
+
+
 # create conda packages for SBpipe dependencies so that they are stored in pdp10 channel.
 # This helps avoid conflicts between channels
 
 
-conda install conda-build
 
-# R package colorramps
-conda skeleton cran colorramps
-conda build r-colorramps
-conda install -c local r-colorramps
+#conda install conda-build
+
+## R package colorramps
+#conda skeleton cran colorramps
+#conda build r-colorramps
+#conda install -c local r-colorramps
 
 
-# python package colorlog (this fails in the second instruction)
+## python package colorlog (this fails in the second instruction)
 #conda skeleton pypi colorlog
 #conda build colorlog
 #conda install -c local colorlog

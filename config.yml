@@ -15,5 +15,5 @@
 
 channels:
   - pdp10
-  - r
+  - conda-forge
   - defaults

@@ -246,6 +246,23 @@ rule sbpipe_parameter_density_analysis_final_estim:
                                       params.scientific_notation)
 
 
+rule sbpipe_parameter_pca_analysis_final_estim:
+    input:
+        file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT)
+    output:
+        pca_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_eigenvalues" + PNG_EXT)
+    params:
+        model = MODEL_NAME,
+        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
+        best_fits_percent = config['best_fits_percent']
+    run:
+        from sbpipe.tasks.pe_parameter_pca_analysis import pe_parameter_pca_analysis
+        pe_parameter_pca_analysis(params.model,
+                                  input.file_best_fits,
+                                  params.plots_dir,
+                                  params.best_fits_percent)
+
+
 rule sbpipe_parameter_density_analysis_cl66_fits_estim:
     input:
         file_all_fits=os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(
@@ -535,6 +552,7 @@ rule sbpipe_pe_latex_report:
             'logspace'] else os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
         file_param_estim_summary = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         file_param_estim_details = os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_DETAILS + CSV_EXT),
+        pca_plot = os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_eigenvalues" + PNG_EXT),
         approx_ple_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_approx_ple_{var}" + PNG_EXT),
                                  var=VARIABLES),
         best_fits_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + PNG_EXT),

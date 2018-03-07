@@ -165,7 +165,7 @@ $ conda config --set anaconda_upload no
 <p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
 create the conda package for SBpipe:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ conda-build conda_recipe/meta.yaml -c pdp10 -c defaults -c fbergmann -c conda-forge
+$ conda-build conda_recipe/meta.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
 </pre></div>
 </div>
 <p>To test this package locally:</p>

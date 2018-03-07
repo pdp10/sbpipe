@@ -102,9 +102,9 @@ $ conda create -n sbpipe
 # of this environment every time SBpipe is used.
 $ source activate sbpipe
 
-# install sbpipe and sbpiper (necessary R dependencies)
-$ conda install sbpiper -c pdp10 -c r -c defaults
-$ conda install sbpipe -c pdp10 -c defaults -c fbergmann -c conda-forge
+# install sbpiper (necessary R dependencies) and sbpipe
+$ conda install sbpiper -c conda-forge -c defaults
+$ conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 
 # install snakemake (optional)
 $ conda install -c bioconda snakemake
@@ -124,7 +124,7 @@ $ conda env create --name sbpipe --file environment.yaml
 # of this environment every time SBpipe is used.
 $ source activate sbpipe
 
-# install snakemake and colorlog (optional)
+# install snakemake (optional)
 $ conda install -c bioconda snakemake
 ```
 
@@ -148,13 +148,13 @@ For this type of installation, SBpipe should be downloaded from the website or c
 The correct installation of Python and R can be tested by running the commands:
 ```
 $ python -V
-Python 2.7.12
+Python 3.6.4
 $ pip -V
-pip 8.1.2 from /home/ariel/.local/lib/python2.7/site-packages (python 2.7)
+pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
 
 $ R --version
-R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 ```
 
@@ -197,9 +197,8 @@ After installing these packages, `install_rdeps.r` must be executed again.
 
 #### Python bindings code for COPASI models (optional)
 If Python bindings for COPASI are installed, SBpipe automatically checks whether the COPASI model can be loaded
-and executed, before generating the data. As of January 2018, this code is released for Python 2.7 on the COPASI
-website and Anaconda Cloud. They will likely be installed automatically with SBpipe once the support for Python 3.6
-is added.
+and executed, before generating the data. As of January 2018, this code is released for Python 2.7 and Python 3.6
+on the COPASI website and Anaconda Cloud.
 
 
 ### How to install SBpipe on Windows
@@ -258,7 +257,7 @@ The correct installation of SBpipe and its dependencies can be verified by runni
 ```
 # SBpipe version:
 $ sbpipe -V
-sbpipe 3.32.0
+sbpipe 4.6.0
 ```
 
 ```
@@ -465,7 +464,7 @@ analyse_data: True
 generate_report: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi, Rscript, Python, Java)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_stoch.cps"
@@ -500,7 +499,7 @@ analyse_data: True
 generate_report: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_inhib_scan_IR_beta.cps"
@@ -545,7 +544,7 @@ analyse_data: True
 generate_report: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps"
@@ -577,7 +576,7 @@ generate_report: True
 generate_tarball: True
 # The relative path to the project directory
 project_dir: "."
-# The name of the configurator (e.g. Copasi)
+# The name of the configurator (e.g. Copasi, Python)
 simulator: "Copasi"
 # The model name
 model: "insulin_receptor_param_estim.cps"
