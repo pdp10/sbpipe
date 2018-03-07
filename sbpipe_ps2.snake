@@ -49,7 +49,6 @@ PLOTS_FOLDER    = "ps2_plots"
 # Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
 CSV_EXT         = ".csv"
-PNG_EXT         = ".png"
 LATEX_EXT       = ".tex"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
@@ -114,7 +113,7 @@ rule sbpipe_ps2_analysis_plot:
     output:
         # {rep} is the previously defined wildcard. Therefore {{rep}}
         # {{rep}} ensures that no two rules want to write the same file.
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{{rep}}__tp_{tp}" + PNG_EXT), tp=TIME_POINTS, var=VARIABLES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{{rep}}__tp_{tp}" + PDF_EXT), tp=TIME_POINTS, var=VARIABLES)
     params:
         model_name=MODEL_NAME,
         scanned_par1=config["scanned_par1"],
@@ -135,7 +134,7 @@ rule sbpipe_ps2_analysis_plot:
 
 rule sbpipe_ps2_latex_report:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PNG_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__eval_{var}__rep_{rep}__tp_{tp}" + PDF_EXT), var=VARIABLES, rep=REPEATS, tp=TIME_POINTS)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:

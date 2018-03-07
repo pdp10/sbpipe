@@ -266,7 +266,7 @@ class Sim(Pipeline):
         if not parcomp(command, str_to_replace, outputdir, cluster, 1, local_cpus, True, columns):
             return False
 
-        if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.png'))) == 0:
+        if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.pdf'))) == 0:
             return False
         return True
 

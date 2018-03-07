@@ -49,7 +49,6 @@ PLOTS_FOLDER           = "sim_plots"
 # Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
 CSV_EXT         = ".csv"
-PNG_EXT         = ".png"
 LATEX_EXT       = ".tex"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
@@ -155,7 +154,7 @@ rule sbpipe_sim_analysis_plot_sep_sims:
     output:
         # note: we mask var as a wildcard. Doing so, we can "replicate" this rule for each var in VARIABLES (see following rule input)
         # {{var}} ensures that no two rules want to write the same file.
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{sep_plot}" + PNG_EXT), sep_plot=SEP_PLOT_TYPES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{sep_plot}" + PDF_EXT), sep_plot=SEP_PLOT_TYPES)
     params:
         inputdir=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER),
         outputdir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
@@ -185,7 +184,7 @@ rule sbpipe_sim_analysis_plot_comb_sims:
     output:
         # note: we mask var as a wildcard. Doing so, we can "replicate" this rule for each var in VARIABLES (see following rule input)
         # {{var}} ensures that no two rules want to write the same file.
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{comb_plot}" + PNG_EXT), comb_plot=COMB_PLOT_TYPES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{{var}}{comb_plot}" + PDF_EXT), comb_plot=COMB_PLOT_TYPES)
     params:
         inputdir=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER),
         outputdir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
@@ -212,8 +211,8 @@ rule sbpipe_sim_analysis_plot_comb_sims:
 rule sbpipe_sim_latex_report:
     input:
         file_stats = expand(os.path.join(WORKING_FOLDER, STATS_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT), var=VARIABLES),
-        plots_sep=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{sep_plot}" + PNG_EXT), var=VARIABLES, sep_plot=SEP_PLOT_TYPES),
-        plots_comb=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{comb_plot}" + PNG_EXT), var=VARIABLES, comb_plot=COMB_PLOT_TYPES)
+        plots_sep=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{sep_plot}" + PDF_EXT), var=VARIABLES, sep_plot=SEP_PLOT_TYPES),
+        plots_comb=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_{var}{comb_plot}" + PDF_EXT), var=VARIABLES, comb_plot=COMB_PLOT_TYPES)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:

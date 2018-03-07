@@ -302,7 +302,7 @@ class ParScan1(Pipeline):
         if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, True):
             return False
 
-        if len(glob.glob(os.path.join(outputdir, sim_plots_folder, os.path.splitext(model)[0] + '*.png'))) == 0:
+        if len(glob.glob(os.path.join(outputdir, sim_plots_folder, os.path.splitext(model)[0] + '*.pdf'))) == 0:
             return False
         return True
 

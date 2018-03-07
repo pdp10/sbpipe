@@ -49,7 +49,6 @@ PLOTS_FOLDER    = "ps1_plots"
 # Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
 CSV_EXT         = ".csv"
-PNG_EXT         = ".png"
 LATEX_EXT       = ".tex"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
@@ -116,7 +115,7 @@ rule sbpipe_ps1_analysis_plot:
     input:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     output:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{{rep}}__eval_{var}" + PNG_EXT), var=VARIABLES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{{rep}}__eval_{var}" + PDF_EXT), var=VARIABLES)
     params:
         model_name=MODEL_NAME,
         inhibition_only=config["ps1_knock_down_only"],
@@ -156,7 +155,7 @@ rule sbpipe_ps1_analysis_plot:
 
 rule sbpipe_ps1_latex_report:
     input:
-        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{rep}__eval_{var}" + PNG_EXT), rep=REPEATS, var=VARIABLES)
+        file=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "__rep_{rep}__eval_{var}" + PDF_EXT), rep=REPEATS, var=VARIABLES)
     output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
     params:

@@ -81,7 +81,7 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameter " + scanned_par_name + "}\n")
-        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         files.sort()
         # we sort using the __eval_ pattern in files
         files.sort(key=lambda x: x.split("__eval_")[1])
@@ -89,7 +89,7 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
             if infile.find(model_noext) != -1:
                 logger.info(infile)
                 file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
-                               "/{" + infile.replace('.png', '') + "}.png}\n")
+                               "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
@@ -122,7 +122,7 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         folder.sort(key=nat_sort_key)
         prev_readout = ''
         for infile in folder:
@@ -138,7 +138,7 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
 
                 logger.info(infile)
                 file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
-                               "/{" + infile.replace('.png', '') + "}.png}\n")
+                               "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
                 file_out.write("\\hfill\n")
         file_out.write("\\end{document}\n")
 
@@ -163,7 +163,7 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         combined_list = '\t'.join(folder)
         multiple_sims = 'heatmap' in combined_list
         folder.sort()
@@ -172,7 +172,7 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
                 if multiple_sims or infile.find('mean_sd_ci95') != -1:
                     logger.info(infile)
                     file_out.write("\\includegraphics[width=2in]{" + plots_folder +
-                                   "/{" + infile.replace('.png', '') + "}.png}\n")
+                                   "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
         file_out.write("\\end{document}\n")
 
 
@@ -196,7 +196,7 @@ def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         folder.sort()
         begin_figure = False
         figure_num = 0
@@ -209,7 +209,7 @@ def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
             file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder +
-                           "/{" + infile.replace('.png', '') + "}.png}\n")
+                           "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
             file_out.write("\\end{minipage}\n")
             file_out.write("\\hfill\n")
             if figure_num % figures_per_page == 0 and begin_figure:
@@ -244,7 +244,7 @@ def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=
         file_out.write(header)
         logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
-        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.png')]
+        files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         files.sort()
         begin_figure = False
         figure_num = 0
@@ -257,7 +257,7 @@ def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=
                 begin_figure = True
             file_out.write("\\begin{minipage}{0.31\\textwidth}\n")
             file_out.write("\\includegraphics[width=\\textwidth]{" + plots_folder +
-                           "/{" + infile.replace('.png', '') + "}.png}\n")
+                           "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
             if caption:
                 file_out.write("\\caption{" + infile.replace(model_noext, "").replace("_", " ")[:-4] + "}\n")
             file_out.write("\\end{minipage}\n")
