@@ -30,18 +30,18 @@ sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.parcomp import run_cmd
 
-def pe_combine_param_ple_stats(plots_dir,
-                         fileout_param_estim_details):
+def pe_combine_param_best_fits_stats(plots_dir,
+                                     fileout_param_estim_best_fits_details):
     """
     Combine the statistics for the parameter estimation details
 
     :param plots_dir: the directory to save the generated plots
-    :param fileout_param_estim_details: the name of the file containing the detailed statistics for the estimated parameters
+    :param fileout_param_estim_best_fits_details: the name of the file containing the detailed statistics for the estimated parameters
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); combine_param_ple_stats(\"' + plots_dir + \
-              '\", \"' + fileout_param_estim_details
+    command = 'R -e \'library(sbpiper); combine_param_best_fits_stats(\"' + plots_dir + \
+              '\", \"' + fileout_param_estim_best_fits_details
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
@@ -53,10 +53,10 @@ def pe_combine_param_ple_stats(plots_dir,
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--plots-dir')
-    parser.add_argument('--fileout-param-estim-details')
+    parser.add_argument('--fileout-param-estim-best-fits-details')
     args = parser.parse_args()
-    pe_combine_param_ple_stats(args.plots_dir,
-                         args.fileout_param_estim_details)
+    pe_combine_param_best_fits_stats(args.plots_dir,
+                                     args.fileout_param_estim_best_fits_details)
     return 0
 
 

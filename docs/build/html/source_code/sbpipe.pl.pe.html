@@ -70,7 +70,7 @@
 model parameter estimations</p>
 <dl class="classmethod">
 <dt id="sbpipe.pl.pe.parest.ParEst.analyse_data">
-<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>fileout_final_estims</em>, <em>fileout_all_estims</em>, <em>fileout_param_estim_details</em>, <em>fileout_param_estim_summary</em>, <em>sim_plots_dir</em>, <em>best_fits_percent</em>, <em>data_point_num</em>, <em>cluster='local'</em>, <em>plot_2d_66cl_corr=False</em>, <em>plot_2d_95cl_corr=False</em>, <em>plot_2d_99cl_corr=False</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.analyse_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">analyse_data</code><span class="sig-paren">(</span><em>simulator</em>, <em>model</em>, <em>inputdir</em>, <em>outputdir</em>, <em>fileout_final_estims</em>, <em>fileout_all_estims</em>, <em>fileout_param_estim_best_fits_details</em>, <em>fileout_param_estim_details</em>, <em>fileout_param_estim_summary</em>, <em>sim_plots_dir</em>, <em>best_fits_percent</em>, <em>data_point_num</em>, <em>cluster='local'</em>, <em>plot_2d_66cl_corr=False</em>, <em>plot_2d_95cl_corr=False</em>, <em>plot_2d_99cl_corr=False</em>, <em>logspace=True</em>, <em>scientific_notation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sbpipe.pl.pe.parest.ParEst.analyse_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>The second pipeline step: data analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -83,7 +83,8 @@ model parameter estimations</p>
 <li><strong>outputdir</strong> – the directory to store the results</li>
 <li><strong>fileout_final_estims</strong> – the name of the file containing final parameter sets with the objective value</li>
 <li><strong>fileout_all_estims</strong> – the name of the file containing all the parameter sets with the objective value</li>
-<li><strong>fileout_param_estim_details</strong> – the name of the file containing the detailed statistics for the         estimated parameters</li>
+<li><strong>fileout_param_estim_best_fits_details</strong> – the name of the file containing the detailed statistics for the         estimated parameters from the best fits analysis</li>
+<li><strong>fileout_param_estim_details</strong> – the name of the file containing the detailed statistics for the         estimated parameters from the PLE analysis</li>
 <li><strong>fileout_param_estim_summary</strong> – the name of the file containing the summary for the parameter estimation</li>
 <li><strong>sim_plots_dir</strong> – the directory of the simulation plots</li>
 <li><strong>best_fits_percent</strong> – the percent to consider for the best fits</li>

@@ -99,6 +99,7 @@ class ParEst(Pipeline):
         outputdir = os.path.join(working_dir, output_folder)
         fileout_final_estims = "final_estim_collection.csv"
         fileout_all_estims = "all_estim_collection.csv"
+        fileout_param_estim_best_fits_details = "param_estim_best_fits_details.csv"
         fileout_param_estim_details = "param_estim_details.csv"
         fileout_param_estim_summary = "param_estim_summary.csv"
 
@@ -134,6 +135,7 @@ class ParEst(Pipeline):
                                          outputdir,
                                          fileout_final_estims,
                                          fileout_all_estims,
+                                         fileout_param_estim_best_fits_details,
                                          fileout_param_estim_details,
                                          fileout_param_estim_summary,
                                          os.path.join(outputdir, self.get_sim_plots_folder()),
@@ -220,8 +222,8 @@ class ParEst(Pipeline):
 
     @classmethod
     def analyse_data(cls, simulator, model, inputdir, outputdir, fileout_final_estims, fileout_all_estims,
-                     fileout_param_estim_details, fileout_param_estim_summary, sim_plots_dir,
-                     best_fits_percent, data_point_num, cluster='local',
+                     fileout_param_estim_best_fits_details, fileout_param_estim_details, fileout_param_estim_summary,
+                     sim_plots_dir, best_fits_percent, data_point_num, cluster='local',
                      plot_2d_66cl_corr=False, plot_2d_95cl_corr=False, plot_2d_99cl_corr=False,
                      logspace=True, scientific_notation=True):
         """
@@ -233,8 +235,10 @@ class ParEst(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
         :param fileout_all_estims: the name of the file containing all the parameter sets with the objective value
+        :param fileout_param_estim_best_fits_details: the name of the file containing the detailed statistics for the \
+        estimated parameters from the best fits analysis
         :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
-        estimated parameters
+        estimated parameters from the PLE analysis
         :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
@@ -288,7 +292,8 @@ class ParEst(Pipeline):
                   '\", \"' + os.path.join(outputdir, fileout_all_estims) + \
                   '\", \"' + sim_plots_dir + \
                   '\", ' + str(data_point_num) + \
-                  ', \"' + os.path.join(outputdir, fileout_param_estim_details) + \
+                  ', \"' + os.path.join(outputdir, fileout_param_estim_best_fits_details) + \
+                  '\", \"' + os.path.join(outputdir, fileout_param_estim_details) + \
                   '\", \"' + os.path.join(outputdir, fileout_param_estim_summary) + \
                   '\", ' + str(best_fits_percent) + \
                   ', ' + str(plot_2d_66cl_corr).upper() + \

@@ -46,10 +46,11 @@ POSTPROC_FOLDER = "pe_postproc"
 PLOTS_FOLDER    = "pe_plots"
 
 # Files
-FILE_FINAL_ESTIM         = "final_estim_collection"
-FILE_ALL_ESTIM           = "all_estim_collection"
-FILE_PARAM_ESTIM_DETAILS = "param_estim_details"
-FILE_PARAM_ESTIM_SUMMARY = "param_estim_summary"
+FILE_FINAL_ESTIM                   = "final_estim_collection"
+FILE_ALL_ESTIM                     = "all_estim_collection"
+FILE_PARAM_ESTIM_BEST_FITS_DETAILS = "param_estim_best_fits_details"
+FILE_PARAM_ESTIM_DETAILS           = "param_estim_details"
+FILE_PARAM_ESTIM_SUMMARY           = "param_estim_summary"
 
 # Extensions
 MODEL_EXT       = "." + config['model'].split('.')[1]
@@ -223,7 +224,8 @@ rule sbpipe_parameter_density_analysis_final_estim:
     input:
         file_best_fits=os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + "_log10" + CSV_EXT) if config['logspace'] else os.path.join(WORKING_FOLDER, FILE_FINAL_ESTIM + CSV_EXT)
     output:
-        best_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + PDF_EXT)
+        best_fits_plot=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + PDF_EXT),
+        best_fits_csv=os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + CSV_EXT)
     params:
         model = MODEL_NAME,
         parameter = "{var}",
@@ -243,6 +245,19 @@ rule sbpipe_parameter_density_analysis_final_estim:
                                       "",
                                       params.logspace,
                                       params.scientific_notation)
+
+
+rule sbpipe_pe_combine_param_best_fits_stats:
+    input:
+        best_fits_csv=expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_best_fits_{var}" + CSV_EXT), var=VARIABLES)
+    output:
+        file_param_estim_best_fits_details=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_BEST_FITS_DETAILS + CSV_EXT)
+    params:
+        plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER)
+    run:
+        from sbpipe.tasks.pe_combine_param_best_fits_stats import pe_combine_param_best_fits_stats
+        pe_combine_param_best_fits_stats(params.plots_dir,
+                                         output.file_param_estim_best_fits_details)
 
 
 rule sbpipe_parameter_pca_analysis_final_estim:
@@ -551,6 +566,7 @@ rule sbpipe_pe_latex_report:
             'logspace'] else os.path.join(WORKING_FOLDER, FILE_ALL_ESTIM + CSV_EXT),
         file_param_estim_summary = os.path.join(WORKING_FOLDER, "param_estim_summary" + CSV_EXT),
         file_param_estim_details = os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_DETAILS + CSV_EXT),
+        file_param_estim_best_fits_details=os.path.join(WORKING_FOLDER, FILE_PARAM_ESTIM_BEST_FITS_DETAILS + CSV_EXT),
         pca_plot = os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_eigenvalues" + PDF_EXT),
         approx_ple_plot = expand(os.path.join(WORKING_FOLDER, PLOTS_FOLDER, MODEL_NAME + "_approx_ple_{var}" + PDF_EXT),
                                  var=VARIABLES),
