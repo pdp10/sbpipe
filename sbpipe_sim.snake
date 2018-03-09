@@ -108,29 +108,6 @@ rule sbpipe_sim_postproc:
                      COPASI)
 
 
-rule sbpipe_sim_analysis_gen_stats_table:
-    input:
-        file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
-    output:
-        file=os.path.join(WORKING_FOLDER, STATS_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT)
-    params:
-        inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
-        outputdir=os.path.join(WORKING_FOLDER, STATS_FOLDER),
-        model_name = MODEL_NAME,
-        xaxis_label=config["xaxis_label"],
-        yaxis_label=config["yaxis_label"],
-        variable = '{var}'
-    run:
-        from sbpipe.tasks.sim_analyse_gen_stats_table import sim_analyse_gen_stats_table
-        sim_analyse_gen_stats_table(params.inputdir,
-                                    params.outputdir,
-                                    params.model_name,
-                                    output.file,
-                                    params.xaxis_label,
-                                    params.yaxis_label,
-                                    params.variable)
-
-
 rule sbpipe_sim_analysis_summarise_data:
     input:
         file=expand(os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT), rep=REPEATS)
@@ -146,6 +123,20 @@ rule sbpipe_sim_analysis_summarise_data:
                                    params.model_name,
                                    output.file,
                                    params.variable)
+
+
+rule sbpipe_sim_analysis_gen_stats_table:
+    input:
+        file=os.path.join(WORKING_FOLDER, POSTPROC_BY_VAR_FOLDER, MODEL_NAME + "_{var}" + CSV_EXT)
+    output:
+        file=os.path.join(WORKING_FOLDER, STATS_FOLDER, 'sim_stats_' + MODEL_NAME + '_{var}' + CSV_EXT)
+    params:
+        variable = '{var}'
+    run:
+        from sbpipe.tasks.sim_analyse_gen_stats_table import sim_analyse_gen_stats_table
+        sim_analyse_gen_stats_table(input.file,
+                                    output.file,
+                                    params.variable)
 
 
 rule sbpipe_sim_analysis_plot_sep_sims:

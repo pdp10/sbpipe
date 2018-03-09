@@ -35,36 +35,24 @@ sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.parcomp import run_cmd
 
-def sim_analyse_gen_stats_table(inputdir,
-                                outputdir,
-                                model,
+def sim_analyse_gen_stats_table(inputfile,
                                 outputfile,
-                                xaxis_label,
-                                yaxis_label,
                                 variable):
     """
     Plot model simulation time courses (Python wrapper).
 
-    :param inputdir: the directory containing the data to analyse
-    :param outputdir: the output directory containing the results
-    :param model: the model name
+    :param inputfile: the file containing the repeats
     :param outputfile: the output file containing the statistics
-    :param xaxis_label: the label for the x axis (e.g. Time [min])
-    :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     :param variable: the model variable to analyse
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); gen_stats_table(\"' + inputdir + \
-              '\", \"' + outputdir + \
-              '\", \"' + model + \
+    command = 'R -e \'library(sbpiper); gen_stats_table(\"' + inputfile + \
               '\", \"' + outputfile
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
-    command += '\", \"' + xaxis_label + \
-               '\", \"' + yaxis_label + \
-               '\", \"' + variable + \
+    command += '\", \"' + variable + \
                '\")\''
     logger.debug(command)
     run_cmd(command)
@@ -73,21 +61,13 @@ def sim_analyse_gen_stats_table(inputdir,
 # this is a Python wrapper for sim analysis in R (gen_stats_table).
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--inputdir')
-    parser.add_argument('--outputdir')
-    parser.add_argument('-m', '--model')
+    parser.add_argument('--inputfile_repeats')
     parser.add_argument('--outputfile')
-    parser.add_argument('--xaxis-label')
-    parser.add_argument('--yaxis-label')
     parser.add_argument('--variable')
 
     args = parser.parse_args()
-    sim_analyse_gen_stats_table(args.inputdir,
-                                args.outputdir,
-                                args.model,
+    sim_analyse_gen_stats_table(args.inputfile_repeats,
                                 args.outputfile,
-                                args.xaxis_label,
-                                args.yaxis_label,
                                 args.variable)
     return 0
 

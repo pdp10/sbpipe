@@ -1,33 +1,34 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>User manual &#8212; SBpipe 4.6.0 documentation</title>
+    
+    <title>User manual &mdash; SBpipe 4.6.0 documentation</title>
+    
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '4.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SBpipe 4.6.0 documentation" href="index.html" />
     <link rel="next" title="Developer manual" href="developer_manual.html" />
     <link rel="prev" title="SBpipe documentation" href="index.html" /> 
   </head>
-  <body>
+  <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -43,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.6.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -105,12 +106,12 @@ be installed:</p>
 <p>As of 2016, COPASI is not available as a package in GNU/Linux
 distributions. Users must add the path to COPASI binary files manually
 editing the GNU/Linux <code class="docutils literal"><span class="pre">$HOME/.bashrc</span></code> file as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Path to CopasiSE (update this accordingly)
+<div class="highlight-python"><div class="highlight"><pre># Path to CopasiSE (update this accordingly)
 export PATH=$PATH:/path/to/CopasiSE/
 </pre></div>
 </div>
 <p>The correct installation of CopasiSE can be tested with:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 
 $ CopasiSE -h
@@ -123,11 +124,11 @@ COPASI 4.19 (Build 140)
 <p>Users are recommended to install LaTeX/texlive using the package manager
 of their GNU/Linux distribution. On GNU/Linux Ubuntu machines the
 following package is required:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">texlive</span><span class="o">-</span><span class="n">latex</span><span class="o">-</span><span class="n">base</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">texlive</span><span class="o">-</span><span class="n">latex</span><span class="o">-</span><span class="n">base</span>
 </pre></div>
 </div>
 <p>The correct installation of LaTeX can be tested with:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pdflatex -v
+<div class="highlight-python"><div class="highlight"><pre>$ pdflatex -v
 pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
 kpathsea version 6.2.1
 Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
@@ -141,7 +142,7 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 (<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
 <p><strong>1st Method</strong></p>
 <p>The following procedure will install SBpipe in a conda environment:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># create a new environment `sbpipe`
+<div class="highlight-python"><div class="highlight"><pre># create a new environment `sbpipe`
 $ conda create -n sbpipe
 
 # activate the environment. The following line can be
@@ -163,7 +164,7 @@ $ conda install -c bioconda snakemake
 the package documentation and test suite, it could be useful to store
 SBpipe in a custom path. To do so, SBpipe should be downloaded from the
 website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. From a GNU/Linux shell, type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe
 
 # install dependencies into isolated environment using Anaconda3/Miniconda3
 $ conda env create --name sbpipe --file environment.yaml
@@ -177,26 +178,26 @@ $ source activate sbpipe
 $ conda install -c bioconda snakemake
 </pre></div>
 </div>
-<p>To run sbpipe from any shell, users need to add ‘sbpipe/scripts’ to
+<p>To run sbpipe from any shell, users need to add &#8216;sbpipe/scripts&#8217; to
 their <code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the following lines to
 their <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># SBPIPE (update this accordingly)
+<div class="highlight-python"><div class="highlight"><pre># SBPIPE (update this accordingly)
 export PATH=$PATH:/path/to/sbpipe/scripts
 </pre></div>
 </div>
 <p>The .bashrc file should be reloaded to apply the previous edits:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
 </div>
 <div class="section" id="install-sbpipe-s-dependencies-via-provided-scripts">
-<h4>Install SBpipe’s dependencies via provided scripts<a class="headerlink" href="#install-sbpipe-s-dependencies-via-provided-scripts" title="Permalink to this headline">¶</a></h4>
+<h4>Install SBpipe&#8217;s dependencies via provided scripts<a class="headerlink" href="#install-sbpipe-s-dependencies-via-provided-scripts" title="Permalink to this headline">¶</a></h4>
 <p>For this type of installation, SBpipe should be downloaded from the
 website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. Users need to make sure that the
 package <code class="docutils literal"><span class="pre">python-pip</span></code> and <code class="docutils literal"><span class="pre">r-base</span></code> are installed. The correct
 installation of Python and R can be tested by running the commands:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ python -V
+<div class="highlight-python"><div class="highlight"><pre>$ python -V
 Python 3.6.4
 $ pip -V
 pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
@@ -209,26 +210,26 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 </div>
 <p>The next step is the installation of SBpipe dependencies. To install
 Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe
 $ ./install_pydeps.py
 </pre></div>
 </div>
 <p>To install SBpipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+<div class="highlight-python"><div class="highlight"><pre>$ cd path/to/sbpipe
 $ R
 # Inside R environment, answer &#39;y&#39; to install packages locally
 &gt; source(&#39;install_rdeps.r&#39;)
 </pre></div>
 </div>
 <p>Finally, to run sbpipe from any shell, users need to add
-‘sbpipe/scripts’ to their <code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the
+&#8216;sbpipe/scripts&#8217; to their <code class="docutils literal"><span class="pre">PATH</span></code> environment variable by adding the
 following lines to their <code class="docutils literal"><span class="pre">$HOME</span></code>/.bashrc file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># SBPIPE (update this accordingly)
+<div class="highlight-python"><div class="highlight"><pre># SBPIPE (update this accordingly)
 export PATH=$PATH:/path/to/sbpipe/scripts
 </pre></div>
 </div>
 <p>The .bashrc file should be reloaded to apply the previous edits:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
@@ -267,17 +268,17 @@ Windows. Leave the default setting during installation.</p>
 <p>Once <code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code> is started, a Shell-like window appears and
 enables users to run commands. The first step is to clone SBpipe from
 GitHub using the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/pdp10/sbpipe.git
+<div class="highlight-python"><div class="highlight"><pre>$ git clone https://github.com/pdp10/sbpipe.git
 </pre></div>
 </div>
 <p>We now need to set up the SBpipe environment variable:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ touch .bashrc
+<div class="highlight-python"><div class="highlight"><pre>$ touch .bashrc
 $ wordpad .bashrc
 </pre></div>
 </div>
 <p>A Wordpad window should be visible, loading the file <code class="docutils literal"><span class="pre">.bashrc</span></code> . The
 following lines must be copied into this file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>#!/bin/bash/
+<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash/
 
 # SBPIPE
 export PATH=$PATH:~/sbpipe/scripts
@@ -291,7 +292,7 @@ source activate sbpipe
 </div>
 <p>Save the file and close wordpad. Now you should reload the .bashrc file
 to apply the previous changes:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
+<div class="highlight-python"><div class="highlight"><pre># Reload the .bashrc file
 $ source $HOME/.bashrc
 </pre></div>
 </div>
@@ -306,21 +307,21 @@ $ source $HOME/.bashrc
 <p>The correct installation of SBpipe and its dependencies can be verified
 by running the following commands. For the correct execution of all
 tests, LaTeX must be installed.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># SBpipe version:
+<div class="highlight-python"><div class="highlight"><pre># SBpipe version:
 $ sbpipe -V
 sbpipe 4.6.0
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation using COPASI (see results in tests/copasi_models):
+<div class="highlight-python"><div class="highlight"><pre># run model simulation using COPASI (see results in tests/copasi_models):
 $ cd path/to/sbpipe/tests
 $ nosetests test_copasi_sim.py --nocapture --verbose
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run all tests:
+<div class="highlight-python"><div class="highlight"><pre># run all tests:
 $ nosetests test_suite.py --nocapture --verbose
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># regenerate the manuscript figures (see results in tests/insulin_receptor):
+<div class="highlight-python"><div class="highlight"><pre># regenerate the manuscript figures (see results in tests/insulin_receptor):
 $ nosetests test_suite_manuscript.py --nocapture --verbose
 </pre></div>
 </div>
@@ -397,7 +398,7 @@ script. This R script will run a model and store the results in the
 received report file name. These data must be stored as described above.</p>
 <p>Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code>. This runs
 <code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">shlex</span>
@@ -411,7 +412,7 @@ received report file name. These data must be stored as described above.</p>
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
     <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
           <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
 
 <span class="c1"># Block until command is finished</span>
@@ -419,20 +420,20 @@ received report file name. These data must be stored as described above.</p>
 </pre></div>
 </div>
 <p>Configuration file invoking the Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Python&quot;</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;sde_periodic_drift.py&quot;</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">14</span>
-<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="n">plot_exp_dataset</span><span class="p">:</span> <span class="kc">False</span>
-<span class="n">exp_dataset_alpha</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="n">xaxis_label</span><span class="p">:</span> <span class="s2">&quot;Time&quot;</span>
-<span class="n">yaxis_label</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre>generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: &quot;.&quot;
+simulator: &quot;Python&quot;
+model: &quot;sde_periodic_drift.py&quot;
+cluster: &quot;local&quot;
+local_cpus: 7
+runs: 14
+exp_dataset: &quot;&quot;
+plot_exp_dataset: False
+exp_dataset_alpha: 1.0
+xaxis_label: &quot;Time&quot;
+yaxis_label: &quot;#&quot;
 </pre></div>
 </div>
 </div>
@@ -443,14 +444,14 @@ received report file name. These data must be stored as described above.</p>
 and its complete list of options can be retrieved by running <em>sbpipe
 -h</em>. The first step is to create a new project. This can be done with
 the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ sbpipe --create-project project_name
+<div class="highlight-python"><div class="highlight"><pre>$ sbpipe --create-project project_name
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">project_name</span><span class="o">/</span>
-    <span class="o">|</span> <span class="o">-</span> <span class="n">Models</span><span class="o">/</span>
-    <span class="o">|</span> <span class="o">-</span> <span class="n">Results</span><span class="o">/</span>
-    <span class="o">|</span> <span class="o">-</span> <span class="p">(</span><span class="n">store</span> <span class="n">configuration</span> <span class="n">files</span> <span class="n">here</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>project_name/
+    | - Models/
+    | - Results/
+    | - (store configuration files here)
 </pre></div>
 </div>
 <p>Models must be stored in the Models/ folder. COPASI data sets used by a
@@ -461,17 +462,17 @@ project folder. In Results/ users will eventually find all the results
 generated by SBpipe.</p>
 <p>Each pipeline is invoked using a specific option (type <code class="docutils literal"><span class="pre">sbpipe</span> <span class="pre">-h</span></code> for
 the complete command set):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># runs model simulation.</span>
-<span class="n">sbpipe</span> <span class="o">-</span><span class="n">s</span> <span class="n">config_file</span><span class="o">.</span><span class="n">yaml</span>
+<div class="highlight-python"><div class="highlight"><pre># runs model simulation.
+sbpipe -s config_file.yaml
 
-<span class="c1"># runs parameter estimation.</span>
-<span class="n">sbpipe</span> <span class="o">-</span><span class="n">e</span> <span class="n">config_file</span><span class="o">.</span><span class="n">yaml</span>
+# runs parameter estimation.
+sbpipe -e config_file.yaml
 
-<span class="c1"># runs single parameter scan.</span>
-<span class="n">sbpipe</span> <span class="o">-</span><span class="n">p</span> <span class="n">config_file</span><span class="o">.</span><span class="n">yaml</span>
+# runs single parameter scan.
+sbpipe -p config_file.yaml
 
-<span class="c1"># runs double parameter scan</span>
-<span class="n">sbpipe</span> <span class="o">-</span><span class="n">d</span> <span class="n">config_file</span><span class="o">.</span><span class="n">yaml</span>
+# runs double parameter scan
+sbpipe -d config_file.yaml
 </pre></div>
 </div>
 </div>
@@ -500,7 +501,7 @@ computationally intensive. SBpipe allows users to generate simulated
 data in parallel using the following options in the pipeline
 configuration file:</p>
 <ul class="simple">
-<li>cluster: “local”</li>
+<li>cluster: &#8220;local&#8221;</li>
 <li>local_cpus: 7</li>
 <li>runs: 250</li>
 </ul>
@@ -515,163 +516,163 @@ estimations for the pipeline <code class="docutils literal"><span class="pre">pa
 of a certain project (e.g. project_name/), examples are given as
 follow:</p>
 <p><strong>Example 1:</strong> configuration file for the pipeline <em>simulation</em></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># True if data should be generated, False otherwise</span>
-<span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if data should be analysed, False otherwise</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if a report should be generated, False otherwise</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The relative path to the project directory</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
-<span class="c1"># The model name</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_stoch.cps&quot;</span>
-<span class="c1"># The cluster type. local if the model is run locally,</span>
-<span class="c1"># sge/lsf if run on cluster.</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="c1"># The number of CPU if local is used, ignored otherwise</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="c1"># The number of simulations to perform.</span>
-<span class="c1"># n&gt;: 1 for stochastic simulations.</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">40</span>
-<span class="c1"># An experimental data set (or blank) to add to the</span>
-<span class="c1"># simulated plots as additional layer</span>
-<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_dataset.csv&quot;</span>
-<span class="c1"># True if the experimental data set should be plotted.</span>
-<span class="n">plot_exp_dataset</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The alpha level used for plotting the experimental dataset</span>
-<span class="n">exp_dataset_alpha</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="c1"># The label for the x axis.</span>
-<span class="n">xaxis_label</span><span class="p">:</span> <span class="s2">&quot;Time [min]&quot;</span>
-<span class="c1"># The label for the y axis.</span>
-<span class="n">yaxis_label</span><span class="p">:</span> <span class="s2">&quot;Level [a.u.]&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre># True if data should be generated, False otherwise
+generate_data: True
+# True if data should be analysed, False otherwise
+analyse_data: True
+# True if a report should be generated, False otherwise
+generate_report: True
+# The relative path to the project directory
+project_dir: &quot;.&quot;
+# The name of the configurator (e.g. Copasi, Python)
+simulator: &quot;Copasi&quot;
+# The model name
+model: &quot;insulin_receptor_stoch.cps&quot;
+# The cluster type. local if the model is run locally,
+# sge/lsf if run on cluster.
+cluster: &quot;local&quot;
+# The number of CPU if local is used, ignored otherwise
+local_cpus: 7
+# The number of simulations to perform.
+# n&gt;: 1 for stochastic simulations.
+runs: 40
+# An experimental data set (or blank) to add to the
+# simulated plots as additional layer
+exp_dataset: &quot;insulin_receptor_dataset.csv&quot;
+# True if the experimental data set should be plotted.
+plot_exp_dataset: True
+# The alpha level used for plotting the experimental dataset
+exp_dataset_alpha: 1.0
+# The label for the x axis.
+xaxis_label: &quot;Time [min]&quot;
+# The label for the y axis.
+yaxis_label: &quot;Level [a.u.]&quot;
 </pre></div>
 </div>
 <p><strong>Example 2:</strong> configuration file for the pipeline <em>single parameter
 scan</em></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># True if data should be generated, False otherwise</span>
-<span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if data should be analysed, False otherwise</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if a report should be generated, False otherwise</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The relative path to the project directory</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
-<span class="c1"># The model name</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_inhib_scan_IR_beta.cps&quot;</span>
-<span class="c1"># The variable to scan (as set in Copasi Parameter Scan Task)</span>
-<span class="n">scanned_par</span><span class="p">:</span> <span class="s2">&quot;IR_beta&quot;</span>
-<span class="c1"># The cluster type. local if the model is run locally,</span>
-<span class="c1"># sge/lsf if run on cluster.</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="c1"># The number of CPU if local is used, ignored otherwise</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="c1"># The number of simulations to perform per run.</span>
-<span class="c1"># n&gt;: 1 for stochastic simulations.</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">1</span>
-<span class="c1"># The number of intervals in the simulation</span>
-<span class="n">simulate__intervals</span><span class="p">:</span> <span class="mi">100</span>
-<span class="c1"># True if the variable is only reduced (knock down), False otherwise.</span>
-<span class="n">ps1_knock_down_only</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if the scanning represents percent levels.</span>
-<span class="n">ps1_percent_levels</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The minimum level (as set in Copasi Parameter Scan Task)</span>
-<span class="n">min_level</span><span class="p">:</span> <span class="mi">0</span>
-<span class="c1"># The maximum level (as set in Copasi Parameter Scan Task)</span>
-<span class="n">max_level</span><span class="p">:</span> <span class="mi">100</span>
-<span class="c1"># The number of scans (as set in Copasi Parameter Scan Task)</span>
-<span class="n">levels_number</span><span class="p">:</span> <span class="mi">10</span>
-<span class="c1"># True if plot lines are the same between scans</span>
-<span class="c1"># (e.g. full lines, same colour)</span>
-<span class="n">homogeneous_lines</span><span class="p">:</span> <span class="kc">False</span>
-<span class="c1"># The label for the x axis.</span>
-<span class="n">xaxis_label</span><span class="p">:</span> <span class="s2">&quot;Time [min]&quot;</span>
-<span class="c1"># The label for the y axis.</span>
-<span class="n">yaxis_label</span><span class="p">:</span> <span class="s2">&quot;Level [a.u.]&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre># True if data should be generated, False otherwise
+generate_data: True
+# True if data should be analysed, False otherwise
+analyse_data: True
+# True if a report should be generated, False otherwise
+generate_report: True
+# The relative path to the project directory
+project_dir: &quot;.&quot;
+# The name of the configurator (e.g. Copasi, Python)
+simulator: &quot;Copasi&quot;
+# The model name
+model: &quot;insulin_receptor_inhib_scan_IR_beta.cps&quot;
+# The variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par: &quot;IR_beta&quot;
+# The cluster type. local if the model is run locally,
+# sge/lsf if run on cluster.
+cluster: &quot;local&quot;
+# The number of CPU if local is used, ignored otherwise
+local_cpus: 7
+# The number of simulations to perform per run.
+# n&gt;: 1 for stochastic simulations.
+runs: 1
+# The number of intervals in the simulation
+simulate__intervals: 100
+# True if the variable is only reduced (knock down), False otherwise.
+ps1_knock_down_only: True
+# True if the scanning represents percent levels.
+ps1_percent_levels: True
+# The minimum level (as set in Copasi Parameter Scan Task)
+min_level: 0
+# The maximum level (as set in Copasi Parameter Scan Task)
+max_level: 100
+# The number of scans (as set in Copasi Parameter Scan Task)
+levels_number: 10
+# True if plot lines are the same between scans
+# (e.g. full lines, same colour)
+homogeneous_lines: False
+# The label for the x axis.
+xaxis_label: &quot;Time [min]&quot;
+# The label for the y axis.
+yaxis_label: &quot;Level [a.u.]&quot;
 </pre></div>
 </div>
 <p><strong>Example 3:</strong> configuration file for the pipeline <em>double parameter
 scan</em></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># True if data should be generated, False otherwise</span>
-<span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if data should be analysed, False otherwise</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if a report should be generated, False otherwise</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The relative path to the project directory</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
-<span class="c1"># The model name</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps&quot;</span>
-<span class="c1"># The 1st variable to scan (as set in Copasi Parameter Scan Task)</span>
-<span class="n">scanned_par1</span><span class="p">:</span> <span class="s2">&quot;InsulinPercent&quot;</span>
-<span class="c1"># The 2nd variable to scan (as set in Copasi Parameter Scan Task)</span>
-<span class="n">scanned_par2</span><span class="p">:</span> <span class="s2">&quot;IRbetaPercent&quot;</span>
-<span class="c1"># The cluster type. local if the model is run locally,</span>
-<span class="c1"># sge/lsf if run on cluster.</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="c1"># The number of CPU if local is used, ignored otherwise</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="c1"># The number of simulations to perform.</span>
-<span class="c1"># n&gt;: 1 for stochastic simulations.</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">1</span>
-<span class="c1"># The simulation length (as set in Copasi Time Course Task)</span>
-<span class="n">sim_length</span><span class="p">:</span> <span class="mi">10</span>
+<div class="highlight-python"><div class="highlight"><pre># True if data should be generated, False otherwise
+generate_data: True
+# True if data should be analysed, False otherwise
+analyse_data: True
+# True if a report should be generated, False otherwise
+generate_report: True
+# The relative path to the project directory
+project_dir: &quot;.&quot;
+# The name of the configurator (e.g. Copasi, Python)
+simulator: &quot;Copasi&quot;
+# The model name
+model: &quot;insulin_receptor_inhib_dbl_scan_InsulinPercent__IRbetaPercent.cps&quot;
+# The 1st variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par1: &quot;InsulinPercent&quot;
+# The 2nd variable to scan (as set in Copasi Parameter Scan Task)
+scanned_par2: &quot;IRbetaPercent&quot;
+# The cluster type. local if the model is run locally,
+# sge/lsf if run on cluster.
+cluster: &quot;local&quot;
+# The number of CPU if local is used, ignored otherwise
+local_cpus: 7
+# The number of simulations to perform.
+# n&gt;: 1 for stochastic simulations.
+runs: 1
+# The simulation length (as set in Copasi Time Course Task)
+sim_length: 10
 </pre></div>
 </div>
 <p><strong>Example 4:</strong> configuration file for the pipeline <em>parameter
 estimation</em></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># True if data should be generated, False otherwise</span>
-<span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if data should be analysed, False otherwise</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if a report should be generated, False otherwise</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if a zipped tarball should be generated, False otherwise</span>
-<span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># The relative path to the project directory</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
-<span class="c1"># The model name</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_param_estim.cps&quot;</span>
-<span class="c1"># The cluster type. local if the model is run locally,</span>
-<span class="c1"># sge/lsf if run on cluster.</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="c1"># The number of CPU if local is used, ignored otherwise</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="c1"># The parameter estimation round which is used to distinguish</span>
-<span class="c1"># phases of parameter estimations when parameters cannot be</span>
-<span class="c1"># estimated at the same time</span>
-<span class="nb">round</span><span class="p">:</span> <span class="mi">1</span>
-<span class="c1"># The number of parameter estimations</span>
-<span class="c1"># (the length of the fit sequence)</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">250</span>
-<span class="c1"># The threshold percentage of the best fits to consider</span>
-<span class="n">best_fits_percent</span><span class="p">:</span> <span class="mi">75</span>
-<span class="c1"># The number of available data points</span>
-<span class="n">data_point_num</span><span class="p">:</span> <span class="mi">33</span>
-<span class="c1"># True if 2D all fits plots for 66% confidence levels</span>
-<span class="c1"># should be plotted. This can be computationally expensive.</span>
-<span class="n">plot_2d_66cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if 2D all fits plots for 95% confidence levels</span>
-<span class="c1"># should be plotted. This can be computationally expensive.</span>
-<span class="n">plot_2d_95cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if 2D all fits plots for 99% confidence levels</span>
-<span class="c1"># should be plotted. This can be computationally expensive.</span>
-<span class="n">plot_2d_99cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if parameter values should be plotted in log space.</span>
-<span class="n">logspace</span><span class="p">:</span> <span class="kc">True</span>
-<span class="c1"># True if plot axis labels should be plotted in scientific notation.</span>
-<span class="n">scientific_notation</span><span class="p">:</span> <span class="kc">True</span>
+<div class="highlight-python"><div class="highlight"><pre># True if data should be generated, False otherwise
+generate_data: True
+# True if data should be analysed, False otherwise
+analyse_data: True
+# True if a report should be generated, False otherwise
+generate_report: True
+# True if a zipped tarball should be generated, False otherwise
+generate_tarball: True
+# The relative path to the project directory
+project_dir: &quot;.&quot;
+# The name of the configurator (e.g. Copasi, Python)
+simulator: &quot;Copasi&quot;
+# The model name
+model: &quot;insulin_receptor_param_estim.cps&quot;
+# The cluster type. local if the model is run locally,
+# sge/lsf if run on cluster.
+cluster: &quot;local&quot;
+# The number of CPU if local is used, ignored otherwise
+local_cpus: 7
+# The parameter estimation round which is used to distinguish
+# phases of parameter estimations when parameters cannot be
+# estimated at the same time
+round: 1
+# The number of parameter estimations
+# (the length of the fit sequence)
+runs: 250
+# The threshold percentage of the best fits to consider
+best_fits_percent: 75
+# The number of available data points
+data_point_num: 33
+# True if 2D all fits plots for 66% confidence levels
+# should be plotted. This can be computationally expensive.
+plot_2d_66cl_corr: True
+# True if 2D all fits plots for 95% confidence levels
+# should be plotted. This can be computationally expensive.
+plot_2d_95cl_corr: True
+# True if 2D all fits plots for 99% confidence levels
+# should be plotted. This can be computationally expensive.
+plot_2d_99cl_corr: True
+# True if parameter values should be plotted in log space.
+logspace: True
+# True if plot axis labels should be plotted in scientific notation.
+scientific_notation: True
 </pre></div>
 </div>
 <p>Additional examples of configuration files can be found in:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">insulin_receptor</span><span class="o">/</span>
+<div class="highlight-python"><div class="highlight"><pre>sbpipe/tests/insulin_receptor/
 </pre></div>
 </div>
 </div>
@@ -682,7 +683,7 @@ estimation</em></p>
 infrastructure for running software pipelines using declarative rules.</p>
 <p>Snakemake can be installed manually via package manager or using the
 conda command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Install snakemake (note: it requires python 3+ to run)
+<div class="highlight-python"><div class="highlight"><pre># Install snakemake (note: it requires python 3+ to run)
 $ conda install -c bioconda snakemake
 </pre></div>
 </div>
@@ -699,7 +700,7 @@ contain the set of rules for each pipeline). These are:</p>
 snakemake as pipeline infrastructure is that it offers an extended
 command sets compared to the one provided with the standard sbpipe. For
 details, run</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snakemake</span> <span class="o">-</span><span class="n">h</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">snakemake</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 </div>
 <p>Snakemake also offers a strong support for dependency management at
@@ -710,8 +711,8 @@ Benefitting of dependency declaration and execution reentrancy can be
 beneficial for running SBpipe on clusters or on the cloud.</p>
 <p>Under the current implementation of SBpipe snakefile, the configuration
 files described above require the additional field:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># The name of the report variables</span>
-<span class="n">report_variables</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;IR_beta_pY1146&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre># The name of the report variables
+report_variables: [&#39;IR_beta_pY1146&#39;]
 </pre></div>
 </div>
 <p>which contain the names of the variables exported by the simulator. For
@@ -719,26 +720,26 @@ the parameter estimation pipeline, <code class="docutils literal"><span class="p
 names of the estimated parameters.</p>
 <p>For the parameter estimation pipeline, the following option must also be
 added:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># An experimental data set (or blank) to add to the</span>
-<span class="c1"># simulated plots as additional layer</span>
-<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_dataset.csv&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre># An experimental data set (or blank) to add to the
+# simulated plots as additional layer
+exp_dataset: &quot;insulin_receptor_dataset.csv&quot;
 </pre></div>
 </div>
 <p>A complete example of configuration file for the parameter estimation
 pipeline is the following:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Copasi&quot;</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_param_estim.cps&quot;</span>
-<span class="nb">round</span><span class="p">:</span> <span class="mi">1</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">4</span>
-<span class="n">best_fits_percent</span><span class="p">:</span> <span class="mi">75</span>
-<span class="n">data_point_num</span><span class="p">:</span> <span class="mi">33</span>
-<span class="n">plot_2d_66cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">plot_2d_95cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">plot_2d_99cl_corr</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">logspace</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">scientific_notation</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">report_variables</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span><span class="s1">&#39;k2&#39;</span><span class="p">,</span><span class="s1">&#39;k3&#39;</span><span class="p">]</span>
-<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;insulin_receptor_dataset.csv&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre>simulator: &quot;Copasi&quot;
+model: &quot;insulin_receptor_param_estim.cps&quot;
+round: 1
+runs: 4
+best_fits_percent: 75
+data_point_num: 33
+plot_2d_66cl_corr: True
+plot_2d_95cl_corr: True
+plot_2d_99cl_corr: True
+logspace: True
+scientific_notation: True
+report_variables: [&#39;k1&#39;,&#39;k2&#39;,&#39;k3&#39;]
+exp_dataset: &quot;insulin_receptor_dataset.csv&quot;
 </pre></div>
 </div>
 <p><strong>NOTE:</strong> As it can be noticed, a configuration files for SBpipe using
@@ -750,7 +751,7 @@ Snakemake.</p>
 <p>Examples of configuration files for running SBpipe using Snakemake are
 in <code class="docutils literal"><span class="pre">tests/snakemake</span></code>.</p>
 <p>Examples of commands running SBpipe pipelines using Snakemake are:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation
+<div class="highlight-python"><div class="highlight"><pre># run model simulation
 $ snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
 
 # run model parameter estimation using 40 jobs
@@ -771,7 +772,7 @@ $ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.y
 <p>SBpipe is a relatively young project and there is a chance that some
 error occurs. The following mailing list should be used for general
 questions:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span> <span class="n">AT</span> <span class="n">googlegroups</span><span class="o">.</span><span class="n">com</span>
+<div class="highlight-python"><div class="highlight"><pre>sbpipe AT googlegroups.com
 </pre></div>
 </div>
 <p>All the topics discussed in this mailing list are also available at the
@@ -803,7 +804,7 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#install-copasi">Install COPASI</a></li>
 <li><a class="reference internal" href="#install-latex">Install LaTeX</a></li>
 <li><a class="reference internal" href="#install-sbpipe-via-miniconda3-anaconda3">Install SBpipe via Miniconda3/Anaconda3</a></li>
-<li><a class="reference internal" href="#install-sbpipe-s-dependencies-via-provided-scripts">Install SBpipe’s dependencies via provided scripts</a></li>
+<li><a class="reference internal" href="#install-sbpipe-s-dependencies-via-provided-scripts">Install SBpipe&#8217;s dependencies via provided scripts</a></li>
 <li><a class="reference internal" href="#python-bindings-code-for-copasi-models-optional">Python bindings code for COPASI models (optional)</a></li>
 </ul>
 </li>
@@ -842,18 +843,21 @@ tracking system for SBpipe at the web page:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/user_manual.rst.txt"
+      <li><a href="_sources/user_manual.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -875,12 +879,12 @@ tracking system for SBpipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.6.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.6.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+        &copy; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

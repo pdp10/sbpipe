@@ -1,33 +1,35 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>sbpipe.simul package &#8212; SBpipe 4.6.0 documentation</title>
+    
+    <title>sbpipe.simul package &mdash; SBpipe 4.6.0 documentation</title>
+    
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
         VERSION:     '4.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SBpipe 4.6.0 documentation" href="../index.html" />
+    <link rel="up" title="sbpipe package" href="sbpipe.html" />
     <link rel="next" title="sbpipe.simul.copasi package" href="sbpipe.simul.copasi.html" />
     <link rel="prev" title="sbpipe.report package" href="sbpipe.report.html" /> 
   </head>
-  <body>
+  <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -43,9 +45,9 @@
         <li class="right" >
           <a href="sbpipe.report.html" title="sbpipe.report package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.6.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.6.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" accesskey="U">sbpipe package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -152,9 +154,9 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path_in</strong> – the path to the input files</li>
-<li><strong>path_out</strong> – the path to the output files</li>
-<li><strong>filename_out</strong> – a global file containing all fits from independent parameter estimations.</li>
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; a global file containing all fits from independent parameter estimations.</li>
 </ul>
 </td>
 </tr>
@@ -175,9 +177,9 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path_in</strong> – the path to the input files</li>
-<li><strong>path_out</strong> – the path to the output files</li>
-<li><strong>filename_out</strong> – a global file containing the best fits from independent parameter estimations.</li>
+<li><strong>path_in</strong> &#8211; the path to the input files</li>
+<li><strong>path_out</strong> &#8211; the path to the output files</li>
+<li><strong>filename_out</strong> &#8211; a global file containing the best fits from independent parameter estimations.</li>
 </ul>
 </td>
 </tr>
@@ -196,7 +198,7 @@ are stored in filename_out.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path_in</strong> – the path to the input files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path_in</strong> &#8211; the path to the input files</td>
 </tr>
 </tbody>
 </table>
@@ -211,14 +213,14 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>inputdir</strong> – the directory containing the model</li>
-<li><strong>cluster</strong> – local, lsf for load sharing facility, sge for sun grid engine</li>
-<li><strong>local_cpus</strong> – the number of cpu</li>
-<li><strong>runs</strong> – the number of fits to perform</li>
-<li><strong>outputdir</strong> – the directory to store the results</li>
-<li><strong>sim_data_dir</strong> – the directory containing the simulation data sets</li>
-<li><strong>output_msg</strong> – print the output messages on screen (available for cluster=’local’ only)</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>cluster</strong> &#8211; local, lsf for load sharing facility, sge for sun grid engine</li>
+<li><strong>local_cpus</strong> &#8211; the number of cpu</li>
+<li><strong>runs</strong> &#8211; the number of fits to perform</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>sim_data_dir</strong> &#8211; the directory containing the simulation data sets</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -235,16 +237,16 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>scanned_par</strong> – the scanned parameter</li>
-<li><strong>simulate_intervals</strong> – the time step of each simulation</li>
-<li><strong>single_param_scan_intervals</strong> – the number of scans to perform</li>
-<li><strong>inputdir</strong> – the directory containing the model</li>
-<li><strong>outputdir</strong> – the directory to store the results</li>
-<li><strong>cluster</strong> – local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>local_cpus</strong> – the number of CPU used.</li>
-<li><strong>runs</strong> – the number of model simulation</li>
-<li><strong>output_msg</strong> – print the output messages on screen (available for cluster=’local’ only)</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
+<li><strong>simulate_intervals</strong> &#8211; the time step of each simulation</li>
+<li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>local_cpus</strong> &#8211; the number of CPU used.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -261,11 +263,11 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>scanned_par</strong> – the scanned parameter</li>
-<li><strong>simulate_intervals</strong> – the time step of each simulation</li>
-<li><strong>single_param_scan_intervals</strong> – the number of scans to perform</li>
-<li><strong>outputdir</strong> – the directory to store the results</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>scanned_par</strong> &#8211; the scanned parameter</li>
+<li><strong>simulate_intervals</strong> &#8211; the time step of each simulation</li>
+<li><strong>single_param_scan_intervals</strong> &#8211; the number of scans to perform</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 </ul>
 </td>
 </tr>
@@ -282,14 +284,14 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>sim_length</strong> – the length of the simulation</li>
-<li><strong>inputdir</strong> – the directory containing the model</li>
-<li><strong>outputdir</strong> – the directory to store the results</li>
-<li><strong>cluster</strong> – local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>local_cpus</strong> – the number of CPU.</li>
-<li><strong>runs</strong> – the number of model simulation</li>
-<li><strong>output_msg</strong> – print the output messages on screen (available for cluster=’local’ only)</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>sim_length</strong> &#8211; the length of the simulation</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -306,9 +308,9 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>sim_length</strong> – the length of the simulation</li>
-<li><strong>outputdir</strong> – the directory to store the results</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>sim_length</strong> &#8211; the length of the simulation</li>
+<li><strong>outputdir</strong> &#8211; the directory to store the results</li>
 </ul>
 </td>
 </tr>
@@ -324,7 +326,7 @@ are stored in filename_out.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> – a report file with its absolute path</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>report</strong> &#8211; a report file with its absolute path</td>
 </tr>
 </tbody>
 </table>
@@ -339,13 +341,13 @@ are stored in filename_out.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>model</strong> – the model to process</li>
-<li><strong>inputdir</strong> – the directory containing the model</li>
-<li><strong>outputdir</strong> – the directory containing the output files</li>
-<li><strong>cluster</strong> – local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
-<li><strong>local_cpus</strong> – the number of CPU.</li>
-<li><strong>runs</strong> – the number of model simulation</li>
-<li><strong>output_msg</strong> – print the output messages on screen (available for cluster=’local’ only)</li>
+<li><strong>model</strong> &#8211; the model to process</li>
+<li><strong>inputdir</strong> &#8211; the directory containing the model</li>
+<li><strong>outputdir</strong> &#8211; the directory containing the output files</li>
+<li><strong>cluster</strong> &#8211; local, lsf for Load Sharing Facility, sge for Sun Grid Engine.</li>
+<li><strong>local_cpus</strong> &#8211; the number of CPU.</li>
+<li><strong>runs</strong> &#8211; the number of model simulation</li>
+<li><strong>output_msg</strong> &#8211; print the output messages on screen (available for cluster=&#8217;local&#8217; only)</li>
 </ul>
 </td>
 </tr>
@@ -388,18 +390,21 @@ are stored in filename_out.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/source_code/sbpipe.simul.rst.txt"
+      <li><a href="../_sources/source_code/sbpipe.simul.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -421,14 +426,14 @@ are stored in filename_out.</p>
         <li class="right" >
           <a href="sbpipe.report.html" title="sbpipe.report package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.6.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">SBpipe 4.6.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../source_code.html" >Source code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="sbpipe.html" >sbpipe package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+        &copy; Copyright 2018, Piero Dalle Pezze and Nicolas Le Novère.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
