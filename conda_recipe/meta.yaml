@@ -50,7 +50,7 @@ requirements:
   run:
     - python
     - pyyaml
-    - sbpiper=1.6.0
+    - sbpiper 1.6.*
     - numpy
     - scipy
     - pandas
