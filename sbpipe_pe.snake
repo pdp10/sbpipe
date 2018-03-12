@@ -41,6 +41,7 @@ MODEL           = os.path.join(MODELS_FOLDER , config['model'])
 MODEL_NAME      = config['model'].split('.')[0]
 REPORT_PREFIX   = "report_pe_"
 WORKING_FOLDER  = os.path.join("Results", MODEL_NAME)
+CHECKING_FOLDER = "pe_checking"
 PREPROC_FOLDER  = "pe_preproc"
 POSTPROC_FOLDER = "pe_postproc"
 PLOTS_FOLDER    = "pe_plots"
@@ -56,6 +57,7 @@ FILE_PARAM_ESTIM_SUMMARY           = "param_estim_summary"
 MODEL_EXT       = "." + config['model'].split('.')[1]
 CSV_EXT         = ".csv"
 LATEX_EXT       = ".tex"
+TXT_EXT         = ".txt"
 PDF_EXT         = ".pdf"
 LOG_EXT         = ".log"
 
@@ -91,16 +93,35 @@ rule copy_dataset:
                  output.exp_dataset)
 
 
-rule sbpipe_preproc:
+rule sbpipe_model_checking:
     input:
         file=MODEL
+    output:
+        file=os.path.join(WORKING_FOLDER, CHECKING_FOLDER, MODEL_NAME + '_check' + TXT_EXT)
+    run:
+        if COPASI:
+            from sbpipe.tasks.model_checking import model_checking
+            model_checking(input.file,
+                           output.file,
+                           'Parameter Estimation')
+        else:
+            # An output file must be generated, as this is required input for the rule
+            # `sbpipe_preproc`.
+            from sbpipe.utils.io import write_mat_on_file
+            write_mat_on_file(output.file,
+                              ['No control was performed on this model.'])
+
+
+rule sbpipe_preproc:
+    input:
+        file=MODEL,
+        check=os.path.join(WORKING_FOLDER, CHECKING_FOLDER, MODEL_NAME + '_check' + TXT_EXT)
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
         from sbpipe.tasks.preproc import preproc
         preproc(input.file,
                 output.file,
-                'Parameter Estimation',
                 COPASI)
 
 

@@ -24,6 +24,8 @@ import logging
 import sys
 import os
 
+from sbpipe.utils.io import write_mat_on_file
+
 if sys.version_info > (3,):
     import importlib
     COPASI_loader = importlib.util.find_spec('COPASI')
@@ -43,11 +45,12 @@ if found:
 logger = logging.getLogger('sbpipe')
 
 
-def copasi_model_checking(model_filename, task_name=""):
+def copasi_model_checking(model_filename, fileout, task_name=""):
     """
     Perform a basic model checking for a COPASI model file.
 
     :param model_filename: the filename to a COPASI file
+    :param fileout: the file containing the model checking results
     :param task_name: the task to check
     :return: a boolean indicating whether the model could be loaded successfully
     """
@@ -60,13 +63,24 @@ def copasi_model_checking(model_filename, task_name=""):
     # clear previous log messages
     COPASI.CCopasiMessage.clearDeque()
 
+    outcome = []
+
     # list of checks
     if not check_model_loading(model_filename, data_model):
+        outcome.append('model loading\tERROR')
+        write_mat_on_file(fileout, outcome)
         return False
+    else:
+        outcome.append('model loading\tPASS')
 
     if not check_task_selection(model_filename, task_name, data_model):
+        outcome.append('task selection\tERROR')
+        write_mat_on_file(fileout, outcome)
         return False
+    else:
+        outcome.append('task selection\tPASS')
 
+    write_mat_on_file(fileout, outcome)
     return True
 
 

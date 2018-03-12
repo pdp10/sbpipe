@@ -57,18 +57,19 @@ class Copasi(Simul):
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)
 
-    def model_checking(self, model_filename, task_name=""):
+    def model_checking(self, model_filename, fileout, task_name=""):
         """
         Check whether the Copasi model can be loaded and executed correctly.
 
         :param model_filename: the COPASI filename
+        :param fileout: the file containing the model checking results
         :param task_name: the task to check
         :return: boolean indicating whether the model could be loaded and executed successfully
         """
 
         if 'COPASI' in sys.modules:
             logger.info('COPASI model checking ...')
-            return copasi_model_checking(model_filename, task_name)
+            return copasi_model_checking(model_filename, fileout, task_name)
         else:
             logger.warning('Python bindings for COPASI not found. Skipping COPASI model checking.')
             return True
@@ -77,7 +78,9 @@ class Copasi(Simul):
         __doc__ = Simul.sim.__doc__
 
         # check Copasi file
-        if not self.model_checking(os.path.join(inputdir, model), 'Time-Course'):
+        if not self.model_checking(os.path.join(inputdir, model),
+                                   os.path.join(inputdir, model.replace('.cps', '_check.txt')),
+                                   'Time-Course'):
             return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
@@ -93,7 +96,9 @@ class Copasi(Simul):
         __doc__ = Simul.ps1.__doc__
 
         # check Copasi file
-        if not self.model_checking(os.path.join(inputdir, model), 'Scan'):
+        if not self.model_checking(os.path.join(inputdir, model),
+                                   os.path.join(inputdir, model.replace('.cps', '_check.txt')),
+                                   'Scan'):
             return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
@@ -109,7 +114,9 @@ class Copasi(Simul):
         __doc__ = Simul.ps2.__doc__
 
         # check Copasi file
-        if not self.model_checking(os.path.join(inputdir, model), 'Scan'):
+        if not self.model_checking(os.path.join(inputdir, model),
+                                   os.path.join(inputdir, model.replace('.cps', '_check.txt')),
+                                   'Scan'):
             return False
 
         if not self._run_par_comput(inputdir, model, outputdir, cluster, local_cpus, runs, output_msg):
@@ -125,7 +132,9 @@ class Copasi(Simul):
         __doc__ = Simul.pe.__doc__
 
         # check Copasi file
-        if not self.model_checking(os.path.join(inputdir, model), 'Parameter Estimation'):
+        if not self.model_checking(os.path.join(inputdir, model),
+                                   os.path.join(inputdir, model.replace('.cps', '_check.txt')),
+                                   'Parameter Estimation'):
             return False
 
         if not self._run_par_comput(inputdir, model, sim_data_dir, cluster, local_cpus, runs, output_msg):
@@ -216,7 +225,7 @@ class Copasi(Simul):
         # START BUG FIX 226.
         #
         # This fix is kept separately as it may be removed one day.
-        # Copasi wrongly adds the list of constraints to the same list of fitted parameters
+        # Copasi adds the list of constraints to the same list of fitted parameters
         # in the parameter estimation report. This causes an issue with SBpipe as this cannot discriminate whether
         # the parameter is estimated or constrained.
         # This patch cuts off the parameter list based on the number of columns of estimated parameters.

@@ -79,20 +79,16 @@ def files_with_pattern_recur(folder, pattern):
                 yield os.path.join(dirname, f)
 
 
-def write_mat_on_file(path, filename_out, data):
+def write_mat_on_file(fileout, data):
     """
     Write the matrix results stored in data to filename_out
 
-    :param path: the path to filename_out
-    :param filename_out: the output file
+    :param fileout: the output file
     :param data: the data to store in a file
     """
-    with open(os.path.join(path, filename_out), 'w') as file:
+    with open(fileout, 'w') as file:
         for row in data:
-            # convert a list of strings or numbers into a string with items delimited by a tab.
-            concat_str_list = '\t'.join(map(str, row))
-            # write the string above and add a newline.
-            file.write(concat_str_list + "\n")
+            file.write(row + '\n')
 
 
 def replace_str_in_file(filename_out, old_string, new_string):
