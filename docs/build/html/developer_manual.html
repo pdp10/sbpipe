@@ -61,128 +61,6 @@
 <p>This guide is meant for developers and contains guidelines for
 developing this project.</p>
 </div>
-<div class="section" id="development-model">
-<h2>Development model<a class="headerlink" href="#development-model" title="Permalink to this headline">¶</a></h2>
-<p>This project follows the Feature-Branching model. Briefly, there are two
-main branches: <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code>. The former contains the
-history of stable releases, the latter contains the history of
-development. The <code class="docutils literal"><span class="pre">master</span></code> branch contains checkout points for
-production hotfixes or merge points for release-x.x.x branches. The
-<code class="docutils literal"><span class="pre">develop</span></code> branch is used for feature-bugfix integration and checkout
-point in development. Nobody should directly develop in here.</p>
-<div class="section" id="conventions">
-<h3>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h3>
-<p>To manage the project in a more consistent way, here is a list of
-conventions to follow:</p>
-<ul class="simple">
-<li>Each new feature is developed in a separate branch forked from
-<em>develop</em>. This new branch is called <em>featureNUMBER</em>, where <em>NUMBER</em>
-is the number of the GitHub Issue discussing that feature. The first
-line of each commit message for this branch should contain the string
-<em>Issue #NUMBER</em> at the beginning. Doing so, the commit is
-automatically recorded by the Issue Tracking System for that specific
-Issue. Note that the sharp (#) symbol is required.</li>
-<li>The same for each new bugfix, but in this case the branch name is
-called bugfixNUMBER.</li>
-<li>The same for each new hotfix, but in this case the branch name is
-called hotfixNUMBER and is forked from <em>master</em>.</li>
-</ul>
-</div>
-<div class="section" id="work-flow">
-<h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
-<p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
-is:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git checkout -b feature10 develop
-</pre></div>
-</div>
-<p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
-discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
-work, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git commit -am &quot;Issue #10, summary of the changes. Detailed
-description of the changes, if any.&quot;
-$ git push origin feature10       # sometimes and at the end.
-</pre></div>
-</div>
-<p>As of June 2016, the branches <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code> are protected
-and a status check using Travis-CI must be performed before merging or
-pushing into these branches. This automatically forces a merge without
-fast-forward. In order to merge <strong>any</strong> new feature, bugfix or simple
-edits into <code class="docutils literal"><span class="pre">master</span></code> or <code class="docutils literal"><span class="pre">develop</span></code>, a developer <strong>must</strong> checkout a
-new branch and, once committed and pushed, <strong>merge</strong> it to <code class="docutils literal"><span class="pre">master</span></code> or
-<code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
-<code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
-Requests:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span><span class="p">:</span><span class="n">develop</span>  <span class="n">compare</span><span class="p">:</span><span class="n">feature10</span>   <span class="n">Able</span> <span class="n">to</span> <span class="n">merge</span><span class="o">.</span> <span class="n">These</span> <span class="n">branches</span> <span class="n">can</span> <span class="n">be</span>
-<span class="n">automatically</span> <span class="n">merged</span><span class="o">.</span>
-</pre></div>
-</div>
-<p>A small discussion about feature10 should also be included to allow
-other users to understand the feature.</p>
-<p>Finally delete the branch:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git branch -d feature10      # delete the branch feature10 (locally)
-</pre></div>
-</div>
-</div>
-<div class="section" id="new-releases">
-<h3>New releases<a class="headerlink" href="#new-releases" title="Permalink to this headline">¶</a></h3>
-<p>The script <code class="docutils literal"><span class="pre">release.sh</span></code> at the root of the package allows to release a
-new version of SBpipe or update the last github tag. This script also
-creates and uploads a new SBpipe package for anaconda cloud.</p>
-<p>The following two sections describe how to release a new version for
-SBpipe, manually.</p>
-<div class="section" id="how-to-release-a-new-tag">
-<h4>How to release a new tag<a class="headerlink" href="#how-to-release-a-new-tag" title="Permalink to this headline">¶</a></h4>
-<p>When the <code class="docutils literal"><span class="pre">develop</span></code> branch includes all the desired feature for a
-release, it is time to checkout this branch in a new one called
-<code class="docutils literal"><span class="pre">release-x.x.x</span></code>. It is at this stage that a version is established.
-Only bugfixes or hotfixes are applied to this branch. When this
-testing/correction phase is completed, the <code class="docutils literal"><span class="pre">master</span></code> branch will merge
-with the <code class="docutils literal"><span class="pre">release-x.x.x</span></code> branch, using the commands above. To record
-the release add a tag:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;PROGRAM_NAME v1.3&quot;</span>
-</pre></div>
-</div>
-<p>To transfer the tag to the remote server:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span>   <span class="c1"># Note: it goes in a separate &#39;branch&#39;</span>
-</pre></div>
-</div>
-<p>To see all the releases:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">show</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">
-<h4>How to release a new SBpipe conda package (Anaconda Cloud)<a class="headerlink" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud" title="Permalink to this headline">¶</a></h4>
-<p>This is a short guide for building SBpipe as a conda package. Anaconda
-(or Miniconda) must be installed. In order to proceed, the package
-<code class="docutils literal"><span class="pre">conda-build</span></code> must be installed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ conda install conda-build
-
-# DON&#39;T FORGET TO SET THIS so that your built package is not uploaded automatically
-$ conda config --set anaconda_upload no
-</pre></div>
-</div>
-<p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
-create the conda package for SBpipe:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ conda-build conda_recipe/meta.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
-</pre></div>
-</div>
-<p>To test this package locally:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># install
-$ conda install sbpipe --use-local
-
-# uninstall
-$ conda remove sbpipe
-</pre></div>
-</div>
-<p>To upload the package to the Anaconda cloud repository:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">py_y</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <div class="section" id="package-structure">
 <h2>Package structure<a class="headerlink" href="#package-structure" title="Permalink to this headline">¶</a></h2>
 <p>This section presents the structure of the SBpipe package. The root of
@@ -206,15 +84,15 @@ used and configured accordingly (.travis.yml).</p>
 </pre></div>
 </div>
 <p>These folders will be discussed in the next sections. In SBpipe, Python
-is the project main language. Instead, R is essentially used for
-computing statistics (see section configuration file in the user manual)
+is the project main language, whereas R is used for computing statistics
 and for generating plots. This choice allows users to run these scripts
 independently of SBpipe if needed using an R environment like Rstudio.
 This can be convenient if further data analysis are needed or plots need
 to be annotated or edited. The R code for SBpipe is distributed as a
 separate R package and installed as a dependency using the provided
 script (install_rdeps.r) or conda. The source code for this package can
-be found here: <a class="reference external" href="https://github.com/pdp10/sbpiper">https://github.com/pdp10/sbpiper</a></p>
+be found here: <a class="reference external" href="https://github.com/pdp10/sbpiper">https://github.com/pdp10/sbpiper</a> and on CRAN
+<a class="reference external" href="https://cran.r-project.org/package=sbpiper">https://cran.r-project.org/package=sbpiper</a>.</p>
 <div class="section" id="docs">
 <h3>docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
 <p>The folder <code class="docutils literal"><span class="pre">docs/</span></code> contains the documentation for this project. The
@@ -231,13 +109,13 @@ SBpipe, the following packages must be installed:</p>
 Instruction for generating or cleaning SBpipe documentation are provided
 below.</p>
 <p>To generate the source code documentation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
-$ ./gen_doc.sh
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">docs</span>
+<span class="o">./</span><span class="n">gen_doc</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
 </div>
 <p>To clean the documentation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe/docs
-$ ./cleanup_doc.sh
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">docs</span>
+<span class="o">./</span><span class="n">cleanup_doc</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
 </div>
 <p>The complete source code documentation for this project is stored in
@@ -250,16 +128,16 @@ the page <code class="docutils literal"><span class="pre">docs/index.html</span>
 <p>This folder contains the source code of the project SBpipe. At this
 level a file called <code class="docutils literal"><span class="pre">__main__.py</span></code> enables users to run SBpipe
 programmatically as a Python module via the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ python sbpipe
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">sbpipe</span>
 </pre></div>
 </div>
 <p>Alternatively <code class="docutils literal"><span class="pre">sbpipe</span></code> can programmatically be imported within a
 Python environment as shown below:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ python
-# Python environment
-&gt;&gt;&gt; from sbpipe.main import sbpipe
-&gt;&gt;&gt; sbpipe(simulate=&quot;my_model.yaml&quot;)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
+<span class="n">python</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Python environment</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sbpipe.main</span> <span class="k">import</span> <span class="n">sbpipe</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sbpipe</span><span class="p">(</span><span class="n">simulate</span><span class="o">=</span><span class="s2">&quot;my_model.yaml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The following subsections describe sbpipe subpackages.</p>
@@ -374,28 +252,142 @@ be found in Travis-CI configuration file <code class="docutils literal"><span cl
 Importantly, Travis-CI runs all SBpipe tests using <code class="docutils literal"><span class="pre">nosetests</span></code>.</p>
 </div>
 </div>
+<div class="section" id="development-model">
+<h2>Development model<a class="headerlink" href="#development-model" title="Permalink to this headline">¶</a></h2>
+<p>This project follows the Feature-Branching model. Briefly, there are two
+main branches: <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code>. The former contains the
+history of stable releases, the latter contains the history of
+development. The <code class="docutils literal"><span class="pre">master</span></code> branch contains checkout points for
+production hotfixes or merge points for release-x.x.x branches. The
+<code class="docutils literal"><span class="pre">develop</span></code> branch is used for feature-bugfix integration and checkout
+point in development. Nobody should directly develop in here.</p>
+<div class="section" id="conventions">
+<h3>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h3>
+<p>To manage the project in a more consistent way, here is a list of
+conventions to follow:</p>
+<ul class="simple">
+<li>Each new feature is developed in a separate branch forked from
+<em>develop</em>. This new branch is called <em>featureNUMBER</em>, where <em>NUMBER</em>
+is the number of the GitHub Issue discussing that feature. The first
+line of each commit message for this branch should contain the string
+<em>Issue #NUMBER</em> at the beginning. Doing so, the commit is
+automatically recorded by the Issue Tracking System for that specific
+Issue. Note that the sharp (#) symbol is required.</li>
+<li>The same for each new bugfix, but in this case the branch name is
+called bugfixNUMBER.</li>
+<li>The same for each new hotfix, but in this case the branch name is
+called hotfixNUMBER and is forked from <em>master</em>.</li>
+</ul>
+</div>
+<div class="section" id="work-flow">
+<h3>Work flow<a class="headerlink" href="#work-flow" title="Permalink to this headline">¶</a></h3>
+<p>The procedure for checking out a new feature from the <code class="docutils literal"><span class="pre">develop</span></code> branch
+is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">feature10</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>This creates the <code class="docutils literal"><span class="pre">feature10</span></code> branch off <code class="docutils literal"><span class="pre">develop</span></code>. This feature10 is
+discussed in <em>Issue #10</em> in GitHub. When you are ready to commit your
+work, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;Issue #10, summary of the changes. Detailed</span>
+<span class="n">description</span> <span class="n">of</span> <span class="n">the</span> <span class="n">changes</span><span class="p">,</span> <span class="k">if</span> <span class="nb">any</span><span class="o">.</span><span class="s2">&quot;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">feature10</span>       <span class="c1"># sometimes and at the end.</span>
+</pre></div>
+</div>
+<p>As of June 2016, the branches <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code> are protected
+and a status check using Travis-CI must be performed before merging or
+pushing into these branches. This automatically forces a merge without
+fast-forward. In order to merge <strong>any</strong> new feature, bugfix or simple
+edits into <code class="docutils literal"><span class="pre">master</span></code> or <code class="docutils literal"><span class="pre">develop</span></code>, a developer <strong>must</strong> checkout a
+new branch and, once committed and pushed, <strong>merge</strong> it to <code class="docutils literal"><span class="pre">master</span></code> or
+<code class="docutils literal"><span class="pre">develop</span></code> using a <code class="docutils literal"><span class="pre">pull</span> <span class="pre">request</span></code>. To merge <code class="docutils literal"><span class="pre">feature10</span></code> to
+<code class="docutils literal"><span class="pre">develop</span></code>, the pull request output will look like this in GitHub Pull
+Requests:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span><span class="p">:</span><span class="n">develop</span>  <span class="n">compare</span><span class="p">:</span><span class="n">feature10</span>   <span class="n">Able</span> <span class="n">to</span> <span class="n">merge</span><span class="o">.</span> <span class="n">These</span> <span class="n">branches</span> <span class="n">can</span> <span class="n">be</span>
+<span class="n">automatically</span> <span class="n">merged</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>A small discussion about feature10 should also be included to allow
+other users to understand the feature.</p>
+<p>Finally delete the branch:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">d</span> <span class="n">feature10</span>      <span class="c1"># delete the branch feature10 (locally)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="new-releases">
+<h3>New releases<a class="headerlink" href="#new-releases" title="Permalink to this headline">¶</a></h3>
+<p>The script <code class="docutils literal"><span class="pre">release.sh</span></code> at the root of the package allows to release a
+new version of SBpipe or update the last github tag. This script also
+creates and uploads a new SBpipe package for anaconda cloud.</p>
+<p>The following two sections describe how to release a new version for
+SBpipe, manually.</p>
+<div class="section" id="how-to-release-a-new-tag">
+<h4>How to release a new tag<a class="headerlink" href="#how-to-release-a-new-tag" title="Permalink to this headline">¶</a></h4>
+<p>When the <code class="docutils literal"><span class="pre">develop</span></code> branch includes all the desired feature for a
+release, it is time to checkout this branch in a new one called
+<code class="docutils literal"><span class="pre">release-x.x.x</span></code>. It is at this stage that a version is established.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># record the release add a tag:</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;SBpipe v1.3&quot;</span>
+
+<span class="c1"># transfer the tag to the remote server:</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">v1</span><span class="o">.</span><span class="mi">3</span>   <span class="c1"># Note: this goes to a separate &#39;branch&#39;</span>
+
+<span class="c1"># see all the releases:</span>
+<span class="n">git</span> <span class="n">show</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">
+<h4>How to release a new SBpipe conda package (Anaconda Cloud)<a class="headerlink" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud" title="Permalink to this headline">¶</a></h4>
+<p>This is a short guide for building SBpipe as a conda package. Anaconda
+(or Miniconda) must be installed. In order to proceed, the package
+<code class="docutils literal"><span class="pre">conda-build</span></code> must be installed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">conda</span><span class="o">-</span><span class="n">build</span>
+
+<span class="c1"># DON&#39;T FORGET TO SET THIS so that your built package is not uploaded automatically</span>
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="nb">set</span> <span class="n">anaconda_upload</span> <span class="n">no</span>
+</pre></div>
+</div>
+<p>The recipe for SBpipe is already prepared (file: <code class="docutils literal"><span class="pre">meta.yaml</span></code>). To
+create the conda package for SBpipe:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
+<span class="n">conda</span><span class="o">-</span><span class="n">build</span> <span class="n">conda_recipe</span><span class="o">/</span><span class="n">meta</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">c</span> <span class="n">pdp10</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="o">-</span><span class="n">c</span> <span class="n">fbergmann</span> <span class="o">-</span><span class="n">c</span> <span class="n">defaults</span>
+</pre></div>
+</div>
+<p>To test this package locally:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># install</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">sbpipe</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">local</span>
+
+<span class="c1"># uninstall</span>
+<span class="n">conda</span> <span class="n">remove</span> <span class="n">sbpipe</span>
+</pre></div>
+</div>
+<p>To upload the package to the Anaconda cloud repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anaconda</span> <span class="n">upload</span> <span class="o">~/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">noarch</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">py_y</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="miscellaneous-of-useful-commands">
 <h2>Miscellaneous of useful commands<a class="headerlink" href="#miscellaneous-of-useful-commands" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="git">
 <h3>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
 <p><strong>Startup</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># clone master
-$ git clone https://github.com/pdp10/sbpipe.git
-# get develop branch
-$ git checkout -b develop origin/develop
-# to get all the other branches
-$ for b in `git branch -r | grep -v -- &#39;-&gt;&#39;`; do git branch
---track ${b##origin/} $b; done
-# to update all the branches with remote
-$ git fetch --all
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># clone master</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pdp10</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">.</span><span class="n">git</span>
+<span class="c1"># get develop branch</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">develop</span> <span class="n">origin</span><span class="o">/</span><span class="n">develop</span>
+<span class="c1"># to update all the branches with remote</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="o">--</span><span class="nb">all</span>
 </pre></div>
 </div>
 <p><strong>Update</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># ONLY use --rebase for private branches. Never use it for shared
-# branches otherwise it breaks the history. --rebase moves your
-# commits ahead. For shared branches, you should use
-# `git fetch &amp;&amp; git merge --no-ff`
-$ git pull [--rebase] origin BRANCH
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># ONLY use --rebase for private branches. Never use it for shared</span>
+<span class="c1"># branches otherwise it breaks the history. --rebase moves your</span>
+<span class="c1"># commits ahead. For shared branches, you should use</span>
+<span class="c1"># `git fetch &amp;&amp; git merge --no-ff`</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="p">[</span><span class="o">--</span><span class="n">rebase</span><span class="p">]</span> <span class="n">origin</span> <span class="n">BRANCH</span>
 </pre></div>
 </div>
 <p><strong>Managing tags</strong></p>
@@ -422,26 +414,25 @@ $ git pull [--rebase] origin BRANCH
 </pre></div>
 </div>
 <p><strong>File system</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git rm [--cache] filename
-$ git add filename
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">rm</span> <span class="p">[</span><span class="o">--</span><span class="n">cache</span><span class="p">]</span> <span class="n">filename</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">filename</span>
 </pre></div>
 </div>
 <p><strong>Information</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git status
-$ git log [--stat]
-$ git branch       # list the branches
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">status</span>
+<span class="n">git</span> <span class="n">log</span> <span class="p">[</span><span class="o">--</span><span class="n">stat</span><span class="p">]</span>
+<span class="n">git</span> <span class="n">branch</span>       <span class="c1"># list the branches</span>
 </pre></div>
 </div>
 <p><strong>Maintenance</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git fsck      # check errors
-$ git gc        # clean up
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fsck</span>      <span class="c1"># check errors</span>
+<span class="n">git</span> <span class="n">gc</span>        <span class="c1"># clean up</span>
 </pre></div>
 </div>
 <p><strong>Rename a branch locally and remotely</strong></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">m</span> <span class="n">old_branch</span> <span class="n">new_branch</span>         <span class="c1"># Rename branch locally</span>
 <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="n">old_branch</span>                 <span class="c1"># Delete the old branch</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">new_branch</span>   <span class="c1"># Push the new branch, set</span>
-<span class="n">local</span> <span class="n">branch</span> <span class="n">to</span> <span class="n">track</span> <span class="n">the</span> <span class="n">new</span> <span class="n">remote</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">new_branch</span>   <span class="c1"># Push the new branch, set local branch to track the new remote</span>
 </pre></div>
 </div>
 <p><strong>Reset</strong></p>
@@ -468,16 +459,6 @@ $ git gc        # clean up
   <ul>
 <li><a class="reference internal" href="#">Developer manual</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
-<li><a class="reference internal" href="#development-model">Development model</a><ul>
-<li><a class="reference internal" href="#conventions">Conventions</a></li>
-<li><a class="reference internal" href="#work-flow">Work flow</a></li>
-<li><a class="reference internal" href="#new-releases">New releases</a><ul>
-<li><a class="reference internal" href="#how-to-release-a-new-tag">How to release a new tag</a></li>
-<li><a class="reference internal" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">How to release a new SBpipe conda package (Anaconda Cloud)</a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li><a class="reference internal" href="#package-structure">Package structure</a><ul>
 <li><a class="reference internal" href="#docs">docs</a></li>
 <li><a class="reference internal" href="#sbpipe">sbpipe</a><ul>
@@ -490,6 +471,16 @@ $ git gc        # clean up
 </li>
 <li><a class="reference internal" href="#scripts">scripts</a></li>
 <li><a class="reference internal" href="#tests">tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development-model">Development model</a><ul>
+<li><a class="reference internal" href="#conventions">Conventions</a></li>
+<li><a class="reference internal" href="#work-flow">Work flow</a></li>
+<li><a class="reference internal" href="#new-releases">New releases</a><ul>
+<li><a class="reference internal" href="#how-to-release-a-new-tag">How to release a new tag</a></li>
+<li><a class="reference internal" href="#how-to-release-a-new-sbpipe-conda-package-anaconda-cloud">How to release a new SBpipe conda package (Anaconda Cloud)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#miscellaneous-of-useful-commands">Miscellaneous of useful commands</a><ul>

@@ -10,130 +10,6 @@ This guide is meant for developers and contains guidelines for developing
 this project. 
 
 
-## Development model
-This project follows the Feature-Branching model. Briefly, there are two
-main branches: `master` and `develop`. The former contains the history 
-of stable releases, the latter contains the history of development. The 
-`master` branch contains checkout points for production hotfixes 
-or merge points for release-x.x.x branches. The `develop` branch is used 
-for feature-bugfix integration and checkout point in development. Nobody 
-should directly develop in here.
-
-
-### Conventions
-To manage the project in a more consistent way, here is a list of conventions 
-to follow:
-
-- Each new feature is developed in a separate branch forked from *develop*. 
-This new branch is called *featureNUMBER*, where *NUMBER* is the number 
-of the GitHub Issue discussing that feature. The first line of each 
-commit message for this branch should contain the string *Issue #NUMBER* 
-at the beginning. Doing so, the commit is automatically recorded by the 
-Issue Tracking System for that specific Issue. Note that the sharp (#) 
-symbol is required.
-- The same for each new bugfix, but in this case the branch name is called 
-bugfixNUMBER.
-- The same for each new hotfix, but in this case the branch name is called 
-hotfixNUMBER and is forked from *master*.
-
-
-### Work flow
-The procedure for checking out a new feature from the `develop` branch 
-is: 
-```
-$ git checkout -b feature10 develop
-```
-This creates the `feature10` branch off `develop`. This feature10 is 
-discussed in *Issue #10* in GitHub.
-When you are ready to commit your work, run:
-```
-$ git commit -am "Issue #10, summary of the changes. Detailed 
-description of the changes, if any."
-$ git push origin feature10       # sometimes and at the end.
-```
-
-As of June 2016, the branches `master` and `develop` are protected and a
-status check using Travis-CI must be performed before merging or pushing
-into these branches. This automatically forces a merge without 
-fast-forward. 
-In order to merge **any** new feature, bugfix or simple edits into 
-`master` or `develop`, a developer **must** checkout a new branch and, 
-once committed and pushed, **merge** it to `master` or `develop` using a
-`pull request`. To merge `feature10` to `develop`, the pull request output 
-will look like this in GitHub Pull Requests:
-```
-base:develop  compare:feature10   Able to merge. These branches can be 
-automatically merged.
-
-```
-A small discussion about feature10 should also be included to allow 
-other users to understand the feature.
-
-Finally delete the branch: 
-```
-$ git branch -d feature10      # delete the branch feature10 (locally)
-```
-
-
-### New releases
-The script `release.sh` at the root of the package allows to release
-a new version of SBpipe or update the last github tag. This script also
-creates and uploads a new SBpipe package for anaconda cloud.
-
-The following two sections describe how to release a new version for SBpipe, manually.
-
-#### How to release a new tag
-When the `develop` branch includes all the desired feature for a
-release, it is time to checkout this 
-branch in a new one called `release-x.x.x`. It is at this stage that a 
-version is established. Only bugfixes or hotfixes are applied to this 
-branch. When this testing/correction phase is completed, the `master` 
-branch will merge with the `release-x.x.x` branch, using the commands 
-above.
-To record the release add a tag:
-```
-git tag -a v1.3 -m "PROGRAM_NAME v1.3"
-```
-To transfer the tag to the remote server:
-```
-git push origin v1.3   # Note: it goes in a separate 'branch'
-```
-To see all the releases:
-```
-git show
-```
-
-#### How to release a new SBpipe conda package (Anaconda Cloud)
-This is a short guide for building SBpipe as a conda package.
-Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
-```
-$ conda install conda-build
-
-# DON'T FORGET TO SET THIS so that your built package is not uploaded automatically
-$ conda config --set anaconda_upload no
-```
-
-The recipe for SBpipe is already prepared (file: `meta.yaml`). To create the conda package for SBpipe:
-```
-$ cd path/to/sbpipe
-$ conda-build conda_recipe/meta.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
-```
-
-To test this package locally:
-```
-# install
-$ conda install sbpipe --use-local
-
-# uninstall
-$ conda remove sbpipe
-```
-
-To upload the package to the Anaconda cloud repository:
-```
-anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
-```
-
-
 ## Package structure
 This section presents the structure of the SBpipe package. The root of 
 the project contains general management scripts for installing Python 
@@ -158,15 +34,15 @@ sbpipe:
   | - tests/
 ```
 These folders will be discussed in the next sections. In SBpipe, Python 
-is the project main language. Instead, R is essentially used for computing 
-statistics (see section configuration file in the user manual) and for 
-generating plots. This choice allows users to run these scripts independently 
+is the project main language, whereas R is used for computing
+statistics and for generating plots. This choice allows users to run these scripts independently
 of SBpipe if needed using an R environment like Rstudio. This can be 
 convenient if further data analysis are needed or plots need to be annotated 
 or edited. The R code for SBpipe is distributed as a separate R package and
 installed as a dependency using the provided script (install_rdeps.r) or conda.
 The source code for this package can be found here:
-[https://github.com/pdp10/sbpiper](https://github.com/pdp10/sbpiper)
+[https://github.com/pdp10/sbpiper](https://github.com/pdp10/sbpiper) and on
+CRAN [https://cran.r-project.org/package=sbpiper](https://cran.r-project.org/package=sbpiper).
 
 
 ### docs
@@ -185,14 +61,14 @@ for generating or cleaning SBpipe documentation are provided below.
 
 To generate the source code documentation:
 ```
-$ cd path/to/sbpipe/docs
-$ ./gen_doc.sh
+cd path/to/sbpipe/docs
+./gen_doc.sh
 ```
 
 To clean the documentation:
 ```
-$ cd path/to/sbpipe/docs
-$ ./cleanup_doc.sh
+cd path/to/sbpipe/docs
+./cleanup_doc.sh
 ```
 The complete source code documentation for this project is stored in 
 `docs/build/html` (html format) and `docs/build/latex` (LaTeX/PDF format).
@@ -205,14 +81,14 @@ This folder contains the source code of the project SBpipe. At this
 level a file called `__main__.py` enables users to run SBpipe
 programmatically as a Python module via the command:
 ```
-$ python sbpipe
+python sbpipe
 ```
 Alternatively `sbpipe` can programmatically be imported within a
 Python environment as shown below:
 ```
-$ cd path/to/sbpipe
-$ python
-# Python environment
+cd path/to/sbpipe
+python
+>>> # Python environment
 >>> from sbpipe.main import sbpipe
 >>> sbpipe(simulate="my_model.yaml")
 ```
@@ -326,19 +202,136 @@ Travis-CI configuration file `sbpipe/.travis.yml`. Importantly, Travis-CI
 runs all SBpipe tests using `nosetests`.
 
 
+## Development model
+This project follows the Feature-Branching model. Briefly, there are two
+main branches: `master` and `develop`. The former contains the history
+of stable releases, the latter contains the history of development. The
+`master` branch contains checkout points for production hotfixes
+or merge points for release-x.x.x branches. The `develop` branch is used
+for feature-bugfix integration and checkout point in development. Nobody
+should directly develop in here.
+
+
+### Conventions
+To manage the project in a more consistent way, here is a list of conventions
+to follow:
+
+- Each new feature is developed in a separate branch forked from *develop*.
+This new branch is called *featureNUMBER*, where *NUMBER* is the number
+of the GitHub Issue discussing that feature. The first line of each
+commit message for this branch should contain the string *Issue #NUMBER*
+at the beginning. Doing so, the commit is automatically recorded by the
+Issue Tracking System for that specific Issue. Note that the sharp (#)
+symbol is required.
+- The same for each new bugfix, but in this case the branch name is called
+bugfixNUMBER.
+- The same for each new hotfix, but in this case the branch name is called
+hotfixNUMBER and is forked from *master*.
+
+
+### Work flow
+The procedure for checking out a new feature from the `develop` branch
+is:
+```
+git checkout -b feature10 develop
+```
+This creates the `feature10` branch off `develop`. This feature10 is
+discussed in *Issue #10* in GitHub.
+When you are ready to commit your work, run:
+```
+git commit -am "Issue #10, summary of the changes. Detailed
+description of the changes, if any."
+git push origin feature10       # sometimes and at the end.
+```
+
+As of June 2016, the branches `master` and `develop` are protected and a
+status check using Travis-CI must be performed before merging or pushing
+into these branches. This automatically forces a merge without
+fast-forward.
+In order to merge **any** new feature, bugfix or simple edits into
+`master` or `develop`, a developer **must** checkout a new branch and,
+once committed and pushed, **merge** it to `master` or `develop` using a
+`pull request`. To merge `feature10` to `develop`, the pull request output
+will look like this in GitHub Pull Requests:
+```
+base:develop  compare:feature10   Able to merge. These branches can be
+automatically merged.
+
+```
+A small discussion about feature10 should also be included to allow
+other users to understand the feature.
+
+Finally delete the branch:
+```
+git branch -d feature10      # delete the branch feature10 (locally)
+```
+
+
+### New releases
+The script `release.sh` at the root of the package allows to release
+a new version of SBpipe or update the last github tag. This script also
+creates and uploads a new SBpipe package for anaconda cloud.
+
+The following two sections describe how to release a new version for SBpipe, manually.
+
+#### How to release a new tag
+When the `develop` branch includes all the desired feature for a
+release, it is time to checkout this
+branch in a new one called `release-x.x.x`. It is at this stage that a
+version is established.
+```
+# record the release add a tag:
+git tag -a v1.3 -m "SBpipe v1.3"
+
+# transfer the tag to the remote server:
+git push origin v1.3   # Note: this goes to a separate 'branch'
+
+# see all the releases:
+git show
+```
+
+#### How to release a new SBpipe conda package (Anaconda Cloud)
+This is a short guide for building SBpipe as a conda package.
+Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
+```
+conda install conda-build
+
+# DON'T FORGET TO SET THIS so that your built package is not uploaded automatically
+conda config --set anaconda_upload no
+```
+
+The recipe for SBpipe is already prepared (file: `meta.yaml`). To create the conda package for SBpipe:
+```
+cd path/to/sbpipe
+conda-build conda_recipe/meta.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
+```
+
+To test this package locally:
+```
+# install
+conda install sbpipe --use-local
+
+# uninstall
+conda remove sbpipe
+```
+
+To upload the package to the Anaconda cloud repository:
+```
+anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
+```
+
+
 ## Miscellaneous of useful commands
 ### Git
+
 **Startup**
 ```
 # clone master
-$ git clone https://github.com/pdp10/sbpipe.git
+git clone https://github.com/pdp10/sbpipe.git
 # get develop branch
-$ git checkout -b develop origin/develop
-# to get all the other branches
-$ for b in `git branch -r | grep -v -- '->'`; do git branch 
---track ${b##origin/} $b; done
+git checkout -b develop origin/develop
 # to update all the branches with remote
-$ git fetch --all
+git fetch --all
 ```
 
 **Update**
@@ -347,7 +340,7 @@ $ git fetch --all
 # branches otherwise it breaks the history. --rebase moves your 
 # commits ahead. For shared branches, you should use 
 # `git fetch && git merge --no-ff`
-$ git pull [--rebase] origin BRANCH 
+git pull [--rebase] origin BRANCH
 ```
 
 **Managing tags**
@@ -376,29 +369,28 @@ git tag -d tagName
 
 **File system**
 ```
-$ git rm [--cache] filename 
-$ git add filename
+git rm [--cache] filename
+git add filename
 ```
 
 **Information**
 ```
-$ git status 
-$ git log [--stat]
-$ git branch       # list the branches
+git status
+git log [--stat]
+git branch       # list the branches
 ```
 
 **Maintenance**
 ```
-$ git fsck      # check errors
-$ git gc        # clean up
+git fsck      # check errors
+git gc        # clean up
 ```
 
 **Rename a branch locally and remotely**
 ```
 git branch -m old_branch new_branch         # Rename branch locally
 git push origin :old_branch                 # Delete the old branch
-git push --set-upstream origin new_branch   # Push the new branch, set 
-local branch to track the new remote
+git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
 ```
 
 **Reset**

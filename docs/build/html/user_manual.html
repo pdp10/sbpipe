@@ -61,8 +61,8 @@
 Public License v3 (LGPLv3). A copy of this license is provided with the
 package and can also be found here:
 <a class="reference external" href="https://www.gnu.org/licenses/lgpl-3.0.txt">https://www.gnu.org/licenses/lgpl-3.0.txt</a>.</p>
-<p>Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and
-Dr Nicolas Le Novère (lenov AT babraham.ac.uk)</p>
+<p>Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT gmail.com) and Dr
+Nicolas Le Novère (lenov AT babraham.ac.uk)</p>
 <p>Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK</p>
 <p>Mailing list: sbpipe AT googlegroups.com</p>
 <p>Forum: <a class="reference external" href="https://groups.google.com/forum/#!forum/sbpipe">https://groups.google.com/forum/#!forum/sbpipe</a></p>
@@ -95,7 +95,7 @@ programming language)</li>
 <p>If LaTeX/PDF reports are also desired, the following software must also
 be installed:</p>
 <ul class="simple">
-<li>LaTeX 2013</li>
+<li>LaTeX 2013+</li>
 </ul>
 </div>
 <div class="section" id="how-to-install-sbpipe-on-gnu-linux">
@@ -111,10 +111,10 @@ export PATH=$PATH:/path/to/CopasiSE/
 </div>
 <p>The correct installation of CopasiSE can be tested with:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 
-$ CopasiSE -h
-COPASI 4.19 (Build 140)
+CopasiSE -h
+&gt; COPASI 4.19 (Build 140)
 </pre></div>
 </div>
 </div>
@@ -127,10 +127,10 @@ following package is required:</p>
 </pre></div>
 </div>
 <p>The correct installation of LaTeX can be tested with:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pdflatex -v
-pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
-kpathsea version 6.2.1
-Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pdflatex</span> <span class="o">-</span><span class="n">v</span>
+<span class="o">&gt;</span> <span class="n">pdfTeX</span> <span class="mf">3.14159265</span><span class="o">-</span><span class="mf">2.6</span><span class="o">-</span><span class="mf">1.40</span><span class="o">.</span><span class="mi">16</span> <span class="p">(</span><span class="n">TeX</span> <span class="n">Live</span> <span class="mi">2015</span><span class="o">/</span><span class="n">Debian</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">kpathsea</span> <span class="n">version</span> <span class="mf">6.2</span><span class="o">.</span><span class="mi">1</span>
+<span class="o">&gt;</span> <span class="n">Copyright</span> <span class="mi">2015</span> <span class="n">Peter</span> <span class="n">Breitenlohner</span> <span class="p">(</span><span class="n">eTeX</span><span class="p">)</span><span class="o">/</span><span class="n">Han</span> <span class="n">The</span> <span class="n">Thanh</span> <span class="p">(</span><span class="n">pdfTeX</span><span class="p">)</span><span class="o">.</span>
 </pre></div>
 </div>
 </div>
@@ -141,20 +141,20 @@ Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 (<a class="reference external" href="https://conda.io/miniconda.html">https://conda.io/miniconda.html</a>).</p>
 <p><strong>1st Method</strong></p>
 <p>The following procedure will install SBpipe in a conda environment:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># create a new environment `sbpipe`
-$ conda create -n sbpipe
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create a new environment `sbpipe`</span>
+<span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">sbpipe</span>
 
-# activate the environment. The following line can be
-# added to the .bashrc file to skip the activation
-# of this environment every time SBpipe is used.
-$ source activate sbpipe
+<span class="c1"># activate the environment. The following line can be</span>
+<span class="c1"># added to the .bashrc file to skip the activation</span>
+<span class="c1"># of this environment every time SBpipe is used.</span>
+<span class="c1"># For recent versions of conda, replace `source` with `conda`.</span>
+<span class="n">source</span> <span class="n">activate</span> <span class="n">sbpipe</span>
 
-# install sbpiper (necessary R dependencies) and sbpipe
-$ conda install sbpiper -c conda-forge -c defaults
-$ conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
+<span class="c1"># install sbpipe and its dependencies (including sbpiper)</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">sbpipe</span> <span class="o">-</span><span class="n">c</span> <span class="n">pdp10</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="o">-</span><span class="n">c</span> <span class="n">fbergmann</span> <span class="o">-</span><span class="n">c</span> <span class="n">defaults</span>
 
-# install snakemake (optional)
-$ conda install -c bioconda snakemake
+<span class="c1"># install snakemake (optional)</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">snakemake</span>
 </pre></div>
 </div>
 <p>No further step is needed.</p>
@@ -163,18 +163,23 @@ $ conda install -c bioconda snakemake
 the package documentation and test suite, it could be useful to store
 SBpipe in a custom path. To do so, SBpipe should be downloaded from the
 website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. From a GNU/Linux shell, type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># clone sbpiper using git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pdp10</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">.</span><span class="n">git</span>
 
-# install dependencies into isolated environment using Anaconda3/Miniconda3
-$ conda env create --name sbpipe --file environment.yaml
+<span class="c1"># move to sbpipe folder</span>
+<span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
 
-# activate environment. The following line can be
-# added to the .bashrc file to skip the activation
-# of this environment every time SBpipe is used.
-$ source activate sbpipe
+<span class="c1"># install dependencies into isolated environment using Anaconda3/Miniconda3</span>
+<span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">sbpipe</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yaml</span>
 
-# install snakemake (optional)
-$ conda install -c bioconda snakemake
+<span class="c1"># activate environment. The following line can be</span>
+<span class="c1"># added to the .bashrc file to skip the activation</span>
+<span class="c1"># of this environment every time SBpipe is used.</span>
+<span class="c1"># For recent versions of conda, replace `source` with `conda`.</span>
+<span class="n">source</span> <span class="n">activate</span> <span class="n">sbpipe</span>
+
+<span class="c1"># install snakemake (optional)</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">snakemake</span>
 </pre></div>
 </div>
 <p>To run sbpipe from any shell, users need to add ‘sbpipe/scripts’ to
@@ -186,7 +191,7 @@ export PATH=$PATH:/path/to/sbpipe/scripts
 </div>
 <p>The .bashrc file should be reloaded to apply the previous edits:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 </pre></div>
 </div>
 </div>
@@ -196,28 +201,28 @@ $ source $HOME/.bashrc
 website or cloned using <code class="docutils literal"><span class="pre">git</span></code>. Users need to make sure that the
 package <code class="docutils literal"><span class="pre">python-pip</span></code> and <code class="docutils literal"><span class="pre">r-base</span></code> are installed. The correct
 installation of Python and R can be tested by running the commands:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ python -V
-Python 3.6.4
-$ pip -V
-pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
+<span class="o">&gt;</span> <span class="n">Python</span> <span class="mf">3.6</span><span class="o">.</span><span class="mi">4</span>
+<span class="n">pip</span> <span class="o">-</span><span class="n">V</span>
+<span class="o">&gt;</span> <span class="n">pip</span> <span class="mf">9.0</span><span class="o">.</span><span class="mi">1</span> <span class="kn">from</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ariel</span><span class="o">/.</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="n">python</span> <span class="mf">3.6</span><span class="p">)</span>
 
-$ R --version
-R version 3.4.1 (2017-06-30) -- &quot;Single Candle&quot;
-Copyright (C) 2017 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+<span class="n">R</span> <span class="o">--</span><span class="n">version</span>
+<span class="o">&gt;</span> <span class="n">R</span> <span class="n">version</span> <span class="mf">3.4</span><span class="o">.</span><span class="mi">1</span> <span class="p">(</span><span class="mi">2017</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span> <span class="o">--</span> <span class="s2">&quot;Single Candle&quot;</span>
+<span class="o">&gt;</span> <span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2017</span> <span class="n">The</span> <span class="n">R</span> <span class="n">Foundation</span> <span class="k">for</span> <span class="n">Statistical</span> <span class="n">Computing</span>
+<span class="o">&gt;</span> <span class="n">Platform</span><span class="p">:</span> <span class="n">x86_64</span><span class="o">-</span><span class="n">pc</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span> <span class="p">(</span><span class="mi">64</span><span class="o">-</span><span class="n">bit</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The next step is the installation of SBpipe dependencies. To install
 Python dependencies on GNU/Linux, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ ./install_pydeps.py
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
+<span class="o">./</span><span class="n">install_pydeps</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>To install SBpipe R dependencies on GNU/Linux, run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd path/to/sbpipe
-$ R
-# Inside R environment, answer &#39;y&#39; to install packages locally
-&gt; source(&#39;install_rdeps.r&#39;)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span>
+<span class="n">R</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Inside R environment, answer &#39;y&#39; to install packages locally</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;install_rdeps.r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Finally, to run sbpipe from any shell, users need to add
@@ -229,7 +234,7 @@ export PATH=$PATH:/path/to/sbpipe/scripts
 </div>
 <p>The .bashrc file should be reloaded to apply the previous edits:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 </pre></div>
 </div>
 <p><strong>NOTE:</strong> If R package dependencies must be compiled, it is worth
@@ -246,7 +251,8 @@ be executed again.</p>
 <p>If Python bindings for COPASI are installed, SBpipe automatically checks
 whether the COPASI model can be loaded and executed, before generating
 the data. As of January 2018, this code is released for Python 2.7 and
-Python 3.6 on the COPASI website and Anaconda Cloud.</p>
+Python 3.6 on the COPASI website and Anaconda Cloud. The installation of
+SBpipe via Miniconda/Anaconda automatically installs this dependency.</p>
 </div>
 </div>
 <div class="section" id="how-to-install-sbpipe-on-windows">
@@ -267,12 +273,12 @@ Windows. Leave the default setting during installation.</p>
 <p>Once <code class="docutils literal"><span class="pre">Git</span> <span class="pre">for</span> <span class="pre">Windows</span></code> is started, a Shell-like window appears and
 enables users to run commands. The first step is to clone SBpipe from
 GitHub using the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/pdp10/sbpipe.git
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pdp10</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
 <p>We now need to set up the SBpipe environment variable:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ touch .bashrc
-$ wordpad .bashrc
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">touch</span> <span class="o">.</span><span class="n">bashrc</span>
+<span class="n">wordpad</span> <span class="o">.</span><span class="n">bashrc</span>
 </pre></div>
 </div>
 <p>A Wordpad window should be visible, loading the file <code class="docutils literal"><span class="pre">.bashrc</span></code> . The
@@ -292,7 +298,7 @@ source activate sbpipe
 <p>Save the file and close wordpad. Now you should reload the .bashrc file
 to apply the previous changes:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 </pre></div>
 </div>
 </div>
@@ -301,149 +307,42 @@ $ source $HOME/.bashrc
 <p>See corresponding section for GNU/Linux.</p>
 </div>
 </div>
-<div class="section" id="verify-sbpipe-installation">
-<h3>Verify SBpipe installation<a class="headerlink" href="#verify-sbpipe-installation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="test-sbpipe">
+<h3>Test SBpipe<a class="headerlink" href="#test-sbpipe" title="Permalink to this headline">¶</a></h3>
 <p>The correct installation of SBpipe and its dependencies can be verified
 by running the following commands. For the correct execution of all
 tests, LaTeX must be installed.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># SBpipe version:
-$ sbpipe -V
-sbpipe 4.6.0
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># SBpipe version:</span>
+<span class="n">sbpipe</span> <span class="o">-</span><span class="n">V</span>
+<span class="o">&gt;</span> <span class="n">sbpipe</span> <span class="mf">4.6</span><span class="o">.</span><span class="mi">0</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation using COPASI (see results in tests/copasi_models):
-$ cd path/to/sbpipe/tests
-$ nosetests test_copasi_sim.py --nocapture --verbose
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># run model simulation using COPASI (see results in tests/copasi_models):</span>
+<span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">tests</span>
+<span class="n">nosetests</span> <span class="n">test_copasi_sim</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">nocapture</span> <span class="o">--</span><span class="n">verbose</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run all tests:
-$ nosetests test_suite.py --nocapture --verbose
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># run all tests:</span>
+<span class="n">nosetests</span> <span class="n">test_suite</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">nocapture</span> <span class="o">--</span><span class="n">verbose</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span># regenerate the manuscript figures (see results in tests/insulin_receptor):
-$ nosetests test_suite_manuscript.py --nocapture --verbose
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># regenerate the manuscript figures (see results in tests/insulin_receptor):</span>
+<span class="n">nosetests</span> <span class="n">test_suite_manuscript</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">nocapture</span> <span class="o">--</span><span class="n">verbose</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="how-to-use-sbpipe">
 <h2>How to use SBpipe<a class="headerlink" href="#how-to-use-sbpipe" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="preliminary-configuration-steps">
-<h3>Preliminary configuration steps<a class="headerlink" href="#preliminary-configuration-steps" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="pipelines-using-copasi">
-<h4>Pipelines using COPASI<a class="headerlink" href="#pipelines-using-copasi" title="Permalink to this headline">¶</a></h4>
-<p>Before using these pipelines, a COPASI model must be configured as
-follow using COPASI_UI:</p>
-<p><strong>pipeline: simulation</strong></p>
-<ul class="simple">
-<li>Tick the flag <em>executable</em> in the Time Course Task.</li>
-<li>Select a report template for the Time Course Task.</li>
-<li>Save the report in the same folder with the same name as the model
-but replacing the extension .cps with .csv (extensions .txt, .tsv, or
-.dat are also accepted by SBpipe).</li>
-</ul>
-<p><strong>pipelines: single or double parameter scan</strong></p>
-<ul class="simple">
-<li>Tick the flag <em>executable</em> in the Parameter Scan Task.</li>
-<li>Select a report template for the Parameter Scan Task.</li>
-<li>Save the report in the same folder with the same name as the model
-but replacing the extension .cps with .csv (extensions .txt, .tsv, or
-.dat are also accepted by SBpipe)</li>
-</ul>
-<p><strong>pipeline: parameter estimation</strong></p>
-<ul class="simple">
-<li>Tick the flag <em>executable</em> in the Parameter Estimation Task.</li>
-<li>Select the report template for the Parameter Estimation Task.</li>
-<li>Save the report in the same folder with the same name as the model
-but replacing the extension .cps with .csv (extensions .txt, .tsv, or
-.dat are also accepted by SBpipe)</li>
-</ul>
-<p>For tasks such as parameter estimation using COPASI, it is recommended
-to move the data set into the folder <code class="docutils literal"><span class="pre">Models/</span></code> so that the COPASI
-model file and its associated experimental data files are stored in the
-same folder.</p>
-</div>
-<div class="section" id="pipelines-running-python-models">
-<h4>Pipelines running Python models<a class="headerlink" href="#pipelines-running-python-models" title="Permalink to this headline">¶</a></h4>
-<p><strong>pipelines: model simulation</strong></p>
-<ul class="simple">
-<li>The model coded in Python must be functional and invokable via
-<em>python</em> command.</li>
-<li>The program must receive the report file name as input argument (see
-examples in sbpipe/tests/).</li>
-<li>The program must save the report to file including the <em>Time</em> column.
-Report fields must be separated by TAB, and row names must be
-discarded.</li>
-</ul>
-<p><strong>pipeline: parameter estimation</strong></p>
-<ul class="simple">
-<li>The model coded in Python must be functional and invokable via
-<em>python</em> command.</li>
-<li>The program must receive the report file name as input argument (see
-examples in sbpipe/tests/).</li>
-<li>The program must save the report to file. This includes the objective
-value as first column column, and the estimated parameters as
-following columns. Rows are the evaluated functions. Report fields
-must be separated by TAB, and row names must be discarded.</li>
-</ul>
-<p><strong>Python as a wrapper</strong> Users can use Python as a wrapper to execute
-models coded in ANY programming language. The following Python model is
-essentially a wrapper invoking an R model called
-<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code>. This Python wrapper and
-<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code> are stored in the <code class="docutils literal"><span class="pre">Models/</span></code> folder. The
-configuration file calls the Python wrapper. This wrapper code must
-receive the report file name as input argument and forward it to the R
-script. This R script will run a model and store the results in the
-received report file name. These data must be stored as described above.</p>
-<p>Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code>. This runs
-<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">shlex</span>
-
-<span class="c1"># This is a Python wrapper used to run an R model.</span>
-<span class="c1"># The R model receives the report_filename as input</span>
-<span class="c1"># and must add the results to it.</span>
-
-<span class="c1"># Retrieve the report file name</span>
-<span class="n">report_filename</span> <span class="o">=</span> <span class="s2">&quot;sde_periodic_drift.csv&quot;</span>
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
-          <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
-
-<span class="c1"># Block until command is finished</span>
-<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>Configuration file invoking the Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
-<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Python&quot;</span>
-<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;sde_periodic_drift.py&quot;</span>
-<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
-<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
-<span class="n">runs</span><span class="p">:</span> <span class="mi">14</span>
-<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-<span class="n">plot_exp_dataset</span><span class="p">:</span> <span class="kc">False</span>
-<span class="n">exp_dataset_alpha</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="n">xaxis_label</span><span class="p">:</span> <span class="s2">&quot;Time&quot;</span>
-<span class="n">yaxis_label</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="how-to-run-sbpipe">
-<h3>How to run SBpipe<a class="headerlink" href="#how-to-run-sbpipe" title="Permalink to this headline">¶</a></h3>
+<p>SBpipe pipelines can be executed natively or via Snakemake, a dedicated
+and more advanced tool for running computational pipelines.</p>
+<div class="section" id="how-to-run-sbpipe-natively">
+<h3>How to run SBpipe natively<a class="headerlink" href="#how-to-run-sbpipe-natively" title="Permalink to this headline">¶</a></h3>
 <p>SBpipe is executed via the command <em>sbpipe</em>. The syntax for this command
 and its complete list of options can be retrieved by running <em>sbpipe
 -h</em>. The first step is to create a new project. This can be done with
 the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ sbpipe --create-project project_name
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span> <span class="o">--</span><span class="n">create</span><span class="o">-</span><span class="n">project</span> <span class="n">project_name</span>
 </pre></div>
 </div>
 <p>This generates the following structure:</p>
@@ -474,9 +373,8 @@ the complete command set):</p>
 <span class="n">sbpipe</span> <span class="o">-</span><span class="n">d</span> <span class="n">config_file</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
-</div>
 <div class="section" id="pipeline-configuration-files">
-<h3>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h3>
+<h4>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h4>
 <p>Pipelines are configured using files (here called configuration files).
 These files are YAML files. In SBpipe each pipeline executes three
 tasks: data generation, data analysis, and report generation. These
@@ -674,16 +572,22 @@ estimation</em></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sbpipe</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">insulin_receptor</span><span class="o">/</span>
 </pre></div>
 </div>
+<div class="figure" id="id2">
+<img alt="SBpipe native workflow" src="_images/sbpipe_workflow.png" />
+<p class="caption"><span class="caption-text">SBpipe native workflow</span></p>
 </div>
-<div class="section" id="how-to-run-sbpipe-with-snakemake">
-<h3>How to run SBpipe with Snakemake<a class="headerlink" href="#how-to-run-sbpipe-with-snakemake" title="Permalink to this headline">¶</a></h3>
-<p>SBpipe can also be executed using
+</div>
+</div>
+<div class="section" id="how-to-run-sbpipe-via-snakemake">
+<h3>How to run SBpipe via Snakemake<a class="headerlink" href="#how-to-run-sbpipe-via-snakemake" title="Permalink to this headline">¶</a></h3>
+<p>SBpipe pipelines can also be executed using
 <a class="reference external" href="https://snakemake.readthedocs.io">Snakemake</a>. Snakemake offers an
-infrastructure for running software pipelines using declarative rules.</p>
+infrastructure for running computational pipelines using declarative
+rules.</p>
 <p>Snakemake can be installed manually via package manager or using the
 conda command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Install snakemake (note: it requires python 3+ to run)
-$ conda install -c bioconda snakemake
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Install snakemake (note: it requires python 3+ to run)</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">snakemake</span>
 </pre></div>
 </div>
 <p>SBpipe pipelines for parameter estimation, single/double parameter scan,
@@ -750,20 +654,163 @@ Snakemake.</p>
 <p>Examples of configuration files for running SBpipe using Snakemake are
 in <code class="docutils literal"><span class="pre">tests/snakemake</span></code>.</p>
 <p>Examples of commands running SBpipe pipelines using Snakemake are:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># run model simulation
-$ snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># run model simulation</span>
+<span class="n">snakemake</span> <span class="o">-</span><span class="n">s</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">sbpipe_sim</span><span class="o">.</span><span class="n">snake</span> <span class="o">--</span><span class="n">configfile</span> <span class="n">SBPIPE_CONFIG_FILE</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">cores</span> <span class="mi">7</span>
 
-# run model parameter estimation using 40 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 40 --verbose --cluster &quot;qsub&quot;
+<span class="c1"># run model parameter estimation using 40 jobs on an SGE cluster.</span>
+<span class="c1"># snakemake waits for output files for 100 s.</span>
+<span class="n">snakemake</span> <span class="o">-</span><span class="n">s</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">sbpipe_pe</span><span class="o">.</span><span class="n">snake</span> <span class="o">--</span><span class="n">configfile</span> <span class="n">SBPIPE_CONFIG_FILE</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">latency</span><span class="o">-</span><span class="n">wait</span> <span class="mi">100</span> <span class="o">-</span><span class="n">j</span> <span class="mi">40</span> <span class="o">--</span><span class="n">cluster</span> <span class="s2">&quot;qsub -cwd -V -S /bin/sh&quot;</span>
 
-# run model parameter parameter scan using 5 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 5 --verbose --cluster &quot;bsub&quot;
+<span class="c1"># run model parameter parameter scan using 5 jobs</span>
+<span class="n">snakemake</span> <span class="o">-</span><span class="n">s</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">sbpipe_ps1</span><span class="o">.</span><span class="n">snake</span> <span class="o">--</span><span class="n">configfile</span> <span class="n">SBPIPE_CONFIG_FILE</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">j</span> <span class="mi">5</span> <span class="o">--</span><span class="n">cluster</span> <span class="s2">&quot;bsub&quot;</span>
 
-# run model parameter parameter scan using 5 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 1 --verbose --cluster &quot;qsub&quot;
+<span class="c1"># run model parameter parameter scan using 5 jobs</span>
+<span class="n">snakemake</span> <span class="o">-</span><span class="n">s</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sbpipe</span><span class="o">/</span><span class="n">sbpipe_ps2</span><span class="o">.</span><span class="n">snake</span> <span class="o">--</span><span class="n">configfile</span> <span class="n">SBPIPE_CONFIG_FILE</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">j</span> <span class="mi">1</span> <span class="o">--</span><span class="n">cluster</span> <span class="s2">&quot;qsub&quot;</span>
+</pre></div>
+</div>
+<p>If the grid engine supports DRMAA, it can be convenient to use Snakemake
+with the option <code class="docutils literal"><span class="pre">--drmaa</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># See the DRMAA Python bindings for a preliminary documentation: https://pypi.python.org/pypi/drmaa</span>
+<span class="c1"># The following is an example of configuration for DRMAA for the grid engine installed at the Babraham Institute</span>
+<span class="c1"># (Cambridge, UK).</span>
+
+<span class="c1"># load Python 3</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">python3</span><span class="o">/</span><span class="mf">3.5</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">alias</span> <span class="n">python</span><span class="o">=</span><span class="n">python3</span>
+<span class="c1"># install python drmaa locally</span>
+<span class="n">easy_install</span><span class="o">-</span><span class="mf">3.5</span> <span class="o">--</span><span class="n">user</span> <span class="n">drmaa</span>
+
+<span class="c1"># Update accordingly and add the following line to your ~/.bashrc file:</span>
+<span class="n">export</span> <span class="n">SGE_ROOT</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">gridengine</span>     <span class="c1"># update path if needed</span>
+<span class="n">export</span> <span class="n">SGE_CELL</span><span class="o">=</span><span class="n">default</span>
+<span class="n">export</span> <span class="n">DRMAA_LIBRARY_PATH</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">gridengine</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">lx26</span><span class="o">-</span><span class="n">amd64</span><span class="o">/</span><span class="n">libdrmaa</span><span class="o">.</span><span class="n">so</span><span class="o">.</span><span class="mf">1.0</span>    <span class="c1"># update path if needed</span>
+</pre></div>
+</div>
+<p>Snakemake can now be executed using drmaa as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snakemake</span> <span class="o">-</span><span class="n">s</span> <span class="o">../../</span><span class="n">sbpipe_sim</span><span class="o">.</span><span class="n">snake</span> <span class="o">--</span><span class="n">configfile</span> <span class="n">ir_model_stoch_simul</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">j</span> <span class="mi">200</span> <span class="o">--</span><span class="n">latency</span><span class="o">-</span><span class="n">wait</span> <span class="mi">100</span> <span class="o">--</span><span class="n">drmaa</span> <span class="s2">&quot; -cwd -V -S /bin/sh&quot;</span>
 </pre></div>
 </div>
 <p>See <code class="docutils literal"><span class="pre">snakemake</span> <span class="pre">-h</span></code> for a complete list of commands.</p>
+<p>The implementation of SBpipe pipelines for Snakemake is more scalable
+and allows for additional controls and resiliance.</p>
+<div class="figure" id="id3">
+<img alt="snakemake1" src="_images/sbpipe_pe_snake_dag.pdf" />
+<p class="caption"><span class="caption-text">Workflow for SBpipe pipeline <code class="docutils literal"><span class="pre">parameter</span> <span class="pre">estimation</span></code> using Snakemake</span></p>
+</div>
+<div class="figure" id="id4">
+<img alt="snakemake2" src="_images/sbpipe_sim_snake_dag.pdf" />
+<p class="caption"><span class="caption-text">Workflow for SBpipe pipeline <code class="docutils literal"><span class="pre">simulation</span></code> using Snakemake</span></p>
+</div>
+<div class="figure" id="id5">
+<img alt="snakemake3" src="_images/sbpipe_ps1_snake_dag.pdf" />
+<p class="caption"><span class="caption-text">Workflow for SBpipe pipeline <code class="docutils literal"><span class="pre">single</span> <span class="pre">parameter</span> <span class="pre">scan</span></code> using
+Snakemake</span></p>
+</div>
+<div class="figure" id="id6">
+<img alt="snakemake4" src="_images/sbpipe_ps2_snake_dag.pdf" />
+<p class="caption"><span class="caption-text">Workflow for SBpipe pipeline <code class="docutils literal"><span class="pre">double</span> <span class="pre">parameter</span> <span class="pre">scan</span></code> using
+Snakemake</span></p>
+</div>
+</div>
+<div class="section" id="configuration-of-the-mathematical-model">
+<h3>Configuration of the mathematical model<a class="headerlink" href="#configuration-of-the-mathematical-model" title="Permalink to this headline">¶</a></h3>
+<p>SBpipe can run COPASI models or models coded in any programming language
+using a Python wrapper to invoke them.</p>
+<div class="section" id="pipelines-running-copasi-models">
+<h4>Pipelines running COPASI models<a class="headerlink" href="#pipelines-running-copasi-models" title="Permalink to this headline">¶</a></h4>
+<p>A COPASI model must be configured as follow using the command
+<code class="docutils literal"><span class="pre">CopasiUI</span></code>:</p>
+<p><strong>pipeline: simulation</strong></p>
+<ul class="simple">
+<li>Tick the flag <em>executable</em> in the Time Course Task.</li>
+<li>Select a report template for the Time Course Task.</li>
+<li>Save the report in the same folder with the same name as the model
+but replacing the extension .cps with .csv (extensions .txt, .tsv, or
+.dat are also accepted by SBpipe).</li>
+</ul>
+<p><strong>pipelines: single or double parameter scan</strong></p>
+<ul class="simple">
+<li>Tick the flag <em>executable</em> in the Parameter Scan Task.</li>
+<li>Select a report template for the Parameter Scan Task.</li>
+<li>Save the report in the same folder with the same name as the model
+but replacing the extension .cps with .csv (extensions .txt, .tsv, or
+.dat are also accepted by SBpipe)</li>
+</ul>
+<p><strong>pipeline: parameter estimation</strong></p>
+<ul class="simple">
+<li>Tick the flag <em>executable</em> in the Parameter Estimation Task.</li>
+<li>Select the report template for the Parameter Estimation Task.</li>
+<li>Save the report in the same folder with the same name as the model
+but replacing the extension .cps with .csv (extensions .txt, .tsv, or
+.dat are also accepted by SBpipe)</li>
+</ul>
+<p>For tasks such as parameter estimation using COPASI, it is recommended
+to move the data set into the folder <code class="docutils literal"><span class="pre">Models/</span></code> so that the COPASI
+model file and its associated experimental data files are stored in the
+same folder.</p>
+</div>
+<div class="section" id="pipelines-running-any-mathematical-model-using-python-as-a-wrapper">
+<h4>Pipelines running any mathematical model using Python as a wrapper.<a class="headerlink" href="#pipelines-running-any-mathematical-model-using-python-as-a-wrapper" title="Permalink to this headline">¶</a></h4>
+<p>The model/program must be functional and a Python wrapper should be able
+to run it via the command <code class="docutils literal"><span class="pre">python</span></code>. The program must receive the
+report file name as input argument (see examples in sbpipe/tests/). If
+the program generates a model simulation, a report file must be
+generated including the column <code class="docutils literal"><span class="pre">Time</span></code>. Report fields must be separated
+by TAB, and row names must be discarded. If the program runs a parameter
+estimation, a report file must be generated including the objective
+value as first column column, and the estimated parameters as following
+columns. Rows are the evaluated functions. Report fields must be
+separated by TAB, and row names must be discarded.</p>
+<p>Users can use Python as a wrapper to execute models coded in any
+programming language. The following Python model is essentially a
+wrapper invoking an R model called <code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code>. This Python
+wrapper and <code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code> are stored in the <code class="docutils literal"><span class="pre">Models/</span></code>
+folder. The configuration file calls the Python wrapper. This wrapper
+code must receive the report file name as input argument and forward it
+to the R script. This R script will run a model and store the results in
+the received report file name. These data must be stored as described
+above.</p>
+<p>Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code>. This runs
+<code class="docutils literal"><span class="pre">sde_periodic_drift.r</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">shlex</span>
+
+<span class="c1"># This is a Python wrapper used to run an R model.</span>
+<span class="c1"># The R model receives the report_filename as input</span>
+<span class="c1"># and must add the results to it.</span>
+
+<span class="c1"># Retrieve the report file name</span>
+<span class="n">report_filename</span> <span class="o">=</span> <span class="s2">&quot;sde_periodic_drift.csv&quot;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">report_filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;Rscript --vanilla &#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;sde_periodic_drift.r&#39;</span><span class="p">)</span> <span class="o">+</span> \
+          <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
+
+<span class="c1"># Block until command is finished</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Configuration file invoking the Python wrapper <code class="docutils literal"><span class="pre">sde_periodic_drift.py</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">generate_data</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
+<span class="n">simulator</span><span class="p">:</span> <span class="s2">&quot;Python&quot;</span>
+<span class="n">model</span><span class="p">:</span> <span class="s2">&quot;sde_periodic_drift.py&quot;</span>
+<span class="n">cluster</span><span class="p">:</span> <span class="s2">&quot;local&quot;</span>
+<span class="n">local_cpus</span><span class="p">:</span> <span class="mi">7</span>
+<span class="n">runs</span><span class="p">:</span> <span class="mi">14</span>
+<span class="n">exp_dataset</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+<span class="n">plot_exp_dataset</span><span class="p">:</span> <span class="kc">False</span>
+<span class="n">exp_dataset_alpha</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="n">xaxis_label</span><span class="p">:</span> <span class="s2">&quot;Time&quot;</span>
+<span class="n">yaxis_label</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="how-to-report-bugs-or-request-new-features">
@@ -814,18 +861,20 @@ tracking system for SBpipe at the web page:</p>
 <li><a class="reference internal" href="#id1">Install SBpipe via Miniconda3/Anaconda3</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#verify-sbpipe-installation">Verify SBpipe installation</a></li>
+<li><a class="reference internal" href="#test-sbpipe">Test SBpipe</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#how-to-use-sbpipe">How to use SBpipe</a><ul>
-<li><a class="reference internal" href="#preliminary-configuration-steps">Preliminary configuration steps</a><ul>
-<li><a class="reference internal" href="#pipelines-using-copasi">Pipelines using COPASI</a></li>
-<li><a class="reference internal" href="#pipelines-running-python-models">Pipelines running Python models</a></li>
+<li><a class="reference internal" href="#how-to-run-sbpipe-natively">How to run SBpipe natively</a><ul>
+<li><a class="reference internal" href="#pipeline-configuration-files">Pipeline configuration files</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#how-to-run-sbpipe">How to run SBpipe</a></li>
-<li><a class="reference internal" href="#pipeline-configuration-files">Pipeline configuration files</a></li>
-<li><a class="reference internal" href="#how-to-run-sbpipe-with-snakemake">How to run SBpipe with Snakemake</a></li>
+<li><a class="reference internal" href="#how-to-run-sbpipe-via-snakemake">How to run SBpipe via Snakemake</a></li>
+<li><a class="reference internal" href="#configuration-of-the-mathematical-model">Configuration of the mathematical model</a><ul>
+<li><a class="reference internal" href="#pipelines-running-copasi-models">Pipelines running COPASI models</a></li>
+<li><a class="reference internal" href="#pipelines-running-any-mathematical-model-using-python-as-a-wrapper">Pipelines running any mathematical model using Python as a wrapper.</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#how-to-report-bugs-or-request-new-features">How to report bugs or request new features</a></li>

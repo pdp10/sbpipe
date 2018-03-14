@@ -27,6 +27,9 @@
 
 export PYTHONPATH=${PYTHONPATH}:../
 
+# generate DAG files for SBpipe snakemake pipelines
+./gen_snakemake_dags.sh
+
 
 # Import manuals
 # convert user_manual.md to user_manual.rst

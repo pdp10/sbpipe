@@ -8,7 +8,7 @@ SBpipe and its documentation are released under the GNU Lesser General Public Li
 A copy of this license is provided with the package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
 
-Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT babraham.ac.uk) and 
+Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT gmail.com) and
 Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
@@ -27,7 +27,7 @@ Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology* **11**:46. SBpipe
 This package contains a collection of pipelines for dynamic modelling of 
 biological systems. It aims to automate common processes and speed up 
 productivity for tasks such as model simulation, single/double parameter 
-scan, and parameter estimation. 
+scan, and parameter estimation.
 
 
 ### Requirements
@@ -46,7 +46,7 @@ simulation, parameter scan, and parameter estimation)
 If LaTeX/PDF reports are also desired, the following software must also 
 be installed:
 
-- LaTeX 2013
+- LaTeX 2013+
 
 
 
@@ -64,10 +64,10 @@ export PATH=$PATH:/path/to/CopasiSE/
 The correct installation of CopasiSE can be tested with:
 ```
 # Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 
-$ CopasiSE -h
-COPASI 4.19 (Build 140)
+CopasiSE -h
+> COPASI 4.19 (Build 140)
 ```
 
 
@@ -81,10 +81,10 @@ texlive-latex-base
 
 The correct installation of LaTeX can be tested with:
 ```
-$ pdflatex -v
-pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
-kpathsea version 6.2.1
-Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+pdflatex -v
+> pdfTeX 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian)
+> kpathsea version 6.2.1
+> Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 ```
 
 #### Install SBpipe via Miniconda3/Anaconda3
@@ -95,41 +95,48 @@ Miniconda3 ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 The following procedure will install SBpipe in a conda environment:
 ```
 # create a new environment `sbpipe`
-$ conda create -n sbpipe
+conda create -n sbpipe
 
 # activate the environment. The following line can be
 # added to the .bashrc file to skip the activation
 # of this environment every time SBpipe is used.
-$ source activate sbpipe
+# For recent versions of conda, replace `source` with `conda`.
+source activate sbpipe
 
-# install sbpiper (necessary R dependencies) and sbpipe
-$ conda install sbpiper -c conda-forge -c defaults
-$ conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
+# install sbpipe and its dependencies (including sbpiper)
+conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 
 # install snakemake (optional)
-$ conda install -c bioconda snakemake
+conda install -c bioconda snakemake
 ```
 No further step is needed.
 
 ###### **2nd Method**
-Alternatively, for those users who would like to have an easy access to the package documentation and test suite, it could be useful to store SBpipe in a custom path. To do so, SBpipe should be downloaded from the website or cloned using `git`. From a GNU/Linux shell, type:
+Alternatively, for those users who would like to have an easy access to the package documentation and test suite,
+it could be useful to store SBpipe in a custom path. To do so, SBpipe should be downloaded from the website
+or cloned using `git`. From a GNU/Linux shell, type:
 ```
-$ cd path/to/sbpipe
+# clone sbpiper using git
+git clone https://github.com/pdp10/sbpipe.git
+
+# move to sbpipe folder
+cd path/to/sbpipe
 
 # install dependencies into isolated environment using Anaconda3/Miniconda3
-$ conda env create --name sbpipe --file environment.yaml
+conda env create --name sbpipe --file environment.yaml
 
 # activate environment. The following line can be
 # added to the .bashrc file to skip the activation
 # of this environment every time SBpipe is used.
-$ source activate sbpipe
+# For recent versions of conda, replace `source` with `conda`.
+source activate sbpipe
 
 # install snakemake (optional)
-$ conda install -c bioconda snakemake
+conda install -c bioconda snakemake
 ```
 
-To run sbpipe from any shell, users need to add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
-to their `$HOME`/.bashrc file:
+To run sbpipe from any shell, users need to add 'sbpipe/scripts' to their `PATH` environment variable by
+adding the following lines to their `$HOME`/.bashrc file:
 ```
 # SBPIPE (update this accordingly)
 export PATH=$PATH:/path/to/sbpipe/scripts
@@ -138,42 +145,43 @@ export PATH=$PATH:/path/to/sbpipe/scripts
 The .bashrc file should be reloaded to apply the previous edits:
 ```
 # Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 ```
 
 
 
 #### Install SBpipe's dependencies via provided scripts
-For this type of installation, SBpipe should be downloaded from the website or cloned using `git`. Users need to make sure that the package `python-pip` and `r-base` are installed.
+For this type of installation, SBpipe should be downloaded from the website or cloned using `git`.
+Users need to make sure that the package `python-pip` and `r-base` are installed.
 The correct installation of Python and R can be tested by running the commands:
 ```
-$ python -V
-Python 3.6.4
-$ pip -V
-pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
+python -V
+> Python 3.6.4
+pip -V
+> pip 9.0.1 from /home/ariel/.local/lib/python3.6/site-packages (python 3.6)
 
-$ R --version
-R version 3.4.1 (2017-06-30) -- "Single Candle"
-Copyright (C) 2017 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R --version
+> R version 3.4.1 (2017-06-30) -- "Single Candle"
+> Copyright (C) 2017 The R Foundation for Statistical Computing
+> Platform: x86_64-pc-linux-gnu (64-bit)
 ```
 
 The next step is the installation of SBpipe dependencies. To install Python dependencies on GNU/Linux, run:
 ```
-$ cd path/to/sbpipe
-$ ./install_pydeps.py
+cd path/to/sbpipe
+./install_pydeps.py
 ```
 
 To install SBpipe R dependencies on GNU/Linux, run:
 ```
-$ cd path/to/sbpipe
-$ R
-# Inside R environment, answer 'y' to install packages locally
-> source('install_rdeps.r')
+cd path/to/sbpipe
+R
+>>> # Inside R environment, answer 'y' to install packages locally
+>>> source('install_rdeps.r')
 ```
 
-Finally, to run sbpipe from any shell, users need to add 'sbpipe/scripts' to their `PATH` environment variable by adding the following lines
-to their `$HOME`/.bashrc file:
+Finally, to run sbpipe from any shell, users need to add 'sbpipe/scripts' to their `PATH` environment variable by
+adding the following lines to their `$HOME`/.bashrc file:
 ```
 # SBPIPE (update this accordingly)
 export PATH=$PATH:/path/to/sbpipe/scripts
@@ -182,7 +190,7 @@ export PATH=$PATH:/path/to/sbpipe/scripts
 The .bashrc file should be reloaded to apply the previous edits:
 ```
 # Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 ```
 
 **NOTE:**
@@ -198,7 +206,8 @@ After installing these packages, `install_rdeps.r` must be executed again.
 #### Python bindings code for COPASI models (optional)
 If Python bindings for COPASI are installed, SBpipe automatically checks whether the COPASI model can be loaded
 and executed, before generating the data. As of January 2018, this code is released for Python 2.7 and Python 3.6
-on the COPASI website and Anaconda Cloud.
+on the COPASI website and Anaconda Cloud. The installation of SBpipe via Miniconda/Anaconda automatically installs
+this dependency.
 
 
 ### How to install SBpipe on Windows
@@ -217,13 +226,13 @@ Once `Git for Windows` is started, a Shell-like window appears and enables users
 The first step is to clone SBpipe from GitHub using the command:
 
 ```
-$ git clone https://github.com/pdp10/sbpipe.git
+git clone https://github.com/pdp10/sbpipe.git
 ```
 
 We now need to set up the SBpipe environment variable:
 ```
-$ touch .bashrc
-$ wordpad .bashrc
+touch .bashrc
+wordpad .bashrc
 ```
 A Wordpad window should be visible, loading the file `.bashrc` . The following lines must be copied into this file:
 
@@ -243,7 +252,7 @@ source activate sbpipe
 Save the file and close wordpad. Now you should reload the .bashrc file to apply the previous changes:
 ```
 # Reload the .bashrc file
-$ source $HOME/.bashrc
+source $HOME/.bashrc
 ```
 
 #### Install SBpipe via Miniconda3/Anaconda3
@@ -251,140 +260,45 @@ See corresponding section for GNU/Linux.
 
 
 
-### Verify SBpipe installation
-The correct installation of SBpipe and its dependencies can be verified by running the following commands. For the correct execution of all tests, LaTeX must be installed.
+### Test SBpipe
+The correct installation of SBpipe and its dependencies can be verified by running the following commands.
+For the correct execution of all tests, LaTeX must be installed.
 
 ```
 # SBpipe version:
-$ sbpipe -V
-sbpipe 4.6.0
+sbpipe -V
+> sbpipe 4.6.0
 ```
 
 ```
 # run model simulation using COPASI (see results in tests/copasi_models):
-$ cd path/to/sbpipe/tests
-$ nosetests test_copasi_sim.py --nocapture --verbose
+cd path/to/sbpipe/tests
+nosetests test_copasi_sim.py --nocapture --verbose
 ```
 
 ```
 # run all tests:
-$ nosetests test_suite.py --nocapture --verbose
+nosetests test_suite.py --nocapture --verbose
 ```
 
 ```
 # regenerate the manuscript figures (see results in tests/insulin_receptor):
-$ nosetests test_suite_manuscript.py --nocapture --verbose
+nosetests test_suite_manuscript.py --nocapture --verbose
 ```
 
 
 
 ## How to use SBpipe
-
-### Preliminary configuration steps
-
-#### Pipelines using COPASI
-Before using these pipelines, a COPASI model must be configured as follow
-using COPASI_UI:
-
-**pipeline: simulation**
-
-- Tick the flag _executable_ in the Time Course Task.
-- Select a report template for the Time Course Task.
-- Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe).
-
-**pipelines: single or double parameter scan**
-
-- Tick the flag _executable_ in the Parameter Scan Task.
-- Select a report template for the Parameter Scan Task.
-- Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
-
-**pipeline: parameter estimation**
-
-- Tick the flag _executable_ in the Parameter Estimation Task.
-- Select the report template for the Parameter Estimation Task.
-- Save the report in the same folder with the same name as the model but 
-replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
-
-For tasks such as parameter estimation using COPASI, it is
-recommended to move the data set into the folder `Models/` so
-that the COPASI model file and its associated experimental data
-files are stored in the same folder.
+SBpipe pipelines can be executed natively or via Snakemake, a dedicated and more advanced tool for running computational pipelines.
 
 
-#### Pipelines running Python models
-
-**pipelines: model simulation**
-
-- The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
-- The program must save the report to file including the _Time_ column. Report fields must be separated by TAB, and row names must be discarded.
-
-**pipeline: parameter estimation**
-
-- The model coded in Python must be functional and invokable via _python_ command.
-- The program must receive the report file name as input argument (see examples in sbpipe/tests/).
-- The program must save the report to file. This includes the objective value as first column column, and the estimated
- parameters as following columns. Rows are the evaluated functions. Report fields must be separated by TAB, and row
- names must be discarded.
-
-**Python as a wrapper**
-Users can use Python as a wrapper to execute models coded in ANY programming language. The following Python model is
-essentially a wrapper invoking an R model called `sde_periodic_drift.r`. This Python wrapper and `sde_periodic_drift.r`
-are stored in the `Models/` folder. The configuration file calls the Python wrapper. This wrapper code must receive the report
-file name as input argument and forward it to the R script. This R script will run a model and store the results in
-the received report file name. These data must be stored as described above.
-
-Python wrapper `sde_periodic_drift.py`. This runs `sde_periodic_drift.r`
-```
-import os
-import sys
-import subprocess
-import shlex
-
-# This is a Python wrapper used to run an R model.
-# The R model receives the report_filename as input
-# and must add the results to it.
-
-# Retrieve the report file name
-report_filename = "sde_periodic_drift.csv"
-if len(sys.argv) > 1:
-    report_filename = sys.argv[1]
-
-command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sde_periodic_drift.r') + \
-          ' ' + report_filename
-
-# Block until command is finished
-subprocess.call(shlex.split(command))
-```
-
-Configuration file invoking the Python wrapper `sde_periodic_drift.py`
-```
-generate_data: True
-analyse_data: True
-generate_report: True
-project_dir: "."
-simulator: "Python"
-model: "sde_periodic_drift.py"
-cluster: "local"
-local_cpus: 7
-runs: 14
-exp_dataset: ""
-plot_exp_dataset: False
-exp_dataset_alpha: 1.0
-xaxis_label: "Time"
-yaxis_label: "#"
-```
-
-
-### How to run SBpipe
+### How to run SBpipe natively
 SBpipe is executed via the command *sbpipe*. The syntax for this
 command and its complete list of options can be retrieved by running *sbpipe -h*.
 The first step is to create a new project. This can be done with the
 command:
 ```
-$ sbpipe --create-project project_name
+sbpipe --create-project project_name
 ```
 
 This generates the following structure:
@@ -396,7 +310,7 @@ project_name/
 ```
 Models must be stored in the Models/ folder. COPASI data sets used by a model
 should also be stored in Models. To run SBpipe, users need to create a configuration file
-for each pipeline they intend to run (see next section). These configuration 
+for each pipeline they intend to run (see next section). These configuration
 files should be placed in the root project folder. In Results/ users
 will eventually find all the results generated by SBpipe.
 
@@ -416,8 +330,8 @@ sbpipe -d config_file.yaml
 ```
 
 
-### Pipeline configuration files
-Pipelines are configured using files (here called configuration files). 
+#### Pipeline configuration files
+Pipelines are configured using files (here called configuration files).
 These files are YAML files.
 In SBpipe each pipeline executes three tasks: data generation, data
 analysis, and report generation. These tasks can be activated in each
@@ -615,16 +529,18 @@ Additional examples of configuration files can be found in:
 ```
 sbpipe/tests/insulin_receptor/
 ```
+![SBpipe native workflow](images/sbpipe_workflow.png "SBpipe native workflow")
 
 
-### How to run SBpipe with Snakemake
-SBpipe can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
-for running software pipelines using declarative rules.
+
+### How to run SBpipe via Snakemake
+SBpipe pipelines can also be executed using [Snakemake](https://snakemake.readthedocs.io). Snakemake offers an infrastructure
+for running computational pipelines using declarative rules.
 
 Snakemake can be installed manually via package manager or using the conda command:
 ```
 # Install snakemake (note: it requires python 3+ to run)
-$ conda install -c bioconda snakemake
+conda install -c bioconda snakemake
 ```
 
 SBpipe pipelines for parameter estimation, single/double parameter scan, and model simulation are also implemented
@@ -688,19 +604,147 @@ Examples of commands running SBpipe pipelines using Snakemake are:
 
 ```
 # run model simulation
-$ snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
+snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
 
-# run model parameter estimation using 40 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 40 --verbose --cluster "qsub"
-
-# run model parameter parameter scan using 5 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 5 --verbose --cluster "bsub"
+# run model parameter estimation using 40 jobs on an SGE cluster.
+# snakemake waits for output files for 100 s.
+snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml --latency-wait 100 -j 40 --cluster "qsub -cwd -V -S /bin/sh"
 
 # run model parameter parameter scan using 5 jobs
-$ snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -p -j 1 --verbose --cluster "qsub"
+snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 5 --cluster "bsub"
+
+# run model parameter parameter scan using 5 jobs
+snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 1 --cluster "qsub"
 ```
 
+If the grid engine supports DRMAA, it can be convenient to use Snakemake with the option `--drmaa`.
+
+```
+# See the DRMAA Python bindings for a preliminary documentation: https://pypi.python.org/pypi/drmaa
+# The following is an example of configuration for DRMAA for the grid engine installed at the Babraham Institute
+# (Cambridge, UK).
+
+# load Python 3
+module load python3/3.5.1
+alias python=python3
+# install python drmaa locally
+easy_install-3.5 --user drmaa
+
+# Update accordingly and add the following line to your ~/.bashrc file:
+export SGE_ROOT=/opt/gridengine     # update path if needed
+export SGE_CELL=default
+export DRMAA_LIBRARY_PATH=/opt/gridengine/lib/lx26-amd64/libdrmaa.so.1.0    # update path if needed
+```
+
+Snakemake can now be executed using drmaa as follows:
+```
+snakemake -s ../../sbpipe_sim.snake --configfile ir_model_stoch_simul.yaml -j 200 --latency-wait 100 --drmaa " -cwd -V -S /bin/sh"
+```
+
+
 See `snakemake -h` for a complete list of commands.
+
+
+The implementation of SBpipe pipelines for Snakemake is more scalable and allows for additional controls and resiliance.
+
+![Workflow for SBpipe pipeline `parameter estimation` using Snakemake](images/sbpipe_pe_snake_dag.pdf "snakemake1")
+
+![Workflow for SBpipe pipeline `simulation` using Snakemake](images/sbpipe_sim_snake_dag.pdf "snakemake2")
+
+![Workflow for SBpipe pipeline `single parameter scan` using Snakemake](images/sbpipe_ps1_snake_dag.pdf "snakemake3")
+
+![Workflow for SBpipe pipeline `double parameter scan` using Snakemake](images/sbpipe_ps2_snake_dag.pdf "snakemake4")
+
+
+
+### Configuration of the mathematical model
+SBpipe can run COPASI models or models coded in any programming language using a Python wrapper to invoke them.
+
+#### Pipelines running COPASI models
+A COPASI model must be configured as follow using the command `CopasiUI`:
+
+**pipeline: simulation**
+
+- Tick the flag _executable_ in the Time Course Task.
+- Select a report template for the Time Course Task.
+- Save the report in the same folder with the same name as the model but
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe).
+
+**pipelines: single or double parameter scan**
+
+- Tick the flag _executable_ in the Parameter Scan Task.
+- Select a report template for the Parameter Scan Task.
+- Save the report in the same folder with the same name as the model but
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
+
+**pipeline: parameter estimation**
+
+- Tick the flag _executable_ in the Parameter Estimation Task.
+- Select the report template for the Parameter Estimation Task.
+- Save the report in the same folder with the same name as the model but
+replacing the extension .cps with .csv (extensions .txt, .tsv, or .dat are also accepted by SBpipe)
+
+For tasks such as parameter estimation using COPASI, it is
+recommended to move the data set into the folder `Models/` so
+that the COPASI model file and its associated experimental data
+files are stored in the same folder.
+
+
+#### Pipelines running any mathematical model using Python as a wrapper.
+The model/program must be functional and a Python wrapper should be able to run it via the command `python`. The program
+must receive the report file name as input argument (see examples in sbpipe/tests/). If the program generates a model
+simulation, a report file must be generated including the column `Time`. Report fields must be separated by TAB, and
+row names must be discarded. If the program runs a parameter estimation, a report file must be generated including
+the objective value as first column column, and the estimated parameters as following columns. Rows are the evaluated
+functions. Report fields must be separated by TAB, and row names must be discarded.
+
+Users can use Python as a wrapper to execute models coded in any programming language. The following Python model is
+essentially a wrapper invoking an R model called `sde_periodic_drift.r`. This Python wrapper and `sde_periodic_drift.r`
+are stored in the `Models/` folder. The configuration file calls the Python wrapper. This wrapper code must receive the report
+file name as input argument and forward it to the R script. This R script will run a model and store the results in
+the received report file name. These data must be stored as described above.
+
+Python wrapper `sde_periodic_drift.py`. This runs `sde_periodic_drift.r`
+```
+import os
+import sys
+import subprocess
+import shlex
+
+# This is a Python wrapper used to run an R model.
+# The R model receives the report_filename as input
+# and must add the results to it.
+
+# Retrieve the report file name
+report_filename = "sde_periodic_drift.csv"
+if len(sys.argv) > 1:
+    report_filename = sys.argv[1]
+
+command = 'Rscript --vanilla ' + os.path.join(os.path.dirname(__file__), 'sde_periodic_drift.r') + \
+          ' ' + report_filename
+
+# Block until command is finished
+subprocess.call(shlex.split(command))
+```
+
+Configuration file invoking the Python wrapper `sde_periodic_drift.py`
+```
+generate_data: True
+analyse_data: True
+generate_report: True
+project_dir: "."
+simulator: "Python"
+model: "sde_periodic_drift.py"
+cluster: "local"
+local_cpus: 7
+runs: 14
+exp_dataset: ""
+plot_exp_dataset: False
+exp_dataset_alpha: 1.0
+xaxis_label: "Time"
+yaxis_label: "#"
+```
+
 
 
 ## How to report bugs or request new features

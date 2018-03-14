@@ -18,10 +18,16 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-snakemake -s ../../sbpipe_pe.snake --configfile ir_model_param_estim_for_dag.yaml --cores 7 --dag | dot -Tpdf > sbpipe_pe_snake_dag.pdf
+SNAKE_FOLDER="../tests/snakemake"
 
-snakemake -s ../../sbpipe_sim.snake --configfile ir_model_stoch_simul.yaml --cores 7 --dag | dot -Tpdf > sbpipe_sim_snake_dag.pdf
+cd $SNAKE_FOLDER
 
-snakemake -s ../../sbpipe_ps1.snake --configfile ir_model_ir_beta_inhib_stoch.yaml --cores 7 --dag | dot -Tpdf > sbpipe_ps1_snake_dag.pdf
+snakemake -s ../../sbpipe_pe.snake --configfile ir_model_param_estim_for_dag.yaml --dag | dot -Tpdf > sbpipe_pe_snake_dag.pdf
+snakemake -s ../../sbpipe_sim.snake --configfile ir_model_stoch_simul.yaml --dag | dot -Tpdf > sbpipe_sim_snake_dag.pdf
+snakemake -s ../../sbpipe_ps1.snake --configfile ir_model_ir_beta_inhib_stoch.yaml --dag | dot -Tpdf > sbpipe_ps1_snake_dag.pdf
+snakemake -s ../../sbpipe_ps2.snake --configfile ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml --dag | dot -Tpdf > sbpipe_ps2_snake_dag.pdf
 
-snakemake -s ../../sbpipe_ps2.snake --configfile ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml --cores 7 --dag | dot -Tpdf > sbpipe_ps2_snake_dag.pdf
+cd -
+
+mv $SNAKE_FOLDER/*.pdf source/images/
+
