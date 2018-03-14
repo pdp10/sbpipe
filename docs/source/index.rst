@@ -19,7 +19,7 @@ SBpipe documentation
 =====================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    
    user_manual
    developer_manual

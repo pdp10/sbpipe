@@ -6,8 +6,7 @@ Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.co
 
 
 ## Introduction
-This guide is meant for developers and contains guidelines for developing 
-this project. 
+This guide is meant for developers.
 
 
 ## Package structure
@@ -192,8 +191,9 @@ by Copasi models);
 Examples of configuration files (*.yaml) using COPASI can be found in
 sbpipe/tests/insulin_receptor/.
 
-To run tests for Python models, the Python packages `numpy`, `scipy`, and `pandas` must be installed.
-In principle, users may define their Python models using arbitrary packages.
+To run tests for Python models, the Python packages `numpy`, `scipy`, and
+`pandas` must be installed. In principle, users may define their Python models
+using arbitrary packages.
 
 As of 2016, the repository for SBpipe source code is `github.com`. This 
 is configured to run Travis-CI every time a `git push` into the repository 
@@ -270,7 +270,7 @@ git branch -d feature10      # delete the branch feature10 (locally)
 ### New releases
 The script `release.sh` at the root of the package allows to release
 a new version of SBpipe or update the last github tag. This script also
-creates and uploads a new SBpipe package for anaconda cloud.
+creates and uploads a new SBpipe package for Anaconda Cloud.
 
 The following two sections describe how to release a new version for SBpipe, manually.
 
@@ -292,7 +292,7 @@ git show
 
 #### How to release a new SBpipe conda package (Anaconda Cloud)
 This is a short guide for building SBpipe as a conda package.
-Anaconda (or Miniconda) must be installed. In order to proceed, the package `conda-build` must be installed:
+Miniconda must be installed. In order to proceed, the package `conda-build` must be installed:
 ```
 conda install conda-build
 
@@ -315,7 +315,7 @@ conda install sbpipe --use-local
 conda remove sbpipe
 ```
 
-To upload the package to the Anaconda cloud repository:
+To upload the package to Anaconda Cloud repository:
 ```
 anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
 ```
