@@ -80,17 +80,16 @@ rule sbpipe_model_checking:
     output:
         file=os.path.join(WORKING_FOLDER, CHECKING_FOLDER, MODEL_NAME + '_check' + TXT_EXT)
     run:
+        # An output file must be generated, as this is required input for the rule
+        # `sbpipe_preproc`.
+        from sbpipe.utils.io import write_mat_on_file
+        write_mat_on_file(output.file,
+                          ['No control was performed on this model.'])
         if COPASI:
             from sbpipe.tasks.model_checking import model_checking
             model_checking(input.file,
                            output.file,
                            'Time-Course')
-        else:
-            # An output file must be generated, as this is required input for the rule
-            # `sbpipe_preproc`.
-            from sbpipe.utils.io import write_mat_on_file
-            write_mat_on_file(output.file,
-                              ['No control was performed on this model.'])
 
 
 rule sbpipe_preproc:

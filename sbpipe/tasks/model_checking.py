@@ -44,16 +44,16 @@ def model_checking(infile, fileout, task_name):
     :param infile: the input file
     :param fileout: the output file
     :param task_name: the name of the task (Copasi models)
+    :return False if model checking can be executed and fails, or if the COPASI simulator is not found.
     """
     try:
         copasi = pipeline.Pipeline.get_simul_obj('Copasi')
     except TypeError as e:
         logger.error("simulator: copasi not found.")
         logger.debug(traceback.format_exc())
-        return
+        return False
 
-    if not copasi.model_checking(infile, fileout, task_name):
-        return
+    return copasi.model_checking(infile, fileout, task_name)
 
 
 
