@@ -65,9 +65,18 @@ SCANNED_PAR = config["scanned_par"]
 VARIABLES = config['report_variables']
 
 
-rule all:
+rule sbpipe_pdf_report:
     input:
-        pdf=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
+    output:
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
+    params:
+        working_folder_dir=WORKING_FOLDER,
+        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
+    run:
+        from sbpipe.report.latex_reports import pdf_report
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 
 
 rule sbpipe_model_checking:
@@ -191,18 +200,3 @@ rule sbpipe_ps1_latex_report:
                          params.report_prefix,
                          params.model_name,
                          params.scanned_par)
-
-
-rule sbpipe_pdf_report:
-    input:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
-    output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
-    params:
-        working_folder_dir=WORKING_FOLDER,
-        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
-    run:
-        from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir,
-                   params.latex_file)
-

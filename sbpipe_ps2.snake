@@ -63,9 +63,18 @@ TIME_POINTS = range(0, config['sim_length'])
 VARIABLES = config['report_variables']
 
 
-rule all:
+rule sbpipe_pdf_report:
     input:
+        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
+    output:
         file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
+    params:
+        working_folder_dir=WORKING_FOLDER,
+        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
+    run:
+        from sbpipe.report.latex_reports import pdf_report
+        pdf_report(params.working_folder_dir,
+                   params.latex_file)
 
 
 rule sbpipe_model_checking:
@@ -172,18 +181,3 @@ rule sbpipe_ps2_latex_report:
                          params.model_name,
                          params.scanned_par1,
                          params.scanned_par2)
-
-
-rule sbpipe_pdf_report:
-    input:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + LATEX_EXT)
-    output:
-        file=os.path.join(WORKING_FOLDER, REPORT_PREFIX + MODEL_NAME + PDF_EXT)
-    params:
-        working_folder_dir=WORKING_FOLDER,
-        latex_file=REPORT_PREFIX + MODEL_NAME + LATEX_EXT
-    run:
-        from sbpipe.report.latex_reports import pdf_report
-        pdf_report(params.working_folder_dir,
-                   params.latex_file)
-
