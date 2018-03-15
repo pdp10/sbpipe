@@ -56,6 +56,10 @@ def cleanup_tests():
         for f in replicated_files:
             remove_file_silently(f)
 
+        check_files = glob.glob(os.path.join(modelspath, "*_check.txt"))
+        for f in check_files:
+            remove_file_silently(f)
+
         wfpath = join(testpath, file, 'Results')
         if file == 'interrupted':
             # We keep the generated data sets for these tests
