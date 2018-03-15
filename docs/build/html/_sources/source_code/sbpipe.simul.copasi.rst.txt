@@ -1,0 +1,30 @@
+sbpipe.simul.copasi package
+===========================
+
+Submodules
+----------
+
+sbpipe.simul.copasi.copasi module
+---------------------------------
+
+.. automodule:: sbpipe.simul.copasi.copasi
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sbpipe.simul.copasi.model\_checking module
+------------------------------------------
+
+.. automodule:: sbpipe.simul.copasi.model_checking
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sbpipe.simul.copasi
+    :members:
+    :undoc-members:
+    :show-inheritance:
