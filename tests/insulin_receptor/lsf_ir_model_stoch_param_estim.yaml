@@ -8,7 +8,7 @@ model: "lsf_insulin_receptor_stoch_param_estim.cps"
 cluster: "lsf"
 local_cpus: 7
 round: 1
-runs: 500
+runs: 2000
 best_fits_percent: 75
 data_point_num: 33
 plot_2d_66cl_corr: True

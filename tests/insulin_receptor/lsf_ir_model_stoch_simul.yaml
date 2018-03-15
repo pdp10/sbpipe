@@ -6,7 +6,7 @@ simulator: "Copasi"
 model: "lsf_insulin_receptor_stoch.cps"
 cluster: "lsf"
 local_cpus: 2
-runs: 40
+runs: 500
 exp_dataset: "insulin_receptor_dataset.csv"
 plot_exp_dataset: True
 exp_dataset_alpha: 1.0

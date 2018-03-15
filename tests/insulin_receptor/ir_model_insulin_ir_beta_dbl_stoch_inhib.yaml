@@ -21,6 +21,6 @@ cluster: "local"
 local_cpus: 7
 # The number of simulations to perform.
 # n>: 1 for stochastic simulations.
-runs: 2
+runs: 3
 # The simulation length (as set in Copasi Time Course Task)
 sim_length: 10
