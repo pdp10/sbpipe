@@ -111,8 +111,8 @@ def progress_bar(it, total):
     length = 50
     filled = int(length * it // total)
     bar = '#' * filled + '-' * (length - filled)
-    progress = str(it) + '/' + str(total)
-    print('\r%s |%s| %s %s%% %s' % ('Initialisation:', bar, progress, percent, 'Complete'), end='\r')
+    progress = '(' + str(it) + ' of ' + str(total) + ')'
+    print('\r%s |%s| %s%% %s' % ('Initialisation:', bar, percent, progress), end='\r')
     if it == total:
         print()
 
@@ -176,14 +176,31 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False,
             sleep(0.01)
             progress_bar(i + 1, runs)
     else:
-        progress_bar(0, runs)
-        for i in range(0, runs):
-            command = cmd.replace(cmd_iter_substr, str(i+1))
-            logger.debug(command)
-            params = (command, "")
-            results.append(pool.apply_async(call_proc, (params,)))
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+        # get the current level for this handler
+        if len(logger.handlers) > 1:
+            handler = logger.handlers[1].level
+        else:
+            handler = logging.INFO
+        import progressbar
+        with progressbar.ProgressBar(max_value=runs) as bar:
+            for i in range(0, runs):
+                command = cmd.replace(cmd_iter_substr, str(i+1))
+                logger.debug(command)
+                params = (command, "")
+                results.append(pool.apply_async(call_proc, (params,)))
+                if handler <= logging.INFO:
+                    sleep(0.01)
+                    bar.update(i)
+        logger.info('here')
+
+#        progress_bar(0, runs)
+#        for i in range(0, runs):
+#            command = cmd.replace(cmd_iter_substr, str(i+1))
+#            logger.debug(command)
+#            params = (command, "")
+#            results.append(pool.apply_async(call_proc, (params,)))
+#            sleep(0.01)
+#            progress_bar(i + 1, runs)
 
     # Close the pool and wait for each running task to complete
     pool.close()
