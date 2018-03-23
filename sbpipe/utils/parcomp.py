@@ -30,7 +30,7 @@ import os
 import multiprocessing
 import subprocess
 import shlex
-import re
+from time import sleep
 logger = logging.getLogger('sbpipe')
 
 
@@ -99,6 +99,24 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
         return run_jobs_local(cmd, cmd_iter_substr, runs, local_cpus, output_msg, colnames)
 
 
+def progress_bar(it, total):
+    """
+    A simple CLI progress bar
+
+    :param it: current iteration
+    :param total: total iterations
+    """
+    percent = ("{0:.1f}").format(100 * (it / float(total)))
+    length = 50
+    filled = int(length * it // total)
+    bar = '#' * filled + '-' * (length - filled)
+    progress = str(it) + '/' + str(total)
+    print('\r%s |%s| %s %s%% %s' % ('Progress:', bar, progress, percent, 'Complete'), end='\r')
+    # Print New Line on Complete
+    if it == total:
+        print()
+
+
 def call_proc(params):
     """
     Run a command using Python subprocess.
@@ -106,7 +124,8 @@ def call_proc(params):
     :param params: A tuple containing (the string of the command to run, the command id)
     """
     cmd, id = params
-    logger.info('Starting Task ' + id)
+    if id:
+       logger.info('Starting Task ' + id)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
             out, err = p.communicate()
@@ -152,11 +171,14 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False,
             params = (command, column)
             results.append(pool.apply_async(call_proc, (params,)))
     else:
-        for i in range(1, runs + 1):
-            command = cmd.replace(cmd_iter_substr, str(i))
+        progress_bar(0, runs)
+        for i in range(0, runs):
+            command = cmd.replace(cmd_iter_substr, str(i+1))
             logger.debug(command)
-            params = (command, str(i))
+            params = (command, "")
             results.append(pool.apply_async(call_proc, (params,)))
+            sleep(0.01)
+            progress_bar(i + 1, runs)
 
     # Close the pool and wait for each running task to complete
     pool.close()
@@ -241,18 +263,21 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
                 qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
                 qsub_proc.communicate()[0]
     else:
-        for i in range(1, runs + 1):
+        progress_bar(0, runs)
+        for i in range(0, runs):
             # Now the same with qsub
-            jobs = "j" + str(i) + "_" + cmd_iter_substr + "," + jobs
-            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), "-b", "y", cmd.replace(cmd_iter_substr, str(i))]
+            jobs = "j" + str(i+1) + "_" + cmd_iter_substr + "," + jobs
+            qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + str(i+1) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i+1)), "-e", os.path.join(err_dir, "j" + str(i+1)), "-b", "y", cmd.replace(cmd_iter_substr, str(i+1))]
             logger.debug(qsub_cmd)
-            logger.info('Starting Task ' + str(i))
+            #logger.info('Starting Task ' + str(i+1))
             if sys.version_info > (3,):
                 with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
                     p.communicate()[0]
             else:
                 qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
                 qsub_proc.communicate()[0]
+            sleep(0.01)
+            progress_bar(i + 1, runs)
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-b", "y", "-o", "/dev/null", "-e", "/dev/null", "-hold_jid", jobs[:-1], "sbpipe_" + cmd_iter_substr, "1"]
@@ -297,17 +322,20 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
                     bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
                     bsub_proc.communicate()[0]
     else:
-        for i in range(1, runs + 1):
-            jobs = "done(j" + str(i) + "_" + cmd_iter_substr + ")&&" + jobs
-            bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i)), "-e", os.path.join(err_dir, "j" + str(i)), cmd.replace(cmd_iter_substr, str(i))]
+        progress_bar(0, runs)
+        for i in range(0, runs):
+            jobs = "done(j" + str(i+1) + "_" + cmd_iter_substr + ")&&" + jobs
+            bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i+1) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i+1)), "-e", os.path.join(err_dir, "j" + str(i+1)), cmd.replace(cmd_iter_substr, str(i+1))]
             logger.debug(bsub_cmd)
-            logger.info('Starting Task ' + str(i))
+            #logger.info('Starting Task ' + str(i+1))
             if sys.version_info > (3,):
                 with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
                     p.communicate()[0]
             else:
                 bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
                 bsub_proc.communicate()[0]
+            sleep(0.01)
+            progress_bar(i + 1, runs)
     # Check here when these jobs are finished before proceeding
     import random
     import string
