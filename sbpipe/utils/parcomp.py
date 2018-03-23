@@ -102,9 +102,9 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
 
 def progress_bar(it, total):
     """
-    A simple CLI progress bar
+    A simple CLI progress bar.
 
-    :param it: current iteration
+    :param it: current iteration starting from 1
     :param total: total iterations
     """
     percent = ("{0:.1f}").format(100 * (it / float(total)))
@@ -112,7 +112,7 @@ def progress_bar(it, total):
     filled = int(length * it // total)
     bar = '#' * filled + '-' * (length - filled)
     progress = '(' + str(it) + ' of ' + str(total) + ')'
-    print('\r%s |%s| %s%% %s' % ('Initialisation:', bar, percent, progress), end='\r')
+    print('\r%s |%s| %s%% %s' % ('Progress:', bar, percent, progress), end='\r')
     if it == total:
         print()
 
@@ -164,43 +164,34 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False,
     logger.info("Starting computation...")
 
     results = []
+
+    # get the current level for the StreamHandler
+    # this must be executed at run-time
+    if len(logger.handlers) > 1:
+        handler_level = logger.handlers[1].level
+    else:
+        handler_level = logging.INFO
+
     if len(colnames) > 0:
         runs = len(colnames)
-        progress_bar(0, runs)
         for i, column in enumerate(colnames):
             command = cmd.replace(cmd_iter_substr, column)
             logger.debug(command)
             #params = (command, column)
             params = (command, "")
             results.append(pool.apply_async(call_proc, (params,)))
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i+1, runs)
     else:
-        # get the current level for this handler
-        if len(logger.handlers) > 1:
-            handler = logger.handlers[1].level
-        else:
-            handler = logging.INFO
-        import progressbar
-        with progressbar.ProgressBar(max_value=runs) as bar:
-            for i in range(0, runs):
-                command = cmd.replace(cmd_iter_substr, str(i+1))
-                logger.debug(command)
-                params = (command, "")
-                results.append(pool.apply_async(call_proc, (params,)))
-                if handler <= logging.INFO:
-                    sleep(0.01)
-                    bar.update(i)
-        logger.info('here')
-
-#        progress_bar(0, runs)
-#        for i in range(0, runs):
-#            command = cmd.replace(cmd_iter_substr, str(i+1))
-#            logger.debug(command)
-#            params = (command, "")
-#            results.append(pool.apply_async(call_proc, (params,)))
-#            sleep(0.01)
-#            progress_bar(i + 1, runs)
+        for i in range(0, runs):
+            command = cmd.replace(cmd_iter_substr, str(i+1))
+            logger.debug(command)
+            params = (command, "")
+            results.append(pool.apply_async(call_proc, (params,)))
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i+1, runs)
 
     # Close the pool and wait for each running task to complete
     pool.close()
@@ -271,9 +262,16 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     logger.info("Starting computation...")
     jobs = ""
     cmd_iter_substr = cmd_iter_substr.strip('/')
+
+    # get the current level for the StreamHandler
+    # this must be executed at run-time
+    if len(logger.handlers) > 1:
+        handler_level = logger.handlers[1].level
+    else:
+        handler_level = logging.INFO
+
     if len(colnames) > 0:
         runs = len(colnames)
-        progress_bar(0, runs)
         for i, column in enumerate(colnames):
             # Now the same with qsub
             jobs = "j" + column + "_" + cmd_iter_substr + "," + jobs
@@ -286,10 +284,10 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
             else:
                 qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
                 qsub_proc.communicate()[0]
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i+1, runs)
     else:
-        progress_bar(0, runs)
         for i in range(0, runs):
             # Now the same with qsub
             jobs = "j" + str(i+1) + "_" + cmd_iter_substr + "," + jobs
@@ -302,8 +300,9 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
             else:
                 qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
                 qsub_proc.communicate()[0]
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i+1, runs)
     # Check here when these jobs are finished before proceeding
     # don't add names for output and error files as they can generate errors..
     qsub_cmd = ["qsub", "-sync", "y", "-b", "y", "-o", "/dev/null", "-e", "/dev/null", "-hold_jid", jobs[:-1], "sbpipe_" + cmd_iter_substr, "1"]
@@ -333,9 +332,16 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     logger.info("Starting computation...")
     jobs = ""
     cmd_iter_substr = cmd_iter_substr.strip('/')
+
+    # get the current level for the StreamHandler
+    # this must be executed at run-time
+    if len(logger.handlers) > 1:
+        handler_level = logger.handlers[1].level
+    else:
+        handler_level = logging.INFO
+
     if len(colnames) > 0:
         runs = len(colnames)
-        progress_bar(0, runs)
         for i, column in enumerate(colnames):
             jobs = "done(j" + column + "_" + cmd_iter_substr + ")&&" + jobs
             bsub_cmd = ["bsub", "-cwd", "-J", "j" + column + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + column), "-e",
@@ -348,10 +354,10 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
             else:
                 bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
                 bsub_proc.communicate()[0]
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i+1, runs)
     else:
-        progress_bar(0, runs)
         for i in range(0, runs):
             jobs = "done(j" + str(i+1) + "_" + cmd_iter_substr + ")&&" + jobs
             bsub_cmd = ["bsub", "-cwd", "-J", "j" + str(i+1) + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + str(i+1)), "-e", os.path.join(err_dir, "j" + str(i+1)), cmd.replace(cmd_iter_substr, str(i+1))]
@@ -363,8 +369,9 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
             else:
                 bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
                 bsub_proc.communicate()[0]
-            sleep(0.01)
-            progress_bar(i + 1, runs)
+            if handler_level <= logging.INFO:
+                sleep(0.01)
+                progress_bar(i + 1, runs)
     # Check here when these jobs are finished before proceeding
     import random
     import string
