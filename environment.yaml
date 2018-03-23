@@ -33,7 +33,7 @@ dependencies:
   - setuptools
   - sbpiper=1.6.*
   - colorlog             # -c conda-forge
-#  - python-copasi        # -c fbergmann
+  - python-copasi        # -c fbergmann
 #  - snakemake           (not available on windows) -c bioconda
 #  - texlive-core        (not available on windows) -c pkgw
 #  - texlive-selected    (not available on windows) -c pkgw
