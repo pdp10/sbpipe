@@ -50,7 +50,7 @@ def sim_analyse_summarise_data(inputdir,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); summarise_data(\"' + inputdir + \
+    command = 'R --quiet -e \'library(sbpiper); summarise_data(\"' + inputdir + \
               '\", \"' + model + \
               '\", \"' + outputfile_repeats
     # we replace \\ with / otherwise subprocess complains on windows systems.

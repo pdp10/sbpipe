@@ -47,7 +47,7 @@ def sim_analyse_gen_stats_table(inputfile,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); gen_stats_table(\"' + inputfile + \
+    command = 'R --quiet -e \'library(sbpiper); gen_stats_table(\"' + inputfile + \
               '\", \"' + outputfile
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')

@@ -63,7 +63,7 @@ def ps1_analyse_plot(model_name,
     :param yaxis_label: the label for the y axis (e.g. Level [a.u.])
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); plot_single_param_scan_data(\"' + model_name + \
+    command = 'R --quiet -e \'library(sbpiper); plot_single_param_scan_data(\"' + model_name + \
               '\", \"' + str(inhibition_only).upper() + \
               '\", \"' + inputdir + \
               '\", \"' + outputdir + \

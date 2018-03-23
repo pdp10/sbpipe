@@ -42,7 +42,7 @@ def pe_objval_vs_iters_analysis(model_name,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); objval_vs_iters_analysis(\"' + model_name + \
+    command = 'R --quiet -e \'library(sbpiper); objval_vs_iters_analysis(\"' + model_name + \
               '\", \"' + filename + \
               '\", \"' + plots_dir
     # we replace \\ with / otherwise subprocess complains on windows systems.

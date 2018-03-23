@@ -40,7 +40,7 @@ def pe_combine_param_best_fits_stats(plots_dir,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); combine_param_best_fits_stats(\"' + plots_dir + \
+    command = 'R --quiet -e \'library(sbpiper); combine_param_best_fits_stats(\"' + plots_dir + \
               '\", \"' + fileout_param_estim_best_fits_details
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')

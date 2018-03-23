@@ -52,7 +52,7 @@ def ps2_analyse_plot(model,
     :param run: the simulation number
     """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); plot_double_param_scan_data(\"' + model + \
+    command = 'R --quiet -e \'library(sbpiper); plot_double_param_scan_data(\"' + model + \
               '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
               '\", \"' + inputdir + \
               '\", \"' + outputdir + \

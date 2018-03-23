@@ -64,7 +64,7 @@ def sim_analyse_plot_sep_sims(inputdir,
         exp_dataset_alpha = 1.0
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); plot_sep_sims(\"' + inputdir + \
+    command = 'R --quiet -e \'library(sbpiper); plot_sep_sims(\"' + inputdir + \
               '\", \"' + outputdir + \
               '\", \"' + model + \
               '\", \"' + exp_dataset + \

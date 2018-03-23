@@ -222,7 +222,7 @@ class ParScan2(Pipeline):
 
         str_to_replace = get_rand_alphanum_str(10)
         # requires devtools::install_github("pdp10/sbpiper")
-        command = 'R -e \'library(sbpiper); sbpiper_ps2(\"' + model + \
+        command = 'R --quiet -e \'library(sbpiper); sbpiper_ps2(\"' + model + \
                   '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
                   '\", \"' + inputdir + \
                   '\", \"' + outputdir + \

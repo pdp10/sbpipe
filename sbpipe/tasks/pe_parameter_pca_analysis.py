@@ -44,7 +44,7 @@ def pe_parameter_pca_analysis(model_name,
     """
 
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R -e \'library(sbpiper); parameter_pca_analysis(\"' + model_name + \
+    command = 'R --quiet -e \'library(sbpiper); parameter_pca_analysis(\"' + model_name + \
               '\", \"' + filename + \
               '\", \"' + plots_dir + \
               '\", ' + str(best_fits_percent)
