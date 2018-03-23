@@ -24,6 +24,7 @@
 # $Author: Piero Dalle Pezze $
 # $Date: 2016-06-23 13:45:32 $
 
+from __future__ import print_function
 import logging
 import sys
 import os
@@ -111,8 +112,7 @@ def progress_bar(it, total):
     filled = int(length * it // total)
     bar = '#' * filled + '-' * (length - filled)
     progress = str(it) + '/' + str(total)
-    print('\r%s |%s| %s %s%% %s' % ('Progress:', bar, progress, percent, 'Complete'), end='\r')
-    # Print New Line on Complete
+    print('\r%s |%s| %s %s%% %s' % ('Initialisation:', bar, progress, percent, 'Complete'), end='\r')
     if it == total:
         print()
 
@@ -165,11 +165,16 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False,
 
     results = []
     if len(colnames) > 0:
-        for column in colnames:
+        runs = len(colnames)
+        progress_bar(0, runs)
+        for i, column in enumerate(colnames):
             command = cmd.replace(cmd_iter_substr, column)
             logger.debug(command)
-            params = (command, column)
+            #params = (command, column)
+            params = (command, "")
             results.append(pool.apply_async(call_proc, (params,)))
+            sleep(0.01)
+            progress_bar(i + 1, runs)
     else:
         progress_bar(0, runs)
         for i in range(0, runs):
@@ -250,18 +255,22 @@ def run_jobs_sge(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     jobs = ""
     cmd_iter_substr = cmd_iter_substr.strip('/')
     if len(colnames) > 0:
-        for column in colnames:
+        runs = len(colnames)
+        progress_bar(0, runs)
+        for i, column in enumerate(colnames):
             # Now the same with qsub
             jobs = "j" + column + "_" + cmd_iter_substr + "," + jobs
             qsub_cmd = ["qsub", "-cwd", "-V", "-N", "j" + column + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + column), "-e", os.path.join(err_dir, "j" + column), "-b", "y", cmd.replace(cmd_iter_substr, column)]
             logger.debug(qsub_cmd)
-            logger.info('Starting Task ' + column)
+            #logger.info('Starting Task ' + column)
             if sys.version_info > (3,):
                 with subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE) as p:
                     p.communicate()[0]
             else:
                 qsub_proc = subprocess.Popen(qsub_cmd, stdout=subprocess.PIPE)
                 qsub_proc.communicate()[0]
+            sleep(0.01)
+            progress_bar(i + 1, runs)
     else:
         progress_bar(0, runs)
         for i in range(0, runs):
@@ -308,19 +317,22 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
     jobs = ""
     cmd_iter_substr = cmd_iter_substr.strip('/')
     if len(colnames) > 0:
-        for column in colnames:
-            for i in range(1, runs + 1):
-                jobs = "done(j" + column + "_" + cmd_iter_substr + ")&&" + jobs
-                bsub_cmd = ["bsub", "-cwd", "-J", "j" + column + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + column), "-e",
-                            os.path.join(err_dir, "j" + column), cmd.replace(cmd_iter_substr, column)]
-                logger.debug(bsub_cmd)
-                logger.info('Starting Task ' + column)
-                if sys.version_info > (3,):
-                    with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
-                        p.communicate()[0]
-                else:
-                    bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
-                    bsub_proc.communicate()[0]
+        runs = len(colnames)
+        progress_bar(0, runs)
+        for i, column in enumerate(colnames):
+            jobs = "done(j" + column + "_" + cmd_iter_substr + ")&&" + jobs
+            bsub_cmd = ["bsub", "-cwd", "-J", "j" + column + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + column), "-e",
+                        os.path.join(err_dir, "j" + column), cmd.replace(cmd_iter_substr, column)]
+            logger.debug(bsub_cmd)
+            logger.info('Starting Task ' + column)
+            if sys.version_info > (3,):
+                with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
+                    p.communicate()[0]
+            else:
+                bsub_proc = subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE)
+                bsub_proc.communicate()[0]
+            sleep(0.01)
+            progress_bar(i + 1, runs)
     else:
         progress_bar(0, runs)
         for i in range(0, runs):
