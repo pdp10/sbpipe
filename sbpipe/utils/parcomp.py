@@ -324,7 +324,7 @@ def run_jobs_lsf(cmd, cmd_iter_substr, out_dir, err_dir, runs=1, colnames=[]):
             bsub_cmd = ["bsub", "-cwd", "-J", "j" + column + "_" + cmd_iter_substr, "-o", os.path.join(out_dir, "j" + column), "-e",
                         os.path.join(err_dir, "j" + column), cmd.replace(cmd_iter_substr, column)]
             logger.debug(bsub_cmd)
-            logger.info('Starting Task ' + column)
+            #logger.info('Starting Task ' + column)
             if sys.version_info > (3,):
                 with subprocess.Popen(bsub_cmd, stdout=subprocess.PIPE) as p:
                     p.communicate()[0]
