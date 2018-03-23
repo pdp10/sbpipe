@@ -299,7 +299,7 @@ class ParScan1(Pipeline):
                    '\", \"' + yaxis_label + \
                    '\")\''
 
-        if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, True):
+        if not parcomp(command, str_to_replace, outputdir, cluster, runs, local_cpus, False):
             return False
 
         if len(glob.glob(os.path.join(outputdir, sim_plots_folder, os.path.splitext(model)[0] + '*.pdf'))) == 0:

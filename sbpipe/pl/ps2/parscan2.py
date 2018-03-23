@@ -232,7 +232,7 @@ class ParScan2(Pipeline):
         # We do this to make sure that characters like [ or ] don't cause troubles.
         command += '\")\''
 
-        if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), True):
+        if not parcomp(command, str_to_replace, outputdir, cluster, int(runs), int(local_cpus), False):
             return False
 
         if len(glob.glob(os.path.join(outputdir, os.path.splitext(model)[0] + '*.pdf'))) == 0:

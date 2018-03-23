@@ -307,7 +307,7 @@ class ParEst(Pipeline):
         command += ')\''
 
 
-        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, True):
+        if not parcomp(command, str_to_replace, outputdir, cluster, 1, 1, False):
             return False
 
         if len(glob.glob(os.path.join(sim_plots_dir, os.path.splitext(model)[0] + '*.pdf'))) == 0:
