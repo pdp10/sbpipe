@@ -102,7 +102,21 @@ def parcomp(cmd, cmd_iter_substr, output_dir, cluster='local', runs=1, local_cpu
 
 def progress_bar(it, total):
     """
-    A simple CLI progress bar.
+    A minimal CLI progress bar.
+
+    :param it: current iteration starting from 1
+    :param total: total iterations
+    """
+    percent = '(' + ("{0:.1f}").format(100 * (it / float(total))) + '%)'
+    progress = str(it) + ' of ' + str(total)
+    print('\r%s %s %s' % ('Initialised:', progress, percent), end='\r')
+    if it == total:
+        print()
+
+
+def progress_bar2(it, total):
+    """
+    A CLI progress bar.
 
     :param it: current iteration starting from 1
     :param total: total iterations
@@ -115,7 +129,6 @@ def progress_bar(it, total):
     print('\r%s |%s| %s%% %s' % ('Progress:', bar, percent, progress), end='\r')
     if it == total:
         print()
-
 
 def call_proc(params):
     """
