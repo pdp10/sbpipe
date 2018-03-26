@@ -117,7 +117,7 @@ rule sbpipe_model_checking:
             from sbpipe.tasks.model_checking import model_checking
             model_checking(input.file,
                            output.file,
-                           'Time-Course')
+                           'Parameter Estimation')
 
 
 rule sbpipe_preproc:
