@@ -6,13 +6,16 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.6.0 (Beyond the Kuiper Belt)
+v4.9.0 (Beyond the Kuiper Belt)
 
+- Removed generate_tarball option from parameter estimation configuration files as not necessary.
+- Improved output messages.
+- Added progress information for native SBpipe.
 - Added PCA analysis for the best parameter estimates. Replaced conda channel "r" with "conda-forge".
 - Improved data analysis scalability for parameter estimation (using Snakemake).
-- added checks whether a COPASI model can be loaded and executed correctly. This is based on Python bindings for COPASI.
-- optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
-- bugfix - SGE and LSF job names now include a random string, avoiding potential interactions among multiple
+- Added checks whether a COPASI model can be loaded and executed correctly. This is based on Python bindings for COPASI.
+- Optimisation of snakemake pipelines. Improved efficiency of rules for analyses.
+- Bugfix - SGE and LSF job names now include a random string, avoiding potential interactions among multiple
 SBpipe executions. Whilst this does not affect the results, it was still a performance-related bug.
 - SBpipe R code is now an independent R package called sbpiper. This is imported by SBpipe as
 an external dependency. Users can invoke SBpipe functions for data analysis directly from their R code.
