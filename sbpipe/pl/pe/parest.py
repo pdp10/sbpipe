@@ -26,10 +26,8 @@ import datetime
 import glob
 import logging
 import os
-import sys
 import yaml
 import traceback
-import tarfile
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
@@ -80,7 +78,7 @@ class ParEst(Pipeline):
 
         # variable initialisation
         (generate_data, analyse_data, generate_report,
-         generate_tarball, project_dir, simulator, model,
+         project_dir, simulator, model,
          cluster, local_cpus, round, runs,
          best_fits_percent, data_point_num,
          plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,
@@ -159,17 +157,6 @@ class ParEst(Pipeline):
                                             self.get_sim_plots_folder())
             if not status:
                 return False
-
-        if generate_tarball:
-            logger.info("\n")
-            logger.info("Zipping parameter estimation results:")
-            logger.info("=====================================")
-            # Create a gz tarball
-            orig_wd = os.getcwd()  # remember our original working directory
-            os.chdir(working_dir)  # change folder
-            with tarfile.open(output_folder + ".tgz", "w:gz") as tar:
-                tar.add(output_folder, arcname=os.path.basename(output_folder))
-            os.chdir(orig_wd)  # get back to our original working directory
 
         # Print the pipeline elapsed time
         end = datetime.datetime.now().replace(microsecond=0)
@@ -350,8 +337,6 @@ class ParEst(Pipeline):
         model = 'model'
         # The simulator
         simulator = 'Copasi'
-        # Generate a zipped tarball
-        generate_tarball = False
         # The parallel mechanism to use (local | sge | lsf).
         cluster = 'local'
         # The number of cpus
@@ -395,8 +380,6 @@ class ParEst(Pipeline):
                 model = value
             elif key == "simulator":
                 simulator = value
-            elif key == "generate_tarball":
-                generate_tarball = value
             elif key == "cluster":
                 cluster = value
             elif key == "round":
@@ -422,7 +405,7 @@ class ParEst(Pipeline):
             else:
                 logger.warning('Found unknown option: `' + key + '`')
 
-        return (generate_data, analyse_data, generate_report, generate_tarball,
+        return (generate_data, analyse_data, generate_report,
                 project_dir, simulator, model, cluster, local_cpus,
                 round, runs, best_fits_percent, data_point_num,
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,

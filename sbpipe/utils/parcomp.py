@@ -136,9 +136,9 @@ def call_proc(params):
 
     :param params: A tuple containing (the string of the command to run, the command id)
     """
-    cmd, id = params
-    if id:
-       logger.info('Starting Task ' + id)
+    cmd, id, runs, handler_level = params
+    if handler_level <= logging.INFO:
+        progress_bar(id, runs)
     if sys.version_info > (3,):
         with subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
             out, err = p.communicate()
@@ -190,21 +190,14 @@ def run_jobs_local(cmd, cmd_iter_substr, runs=1, local_cpus=1, output_msg=False,
         for i, column in enumerate(colnames):
             command = cmd.replace(cmd_iter_substr, column)
             logger.debug(command)
-            #params = (command, column)
-            params = (command, "")
+            params = (command, i+1, runs, handler_level)
             results.append(pool.apply_async(call_proc, (params,)))
-            if handler_level <= logging.INFO:
-                sleep(0.01)
-                progress_bar(i+1, runs)
     else:
         for i in range(0, runs):
             command = cmd.replace(cmd_iter_substr, str(i+1))
             logger.debug(command)
-            params = (command, "")
+            params = (command, i+1, runs, handler_level)
             results.append(pool.apply_async(call_proc, (params,)))
-            if handler_level <= logging.INFO:
-                sleep(0.01)
-                progress_bar(i+1, runs)
 
     # Close the pool and wait for each running task to complete
     pool.close()

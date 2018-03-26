@@ -4,8 +4,6 @@ generate_data: True
 analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
-# True if a zipped tarball should be generated, False otherwise
-generate_tarball: True
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator (e.g. Copasi)
