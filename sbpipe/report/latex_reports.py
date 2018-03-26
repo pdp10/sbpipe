@@ -71,15 +71,15 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
         scanned_par_name = scanned_par[0:].replace("_", " ")
-        logger.info("Model: " + model_name)
-        logger.info("Scanning parameter: " + scanned_par)
+        logger.info(filename_prefix + model_noext + ".tex")
+        logger.debug("Scanning parameter: " + scanned_par)
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
                                   "Report for {\\it " + model_name + "}, scanning {\\it " + scanned_par_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
+        logger.debug("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameter " + scanned_par_name + "}\n")
         files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         files.sort()
@@ -87,7 +87,7 @@ def latex_report_ps1(outputdir, plots_folder, filename_prefix, model_noext, scan
         files.sort(key=lambda x: x.split("__eval_")[1])
         for infile in files:
             if infile.find(model_noext) != -1:
-                logger.info(infile)
+                logger.debug(infile)
                 file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
                                "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
                 file_out.write("\\hfill\n")
@@ -110,8 +110,8 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
         model_name = model_noext[:].replace("_", " ")
         scanned_par1_name = scanned_par1[0:].replace("_", " ")
         scanned_par2_name = scanned_par2[0:].replace("_", " ")
-        logger.info("Model: " + model_name)
-        logger.info("Scanning parameters: " + scanned_par1_name + " and " + scanned_par2_name)
+        logger.info(filename_prefix + model_noext + ".tex")
+        logger.debug("Scanning parameters: " + scanned_par1_name + " and " + scanned_par2_name)
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
@@ -119,7 +119,7 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
                                   "Report for {\\it " + model_name + "}, scanning {\\it " +
                                   scanned_par1_name + "} and {\\it " + scanned_par2_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
+        logger.debug("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots - Scanning parameters " + scanned_par1_name + " and " +
                        scanned_par2_name + "}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
@@ -136,7 +136,7 @@ def latex_report_ps2(outputdir, plots_folder, filename_prefix, model_noext,
                     file_out.write("\\subsection*{Readout: " + curr_readout.replace("_", " ") + "}\n")
                     prev_readout = curr_readout
 
-                logger.info(infile)
+                logger.debug(infile)
                 file_out.write("\\includegraphics[width=1.8in]{" + plots_folder +
                                "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
                 file_out.write("\\hfill\n")
@@ -154,14 +154,14 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
     """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
-        logger.info(model_name)
+        logger.info(filename_prefix + model_noext + ".tex")
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
                                   "Report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
+        logger.debug("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         combined_list = '\t'.join(folder)
@@ -170,7 +170,7 @@ def latex_report_sim(outputdir, plots_folder, model_noext, filename_prefix):
         for infile in folder:
             if infile.find(model_noext) != -1:
                 if multiple_sims or infile.find('mean_sd_ci95') != -1:
-                    logger.info(infile)
+                    logger.debug(infile)
                     file_out.write("\\includegraphics[width=2in]{" + plots_folder +
                                    "/{" + infile.replace('.pdf', '') + "}.pdf}\n")
         file_out.write("\\end{document}\n")
@@ -187,14 +187,14 @@ def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
     """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
-        logger.info(model_name)
+        logger.info(filename_prefix + model_noext + ".tex")
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
                                   "Parameter estimation report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
+        logger.debug("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         folder = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         folder.sort()
@@ -202,7 +202,7 @@ def latex_report_pe(outputdir, plots_folder, model_noext, filename_prefix):
         figure_num = 0
         figures_per_page = 12
         for infile in folder:
-            logger.info(infile)
+            logger.debug(infile)
             figure_num += 1
             if not begin_figure:
                 file_out.write("\\begin{figure}[!ht]\n")
@@ -235,14 +235,14 @@ def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=
     """
     with open(os.path.join(outputdir, filename_prefix + model_noext + ".tex"), "w") as file_out:
         model_name = model_noext[:].replace("_", " ")
-        logger.info(model_name)
+        logger.info(filename_prefix + model_noext + ".tex")
         # writing on file
         # Get latex header
         header = get_latex_header("Report: " + model_name,
                                   "Report: " + model_name,
                                   "Generic report for {\\it " + model_name + "}.")
         file_out.write(header)
-        logger.info("Files in " + os.path.join(outputdir, plots_folder) + ":")
+        logger.debug("Files in " + os.path.join(outputdir, plots_folder) + ":")
         file_out.write("\\section*{Plots}\n")
         files = [f for f in os.listdir(os.path.join(outputdir, plots_folder)) if f.endswith('.pdf')]
         files.sort()
@@ -250,7 +250,7 @@ def latex_report(outputdir, plots_folder, model_noext, filename_prefix, caption=
         figure_num = 0
         figures_per_page = 9
         for infile in files:
-            logger.info(infile)
+            logger.debug(infile)
             figure_num += 1
             if not begin_figure:
                 file_out.write("\\begin{figure}[!ht]\n")
@@ -286,7 +286,8 @@ def pdf_report(outputdir, filename):
         return
     currdir = os.getcwd()
     os.chdir(outputdir)
-    logger.info(pdflatex + " -halt-on-error " + filename + " ... ")
+    logger.info(filename.replace('tex', 'pdf'))
+    logger.debug(pdflatex + " -halt-on-error " + filename)
     # We suppress the output of pdflatex completely
     try:
         from subprocess import DEVNULL  # python3
