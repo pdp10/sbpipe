@@ -49,6 +49,7 @@ def cleanup_tests():
             print("cleaning output files...")
             shutil.rmtree(os.path.join(testpath, file, 'Results'), ignore_errors=True)
             shutil.rmtree(os.path.join(testpath, file, 'log'), ignore_errors=True)
+            shutil.rmtree(os.path.join(testpath, file, '.snakemake'), ignore_errors=True)
             continue
 
         modelspath = join(testpath, file, 'Models')
