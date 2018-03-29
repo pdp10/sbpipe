@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>User manual &#8212; SBpipe 4.9.0 documentation</title>
+    <title>User manual &#8212; SBpipe 4.10.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.9.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.10.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -381,23 +381,26 @@ the complete command set):</p>
 <div class="section" id="pipeline-configuration-files">
 <h4>Pipeline configuration files<a class="headerlink" href="#pipeline-configuration-files" title="Permalink to this headline">¶</a></h4>
 <p>Pipelines are configured using files (here called configuration files).
-These files are YAML files. In SBpipe each pipeline executes three
-tasks: data generation, data analysis, and report generation. These
-tasks can be activated in each configuration files using the options:</p>
+These files are YAML files. In SBpipe each pipeline executes four tasks:
+data generation, data analysis, report generation, and tarball
+generation. These tasks can be activated in each configuration files
+using the options:</p>
 <ul class="simple">
 <li>generate_data: True</li>
 <li>analyse_data: True</li>
 <li>generate_report: True</li>
+<li>generate_tarball: False</li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">generate_data</span></code> task runs a simulator accordingly to the options
 in the configuration file. Hence, this task collects and organises the
 reports generated from the simulator. The <code class="docutils literal notranslate"><span class="pre">analyse_data</span></code> task
-processes the reports to generate plots and compute statistics. Finally,
-the <code class="docutils literal notranslate"><span class="pre">generate_report</span></code> task generates a LaTeX report containing the
+processes the reports to generate plots and compute statistics. The
+<code class="docutils literal notranslate"><span class="pre">generate_report</span></code> task generates a LaTeX report containing the
 computed plots and invokes the utility <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> to produce a PDF
-file. This modularisation allows users to analyse the same data without
-having to re-generate it, or to skip the report generation if not
-wanted.</p>
+file. Finally, <code class="docutils literal notranslate"><span class="pre">generate_tarball</span></code> creates a tar.gz file of the
+results. By default, this is not executed. This modularisation allows
+users to analyse the same data without having to re-generate it, or to
+skip the report generation if not wanted.</p>
 <p>Pipelines for parameter estimation or stochastic model simulation can be
 computationally intensive. SBpipe allows users to generate simulated
 data in parallel using the following options in the pipeline
@@ -423,6 +426,8 @@ of a certain project (e.g.&nbsp;project_name/), examples are given as follow:</p
 <span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># True if a report should be generated, False otherwise</span>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
+<span class="c1"># True if a zipped tarball should be generated, False otherwise</span>
+<span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">False</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
 <span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
@@ -458,6 +463,8 @@ scan</em></p>
 <span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># True if a report should be generated, False otherwise</span>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
+<span class="c1"># True if a zipped tarball should be generated, False otherwise</span>
+<span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">False</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
 <span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
@@ -503,6 +510,8 @@ scan</em></p>
 <span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># True if a report should be generated, False otherwise</span>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
+<span class="c1"># True if a zipped tarball should be generated, False otherwise</span>
+<span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">False</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
 <span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
@@ -533,6 +542,8 @@ estimation</em></p>
 <span class="n">analyse_data</span><span class="p">:</span> <span class="kc">True</span>
 <span class="c1"># True if a report should be generated, False otherwise</span>
 <span class="n">generate_report</span><span class="p">:</span> <span class="kc">True</span>
+<span class="c1"># True if a zipped tarball should be generated, False otherwise</span>
+<span class="n">generate_tarball</span><span class="p">:</span> <span class="kc">False</span>
 <span class="c1"># The relative path to the project directory</span>
 <span class="n">project_dir</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span>
 <span class="c1"># The name of the configurator (e.g. Copasi, Python)</span>
@@ -974,7 +985,7 @@ tracking system for SBpipe at the web page:</p>
         <li class="right" >
           <a href="index.html" title="SBpipe documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.9.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">SBpipe 4.10.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

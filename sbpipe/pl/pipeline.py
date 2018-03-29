@@ -26,6 +26,8 @@ import logging
 # locate is used to dynamically load a class by its name.
 from pydoc import locate
 import yaml
+import os
+import tarfile
 
 logger = logging.getLogger('sbpipe')
 
@@ -91,6 +93,27 @@ class Pipeline:
         :return: the folder of the simulated plots.
         """
         return self.__sim_plots_folder
+
+    @staticmethod
+    def generate_tarball(working_dir, output_folder):
+        """
+        Create a gz tarball.
+
+        :param working_dir: the working directory
+        :param output_folder: the name of the folder to store the tar.gz file
+        :return: True if the generation of the tarball succeeded.
+        """
+        logger.info("\n")
+        logger.info("Zipping results:")
+        logger.info("================")
+        logger.info("Generating .tgz file")
+        orig_wd = os.getcwd()  # remember our original working directory
+        os.chdir(working_dir)  # change folder
+        with tarfile.open(output_folder + ".tgz", "w:gz") as tar:
+            tar.add(output_folder, arcname=os.path.basename(output_folder))
+        os.chdir(orig_wd)  # get back to our original working directory
+        logger.info(output_folder + ".tgz")
+        return True
 
     @classmethod
     def get_simul_obj(cls, simulator):

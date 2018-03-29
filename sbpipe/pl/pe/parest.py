@@ -77,7 +77,7 @@ class ParEst(Pipeline):
             return False
 
         # variable initialisation
-        (generate_data, analyse_data, generate_report,
+        (generate_data, analyse_data, generate_report, generate_tarball,
          project_dir, simulator, model,
          cluster, local_cpus, round, runs,
          best_fits_percent, data_point_num,
@@ -155,6 +155,11 @@ class ParEst(Pipeline):
             status = ParEst.generate_report(os.path.splitext(model)[0],
                                             outputdir,
                                             self.get_sim_plots_folder())
+            if not status:
+                return False
+
+        if generate_tarball:
+            status = self.generate_tarball(working_dir, output_folder)
             if not status:
                 return False
 
@@ -333,6 +338,7 @@ class ParEst(Pipeline):
         generate_data = True
         analyse_data = True
         generate_report = True
+        generate_tarball = False
         project_dir = '.'
         model = 'model'
         # The simulator
@@ -374,6 +380,8 @@ class ParEst(Pipeline):
                 analyse_data = value
             elif key == "generate_report":
                 generate_report = value
+            elif key == "generate_tarball":
+                generate_tarball = value
             elif key == "project_dir":
                 project_dir = value
             elif key == "model":
@@ -405,7 +413,7 @@ class ParEst(Pipeline):
             else:
                 logger.warning('Found unknown option: `' + key + '`')
 
-        return (generate_data, analyse_data, generate_report,
+        return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model, cluster, local_cpus,
                 round, runs, best_fits_percent, data_point_num,
                 plot_2d_66cl_corr, plot_2d_95cl_corr, plot_2d_99cl_corr,

@@ -81,7 +81,7 @@ class Sim(Pipeline):
             return False
 
         # variable initialisation
-        (generate_data, analyse_data, generate_report,
+        (generate_data, analyse_data, generate_report, generate_tarball,
          project_dir, simulator, model, cluster, local_cpus, runs,
          exp_dataset, plot_exp_dataset,
          exp_dataset_alpha,
@@ -92,7 +92,9 @@ class Sim(Pipeline):
         exp_dataset_alpha = float(exp_dataset_alpha)
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
-        outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
+        working_dir = os.path.join(project_dir, self.get_working_folder())
+        output_folder = os.path.splitext(model)[0]
+        outputdir = os.path.join(working_dir, output_folder)
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -141,6 +143,11 @@ class Sim(Pipeline):
             status = Sim.generate_report(os.path.splitext(model)[0],
                                          outputdir,
                                          self.get_sim_plots_folder())
+            if not status:
+                return False
+
+        if generate_tarball:
+            status = self.generate_tarball(working_dir, output_folder)
             if not status:
                 return False
 
@@ -302,6 +309,7 @@ class Sim(Pipeline):
         generate_data = True
         analyse_data = True
         generate_report = True
+        generate_tarball = False
         project_dir = '.'
         model = 'model'
         simulator = 'Copasi'
@@ -325,6 +333,8 @@ class Sim(Pipeline):
                 analyse_data = value
             elif key == "generate_report":
                 generate_report = value
+            elif key == "generate_tarball":
+                generate_tarball = value
             elif key == "project_dir":
                 project_dir = value
             elif key == "model":
@@ -350,7 +360,7 @@ class Sim(Pipeline):
             else:
                 logger.warning('Found unknown option: `' + key + '`')
 
-        return (generate_data, analyse_data, generate_report,
+        return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model,
                 cluster, local_cpus, runs,
                 exp_dataset, plot_exp_dataset,

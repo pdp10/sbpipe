@@ -340,21 +340,23 @@ sbpipe -d config_file.yaml
 #### Pipeline configuration files
 Pipelines are configured using files (here called configuration files).
 These files are YAML files.
-In SBpipe each pipeline executes three tasks: data generation, data
-analysis, and report generation. These tasks can be activated in each
+In SBpipe each pipeline executes four tasks: data generation, data
+analysis, report generation, and tarball generation. These tasks can be activated in each
 configuration files using the options:
 
 - generate_data: True
 - analyse_data: True
 - generate_report: True
+- generate_tarball: False
 
 The `generate_data` task runs a simulator accordingly to the options in
 the configuration file. Hence, this task collects and organises the reports
 generated from the simulator. The `analyse_data` task processes the reports
-to generate plots and compute statistics. Finally, the `generate_report`
+to generate plots and compute statistics. The `generate_report`
 task generates a LaTeX report containing the computed plots and invokes the
-utility `pdflatex` to produce a PDF file. This modularisation allows users
-to analyse the same data without having to re-generate it, or to skip the
+utility `pdflatex` to produce a PDF file. Finally, `generate_tarball` creates
+a tar.gz file of the results. By default, this is not executed. This modularisation
+allows users to analyse the same data without having to re-generate it, or to skip the
 report generation if not wanted.
 
 Pipelines for parameter estimation or stochastic model simulation can be
@@ -383,6 +385,8 @@ generate_data: True
 analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
+# True if a zipped tarball should be generated, False otherwise
+generate_tarball: False
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator (e.g. Copasi, Python)
@@ -418,6 +422,8 @@ generate_data: True
 analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
+# True if a zipped tarball should be generated, False otherwise
+generate_tarball: False
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator (e.g. Copasi, Python)
@@ -463,6 +469,8 @@ generate_data: True
 analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
+# True if a zipped tarball should be generated, False otherwise
+generate_tarball: False
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator (e.g. Copasi, Python)
@@ -493,6 +501,8 @@ generate_data: True
 analyse_data: True
 # True if a report should be generated, False otherwise
 generate_report: True
+# True if a zipped tarball should be generated, False otherwise
+generate_tarball: False
 # The relative path to the project directory
 project_dir: "."
 # The name of the configurator (e.g. Copasi, Python)

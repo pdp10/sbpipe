@@ -6,9 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.9.0 (Beyond the Kuiper Belt)
+v4.10.0 (Beyond the Kuiper Belt)
 
-- Removed generate_tarball option from parameter estimation configuration files as not necessary.
+- Added generate_tarball option to all the remaining pipelines in native SBpipe.
 - Improved output messages.
 - Added progress information for native SBpipe.
 - Added PCA analysis for the best parameter estimates. Replaced conda channel "r" with "conda-forge".

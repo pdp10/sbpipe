@@ -80,7 +80,7 @@ class ParScan2(Pipeline):
             return False
 
         # variable initialisation
-        (generate_data, analyse_data, generate_report,
+        (generate_data, analyse_data, generate_report, generate_tarball,
          project_dir, simulator, model, scanned_par1, scanned_par2,
          cluster, local_cpus, runs,
          sim_length) = self.parse(config_dict)
@@ -90,7 +90,9 @@ class ParScan2(Pipeline):
         sim_length = int(sim_length)
 
         models_dir = os.path.join(project_dir, self.get_models_folder())
-        outputdir = os.path.join(project_dir, self.get_working_folder(), os.path.splitext(model)[0])
+        working_dir = os.path.join(project_dir, self.get_working_folder())
+        output_folder = os.path.splitext(model)[0]
+        outputdir = os.path.join(working_dir, output_folder)
 
         # Get the pipeline start time
         start = datetime.datetime.now().replace(microsecond=0)
@@ -138,6 +140,11 @@ class ParScan2(Pipeline):
                                               scanned_par2,
                                               outputdir,
                                               self.get_sim_plots_folder())
+            if not status:
+                return False
+
+        if generate_tarball:
+            status = self.generate_tarball(working_dir, output_folder)
             if not status:
                 return False
 
@@ -275,6 +282,7 @@ class ParScan2(Pipeline):
         generate_data = True
         analyse_data = True
         generate_report = True
+        generate_tarball = False
         project_dir = '.'
         model = 'model'
         # default values
@@ -300,6 +308,8 @@ class ParScan2(Pipeline):
                 analyse_data = value
             elif key == "generate_report":
                 generate_report = value
+            elif key == "generate_tarball":
+                generate_tarball = value
             elif key == "project_dir":
                 project_dir = value
             elif key == "model":
@@ -321,6 +331,6 @@ class ParScan2(Pipeline):
             else:
                 logger.warning('Found unknown option: `' + key + '`')
 
-        return (generate_data, analyse_data, generate_report,
+        return (generate_data, analyse_data, generate_report, generate_tarball,
                 project_dir, simulator, model, scanned_par1, scanned_par2,
                 cluster, local_cpus, runs, sim_length)
