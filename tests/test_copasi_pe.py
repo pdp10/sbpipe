@@ -52,6 +52,8 @@ class TestCopasiPE(unittest.TestCase):
     def test_pe_copasi2(self):
         self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_non_identif_param_estim.yaml", quiet=True), 0)
 
+    def test_pe_copasi3(self):
+        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_inconsistent_param_estim.yaml", quiet=True), 0)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
