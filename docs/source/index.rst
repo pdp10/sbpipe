@@ -24,9 +24,3 @@ SBpipe documentation
    user_manual
    developer_manual
 
-
-.. Indices
-.. =======
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`

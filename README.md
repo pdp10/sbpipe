@@ -2,12 +2,9 @@
 
 [![Anaconda Cloud](https://anaconda.org/pdp10/sbpipe/badges/version.svg)](https://anaconda.org/pdp10/sbpipe) [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html) [![Build Status](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe) [![Docs Status](https://readthedocs.org/projects/sbpipe/badge/)](http://sbpipe.readthedocs.io/en/latest/) [![Anaconda-Server Badge](https://anaconda.org/pdp10/sbpipe/badges/platforms.svg)](https://anaconda.org/pdp10/sbpipe) [![Anaconda-Server Badge](https://anaconda.org/pdp10/sbpipe/badges/downloads.svg)](https://anaconda.org/pdp10/sbpipe)
 
-This package contains a collection of pipelines for dynamic modelling
-of biological systems. It aims to automate common processes and speed 
-up productivity for tasks such as model simulation, single and double 
-parameter scan, and parameter estimation. 
+SBpipe allows users to automatically repeat the tasks of model simulation and parameter estimation, and extract robustness information from these repeat sequences in a solid and consistent manner, facilitating model development and analysis.
 
-The complete documentation is also available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://github.com/pdp10/sbpipe/blob/master/docs/sbpipe.pdf).
+The complete documentation is also available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf).
 
 To access the functions used by SBpipe for data analysis, visit the sbpiper project which is available on [CRAN](https://cran.r-project.org/package=sbpiper) and [GitHub](https://github.com/pdp10/sbpiper).
 

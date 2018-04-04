@@ -53,16 +53,17 @@ p(sys.path)
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+#    'autoapi.extension',
     'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax'#,
-    #'autoapi.extension'
+    'sphinx.ext.mathjax'
 ]
 
-# install `sphinx-autoapi` for adding the source code documentation.
+# install `sphinx-autoapi` for adding the source code documentation to the main manual.
+# At the moment this is skipped as the installation does not work on readthedocs.io .
 
 # Document Python Code
-##autoapi_type = 'python'
-##autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
+#autoapi_type = 'python'
+#autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
 
 
 # Add any paths that contain templates here, relative to this directory.
