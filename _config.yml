@@ -1,0 +1,8 @@
+title: SB pipe
+description: Pipelines for systems modelling of biological networks
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
