@@ -55,9 +55,13 @@ p(sys.path)
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode'
-
+    'autoapi.extension'
 ]
+
+# Document Python Code
+autoapi_type = 'python'
+autoapi_dir = os.path.join(SBPIPE, 'sbpipe')
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -70,7 +74,7 @@ source_parsers = {
     '.md': CommonMarkParser,
 }
 # The suffix of source filenames.
-source_suffix = ['.rst', '.md', '.py']
+source_suffix = ['.rst', '.md']
 #source_suffix = '.rst'
 
 
