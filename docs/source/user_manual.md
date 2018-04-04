@@ -662,13 +662,13 @@ See `snakemake -h` for a complete list of commands.
 
 The implementation of SBpipe pipelines for Snakemake is more scalable and allows for additional controls and resiliance.
 
-![Workflow for SBpipe pipeline `parameter estimation` using Snakemake](images/sbpipe_pe_snake_dag.pdf "snakemake1")
+![Workflow for SBpipe pipeline `parameter estimation` using Snakemake](images/sbpipe_pe_snake_dag.png "snakemake1")
 
-![Workflow for SBpipe pipeline `simulation` using Snakemake](images/sbpipe_sim_snake_dag.pdf "snakemake2")
+![Workflow for SBpipe pipeline `simulation` using Snakemake](images/sbpipe_sim_snake_dag.png "snakemake2")
 
-![Workflow for SBpipe pipeline `single parameter scan` using Snakemake](images/sbpipe_ps1_snake_dag.pdf "snakemake3")
+![Workflow for SBpipe pipeline `single parameter scan` using Snakemake](images/sbpipe_ps1_snake_dag.png "snakemake3")
 
-![Workflow for SBpipe pipeline `double parameter scan` using Snakemake](images/sbpipe_ps2_snake_dag.pdf "snakemake4")
+![Workflow for SBpipe pipeline `double parameter scan` using Snakemake](images/sbpipe_ps2_snake_dag.png "snakemake4")
 
 
 

@@ -23,26 +23,40 @@
 # $Date: 2016-09-14 13:38:32 $
 
 
-./cleanup_doc.sh
-
 export PYTHONPATH=${PYTHONPATH}:../
 
-# generate DAG files for SBpipe snakemake pipelines
+echo "generating DAG files for SBpipe snakemake pipelines ..."
 ./gen_snakemake_dags.sh
 
 
+# NO LONGER NEEDED, as Sphinx can process md files directly,
+# using Python package `recommonmark`.
 # Import manuals
-# convert user_manual.md to user_manual.rst
+## echo "converting user_manual.md to user_manual.rst ..."
 ##pandoc --from=markdown --to=rst --output=source/user_manual.rst source/user_manual.md
-# convert developer_manual.md to developer_manual.rst
+## echo "converting developer_manual.md to developer_manual.rst ..."
 ##pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/developer_manual.md
 
 
-# Import source code documentation
+echo "importing source code documentation ..."
 sphinx-apidoc -P -T -o source/source_code ../sbpipe/
 
 
-# Generate documentation in html, LaTeX/PDF, and man
-make html
+echo "generating documentation in LaTeX/PDF format ..."
+# we only distribute the manual for SBpipe in PDF format.
+#make html
 make latexpdf
 #make man
+
+
+echo "moving sbpipe.pdf file to ."
+mv build/latex/sbpipe.pdf .
+
+
+echo "cleaning output files ..."
+# clean previous manuals (NO LONGER NEEDED)
+## rm -f source/user_manual.rst source/developer_manual.rst
+# clean previous source code documentation
+rm -rf source/source_code
+# clean previously generated documentation
+make clean
