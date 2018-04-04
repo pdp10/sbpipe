@@ -4,7 +4,7 @@
 
 SBpipe allows users to automatically repeat the tasks of model simulation and parameter estimation, and extract robustness information from these repeat sequences in a solid and consistent manner, facilitating model development and analysis.
 
-The complete documentation is also available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf).
+The complete documentation is available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf).
 
 To access the functions used by SBpipe for data analysis, visit the sbpiper project which is available on [CRAN](https://cran.r-project.org/package=sbpiper) and [GitHub](https://github.com/pdp10/sbpiper).
 
