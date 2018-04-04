@@ -29,6 +29,15 @@ rm -rf source/source_code
 echo "creating DAG files for SBpipe pipelines using snakemake..."
 create_snakemake_dags.sh
 
+
+## NOTE:
+# This could be replaced by `autoapi.extension`. Unfortunately, the installation on ReadTheDocs.io does not
+# seem to work properly.
+# Import source code documentation
+export PYTHONPATH=${PYTHONPATH}:../
+sphinx-apidoc -P -T -o source/source_code ../sbpipe/
+
+
 echo "generating documentation in LaTeX/PDF format ..."
 # we only distribute the manual for SBpipe in PDF format.
 #make html
