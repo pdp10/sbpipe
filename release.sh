@@ -55,31 +55,16 @@ then
 
 elif [ "${action}" == "-u" -o "$action" == "--update" ] && [ "$version" != "null" ]
 then
-    printf "update and rename the last tag with current commits\n"
+    printf "update the last tag with current commits\n"
 
     # We always action from the `master` branch
     printf "checkout master\n"
     git checkout master
 
-    # rename and update the last tag so that it contains the last commit
-    # retrieve the last tag
-    last_tag=$(git describe --abbrev=0 --tags)
-    printf "current tag: ${last_tag}\n"
-
-    # rename a tag
-    git tag ${version} ${last_tag}
-    git tag -d ${last_tag}
-    git push origin :refs/tags/${last_tag}
-    git push --tags
-    # make sure that the other users remove the deleted tag. Tell them(co-workers) to run the following command:
-    git pull --prune --tags
-
     # Update the last tag to include the last commits
     git tag -f -a ${version}
     # push this updated tag
-    git push -f --tags
-
-    printf "every user with permission to release, should run `git pull --prune --tags`\n"
+    git push -f --tags origin ${version}
 
 
 elif [ "${action}" == "-h" -o "${action}" == "--help" ]

@@ -28,7 +28,7 @@ git tag -f -a tagName
 # push your new commit:
 git push
 # force push your moved tag:
-git push -f --tags
+git push -f --tags origin tagName
 
 # rename a tag
 git tag new old
