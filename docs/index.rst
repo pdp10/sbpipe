@@ -19,8 +19,27 @@ SBpipe documentation
 =====================
 
 .. toctree::
-   :maxdepth: 4
-   
-   user_manual
-   developer_manual
+   :maxdepth: 3
 
+   project_info/metadata
+
+
+.. toctree::
+   :caption: Getting started
+   :name: getting_started
+
+   getting_started/introduction
+   getting_started/installation
+   getting_started/using_sbpipe
+
+
+.. toctree::
+   :caption: Contributing
+   :name: contributing
+   :hidden:
+   :maxdepth: 3
+
+   contributing/reporting_issues
+   contributing/package_structure
+   contributing/development_model
+   contributing/useful_commands

@@ -24,7 +24,7 @@
 
 
 echo "cleaning previous source code documentation"
-rm -rf source/source_code
+rm -rf source_code
 
 
 echo "creating DAG files for SBpipe pipelines using snakemake..."

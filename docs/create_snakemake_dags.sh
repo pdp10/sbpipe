@@ -37,7 +37,7 @@ snakemake -s ../../sbpipe_ps2.snake --configfile ir_model_insulin_ir_beta_dbl_st
 cd -
 
 # moves pdf files
-mv $SNAKEMAKE_FOLDER/*.pdf source/images/
+mv $SNAKEMAKE_FOLDER/*.pdf images/
 
 # moves png files
-mv $SNAKEMAKE_FOLDER/*.png source/images/
+mv $SNAKEMAKE_FOLDER/*.png images/
