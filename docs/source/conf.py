@@ -60,7 +60,7 @@ extensions = [
 
 # Document Python Code
 autoapi_type = 'python'
-autoapi_dir = os.path.join(SBPIPE, 'sbpipe')
+autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
 
 
 # Add any paths that contain templates here, relative to this directory.

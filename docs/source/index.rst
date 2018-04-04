@@ -23,7 +23,6 @@ SBpipe documentation
    
    user_manual
    developer_manual
-..   source_code
 
    
 Indices
