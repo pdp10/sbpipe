@@ -53,14 +53,14 @@ p(sys.path)
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'autoapi.extension',
+# install `sphinx-autoapi` for adding the source code documentation to the main manual.
+# At the moment this is skipped as the getting_started does not work on readthedocs.io .
+    #'autoapi.extension',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode'
 ]
 
-# install `sphinx-autoapi` for adding the source code documentation to the main manual.
-# At the moment this is skipped as the getting_started does not work on readthedocs.io .
 
 # Document Python Code
 autoapi_type = 'python'
