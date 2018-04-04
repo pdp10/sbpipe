@@ -51,28 +51,20 @@ In order to generate the complete documentation for SBpipe, the following
 packages must be installed: 
 
 - python-sphinx
-- pandoc
 - texlive-fonts-recommended
 - texlive-latex-extra
 
-By default the documentation is generated in html and LaTeX/PDF. Instruction 
+By default the documentation is generated in LaTeX/PDF. Instruction
 for generating or cleaning SBpipe documentation are provided below.
 
 To generate the source code documentation:
 ```
 cd path/to/sbpipe/docs
-./gen_doc.sh
+./create_doc.sh
 ```
-
-To clean the documentation:
-```
-cd path/to/sbpipe/docs
-./cleanup_doc.sh
-```
-The complete source code documentation for this project is stored in 
-`docs/build/html` (html format) and `docs/build/latex` (LaTeX/PDF format).
-A shortcut to the documentation in html format is available at the page 
-`docs/index.html`. 
+GitHub and ReadTheDocs.io are automatically configured to build the
+documentation in HTML and PDF format at every commit. These are available at:
+[http://sbpipe.readthedocs.io](http://sbpipe.readthedocs.io).
 
 
 ### sbpipe
