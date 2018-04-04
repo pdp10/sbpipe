@@ -4,6 +4,9 @@
 
 [![Build Status](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe)
 
+
+[(https://readthedocs.org/projects/sbpipe/badge/)](http://sbpipe.readthedocs.io/en/latest/)
+
 [![Anaconda Cloud](https://anaconda.org/pdp10/sbpipe/badges/version.svg)](https://anaconda.org/pdp10/sbpipe)
 
 This package contains a collection of pipelines for dynamic modelling
@@ -13,13 +16,13 @@ parameter scan, and parameter estimation.
 
 For information on how to **install** and **use** SBpipe, please visit 
 the 
-[user manual](https://github.com/pdp10/sbpipe/blob/master/docs/source/user_manual.md).
+[user manual](http://sbpipe.readthedocs.io/en/latest/user_manual.html).
 
 For information on how to **develop** new modules, please visit the
-[developer manual](https://github.com/pdp10/sbpipe/blob/master/docs/source/developer_manual.md).
+[developer manual](http://sbpipe.readthedocs.io/en/latest/developer_manual.html).
 
-These two manuals and the source code documentation are also available 
-in docs/index.html within the main package folder. 
+The complete documentation is also available in PDF format is available in
+docs/sbpipe.pdf .
 
 SBpipe is a relatively young project and there is a chance that some 
 error occurs. If this is the case, users should report issues using the 

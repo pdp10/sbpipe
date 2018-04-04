@@ -60,6 +60,8 @@ extensions = [
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+
+
 # allow sphinx to process md files
 from recommonmark.parser import CommonMarkParser
 source_parsers = {
@@ -68,6 +70,8 @@ source_parsers = {
 # The suffix of source filenames.
 source_suffix = ['.rst', '.md']
 #source_suffix = '.rst'
+
+
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'

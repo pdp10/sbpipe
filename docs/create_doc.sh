@@ -25,8 +25,12 @@
 
 export PYTHONPATH=${PYTHONPATH}:../
 
-echo "generating DAG files for SBpipe snakemake pipelines ..."
-./gen_snakemake_dags.sh
+
+echo "cleaning previous source code documentation"
+rm -rf source/source_code
+
+echo "creating DAG files for SBpipe pipelines using snakemake..."
+create_snakemake_dags.sh
 
 
 # NO LONGER NEEDED, as Sphinx can process md files directly,
@@ -54,9 +58,6 @@ mv build/latex/sbpipe.pdf .
 
 
 echo "cleaning output files ..."
-# clean previous manuals (NO LONGER NEEDED)
-## rm -f source/user_manual.rst source/developer_manual.rst
-# clean previous source code documentation
-rm -rf source/source_code
 # clean previously generated documentation
 make clean
+rm -rf build

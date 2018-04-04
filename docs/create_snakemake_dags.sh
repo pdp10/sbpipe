@@ -18,9 +18,9 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SNAKE_FOLDER="../tests/snakemake"
+SNAKEMAKE_FOLDER="../tests/snakemake"
 
-cd $SNAKE_FOLDER
+cd $SNAKEMAKE_FOLDER
 
 # PDF
 snakemake -s ../../sbpipe_pe.snake --configfile ir_model_param_estim_for_dag.yaml --dag | dot -Tpdf > sbpipe_pe_snake_dag.pdf
@@ -37,7 +37,7 @@ snakemake -s ../../sbpipe_ps2.snake --configfile ir_model_insulin_ir_beta_dbl_st
 cd -
 
 # moves pdf files
-mv $SNAKE_FOLDER/*.pdf source/images/
+mv $SNAKEMAKE_FOLDER/*.pdf source/images/
 
 # moves png files
-mv $SNAKE_FOLDER/*.png source/images/
+mv $SNAKEMAKE_FOLDER/*.png source/images/
