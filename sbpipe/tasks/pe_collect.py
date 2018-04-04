@@ -43,18 +43,12 @@ def pe_collect(inputdir,
                copasi=True):
     """
     Collect the results so that they can be processed.
+
     :param inputdir: the input folder containing the data
     :param outputdir: the output folder to stored the collected results
     :param fileout_final_estims: the name of the file containing the best estimations
     :param fileout_all_estims: the name of the file containing all the estimations
     :param copasi: True if COPASI was used to generate the data.
-    """
-    """
-    Perform post processing file editing for the `pe` pipeline
-
-    :param infile: the model to process
-    :param outfile: the directory to store the results
-    :param copasi: True if the model is a Copasi model
     """
     if copasi:
         simulator = copasi_simul.Copasi()

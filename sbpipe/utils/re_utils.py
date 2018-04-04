@@ -42,6 +42,7 @@ def nat_sort_key(str):
 def escape_special_chars(text):
     """
     Escape ^,%, ,[,],(,),{,} from text
+    
     :param text: the command to escape special characters inside
     :return: the command with escaped special characters
     """

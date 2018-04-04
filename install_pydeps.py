@@ -48,7 +48,7 @@ def install_python_deps(requirements_file):
 def python_deps(logger):
     logger.info("Installing Python dependencies...")
     if which("pip") is None:
-        logger.warn("pip not found. Skipping installation of Python dependencies."
+        logger.warn("pip not found. Skipping getting_started of Python dependencies."
                     "Please, install `python-dev` and `python-pip` packages.")
     else:
         out = str(install_python_deps(os.path.join(SBPIPE, 'requirements.txt')))
@@ -75,7 +75,7 @@ def main():
         logger.error("CopasiSE not found. Please install Copasi as explained on the sbpipe website.")
 
     if which("R") is None:
-        logger.error("R not found. Skipping installation of R dependencies."
+        logger.error("R not found. Skipping getting_started of R dependencies."
                      "sbpipe will be severely affected due to this.")
 
     python_deps(logger)

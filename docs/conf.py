@@ -53,7 +53,7 @@ p(sys.path)
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-#    'autoapi.extension',
+    'autoapi.extension',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode'
@@ -63,8 +63,8 @@ extensions = [
 # At the moment this is skipped as the getting_started does not work on readthedocs.io .
 
 # Document Python Code
-#autoapi_type = 'python'
-#autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
+autoapi_type = 'python'
+autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
 
 
 # Add any paths that contain templates here, relative to this directory.

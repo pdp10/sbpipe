@@ -227,10 +227,8 @@ class ParEst(Pipeline):
         :param outputdir: the directory to store the results
         :param fileout_final_estims: the name of the file containing final parameter sets with the objective value
         :param fileout_all_estims: the name of the file containing all the parameter sets with the objective value
-        :param fileout_param_estim_best_fits_details: the name of the file containing the detailed statistics for the \
-        estimated parameters from the best fits analysis
-        :param fileout_param_estim_details: the name of the file containing the detailed statistics for the \
-        estimated parameters from the PLE analysis
+        :param fileout_param_estim_best_fits_details: the file containing the statistics for the best fits analysis
+        :param fileout_param_estim_details: the file containing the statistics for the PLE analysis
         :param fileout_param_estim_summary: the name of the file containing the summary for the parameter estimation
         :param sim_plots_dir: the directory of the simulation plots
         :param best_fits_percent: the percent to consider for the best fits
