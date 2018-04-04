@@ -33,9 +33,9 @@ export PYTHONPATH=${PYTHONPATH}:../
 
 # Import manuals
 # convert user_manual.md to user_manual.rst
-pandoc --from=markdown --to=rst --output=source/user_manual.rst source/user_manual.md
+##pandoc --from=markdown --to=rst --output=source/user_manual.rst source/user_manual.md
 # convert developer_manual.md to developer_manual.rst
-pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/developer_manual.md
+##pandoc --from=markdown --to=rst --output=source/developer_manual.rst source/developer_manual.md
 
 
 # Import source code documentation
