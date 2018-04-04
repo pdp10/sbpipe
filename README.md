@@ -8,17 +8,22 @@ up productivity for tasks such as model simulation, single and double
 parameter scan, and parameter estimation. 
 
 The complete documentation is also available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://github.com/pdp10/sbpipe/blob/master/docs/sbpipe.pdf).
+
 To access the functions used by SBpipe for data analysis, visit the sbpiper project which is available on [CRAN](https://cran.r-project.org/package=sbpiper) and [GitHub](https://github.com/pdp10/sbpiper).
 
+
+**Issues**
+
 SBpipe is a relatively young project and there is a chance that some error occurs. Issues with this package can be
-reported using the mailing list (sbpipe AT googlegroups.com) or the [SBpipe forum](https://groups.google.com/forum/#!forum/sbpipe).
-To help us better identify and reproduce your problem, some technical information is needed. These details can be found
-in SBpipe log files which are stored in ${HOME}/.sbpipe/logs/. If possible, it would be worth providing this extra
-information when reporting a bug.
+reported using the [mailing list](mailto:sbpipe@googlegroups.com) or the [SBpipe forum](https://groups.google.com/forum/#!forum/sbpipe).
+
+To help us better identify and reproduce your problem, some technical information is needed. These details can be retrieved by
+executing the SBpipe command using the `--verbose` option or directly from the SBpipe log files which are stored in `~/.sbpipe/logs/`. Please, provide this information when reporting a bug.
+
 Issues and feature requests can also be notified using the [github issue tracking system](https://github.com/pdp10/sbpipe/issues).
 
 
-**How to cite SBpipe:**
+**How to cite SBpipe**
 
 Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology* **11**:46. SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks.
 [DOI:10.1186/s12918-017-0423-3](https://doi.org/10.1186/s12918-017-0423-3)
