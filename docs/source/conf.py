@@ -39,7 +39,6 @@ import os
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
 
-sys.path.append(os.path.abspath(os.path.join(__file__, 'source_code')))
 
 from pprint import pprint as p
 
@@ -55,7 +54,9 @@ p(sys.path)
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode'
+
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -69,7 +70,7 @@ source_parsers = {
     '.md': CommonMarkParser,
 }
 # The suffix of source filenames.
-source_suffix = ['.rst', '.md']
+source_suffix = ['.rst', '.md', '.py']
 #source_suffix = '.rst'
 
 
