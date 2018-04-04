@@ -54,9 +54,11 @@ p(sys.path)
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax'   #,
+    'sphinx.ext.mathjax'#,
     #'autoapi.extension'
 ]
+
+# install `sphinx-autoapi` for adding the source code documentation.
 
 # Document Python Code
 ##autoapi_type = 'python'
