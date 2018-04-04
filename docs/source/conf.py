@@ -38,7 +38,8 @@ import os
 # This will include the necessary source files folders in the PATH to be able to generate the documentation from.
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
-# sys.path.append(os.path.join(SBPIPE, 'sbpipe', 'R'))
+
+sys.path.append(os.path.abspath(os.path.join(__file__, 'source_code')))
 
 from pprint import pprint as p
 
@@ -164,7 +165,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

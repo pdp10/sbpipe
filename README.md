@@ -12,7 +12,7 @@ The complete documentation is also available in [HTML](http://sbpipe.readthedocs
 To access the functions used by SBpipe for data analysis, visit the sbpiper project which is available on [CRAN](https://cran.r-project.org/package=sbpiper) and [GitHub](https://github.com/pdp10/sbpiper).
 
 
-**Issues**
+**Issues / Feature requests**
 
 SBpipe is a relatively young project and there is a chance that some error occurs. Issues with this package can be
 reported using the [mailing list](mailto:sbpipe@googlegroups.com) or the [SBpipe forum](https://groups.google.com/forum/#!forum/sbpipe).
