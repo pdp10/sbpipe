@@ -59,9 +59,8 @@ my_model <- function(t,x,parms){
 }
 
 
-
-# Calculate the residual sum of squares (RSS)
-ssq=function(parms){
+# residual function
+rf=function(parms){
   # parms: the model parameters to estimate
   
   # inital concentration
@@ -74,7 +73,8 @@ ssq=function(parms){
   k1=parms[1]
   k2=parms[2]
   # solve ODE for a given set of parameters
-  out=ode(y=cinit,times=t,func=my_model,parms=list(k1=k1,k2=k2))
+  out=ode(y=cinit,times=t,func=my_model,
+          parms=list(k1=k1,k2=k2),method="ode23")
   
   # Filter data that contains time points where data is available
   outdf=data.frame(out)
@@ -82,7 +82,7 @@ ssq=function(parms){
   # Evaluate predicted vs experimental residual
   preddf=melt(outdf,id.var="time",variable.name="species",value.name="conc")
   expdf=melt(df,id.var="time",variable.name="species",value.name="conc")
-  ssqres=expdf$conc-preddf$conc
+  ssqres=sqrt((expdf$conc-preddf$conc)^2)
 
   # return predicted vs experimental residual
   return(ssqres)
@@ -105,7 +105,7 @@ names(parms) <- c("k1", "k2")
 tc <- textConnection("eval_functs_text","w")
 sink(tc)
 
-fitval=nls.lm(par=parms,fn=ssq,control=nls.lm.control(nprint=1))
+fitval=nls.lm(par=parms,fn=rf,control=nls.lm.control(nprint=1))
 
 sink()
 close(tc)
@@ -121,16 +121,10 @@ for (eval_fun in eval_functs_text) {
   rss <- gsub("[[:space:]]", "", rss)
   rss <- strsplit(rss, "=")[[1]]
   rss <- rss[2]
-  # print(rss)
-  
-  params <- items[3]
-  params <- strsplit(params, "=")[[1]]
-  params <- sub("^\\s+", "", params[[2]])
-  params <- sub("\\s+", " ", params)
-  params <- strsplit(params, " ")[[1]]
-  # print(params)
-
-  rbind(report, c(rss, params)) -> report
+  estim.parms <- items[3]
+  estim.parms <- strsplit(estim.parms, "=")[[1]]
+  estim.parms <- strsplit(trimws(estim.parms[[2]]), "\\s+")[[1]]
+  rbind(report, c(rss, estim.parms)) -> report
 }
 
 report <- data.frame(report)

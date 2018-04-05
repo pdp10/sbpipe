@@ -1,5 +1,5 @@
 sbpipe (GNU Lesser General Public License v3)
-Copyright 2010-2018 Piero Dalle Pezze and Nicolas Le Novère
+Copyright 2010-2018 Piero Dalle Pezze
 
 Website: https://pdp10.github.io/sbpipe/
 
@@ -8,6 +8,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 v4.10.0 (Beyond the Kuiper Belt)
 
+- Documentation update.
 - Added generate_tarball option to all the remaining pipelines in native SBpipe.
 - Improved output messages.
 - Added progress information for native SBpipe.
