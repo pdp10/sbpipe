@@ -81,6 +81,8 @@ install:
   # install latex dependencies (optional)
   - conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
 
+  # install additional R dependencies for testing R models
+  - conda install r-desolve r-minpack.lm -c conda-forge
 
 # command to run tests
 script:
