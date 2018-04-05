@@ -21,7 +21,7 @@ be installed:
 
 ### Installation on GNU/Linux
 
-#### Install COPASI
+#### Installation of COPASI
 As of 2016, COPASI is not available as a package in GNU/Linux distributions. Users must add the path to COPASI
 binary files manually editing the GNU/Linux `$HOME/.bashrc` file as follows:
 
@@ -40,7 +40,7 @@ CopasiSE -h
 ```
 
 
-#### Install LaTeX
+#### Installation of LaTeX
 Users are recommended to install LaTeX/texlive using the package manager of their GNU/Linux distribution.
 On GNU/Linux Ubuntu machines the following package is required:
 
@@ -56,10 +56,10 @@ pdflatex -v
 > Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 ```
 
-#### Install SBpipe via Miniconda3
+#### Installation of SBpipe via Conda
 Users need to download and install Miniconda3 ([https://conda.io/miniconda.html](https://conda.io/miniconda.html)).
 
-###### **1st Method**
+###### 1st Method
 This method creates a new environment and installs SBpipe dependencies in this environment.
 SBpipe is installed locally, enabling an easy access to the package documentation and test suite.
 ```
@@ -92,7 +92,7 @@ The .bashrc file should be reloaded to apply the previous edits:
 source $HOME/.bashrc
 ```
 
-###### **2nd Method**
+###### 2nd Method
 This method installs SBpipe as a conda package in a dedicated conda environment:
 ```
 # create a new environment `sbpipe`
@@ -107,7 +107,7 @@ conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 ```
 
 
-#### Install SBpipe manually
+#### Installation of SBpipe from source
 For this type of installation, SBpipe must be downloaded from the website or cloned using `git`.
 ```
 # download SBpipe
@@ -174,65 +174,10 @@ The installation of SBpipe via Miniconda3 automatically installs this dependency
 
 ### Installation on Windows
 
-#### Install MINGW
-We advise users to install `Git for Windows` [https://git-for-windows.github.io/](https://git-for-windows.github.io/) as
-a simple Shell (MINGW) running on Windows. Leave the default setting during installation.
-
-#### Installation of COPASI
-Windows users need to install the Windows versions of COPASI from the COPASI website.
-Once `Git for Windows` is started, a Shell-like window appears and enables users to run commands.
-A .bashrc file must be created and configured:
-```
-touch .bashrc
-wordpad .bashrc
-```
-A Wordpad window should be visible, loading the file `.bashrc` . The following lines must be
-copied into this file:
-
-```
-#!/bin/bash/
-
-# COPASI (update this accordingly. Use \ to escape spaces)
-export PATH=/path/to/copasi/bin/:$PATH
-
-```
-
-#### Installation of LaTeX
-Windows users need to install LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
+See installation on GNU/Linux and install SBpipe via Conda. Windows users need to install LaTeX MikTeX [https://miktex.org/](https://miktex.org/).
 
 
-#### Install SBpipe via Miniconda3
-See GNU/Linux.
-
-
-#### Install SBpipe manually
-Start `Git for Windows` and clone SBpipe from GitHub using the command:
-
-```
-git clone https://github.com/pdp10/sbpipe.git
-```
-
-We now need to set up the path to SBpipe:
-```
-wordpad .bashrc
-```
-The following lines must be appended to this file:
-
-```
-# SBPIPE
-export PATH=$PATH:~/sbpipe/scripts
-```
-
-Save the file and close wordpad. Now you should reload the .bashrc file to apply the previous changes:
-```
-# Reload the .bashrc file
-source $HOME/.bashrc
-```
-Python and R dependencies should be installed as explained in the corresponding section 
-for GNU/Linux section.
-
-
-### Test SBpipe
+### Testing SBpipe
 The correct installation of SBpipe and its dependencies can be verified by running the following commands.
 For the correct execution of all tests, LaTeX must be installed.
 

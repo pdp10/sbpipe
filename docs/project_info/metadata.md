@@ -1,11 +1,12 @@
-Copyright © 2015-2018, Piero Dalle Pezze and Nicolas Le Novère.
+## Metadata
+
+Copyright © 2015-2018, Piero Dalle Pezze.
 
 SBpipe and its documentation are released under the GNU Lesser General Public License v3 (LGPLv3).
 A copy of this license is provided with the package and can also be found here:
 [https://www.gnu.org/licenses/lgpl-3.0.txt](https://www.gnu.org/licenses/lgpl-3.0.txt).
 
-Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT gmail.com) and
-Dr Nicolas Le Novère (lenov AT babraham.ac.uk)
+Contacts: Dr Piero Dalle Pezze (piero.dallepezze AT gmail.com)
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
