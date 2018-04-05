@@ -73,11 +73,10 @@ times <- seq(0, 20, by = 1)
 out <- ode.2D(y = yini, times = times, func = lvmod2D, parms = pars,
               dimens = c(N, N), names = c("Prey", "Pred"),
               N = N, dx = dx, Da = Da, method = rkMethod("rk45ck"))
+df.out <- data.frame(out)
 # ---------------------------------------------
-
-
 
 # Write the output. The output file must be the model name with csv or txt extension.
 # Fields must be separated by TAB, and row names must be discarded.
-write.table(out, file=report_filename, sep="\t", row.names=FALSE)
+write.table(df.out, file=report_filename, sep="\t", row.names=FALSE)
 
