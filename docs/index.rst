@@ -29,6 +29,7 @@ SBpipe documentation
    :name: getting_started
 
    getting_started/introduction
+   getting_started/quick_examples
    getting_started/installation
    getting_started/using_sbpipe
 
@@ -43,3 +44,13 @@ SBpipe documentation
    contributing/package_structure
    contributing/development_model
    contributing/useful_commands
+
+
+.. toctree::
+   :caption: Project info
+   :name: project_info
+   :hidden:
+   :maxdepth: 3
+
+   project_info/license
+   project_info/history
