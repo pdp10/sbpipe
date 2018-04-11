@@ -15,20 +15,59 @@
    along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SBpipe documentation
-=====================
+SBpipe
+======
+
+SBpipe allows mathematical modellers to automatically repeat the tasks of model simulation
+and parameter estimation, and extract robustness information from these repeat sequences
+in a solid and consistent manner, facilitating model development and analysis.
+SBpipe can run models implemented in COPASI, Python or coded in any other programming
+language using Python as a wrapper module.
+Pipelines can run on multicore computers, Sun Grid Engine (SGE), Load Sharing Facility
+(LSF) clusters, or via Snakemake (https://snakemake.readthedocs.io).
+
+
+**Project info**
+
+Copyright © 2015-2018, Piero Dalle Pezze (piero.dallepezze AT
+gmail.com).
+
+License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+
+Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
+
+Mailing list: sbpipe@googlegroups.com
+
+Forum: https://groups.google.com/forum/#!forum/sbpipe
+
+GitHub: https://github.com/pdp10/sbpipe
+
+Citation: Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology*
+**11**:46. SBpipe: a collection of pipelines for automating repetitive
+simulation and analysis tasks. https://doi.org/10.1186/s12918-017-0423-3
+
 
 .. toctree::
+   :caption: Contents
+   :name: contents
    :maxdepth: 3
 
-   project_info/metadata
+
+.. toctree::
+   :caption: Introduction
+   :name: introduction
+   :hidden:
+   :maxdepth: 3
+
+   project_info/introduction
 
 
 .. toctree::
    :caption: Getting started
    :name: getting_started
+   :hidden:
+   :maxdepth: 3
 
-   getting_started/introduction
    getting_started/quick_examples
    getting_started/installation
    getting_started/using_sbpipe
@@ -47,8 +86,8 @@ SBpipe documentation
 
 
 .. toctree::
-   :caption: Project info
-   :name: project_info
+   :caption: Other info
+   :name: other_info
    :hidden:
    :maxdepth: 3
 
