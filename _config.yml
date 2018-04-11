@@ -3,6 +3,7 @@ description: Pipelines for systems modelling of biological networks
 google_analytics: 
 show_downloads: false
 theme: jekyll-theme-cayman
+redirect_to: http://sbpipe.readthedocs.io
 
 gems:
   - jekyll-mentions
