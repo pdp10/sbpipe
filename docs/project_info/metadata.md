@@ -14,5 +14,7 @@ Mailing list: sbpipe AT googlegroups.com
 
 Forum: [https://groups.google.com/forum/#!forum/sbpipe](https://groups.google.com/forum/#!forum/sbpipe)
 
+GitHub: [https://github.com/pdp10/sbpipe](https://github.com/pdp10/sbpipe)
+
 Citation: Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology* **11**:46. SBpipe: a collection of pipelines for automating repetitive simulation and analysis tasks.
 [https://doi.org/10.1186/s12918-017-0423-3](https://doi.org/10.1186/s12918-017-0423-3)
