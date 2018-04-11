@@ -29,8 +29,7 @@ Pipelines can run on multicore computers, Sun Grid Engine (SGE), Load Sharing Fa
 
 **Project info**
 
-Copyright © 2015-2018, Piero Dalle Pezze (piero.dallepezze AT
-gmail.com).
+Copyright © 2015-2018, Piero Dalle Pezze
 
 License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
