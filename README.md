@@ -2,11 +2,11 @@
 
 [![Anaconda Cloud](https://anaconda.org/pdp10/sbpipe/badges/version.svg)](https://anaconda.org/pdp10/sbpipe) [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html) [![Build Status](https://travis-ci.org/pdp10/sbpipe.svg?branch=master)](https://travis-ci.org/pdp10/sbpipe) [![Docs Status](https://readthedocs.org/projects/sbpipe/badge/)](http://sbpipe.readthedocs.io/en/latest/) [![Anaconda-Server Badge](https://anaconda.org/pdp10/sbpipe/badges/platforms.svg)](https://anaconda.org/pdp10/sbpipe) [![Anaconda-Server Badge](https://anaconda.org/pdp10/sbpipe/badges/downloads.svg)](https://anaconda.org/pdp10/sbpipe)
 
-SBpipe allows users to automatically repeat the tasks of model simulation and parameter estimation, and extract robustness information from these repeat sequences in a solid and consistent manner, facilitating model development and analysis.
+SBpipe is an open source software tool for automating repetitive tasks in model building and simulation. Using basic YAML configuration files, SBpipe builds a sequence of repeated model simulations or parameter estimations, performs analyses from this generated sequence, and finally generates a LaTeX/PDF report. The parameter estimation pipeline offers analyses of parameter profile likelihood and parameter correlation using samples from the computed estimates. Specific pipelines for scanning of one or two model parameters at the same time are also provided. Pipelines can run on multicore computers, Sun Grid Engine (SGE), or Load Sharing Facility (LSF) clusters, speeding up the processes of model building and simulation. If desired, pipelines can also be executed via [Snakemake](https://snakemake.readthedocs.io), a powerful workflow management system. SBpipe can run models implemented in COPASI, Python or coded in any other programming language using Python as a wrapper module. Future support for other software simulators can be dynamically added without affecting the current implementation. 
 
-The complete documentation is available in [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf).
+To install SBpipe, see the documentation: [HTML](http://sbpipe.readthedocs.io/en/latest/) or [PDF](https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf).
 
-To access the functions used by SBpipe for data analysis, visit the sbpiper project which is available on [CRAN](https://cran.r-project.org/package=sbpiper) and [GitHub](https://github.com/pdp10/sbpiper).
+If you only need the R functions used by SBpipe for data analysis, visit the project `SBpiper` on [CRAN](https://cran.r-project.org/package=sbpiper) or [GitHub](https://github.com/pdp10/sbpiper).
 
 
 **Issues / Feature requests**
@@ -27,3 +27,5 @@ Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology* **11**:46. SBpipe
 
 
 Thanks for using SBpipe!
+
+![alt text](https://github.com/pdp10/sbpipe/blob/master/docs/images/sbpipe_workflow.png "SBpipe workflow")
