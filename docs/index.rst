@@ -31,9 +31,13 @@ Pipelines can run on multicore computers, Sun Grid Engine (SGE), Load Sharing Fa
 
 Copyright © 2015-2018, Piero Dalle Pezze
 
-License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
-
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
+
+Home Page: http://sbpipe.readthedocs.io
+
+Anaconda Cloud: https://anaconda.org/pdp10/sbpipe
+
+License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
 Mailing list: sbpipe@googlegroups.com
 
@@ -41,9 +45,12 @@ Forum: https://groups.google.com/forum/#!forum/sbpipe
 
 GitHub: https://github.com/pdp10/sbpipe
 
-Citation: Dalle Pezze, P and Le Novère, N. (2017) *BMC Systems Biology*
-**11**:46. SBpipe: a collection of pipelines for automating repetitive
-simulation and analysis tasks. https://doi.org/10.1186/s12918-017-0423-3
+Travis-CI: https://travis-ci.org/pdp10/sbpipe
+
+Issues / Feature requests: https://github.com/pdp10/sbpipe/issues
+
+Citation: Dalle Pezze P, Le Novère N. SBpipe: a collection of pipelines for automating repetitive
+simulation and analysis tasks. *BMC Systems Biology*. 2017 Apr;11:46. https://doi.org/10.1186/s12918-017-0423-3
 
 
 .. toctree::
