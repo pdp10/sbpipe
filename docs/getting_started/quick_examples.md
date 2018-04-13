@@ -22,7 +22,7 @@ sbpipe -c quick_example
 ```
 
 ### Model simulation
-For this example, the mathematical model is coded in Python. The following model file must be saved in `quick_example/Models/insulin_receptor.py`.
+This example should complete within 1 minute. For this example, the mathematical model is coded in Python. The following model file must be saved in `quick_example/Models/insulin_receptor.py`.
 ```
 # insulin_receptor.py
 
@@ -148,7 +148,7 @@ The folder `quick_example/Results/insulin_receptor` is now populated with the mo
 
 
 ### Model parameter estimation
-For this example, the mathematical model is coded in R and a Python wrapper is used to invoke this model.
+This example should complete within 5 minutes. For this example, the mathematical model is coded in R and a Python wrapper is used to invoke this model.
 The model and its wrapper file must be saved in `quick_example/Models/insulin_receptor_param_estim.r` and `quick_example/Models/insulin_receptor_param_estim.py`. This model uses the data set in the previous example.
 ```
 # insulin_receptor_param_estim.r
@@ -288,13 +288,13 @@ model: "insulin_receptor_param_estim.py"
 cluster: "local"
 local_cpus: 7
 round: 1
-runs: 100
+runs: 50
 best_fits_percent: 75
 data_point_num: 33
 plot_2d_66cl_corr: True
 plot_2d_95cl_corr: True
 plot_2d_99cl_corr: True
-logspace: True
+logspace: False
 scientific_notation: True
 ```
 
