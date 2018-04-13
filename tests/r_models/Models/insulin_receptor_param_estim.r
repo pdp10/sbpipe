@@ -28,7 +28,7 @@ args <- commandArgs(trailingOnly=FALSE)
 SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
 
 # load concentration data
-df <- read.table(file.path(SBPIPE_R,'insulin_receptor_dataset.csv'), header=TRUE, sep="\t")
+df <- read.table(file.path(SBPIPE_R,'insulin_receptor_dataset.csv'), header=TRUE, sep=',')
 colnames(df) <- c("time", "B")
 
 # mathematical model
