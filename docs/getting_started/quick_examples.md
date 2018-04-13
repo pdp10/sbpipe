@@ -77,40 +77,40 @@ df.to_csv(report_filename, sep='\t', index=False, encoding='utf-8')
 
 We also add a data set file to overlap the model simulation with the experimental data. This file must be saved in `quick_example/Models/insulin_receptor_dataset.csv`. Fields can be separated by a TAB or a comma.
 ```
-Time	IR_beta_pY1146
-0	0
-1	3.11
-3	3.13
-5	2.48
-10	1.42
-15	1.36
-20	1.13
-30	1.45
-45	0.67
-60	0.61
-120	0.52
-0	0
-1	5.58
-3	4.41
-5	2.09
-10	2.08
-15	1.81
-20	1.26
-30	0.75
-45	1.56
-60	2.32
-120	1.94
-0	0
-1	6.28
-3	9.54
-5	7.83
-10	2.7
-15	3.23
-20	2.05
-30	2.34
-45	2.32
-60	1.51
-120	2.23
+Time,IR_beta_pY1146
+0,0
+1,3.11
+3,3.13
+5,2.48
+10,1.42
+15,1.36
+20,1.13
+30,1.45
+45,0.67
+60,0.61
+120,0.52
+0,0
+1,5.58
+3,4.41
+5,2.09
+10,2.08
+15,1.81
+20,1.26
+30,0.75
+45,1.56
+60,2.32
+120,1.94
+0,0
+1,6.28
+3,9.54
+5,7.83
+10,2.7
+15,3.23
+20,2.05
+30,2.34
+45,2.32
+60,1.51
+120,2.23
 ```
 
 We then need a configuration file for SBpipe, which must be saved in `quick_example/insulin_receptor.yaml`
@@ -149,9 +149,9 @@ The folder `quick_example/Results/insulin_receptor` is now populated with the mo
 
 ### Model parameter estimation
 For this example, the mathematical model is coded in R and a Python wrapper is used to invoke this model.
-The model and its wrapper file must be saved in `quick_example/Models/insulin_receptor_param_estim.R` and `quick_example/Models/insulin_receptor_param_estim.py`. This model uses the data set in the previous example.
+The model and its wrapper file must be saved in `quick_example/Models/insulin_receptor_param_estim.r` and `quick_example/Models/insulin_receptor_param_estim.py`. This model uses the data set in the previous example.
 ```
-# insulin_receptor_param_estim.R
+# insulin_receptor_param_estim.r
 
 library(reshape2)
 library(deSolve)
@@ -169,7 +169,7 @@ args <- commandArgs(trailingOnly=FALSE)
 SBPIPE_R <- normalizePath(dirname(sub("^--file=", "", args[grep("^--file=", args)])))
 
 # load concentration data
-df <- read.table(file.path(SBPIPE_R,'insulin_receptor_dataset.csv'), header=TRUE, sep="\t")
+df <- read.table(file.path(SBPIPE_R,'insulin_receptor_dataset.csv'), header=TRUE, sep=',')
 colnames(df) <- c("time", "B")
 
 # mathematical model
