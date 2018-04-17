@@ -40,10 +40,6 @@ SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
 
 
-from pprint import pprint as p
-
-p(sys.path)
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -73,16 +69,8 @@ autoapi_dirs = [os.path.join(SBPIPE, 'sbpipe')]
 templates_path = ['_templates']
 
 
-
-# allow sphinx to process md files
-from recommonmark.parser import CommonMarkParser
-source_parsers = {
-    '.md': CommonMarkParser,
-}
 # The suffix of source filenames.
-source_suffix = ['.rst', '.md']
-#source_suffix = '.rst'
-
+source_suffix = '.rst'
 
 
 # The encoding of source files.
