@@ -51,7 +51,7 @@ sys.path.append(os.path.join(SBPIPE, 'sbpipe'))
 extensions = [
 # install `sphinx-autoapi` for adding the source code documentation to the main manual.
 # At the moment this is skipped as the getting_started does not work on readthedocs.io .
-    #'autoapi.extension',
+    'autoapi.extension',
 # To convert svg to images that can be processed by LaTeX.
     #'sphinx.ext.imgconverter',
     'sphinx.ext.autodoc',
