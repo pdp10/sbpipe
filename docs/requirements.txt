@@ -1,2 +1,3 @@
 sphinx
+sphinx-autoapi
 docutils==0.12
