@@ -75,35 +75,36 @@ class TestRPE(unittest.TestCase):
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()
-            
-    def test_insulin_receptor_pe_r(self):
-        try:
-            reshape2 = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            desolve = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            minpacklm = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(reshape2):
-                sys.stdout.write("R reshape2 not found: SKIP ... ")
-                sys.stdout.flush()
-            if "FALSE" in str(desolve):
-                sys.stdout.write("R deSolve not found: SKIP ... ")
-                sys.stdout.flush()
-            elif "FALSE" in str(minpacklm):
-                sys.stdout.write("R minpack.lm not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbmain.sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
-            sys.stdout.flush()
+
+    # Commented as it can take too much time on Travis-CI.
+    # def test_insulin_receptor_pe_r(self):
+    #     try:
+    #         reshape2 = subprocess.Popen(['Rscript', \
+    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
+    #                                    stdout=subprocess.PIPE,
+    #                                    stderr=subprocess.PIPE).communicate()[0]
+    #         desolve = subprocess.Popen(['Rscript', \
+    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
+    #                                    stdout=subprocess.PIPE,
+    #                                    stderr=subprocess.PIPE).communicate()[0]
+    #         minpacklm = subprocess.Popen(['Rscript', \
+    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
+    #                                    stdout=subprocess.PIPE,
+    #                                    stderr=subprocess.PIPE).communicate()[0]
+    #         if "FALSE" in str(reshape2):
+    #             sys.stdout.write("R reshape2 not found: SKIP ... ")
+    #             sys.stdout.flush()
+    #         if "FALSE" in str(desolve):
+    #             sys.stdout.write("R deSolve not found: SKIP ... ")
+    #             sys.stdout.flush()
+    #         elif "FALSE" in str(minpacklm):
+    #             sys.stdout.write("R minpack.lm not found: SKIP ... ")
+    #             sys.stdout.flush()
+    #         else:
+    #             self.assertEqual(sbmain.sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
+    #     except OSError as e:
+    #         sys.stdout.write("R not found: SKIP ... ")
+    #         sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
