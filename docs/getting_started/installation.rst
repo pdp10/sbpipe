@@ -66,13 +66,34 @@ The correct installation of LaTeX can be tested with:
     > kpathsea version 6.2.1
     > Copyright 2015 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
 
+Installation of SBpipe via PIP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+SBpipe and its Python dependencies can simply be installed via
+Python PIP (which must be available) using the command:
+
+::
+
+    # install sbpipe via pip
+    pip install sbpipe
+
+The R package sbpiper, which is required by SBpipe for data analysis can
+be installed as follows:
+
+::
+
+    # start R from a shell
+    R
+    # within R environment
+    install.packages('sbpiper')
+
 Installation of SBpipe via Conda
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Users need to download and install Miniconda3
 (https://conda.io/miniconda.html).
 
-1st Method
+**1st Method**
           
 
 This method creates a new environment and installs SBpipe dependencies
@@ -112,7 +133,7 @@ The .bashrc file should be reloaded to apply the previous edits:
     # Reload the .bashrc file
     source $HOME/.bashrc
 
-2nd Method
+**2nd Method**
           
 
 This method installs SBpipe as a conda package in a dedicated conda
@@ -130,8 +151,9 @@ environment:
     # install sbpipe and its dependencies (including sbpiper)
     conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 
-Installation of SBpipe from source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Installation of SBpipe from GIT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For this type of installation, SBpipe must be downloaded from the
 website or cloned using ``git``.
@@ -212,7 +234,7 @@ The .bashrc file should be reloaded to apply the previous edits:
 Installation on Windows
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-See installation on GNU/Linux and install SBpipe via Conda. Windows
+See installation on GNU/Linux and install SBpipe via PIP or Conda. Windows
 users need to install LaTeX MikTeX https://miktex.org/.
 
 Testing SBpipe
@@ -226,7 +248,11 @@ tests, LaTeX must be installed.
 
     # SBpipe version:
     sbpipe -V
-    > sbpipe 4.6.0
+    > sbpipe 4.13.0
+
+
+Unless SBpipe was installed via GIT, users need to download the source code
+at the page https://github.com/pdp10/sbpipe/archive/master.zip to run the test suites.
 
 ::
 
