@@ -74,5 +74,5 @@ setup(
         "Operating System :: OS Independent",
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Topic :: Scientific/Engineering :: Medical Science Apps.'],
-    zip_safe=False
+    zip_safe=True
 )

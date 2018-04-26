@@ -25,11 +25,8 @@ channels:
   - defaults
 dependencies:
   - nose
-  - pandas
   - pyyaml
   - python
-  - numpy
-  - scipy
   - setuptools
   - sbpiper=1.7.*
   - colorlog             # -c conda-forge

@@ -114,5 +114,6 @@ printf "release a new SBpipe package for pypi.org\n"
 # repository: https://upload.pypi.org/legacy/
 # username: pdp10
 #
+#
 # command
 python setup.py clean build sdist upload --repository=https://upload.pypi.org/legacy/
