@@ -32,17 +32,9 @@
 from setuptools import setup, find_packages
 import os
 
+_this_dir = os.path.dirname(__file__)
+version = open(os.path.join(_this_dir, 'sbpipe', 'VERSION')).read()
 
-version = open(os.path.join('sbpipe', 'VERSION')).read()
-
-def read(filename):
-    """
-    Utility function to read a file.
-
-    :param filename: the name of the file to read
-    :return: the text contained in filename
-    """
-    return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
 setup(
     name='sbpipe',
@@ -67,11 +59,11 @@ setup(
                        'sbpipe = sbpipe.__main__:main'
                    ]
     },
-    url='https://github.com/pdp10/sbpipe',
-    download_url='https://pdp10.github.io/sbpipe',
+    url='http://sbpipe.readthedocs.io',
+    download_url='https://github.com/pdp10/sbpipep',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
     license='LGPL-3.0',
-    long_description=read('README.md'),
+    long_description=open(os.path.join(_this_dir, 'README.md')).read(),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
