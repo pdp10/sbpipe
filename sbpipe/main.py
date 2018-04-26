@@ -68,6 +68,24 @@ def sbpipe_logo():
     return sb_logo
 
 
+def sbpipe_license():
+    """
+    Return sbpipe license.
+
+    :return: sbpipe license
+    """
+    return "GNU Lesser General Public License v3 or later (LGPLv3+)"
+
+
+def sbpipe_version():
+    """
+    Return sbpipe version.
+
+    :return: sbpipe version
+    """
+    return open(os.path.join(os.path.dirname(__file__), 'VERSION')).read()
+
+
 def set_basic_logger(level='INFO'):
     """
     Set a basic StreamHandler logger.
@@ -152,8 +170,18 @@ def set_logger(level='NOTSET', nocolor=False):
         logger.warning('Logging configuration file ' + logging_config_file + ' is missing')
 
 
-def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='', parameter_estimation='',
-           logo=False, license=False, nocolor=False, log_level='', quiet=False, verbose=False):
+def sbpipe(create_project='',
+           simulate='',
+           parameter_scan1='',
+           parameter_scan2='',
+           parameter_estimation='',
+           version=False,
+           logo=False,
+           license=False,
+           nocolor=False,
+           log_level='',
+           quiet=False,
+           verbose=False):
     """
     SBpipe function.
 
@@ -162,6 +190,7 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     :param parameter_scan1: model one parameter scan using a configuration file as argument
     :param parameter_scan2: model two parameters scan using a configuration file as argument
     :param parameter_estimation: model parameter estimation using a configuration file as argument
+    :param version: True to print the version
     :param logo: True to print the logo
     :param license: True to print the license
     :param nocolor: True to print logging messages without colors
@@ -185,8 +214,6 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
 
     logger = logging.getLogger('sbpipe')
 
-    version = open(os.path.join(os.path.dirname(__file__), 'VERSION')).read()
-
     # add platform information
     #logger.debug(platform.machine())
     logger.debug(platform.version())
@@ -194,12 +221,14 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     logger.debug('Python ' + platform.python_version())
     # retrieve the first line from the command output message
     logger.debug(run_cmd('R --version')[0].decode('utf-8').splitlines()[0])
-    logger.debug('SBpipe ' + version)
+    logger.debug('SBpipe ' + sbpipe_version())
 
-    if license:
-        print('GNU LGPL v3')
+    if version:
+        print(sbpipe_version())
     elif logo:
         print(sbpipe_logo())
+    elif license:
+        print(sbpipe_license())
     elif create_project:
         from sbpipe.pl.create.newproj import NewProj
         s = NewProj()
@@ -286,9 +315,7 @@ For complete documentation, see README.md .
     parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
-                        version='%(prog)s ' +
-                        open(os.path.join(os.path.dirname(__file__),
-                                          'VERSION')).read())
+                        version='%(prog)s ' + sbpipe_version())
 
     args = parser.parse_args()
 
@@ -314,7 +341,7 @@ For complete documentation, see README.md .
 
     return sbpipe(create_project=create_project, simulate=simulate,
                   parameter_scan1=parameter_scan1, parameter_scan2=parameter_scan2,
-                  parameter_estimation=parameter_estimation,
+                  parameter_estimation=parameter_estimation, version=False,
                   logo=args.logo, license=args.license, nocolor=args.nocolor,
                   log_level=args.log_level, quiet=args.quiet, verbose=args.verbose)
 
