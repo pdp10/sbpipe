@@ -101,3 +101,22 @@ conda-build conda_recipe/meta.yaml -c pdp10 -c conda-forge -c fbergmann -c defau
 ## uninstall
 # conda remove sbpipe
 
+
+
+# This is not currently working. There is an issue with the requirements in setup.py
+# pip requires that SBpipe's dependencies are defined in setup.py . Said this, it is
+# not installing them correctly.
+
+#printf "release a new SBpipe package for pypi.org\n"
+# Settings for ~/.pypirc file:
+## ~/.pypirc
+# [distutils]
+# index-servers =
+#     pypi
+#
+# [pypi]
+# repository: https://upload.pypi.org/legacy/
+# username: pdp10
+#
+# command
+#python setup.py clean build sdist upload --repository=https://upload.pypi.org/legacy/
