@@ -37,28 +37,35 @@ from sbpipe.sbpipe_config import isPyPackageInstalled
 class TestPythonSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _python = os.path.join('python_models')
+    _python_folder = os.path.join('python_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._python))
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._python_folder))
+        if not isPyPackageInstalled("numpy"):
+            cls._output = "Python numpy not found: SKIP ... "
+        elif not isPyPackageInstalled("scipy"):
+            cls._output = "Python scipy not found: SKIP ... "
+        elif not isPyPackageInstalled("pandas"):
+            cls._output = "Python pandas not found: SKIP ... "
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_sim_python_ir(self):
-        if not isPyPackageInstalled("numpy"):
-            sys.stdout.write("Python numpy not found: SKIP ... ")
-            sys.stdout.flush()
-        elif not isPyPackageInstalled("scipy"):
-            sys.stdout.write("Python scipy not found: SKIP ... ")
-            sys.stdout.flush()
-        elif not isPyPackageInstalled("pandas"):
-            sys.stdout.write("Python pandas not found: SKIP ... ")
-            sys.stdout.flush()
-        else:
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(simulate="insulin_receptor.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

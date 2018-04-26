@@ -37,20 +37,26 @@ import subprocess
 class TestRSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _rscript = os.path.join('r_models')
+    _rscript_folder = os.path.join('r_models')
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript))
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript_folder))
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
 
     def test_sim_r_lotka_volterra(self):
         try:
-            output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
+            output = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -64,8 +70,8 @@ class TestRSim(unittest.TestCase):
 
     def test_sim_r_pde_lotka_volterra(self):
         try:
-            output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
+            output = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -79,8 +85,8 @@ class TestRSim(unittest.TestCase):
 
     def test_stoch_sim_r_periodic_drift(self):
         try:
-            output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"], \
+            output = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -94,8 +100,8 @@ class TestRSim(unittest.TestCase):
 
     def test_stoch_sim_r_cox_ingersoll_ross_process(self):
         try:
-            output = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"], \
+            output = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "sde"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(output):
@@ -109,16 +115,16 @@ class TestRSim(unittest.TestCase):
 
     def test_sim_r(self):
         try:
-            reshape2 = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
+            reshape2 = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            desolve = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
+            desolve = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            minpacklm = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
+            minpacklm = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):

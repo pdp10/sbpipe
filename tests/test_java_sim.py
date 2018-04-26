@@ -37,22 +37,36 @@ import subprocess
 class TestJavaSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _java = os.path.join('java_models')
+    _java_folder = os.path.join('java_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._java))
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._java_folder))
+        try:
+            subprocess.Popen(['java', '-version'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'Java VM not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_java_simqueue_simulation(self):
-        try:
-            subprocess.Popen(['java', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(simulate="simqueue.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no Java Virtual Machine was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -37,74 +37,59 @@ import subprocess
 class TestRPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _rscript = os.path.join('r_models')
+    _rscript_folder = os.path.join('r_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript))
-
-    @classmethod
-    def tearDown(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
-
-    def test_pe_r(self):
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript_folder))
         try:
-            reshape2 = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
+            reshape2 = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            desolve = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
+            desolve = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
-            minpacklm = subprocess.Popen(['Rscript', \
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
+            minpacklm = subprocess.Popen(['Rscript',
+                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):
-                sys.stdout.write("R reshape2 not found: SKIP ... ")
-                sys.stdout.flush()
+                cls._output = "R reshape2 not found: SKIP ... "
             if "FALSE" in str(desolve):
-                sys.stdout.write("R deSolve not found: SKIP ... ")
-                sys.stdout.flush()
+                cls._output = "R deSolve not found: SKIP ... "
             elif "FALSE" in str(minpacklm):
-                sys.stdout.write("R minpack.lm not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml", quiet=True), 0)
+                cls._output = "R minpack.lm not found: SKIP ... "
         except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+            cls._output = "R not found: SKIP ... "
+
+    @classmethod
+    def tearDownClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_pe_r(self):
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     # Commented as it can take too much time on Travis-CI.
-    # def test_insulin_receptor_pe_r(self):
-    #     try:
-    #         reshape2 = subprocess.Popen(['Rscript', \
-    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"], \
-    #                                    stdout=subprocess.PIPE,
-    #                                    stderr=subprocess.PIPE).communicate()[0]
-    #         desolve = subprocess.Popen(['Rscript', \
-    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"], \
-    #                                    stdout=subprocess.PIPE,
-    #                                    stderr=subprocess.PIPE).communicate()[0]
-    #         minpacklm = subprocess.Popen(['Rscript', \
-    #                                    os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"], \
-    #                                    stdout=subprocess.PIPE,
-    #                                    stderr=subprocess.PIPE).communicate()[0]
-    #         if "FALSE" in str(reshape2):
-    #             sys.stdout.write("R reshape2 not found: SKIP ... ")
-    #             sys.stdout.flush()
-    #         if "FALSE" in str(desolve):
-    #             sys.stdout.write("R deSolve not found: SKIP ... ")
-    #             sys.stdout.flush()
-    #         elif "FALSE" in str(minpacklm):
-    #             sys.stdout.write("R minpack.lm not found: SKIP ... ")
-    #             sys.stdout.flush()
-    #         else:
-    #             self.assertEqual(sbmain.sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
-    #     except OSError as e:
-    #         sys.stdout.write("R not found: SKIP ... ")
-    #         sys.stdout.flush()
+    #def test_insulin_receptor_pe_r(self):
+    #   if self._output == 'OK':
+    #       self.assertEqual(sbmain.sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
+    #   else:
+    #       sys.stdout.write(self._output)
+    #       sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

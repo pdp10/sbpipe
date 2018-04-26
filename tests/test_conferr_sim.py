@@ -25,41 +25,75 @@
 
 import os
 import sys
-
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
 import unittest
+import subprocess
 
 
 class TestCopasiSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('config_errors')
-    
-    @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+    _output = 'OK'
 
     @classmethod
-    def tearDown(cls):
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
+
+    @classmethod
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_sim1(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_sim2(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_sim3(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_sim4(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_sim5(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

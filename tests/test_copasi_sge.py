@@ -26,7 +26,6 @@
 import os
 import subprocess
 import sys
-
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
@@ -38,54 +37,70 @@ class TestCopasiSGE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('sge')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
+            return
+        try:
+            subprocess.Popen(['qstat'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'SGE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_stoch_sim_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_stoch_simul.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("SGE not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_pe_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("SGE not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_pe_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("SGE not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps1_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(parameter_scan1="sge_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("SGE not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps2_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(parameter_scan2="sge_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("SGE not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -8,6 +8,7 @@ Website: https://pdp10.github.io/sbpipe/
 
 v4.10.0 (Beyond the Kuiper Belt)
 
+- SBpipe tests no longer require CopasiSE.
 - Documentation update.
 - Added generate_tarball option to all the remaining pipelines in native SBpipe.
 - Improved output messages.

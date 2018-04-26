@@ -41,92 +41,170 @@ class TestBMCSysBio(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('insulin_receptor')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
 
     # Simulation
     def test_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_sim_copasi(self):
-       self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     # 1 parameter scan
     def test_ps1_ci(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_ps1_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_inhib_overexp(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_overexp.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_overexp.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     # 2 parameter scan
     def test_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     # parameter estimation
     def test_pe_copasi1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_param_estim.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_non_identif_param_estim.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="ir_model_non_identif_param_estim.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     # SGE
     def test_stoch_sim_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_stoch_simul.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_stoch_simul.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_pe_copasi_sge(self):
-        try:
-            subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['qstat'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no SGE (Sun Grid Engine) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     # LSF
     def test_stoch_sim_copasi_lsf(self):
-        try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi_lsf(self):
-        try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_pe_copasi_lsf(self):
-        try:
-            subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml", quiet=True), 0)
-        except OSError as e:
-            print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        if self._output == 'OK':
+            try:
+                subprocess.Popen(['bjobs'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+                self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml", quiet=True), 0)
+            except OSError as e:
+                print("Skipping test as no LSF (Load Sharing Facility) was found.")
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

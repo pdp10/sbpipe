@@ -25,53 +25,102 @@
 
 import os
 import sys
-
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
 import unittest
+import subprocess
 
 
 class TestCopasiPS1(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('config_errors')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_ps1_ci1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan1.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan1.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan2.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan2.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci3(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan3.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci4(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan4.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan4.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci5(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan5.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan5.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci6(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan6.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan6.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci7(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan7.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan7.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci8(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan8.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan8.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_ps1_ci9(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan9.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan9.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
 
 if __name__ == '__main__':

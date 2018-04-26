@@ -26,7 +26,7 @@
 import os
 import sys
 import unittest
-
+import subprocess
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
@@ -37,20 +37,42 @@ class TestCopasiPS2(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('copasi_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_ps2_inhib_only(self):
-        self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

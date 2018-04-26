@@ -25,41 +25,75 @@
 
 import os
 import sys
-
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
 import unittest
+import subprocess
 
 
 class TestCopasiPE(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('interrupted')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_pe_copasi1(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim1.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim1.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi2(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim2.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim2.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi3(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim3.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim3.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi4(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim4.yaml", quiet=True), 1)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim4.yaml", quiet=True), 1)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_pe_copasi5(self):
-        self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim5.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(parameter_estimation="interrupted_param_estim5.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

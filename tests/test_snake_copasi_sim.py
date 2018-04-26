@@ -35,35 +35,52 @@ SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 class TestSimSnake(unittest.TestCase):
 
     _orig_wd = os.getcwd()
-    _snakemake = os.path.join('snakemake')
+    _ir_folder = os.path.join('snakemake')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._snakemake))
-
-    @classmethod
-    def tearDown(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
-
-    def test_sim_det_snake(self):
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
+            return
         try:
             subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'snakemake not found: SKIP ... '
+
+    @classmethod
+    def tearDownClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_sim_det_snake(self):
+        if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_det_simul.yaml', cores=7, forceall=True, quiet=True))
-        except OSError as e:
-            sys.stdout.write("snakemake not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_sim_stoch_snake(self):
-        try:
-            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
                 snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_stoch_simul.yaml', cores=7, forceall=True, quiet=True))
-        except OSError as e:
-            sys.stdout.write("snakemake not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

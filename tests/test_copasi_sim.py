@@ -25,36 +25,53 @@
 
 import os
 import sys
-
-
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
-
-
 import unittest
+import subprocess
 
 
 class TestCopasiSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
     _ir_folder = os.path.join('copasi_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        try:
+            subprocess.Popen(['CopasiSE'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'CopasiSE not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml", quiet=True), 0)
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
     def test_stoch_sim_copasi(self):
-        self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml", quiet=True), 0)
-
+        if self._output == 'OK':
+            self.assertEqual(sbmain.sbpipe(simulate="ir_model_stoch_simul.yaml", quiet=True), 0)
+        else:
+            sys.stdout.write(self._output)
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

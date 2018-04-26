@@ -37,23 +37,36 @@ import subprocess
 class TestOctaveSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _octave = os.path.join('octave_models')
+    _octave_folder = os.path.join('octave_models')
+    _output = 'OK'
 
     @classmethod
-    def setUp(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._octave))
+    def setUpClass(cls):
+        os.chdir(os.path.join(SBPIPE, 'tests', cls._octave_folder))
+        try:
+            subprocess.Popen(['octave', '-v'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'Octave not found: SKIP ... '
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
 
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_octave_model_simulation(self):
-        try:
-            subprocess.Popen(['octave', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        if self._output == 'OK':
             self.assertEqual(sbmain.sbpipe(simulate="nonlinear_octave_model_sim.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("Octave not found: SKIP ... ")
+        else:
+            sys.stdout.write(self._output)
             sys.stdout.flush()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
