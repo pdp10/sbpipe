@@ -2,10 +2,10 @@
 include LICENSE
 
 # Include the version file
-include VERSION
+include sbpipe/VERSION
 
 # Include the logging configuration file
-include logging_config.ini
+include sbpipe/logging_config.ini
 
 # Include man pages
 #recursive-include man_pages

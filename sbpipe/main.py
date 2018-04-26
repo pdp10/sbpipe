@@ -68,26 +68,6 @@ def sbpipe_logo():
     return sb_logo
 
 
-def read_file_header(filename):
-    """
-    Read the first line of a file
-
-    :param filename: the file name to read
-    :return: the first line
-    """
-    my_file = os.path.join(SBPIPE, filename)
-    if not os.path.isfile(my_file):
-        import pkg_resources
-        my_file = pkg_resources.resource_filename("sbpipe", filename)
-        if not os.path.isfile(my_file):
-            logging.warning("file "+ filename + " not found")
-            return ""
-    line = ''
-    with open(my_file) as filein:
-        line = filein.readline().strip() + " " + filein.readline().strip()
-    return line
-
-
 def set_basic_logger(level='INFO'):
     """
     Set a basic StreamHandler logger.
@@ -154,7 +134,7 @@ def set_logger(level='NOTSET', nocolor=False):
     if not os.path.exists(os.path.join(home, '.sbpipe', 'logs')):
         os.makedirs(os.path.join(home, '.sbpipe', 'logs'))
     # disable_existing_loggers=False to enable logging for Python third-party packages
-    logging_config_file = os.path.join(SBPIPE, 'logging_config.ini')
+    logging_config_file = os.path.join(os.path.dirname(__file__), 'logging_config.ini')
     if os.path.isfile(logging_config_file):
         try:
             with open(logging_config_file, 'r') as fname:
@@ -205,6 +185,8 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
 
     logger = logging.getLogger('sbpipe')
 
+    version = open(os.path.join(os.path.dirname(__file__), 'VERSION')).read()
+
     # add platform information
     #logger.debug(platform.machine())
     logger.debug(platform.version())
@@ -212,10 +194,10 @@ def sbpipe(create_project='', simulate='', parameter_scan1='', parameter_scan2='
     logger.debug('Python ' + platform.python_version())
     # retrieve the first line from the command output message
     logger.debug(run_cmd('R --version')[0].decode('utf-8').splitlines()[0])
-    logger.debug('SBpipe ' + read_file_header('VERSION'))
+    logger.debug('SBpipe ' + version)
 
     if license:
-        print(read_file_header('LICENSE'))
+        print('GNU LGPL v3')
     elif logo:
         print(sbpipe_logo())
     elif create_project:
@@ -304,7 +286,9 @@ For complete documentation, see README.md .
     parser.add_argument('-V', '--version',
                         help='show the version and exit',
                         action='version',
-                        version='%(prog)s ' + read_file_header('VERSION'))
+                        version='%(prog)s ' +
+                        open(os.path.join(os.path.dirname(__file__),
+                                          'VERSION')).read())
 
     args = parser.parse_args()
 

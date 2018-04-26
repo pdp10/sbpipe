@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.11.0 (Beyond the Kuiper Belt)
+v4.12.0 (Beyond the Kuiper Belt)
 
+- Improved setup.py file for python packaging
 - SBpipe tests no longer require CopasiSE.
 - Documentation update.
 - Added generate_tarball option to all the remaining pipelines in native SBpipe.

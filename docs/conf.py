@@ -88,7 +88,7 @@ copyright = u'2018, Piero Dalle Pezze'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-sbpipe_version = open(os.path.join(SBPIPE, 'VERSION')).read()
+sbpipe_version = open(os.path.join(SBPIPE, 'sbpipe', 'VERSION')).read()
 # The short X.Y version.
 version = sbpipe_version
 # The full version, including alpha/beta/rc tags.

@@ -33,6 +33,8 @@ from setuptools import setup, find_packages
 import os
 
 
+version = open(os.path.join('sbpipe', 'VERSION')).read()
+
 def read(filename):
     """
     Utility function to read a file.
@@ -42,22 +44,24 @@ def read(filename):
     """
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
-
 setup(
     name='sbpipe',
-    packages=find_packages(exclude=['docs', 'tests', 'tests.*']),
-    version=read('VERSION'),
+    packages=find_packages(exclude=['docs']),
+    version=version,
     description='Pipelines for systems modelling of biological networks',
-    author='Dr Piero Dalle Pezze',
+    author='Piero Dalle Pezze',
     author_email='piero.dallepezze@gmail.com',
-    requires=required,
+    install_requires=[
+        "pyyaml",
+        "colorlog",
+    ],
+    tests_require=['nose'],
+    test_suite='tests.test_suite',
     # These files are searched in any SBpipe python package
     include_package_data=True,
-    package_data={'': ['*.r', '*.R']},
-    # These files are outside my packages. They also need to be included in MANIFEST.in
-    data_files=[('.',['VERSION', 'LICENSE', 'logging_config.ini'])],
+    package_data={'': ['*.md', '*.rst', '*.txt', '*.snake',
+                       'VERSION', 'LICENSE'],
+                  'sbpipe': ['logging_config.ini', 'VERSION']},
     entry_points = {
                    'console_scripts': [
                        'sbpipe = sbpipe.__main__:main'
@@ -78,6 +82,5 @@ setup(
         "Operating System :: OS Independent",
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Topic :: Scientific/Engineering :: Medical Science Apps.'],
-    test_suite='tests.test_suite',
     zip_safe=False
 )
