@@ -14,26 +14,9 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# note, texlive can be installed via conda, but still only works for linux/osx machines.
+init:
+	pip install -r requirements.txt
+	Rscript -e "install.packages('sbpiper', dep=TRUE, repos='http://cran.r-project.org')"
 
-name:
-  - sbpipe
-channels:
-  - pdp10
-  - conda-forge
-  - fbergmann
-  - defaults
-dependencies:
-  - nose
-  - pyyaml
-  - python
-  - numpy
-  - scipy
-  - pandas
-  - setuptools
-  - sbpiper=1.7.*
-  - colorlog             # -c conda-forge
-  - python-copasi        # -c fbergmann
-#  - snakemake           (not available on windows) -c bioconda
-#  - texlive-core        (not available on windows) -c pkgw
-#  - texlive-selected    (not available on windows) -c pkgw
+test:
+	nosetests test_suite.py --nocapture

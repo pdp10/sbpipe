@@ -39,10 +39,9 @@ https://cran.r-project.org/package=sbpiper.
 docs
 ~~~~
 
-The folder ``docs/`` contains the documentation for this project. The
-user and developer manuals in markdown format are contained in
-``docs/source``. In order to generate the complete documentation for
-SBpipe, the following packages must be installed:
+The folder ``docs/`` contains the documentation for this project.
+In order to generate the complete documentation for SBpipe, the
+following packages must be installed:
 
 -  python-sphinx
 -  texlive-fonts-recommended
@@ -55,7 +54,7 @@ To generate the source code documentation:
 
 ::
 
-    cd path/to/sbpipe/docs
+    cd sbpipe/docs
     ./create_doc.sh
 
 GitHub and ReadTheDocs.io are automatically configured to build the

@@ -14,6 +14,13 @@ installed. From a GNU/Linux shell, run the following commands:
 
 ::
 
+    # create a new environment `sbpipe`
+    conda create -n sbpipe
+
+    # activate the environment.
+    # For old versions of conda, replace `conda` with `source`.
+    conda activate sbpipe
+
     # install sbpipe and its dependencies (including sbpiper)
     conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
 

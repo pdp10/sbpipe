@@ -76,7 +76,7 @@ New releases
 
 The script ``release.sh`` at the root of the package allows to release a
 new version of SBpipe or update the last github tag. This script also
-creates and uploads a new SBpipe package for Anaconda Cloud.
+creates and uploads a new SBpipe package for Anaconda Cloud and pypi.org .
 
 The following two sections describe how to release a new version for
 SBpipe, manually.

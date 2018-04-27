@@ -38,21 +38,19 @@ version = open(os.path.join(_this_dir, 'sbpipe', 'VERSION')).read()
 
 setup(
     name='sbpipe',
-    packages=find_packages(exclude=['docs']),
+    packages=find_packages(exclude=['docs', 'tests']),
     version=version,
     description='Pipelines for systems modelling of biological networks',
     author='Piero Dalle Pezze',
     author_email='piero.dallepezze@gmail.com',
     install_requires=[
-        "pyyaml",
-        "colorlog",
+        'pyyaml',
+        'colorlog',
     ],
-    tests_require=['nose'],
-    test_suite='tests.test_suite',
     # These files are searched in any SBpipe python package
     include_package_data=True,
     package_data={'': ['*.md', '*.rst', '*.txt', '*.snake',
-                       'VERSION', 'LICENSE'],
+                       'Makefile', 'LICENSE'],
                   'sbpipe': ['logging_config.ini', 'VERSION']},
     entry_points = {
                    'console_scripts': [
@@ -74,5 +72,5 @@ setup(
         "Operating System :: OS Independent",
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Topic :: Scientific/Engineering :: Medical Science Apps.'],
-    zip_safe=True
+    zip_safe=False
 )
