@@ -2,7 +2,11 @@ SBpipe package
 ==============
 
 |Build Status| |Docs Status| |LGPLv3 License| |PyPI version| |Anaconda
-Cloud| |Anaconda-Server Badge| |Anaconda-Server Badge| ## Introduction
+Cloud| |Anaconda-Server Badge| |Anaconda-Server Badge|
+
+Introduction
+------------
+
 SBpipe is an open source software tool for automating repetitive tasks
 in model building and simulation. Using basic YAML configuration files,
 SBpipe builds a sequence of repeated model simulations or parameter
@@ -32,7 +36,6 @@ Systems Biology*. 2017 Apr;11:46. `DOI:10.1186/s12918-017-0423-3`_
 .. figure:: https://github.com/pdp10/sbpipe/blob/master/docs/images/sbpipe_workflow.png
    :alt: SBpipe workflow
 
-   alt text
 
 Issues / Feature requests
 -------------------------
@@ -41,7 +44,7 @@ SBpipe is a relatively young project and there is a chance that some
 error occurs. Issues and feature requests can be notified using the
 github issue tracking system for SBpipe at the web page:
 https://github.com/pdp10/sbpipe/issues. To help us better identify and
-reproduce your problem, some technical info
+reproduce your problem, some technical info.
 
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _HTML: http://sbpipe.readthedocs.io/en/latest/

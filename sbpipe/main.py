@@ -83,7 +83,10 @@ def sbpipe_version():
 
     :return: sbpipe version
     """
-    return open(os.path.join(os.path.dirname(__file__), 'VERSION')).read()
+    version = ""
+    with open(os.path.join(os.path.dirname(__file__), 'VERSION')) as in_file:
+        version = in_file.read()
+    return version
 
 
 def set_basic_logger(level='INFO'):
@@ -271,7 +274,7 @@ Exit status:
 
 Report bugs to sbpipe@googlegroups.com
 SBpipe home page: <https://pdp10.github.io/sbpipe>
-For complete documentation, see README.md .
+For complete documentation, see http://sbpipe.readthedocs.io .
     ''')
 
     parser.add_argument('-c', '--create-project',

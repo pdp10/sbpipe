@@ -33,8 +33,13 @@ from setuptools import setup, find_packages
 import os
 
 _this_dir = os.path.dirname(__file__)
-version = open(os.path.join(_this_dir, 'sbpipe', 'VERSION')).read()
+version = "unknown"
+with open(os.path.join(_this_dir, 'VERSION')) as in_file:
+    version = in_file.read()
 
+long_description = "unknown"
+with open(os.path.join(_this_dir, 'README.rst')) as in_file:
+    long_description = in_file.read()
 
 setup(
     name='sbpipe',
@@ -61,7 +66,7 @@ setup(
     download_url='https://github.com/pdp10/sbpipe',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
     license='LGPL-3.0',
-    long_description=open(os.path.join(_this_dir, 'README.md')).read(),
+    long_description=long_description,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
