@@ -85,7 +85,7 @@ def sbpipe_version():
     """
     version = ""
     with open(os.path.join(os.path.dirname(__file__), 'VERSION')) as in_file:
-        version = in_file.read()
+        version = in_file.read().splitlines()[0]
     return version
 
 
@@ -273,7 +273,7 @@ Exit status:
 1  if trouble (e.g. a pipeline did not execute correctly).
 
 Report bugs to sbpipe@googlegroups.com
-SBpipe home page: <https://pdp10.github.io/sbpipe>
+SBpipe home page: <https://github.com/pdp10/sbpipe>
 For complete documentation, see http://sbpipe.readthedocs.io .
     ''')
 

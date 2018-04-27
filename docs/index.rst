@@ -24,7 +24,7 @@ in a solid and consistent manner, facilitating model development and analysis.
 SBpipe can run models implemented in COPASI, Python or coded in any other programming
 language using Python as a wrapper module.
 Pipelines can run on multicore computers, Sun Grid Engine (SGE), Load Sharing Facility
-(LSF) clusters, or via Snakemake (https://snakemake.readthedocs.io).
+(LSF) clusters, or via Snakemake.
 
 
 **Project info**
@@ -35,7 +35,11 @@ Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
 Home Page: http://sbpipe.readthedocs.io
 
+PyPI: https://pypi.org/project/sbpipe
+
 Anaconda Cloud: https://anaconda.org/pdp10/sbpipe
+
+SBpiper (R dependency for data analysis): https://cran.r-project.org/package=sbpiper
 
 License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
