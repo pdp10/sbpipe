@@ -159,6 +159,7 @@ Unless SBpipe was installed from source, users need to download the source code
 at the page https://github.com/pdp10/sbpipe/releases to run the test suites.
 
 ::
+
     # unzip and change path
     unzip sbpipe-X.Y.Z.zip
     cd sbpipe-X.Y.Z/tests
