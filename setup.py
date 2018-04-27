@@ -34,7 +34,7 @@ import os
 
 _this_dir = os.path.dirname(__file__)
 version = "unknown"
-with open(os.path.join(_this_dir, 'VERSION')) as in_file:
+with open(os.path.join(_this_dir, 'sbpipe', 'VERSION')) as in_file:
     version = in_file.read()
 
 long_description = "unknown"
