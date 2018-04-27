@@ -58,7 +58,7 @@ setup(
                    ]
     },
     url='http://sbpipe.readthedocs.io',
-    download_url='https://github.com/pdp10/sbpipep',
+    download_url='https://github.com/pdp10/sbpipe',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
     license='LGPL-3.0',
     long_description=open(os.path.join(_this_dir, 'README.md')).read(),

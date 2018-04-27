@@ -32,8 +32,10 @@ sys.path.insert(0, SBPIPE)
 
 import sbpipe.main as sbpipe
 
+
 def main(argv=None):
     return sbpipe.main(argv)
+
 
 if __name__ == "__main__":
     sys.exit(main())
