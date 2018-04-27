@@ -18,34 +18,42 @@
 #
 #
 #
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-06-26 22:00:32 $
-#
-#
 # To install: 
 # $ python setup.py install
 #
 # To clean:
 # $ sudo python setup.py clean --all
 
-from setuptools import setup, find_packages
 import os
+import sys
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    print("Please install setuptools before installing sbpipe.",
+          file=sys.stderr)
+    exit(1)
+
 
 _this_dir = os.path.dirname(__file__)
 version = "unknown"
 with open(os.path.join(_this_dir, 'sbpipe', 'VERSION')) as in_file:
-    version = in_file.read()
+    version = in_file.read().splitlines()[0]
 
-long_description = "unknown"
-with open(os.path.join(_this_dir, 'README.rst')) as in_file:
-    long_description = in_file.read()
 
 setup(
     name='sbpipe',
     packages=find_packages(exclude=['docs', 'tests']),
     version=version,
-    description='Pipelines for systems modelling of biological networks',
+    description='Pipelines for systems modelling of biological networks.',
+    long_description=('SBpipe allows mathematical modellers to automatically repeat '
+                      'the tasks of model simulation and parameter estimation, and '
+                      'extract robustness information from these repeat sequences in '
+                      'a solid and consistent manner, facilitating model development '
+                      'and analysis. SBpipe can run models implemented in COPASI, Python '
+                      'or coded in any other programming language using Python as a '
+                      'wrapper module. Pipelines can run on multicore computers, '
+                      'Sun Grid Engine (SGE), Load Sharing Facility (LSF) clusters, '
+                      'or via Snakemake.'),
     author='Piero Dalle Pezze',
     author_email='piero.dallepezze@gmail.com',
     install_requires=[
@@ -57,18 +65,18 @@ setup(
     package_data={'': ['*.md', '*.rst', '*.txt', '*.snake',
                        'Makefile', 'LICENSE'],
                   'sbpipe': ['logging_config.ini', 'VERSION']},
-    entry_points = {
-                   'console_scripts': [
-                       'sbpipe = sbpipe.__main__:main'
-                   ]
+    entry_points={
+                  'console_scripts': [
+                      'sbpipe = sbpipe.__main__:main'
+                  ]
     },
     url='http://sbpipe.readthedocs.io',
     download_url='https://github.com/pdp10/sbpipe',
     keywords=['systems biology', 'mathematical modelling', 'pipeline'],
     license='LGPL-3.0',
-    long_description=long_description,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Console',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
         'Natural Language :: English',
