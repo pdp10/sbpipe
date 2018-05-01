@@ -67,8 +67,8 @@ install:
   - conda env create --name sbpipe --file environment.yaml
   - source activate sbpipe
 
-  # install sbpipe using conda build (which internally runs `python setup.py install`)
-  - conda build conda_recipe/meta_travis.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
+  # install sbpipe using conda-build (which internally runs `python setup.py install`)
+  - conda-build conda_recipe/meta_travis.yaml -c pdp10 -c conda-forge -c fbergmann -c defaults
   - conda install sbpipe --use-local
 
 
