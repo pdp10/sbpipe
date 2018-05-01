@@ -121,14 +121,14 @@ class TestSuite(unittest.TestCase):
 
         if self._output == 'OK':
             # Run Snakemake tests
-            suite_snake_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_pe.TestPeSnake)
             suite_snake_copasi_sim = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_sim.TestSimSnake)
+            suite_snake_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_pe.TestPeSnake)
             suite_snake_copasi_ps1 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps1.TestPs1Snake)
             suite_snake_copasi_ps2 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps2.TestPs2Snake)
 
             # combine all the test suites
-            suite = unittest.TestSuite([suite_snake_copasi_pe,
-                                        suite_snake_copasi_sim,
+            suite = unittest.TestSuite([suite_snake_copasi_sim,
+                                        suite_snake_copasi_pe,
                                         suite_snake_copasi_ps1,
                                         suite_snake_copasi_ps2,
                                         suite_copasi_sim,
