@@ -74,7 +74,7 @@ class TestSuite(unittest.TestCase):
             cls._output = 'git was not found. SKIP snakemake tests'
             return
         print('retrieving Snakemake workflows for SBpipe')
-        git_retrieve('http://github.com/pdp10/sbpipe_snake.git')
+        git_retrieve('https://github.com/pdp10/sbpipe_snake.git')
         source = os.listdir(sbpipe_snake_folder)
         destination = os.getcwd()
         for f in source:

@@ -50,7 +50,7 @@ def main(args=None):
     if which('mvn') is None:
         print('Error: mvn was not found. Quit')
         return
-    git_retrieve('http://github.com/pdp10/simqueue.git')
+    git_retrieve('https://github.com/pdp10/simqueue.git')
     compile_simqueue()
     print('cleanup!')
     rmtree(os.path.join('.', 'simqueue'), ignore_errors=True)
