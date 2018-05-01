@@ -55,20 +55,3 @@ def pe_parameter_pca_analysis(model_name,
     logger.debug(command)
     run_cmd(command)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model-name')
-    parser.add_argument('--filename')
-    parser.add_argument('--plots-dir')
-    parser.add_argument('--best-fits-percent')
-    args = parser.parse_args()
-    pe_parameter_pca_analysis(args.model_name,
-                              args.filename,
-                              args.plots_dir,
-                              args.best_fits_percent)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

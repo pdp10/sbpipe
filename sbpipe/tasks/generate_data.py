@@ -15,12 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
 
 import os
 import sys
@@ -69,18 +63,3 @@ def generate_data(infile, copasi=False):
     else:
         run_generic_model(infile)
 
-
-# python generate_data.py -i preproc/insulin_receptor.cps -c
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input-file')
-    parser.add_argument('-c', '--copasi', action='store_true')
-    args = parser.parse_args()
-    generate_data(args.input_file,
-                  args.copasi)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

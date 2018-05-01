@@ -64,26 +64,3 @@ def pe_sampled_ple_analysis(model_name,
     logger.debug(command)
     run_cmd(command)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model-name')
-    parser.add_argument('--filename')
-    parser.add_argument('--parameter')
-    parser.add_argument('--plots-dir')
-    parser.add_argument('--fileout-param-estim-summary')
-    parser.add_argument('--logspace')
-    parser.add_argument('--scientific-notation')
-    args = parser.parse_args()
-    pe_sampled_ple_analysis(args.model_name,
-                            args.filename,
-                            args.parameter,
-                            args.plots_dir,
-                            args.fileout_param_estim_summary,
-                            args.logspace,
-                            args.scientific_notation)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

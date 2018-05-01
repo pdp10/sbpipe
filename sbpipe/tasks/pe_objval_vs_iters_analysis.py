@@ -52,18 +52,3 @@ def pe_objval_vs_iters_analysis(model_name,
     logger.debug(command)
     run_cmd(command)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model-name')
-    parser.add_argument('--filename')
-    parser.add_argument('--plots-dir')
-    args = parser.parse_args()
-    pe_objval_vs_iters_analysis(args.model_name,
-                                args.filename,
-                                args.plots_dir)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

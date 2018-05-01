@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
+
 
 
 import os
@@ -62,21 +57,3 @@ def sim_analyse_summarise_data(inputdir,
     run_cmd(command)
 
 
-# this is a Python wrapper for sim analysis in R.
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--inputdir')
-    parser.add_argument('-m', '--model')
-    parser.add_argument('--outputfile_repeats')
-    parser.add_argument('--variable')
-
-    args = parser.parse_args()
-    sim_analyse_summarise_data(args.inputdir,
-                               args.model,
-                               args.outputfile_repeats,
-                               args.variable)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

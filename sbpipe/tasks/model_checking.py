@@ -15,12 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
 
 
 import os
@@ -56,18 +50,3 @@ def model_checking(infile, fileout, task_name):
 
     return copasi.model_checking(infile, fileout, task_name)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input-file')
-    parser.add_argument('-o', '--output-file')
-    parser.add_argument('-t', '--task-name')
-    args = parser.parse_args()
-    model_checking(args.input_file,
-                   args.output_file,
-                   args.task_name)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

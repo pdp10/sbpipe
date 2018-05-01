@@ -15,12 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
 
 import os
 import sys
@@ -81,36 +75,3 @@ def ps1_analyse_plot(model_name,
     logger.debug(command)
     run_cmd(command)
 
-
-# this is a Python wrapper for ps1 analysis in R.
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--model')
-    parser.add_argument('--inhibition-only')
-    parser.add_argument('--inputdir')
-    parser.add_argument('--outputdir')
-    parser.add_argument('--repeat', type=int, nargs='+')
-    parser.add_argument('--percent-levels')
-    parser.add_argument('--min-level')
-    parser.add_argument('--max-level')
-    parser.add_argument('--levels-number')
-    parser.add_argument('--xaxis-label')
-    parser.add_argument('--yaxis-label')
-
-    args = parser.parse_args()
-    ps1_analyse_plot(args.model,
-                     args.inhibition_only,
-                     args.inputdir,
-                     args.outputdir,
-                     args.repeat,
-                     args.percent_levels,
-                     args.min_level,
-                     args.max_level,
-                     args.levels_number,
-                     args.xaxis_label,
-                     args.yaxis_label)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

@@ -71,24 +71,3 @@ def pe_ds_preproc(filename,
     logger.debug(command)
     run_cmd(command)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--filename')
-    parser.add_argument('--param-names')
-    parser.add_argument('--logspace')
-    parser.add_argument('--allfits')
-    parser.add_argument('--data-point-num')
-    parser.add_argument('--fileout-param-estim-summary')
-    args = parser.parse_args()
-    pe_ds_preproc(args.filename,
-                  args.param_names,
-                  args.logspace,
-                  args.allfits,
-                  args.data_point_num,
-                  args.fileout_param_estim_summary)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
+
 
 
 import os
@@ -81,31 +76,3 @@ def sim_analyse_plot_comb_sims(inputdir,
     run_cmd(command)
 
 
-# this is a Python wrapper for sim analysis in R.
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--inputdir')
-    parser.add_argument('--outputdir')
-    parser.add_argument('-m', '--model')
-    parser.add_argument('--exp-dataset')
-    parser.add_argument('--plot-exp-dataset')
-    parser.add_argument('--exp-dataset-alpha')
-    parser.add_argument('--xaxis-label')
-    parser.add_argument('--yaxis-label')
-    parser.add_argument('--variable')
-
-    args = parser.parse_args()
-    sim_analyse_plot_comb_sims(args.inputdir,
-                               args.outputdir,
-                               args.model,
-                               args.exp_dataset,
-                               args.plot_exp_dataset,
-                               args.exp_dataset_alpha,
-                               args.xaxis_label,
-                               args.yaxis_label,
-                               args.variable)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

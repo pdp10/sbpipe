@@ -15,12 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
 
 
 import os
@@ -66,22 +60,3 @@ def pe_collect(inputdir,
         import traceback
         logger.debug(traceback.format_exc())
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--inputdir')
-    parser.add_argument('-o', '--outputdir')
-    parser.add_argument('--finalfits-file')
-    parser.add_argument('--allfits-file')
-    parser.add_argument('-c', '--copasi', action="store_true")
-    args = parser.parse_args()
-    pe_collect(args.inputdir,
-               args.outputdir,
-               args.finalfits_file,
-               args.allfits_file,
-               args.copasi)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

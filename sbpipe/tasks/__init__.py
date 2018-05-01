@@ -15,9 +15,4 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Author: Piero Dalle Pezze $
-# $Date: 2017-03-24 22:14:32 $
 

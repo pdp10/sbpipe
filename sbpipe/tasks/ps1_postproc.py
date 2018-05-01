@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
+
 
 
 import os
@@ -183,24 +178,3 @@ def ps1_postproc(infile,
     """
     generic_postproc(infile, outfile, scanned_par, simulate_intervals, single_param_scan_intervals, copasi)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input-file')
-    parser.add_argument('-o', '--output-file')
-    parser.add_argument('-a', '--scanned-par')
-    parser.add_argument('-s', '--sim-intervals', default=1)
-    parser.add_argument('-p', '--ps1-intervals', default=1)
-    parser.add_argument('-c', '--copasi', action="store_true")
-    args = parser.parse_args()
-    ps1_postproc(args.input_file,
-                 args.output_file,
-                 args.scanned_par,
-                 int(args.sim_intervals),
-                 int(args.ps1_intervals),
-                 args.copasi)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

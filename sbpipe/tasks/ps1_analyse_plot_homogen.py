@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-01 15:43:32 $
+
 
 import os
 import sys
@@ -65,26 +60,3 @@ def ps1_analyse_plot_homogen(model_name,
     logger.debug(command)
     run_cmd(command)
 
-
-# this is a Python wrapper for ps1 analysis in R.
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--model')
-    parser.add_argument('--inputdir')
-    parser.add_argument('--outputdir')
-    parser.add_argument('--repeat', type=int, nargs='+')
-    parser.add_argument('--xaxis-label')
-    parser.add_argument('--yaxis-label')
-
-    args = parser.parse_args()
-    ps1_analyse_plot_homogen(args.model,
-                             args.inputdir,
-                             args.outputdir,
-                             args.repeat,
-                             args.xaxis_label,
-                             args.yaxis_label)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

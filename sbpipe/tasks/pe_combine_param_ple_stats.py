@@ -49,16 +49,3 @@ def pe_combine_param_ple_stats(plots_dir,
     logger.debug(command)
     run_cmd(command)
 
-
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--plots-dir')
-    parser.add_argument('--fileout-param-estim-details')
-    args = parser.parse_args()
-    pe_combine_param_ple_stats(args.plots_dir,
-                         args.fileout_param_estim_details)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
