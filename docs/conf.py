@@ -52,8 +52,6 @@ extensions = [
 # install `sphinx-autoapi` for adding the source code documentation to the main manual.
 # At the moment this is skipped as the getting_started does not work on readthedocs.io .
     'autoapi.extension',
-# To convert svg to images that can be processed by LaTeX.
-    #'sphinx.ext.imgconverter',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode'
@@ -88,7 +86,7 @@ copyright = u'2018, Piero Dalle Pezze'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-sbpipe_version = open(os.path.join(SBPIPE, 'sbpipe', 'VERSION')).read()
+sbpipe_version = open(os.path.join(SBPIPE, 'sbpipe', 'VERSION')).read().splitlines()[0]
 # The short X.Y version.
 version = sbpipe_version
 # The full version, including alpha/beta/rc tags.

@@ -63,16 +63,17 @@ setup(
     # These files are searched in any SBpipe python package
     include_package_data=True,
     package_data={'': ['*.md', '*.rst', '*.txt', '*.snake',
-                       'Makefile', 'LICENSE'],
+                       'Makefile', 'LICENSE', 'CHANGELOG'],
                   'sbpipe': ['logging_config.ini', 'VERSION']},
     entry_points={
                   'console_scripts': [
-                      'sbpipe = sbpipe.__main__:main'
+                      'sbpipe = sbpipe.__main__:main',
+                      'sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main'
                   ]
     },
     url='http://sbpipe.readthedocs.io',
     download_url='https://github.com/pdp10/sbpipe',
-    keywords=['systems biology', 'mathematical modelling', 'pipeline'],
+    keywords=['simulation', 'parameter-estimation', 'modelling', 'pipeline'],
     license='LGPL-3.0',
     classifiers=[
         'Development Status :: 5 - Production/Stable',

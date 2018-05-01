@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.15.0 (Beyond the Kuiper Belt)
+v4.16.0 (Beyond the Kuiper Belt)
 
+- Added script for moving data sets and update indexes.
 - Project and documentation clean-up.
 - SBpipe is now available on pypi.org.
 - Improved setup.py file for python packaging
