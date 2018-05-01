@@ -45,15 +45,15 @@ class TestRPE(unittest.TestCase):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript_folder))
         try:
             reshape2 = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "reshape2"],
+                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "reshape2"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             desolve = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
+                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "deSolve"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             minpacklm = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "minpack.lm"],
+                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "minpack.lm"],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE).communicate()[0]
             if "FALSE" in str(reshape2):
