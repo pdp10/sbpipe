@@ -275,21 +275,30 @@ Additional examples of configuration files can be found in:
 
    SBpipe native workflow
 
-Run SBpipe via Snakemake
-~~~~~~~~~~~~~~~~~~~~~~~~
+Snakemake workflows for SBpipe
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SBpipe pipelines can also be executed using
 `Snakemake <https://snakemake.readthedocs.io>`__. Snakemake offers an
 infrastructure for running computational pipelines using declarative
 rules.
 
-Snakemake can be installed manually via package manager or using the
-conda command:
+Snakemake can be installed via
 
 ::
 
-    # Install snakemake (note: it requires python 3+ to run)
+    # Python pip
+    pip install snakemake
+    # or via conda:
     conda install -c bioconda snakemake
+
+The Snakemake workflows for SBpipe can be retrieved as follows:
+
+::
+
+    # clone workflow into working directory
+    git clone https://github.com/pdp10/sbpipe_snake.git path/to/workdir
+    cd path/to/workdir
 
 SBpipe pipelines for parameter estimation, single/double parameter scan,
 and model simulation are also implemented as snakemake files (which
@@ -300,8 +309,7 @@ contain the set of rules for each pipeline). These are:
 -  sbpipe_ps2.snake
 -  sbpipe_sim.snake
 
-and are stored on the root folder of SBpipe. The advantage of using
-snakemake as pipeline infrastructure is that it offers an extended
+The advantage of using snakemake as pipeline infrastructure is that it offers an extended
 command sets compared to the one provided with the standard sbpipe. For
 details, run
 
@@ -316,7 +324,7 @@ is the capacity of a program to continue from the last interrupted task.
 Benefitting of dependency declaration and execution reentrancy can be
 beneficial for running SBpipe on clusters or on the cloud.
 
-Under the current implementation of SBpipe snakefile, the configuration
+Under the current implementation of SBpipe using Snakemake, the configuration
 files described above require the additional field:
 
 ::
@@ -324,7 +332,7 @@ files described above require the additional field:
     # The name of the report variables
     report_variables: ['IR_beta_pY1146']
 
-which contain the names of the variables exported by the simulator. For
+which contains the names of the variables exported by the simulator. For
 the parameter estimation pipeline, ``report_variables`` will contain the
 names of the estimated parameters.
 
@@ -371,17 +379,17 @@ Examples of commands running SBpipe pipelines using Snakemake are:
 ::
 
     # run model simulation
-    snakemake -s path/to/sbpipe/sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
+    snakemake -s sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml --cores 7
 
     # run model parameter estimation using 40 jobs on an SGE cluster.
     # snakemake waits for output files for 100 s.
-    snakemake -s path/to/sbpipe/sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml --latency-wait 100 -j 40 --cluster "qsub -cwd -V -S /bin/sh"
+    snakemake -s sbpipe_pe.snake --configfile SBPIPE_CONFIG_FILE.yaml --latency-wait 100 -j 40 --cluster "qsub -cwd -V -S /bin/sh"
 
     # run model parameter parameter scan using 5 jobs
-    snakemake -s path/to/sbpipe/sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 5 --cluster "bsub"
+    snakemake -s sbpipe_ps1.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 5 --cluster "bsub"
 
     # run model parameter parameter scan using 5 jobs
-    snakemake -s path/to/sbpipe/sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 1 --cluster "qsub"
+    snakemake -s sbpipe_ps2.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 1 --cluster "qsub"
 
 If the grid engine supports DRMAA, it can be convenient to use Snakemake
 with the option ``--drmaa``.
@@ -407,7 +415,7 @@ Snakemake can now be executed using drmaa as follows:
 
 ::
 
-    snakemake -s ../../sbpipe_sim.snake --configfile ir_model_stoch_simul.yaml -j 200 --latency-wait 100 --drmaa " -cwd -V -S /bin/sh"
+    snakemake -s sbpipe_sim.snake --configfile SBPIPE_CONFIG_FILE.yaml -j 200 --latency-wait 100 --drmaa " -cwd -V -S /bin/sh"
 
 See ``snakemake -h`` for a complete list of commands.
 
@@ -417,24 +425,22 @@ and allows for additional controls and resiliance.
 .. figure:: ../images/sbpipe_pe_snake_dag.png
    :alt: snakemake1
 
-   Workflow for SBpipe pipeline ``parameter estimation`` using Snakemake
+   Snakemake workflow for SBpipe pipeline ``parameter estimation``
 
 .. figure:: ../images/sbpipe_sim_snake_dag.png
    :alt: snakemake2
 
-   Workflow for SBpipe pipeline ``simulation`` using Snakemake
+   Snakemake workflow for SBpipe pipeline ``simulation``
 
 .. figure:: ../images/sbpipe_ps1_snake_dag.png
    :alt: snakemake3
 
-   Workflow for SBpipe pipeline ``single parameter scan`` using
-   Snakemake
+   Snakemake workflow for SBpipe pipeline ``single parameter scan``
 
 .. figure:: ../images/sbpipe_ps2_snake_dag.png
    :alt: snakemake4
 
-   Workflow for SBpipe pipeline ``double parameter scan`` using
-   Snakemake
+   Snakemake workflow for SBpipe pipeline ``double parameter scan``
 
 Configuration for the mathematical models
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

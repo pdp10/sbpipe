@@ -26,6 +26,7 @@ import glob
 import logging
 import os
 import re
+import subprocess
 
 logger = logging.getLogger('sbpipe')
 
@@ -155,3 +156,36 @@ def remove_file_silently(filename):
     except OSError:
         pass
 
+
+def git_pull(repo_name):
+    """
+    Pull a git repository.
+
+    :param repo_name: the repository to pull
+    """
+    orig_wd = os.getcwd()
+    os.chdir(os.path.join(repo_name))
+    subprocess.Popen(['git','pull']).communicate()[0]
+    os.chdir(os.path.join(orig_wd))
+
+
+def git_clone(repo):
+    """
+    Clone a git repository.
+
+    :param repo: the repository to clone
+    """
+    subprocess.Popen(['git','clone', repo]).communicate()[0]
+
+
+def git_retrieve(repo):
+    """
+    Clone or pull a git repository.
+
+    :param repo: the repository to clone or pull
+    """
+    repo_name = os.path.splitext(os.path.basename(repo))[0]
+    if os.path.isdir(repo_name):
+        git_pull(repo_name)
+    else:
+        git_clone(repo)

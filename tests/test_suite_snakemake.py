@@ -24,6 +24,7 @@
 
 import os
 import sys
+import shutil
 import unittest
 
 # retrieve SBpipe package path
@@ -35,22 +36,49 @@ import tests.test_snake_copasi_sim as snake_copasi_sim
 import tests.test_snake_copasi_ps1 as snake_copasi_ps1
 import tests.test_snake_copasi_ps2 as snake_copasi_ps2
 
+from sbpipe.sbpipe_config import which
+from sbpipe.utils.io import git_retrieve
+
 
 class TestSuite(unittest.TestCase):
 
+    _output = 'OK'
+
+    @classmethod
+    def setUpClass(cls):
+        sbpipe_snake_folder = 'sbpipe_snake'
+        orig_wd = os.getcwd()
+        os.chdir('snakemake')
+        if which('git') is None and os.path.isdir(sbpipe_snake_folder):
+            cls._output = 'git was not found. SKIP snakemake tests'
+            return
+        print('retrieving Snakemake workflows for SBpipe')
+        git_retrieve('http://github.com/pdp10/sbpipe_snake.git')
+        source = os.listdir(sbpipe_snake_folder)
+        destination = os.getcwd()
+        for f in source:
+            if f.endswith('.snake'):
+                shutil.move(os.path.join(os.path.abspath(sbpipe_snake_folder), f),
+                            os.path.join(destination, f))
+        shutil.rmtree(sbpipe_snake_folder)
+        os.chdir(orig_wd)
+
     def test_suites(self):
 
-        # Run Snakemake tests
-        suite_snake_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_pe.TestPeSnake)
-        suite_snake_copasi_sim = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_sim.TestSimSnake)
-        suite_snake_copasi_ps1 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps1.TestPs1Snake)
-        suite_snake_copasi_ps2 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps2.TestPs2Snake)
+        if self._output == 'OK':
+            # Run Snakemake tests
+            suite_snake_copasi_pe = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_pe.TestPeSnake)
+            suite_snake_copasi_sim = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_sim.TestSimSnake)
+            suite_snake_copasi_ps1 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps1.TestPs1Snake)
+            suite_snake_copasi_ps2 = unittest.TestLoader().loadTestsFromTestCase(snake_copasi_ps2.TestPs2Snake)
 
-        # combine all the test suites
-        suite = unittest.TestSuite([suite_snake_copasi_pe,
-                                    suite_snake_copasi_sim,
-                                    suite_snake_copasi_ps1,
-                                    suite_snake_copasi_ps2])
+            # combine all the test suites
+            suite = unittest.TestSuite([suite_snake_copasi_pe,
+                                        suite_snake_copasi_sim,
+                                        suite_snake_copasi_ps1,
+                                        suite_snake_copasi_ps2])
+        else:
+            suite = unittest.TestSuite()
 
         # run the combined test suite
         self.assertTrue(unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful())

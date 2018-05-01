@@ -67,7 +67,11 @@ class TestPs1Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_k1_scan.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps1.snake',
+                          configfile='ir_model_k1_scan.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -76,7 +80,11 @@ class TestPs1Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps1.snake',
+                          configfile='ir_model_ir_beta_inhib.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -85,7 +93,11 @@ class TestPs1Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_overexp.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps1.snake',
+                          configfile='ir_model_ir_beta_inhib_overexp.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -94,7 +106,11 @@ class TestPs1Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps1.snake'), configfile='ir_model_ir_beta_inhib_stoch.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps1.snake',
+                          configfile='ir_model_ir_beta_inhib_stoch.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

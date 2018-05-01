@@ -66,7 +66,11 @@ class TestPeSnake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_pe.snake'), configfile='ir_model_param_estim.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_pe.snake',
+                          configfile='ir_model_param_estim.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -75,7 +79,11 @@ class TestPeSnake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_pe.snake'), configfile='ir_model_non_identif_param_estim.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_pe.snake',
+                          configfile='ir_model_non_identif_param_estim.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

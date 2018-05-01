@@ -26,14 +26,8 @@ from shutil import copy2, rmtree
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 from sbpipe.sbpipe_config import which
+from sbpipe.utils.io import git_retrieve
 
-
-def get_simqueue():
-    """
-    Retrieve simqueue
-    """
-    subprocess.Popen(['git','clone', 'https://github.com/pdp10/simqueue.git']).communicate()[0]
-    print("\n")
 
 def compile_simqueue():
     """
@@ -48,13 +42,6 @@ def compile_simqueue():
     os.chdir(orig_wd)
     copy2(os.path.join('.', 'simqueue', 'target', 'simqueue-devel-jar-with-dependencies.jar'), orig_wd)
 
-def cleanup():
-    """
-    Cleanup simqueue
-    """
-    print('cleanup!')
-    rmtree(os.path.join('.', 'simqueue'), ignore_errors=True)
-
 
 def main(args=None):
     if which('git') is None:
@@ -63,9 +50,10 @@ def main(args=None):
     if which('mvn') is None:
         print('Error: mvn was not found. Quit')
         return
-    get_simqueue()
+    git_retrieve('http://github.com/pdp10/simqueue.git')
     compile_simqueue()
-    cleanup()
+    print('cleanup!')
+    rmtree(os.path.join('.', 'simqueue'), ignore_errors=True)
 
 
 if __name__ == "__main__":

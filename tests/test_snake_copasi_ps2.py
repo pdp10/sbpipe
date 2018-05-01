@@ -67,7 +67,11 @@ class TestPs2Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps2.snake',
+                          configfile='ir_model_insulin_ir_beta_dbl_inhib.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -76,7 +80,11 @@ class TestPs2Snake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_ps2.snake'), configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_ps2.snake',
+                          configfile='ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

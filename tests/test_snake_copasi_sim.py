@@ -67,7 +67,11 @@ class TestSimSnake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_det_simul.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_sim.snake',
+                          configfile='ir_model_det_simul.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -76,7 +80,11 @@ class TestSimSnake(unittest.TestCase):
         if self._output == 'OK':
             from snakemake import snakemake
             self.assertTrue(
-                snakemake(os.path.join(SBPIPE, 'sbpipe_sim.snake'), configfile='ir_model_stoch_simul.yaml', cores=7, forceall=True, quiet=True))
+                snakemake(snakefile='sbpipe_sim.snake',
+                          configfile='ir_model_stoch_simul.yaml',
+                          cores=7,
+                          forceall=True,
+                          quiet=True))
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
