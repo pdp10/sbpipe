@@ -58,8 +58,8 @@ install:
   - conda info -a
 
   # install conda build in order to build the conda package for SBpipe
-  #- conda install conda-build
-  #- conda config --set anaconda_upload no
+  - conda install conda-build
+  - conda config --set anaconda_upload no
 
   # install SBpipe. R code for SBpipe (sbpiper) is retrieved
   # from Anaconda Cloud as dependencies.
