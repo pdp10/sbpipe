@@ -91,7 +91,7 @@ rule sbpipe_model_checking:
         write_mat_on_file(output.file,
                           ['No control was performed on this model.'])
         if COPASI:
-            from sbpipe.tasks.model_checking import model_checking
+            from sbpipe.snakemake.model_checking import model_checking
             model_checking(input.file,
                            output.file,
                            'Scan')
@@ -104,7 +104,7 @@ rule sbpipe_preproc:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
-        from sbpipe.tasks.preproc import preproc
+        from sbpipe.snakemake.preproc import preproc
         preproc(input.file,
                 output.file,
                 COPASI)
@@ -116,7 +116,7 @@ rule sbpipe_gen_data:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
-        from sbpipe.tasks.generate_data import generate_data
+        from sbpipe.snakemake.data_generation import generate_data
         generate_data(input.file,
                       COPASI)
 
@@ -131,7 +131,7 @@ rule sbpipe_ps1_postproc:
         sim_intervals=config["simulate__intervals"],
         ps1_intervals=config["levels_number"]
     run:
-        from sbpipe.tasks.ps1_postproc import ps1_postproc
+        from sbpipe.snakemake.ps1_postproc import ps1_postproc
         ps1_postproc(input.file,
                      output.file,
                      params.scanned_par,
@@ -160,7 +160,7 @@ rule sbpipe_ps1_analysis_plot:
         yaxis_label=config["yaxis_label"]
     run:
         if params.homogeneous_lines:
-            from sbpipe.tasks.ps1_analyse_plot_homogen import ps1_analyse_plot_homogen
+            from sbpipe.snakemake.ps1_analysis import ps1_analyse_plot_homogen
             ps1_analyse_plot_homogen(params.model_name,
                                      params.inputdir,
                                      params.outputdir,
@@ -168,7 +168,7 @@ rule sbpipe_ps1_analysis_plot:
                                      params.xaxis_label,
                                      params.yaxis_label)
         else:
-            from sbpipe.tasks.ps1_analyse_plot import ps1_analyse_plot
+            from sbpipe.snakemake.ps1_analysis import ps1_analyse_plot
             ps1_analyse_plot(params.model_name,
                              str(params.inhibition_only),
                              params.inputdir,

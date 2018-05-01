@@ -114,7 +114,7 @@ rule sbpipe_model_checking:
         write_mat_on_file(output.file,
                           ['No control was performed on this model.'])
         if COPASI:
-            from sbpipe.tasks.model_checking import model_checking
+            from sbpipe.snakemake.model_checking import model_checking
             model_checking(input.file,
                            output.file,
                            'Parameter Estimation')
@@ -127,7 +127,7 @@ rule sbpipe_preproc:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
-        from sbpipe.tasks.preproc import preproc
+        from sbpipe.snakemake.preproc import preproc
         preproc(input.file,
                 output.file,
                 COPASI)
@@ -140,7 +140,7 @@ rule sbpipe_gen_data:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
-        from sbpipe.tasks.generate_data import generate_data
+        from sbpipe.snakemake.data_generation import generate_data
         generate_data(input.file,
                       COPASI)
 
@@ -151,7 +151,7 @@ rule sbpipe_pe_postproc:
     output:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
-        from sbpipe.tasks.pe_postproc import pe_postproc
+        from sbpipe.snakemake.pe_postproc import pe_postproc
         pe_postproc(input.file,
                     output.file,
                     COPASI)
@@ -167,7 +167,7 @@ rule sbpipe_pe_collect:
         inputdir=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER),
         outputdir=WORKING_FOLDER
     run:
-        from sbpipe.tasks.pe_collect import pe_collect
+        from sbpipe.snakemake.pe_collection import pe_collect
         pe_collect(params.inputdir,
                    params.outputdir,
                    os.path.basename(output.file_best_fits),
@@ -184,7 +184,7 @@ rule sbpipe_pe_ds_preproc_final_estims:
         logspace=config['logspace'],
         all_fits=False
     run:
-        from sbpipe.tasks.pe_ds_preproc import pe_ds_preproc
+        from sbpipe.snakemake.pe_analysis import pe_ds_preproc
         pe_ds_preproc(input.file,
                       params.param_names,
                       params.logspace,
@@ -203,7 +203,7 @@ rule sbpipe_pe_ds_preproc_all_estims:
         all_fits=True,
         data_point_num=config['data_point_num']
     run:
-        from sbpipe.tasks.pe_ds_preproc import pe_ds_preproc
+        from sbpipe.snakemake.pe_analysis import pe_ds_preproc
         pe_ds_preproc(input.file,
                       params.param_names,
                       params.logspace,
@@ -226,7 +226,7 @@ rule sbpipe_pe_sampled_ple_analysis:
         logspace=config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_sampled_ple_analysis import pe_sampled_ple_analysis
+        from sbpipe.snakemake.pe_analysis import pe_sampled_ple_analysis
         pe_sampled_ple_analysis(params.model,
                                 input.file_all_fits,
                                 params.parameter,
@@ -244,7 +244,7 @@ rule sbpipe_pe_combine_param_ple_stats:
     params:
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER)
     run:
-        from sbpipe.tasks.pe_combine_param_ple_stats import pe_combine_param_ple_stats
+        from sbpipe.snakemake.pe_analysis import pe_combine_param_ple_stats
         pe_combine_param_ple_stats(params.plots_dir,
                                    output.file_param_estim_details)
 
@@ -264,7 +264,7 @@ rule sbpipe_parameter_density_analysis_final_estim:
         logspace = config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+        from sbpipe.snakemake.pe_analysis import pe_parameter_density_analysis
         pe_parameter_density_analysis(params.model,
                                       input.file_best_fits,
                                       params.parameter,
@@ -284,7 +284,7 @@ rule sbpipe_pe_combine_param_best_fits_stats:
     params:
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER)
     run:
-        from sbpipe.tasks.pe_combine_param_best_fits_stats import pe_combine_param_best_fits_stats
+        from sbpipe.snakemake.pe_analysis import pe_combine_param_best_fits_stats
         pe_combine_param_best_fits_stats(params.plots_dir,
                                          output.file_param_estim_best_fits_details)
 
@@ -299,7 +299,7 @@ rule sbpipe_parameter_pca_analysis_final_estim:
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER),
         best_fits_percent = config['best_fits_percent']
     run:
-        from sbpipe.tasks.pe_parameter_pca_analysis import pe_parameter_pca_analysis
+        from sbpipe.snakemake.pe_analysis import pe_parameter_pca_analysis
         pe_parameter_pca_analysis(params.model,
                                   input.file_best_fits,
                                   params.plots_dir,
@@ -322,7 +322,7 @@ rule sbpipe_parameter_density_analysis_cl66_fits_estim:
         logspace = config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+        from sbpipe.snakemake.pe_analysis import pe_parameter_density_analysis
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
@@ -350,7 +350,7 @@ rule sbpipe_parameter_density_analysis_cl95_fits_estim:
         logspace = config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+        from sbpipe.snakemake.pe_analysis import pe_parameter_density_analysis
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
@@ -378,7 +378,7 @@ rule sbpipe_parameter_density_analysis_cl99_fits_estim:
         logspace = config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+        from sbpipe.snakemake.pe_analysis import pe_parameter_density_analysis
         pe_parameter_density_analysis(params.model,
                                       input.file_all_fits,
                                       params.parameter,
@@ -407,7 +407,7 @@ if config['plot_2d_all_corr']:
             logspace = config['logspace'],
             scientific_notation = config['scientific_notation']
         run:
-            from sbpipe.tasks.pe_parameter_density_analysis import pe_parameter_density_analysis
+            from sbpipe.snakemake.pe_analysis import pe_parameter_density_analysis
             pe_parameter_density_analysis(params.model,
                                           input.file_all_fits,
                                           params.parameter,
@@ -433,7 +433,7 @@ rule sbpipe_sampled_2d_ple_analysis_final_estim:
         logspace = config['logspace'],
         scientific_notation = config['scientific_notation']
     run:
-        from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+        from sbpipe.snakemake.pe_analysis import pe_sampled_2d_ple_analysis
         parameter1, parameter2 = params.parameters.split('_')
         pe_sampled_2d_ple_analysis(params.model,
                                    input.file_best_fits,
@@ -464,7 +464,7 @@ if config['plot_2d_66cl_corr']:
             logspace = config['logspace'],
             scientific_notation = config['scientific_notation']
         run:
-            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            from sbpipe.snakemake.pe_analysis import pe_sampled_2d_ple_analysis
             parameter1, parameter2 = params.parameters.split('_')
             pe_sampled_2d_ple_analysis(params.model,
                                        input.file_all_fits,
@@ -495,7 +495,7 @@ if config['plot_2d_95cl_corr']:
             logspace = config['logspace'],
             scientific_notation = config['scientific_notation']
         run:
-            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            from sbpipe.snakemake.pe_analysis import pe_sampled_2d_ple_analysis
             parameter1, parameter2 = params.parameters.split('_')
             pe_sampled_2d_ple_analysis(params.model,
                                        input.file_all_fits,
@@ -526,7 +526,7 @@ if config['plot_2d_99cl_corr']:
             logspace = config['logspace'],
             scientific_notation = config['scientific_notation']
         run:
-            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            from sbpipe.snakemake.pe_analysis import pe_sampled_2d_ple_analysis
             parameter1, parameter2 = params.parameters.split('_')
             pe_sampled_2d_ple_analysis(params.model,
                                        input.file_all_fits,
@@ -557,7 +557,7 @@ if config['plot_2d_all_corr']:
             logspace = config['logspace'],
             scientific_notation = config['scientific_notation']
         run:
-            from sbpipe.tasks.pe_sampled_2d_ple_analysis import pe_sampled_2d_ple_analysis
+            from sbpipe.snakemake.pe_analysis import pe_sampled_2d_ple_analysis
             parameter1, parameter2 = params.parameters.split('_')
             pe_sampled_2d_ple_analysis(params.model,
                                        input.file_all_fits,
@@ -581,7 +581,7 @@ rule sbpipe_objval_vs_iters_analysis:
         model = MODEL_NAME,
         plots_dir=os.path.join(WORKING_FOLDER, PLOTS_FOLDER)
     run:
-        from sbpipe.tasks.pe_objval_vs_iters_analysis import pe_objval_vs_iters_analysis
+        from sbpipe.snakemake.pe_analysis import pe_objval_vs_iters_analysis
         pe_objval_vs_iters_analysis(params.model,
                                     input.file_all_fits,
                                     params.plots_dir)

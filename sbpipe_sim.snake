@@ -95,7 +95,7 @@ rule sbpipe_model_checking:
         write_mat_on_file(output.file,
                           ['No control was performed on this model.'])
         if COPASI:
-            from sbpipe.tasks.model_checking import model_checking
+            from sbpipe.snakemake.model_checking import model_checking
             model_checking(input.file,
                            output.file,
                            'Time-Course')
@@ -108,7 +108,7 @@ rule sbpipe_preproc:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + MODEL_EXT)
     run:
-        from sbpipe.tasks.preproc import preproc
+        from sbpipe.snakemake.preproc import preproc
         preproc(input.file,
                 output.file,
                 COPASI)
@@ -120,7 +120,7 @@ rule sbpipe_gen_data:
     output:
         file=os.path.join(WORKING_FOLDER, PREPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
-        from sbpipe.tasks.generate_data import generate_data
+        from sbpipe.snakemake.data_generation import generate_data
         generate_data(input.file,
                       COPASI)
 
@@ -131,7 +131,7 @@ rule sbpipe_sim_postproc:
     output:
         file=os.path.join(WORKING_FOLDER, POSTPROC_FOLDER, MODEL_NAME + "_{rep}" + CSV_EXT)
     run:
-        from sbpipe.tasks.sim_postproc import sim_postproc
+        from sbpipe.snakemake.sim_postproc import sim_postproc
         sim_postproc(input.file,
                      output.file,
                      COPASI)
@@ -147,7 +147,7 @@ rule sbpipe_sim_analysis_summarise_data:
         model_name = MODEL_NAME,
         variable = '{var}'
     run:
-        from sbpipe.tasks.sim_analyse_summarise_data import sim_analyse_summarise_data
+        from sbpipe.snakemake.sim_analysis import sim_analyse_summarise_data
         sim_analyse_summarise_data(params.inputdir,
                                    params.model_name,
                                    output.file,
@@ -162,7 +162,7 @@ rule sbpipe_sim_analysis_gen_stats_table:
     params:
         variable = '{var}'
     run:
-        from sbpipe.tasks.sim_analyse_gen_stats_table import sim_analyse_gen_stats_table
+        from sbpipe.snakemake.sim_analysis import sim_analyse_gen_stats_table
         sim_analyse_gen_stats_table(input.file,
                                     output.file,
                                     params.variable)
@@ -186,7 +186,7 @@ rule sbpipe_sim_analysis_plot_sep_sims:
         yaxis_label=config["yaxis_label"],
         variable = '{var}'
     run:
-        from sbpipe.tasks.sim_analyse_plot_sep_sims import sim_analyse_plot_sep_sims
+        from sbpipe.snakemake.sim_analysis import sim_analyse_plot_sep_sims
         sim_analyse_plot_sep_sims(params.inputdir,
                                   params.outputdir,
                                   params.model_name,
@@ -216,7 +216,7 @@ rule sbpipe_sim_analysis_plot_comb_sims:
         yaxis_label=config["yaxis_label"],
         variable = '{var}'
     run:
-        from sbpipe.tasks.sim_analyse_plot_comb_sims import sim_analyse_plot_comb_sims
+        from sbpipe.snakemake.sim_analysis import sim_analyse_plot_comb_sims
         sim_analyse_plot_comb_sims(params.inputdir,
                                    params.outputdir,
                                    params.model_name,
