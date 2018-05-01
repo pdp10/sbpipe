@@ -17,31 +17,40 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 import os
 import sys
-import argparse
 import logging
 logger = logging.getLogger('sbpipe')
 
 # retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 sys.path.insert(0, SBPIPE)
 
 from sbpipe.utils.parcomp import run_cmd
 
-def pe_combine_param_best_fits_stats(plots_dir,
-                                     fileout_param_estim_best_fits_details):
-    """
-    Combine the statistics for the parameter estimation details
 
-    :param plots_dir: the directory to save the generated plots
-    :param fileout_param_estim_best_fits_details: the name of the file containing the detailed statistics for the estimated parameters
+def ps2_analyse_plot(model,
+                     scanned_par1,
+                     scanned_par2,
+                     inputdir,
+                     outputdir,
+                     id):
     """
+    Plot model double parameter scan time courses (Python wrapper).
 
+    :param model: the model name without extension
+    :param scanned_par1: the 1st scanned parameter
+    :param scanned_par2: the 2nd scanned parameter
+    :param inputdir: the input directory
+    :param outputdir: the output directory
+    :param run: the simulation number
+    """
     # requires devtools::install_github("pdp10/sbpiper")
-    command = 'R --quiet -e \'library(sbpiper); combine_param_best_fits_stats(\"' + plots_dir + \
-              '\", \"' + fileout_param_estim_best_fits_details
+    command = 'R --quiet -e \'library(sbpiper); plot_double_param_scan_data(\"' + model + \
+              '\", \"' + scanned_par1 + '\", \"' + scanned_par2 + \
+              '\", \"' + inputdir + \
+              '\", \"' + outputdir + \
+              '\", \"' + str(id)
     # we replace \\ with / otherwise subprocess complains on windows systems.
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.

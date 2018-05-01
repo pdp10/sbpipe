@@ -17,13 +17,9 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 import os
 import sys
-import re
-from itertools import islice
 import shutil
-import argparse
 import logging
 logger = logging.getLogger('sbpipe')
 
