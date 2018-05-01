@@ -44,9 +44,11 @@ build:
     - sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main
 
 source:
-  git_tag: master
-  git_url: https://github.com/pdp10/sbpipe.git
-  #path: ../
+  # conda-build is also executed by travis, we use the local source, rather
+  # than cloning from github here.
+  #git_tag: master
+  #git_url: https://github.com/pdp10/sbpipe.git
+  path: ../
 
 requirements:
   build:
