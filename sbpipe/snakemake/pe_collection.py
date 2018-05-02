@@ -17,15 +17,6 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
-import argparse
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
 from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
@@ -54,9 +45,9 @@ def pe_collect(inputdir,
     try:
         files_num = simulator.get_best_fits(inputdir, outputdir, fileout_final_estims)
         simulator.get_all_fits(inputdir, outputdir, fileout_all_estims)
-        logger.info('Files retrieved: ' + str(files_num))
+        # print('Files retrieved: ' + str(files_num))
     except Exception as e:
-        logger.error("simulator: " + simulator + " not found.")
+        print("simulator: " + simulator + " not found.")
         import traceback
-        logger.debug(traceback.format_exc())
+        print(traceback.format_exc())
 

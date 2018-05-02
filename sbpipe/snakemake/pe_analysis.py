@@ -17,15 +17,6 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
-
 from sbpipe.utils.parcomp import run_cmd
 
 
@@ -45,7 +36,7 @@ def pe_combine_param_best_fits_stats(plots_dir,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -65,7 +56,7 @@ def pe_combine_param_ple_stats(plots_dir,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -107,7 +98,7 @@ def pe_ds_preproc(filename,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -130,7 +121,7 @@ def pe_objval_vs_iters_analysis(model_name,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -171,7 +162,7 @@ def pe_parameter_density_analysis(model_name,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += ')\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -197,7 +188,7 @@ def pe_parameter_pca_analysis(model_name,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += ')\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -241,7 +232,7 @@ def pe_sampled_2d_ple_analysis(model_name,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += ')\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -276,6 +267,6 @@ def pe_sampled_ple_analysis(model_name,
     command = command.replace('\\', '\\\\')
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += ')\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 

@@ -18,16 +18,9 @@
 
 
 import os
-import sys
 import re
 from itertools import islice
 import shutil
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
 from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
@@ -45,13 +38,12 @@ def ps1_header_init(report, scanned_par):
     header = ['Time']
     # Find the index of scanned_par in the header file, so it is possible to read the amount at
     # the second line.
-    logger.debug("Retrieving column index for " + scanned_par +
-                 " from file " + report)
+    # print("Retrieving column index for " + scanned_par + " from file " + report)
     # Read the first line of a file.
     with open(report) as myfile:
         # 1 is the number of lines to read, 0 is the i-th element to extract from the list.
         header = list(islice(myfile, 1))[0].replace('\n', '').split('\t')
-    logger.debug(header)
+    # print(header)
     # Prepare the Header for the output files
     # Add a \t at the end of each element of the header
     header = [h + '\t' for h in header]
@@ -101,19 +93,20 @@ def generic_postproc(infile,
     for j, name in enumerate(header):
         # remove \n and \t from name
         name = ''.join(name.split())
-        logger.debug(str(j) + " " + name + " " + scanned_par)
+        # print(str(j) + " " + name + " " + scanned_par)
         if name == scanned_par:
             scanned_par_index = j
             break
     if scanned_par_index == -1:
-        logger.error("Column index for " + scanned_par + ": " + str(
+        print("Column index for " + scanned_par + ": " + str(
             scanned_par_index) + ". Species not found! You must add " + scanned_par +
                      " to the Copasi report.")
         return
     else:
-        logger.debug("Column index for " + scanned_par + ": " + str(scanned_par_index))
+        # print("Column index for " + scanned_par + ": " + str(scanned_par_index))
+        pass
 
-    logger.debug(outfile)
+    # print(outfile)
 
     # Prepare the table content for the output files
     for j in range(0, intervals):
@@ -127,12 +120,11 @@ def generic_postproc(infile,
             scanned_par_level = initial_configuration[scanned_par_index]
 
         if scanned_par_level == -1:
-            logger.error("scanned_par_level not configured!")
+            print("scanned_par_level not configured!")
             return
         else:
-            logger.debug(
-                scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(
-                    scanned_par_index) + ")")
+            # print(scanned_par + " level: " + str(scanned_par_level) + " (list index: " + str(scanned_par_index) + ")")
+            pass
 
         # copy the -th run to a new file: add 1 to timepoints because of the header.
         round_scanned_par_level = scanned_par_level

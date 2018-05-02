@@ -15,18 +15,14 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-02 10:18:32 $
+
 
 import platform
 import argparse
 import logging
 import os
 import sys
+from logging.config import fileConfig
 from sbpipe.utils.parcomp import run_cmd
 
 try:  # Python 2.7+
@@ -37,13 +33,6 @@ except ImportError:
             pass
 # Add a default empty handler (developing mode)
 logging.getLogger('sbpipe').addHandler(NullHandler())
-
-from logging.config import fileConfig
-
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
 
 
 def sbpipe_logo():

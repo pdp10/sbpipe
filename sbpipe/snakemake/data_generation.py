@@ -16,17 +16,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import os
-import sys
 from sbpipe.sbpipe_config import which
-import argparse
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-
 from sbpipe.utils.parcomp import run_cmd
 
 

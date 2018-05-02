@@ -18,10 +18,6 @@
 #
 #
 # Object: clean the package
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-06-24 13:02:32 $
 
 import os
 import sys

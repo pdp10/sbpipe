@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 21:43:32 $
+
 
 # for computing the pipeline elapsed time 
 import datetime
@@ -28,7 +23,6 @@ import glob
 import logging
 import os
 import os.path
-import sys
 import yaml
 import traceback
 from ..pipeline import Pipeline
@@ -36,10 +30,6 @@ from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
 from sbpipe.report.latex_reports import latex_report_ps2, pdf_report
-
-# retrieve SBpipe package path
-import sbpipe
-SBPIPE = os.path.abspath(os.path.join(sbpipe.__file__, os.pardir, os.pardir))
 
 logger = logging.getLogger('sbpipe')
 

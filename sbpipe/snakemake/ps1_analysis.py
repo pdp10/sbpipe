@@ -17,15 +17,6 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
-
 from sbpipe.utils.parcomp import run_cmd
 
 
@@ -72,7 +63,7 @@ def ps1_analyse_plot(model_name,
     command += '\", \"' + xaxis_label + \
                '\", \"' + yaxis_label + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -103,6 +94,6 @@ def ps1_analyse_plot_homogen(model_name,
     command += '\", \"' + xaxis_label + \
                '\", \"' + yaxis_label + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 

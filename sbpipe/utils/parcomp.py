@@ -18,11 +18,7 @@
 #
 #
 # Object: Execute the model several times for deterministic or stochastic analysis
-#
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-06-23 13:45:32 $
+
 
 from __future__ import print_function
 import logging

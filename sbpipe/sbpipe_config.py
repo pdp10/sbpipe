@@ -15,12 +15,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-07-11 11:14:32 $
 
 import os
 import subprocess
@@ -42,7 +36,8 @@ def which(cmd_name):
             return os.path.join(path, cmd_name + '.exe')
     return None
 
-def isPyPackageInstalled(package):
+
+def is_py_package_installed(package):
     """
     Utility checking whether a Python package is installed.
 

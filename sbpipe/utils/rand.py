@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 2.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2015-07-13 12:14:32 $
+
 
 # Utilities for randomisation
 

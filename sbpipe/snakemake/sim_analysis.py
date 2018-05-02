@@ -17,15 +17,6 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
-
 from sbpipe.utils.parcomp import run_cmd
 
 
@@ -48,7 +39,7 @@ def sim_analyse_gen_stats_table(inputfile,
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\", \"' + variable + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -74,7 +65,7 @@ def sim_analyse_summarise_data(inputdir,
     # We do this to make sure that characters like [ or ] don't cause troubles.
     command += '\", \"' + variable + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -102,7 +93,7 @@ def sim_analyse_plot_sep_sims(inputdir,
     """
 
     if float(exp_dataset_alpha) > 1.0 or float(exp_dataset_alpha) < 0.0:
-        logger.warning("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
+        print("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
         exp_dataset_alpha = 1.0
 
     # requires devtools::install_github("pdp10/sbpiper")
@@ -119,7 +110,7 @@ def sim_analyse_plot_sep_sims(inputdir,
                '\", \"' + yaxis_label + \
                '\", \"' + variable + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 
 
@@ -147,7 +138,7 @@ def sim_analyse_plot_comb_sims(inputdir,
     """
 
     if float(exp_dataset_alpha) > 1.0 or float(exp_dataset_alpha) < 0.0:
-        logger.warning("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
+        print("variable exp_dataset_alpha must be in [0,1]. Please, check your configuration file.")
         exp_dataset_alpha = 1.0
 
     # requires devtools::install_github("pdp10/sbpiper")
@@ -164,6 +155,6 @@ def sim_analyse_plot_comb_sims(inputdir,
                '\", \"' + yaxis_label + \
                '\", \"' + variable + \
                '\")\''
-    logger.debug(command)
+    # print(command)
     run_cmd(command)
 

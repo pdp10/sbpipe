@@ -15,12 +15,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-02 10:18:32 $
+
 
 import argparse
 import glob
@@ -28,11 +23,6 @@ import os
 import errno
 import shutil
 from os.path import basename
-import sys
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
 from sbpipe.utils.io import replace_str_in_file
 
 

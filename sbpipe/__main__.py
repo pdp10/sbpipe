@@ -15,20 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: SBpipe Entry Point
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-11-02 10:18:32 $
 
 
 import sys
-import pkg_resources
+#import pkg_resources
 
-SBPIPE = pkg_resources.resource_filename("sbpipe", "sbpipe")
-sys.path.insert(0, SBPIPE)
+#SBPIPE = pkg_resources.resource_filename("sbpipe", "sbpipe")
+#sys.path.insert(0, SBPIPE)
 
 import sbpipe.main as sbpipe
 

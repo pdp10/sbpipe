@@ -31,7 +31,7 @@ SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
 import sbpipe.main as sbmain
 import unittest
-from sbpipe.sbpipe_config import isPyPackageInstalled
+from sbpipe.sbpipe_config import is_py_package_installed
 
 
 class TestPythonSim(unittest.TestCase):
@@ -43,11 +43,11 @@ class TestPythonSim(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._python_folder))
-        if not isPyPackageInstalled("numpy"):
+        if not is_py_package_installed("numpy"):
             cls._output = "Python numpy not found: SKIP ... "
-        elif not isPyPackageInstalled("scipy"):
+        elif not is_py_package_installed("scipy"):
             cls._output = "Python scipy not found: SKIP ... "
-        elif not isPyPackageInstalled("pandas"):
+        elif not is_py_package_installed("pandas"):
             cls._output = "Python pandas not found: SKIP ... "
 
     @classmethod

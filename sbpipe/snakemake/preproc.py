@@ -17,18 +17,8 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 import os
-import sys
 import shutil
-import argparse
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
-
 from sbpipe.utils.io import replace_str_in_file
 
 

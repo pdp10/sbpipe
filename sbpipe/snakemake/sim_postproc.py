@@ -17,15 +17,7 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
 import shutil
-import logging
-logger = logging.getLogger('sbpipe')
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.insert(0, SBPIPE)
 from sbpipe.simul.copasi import copasi as copasi_simul
 from sbpipe.simul import pl_simul
 
@@ -44,8 +36,7 @@ def generic_postproc(infile, outfile, copasi=True):
     else:
         simulator = pl_simul.PLSimul()
     simulator.replace_str_in_report(outfile)
-
-    logger.debug(outfile)
+    # print(command)
 
 
 def sim_postproc(infile, outfile, copasi=True):
