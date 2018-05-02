@@ -17,9 +17,11 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
-import sys
-SBPIPE = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-sys.path.insert(0, SBPIPE)
+try:  # Python 2.7+
+    from sbpipe import sbpipe
+except ImportError:
+    import os
+    import sys
+    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
+    from sbpipe import sbpipe
 
-from sbpipe import sbpipe

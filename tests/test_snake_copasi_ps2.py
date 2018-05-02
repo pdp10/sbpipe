@@ -21,19 +21,19 @@ import sys
 import os
 import unittest
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 from sbpipe.utils.dependencies import is_py_package_installed
 
 
 class TestPs2Snake(unittest.TestCase):
 
     _orig_wd = os.getcwd()
-    _ir_folder = os.path.join('snakemake')
+    _ir_folder = 'snakemake'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        os.chdir(cls._ir_folder)
         try:
             subprocess.Popen(['CopasiSE'],
                              stdout=subprocess.PIPE,
@@ -45,12 +45,12 @@ class TestPs2Snake(unittest.TestCase):
             cls._output = 'sbpipe not installed: SKIP ... '
         if not is_py_package_installed('snakemake'):
             cls._output = 'snakemake not installed: SKIP ... '
-        if not os.path.exists('sbpipe_ps2.snake'):
+        if not os.path.exists('sbpipe_pe.snake'):
             cls._output = 'snakemake workflow not found: SKIP ... '
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

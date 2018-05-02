@@ -20,22 +20,22 @@
 import os
 import sys
 import unittest
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 from sbpipe.utils.dependencies import is_r_package_installed
 
 
 class TestRSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _rscript_folder = os.path.join('r_models')
+    _rscript_folder = 'r_models'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript_folder))
+        os.chdir(cls._rscript_folder)
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

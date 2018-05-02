@@ -21,18 +21,18 @@ import os
 import sys
 import unittest
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 
 
 class TestCopasiPE(unittest.TestCase):
 
-    _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('config_errors')
+    _orig_wd = os.getcwd()
+    _ir_folder = 'config_errors'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        os.chdir(cls._ir_folder)
         try:
             subprocess.Popen(['CopasiSE'],
                              stdout=subprocess.PIPE,
@@ -42,7 +42,7 @@ class TestCopasiPE(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

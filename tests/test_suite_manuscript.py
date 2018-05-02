@@ -18,7 +18,6 @@
 
 
 import unittest
-
 import tests.test_bmc as bmc
 
 

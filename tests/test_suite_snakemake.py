@@ -21,7 +21,7 @@ import os
 import shutil
 import unittest
 
-from context import sbpipe
+from tests.context import sbpipe
 from sbpipe.utils.dependencies import which
 import tests.test_snake_copasi_pe as snake_copasi_pe
 import tests.test_snake_copasi_ps1 as snake_copasi_ps1

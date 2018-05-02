@@ -23,7 +23,8 @@ from os.path import isdir, join
 import shutil
 import glob
 
-from context import sbpipe, SBPIPE
+testpath = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.join(testpath, os.pardir))
 from sbpipe.utils.io import remove_file_silently
 
 
@@ -31,7 +32,6 @@ def cleanup_tests():
     """
     Clean up the test results.
     """
-    testpath = os.path.join(SBPIPE, 'tests')
     projects = [f for f in os.listdir(testpath) if isdir(join(testpath, f))]
 
     print('Cleaning tests:')

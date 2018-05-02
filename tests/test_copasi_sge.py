@@ -15,44 +15,34 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
 
 
 import os
 import subprocess
 import sys
 import unittest
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 
 
 class TestCopasiSGE(unittest.TestCase):
 
-    _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('sge')
+    _orig_wd = os.getcwd()
+    _ir_folder = 'sge'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        os.chdir(cls._ir_folder)
         try:
             subprocess.Popen(['CopasiSE'],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE).communicate()[0]
         except OSError as e:
             cls._output = 'CopasiSE not found: SKIP ... '
-            return
-        try:
-            subprocess.Popen(['qstat'],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE).communicate()[0]
-        except OSError as e:
-            cls._output = 'SGE not found: SKIP ... '
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

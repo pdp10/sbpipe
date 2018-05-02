@@ -21,6 +21,7 @@ import unittest
 import tests.test_copasi_lsf as copasi_lsf
 import tests.test_copasi_sge as copasi_sge
 
+
 class TestSuite(unittest.TestCase):
 
     def test_suites(self):

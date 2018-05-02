@@ -21,18 +21,18 @@ import os
 import sys
 import unittest
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 
 
 class TestOctaveSim(unittest.TestCase):
 
-    _orig_wd = os.getcwd()  # remember our original working directory
-    _octave_folder = os.path.join('octave_models')
+    _orig_wd = os.getcwd()
+    _octave_folder = 'octave_models'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._octave_folder))
+        os.chdir(cls._octave_folder)
         try:
             subprocess.Popen(['octave', '-v'],
                              stdout=subprocess.PIPE,
@@ -42,7 +42,7 @@ class TestOctaveSim(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

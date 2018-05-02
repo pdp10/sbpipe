@@ -21,19 +21,19 @@ import sys
 import os
 import unittest
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 from sbpipe.utils.dependencies import is_py_package_installed
 
 
 class TestPeSnake(unittest.TestCase):
 
     _orig_wd = os.getcwd()
-    _ir_folder = os.path.join('snakemake')
+    _ir_folder = 'snakemake'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        os.chdir(cls._ir_folder)
         try:
             subprocess.Popen(['CopasiSE'],
                              stdout=subprocess.PIPE,
@@ -50,7 +50,7 @@ class TestPeSnake(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

@@ -20,7 +20,7 @@
 import os
 import sys
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 
 
 import unittest
@@ -29,13 +29,13 @@ import unittest
 class TestBMCSysBio(unittest.TestCase):
     """ Test suite for reproducing figures in Dalle Pezze and Le Novère, 2017, BMC Systems Biology. """
 
-    _orig_wd = os.getcwd()  # remember our original working directory
-    _ir_folder = os.path.join('insulin_receptor')
+    _orig_wd = os.getcwd()
+    _ir_folder = 'insulin_receptor'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._ir_folder))
+        os.chdir(cls._ir_folder)
         try:
             subprocess.Popen(['CopasiSE'],
                              stdout=subprocess.PIPE,
@@ -45,7 +45,7 @@ class TestBMCSysBio(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass

@@ -21,7 +21,7 @@ import os
 import shutil
 import unittest
 
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 from sbpipe.utils.dependencies import which
 from sbpipe.utils.io import git_retrieve
 

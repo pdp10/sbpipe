@@ -24,18 +24,18 @@ import os
 import sys
 import unittest
 import subprocess
-from context import sbpipe, SBPIPE
+from tests.context import sbpipe
 
 
 class TestJavaSim(unittest.TestCase):
 
     _orig_wd = os.getcwd()  # remember our original working directory
-    _java_folder = os.path.join('java_models')
+    _java_folder = 'java_models'
     _output = 'OK'
 
     @classmethod
     def setUpClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._java_folder))
+        os.chdir(cls._java_folder)
         try:
             subprocess.Popen(['java', '-version'],
                              stdout=subprocess.PIPE,
@@ -45,7 +45,7 @@ class TestJavaSim(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.chdir(os.path.join(SBPIPE, 'tests', cls._orig_wd))
+        os.chdir(cls._orig_wd)
 
     def setUp(self):
         pass
