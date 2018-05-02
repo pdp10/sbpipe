@@ -64,7 +64,7 @@ setup(
     include_package_data=True,
     package_data={'': ['*.md', '*.rst', '*.txt', '*.snake',
                        'Makefile', 'LICENSE', 'CHANGELOG'],
-                  'sbpipe': ['logging_config.ini', 'VERSION']},
+                  'sbpipe': ['logging_config.ini', 'VERSION', 'is_package_installed.r']},
     entry_points={
                   'console_scripts': [
                       'sbpipe = sbpipe:main',

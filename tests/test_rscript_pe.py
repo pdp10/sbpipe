@@ -20,8 +20,8 @@
 import os
 import sys
 import unittest
-import subprocess
 from context import sbpipe, SBPIPE
+from sbpipe.utils.dependencies import is_r_package_installed
 
 
 class TestRPE(unittest.TestCase):
@@ -33,27 +33,12 @@ class TestRPE(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         os.chdir(os.path.join(SBPIPE, 'tests', cls._rscript_folder))
-        try:
-            reshape2 = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "reshape2"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            desolve = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "deSolve"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            minpacklm = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "minpack.lm"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(reshape2):
-                cls._output = "R reshape2 not found: SKIP ... "
-            if "FALSE" in str(desolve):
-                cls._output = "R deSolve not found: SKIP ... "
-            elif "FALSE" in str(minpacklm):
-                cls._output = "R minpack.lm not found: SKIP ... "
-        except OSError as e:
-            cls._output = "R not found: SKIP ... "
+        if not is_r_package_installed("reshape2"):
+            cls._output = "R reshape2 not found: SKIP ... "
+        elif not is_r_package_installed("deSolve"):
+            cls._output = "R deSolve not found: SKIP ... "
+        elif not is_r_package_installed("minpack.lm"):
+            cls._output = "R minpack.lm not found: SKIP ... "
 
     @classmethod
     def tearDownClass(cls):

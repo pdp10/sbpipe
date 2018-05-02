@@ -20,8 +20,8 @@
 import os
 import sys
 import unittest
-import subprocess
 from context import sbpipe, SBPIPE
+from sbpipe.utils.dependencies import is_r_package_installed
 
 
 class TestRSim(unittest.TestCase):
@@ -44,93 +44,45 @@ class TestRSim(unittest.TestCase):
         pass
 
     def test_sim_r_lotka_volterra(self):
-        try:
-            output = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(output):
-                sys.stdout.write("R deSolve not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbpipe(simulate="simple_lotka_volterra.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+        if not is_r_package_installed("deSolve"):
+            sys.stdout.write("R deSolve not found: SKIP ... ")
             sys.stdout.flush()
+        else:
+            self.assertEqual(sbpipe(simulate="simple_lotka_volterra.yaml", quiet=True), 0)
 
     def test_sim_r_pde_lotka_volterra(self):
-        try:
-            output = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "scripts", "is_package_installed.r"), "deSolve"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(output):
-                sys.stdout.write("R deSolve not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbpipe(simulate="2Dpde_lotka_volterra.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+        if not is_r_package_installed("deSolve"):
+            sys.stdout.write("R deSolve not found: SKIP ... ")
             sys.stdout.flush()
+        else:
+            self.assertEqual(sbpipe(simulate="2Dpde_lotka_volterra.yaml", quiet=True), 0)
 
     def test_stoch_sim_r_periodic_drift(self):
-        try:
-            output = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "sde"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(output):
-                sys.stdout.write("R sde not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbpipe(simulate="sde_periodic_drift.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+        if not is_r_package_installed("sde"):
+            sys.stdout.write("R sde not found: SKIP ... ")
             sys.stdout.flush()
+        else:
+            self.assertEqual(sbpipe(simulate="sde_periodic_drift.yaml", quiet=True), 0)
 
     def test_stoch_sim_r_cox_ingersoll_ross_process(self):
-        try:
-            output = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "sde"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(output):
-                sys.stdout.write("R sde not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+        if not is_r_package_installed("sde"):
+            sys.stdout.write("R sde not found: SKIP ... ")
             sys.stdout.flush()
+        else:
+            self.assertEqual(sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml", quiet=True), 0)
 
     def test_sim_r(self):
-        try:
-            reshape2 = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "reshape2"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            desolve = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "deSolve"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            minpacklm = subprocess.Popen(['Rscript',
-                                       os.path.join(SBPIPE, "tests", "r_models", "is_package_installed.r"), "minpack.lm"],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE).communicate()[0]
-            if "FALSE" in str(reshape2):
-                sys.stdout.write("R reshape2 not found: SKIP ... ")
-                sys.stdout.flush()
-            if "FALSE" in str(desolve):
-                sys.stdout.write("R deSolve not found: SKIP ... ")
-                sys.stdout.flush()
-            elif "FALSE" in str(minpacklm):
-                sys.stdout.write("R minpack.lm not found: SKIP ... ")
-                sys.stdout.flush()
-            else:
-                self.assertEqual(sbpipe(simulate="sim_simple_reacts.yaml", quiet=True), 0)
-        except OSError as e:
-            sys.stdout.write("R not found: SKIP ... ")
+        if not is_r_package_installed("reshape2"):
+            sys.stdout.write("R reshape2 not found: SKIP ... ")
             sys.stdout.flush()
+        elif not is_r_package_installed("deSolve"):
+            sys.stdout.write("R deSolve not found: SKIP ... ")
+            sys.stdout.flush()
+        elif not is_r_package_installed("minpack.lm"):
+            sys.stdout.write("R minpack.lm not found: SKIP ... ")
+            sys.stdout.flush()
+        else:
+            self.assertEqual(sbpipe(simulate="sim_simple_reacts.yaml", quiet=True), 0)
 
 
 if __name__ == '__main__':
