@@ -27,7 +27,9 @@ current implementation.
 To install SBpipe, see the documentation: `HTML`_ or `PDF`_.
 
 If you only need the R functions used by SBpipe for data analysis, visit
-the project ``SBpiper`` on `CRAN`_ or `GitHub`_.
+the GitHub package `sbpiper`_, also present on `CRAN`_.
+
+To download the Snakemake workflows for SBpipe, visit the GitHub package `sbpipe_snake`_.
 
 **Citation:** Dalle Pezze P, Le Novère N. SBpipe: a collection of
 pipelines for automating repetitive simulation and analysis tasks. *BMC
@@ -49,8 +51,9 @@ reproduce your problem, some technical info.
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _HTML: http://sbpipe.readthedocs.io/en/latest/
 .. _PDF: https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf
+.. _sbpiper: https://github.com/pdp10/sbpiper
 .. _CRAN: https://cran.r-project.org/package=sbpiper
-.. _GitHub: https://github.com/pdp10/sbpiper
+.. _sbpipe_snake: https://github.com/pdp10/sbpipe_snake
 .. _`DOI:10.1186/s12918-017-0423-3`: https://doi.org/10.1186/s12918-017-0423-3
 
 .. |Build Status| image:: https://travis-ci.org/pdp10/sbpipe.svg?branch=master
