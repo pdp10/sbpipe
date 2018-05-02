@@ -15,23 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
-
+from context import sbpipe, SBPIPE
 
 class TestCopasiSim(unittest.TestCase):
 
@@ -61,35 +51,35 @@ class TestCopasiSim(unittest.TestCase):
 
     def test_sim1(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(simulate="ir_model_det_simul1.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_sim2(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
+            self.assertEqual(sbpipe(simulate="ir_model_det_simul2.yaml", quiet=True), 1)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_sim3(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul3.yaml", quiet=True), 1)
+            self.assertEqual(sbpipe(simulate="ir_model_det_simul3.yaml", quiet=True), 1)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_sim4(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul4.yaml", quiet=True), 1)
+            self.assertEqual(sbpipe(simulate="ir_model_det_simul4.yaml", quiet=True), 1)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_sim5(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="ir_model_det_simul5.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(simulate="ir_model_det_simul5.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

@@ -15,23 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
+from context import sbpipe, SBPIPE
 
 
 class TestRSim(unittest.TestCase):
@@ -63,7 +53,7 @@ class TestRSim(unittest.TestCase):
                 sys.stdout.write("R deSolve not found: SKIP ... ")
                 sys.stdout.flush()
             else:
-                self.assertEqual(sbmain.sbpipe(simulate="simple_lotka_volterra.yaml", quiet=True), 0)
+                self.assertEqual(sbpipe(simulate="simple_lotka_volterra.yaml", quiet=True), 0)
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()
@@ -78,7 +68,7 @@ class TestRSim(unittest.TestCase):
                 sys.stdout.write("R deSolve not found: SKIP ... ")
                 sys.stdout.flush()
             else:
-                self.assertEqual(sbmain.sbpipe(simulate="2Dpde_lotka_volterra.yaml", quiet=True), 0)
+                self.assertEqual(sbpipe(simulate="2Dpde_lotka_volterra.yaml", quiet=True), 0)
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()
@@ -93,7 +83,7 @@ class TestRSim(unittest.TestCase):
                 sys.stdout.write("R sde not found: SKIP ... ")
                 sys.stdout.flush()
             else:
-                self.assertEqual(sbmain.sbpipe(simulate="sde_periodic_drift.yaml", quiet=True), 0)
+                self.assertEqual(sbpipe(simulate="sde_periodic_drift.yaml", quiet=True), 0)
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()
@@ -108,7 +98,7 @@ class TestRSim(unittest.TestCase):
                 sys.stdout.write("R sde not found: SKIP ... ")
                 sys.stdout.flush()
             else:
-                self.assertEqual(sbmain.sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml", quiet=True), 0)
+                self.assertEqual(sbpipe(simulate="sde_cox_ingersoll_ross_process.yaml", quiet=True), 0)
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()
@@ -137,7 +127,7 @@ class TestRSim(unittest.TestCase):
                 sys.stdout.write("R minpack.lm not found: SKIP ... ")
                 sys.stdout.flush()
             else:
-                self.assertEqual(sbmain.sbpipe(simulate="sim_simple_reacts.yaml", quiet=True), 0)
+                self.assertEqual(sbpipe(simulate="sim_simple_reacts.yaml", quiet=True), 0)
         except OSError as e:
             sys.stdout.write("R not found: SKIP ... ")
             sys.stdout.flush()

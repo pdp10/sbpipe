@@ -15,22 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
+from context import sbpipe, SBPIPE
 
 
 class TestCopasiPS1(unittest.TestCase):
@@ -61,28 +52,28 @@ class TestCopasiPS1(unittest.TestCase):
 
     def test_ps1_ci(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_k1_scan.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="ir_model_k1_scan.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_ps1_inhib_only(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="ir_model_ir_beta_inhib.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps1_inhib_only(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_ps1_inhib_overexp(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="ir_model_ir_beta_inhib_overexp.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="ir_model_ir_beta_inhib_overexp.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

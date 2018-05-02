@@ -15,22 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model using LSF (Platform Load Sharing Facility)
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
+from context import sbpipe, SBPIPE
 
 
 class TestCopasiLSF(unittest.TestCase):
@@ -68,35 +59,35 @@ class TestCopasiLSF(unittest.TestCase):
 
     def test_stoch_sim_copasi_lsf(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="lsf_ir_model_stoch_simul.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(simulate="lsf_ir_model_stoch_simul.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_pe_copasi_lsf(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_estimation="lsf_ir_model_param_estim.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
             
     def test_stoch_pe_copasi_lsf(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_estimation="lsf_ir_model_stoch_param_estim.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps1_copasi_lsf(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="lsf_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="lsf_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps2_copasi_lsf(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan2="lsf_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan2="lsf_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

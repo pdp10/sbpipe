@@ -17,15 +17,15 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import sys
 import os
 import subprocess
+import sys
 from shutil import copy2, rmtree
 
 # retrieve SBpipe package path
 SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir, os.pardir))
 sys.path.append(SBPIPE)
-from sbpipe.sbpipe_config import which
+from sbpipe.utils.dependencies import which
 from sbpipe.utils.io import git_retrieve
 
 

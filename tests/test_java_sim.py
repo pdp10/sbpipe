@@ -18,20 +18,13 @@
 #
 #
 # Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
+from context import sbpipe, SBPIPE
 
 
 class TestJavaSim(unittest.TestCase):
@@ -62,7 +55,7 @@ class TestJavaSim(unittest.TestCase):
 
     def test_java_simqueue_simulation(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="simqueue.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(simulate="simqueue.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

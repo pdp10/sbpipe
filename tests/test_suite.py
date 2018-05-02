@@ -15,22 +15,15 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-06-27 10:18:32 $
+
 
 import os
-import sys
 import shutil
 import unittest
 
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import tests.cleanup_tests as cleanup
+from context import sbpipe, SBPIPE
+from sbpipe.utils.dependencies import which
+from sbpipe.utils.io import git_retrieve
 
 import tests.test_copasi_sim as copasi_sim
 import tests.test_copasi_ps1 as copasi_ps1
@@ -56,9 +49,6 @@ import tests.test_snake_copasi_pe as snake_copasi_pe
 import tests.test_snake_copasi_sim as snake_copasi_sim
 import tests.test_snake_copasi_ps1 as snake_copasi_ps1
 import tests.test_snake_copasi_ps2 as snake_copasi_ps2
-
-from sbpipe.sbpipe_config import which
-from sbpipe.utils.io import git_retrieve
 
 
 class TestSuite(unittest.TestCase):

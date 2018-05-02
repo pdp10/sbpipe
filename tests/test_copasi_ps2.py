@@ -15,22 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
 import unittest
 import subprocess
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
+from context import sbpipe, SBPIPE
 
 
 class TestCopasiPS2(unittest.TestCase):
@@ -61,14 +52,14 @@ class TestCopasiPS2(unittest.TestCase):
 
     def test_ps2_inhib_only(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_inhib.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps2_inhib_only(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan2="ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

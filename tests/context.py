@@ -17,24 +17,9 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import unittest
-import tests.test_copasi_lsf as copasi_lsf
-import tests.test_copasi_sge as copasi_sge
+import os
+import sys
+SBPIPE = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.insert(0, SBPIPE)
 
-class TestSuite(unittest.TestCase):
-
-    def test_suites(self):
-
-        # Run negative test suites
-        suite_copasi_lsf = unittest.TestLoader().loadTestsFromTestCase(copasi_lsf.TestCopasiLSF)
-        suite_copasi_sge = unittest.TestLoader().loadTestsFromTestCase(copasi_sge.TestCopasiSGE)
-
-        # combine all the test suites
-        suite = unittest.TestSuite([suite_copasi_lsf, suite_copasi_sge])
-
-        # run the combined test suite
-        self.assertTrue(unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful())
-
-
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+from sbpipe import sbpipe

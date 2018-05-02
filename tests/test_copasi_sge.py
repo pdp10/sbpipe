@@ -18,19 +18,13 @@
 #
 #
 # Object: run a list of tests for the insulin receptor model using SGE (Sun Grid Engine) 
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import subprocess
 import sys
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
+from context import sbpipe, SBPIPE
 
 
 class TestCopasiSGE(unittest.TestCase):
@@ -68,35 +62,35 @@ class TestCopasiSGE(unittest.TestCase):
 
     def test_stoch_sim_copasi_sge(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(simulate="sge_ir_model_stoch_simul.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(simulate="sge_ir_model_stoch_simul.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_pe_copasi_sge(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_estimation="sge_ir_model_param_estim.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_pe_copasi_sge(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_estimation="sge_ir_model_stoch_param_estim.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps1_copasi_sge(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan1="sge_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan1="sge_ir_model_ir_beta_inhib_stoch.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
 
     def test_stoch_ps2_copasi_sge(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_scan2="sge_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_scan2="sge_ir_model_insulin_ir_beta_dbl_stoch_inhib.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()

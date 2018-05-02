@@ -15,23 +15,13 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-01-21 10:36:32 $
+
 
 import os
 import sys
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
-sys.path.append(SBPIPE)
-import sbpipe.main as sbmain
 import unittest
 import subprocess
+from context import sbpipe, SBPIPE
 
 
 class TestRPE(unittest.TestCase):
@@ -77,7 +67,7 @@ class TestRPE(unittest.TestCase):
 
     def test_pe_r(self):
         if self._output == 'OK':
-            self.assertEqual(sbmain.sbpipe(parameter_estimation="pe_simple_reacts.yaml", quiet=True), 0)
+            self.assertEqual(sbpipe(parameter_estimation="pe_simple_reacts.yaml", quiet=True), 0)
         else:
             sys.stdout.write(self._output)
             sys.stdout.flush()
@@ -85,7 +75,7 @@ class TestRPE(unittest.TestCase):
     # Commented as it can take too much time on Travis-CI.
     #def test_insulin_receptor_pe_r(self):
     #   if self._output == 'OK':
-    #       self.assertEqual(sbmain.sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
+    #       self.assertEqual(sbpipe(parameter_estimation="insulin_receptor_param_estim.yaml", quiet=True), 0)
     #   else:
     #       sys.stdout.write(self._output)
     #       sys.stdout.flush()

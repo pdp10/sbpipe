@@ -15,21 +15,14 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-# Object: run a list of tests for the insulin receptor model.
-#
-# $Revision: 3.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2017-01-31 14:36:32 $
+
 
 import sys
 import os
 import unittest
 import subprocess
-
-# retrieve SBpipe package path
-SBPIPE = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir))
+from context import sbpipe, SBPIPE
+from sbpipe.utils.dependencies import is_py_package_installed
 
 
 class TestPs1Snake(unittest.TestCase):
@@ -48,10 +41,12 @@ class TestPs1Snake(unittest.TestCase):
         except OSError as e:
             cls._output = 'CopasiSE not found: SKIP ... '
             return
-        try:
-            subprocess.Popen(['snakemake', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
-        except OSError as e:
-            cls._output = 'snakemake not found: SKIP ... '
+        if not is_py_package_installed('sbpipe'):
+            cls._output = 'sbpipe not installed: SKIP ... '
+        if not is_py_package_installed('snakemake'):
+            cls._output = 'snakemake not installed: SKIP ... '
+        if not os.path.exists('sbpipe_ps1.snake'):
+            cls._output = 'snakemake workflow not found: SKIP ... '
 
     @classmethod
     def tearDownClass(cls):
