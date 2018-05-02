@@ -39,6 +39,13 @@ class TestCopasiSGE(unittest.TestCase):
                              stderr=subprocess.PIPE).communicate()[0]
         except OSError as e:
             cls._output = 'CopasiSE not found: SKIP ... '
+            return
+        try:
+            subprocess.Popen(['qstat'],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE).communicate()[0]
+        except OSError as e:
+            cls._output = 'SGE not found: SKIP ... '
 
     @classmethod
     def tearDownClass(cls):
