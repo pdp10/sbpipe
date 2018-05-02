@@ -71,4 +71,4 @@ reproduce your problem, some technical info.
 .. |PyPI version| image:: https://badge.fury.io/py/sbpipe.svg
    :target: https://badge.fury.io/py/sbpipe
 .. |CRAN version| image:: https://www.r-pkg.org/badges/version/sbpiper
-   :target: https://www.r-pkg.org/badges/version/sbpiper
+   :target: https://cran.r-project.org/package=sbpiper
