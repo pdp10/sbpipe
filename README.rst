@@ -1,8 +1,8 @@
 SBpipe package
 ==============
 
-|Build Status| |Docs Status| |LGPLv3 License| |PyPI version| |Anaconda
-Cloud Version| |Anaconda Cloud Platforms| |Anaconda Cloud Downloads| |Anaconda Cloud Conda|
+|Build Status| |Docs Status| |LGPLv3 License| |Anaconda Cloud Platforms| 
+|Anaconda Cloud Downloads| |Anaconda Cloud Version| |PyPI version| |CRAN version|
 
 Introduction
 ------------
@@ -59,13 +59,13 @@ reproduce your problem, some technical info.
    :target: http://sbpipe.readthedocs.io/en/latest/
 .. |LGPLv3 License| image:: http://img.shields.io/badge/license-LGPLv3-blue.svg
    :target: https://www.gnu.org/licenses/lgpl.html
-.. |PyPI version| image:: https://badge.fury.io/py/sbpipe.svg
-   :target: https://badge.fury.io/py/sbpipe
-.. |Anaconda Cloud Version| image:: https://anaconda.org/pdp10/sbpipe/badges/version.svg
-   :target: https://anaconda.org/pdp10/sbpipe
 .. |Anaconda Cloud Platforms| image:: https://anaconda.org/pdp10/sbpipe/badges/platforms.svg
    :target: https://anaconda.org/pdp10/sbpipe
 .. |Anaconda Cloud Downloads| image:: https://anaconda.org/pdp10/sbpipe/badges/downloads.svg
    :target: https://anaconda.org/pdp10/sbpipe
-.. |Anaconda Cloud Conda| image:: https://anaconda.org/pdp10/sbpipe/badges/installer/conda.svg
-   :target: https://conda.anaconda.org/pdp10
+.. |Anaconda Cloud Version| image:: https://anaconda.org/pdp10/sbpipe/badges/version.svg
+   :target: https://anaconda.org/pdp10/sbpipe
+.. |PyPI version| image:: https://badge.fury.io/py/sbpipe.svg
+   :target: https://badge.fury.io/py/sbpipe
+.. |CRAN version| image:: https://www.r-pkg.org/badges/version/sbpiper
+   :target: https://www.r-pkg.org/badges/version/sbpiper
