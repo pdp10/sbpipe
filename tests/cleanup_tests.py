@@ -50,6 +50,9 @@ def cleanup_tests():
             shutil.rmtree(os.path.join(testpath, file, 'Results'), ignore_errors=True)
             shutil.rmtree(os.path.join(testpath, file, 'log'), ignore_errors=True)
             shutil.rmtree(os.path.join(testpath, file, '.snakemake'), ignore_errors=True)
+            snake_files = glob.glob(os.path.join(testpath, file, "*.snake"))
+            for f in snake_files:
+                remove_file_silently(f)
             continue
 
         modelspath = join(testpath, file, 'Models')
