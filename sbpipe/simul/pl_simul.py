@@ -20,7 +20,7 @@
 import logging
 import os
 import re
-from sbpipe.sbpipe_config import which
+from sbpipe.utils.dependencies import which
 from sbpipe.utils.parcomp import parcomp
 from ..simul import Simul
 

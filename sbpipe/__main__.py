@@ -17,18 +17,6 @@
 # along with sbpipe.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import sys
-#import pkg_resources
+from sbpipe import main
+main()
 
-#SBPIPE = pkg_resources.resource_filename("sbpipe", "sbpipe")
-#sys.path.insert(0, SBPIPE)
-
-import sbpipe.main as sbpipe
-
-
-def main(argv=None):
-    return sbpipe.main(argv)
-
-
-if __name__ == "__main__":
-    sys.exit(main())

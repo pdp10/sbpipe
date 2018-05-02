@@ -18,7 +18,8 @@
 
 
 import os
-from sbpipe.sbpipe_config import which
+
+from sbpipe.utils.dependencies import which
 from sbpipe.utils.parcomp import run_cmd
 
 

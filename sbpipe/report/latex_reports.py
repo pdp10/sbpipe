@@ -19,12 +19,14 @@
 # Utilities to generate Latex code. These functions are used for reporting purposes.
 
 import logging
-import sys
 import os
 import re
 import subprocess
+import sys
+
+from sbpipe.utils.dependencies import which
+
 from sbpipe.utils.re_utils import nat_sort_key
-from sbpipe.sbpipe_config import which
 
 logger = logging.getLogger('sbpipe')
 

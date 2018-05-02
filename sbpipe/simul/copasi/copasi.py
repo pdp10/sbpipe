@@ -19,13 +19,14 @@
 
 import logging
 import os
-import sys
 import re
 import shutil
-from sbpipe.sbpipe_config import which
-from sbpipe.utils.parcomp import parcomp
-from sbpipe.utils.io import replace_str_in_file
+import sys
+
+from sbpipe.utils.dependencies import which
 from sbpipe.utils.io import remove_file_silently
+from sbpipe.utils.io import replace_str_in_file
+from sbpipe.utils.parcomp import parcomp
 from ..simul import Simul
 
 try:  # Python 2.7+

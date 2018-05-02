@@ -67,7 +67,7 @@ setup(
                   'sbpipe': ['logging_config.ini', 'VERSION']},
     entry_points={
                   'console_scripts': [
-                      'sbpipe = sbpipe.__main__:main',
+                      'sbpipe = sbpipe:main',
                       'sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main'
                   ]
     },
