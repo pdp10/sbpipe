@@ -18,6 +18,10 @@
 
 
 from sbpipe.utils.parcomp import run_cmd
+from sbpipe.utils.dependencies import is_r_package_installed
+
+if not is_r_package_installed('sbpiper'):
+    raise Exception('R package `sbpiper` was not found. Abort.')
 
 
 def ps1_analyse_plot(model_name,

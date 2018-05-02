@@ -18,6 +18,10 @@
 
 
 from sbpipe.utils.parcomp import run_cmd
+from sbpipe.utils.dependencies import is_r_package_installed
+
+if not is_r_package_installed('sbpiper'):
+    raise Exception('R package `sbpiper` was not found. Abort.')
 
 
 def pe_combine_param_best_fits_stats(plots_dir,

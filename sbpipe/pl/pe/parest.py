@@ -25,6 +25,7 @@ import os
 import yaml
 import traceback
 from sbpipe.report.latex_reports import latex_report_pe, pdf_report
+from sbpipe.utils.dependencies import is_r_package_installed
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
@@ -269,6 +270,9 @@ class ParEst(Pipeline):
         logger.info("\n")
         logger.info("Fits analysis:")
         # requires devtools::install_github("pdp10/sbpiper")
+        if not is_r_package_installed('sbpiper'):
+            logger.critical('R package `sbpiper` was not found. Abort.')
+            return False
         command = 'R --quiet -e \'library(sbpiper); sbpiper_pe(\"' + model + \
                   '\", \"' + os.path.join(outputdir, fileout_final_estims) + \
                   '\", \"' + os.path.join(outputdir, fileout_all_estims) + \

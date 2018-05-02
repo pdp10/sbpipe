@@ -26,6 +26,7 @@ import os.path
 import yaml
 import traceback
 from ..pipeline import Pipeline
+from sbpipe.utils.dependencies import is_r_package_installed
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.utils.rand import get_rand_alphanum_str
@@ -278,6 +279,9 @@ class ParScan1(Pipeline):
         str_to_replace = get_rand_alphanum_str(10)
 
         # requires devtools::install_github("pdp10/sbpiper")
+        if not is_r_package_installed('sbpiper'):
+            logger.critical('R package `sbpiper` was not found. Abort.')
+            return False
         command = 'R --quiet -e \'library(sbpiper); sbpiper_ps1(\"' + model + \
                   '\", \"' + str(knock_down_only).upper() + \
                   '\", \"' + os.path.join(outputdir, sim_data_folder) + \

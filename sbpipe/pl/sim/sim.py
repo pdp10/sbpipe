@@ -25,6 +25,7 @@ import os
 import yaml
 import traceback
 from ..pipeline import Pipeline
+from sbpipe.utils.dependencies import is_r_package_installed
 from sbpipe.utils.io import refresh
 from sbpipe.utils.parcomp import parcomp
 from sbpipe.report.latex_reports import latex_report_sim, pdf_report
@@ -241,6 +242,9 @@ class Sim(Pipeline):
         logger.info("Analysing generated simulations:")
 
         # requires devtools::install_github("pdp10/sbpiper")
+        if not is_r_package_installed('sbpiper'):
+            logger.critical('R package `sbpiper` was not found. Abort.')
+            return False
         command = 'R --quiet -e \'library(sbpiper); sbpiper_sim(\"' + model + \
                   '\", \"' + inputdir + '\", \"' + sim_plots_dir + \
                   '\", \"' + os.path.join(outputdir, 'sim_stats_' + model + '_' + str_to_replace + '.csv') + \

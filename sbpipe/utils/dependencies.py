@@ -45,10 +45,33 @@ def is_py_package_installed(package):
     :return: True if it is installed, false otherwise.
     """
     try:
-        installed_packages = subprocess.Popen(['pip', 'list'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
+        installed_packages = subprocess.Popen(['pip', 'list'],
+                                              stdout=subprocess.PIPE,
+                                              stderr=subprocess.PIPE).communicate()[0]
         if package in str(installed_packages):
             return True
         return False
     except OSError as e:
         logger.warning("pip is not installed")
+        return False
+
+
+def is_r_package_installed(package):
+    """
+    Utility checking whether a R package is installed.
+
+    :param package: an R package name
+    :return: True if it is installed, false otherwise.
+    """
+    try:
+        output = subprocess.Popen(['Rscript',
+                                   os.path.join(os.path.dirname(__file__), os.pardir, "is_package_installed.r"),
+                                   package],
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE).communicate()[0]
+        if "TRUE" in str(output):
+            return True
+        return False
+    except OSError as e:
+        logger.error("R is not installed")
         return False

@@ -15,11 +15,6 @@
 #
 #
 # Object: A script to check whether an R package is installed. Callable from other programming languages using Rscript.
-#
-# $Revision: 1.0 $
-# $Author: Piero Dalle Pezze $
-# $Date: 2016-12-07 21:14:32 $
-
 
 
 # Return TRUE if the package is installed, FALSE otherwise
