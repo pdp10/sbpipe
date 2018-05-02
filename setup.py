@@ -18,19 +18,19 @@
 #
 #
 #
-# To install: 
-# $ python setup.py install
-#
-# To clean:
+# # To install/clean:
+# $ python setup.py install --user
 # $ sudo python setup.py clean --all
+#
+# # or using Python pip:
+# $ pip install . --user
+# $ pip uninstall sbpipe
 
 import os
-import sys
 try:
     from setuptools import setup, find_packages
 except ImportError:
-    print("Please install setuptools before installing sbpipe.",
-          file=sys.stderr)
+    print("Please install setuptools before installing sbpipe.")
     exit(1)
 
 
