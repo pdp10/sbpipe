@@ -33,25 +33,27 @@ Copyright © 2015-2018, Piero Dalle Pezze
 
 Affiliation: The Babraham Institute, Cambridge, CB22 3AT, UK
 
-Home Page: http://sbpipe.readthedocs.io
+License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
-PyPI: https://pypi.org/project/sbpipe
+Home Page: http://sbpipe.readthedocs.io
 
 Anaconda Cloud: https://anaconda.org/pdp10/sbpipe
 
-SBpiper (R dependency for data analysis): https://cran.r-project.org/package=sbpiper
+PyPI: https://pypi.org/project/sbpipe
 
-License: GNU Lesser General Public License v3 (https://www.gnu.org/licenses/lgpl-3.0.en.html)
+sbpiper (R dependency for data analysis): https://cran.r-project.org/package=sbpiper
+
+sbpipe_snake (Snakemake workflows for SBpipe): https://github.com/pdp10/sbpipe_snake
 
 Mailing list: sbpipe@googlegroups.com
 
 Forum: https://groups.google.com/forum/#!forum/sbpipe
 
-GitHub: https://github.com/pdp10/sbpipe
+GitHub (dev): https://github.com/pdp10/sbpipe
 
-Travis-CI: https://travis-ci.org/pdp10/sbpipe
+Travis-CI (dev): https://travis-ci.org/pdp10/sbpipe
 
-Issues / Feature requests: https://github.com/pdp10/sbpipe/issues
+Issues / Feature requests (dev): https://github.com/pdp10/sbpipe/issues
 
 Citation: Dalle Pezze P, Le Novère N. SBpipe: a collection of pipelines for automating repetitive
 simulation and analysis tasks. *BMC Systems Biology*. 2017 Apr;11:46. https://doi.org/10.1186/s12918-017-0423-3
