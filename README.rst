@@ -2,7 +2,7 @@ SBpipe package
 ==============
 
 |Build Status| |Docs Status| |LGPLv3 License| |PyPI version| |Anaconda
-Cloud| |Anaconda-Server Badge| |Anaconda-Server Badge|
+Cloud Version| |Anaconda Cloud Platforms| |Anaconda Cloud Downloads| |Anaconda Cloud Conda|
 
 Introduction
 ------------
@@ -61,9 +61,11 @@ reproduce your problem, some technical info.
    :target: https://www.gnu.org/licenses/lgpl.html
 .. |PyPI version| image:: https://badge.fury.io/py/sbpipe.svg
    :target: https://badge.fury.io/py/sbpipe
-.. |Anaconda Cloud| image:: https://anaconda.org/pdp10/sbpipe/badges/version.svg
+.. |Anaconda Cloud Version| image:: https://anaconda.org/pdp10/sbpipe/badges/version.svg
    :target: https://anaconda.org/pdp10/sbpipe
-.. |Anaconda-Server Badge| image:: https://anaconda.org/pdp10/sbpipe/badges/platforms.svg
+.. |Anaconda Cloud Platforms| image:: https://anaconda.org/pdp10/sbpipe/badges/platforms.svg
    :target: https://anaconda.org/pdp10/sbpipe
-.. |Anaconda-Server Badge| image:: https://anaconda.org/pdp10/sbpipe/badges/downloads.svg
+.. |Anaconda Cloud Downloads| image:: https://anaconda.org/pdp10/sbpipe/badges/downloads.svg
    :target: https://anaconda.org/pdp10/sbpipe
+.. |Anaconda Cloud Conda| image:: https://anaconda.org/pdp10/sbpipe/badges/installer/conda.svg
+   :target: https://conda.anaconda.org/pdp10
