@@ -20,7 +20,7 @@ The project is structured as follows:
             | - pl
             | - report
             | - simul
-            | - tasks
+            | - snakemake
             | - utils
       | - scripts/
       | - tests/
@@ -80,7 +80,7 @@ Python environment as shown below:
     cd path/to/sbpipe
     python
     >>> # Python environment
-    >>> from sbpipe.main import sbpipe
+    >>> from sbpipe import sbpipe
     >>> sbpipe(simulate="my_model.yaml")
 
 The following subsections describe sbpipe subpackages.
@@ -148,19 +148,12 @@ their package (e.g. ``copasi``). Therefore, for each simulator package,
 exactly one simulator class can be instantiated. Simulators can be
 configured in the configuration file using the field ``simulator``.
 
-tasks
-^^^^^
+snakemake
+^^^^^^^^^
 
-The subpackage ``sbpipe.tasks`` contains the Python scripts to invoke
-the single SBpipe tasks. These are invoked by the rules in the SBpipe
-snakemake files. These snakemake files are:
-
--  sbpipe_pe.snake
--  sbpipe_ps1.snake
--  sbpipe_ps2.snake
--  sbpipe_sim.snake
-
-and are stored on the root folder of SBpipe.
+The subpackage ``sbpipe.snakemake`` contains the Python scripts to invoke
+the single SBpipe tasks. These are invoked by the rules in the snakemake files.
+These snakemake workflows for SBpipe are stored in https://github.com/pdp10/sbpipe_snake.git .
 
 utils
 ^^^^^

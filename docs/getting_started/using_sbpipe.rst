@@ -309,8 +309,8 @@ contain the set of rules for each pipeline). These are:
 -  sbpipe_ps2.snake
 -  sbpipe_sim.snake
 
-The advantage of using snakemake as pipeline infrastructure is that it offers an extended
-command sets compared to the one provided with the standard sbpipe. For
+An advantage of using snakemake as pipeline infrastructure is that it offers an extended
+command sets compared to the ones provided with the standard sbpipe. For
 details, run
 
 ::
@@ -364,15 +364,20 @@ pipeline is the following:
     report_variables: ['k1','k2','k3']
     exp_dataset: "insulin_receptor_dataset.csv"
 
-**NOTE:** As it can be noticed, a configuration files for SBpipe using
+**NOTE:** As it can be noticed, a configuration file for SBpipe using
 snakemake requires less options than the corresponding configuration
 file using SBpipe directly. This because Snakemake files is more
 automated than SBpipe. Nevertheless, the removal of those additional
 options is not necessary for running the configuration file using
 Snakemake.
 
-Examples of configuration files for running SBpipe using Snakemake are
-in ``tests/snakemake``.
+Examples of configuration files for running the Snakemake workflow for
+SBpipe are in ``tests/snakemake``. For testing those workflows,
+both SBpipe and Snakemake must be installed. The workflows must be
+retrieved from the github repository as explained previously, and placed
+in the folder containing the Snakemake configuration files. Both the
+generic and the Snakemake test suites retrieve these workflows automatically,
+and store them in ``tests/snakemake``.
 
 Examples of commands running SBpipe pipelines using Snakemake are:
 

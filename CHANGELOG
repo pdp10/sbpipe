@@ -6,8 +6,9 @@ Website: https://pdp10.github.io/sbpipe/
 
 ### CHANGELOG
 
-v4.16.0 (Beyond the Kuiper Belt)
+v4.17.0 (Beyond the Kuiper Belt)
 
+- Improved project consistency and added warnings.
 - Snakemake files moved to a separate repository (https://github.com/pdp10/sbpipe_snake.git).
 - Added script for moving data sets and update indexes.
 - Project and documentation clean-up.
