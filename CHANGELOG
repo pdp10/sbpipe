@@ -1,13 +1,13 @@
-sbpipe (GNU Lesser General Public License v3)
+sbpiper (MIT License)
 Copyright 2010-2018 Piero Dalle Pezze
-
-Website: https://pdp10.github.io/sbpipe/
 
 
 ### CHANGELOG
 
-v4.17.0 (Beyond the Kuiper Belt)
+v4.18.0 (Beyond the Kuiper Belt)
 
+- SBpipe v4.18.0, sbpiper v1.8.0, sbpipe_snake v1.0.0 and above are released under MIT License.
+Previous versions of these packages were released under GNU GPL v3.
 - Improved project consistency and added warnings.
 - Snakemake files moved to a separate repository (https://github.com/pdp10/sbpipe_snake.git).
 - Added script for moving data sets and update indexes.
