@@ -35,25 +35,20 @@ about:
   license: MIT
   license_file: LICENSE
 
-extra:
-  maintainers:
-   - Piero Dalle Pezze
-
-build:
-  number: 1
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  noarch: python
-  #string: py_{{ environ.get("PY_VER") }}_{{ environ.get("GIT_DESCRIBE_NUMBER", 0) }}
-  entry_points:
-    - sbpipe = sbpipe.__main__:main
-    - sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main
-
 source:
   # conda-build is also executed by travis, we use the local source, rather
   # than cloning from github here.
   #git_tag: master
   #git_url: https://github.com/pdp10/sbpipe.git
   path: ../
+
+build:
+  number: 0
+  noarch: python
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  entry_points:
+    - sbpipe = sbpipe.__main__:main
+    - sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main
 
 requirements:
   build:
@@ -66,11 +61,16 @@ requirements:
     - pyyaml
     - colorlog
     - sbpiper 1.8.*
-    - python-copasi   # -c fbergmann
+#    - python-copasi   # -c fbergmann
 #    - snakemake       # -c bioconda
 
-#test:
-#  requires:
-#    - nose
-#  run:
-#    - tests/test_suite.py
+test:
+    imports:
+      - sbpipe
+    commands:
+      - sbpipe --version
+      - sbpipe --version | grep "{{ version }}"
+
+extra:
+  maintainers: Piero Dalle Pezze
+  identifiers: doi:10.1186/s12918-017-0423-3
