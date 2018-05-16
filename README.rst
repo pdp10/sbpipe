@@ -28,7 +28,7 @@ To install SBpipe, see the documentation: `HTML`_ or `PDF`_.
 The R functions used by SBpipe for data analysis can also be retrieved separately
 from `CRAN (sbpiper)`_, `bioconda (r-sbpiper)`_, or from `GitHub (sbpiper)`_.
 
-To download the Snakemake workflows for SBpipe, visit the GitHub package `sbpipe_snake`_.
+To download the Snakemake workflows for SBpipe, visit the GitHub repository `sbpipe_snake`_.
 
 **Citation:** Dalle Pezze P, Le Novère N. SBpipe: a collection of
 pipelines for automating repetitive simulation and analysis tasks. *BMC
