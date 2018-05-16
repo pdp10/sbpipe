@@ -42,7 +42,7 @@ License: MIT License (https://opensource.org/licenses/MIT)
 
 Home Page: http://sbpipe.readthedocs.io
 
-Anaconda Cloud: https://anaconda.org/pdp10/sbpipe
+Anaconda Cloud: https://anaconda.org/bioconda/sbpipe
 
 PyPI: https://pypi.org/project/sbpipe
 
