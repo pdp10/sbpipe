@@ -1,8 +1,7 @@
 SBpipe package
 ==============
 
-|Build Status| |Docs Status| |MIT License| |Anaconda Cloud Platforms|
-|Anaconda Cloud Downloads| |Anaconda Cloud Version| |PyPI version| |CRAN version|
+|Build Status| |Docs Status| |MIT License| |Anaconda Cloud Version| |PyPI version| |CRAN version|
 
 Introduction
 ------------
@@ -49,7 +48,7 @@ https://github.com/pdp10/sbpipe/issues. To help us better identify and
 reproduce your problem, some technical info.
 
 .. _Snakemake: https://snakemake.readthedocs.io
-.. _HTML: http://sbpipe.readthedocs.io/en/latest/
+.. _HTML: http://sbpipe.readthedocs.io
 .. _PDF: https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf
 .. _sbpiper: https://github.com/pdp10/sbpiper
 .. _CRAN: https://cran.r-project.org/package=sbpiper
@@ -59,15 +58,11 @@ reproduce your problem, some technical info.
 .. |Build Status| image:: https://travis-ci.org/pdp10/sbpipe.svg?branch=master
    :target: https://travis-ci.org/pdp10/sbpipe
 .. |Docs Status| image:: https://readthedocs.org/projects/sbpipe/badge/
-   :target: http://sbpipe.readthedocs.io/en/latest/
+   :target: http://sbpipe.readthedocs.io
 .. |MIT License| image:: http://img.shields.io/badge/license-MIT-blue.svg
    :target: https://opensource.org/licenses/MIT
-.. |Anaconda Cloud Platforms| image:: https://anaconda.org/pdp10/sbpipe/badges/platforms.svg
-   :target: https://anaconda.org/pdp10/sbpipe
-.. |Anaconda Cloud Downloads| image:: https://anaconda.org/pdp10/sbpipe/badges/downloads.svg
-   :target: https://anaconda.org/pdp10/sbpipe
-.. |Anaconda Cloud Version| image:: https://anaconda.org/pdp10/sbpipe/badges/version.svg
-   :target: https://anaconda.org/pdp10/sbpipe
+.. |Anaconda Cloud Version| image:: https://anaconda.org/bioconda/sbpipe/badges/version.svg
+   :target: https://anaconda.org/bioconda/sbpipe
 .. |PyPI version| image:: https://badge.fury.io/py/sbpipe.svg
    :target: https://badge.fury.io/py/sbpipe
 .. |CRAN version| image:: https://www.r-pkg.org/badges/version/sbpiper
