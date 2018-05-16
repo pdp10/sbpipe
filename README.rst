@@ -25,8 +25,8 @@ current implementation.
 
 To install SBpipe, see the documentation: `HTML`_ or `PDF`_.
 
-If you only need the R functions used by SBpipe for data analysis, visit
-the GitHub package `sbpiper`_, also present on `CRAN`_.
+The R functions used by SBpipe for data analysis can also be retrieved separately
+from `CRAN (sbpiper)`_, `bioconda (r-sbpiper)`_, or from `GitHub (sbpiper)`_.
 
 To download the Snakemake workflows for SBpipe, visit the GitHub package `sbpipe_snake`_.
 
@@ -50,8 +50,9 @@ reproduce your problem, some technical info.
 .. _Snakemake: https://snakemake.readthedocs.io
 .. _HTML: http://sbpipe.readthedocs.io
 .. _PDF: https://media.readthedocs.org/pdf/sbpipe/latest/sbpipe.pdf
-.. _sbpiper: https://github.com/pdp10/sbpiper
-.. _CRAN: https://cran.r-project.org/package=sbpiper
+.. _`CRAN (sbpiper)`: https://cran.r-project.org/package=sbpiper
+.. _`bioconda (r-sbpiper)`: https://anaconda.org/bioconda/r-sbpiper
+.. _`GitHub (sbpiper)`: https://github.com/pdp10/sbpiper
 .. _sbpipe_snake: https://github.com/pdp10/sbpipe_snake
 .. _`DOI:10.1186/s12918-017-0423-3`: https://doi.org/10.1186/s12918-017-0423-3
 
