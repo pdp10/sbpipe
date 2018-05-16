@@ -102,7 +102,7 @@ SBpipe will be installed in a dedicated conda environment:
     conda activate sbpipe
 
     # install sbpipe and its dependencies (including sbpiper)
-    conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
+    conda install -c bioconda sbpipe
 
 
 Installation of SBpipe from source
