@@ -2,7 +2,7 @@ Development model
 -----------------
 
 This project follows the Feature-Branching model. Briefly, there are two
-main branches: ``master`` and ``develop``. The former contains the
+main GitHub branches: ``master`` and ``develop``. The former contains the
 history of stable releases, the latter contains the history of
 development. The ``master`` branch contains checkout points for
 production hotfixes or merge points for release-x.x.x branches. The
@@ -74,41 +74,36 @@ Finally delete the branch:
 New releases
 ~~~~~~~~~~~~
 
-The script ``release.sh`` at the root of the package allows to release a
-new version of SBpipe or update the last github tag. This script also
-creates and uploads a new SBpipe package for Anaconda Cloud and pypi.org .
+The script ``release.sh`` at the root of the package is used to release a
+new version of SBpipe on:
 
-The following two sections describe how to release a new version for
-SBpipe, manually.
+- github
+- pypi
+- anaconda cloud (channel: pdp10)
 
-How to release a new tag
-^^^^^^^^^^^^^^^^^^^^^^^^
+Conda releases
+~~~~~~~~~~~~~~
 
-When the ``develop`` branch includes all the desired feature for a
-release, it is time to checkout this branch in a new one called
-``release-x.x.x``. It is at this stage that a version is established.
-
-::
-
-    # record the release add a tag:
-    git tag -a v1.3 -m "SBpipe v1.3"
-
-    # transfer the tag to the remote server:
-    git push origin v1.3   # Note: this goes to a separate 'branch'
-
-    # see all the releases:
-    git show
-
-How to release a new SBpipe conda package (Anaconda Cloud)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is a short guide for building SBpipe as a conda package. Miniconda
-must be installed. In order to proceed, the package ``conda-build`` must
-be installed:
+This is a short guide for building a conda package for SBpipe. Miniconda3
+and the conda package ``conda-build`` must be installed:
 
 ::
 
     conda install conda-build
+
+SBpipe is stored in two Anaconda Cloud channels:
+
+- ``pdp10``
+- ``bioconda``
+
+
+SBpipe on pdp10 channel (Anaconda Cloud)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This channel is used for storing the latest release of SBpipe and sbpiper.
+It is also used by Travis-CI for continuous integration tests.
+
+::
 
     # DON'T FORGET TO SET THIS so that your built package is not uploaded automatically
     conda config --set anaconda_upload no
@@ -136,3 +131,70 @@ To upload the package to Anaconda Cloud repository:
 ::
 
     anaconda upload ~/miniconda/conda-bld/noarch/sbpipe-x.x.x-py_y.tar.bz2
+
+To install the package from Anaconda Cloud:
+
+::
+
+    conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
+
+How to release SBpipe to bioconda (Anaconda Cloud)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This conda repository is used for storing the stable releases of SBpipe and sbpiper.
+More documentation can be found here:
+
+- https://bioconda.github.io/
+- https://bioconda.github.io/contribute-a-recipe.html
+- https://bioconda.github.io/guidelines.html#guidelines
+
+The first step is to setup a repository forked from bioconda-recipes:
+
+::
+
+    # fork the GitHub repository: https://github.com/bioconda/bioconda-recipes.git
+
+    # clone your forked bioconda-recipes repository
+    git clone https://github.com/YOUR_REPOSITORY/bioconda-recipes.git
+
+    # move to the repository
+    cd bioconda-recipes
+
+    # create and checkout new branch `sbpipe`
+    git checkout -b sbpipe
+
+    # set a new remote upstream repository that will be synced with the fork.
+    git remote add upstream https://github.com/bioconda/bioconda-recipes.git
+
+    # synchronise the remote upstream repository with your local forked repository.
+    git fetch upstream
+
+
+Create the recipes for SBpipe and sbpiper:
+
+::
+
+    # assuming your current location is bioconda-recipes/, move to recipes
+    cd recipes
+
+    # use conda skeleton to create a recipe for sbpipe.
+    # This will create a folder called sbpipe.
+    conda skeleton pypi sbpipe
+
+    # use conda skeleton to create a recipe for sbpiper.
+    # This will create a folder called r-sbpiper
+    conda skeleton cran sbpiper
+
+    ################
+    ### At this stage, follow the instructions provided in the above three links. ###
+    ################
+
+Finally, the recipes should be committed and pushed. A pull request including these
+edits should be created in the repository `bioconda/bioconda-recipes`
+
+::
+
+    git add -u
+    git commit -m 'added recipes'
+    git push origin sbpipe
+

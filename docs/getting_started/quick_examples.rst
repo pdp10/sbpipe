@@ -22,7 +22,7 @@ installed. From a GNU/Linux shell, run the following commands:
     conda activate sbpipe
 
     # install sbpipe and its dependencies (including sbpiper)
-    conda install sbpipe -c pdp10 -c conda-forge -c fbergmann -c defaults
+    conda install -c bioconda sbpipe
 
     # install LaTeX
     conda install -c pkgw/label/superseded texlive-core=20160520 texlive-selected=20160715
