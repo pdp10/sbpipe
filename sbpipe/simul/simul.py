@@ -38,16 +38,15 @@ class Simul(object):
     """
     Generic simulator.
     """
-    """
-    A string identifier to attach to the generated file names so that they can be recognised using pattern matching.
-    """
-    _groupid = "_" + get_rand_alphanum_str(20) + "_"
 
     def __init__(self):
         """
         Default constructor.
         """
-        pass
+        """
+        A string identifier to attach to the generated file names so that they can be recognised using pattern matching.
+        """
+        self._groupid = "_" + get_rand_alphanum_str(20) + "_"
 
     def sim(self, model, inputdir, outputdir, cluster="local", local_cpus=1, runs=1, output_msg=False):
         """
