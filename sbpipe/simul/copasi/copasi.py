@@ -46,14 +46,13 @@ class Copasi(Simul):
     """
     Copasi simulator.
     """
-    _copasi = None
-    _copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH " \
-                            "environmental variable."
 
     def __init__(self):
         __doc__ = Simul.__init__.__doc__
 
         Simul.__init__(self)
+        self._copasi_not_found_msg = "CopasiSE not found! Please check that CopasiSE is installed and in the PATH " \
+            "environmental variable."
         self._copasi = which("CopasiSE")
         if self._copasi is None:
             logger.error(self._copasi_not_found_msg)

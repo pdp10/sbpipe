@@ -36,16 +36,16 @@ class PLSimul(Simul):
     """
     A generic simulator for models coded in a programming language.
     """
-    _language = None
-    _language_not_found_msg = "Programming language not found! Please check that python is installed."
-    _options = None
 
-    def __init__(self, lang, lang_err_msg, options):
+    def __init__(self,
+                 lang=None,
+                 lang_err_msg="No programming language is set!",
+                 options=""):
         """
         A constructor for a simulator of models coded in a programming language
-        :param lang: the programming language name (e.g. python, Rscript, java, octave, ..)
+        :param lang: the programming language name (e.g. python, Copasi)
         :param lang_err_msg: the message to print if lang is not found.
-        :param options: the options to use when invoking the command (e.g. "-jar" for java, "--vanilla" for Rscript, "" for python, "" for octave).
+        :param options: the options to use when invoking the command (e.g. "" for python).
         """
         __doc__ = Simul.__init__.__doc__
         Simul.__init__(self)
