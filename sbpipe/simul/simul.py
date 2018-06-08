@@ -341,8 +341,8 @@ class Simul(object):
             for filein in files:
                 with open(filein, 'r') as myfile:
                     logger.info(os.path.basename(filein))
-                    lines = myfile.readlines()
-                    fileout.write(os.path.basename(filein) + '\t' + lines[len(lines)-1])
+                    last_line = myfile.readlines()[-1]
+                    fileout.write(os.path.basename(filein) + '\t' + last_line)
 
     def _write_all_fits(self, files, path_out, filename_out):
         """
@@ -360,8 +360,7 @@ class Simul(object):
                     # skip the first line (header)
                     filein.readline()
                     # read the remaining lines
-                    lines = filein.readlines()
-                    for line in lines:
+                    for line in filein:
                         fileout.write(line)
 
     ##########################################################
@@ -521,9 +520,7 @@ class Simul(object):
 
             # Extract a selected time point from all perturbed time courses contained in the report file
             with open(report, 'r') as filein:
-                lines = filein.readlines()
-                header = lines[0]
-                lines = lines[1:]
+                header = filein.readline()
                 timepoints = list(range(0, sim_length + 1))
                 filesout = []
                 try:
@@ -532,7 +529,7 @@ class Simul(object):
                     for fileout in filesout:
                         fileout.write(header)
                     # extract the i-th time point and copy it to the corresponding i-th file
-                    for line in lines:
+                    for line in filein:
                         tp = line.rstrip().split('\t')[0]
                         if '.' not in tp and int(tp) in timepoints:
                             filesout[int(tp)].write(line)
