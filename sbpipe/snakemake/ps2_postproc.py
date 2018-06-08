@@ -55,9 +55,7 @@ def generic_postproc(infile,
 
     # Extract a selected time point from all perturbed time courses contained in the report file
     with open(outfile, 'r') as filein:
-        lines = filein.readlines()
-        header = lines[0]
-        lines = lines[1:]
+        header = filein.readline()
         timepoints = list(range(0, sim_length + 1))
         filesout = []
         try:
@@ -69,7 +67,7 @@ def generic_postproc(infile,
             for fileout in filesout:
                 fileout.write(header)
             # extract the i-th time point and copy it to the corresponding i-th file
-            for line in lines:
+            for line in filein:
                 tp = line.rstrip().split('\t')[0]
                 if '.' not in tp and int(tp) in timepoints:
                     filesout[int(tp)].write(line)
