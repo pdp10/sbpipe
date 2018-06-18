@@ -74,6 +74,7 @@ def is_r_package_installed(package):
                                    package],
                                   stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE).communicate()[0]
+        logger.debug("is sbpiper installed? " + str(output))
         if "TRUE" in str(output):
             return True
         return False
