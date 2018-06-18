@@ -28,11 +28,7 @@
 # :return: TRUE if the x is installed.
 is_package_installed <- function(x) {
     # no need to be noisy here.
-    if (!suppressMessages(suppressWarnings(require(x, character.only=TRUE)))) {
-        FALSE
-    } else {
-        TRUE
-    }
+    suppressMessages(suppressWarnings(require(x, character.only=TRUE)))
 }
 
 main <- function(args) {
