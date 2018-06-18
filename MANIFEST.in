@@ -1,11 +1,20 @@
 # Include the license file
 include LICENSE
 
+# Include the changelog file
+include CHANGELOG
+
+# Include the requirements file
+include requirements.txt
+
 # Include the version file
 include sbpipe/VERSION
 
 # Include the logging configuration file
 include sbpipe/logging_config.ini
+
+# Include the `is_package_installed.r` utility file
+include sbpipe/is_package_installed.r
 
 # Include man pages
 #recursive-include man_pages

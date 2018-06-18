@@ -4,8 +4,9 @@ Copyright 2010-2018 Piero Dalle Pezze
 
 ### CHANGELOG
 
-v4.18.0 (Beyond the Kuiper Belt)
+v4.20.0 (Beyond the Kuiper Belt)
 
+- bugfix: added is_package_installed.r to MANIFEST.ini.
 - SBpipe v4.18.0, sbpiper v1.8.0, sbpipe_snake v1.0.0 and above are released under MIT License.
 Previous versions of these packages were released under GNU GPL v3.
 - Improved project consistency and added warnings.
