@@ -18,59 +18,58 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
+#######
+# NOTE:
+#
+# (1) The meta.yaml files of sbpipe and sbpiper for the bioconda channel are located here:
+# https://github.com/bioconda/bioconda-recipes
+#
+# (2) This meta.yaml file is used for building the SBpipe conda package by Travis-CI.
+#######
 
 # Use load_setup_py_data from conda_build.jinja_context to populate some fields
 # with values fed from setuptools.
-
 {% set data = load_setup_py_data() %}
 
 package:
   name: sbpipe
   version: {{ data.get('version') }}
 
-about:
-  summary: Pipelines for systems modelling of biological networks
-  home: http://sbpipe.readthedocs.io
-  license: MIT
-  license_file: LICENSE
-
-extra:
-  maintainers:
-   - Piero Dalle Pezze
+source:
+  path: ../
 
 build:
-  number: 1
-  script: python setup.py install --single-version-externally-managed --record=record.txt
   noarch: python
-  #string: py_{{ environ.get("PY_VER") }}_{{ environ.get("GIT_DESCRIBE_NUMBER", 0) }}
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
   entry_points:
     - sbpipe = sbpipe:main
     - sbpipe_move_datasets = sbpipe.sbpipe_move_datasets:main
 
-source:
-  # conda-build is also executed by travis, we use the local source, rather
-  # than cloning from github here.
-  #git_tag: master
-  #git_url: https://github.com/pdp10/sbpipe.git
-  path: ../
-
 requirements:
   build:
-    - setuptools
     - python
-    - pyyaml
-    - colorlog
+    - setuptools
   run:
     - python
     - pyyaml
     - colorlog
     - sbpiper 1.8.*
-    - python-copasi   # -c fbergmann
-#    - snakemake       # -c bioconda
+    - python-copasi
 
-#test:
-#  requires:
-#    - nose
-#  run:
-#    - tests/test_suite.py
+test:
+  imports:
+    - sbpipe
+  commands:
+    - sbpipe --help
+    - sbpipe_move_datasets --help
+
+about:
+  home: http://sbpipe.readthedocs.io
+  license: MIT
+  summary: SBpipe is a collection of pipelines for systems modelling of biological networks. It allows mathematical modellers to automatically repeat the tasks of model simulation and parameter estimation, and extract robustness information from these repeat sequences in a solid and consistent manner, facilitating model development and analysis. SBpipe can run models implemented in COPASI, Python or coded in any other programming language using Python as a wrapper module. Pipelines can run on multicore computers, Sun Grid Engine (SGE), Load Sharing Facility (LSF) clusters, or via Snakemake.
+
+extra:
+  recipe-maintainers: 'Piero Dalle Pezze'
+  identifiers:
+    - doi:10.1186/s12918-017-0423-3
