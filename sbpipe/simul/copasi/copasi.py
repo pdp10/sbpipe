@@ -201,7 +201,9 @@ class Copasi(Simul):
             for line in lines:
                 line_num += 1
                 split_line = line.split('\t')
-                if len(split_line) > 0 and split_line[0].find('List of Fitting Items:') != -1:
+                if len(split_line) > 0 and \
+                        (split_line[0].find('List of Fitting Items:') != -1 or
+                         split_line[0].find('List of Optimization Items:') != -1):
                     # retrieve parameters
                     line_num += 1
                     if line_num < len(lines):
