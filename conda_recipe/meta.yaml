@@ -54,7 +54,7 @@ requirements:
     - python
     - pyyaml
     - colorlog
-    - sbpiper 1.8.*
+    - sbpiper 1.9.*
     - python-copasi
 
 test:
