@@ -38,7 +38,7 @@ dependencies:
   - scipy
   - pandas
   - setuptools
-  - sbpiper=1.8.*
+  - sbpiper=1.9.*
   - colorlog             # -c conda-forge
   - python-copasi        # -c fbergmann
 #  - snakemake           (not available on windows) -c bioconda
